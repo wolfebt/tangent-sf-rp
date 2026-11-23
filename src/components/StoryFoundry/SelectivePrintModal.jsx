@@ -6,7 +6,8 @@
  * layout modes (OSR 2-Column, Novel, GM Card Deck) and clean @media print CSS styling.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Printer, 
   BookOpen, 
@@ -15,13 +16,7 @@ import {
   CheckSquare, 
   Square, 
   Layers, 
-  MapPin, 
-  Users, 
-  Box, 
-  Sparkles,
-  FileText,
-  Sliders,
-  Check
+  Sliders
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 
@@ -33,8 +28,6 @@ export const SelectivePrintModal = ({
   activeScenario = null,
   activeMap = null
 }) => {
-  if (!isOpen) return null;
-
   // Selected Component Flags
   const [selectedSections, setSelectedSections] = useState({
     cover: true,
@@ -51,6 +44,8 @@ export const SelectivePrintModal = ({
   });
 
   const [printLayout, setPrintLayout] = useState('osr_module'); // 'osr_module' | 'novel' | 'cards'
+
+  if (!isOpen) return null;
 
   const toggleSection = (key) => {
     AudioService.playTerminalBeep(1100, 0.02);
@@ -105,8 +100,8 @@ export const SelectivePrintModal = ({
   // Waypoints
   const waypoints = activeTargetMap?.waypoints || [];
 
-  return (
-    <div className="fixed inset-0 z-[230] bg-black/90 backdrop-blur-md flex items-start justify-center p-2 sm:p-5 pt-6 pb-8 overflow-y-auto font-sans select-none">
+  const modalContent = (
+    <div id="ade-print-portal-root" className="fixed inset-0 z-[230] bg-black/90 backdrop-blur-md flex items-start justify-center p-2 sm:p-5 pt-6 pb-8 overflow-y-auto font-sans select-none">
       <div className="bg-[#0b0f19] border border-cyan-500/60 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] w-full max-w-5xl max-h-[92vh] overflow-hidden flex flex-col text-slate-200">
         
         {/* ── TOP CONTROL HEADER ── */}
@@ -386,44 +381,94 @@ export const SelectivePrintModal = ({
             {selectedSections.statBlocks && (tokensOnMap.length > 0 || personas.length > 0) && (
               <div className="mb-6 pb-6 border-b border-slate-300 space-y-3">
                 <h3 className="font-bold font-sans uppercase tracking-wider text-xs border-b border-black pb-1 text-slate-900">
-                  Adversary &amp; NPC Stat Blocks
+                  Adversary &amp; NPC Stat Blocks (Canonical v6)
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(tokensOnMap.length > 0 ? tokensOnMap : personas).slice(0, 6).map((tok, idx) => (
-                    <div key={tok.id || idx} className="p-3 border-2 border-slate-800 bg-slate-50 rounded font-mono text-[10px] space-y-1">
-                      <div className="font-bold text-xs text-black flex justify-between border-b border-slate-400 pb-1">
-                        <span>{tok.name || tok.label || tok.title || 'Unit'}</span>
-                        <span>{tok.role || 'Combatant'}</span>
-                      </div>
-                      <div className="text-slate-800">
-                        HP: <strong>{tok.health?.current || tok.base_hp || 30}</strong> • Vitality: <strong>{tok.vitality?.current || 30}</strong> • Armor DR: <strong>{tok.armor_dr || 6}</strong>
-                      </div>
-                      <div className="text-slate-800">
-                        Defense: <strong>{tok.defense || 12}</strong> • Speed: <strong>{tok.speed_ft || 30} ft</strong> • AP: <strong>3</strong>
-                      </div>
-                      <div className="text-slate-700 pt-1">
-                        <strong>Weapons:</strong> {tok.weapon || 'Standard Plasma Carbine (2d10+2, 15m)'}
-                      </div>
-                      {tok.script && (
-                        <div className="text-slate-600 pt-0.5">
-                          <strong>AI Script:</strong> {tok.script.type} ({tok.script.behaviorProfile || 'tactical'})
+                  {(tokensOnMap.length > 0 ? tokensOnMap : personas).slice(0, 8).map((tok, idx) => {
+                    const isSynth = Boolean(tok.is_synthetic || tok.isSynthetic || tok.fields?.isSynthetic);
+                    const hpVal = tok.current_health ?? tok.health?.current ?? tok.base_hp ?? tok.fields?.health ?? 30;
+                    const vitVal = tok.current_vitality ?? tok.vitality?.current ?? tok.base_vitality ?? tok.fields?.vitality ?? 30;
+                    const spVal = tok.current_structure ?? tok.structure?.current ?? tok.base_structure ?? tok.fields?.structurePoints ?? 60;
+                    const drVal = tok.armor_dr ?? tok.armorDr ?? tok.fields?.armorDR ?? 0;
+                    const defCr = tok.defense_dc ?? tok.defense ?? tok.fields?.defense_dc ?? 15;
+                    const spdFt = tok.speed_ft ?? tok.fields?.speed ?? 30;
+                    const skillActions = tok.actions_per_round ?? tok.fields?.actions ?? 1;
+                    return (
+                      <div key={tok.id || idx} className="p-3 border-2 border-slate-800 bg-slate-50 rounded font-mono text-[10px] space-y-1 break-inside-avoid">
+                        <div className="font-bold text-xs text-black flex justify-between border-b border-slate-400 pb-1">
+                          <span>{tok.name || tok.label || tok.title || 'Unit'}</span>
+                          <span>{tok.role || tok.fields?.mcmRole || 'Combatant'}</span>
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        <div className="text-slate-800">
+                          {isSynth ? (
+                            <>SP (Synthetic): <strong>{spVal}</strong> • Armor DR: <strong>{drVal}</strong></>
+                          ) : (
+                            <>HP: <strong>{hpVal}</strong> • Vitality: <strong>{vitVal}</strong> • Armor DR: <strong>{drVal}</strong></>
+                          )}
+                        </div>
+                        <div className="text-slate-800">
+                          Defense CR: <strong>{defCr}</strong> • Speed: <strong>{spdFt} ft</strong> • Actions: <strong>{skillActions}</strong>
+                        </div>
+                        <div className="text-slate-700 pt-1">
+                          <strong>Weapons:</strong> {tok.weapon || tok.fields?.weapons || 'Standard Plasma Carbine (2d8+2, 30 ft)'}
+                        </div>
+                        {tok.script && (
+                          <div className="text-slate-600 pt-0.5">
+                            <strong>AI Script:</strong> {tok.script.type} ({tok.script.behaviorProfile || 'tactical'})
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
             {/* 8. PROSE MANUSCRIPT */}
-            {selectedSections.prose && proseText && (
+            {selectedSections.prose && (proseText || scenarios.length > 0) && (
+              <div className={`mb-6 pb-6 border-b border-slate-300 space-y-4 ${printLayout === 'osr_module' ? 'md:columns-2 print:columns-2 gap-6' : ''}`}>
+                <h3 className="font-bold font-sans uppercase tracking-wider text-xs border-b border-black pb-1 text-slate-900">
+                  {printLayout === 'novel' ? 'Manuscript Text' : 'Adventure Prose Manuscript'}
+                </h3>
+                {proseText ? (
+                  <div className={`${printLayout === 'novel' ? 'text-sm leading-7 font-serif' : 'text-xs leading-relaxed'} space-y-3 text-slate-900 text-justify`}>
+                    {proseText.replace(/<[^>]+>/g, '\n\n').split('\n\n').filter(Boolean).map((para, i) => (
+                      <p key={i} className={printLayout === 'novel' ? 'indent-6' : 'indent-3'}>{para}</p>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {scenarios.filter((s) => s?.content).map((sc, sIdx) => (
+                      <div key={sc.id || sIdx} className="space-y-2 break-inside-avoid">
+                        <h4 className="text-xs font-bold uppercase tracking-wide text-slate-800">{sc.title}</h4>
+                        <div className={`${printLayout === 'novel' ? 'text-sm leading-7 font-serif' : 'text-xs leading-relaxed'} space-y-2 text-slate-900 text-justify`}>
+                          {String(sc.content).replace(/<[^>]+>/g, '\n\n').split('\n\n').filter(Boolean).map((p, i) => (
+                            <p key={i} className={printLayout === 'novel' ? 'indent-6' : 'indent-3'}>{p}</p>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ARCHITECT COMPENDIUM REFERENCE CARDS VIEW WHEN CARDS LAYOUT IS ACTIVE */}
+            {printLayout === 'cards' && (propsOnMap.length > 0 || scenarios.length > 0) && (
               <div className="mb-6 pb-6 border-b border-slate-300 space-y-3">
                 <h3 className="font-bold font-sans uppercase tracking-wider text-xs border-b border-black pb-1 text-slate-900">
-                  Adventure Prose Manuscript
+                  Compendium Reference Cut-Out Cards
                 </h3>
-                <div className="text-xs leading-relaxed space-y-3 text-slate-900 text-justify">
-                  {proseText.replace(/<[^>]+>/g, '\n\n').split('\n\n').filter(Boolean).map((para, i) => (
-                    <p key={i} className="indent-4">{para}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono text-[10px]">
+                  {scenarios.slice(0, 6).map((sc, idx) => (
+                    <div key={sc.id || idx} className="p-3 border-2 border-dashed border-slate-700 rounded bg-slate-50 break-inside-avoid">
+                      <div className="font-bold text-black uppercase border-b border-slate-300 pb-1 mb-1">
+                        [{sc.type || 'Scene'}] {sc.title || `Scene ${idx + 1}`}
+                      </div>
+                      <div className="text-slate-800 line-clamp-4">
+                        {sc.fields?.summary || sc.content?.replace(/<[^>]+>/g, ' ').slice(0, 220) || 'Encounter summary.'}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -437,7 +482,7 @@ export const SelectivePrintModal = ({
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {clues.map((clue, idx) => (
-                    <div key={clue.id || idx} className="p-3 border-2 border-dashed border-slate-600 bg-slate-100 rounded space-y-1.5 font-mono">
+                    <div key={clue.id || idx} className="p-3 border-2 border-dashed border-slate-600 bg-slate-100 rounded space-y-1.5 font-mono break-inside-avoid">
                       <div className="text-[11px] font-bold text-slate-900 uppercase">
                         📜 {clue.title || 'Field Log Clue'}
                       </div>
@@ -455,19 +500,22 @@ export const SelectivePrintModal = ({
           </div>
         </div>
 
-        {/* ── PRINT CSS STYLES ── */}
+        {/* ── PRINT CSS STYLES (Portal-isolated for clean multi-page pagination) ── */}
         <style dangerouslySetInnerHTML={{ __html: `
           @media print {
-            body * {
-              visibility: hidden;
+            body > *:not(#ade-print-portal-root) {
+              display: none !important;
             }
-            #ade-selective-printable-document, #ade-selective-printable-document * {
-              visibility: visible;
+            #ade-print-portal-root {
+              position: static !important;
+              inset: auto !important;
+              display: block !important;
+              padding: 0 !important;
+              background: white !important;
+              overflow: visible !important;
             }
             #ade-selective-printable-document {
-              position: absolute;
-              left: 0;
-              top: 0;
+              position: static !important;
               width: 100% !important;
               max-width: 100% !important;
               padding: 0 !important;
@@ -484,6 +532,8 @@ export const SelectivePrintModal = ({
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 };
 
 export default SelectivePrintModal;

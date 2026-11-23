@@ -317,29 +317,48 @@ export const PRESET_OBJECT_SPRITES = {
 };
 
 /**
- * IMAGE CACHE SYSTEM FOR KONVA PATTERNS AND OBJECT SPRITES
+ * BOUNDED LRU IMAGE CACHE SYSTEM FOR KONVA PATTERNS AND OBJECT SPRITES
  */
+export const MAX_IMAGE_CACHE_SIZE = 128;
 const imageCache = new Map();
+
+export const getImageCacheSize = () => imageCache.size;
+
+export const clearImageCache = () => {
+  imageCache.clear();
+};
 
 export const getLoadedImage = (src, onLoadCallback) => {
   if (!src) return null;
   if (imageCache.has(src)) {
     const cached = imageCache.get(src);
+    // Refresh LRU recency
+    imageCache.delete(src);
+    imageCache.set(src, cached);
     if (cached.complete && typeof onLoadCallback === 'function') {
       onLoadCallback(cached);
     }
     return cached;
   }
 
-  const img = new window.Image();
-  imageCache.set(src, img);
-  img.src = src;
+  if (imageCache.size >= MAX_IMAGE_CACHE_SIZE) {
+    const oldestKey = imageCache.keys().next().value;
+    if (oldestKey !== undefined) {
+      imageCache.delete(oldestKey);
+    }
+  }
 
+  const img = new window.Image();
+  if (typeof src === 'string' && /^https?:\/\//i.test(src)) {
+    img.crossOrigin = 'anonymous';
+  }
+  imageCache.set(src, img);
   img.onload = () => {
     if (typeof onLoadCallback === 'function') {
       onLoadCallback(img);
     }
   };
+  img.src = src;
   return img;
 };
 

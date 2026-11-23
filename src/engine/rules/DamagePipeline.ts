@@ -18,11 +18,19 @@
  */
 
 import type { FusedToken } from '../state/VolatileSharder.ts';
+import {
+  calculateCrossDomainArmorDR,
+  calculateDamageMitigation,
+  routePoolDamage
+} from './CanonicalCombatMath.ts';
+
+export { calculateCrossDomainArmorDR };
 
 export interface DamagePayload {
   rawDamage: number;
-  armorPenetration: number;
-  damageType: string; // 'kinetic' | 'force' | 'energy' | 'concussive' | 'corrosive' | 'spectral' | 'mental' | 'sonic' | 'bleed' | etc.
+  armorPenetration?: number;
+  penetration?: number;
+  damageType: string; // 'kinetic' | 'force' | 'energy' | 'concussive' | 'corrosive' | 'spectral' | 'dimensional' | 'mental' | 'sonic' | 'bleed' | etc.
   isCalledShot: boolean;
   targetLocation?: 'head' | 'torso' | 'arm_left' | 'arm_right' | 'leg_left' | 'leg_right' | 'tentacle' | 'wing' | string;
   isSyntheticLimb?: boolean;
@@ -59,18 +67,6 @@ export interface DamageResult {
   limbStatus?: 'normal' | 'disabled' | 'destroyed';
 }
 
-export function calculateCrossDomainArmorDR(layers: number[] = []): number {
-  const positiveLayers = (Array.isArray(layers) ? layers : [])
-    .map((v) => Math.max(0, Number(v) || 0))
-    .filter((v) => v > 0)
-    .sort((a, b) => b - a);
-  if (positiveLayers.length === 0) return 0;
-  return (
-    positiveLayers[0] +
-    positiveLayers.slice(1).reduce((sum, dr) => sum + Math.ceil(dr / 5), 0)
-  );
-}
-
 export class DamagePipeline {
   private readonly DISABLED_LIMB_THRESHOLD = 1 / 3; // 33.3% of Max Health
   private readonly DESTROYED_LIMB_THRESHOLD = 2 / 3; // 66.7% of Max Health
@@ -87,7 +83,6 @@ export class DamagePipeline {
     currentStabilityPoints?: number
   ): DamageResult {
     const statuses: string[] = [];
-    const dmgType = (payload.damageType || 'kinetic').toLowerCase();
 
     // 0. Calculate defenseless target extra damage (half of success margin per rules)
     const defenselessBonus = payload.defenselessBonusDamage !== undefined
@@ -96,82 +91,28 @@ export class DamagePipeline {
         ? Math.floor(payload.attackMargin / 2)
         : 0);
 
-    // 1. Calculate Cross-Domain Diminishing Returns Armor DR:
-    // Highest cross-domain layer DR + ceil(each additional cross-domain layer DR / 5)
-    let highestDR = activeArmorLayers.length > 0
-      ? calculateCrossDomainArmorDR(activeArmorLayers)
-      : (target.armor_dr || 0);
+    // 1-4. Delegate stacking, type bypass/halving (incl. dimensional), Penetration, Sneak Gate & Stamina Toughness
+    const resolvedLayers = activeArmorLayers.length > 0
+      ? activeArmorLayers
+      : ((target.armor_dr || 0) > 0 ? [target.armor_dr] : []);
+    const mitigation = calculateDamageMitigation({
+      rawDamage: payload.rawDamage,
+      baseWeaponRaw: payload.baseWeaponRawDamage,
+      sneakAttackBonusRaw: payload.sneakAttackBonusDamage,
+      armorLayers: resolvedLayers,
+      penetration: payload.penetration ?? payload.armorPenetration ?? 0,
+      damageType: payload.damageType,
+      isOverchannelBurn: payload.isOverchannelBurn,
+      staminaToughness: target.stamina_dr ?? targetStaminaMod,
+      defenselessBonusDamage: defenselessBonus
+    });
 
-    // 2. Special damage type interactions with Armor DR
-    const bypassesAllMitigation = dmgType === 'bleed' || Boolean(payload.isOverchannelBurn);
-    if (
-      bypassesAllMitigation ||
-      dmgType === 'spectral' ||
-      dmgType === 'phase' ||
-      dmgType === 'mental' ||
-      dmgType === 'psyche' ||
-      dmgType === 'psionic' ||
-      dmgType === 'sonic'
-    ) {
-      // Bypasses physical Armor DR entirely
-      highestDR = 0;
-    } else if (dmgType === 'force' || dmgType === 'force_pulse') {
-      // Force damage ignores 1/2 of Target's Armor DR
-      highestDR = Math.floor(highestDR / 2);
-    } else if (dmgType === 'concussive' || dmgType === 'impact') {
-      // Concussive damage ignores half of target DR
-      highestDR = Math.floor(highestDR / 2);
-    }
-
-    // 3. Apply Armor Penetration (AP cannot reduce DR below 0)
-    const effectiveDR = bypassesAllMitigation ? 0 : Math.max(0, highestDR - (payload.armorPenetration || 0));
-
-    // 3b. Sneak Attack DR Gate (3.00 COMBAT.md):
-    // Sneak Attack / precision bonus dice apply ONLY if base weapon damage deals >= 1 point past Effective Armor DR.
-    let effectiveRawDamage = payload.rawDamage;
-    let sneakAttackBonusApplied = 0;
-    if (payload.sneakAttackBonusDamage !== undefined && payload.sneakAttackBonusDamage > 0) {
-      const baseWeaponRaw = payload.baseWeaponRawDamage !== undefined
-        ? payload.baseWeaponRawDamage
-        : Math.max(0, payload.rawDamage - payload.sneakAttackBonusDamage);
-      if (baseWeaponRaw - effectiveDR >= 1) {
-        sneakAttackBonusApplied = payload.sneakAttackBonusDamage;
-        effectiveRawDamage = baseWeaponRaw + sneakAttackBonusApplied;
-      } else {
-        sneakAttackBonusApplied = 0;
-        effectiveRawDamage = baseWeaponRaw;
-      }
-    }
-
-    const totalRawDamage = effectiveRawDamage + defenselessBonus;
-
-    // 4. Canonical Damage Soak per 3.00 COMBAT.md:
-    // Total Net Damage = max(0, Raw Damage - Effective Armor DR - Target Stamina Mod)
-    // Bleed and Overchannel Burn bypass both Armor DR and Stamina Base Toughness.
-    const penetratingArmor = Math.max(0, totalRawDamage - effectiveDR);
-    let staminaNaturalSoak = 0;
-    let netDamage = 0;
-
-    const naturalDR = bypassesAllMitigation ? 0 : Math.max(0, target.stamina_dr ?? targetStaminaMod);
-
-    if (penetratingArmor > 0) {
-      netDamage = Math.max(0, penetratingArmor - naturalDR);
-      staminaNaturalSoak = penetratingArmor - netDamage;
-    } else {
-      netDamage = 0;
-      staminaNaturalSoak = 0;
-    }
-
+    const effectiveDR = mitigation.effectiveArmorDr;
+    const staminaNaturalSoak = mitigation.staminaSoak;
     const conModSoak = staminaNaturalSoak;
+    const sneakAttackBonusApplied = mitigation.sneakAttackBonusApplied;
 
-    // 5. Vitality vs Health vs Structure Damage Routing
-    // Per 3.00 COMBAT.md: Standard damage depletes Vitality first and spills excess into Health.
-    // Critical Hits, Bleed, Overchannel Burn, and explicit directToHealth bypass Vitality directly to Health.
-    // Minimal VTT FusedTokens without a separate Vitality pool (no current_vitality/base_vitality) route lethal damage to Health directly.
-    let vitalityDamage = 0;
-    let healthDamage = 0;
-    let structureDamage = 0;
-
+    // 5. Vitality vs Health vs Structure Damage Routing & Mortality Evaluation
     const isSynthetic = Boolean(
       target.is_synthetic ||
       target.species?.toLowerCase().includes('synthetic') ||
@@ -181,59 +122,35 @@ export class DamagePipeline {
     );
 
     const isLethal = payload.isLethal !== false;
-    const bypassesVitality = Boolean(
-      payload.isCritical ||
-      payload.isOverchannelBurn ||
-      payload.directToHealth ||
-      dmgType === 'bleed'
-    );
     const hasVitalityPool = target.current_vitality !== undefined || target.base_vitality !== undefined || !isLethal;
+    const maxHp = target.base_health || target.base_hp || 30;
+    const currentHealth = isSynthetic
+      ? (target.current_structure ?? target.current_hp ?? 60)
+      : (target.current_health ?? target.current_hp ?? maxHp);
 
-    if (isSynthetic) {
-      // Synthetics only have Structure (Vitality + Health combined); immune to non-lethal damage
-      if (isLethal) {
-        structureDamage = netDamage;
-        healthDamage = netDamage;
-      } else {
-        // Synthetics do not suffer non-lethal damage
-        structureDamage = 0;
-        healthDamage = 0;
-        netDamage = 0;
-        statuses.push('status_synthetic_nonlethal_immune');
-      }
-    } else if (dmgType === 'concussive' || dmgType === 'impact') {
-      if (payload.attemptedReduction === false && hasVitalityPool) {
-        const curVit = Math.max(0, target.current_vitality ?? target.base_vitality ?? 30);
-        vitalityDamage = Math.min(curVit, netDamage);
-        healthDamage = Math.max(0, netDamage - curVit);
-      } else {
-        // Concussive damage with attempted mitigation is divided equally between Vitality and Health
-        const halfVit = Math.floor(netDamage / 2);
-        const halfHea = netDamage - halfVit;
-        if (hasVitalityPool) {
-          const curVit = Math.max(0, target.current_vitality ?? target.base_vitality ?? 30);
-          const vitSpill = Math.max(0, halfVit - curVit);
-          vitalityDamage = Math.min(curVit, halfVit);
-          healthDamage = halfHea + vitSpill;
-        } else {
-          vitalityDamage = halfVit;
-          healthDamage = halfHea;
-        }
-      }
-    } else if (!bypassesVitality && hasVitalityPool) {
-      // Canonical Vitality-first routing: deplete Vitality first; excess spills into Health
-      const curVit = Math.max(0, target.current_vitality ?? target.base_vitality ?? 30);
-      if (netDamage <= curVit) {
-        vitalityDamage = netDamage;
-        healthDamage = 0;
-      } else {
-        vitalityDamage = curVit;
-        healthDamage = netDamage - curVit;
-      }
-    } else {
-      // Critical Hit, Bleed, Overchannel Burn, directToHealth, or single-pool VTT token
-      healthDamage = netDamage;
-      vitalityDamage = 0;
+    const routing = routePoolDamage({
+      netDamage: mitigation.netDamage,
+      isSynthetic,
+      isLethal,
+      isCritical: payload.isCritical,
+      damageType: payload.damageType,
+      isOverchannelBurn: payload.isOverchannelBurn,
+      directToHealth: payload.directToHealth,
+      attemptedReduction: payload.attemptedReduction,
+      hasVitalityPool,
+      currentVitality: target.current_vitality ?? target.base_vitality ?? 30,
+      currentHealth,
+      currentStructure: target.current_structure ?? target.current_hp ?? 60,
+      staminaScore: targetStaminaScore,
+      currentStabilityPoints
+    });
+
+    const netDamage = routing.netDamage;
+    const vitalityDamage = routing.vitalityDamage;
+    const healthDamage = routing.healthDamage;
+    const structureDamage = routing.structureDamage;
+    if (routing.syntheticNonLethalImmune) {
+      statuses.push('status_synthetic_nonlethal_immune');
     }
 
     // 6. Limb Damage & Trauma Threshold Evaluation
@@ -241,9 +158,7 @@ export class DamagePipeline {
     let staminaCheckDC = 0;
     let limbStatus: 'normal' | 'disabled' | 'destroyed' = 'normal';
 
-    const maxHp = target.base_health || target.base_hp || 30;
     if (payload.isCalledShot && payload.targetLocation && maxHp > 0) {
-      // Synthetic limbs take 50% more damage before being Disabled or Destroyed
       const synthMultiplier = payload.isSyntheticLimb || isSynthetic ? 1.5 : 1.0;
       const disabledThreshold = maxHp * this.DISABLED_LIMB_THRESHOLD * synthMultiplier;
       const destroyedThreshold = maxHp * this.DESTROYED_LIMB_THRESHOLD * synthMultiplier;
@@ -258,42 +173,22 @@ export class DamagePipeline {
         limbStatus = 'disabled';
         statuses.push(`status_disabled_${payload.targetLocation}`);
 
-        // Biological limbs get a Fortitude/Stamina check (CR = 10 + damage taken) to keep using it
         if (!payload.isSyntheticLimb && !isSynthetic) {
           requiresStaminaCheck = true;
           staminaCheckDC = 10 + netDamage;
         }
       }
-    } else if (netDamage >= (maxHp * this.DISABLED_LIMB_THRESHOLD)) {
-      // Massive internal trauma
-      statuses.push('status_trauma_internal');
+    } else {
+      const traumaBase = isSynthetic ? (target.base_structure || target.base_hp || 60) * 1.5 : maxHp;
+      if (netDamage >= (traumaBase * this.DISABLED_LIMB_THRESHOLD)) {
+        statuses.push('status_trauma_internal');
+      }
     }
 
-    // 7. Mortality State (0 Hit Points / Health) Evaluation
-    // Per 3.00 COMBAT.md: Reaching 0 Health does NOT mean instant death!
-    // Target falls Prone, is Incapacitated & enters Bleeding Out (1 Stability Damage/turn).
-    // Stability Points = Stamina Score + 5.
-    // Death occurs when Stability Points reach 0 (or single-hit Massive Damage >= STA + 5 while at 0 Health)!
-    const currentHealth = isSynthetic
-      ? (target.current_structure ?? target.current_hp ?? 45)
-      : (target.current_health ?? target.current_hp ?? maxHp);
-    const remainingHp = currentHealth - healthDamage;
-    let entersMortalityState = false;
-    let isDead = false;
-    const maxStability = Math.max(1, targetStaminaScore + 5);
-    let stabilityPointsRemaining = currentStabilityPoints !== undefined ? currentStabilityPoints : maxStability;
-
-    if (remainingHp <= 0) {
-      entersMortalityState = true;
+    // 7. Mortality statuses
+    if (routing.entersMortalityState) {
       statuses.push('status_unconscious', 'status_incapacitated', 'status_prone', 'status_bleeding_out');
-
-      // If damage spills beyond 0 HP into negative, excess reduces stability points
-      const excessDamage = Math.abs(remainingHp);
-      stabilityPointsRemaining = Math.max(0, stabilityPointsRemaining - excessDamage);
-
-      if (stabilityPointsRemaining <= 0 || (!isSynthetic && currentHealth <= 0 && netDamage >= maxStability)) {
-        isDead = true;
-        stabilityPointsRemaining = 0;
+      if (routing.isDead) {
         statuses.push('status_dead');
       }
     }
@@ -313,9 +208,9 @@ export class DamagePipeline {
       requiresStaminaCheck,
       staminaCheckDC,
       staminaCheckCR: staminaCheckDC,
-      entersMortalityState,
-      isDead,
-      stabilityPointsRemaining,
+      entersMortalityState: routing.entersMortalityState,
+      isDead: routing.isDead,
+      stabilityPointsRemaining: routing.stabilityPointsRemaining,
       limbStatus
     };
   }

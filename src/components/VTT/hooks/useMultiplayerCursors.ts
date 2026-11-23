@@ -1,22 +1,25 @@
 import { useEffect, type RefObject } from 'react';
 import { Container, Graphics } from 'pixi.js';
+import { clearPixiContainer } from '../utils/pixiCleanup';
 
 export interface UseMultiplayerCursorsOptions {
   containerRef: RefObject<Container | null>;
   isMultiplayerSimActive: boolean;
   isSimulationPaused: boolean;
+  canvasGeneration?: number;
 }
 
 export function useMultiplayerCursors({
   containerRef,
   isMultiplayerSimActive,
-  isSimulationPaused
+  isSimulationPaused,
+  canvasGeneration = 0
 }: UseMultiplayerCursorsOptions) {
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container || (container as any).destroyed) return;
 
-    container.removeChildren();
+    clearPixiContainer(container);
     if (!isMultiplayerSimActive || isSimulationPaused) return;
 
     const peers = [
@@ -35,8 +38,10 @@ export function useMultiplayerCursors({
 
     let frame = 0;
     const interval = setInterval(() => {
+      if ((container as any).destroyed) return;
       frame += 0.05;
       graphicsList.forEach(({ g, peer, offset }) => {
+        if ((g as any).destroyed) return;
         g.clear();
         const curX = peer.baseX + Math.sin(frame + offset) * 70;
         const curY = peer.baseY + Math.cos(frame * 0.7 + offset) * 45;
@@ -61,7 +66,9 @@ export function useMultiplayerCursors({
 
     return () => {
       clearInterval(interval);
-      container.removeChildren();
+      if (!(container as any).destroyed) {
+        clearPixiContainer(container);
+      }
     };
-  }, [containerRef, isMultiplayerSimActive, isSimulationPaused]);
+  }, [containerRef, isMultiplayerSimActive, isSimulationPaused, canvasGeneration]);
 }

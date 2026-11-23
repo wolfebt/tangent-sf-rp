@@ -14,6 +14,11 @@ import { queryRulebook } from '../../services/rulebookRagService.js';
 import { synthesizeAdversaryTactic } from '../../services/adversaryAiService.js';
 import { analyzeCombatPacing, executeWhisperCardAction } from '../../services/bastionWhisperService.js';
 import { calculateCreditValue } from '../../engines/tangentEconEngine.js';
+import {
+  compute2d10HitOdds,
+  calculateDamageMitigation,
+  routePoolDamage
+} from '../rules/CanonicalCombatMath.ts';
 
 export interface FunctionCallDefinition {
   name: string;
@@ -315,6 +320,7 @@ export class DBMFunctionRegistryService {
         const {
           attackBonus,
           targetDefense,
+          damageFormula,
           armorDr,
           rangeBracketId = 'short',
           coverTypeId = 'none',
@@ -334,29 +340,36 @@ export class DBMFunctionRegistryService {
         });
 
         const effectiveAttackBonus = Number(attackBonus || 0) + tacMods.netAttackMod;
-        const effectiveTargetDefense = Number(targetDefense || 15) + tacMods.netDefenseMod;
-        // Tangent 2d10 bell curve: Attacker must strictly EXCEED Defender (Defender wins all ties!)
-        // Wait: if static unopposed CR vs opposed defense, let's check both:
-        // Standard check vs static CR meets-or-beats, whereas Opposed Defense defender wins ties.
-        // Preserve canonical 2d10 exact outcome enumeration:
-        const needed = effectiveTargetDefense - effectiveAttackBonus;
-        let favorableOutcomes = 0;
-        let opposedWinsStrict = 0;
-        for (let d1 = 1; d1 <= 10; d1++) {
-          for (let d2 = 1; d2 <= 10; d2++) {
-            const sum = d1 + d2;
-            if (sum >= needed) favorableOutcomes++;
-            if (sum > needed) opposedWinsStrict++;
+        const effectiveTargetDefense = Number(targetDefense ?? 15) + tacMods.netDefenseMod;
+        // Canonical Tangent 2d10 opposed combat odds: Defender Wins All Ties + Nat 20 (+10) / Nat 2 (-10)
+        const odds = compute2d10HitOdds(effectiveAttackBonus, effectiveTargetDefense, { isOpposed: true });
+        const hitProbability = odds.hitProbabilityPercent;
+
+        // Parse simple dice/flat formula (e.g. "2d10+4" -> 15, "3d8+6" -> 19.5) for penetration estimate
+        let estimatedAvgDamage = 15;
+        if (typeof damageFormula === 'number' && Number.isFinite(damageFormula)) {
+          estimatedAvgDamage = damageFormula;
+        } else if (typeof damageFormula === 'string' && damageFormula.trim()) {
+          const diceMatch = damageFormula.trim().match(/^(\d+)\s*d\s*(\d+)\s*([+-]\s*\d+)?$/i);
+          if (diceMatch) {
+            const count = Number(diceMatch[1]);
+            const sides = Number(diceMatch[2]);
+            const flat = diceMatch[3] ? Number(diceMatch[3].replace(/\s+/g, '')) : 0;
+            estimatedAvgDamage = count * ((sides + 1) / 2) + flat;
+          } else if (Number.isFinite(Number(damageFormula))) {
+            estimatedAvgDamage = Number(damageFormula);
           }
         }
-        const hitProbability = Math.round((favorableOutcomes / 100) * 100);
+
         return {
           hitProbabilityPercent: hitProbability,
-          strictOpposedWinPercent: Math.round((opposedWinsStrict / 100) * 100),
+          strictOpposedWinPercent: odds.strictOpposedWinPercent,
+          critProbabilityPercent: odds.critProbabilityPercent,
+          fumbleProbabilityPercent: odds.fumbleProbabilityPercent,
           effectiveAttackBonus,
           effectiveTargetDefense,
           tacticalModifiersSummary: tacMods.summary,
-          penetrationEstimated: Math.max(0, 15 - Number(armorDr || 0)),
+          penetrationEstimated: Math.max(0, Math.round(estimatedAvgDamage - Number(armorDr || 0))),
           tacticalRecommendation:
             hitProbability > 60
               ? 'High-percentage engagement vector'
@@ -365,19 +378,40 @@ export class DBMFunctionRegistryService {
       }
 
       case 'resolve_called_shot': {
-        const { targetLocation, incomingDamage, armorDr, targetMaxHp = 30 } = tool.args || {};
-        const netDamage = Math.max(0, Number(incomingDamage || 0) - Number(armorDr || 0));
-        const disabledThreshold = Math.ceil(Number(targetMaxHp || 30) / 3);
-        const destroyedThreshold = Math.ceil((Number(targetMaxHp || 30) * 2) / 3);
+        const {
+          targetLocation,
+          incomingDamage,
+          armorDr,
+          penetration = 0,
+          staminaToughness = 0,
+          damageType = 'kinetic',
+          isSynthetic = false,
+          targetMaxHp = isSynthetic ? 60 : 30
+        } = tool.args || {};
 
+        const mitigation = calculateDamageMitigation({
+          rawDamage: Number(incomingDamage || 0),
+          armorLayers: [Number(armorDr || 0)],
+          penetration: Number(penetration || 0),
+          staminaToughness: Number(staminaToughness || 0),
+          damageType
+        });
+        const netDamage = mitigation.netDamage;
+        const maxHpVal = Number(targetMaxHp || (isSynthetic ? 60 : 30));
+        const synthMult = isSynthetic ? 1.5 : 1.0;
+        const disabledThreshold = Math.ceil((maxHpVal / 3) * synthMult);
+        const destroyedThreshold = Math.ceil(((maxHpVal * 2) / 3) * synthMult);
+        const saveCR = 10 + netDamage;
+
+        // Canonical 3.00 COMBAT.md called-shot strike penalties (sensors/eyes = -5, torso = -1, limbs = -2)
         const penaltyMap: Record<string, number> = {
-          torso: 0,
+          torso: -1,
           head: -2,
           arms: -2,
-          limbs: -1,
-          legs: -1,
-          sensors: -3,
-          optics: -3
+          limbs: -2,
+          legs: -2,
+          sensors: -5,
+          optics: -5
         };
         const saveMap: Record<string, string> = {
           head: 'Reason Save vs Damage',
@@ -390,12 +424,16 @@ export class DBMFunctionRegistryService {
         };
 
         let traumaEffect = 'No major trauma';
-        if (targetLocation === 'head' && netDamage > 8) {
-          traumaEffect = 'Concussion / Sensory Disorientation (-2 to all actions)';
-        } else if ((targetLocation === 'limbs' || targetLocation === 'legs' || targetLocation === 'arms') && netDamage > 6) {
-          traumaEffect = 'Locomotive / Limb Impairment (Movement speed halved or -4 attack)';
-        } else if ((targetLocation === 'sensors' || targetLocation === 'optics') && netDamage > 4) {
-          traumaEffect = 'Sensor Blindness (Loss of target tracking, -4 ranged checks)';
+        if (netDamage >= disabledThreshold) {
+          if (targetLocation === 'head') {
+            traumaEffect = 'Concussion / Sensory Disorientation (-2 to all actions)';
+          } else if (targetLocation === 'limbs' || targetLocation === 'legs' || targetLocation === 'arms') {
+            traumaEffect = 'Locomotive / Limb Impairment (Movement speed halved or -4 attack)';
+          } else if (targetLocation === 'sensors' || targetLocation === 'optics') {
+            traumaEffect = 'Sensor Blindness (Loss of target tracking, -4 ranged checks)';
+          } else if (targetLocation === 'torso') {
+            traumaEffect = 'Winded / Internal Organ Shock (-2 Actions, Fortitude Save vs Incapacitated)';
+          }
         }
 
         const limbStatus = netDamage >= destroyedThreshold
@@ -409,6 +447,7 @@ export class DBMFunctionRegistryService {
           targetLocation,
           attackPenalty: penaltyMap[targetLocation] ?? -2,
           saveRequired: saveMap[targetLocation] ?? 'Fortitude Save vs Damage',
+          saveCR,
           limbStatus,
           disabledThreshold,
           destroyedThreshold,
@@ -421,72 +460,73 @@ export class DBMFunctionRegistryService {
         const {
           incomingDamage = 0,
           armorLayers = [],
-          staminaToughness = 0,
+          staminaToughness,
           penetration = 0,
           isForceDamage = false,
+          damageType,
+          isCritical = false,
+          isLethal = true,
           isSynthetic = false,
           currentVitality = 30,
           currentHealth = isSynthetic ? 60 : 30,
           stackingMode = 'diminishing_returns',
         } = tool.args || {};
 
-        const sortedLayers = (Array.isArray(armorLayers) ? armorLayers : [])
-          .map((v) => Math.max(0, Number(v) || 0))
-          .filter((v) => v > 0)
-          .sort((a, b) => b - a);
+        const resolvedDmgType = damageType || (isForceDamage ? 'force' : 'kinetic');
+        const resolvedToughness = isSynthetic
+          ? (staminaToughness !== undefined ? Math.max(0, Number(staminaToughness) || 0) : 0)
+          : Math.max(0, Number(staminaToughness ?? 0) || 0);
 
-        const singleHighestDr = sortedLayers[0] || 0;
-        const diminishingReturnsDr =
-          sortedLayers.length === 0
-            ? 0
-            : sortedLayers[0] +
-              sortedLayers.slice(1).reduce((sum, layerDr) => sum + Math.ceil(layerDr / 5), 0);
+        const mitigation = calculateDamageMitigation({
+          rawDamage: Number(incomingDamage || 0),
+          armorLayers: Array.isArray(armorLayers) ? armorLayers : [],
+          penetration: Number(penetration || 0),
+          damageType: resolvedDmgType,
+          staminaToughness: resolvedToughness,
+          stackingMode
+        });
 
-        const baseArmorDr =
-          stackingMode === 'single_highest' ? singleHighestDr : diminishingReturnsDr;
-        const afterPenArmorDr = Math.max(0, baseArmorDr - Math.max(0, Number(penetration) || 0));
-        const effectiveArmorDr = isForceDamage
-          ? Math.floor(afterPenArmorDr / 2)
-          : afterPenArmorDr;
-        const naturalToughnessDr = isSynthetic ? 0 : Math.max(0, Number(staminaToughness) || 0);
-        const totalMitigation = effectiveArmorDr + naturalToughnessDr;
-        const finalDamage = Math.max(0, Number(incomingDamage || 0) - totalMitigation);
+        const routing = routePoolDamage({
+          netDamage: mitigation.netDamage,
+          isSynthetic: Boolean(isSynthetic),
+          isLethal: isLethal !== false,
+          isCritical: Boolean(isCritical),
+          damageType: resolvedDmgType,
+          hasVitalityPool: !isSynthetic,
+          currentVitality: Number(currentVitality),
+          currentHealth: Number(currentHealth),
+          currentStructure: Number(currentHealth)
+        });
 
         if (isSynthetic) {
-          const nextStructure = Math.max(0, Number(currentHealth) - finalDamage);
           return {
             incomingDamage: Number(incomingDamage || 0),
             stackingMode,
-            singleHighestDr,
-            diminishingReturnsDr,
-            effectiveArmorDr,
-            naturalToughnessDr: 0,
-            totalMitigation,
-            finalDamage,
-            remainingStructure: nextStructure,
-            enteredMortalityOrDisabled: nextStructure === 0,
+            singleHighestDr: mitigation.singleHighestDr,
+            diminishingReturnsDr: mitigation.diminishingReturnsDr,
+            effectiveArmorDr: mitigation.effectiveArmorDr,
+            naturalToughnessDr: mitigation.staminaSoak > 0 || resolvedToughness > 0 ? resolvedToughness : 0,
+            totalMitigation: mitigation.totalMitigation,
+            finalDamage: routing.netDamage,
+            remainingStructure: routing.remainingStructure,
+            enteredMortalityOrDisabled: routing.remainingStructure === 0,
           };
         }
-
-        const absorbedByVitality = Math.min(Math.max(0, Number(currentVitality)), finalDamage);
-        const overflowToHealth = Math.max(0, finalDamage - absorbedByVitality);
-        const remainingVitality = Math.max(0, Number(currentVitality) - absorbedByVitality);
-        const remainingHealth = Math.max(0, Number(currentHealth) - overflowToHealth);
 
         return {
           incomingDamage: Number(incomingDamage || 0),
           stackingMode,
-          singleHighestDr,
-          diminishingReturnsDr,
-          effectiveArmorDr,
-          naturalToughnessDr,
-          totalMitigation,
-          finalDamage,
-          absorbedByVitality,
-          overflowToHealth,
-          remainingVitality,
-          remainingHealth,
-          enteredMortalityState: remainingHealth === 0,
+          singleHighestDr: mitigation.singleHighestDr,
+          diminishingReturnsDr: mitigation.diminishingReturnsDr,
+          effectiveArmorDr: mitigation.effectiveArmorDr,
+          naturalToughnessDr: resolvedToughness,
+          totalMitigation: mitigation.totalMitigation,
+          finalDamage: routing.netDamage,
+          absorbedByVitality: routing.vitalityDamage,
+          overflowToHealth: routing.healthDamage,
+          remainingVitality: routing.remainingVitality,
+          remainingHealth: routing.remainingHealth,
+          enteredMortalityState: routing.entersMortalityState,
         };
       }
 

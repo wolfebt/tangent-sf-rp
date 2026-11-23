@@ -29,9 +29,7 @@ import { rollDice } from '../../../../services/diceService';
 import { useFolio } from '../../../../context/FolioContext';
 
 export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceGems = '' }) {
-  if (!activeNode) return null;
-
-  const fields = activeNode.fields || {};
+  const fields = activeNode?.fields || {};
   const readAloud = fields.readAloud || '';
   const bulletPoints = Array.isArray(fields.bulletPoints) ? fields.bulletPoints : [];
   const threats = Array.isArray(fields.threats) ? fields.threats : [];
@@ -73,6 +71,8 @@ export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceG
   const selectedPartyChar = useMemo(() => {
     return partyOperatives.find(c => c['character-doc-id'] === selectedPartyCharId) || partyOperatives[0] || null;
   }, [partyOperatives, selectedPartyCharId]);
+
+  if (!activeNode) return null;
 
   const handleUpdateField = (fieldName, val) => {
     updateStory(activeNode.id, {

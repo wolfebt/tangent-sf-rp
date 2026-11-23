@@ -22,6 +22,8 @@ export default function TacticalStageViewport({
   onSwitchView,
   waypointPromptData,
   executeWaypointTrigger,
+  handleConfirmWaypointBeat,
+  handleToggleAutoTrigger,
   setWaypointPromptData,
   onSwitchToWeaver
 }) {
@@ -59,8 +61,12 @@ export default function TacticalStageViewport({
             />
             <WaypointPromptChip
               promptData={waypointPromptData}
-              onExecute={executeWaypointTrigger}
-              onClose={() => setWaypointPromptData(null)}
+              onConfirm={
+                handleConfirmWaypointBeat ||
+                ((promptData) => executeWaypointTrigger?.(promptData?.waypoint, promptData?.token, promptData?.linkedBeat))
+              }
+              onDismiss={() => setWaypointPromptData?.(null)}
+              onToggleAutoTrigger={handleToggleAutoTrigger}
             />
           </>
         ) : (

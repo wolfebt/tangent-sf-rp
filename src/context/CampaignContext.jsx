@@ -1,12 +1,14 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { db, auth } from '../firebase';
-import { doc, setDoc, onSnapshot, collection, getDocs, getDoc, deleteDoc, writeBatch } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot, collection, query, where, getDocs, getDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { attachCreatorTag } from '../utils/creatorUtils';
 import { getEffectiveUserHandle } from '../utils/personaValidationUtils';
 import { createDebouncedSaver } from '../utils/debounceUtils';
 import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreUtils';
 import { StorageService } from '../services/storageService';
+import { sanitizeMapForSpectator } from '../utils/spectatorSanitizer';
+import { offloadMapBinaryFields } from '../services/adeMediaStorageService';
 import { normalizeElementType } from '../pages/Foundry/ElementForge/elementSchemas';
 import {
   createDefaultCronicleState,
@@ -158,6 +160,8 @@ export const StoryProvider = ({ children }) => {
     }
     return [];
   });
+  const elementsCatalogRef = useRef(elementsCatalog);
+  elementsCatalogRef.current = elementsCatalog;
 
   // Asynchronous StorageService hydration on initial mount
   useEffect(() => {
@@ -253,13 +257,25 @@ export const StoryProvider = ({ children }) => {
   const [syncConflict, setSyncConflict] = useState(null); // { type, cloudData, localData, cloudUpdatedAt, localUpdatedAt }
 
   const isDirtyRef = useRef(isDirty);
+  const isStoryReadOnlyRef = useRef(isStoryReadOnly);
   const universeStateRef = useRef(universeState);
   const storyCatalogRef = useRef(storyCatalog);
+  const mapsCatalogRef = useRef(mapsCatalog);
+  const currentUserRef = useRef(currentUser);
   useEffect(() => {
     isDirtyRef.current = isDirty;
+    isStoryReadOnlyRef.current = isStoryReadOnly;
     universeStateRef.current = universeState;
     storyCatalogRef.current = storyCatalog;
-  }, [isDirty, universeState, storyCatalog]);
+    mapsCatalogRef.current = mapsCatalog;
+    currentUserRef.current = currentUser;
+  }, [isDirty, isStoryReadOnly, universeState, storyCatalog, mapsCatalog, currentUser]);
+
+  const setStoryReadOnlyState = useCallback((val) => {
+    const resolved = typeof val === 'function' ? Boolean(val(isStoryReadOnlyRef.current)) : Boolean(val);
+    isStoryReadOnlyRef.current = resolved;
+    setIsStoryReadOnly(resolved);
+  }, []);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -298,8 +314,6 @@ export const StoryProvider = ({ children }) => {
         ...node,
         title: cleanTitle,
         updatedAt: new Date().toISOString(),
-        authorEmail: user?.email || 'Local User',
-      authorHandle: user ? getEffectiveUserHandle(user) : 'Local User',
         authorHandle: user ? getEffectiveUserHandle(user) : 'Local User',
         authorUid: user?.uid || 'local',
         creatorId: user?.uid || 'local',
@@ -338,7 +352,6 @@ export const StoryProvider = ({ children }) => {
     const extractedMaps = maps.map(m => ({
       ...m,
       updatedAt: new Date().toISOString(),
-      authorEmail: user?.email || 'Local User',
       authorHandle: user ? getEffectiveUserHandle(user) : 'Local User',
       authorUid: user?.uid || 'local',
       creatorId: user?.uid || 'local',
@@ -355,11 +368,27 @@ export const StoryProvider = ({ children }) => {
 
     if (user && db) {
       try {
-        const operations = extractedMaps.map(m => ({
-          ref: doc(db, 'story_maps', m.id),
-          data: m,
-          merge: true
-        }));
+        const preparedMaps = await Promise.all(
+          extractedMaps.map(m => offloadMapBinaryFields(m, { userId: user.uid }))
+        );
+        const operations = [];
+        preparedMaps.forEach(m => {
+          operations.push({
+            ref: doc(db, 'story_maps', m.id),
+            data: m,
+            merge: true
+          });
+          if (m.isSpectatorLive === true) {
+            const sanitizedSpectator = sanitizeMapForSpectator(m, user);
+            if (sanitizedSpectator) {
+              operations.push({
+                ref: doc(db, 'spectator_maps', m.id),
+                data: sanitizedSpectator,
+                merge: true
+              });
+            }
+          }
+        });
         await commitChunkedBatches(operations, 450);
       } catch (err) {
         console.warn('Chunked independent map write to Firestore failed:', err.message);
@@ -375,9 +404,9 @@ export const StoryProvider = ({ children }) => {
     }
     setCloudSyncStatus('syncing');
 
-    // Fetch user stories from Cloud DB
-    const storiesCol = collection(db, 'user_stories');
-    getDocs(storiesCol).then((snap) => {
+    // Fetch user stories owned by the current user from Cloud DB
+    const storiesQuery = query(collection(db, 'user_stories'), where('ownerId', '==', currentUser.uid));
+    getDocs(storiesQuery).then((snap) => {
       const deletedIds = getDeletedStoryIds();
       const stories = snap.docs
         .map(d => ({ ...d.data(), id: d.id }))
@@ -393,9 +422,9 @@ export const StoryProvider = ({ children }) => {
       }
     }).catch(e => console.warn('Failed to load user stories from cloud:', e));
 
-    // Fetch elements library from Cloud DB
-    const elementsCol = collection(db, 'story_elements');
-    getDocs(elementsCol).then((snap) => {
+    // Fetch user elements library from Cloud DB
+    const elementsQuery = query(collection(db, 'story_elements'), where('authorUid', '==', currentUser.uid));
+    getDocs(elementsQuery).then((snap) => {
       const elems = snap.docs.map(d => {
         const data = d.data();
         return { ...data, id: d.id, ...(data?.type ? { type: normalizeElementType(data.type) } : {}) };
@@ -411,9 +440,9 @@ export const StoryProvider = ({ children }) => {
       }
     }).catch(e => console.warn('Failed to load elements catalog from cloud:', e));
 
-    // Fetch maps library from Cloud DB
-    const mapsCol = collection(db, 'story_maps');
-    getDocs(mapsCol).then((snap) => {
+    // Fetch user maps library from Cloud DB
+    const mapsQuery = query(collection(db, 'story_maps'), where('authorUid', '==', currentUser.uid));
+    getDocs(mapsQuery).then((snap) => {
       const maps = snap.docs.map(d => ({ ...d.data(), id: d.id }));
       if (maps.length > 0) {
         setMapsCatalog(prev => {
@@ -436,6 +465,12 @@ export const StoryProvider = ({ children }) => {
     }
 
     const activeStoryId = universeState.id;
+    if (activeStoryId === 'proj_default_universe' && universeState?.ownerId && universeState.ownerId !== currentUser.uid) {
+      return;
+    }
+    if (activeStoryId === 'proj_default_universe' && !universeState?.ownerId) {
+      return;
+    }
     const storyDocRef = doc(db, 'user_stories', activeStoryId);
 
     const unsub = onSnapshot(storyDocRef, (snap) => {
@@ -490,10 +525,11 @@ export const StoryProvider = ({ children }) => {
           }
         }
 
-        // 7. Clean remote sync from Firestore
-        isSyncingFromFirestore.current = true;
-        lastSyncedCloudUpdatedAtRef.current = firestoreData.updatedAt || new Date().toISOString();
-        setUniverseState(firestoreData);
+    // 7. Clean remote sync from Firestore
+    debouncedSaveRef.current?.cancel();
+    isSyncingFromFirestore.current = true;
+    lastSyncedCloudUpdatedAtRef.current = firestoreData.updatedAt || new Date().toISOString();
+    setUniverseState(firestoreData);
         setIsDirty(false);
         setCloudSyncStatus('synced');
         setLastCloudSavedAt(new Date().toLocaleTimeString());
@@ -518,11 +554,14 @@ export const StoryProvider = ({ children }) => {
       getDoc(docRef).then((snap) => {
         if (snap.exists()) {
           const storyData = snap.data();
-          const isOwner = currentUser && storyData.ownerId === currentUser.uid;
+          const isLocalDoc = !storyData.ownerId || storyData.ownerId === 'local';
+          const isOwner = currentUser ? (isLocalDoc || storyData.ownerId === currentUser.uid) : isLocalDoc;
           if (storyData.isPublic || isOwner) {
+            debouncedSaveRef.current?.cancel();
+            treeHistoryRef.current?.reset(storyData.scenarios || []);
             setUniverseState(storyData);
             setIsDirty(false);
-            setIsStoryReadOnly(!isOwner);
+            setStoryReadOnlyState(!isOwner);
             if (storyData.scenarios?.length > 0) {
               setActiveScenarioId(storyData.scenarios[0].id);
             }
@@ -539,6 +578,14 @@ export const StoryProvider = ({ children }) => {
   }, [currentUser]);
 
   const toggleStoryVisibility = useCallback(async (storyId, targetIsPublic) => {
+    if (isStoryReadOnlyRef.current) return false;
+    const target =
+      storyCatalogRef.current.find(s => s.id === storyId) ||
+      (universeStateRef.current?.id === storyId ? universeStateRef.current : null);
+    if (target?.ownerId && target.ownerId !== 'local' && (!currentUser || target.ownerId !== currentUser.uid)) {
+      return false;
+    }
+
     setStoryCatalog(prev => {
       const updated = prev.map(s => s.id === storyId ? { ...s, isPublic: targetIsPublic } : s);
       StorageService.setItem('tangent_story_catalog', updated);
@@ -557,12 +604,13 @@ export const StoryProvider = ({ children }) => {
         console.warn('Failed to update story visibility in cloud:', err);
       }
     }
+    return true;
   }, [currentUser, universeState.id]);
 
   const loadPublicStories = useCallback(async () => {
     try {
-      const storiesCol = collection(db, 'user_stories');
-      const snap = await getDocs(storiesCol);
+      const publicStoriesQuery = query(collection(db, 'user_stories'), where('isPublic', '==', true));
+      const snap = await getDocs(publicStoriesQuery);
       const publicStories = snap.docs
         .map(d => ({ id: d.id, ...d.data() }))
         .filter(s => s.isPublic === true);
@@ -577,18 +625,31 @@ export const StoryProvider = ({ children }) => {
   const clonePublicStory = useCallback((storyToClone) => {
     const source = storyToClone || universeState;
     const newId = `proj_${Date.now()}`;
+    const ownerUid = currentUser ? currentUser.uid : 'local';
     const rawStory = {
       ...source,
       id: newId,
       projectName: `${source.projectName || 'Untitled Story'} (Copy)`,
       isPublic: false,
-      ownerId: currentUser ? currentUser.uid : 'local',
+      ownerId: ownerUid,
+      createdBy: ownerUid,
+      authorId: ownerUid,
+      gmId: ownerUid,
+      scenarios: Array.isArray(source.scenarios)
+        ? source.scenarios.map(sc => sc ? { ...sc, ownerId: ownerUid, createdBy: ownerUid } : sc)
+        : [],
+      maps: Array.isArray(source.maps)
+        ? source.maps.map(m => m ? { ...m, ownerId: ownerUid, createdBy: ownerUid, creatorId: ownerUid, authorUid: ownerUid } : m)
+        : [],
       updatedAt: new Date().toISOString()
     };
     const newStory = attachCreatorTag(rawStory, localStorage.getItem('userHandle'), currentUser);
 
+    debouncedSaveRef.current?.cancel();
+    treeHistoryRef.current?.reset(newStory.scenarios || []);
+    isSyncingFromFirestore.current = false;
     setUniverseState(newStory);
-    setIsStoryReadOnly(false);
+    setStoryReadOnlyState(false);
     setIsDirty(false);
 
     setStoryCatalog(prev => {
@@ -607,15 +668,19 @@ export const StoryProvider = ({ children }) => {
     }
 
     showToast({ type: 'success', text: `Successfully cloned "${source.projectName}" to your ADE Studio catalog.` });
-  }, [universeState, currentUser]);
+  }, [universeState, currentUser, setStoryReadOnlyState]);
 
   // Actual Cloud Persistence Worker
   const executeCloudSave = useCallback(async (stateToSave) => {
-    if (!stateToSave?.id) return;
+    if (isStoryReadOnlyRef.current) return false;
+    if (!stateToSave?.id) return false;
+    if (stateToSave.ownerId && stateToSave.ownerId !== 'local' && currentUser && stateToSave.ownerId !== currentUser.uid) {
+      return false;
+    }
     if (!currentUser) {
       setCloudSyncStatus('offline');
       setSaveStatus('offline');
-      return;
+      return false;
     }
 
     setSaveStatus('saving');
@@ -674,7 +739,7 @@ export const StoryProvider = ({ children }) => {
 
   // Trigger Save helper for external components
   const triggerSave = useCallback((overrideImmediate = false) => {
-    if (!universeStateRef.current?.id) return Promise.resolve();
+    if (isStoryReadOnlyRef.current || !universeStateRef.current?.id) return Promise.resolve();
     setSaveStatus('unsaved');
     setIsDirty(true);
 
@@ -687,6 +752,7 @@ export const StoryProvider = ({ children }) => {
 
   // Force Save helper for explicit button clicks
   const forceSaveNow = useCallback(async () => {
+    if (isStoryReadOnlyRef.current) return false;
     if (debouncedSaveRef.current?.isPending()) {
       return await debouncedSaveRef.current.flush();
     } else if (universeStateRef.current) {
@@ -696,8 +762,6 @@ export const StoryProvider = ({ children }) => {
 
   // Auto-persist active universe state: StorageService immediately, Firestore debounced (1500ms)
   useEffect(() => {
-    if (isStoryReadOnly) return; // Prevent auto-save when viewing a read-only public story
-
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
@@ -707,6 +771,8 @@ export const StoryProvider = ({ children }) => {
       isSyncingFromFirestore.current = false;
       return;
     }
+
+    if (isStoryReadOnly) return; // Prevent auto-save when viewing a read-only public story
 
     // Pause auto-save writes if a conflict is currently active
     if (syncConflict) {
@@ -745,7 +811,7 @@ export const StoryProvider = ({ children }) => {
     setSaveStatus('unsaved');
     setIsDirty(true);
     debouncedSaveRef.current?.(updatedState);
-  }, [universeState, isStoryReadOnly]);
+  }, [universeState, isStoryReadOnly, currentUser, syncConflict]);
 
   // Lifecycle Listener for Window Unload / Route Exit
   useEffect(() => {
@@ -766,6 +832,7 @@ export const StoryProvider = ({ children }) => {
 
   // Manual Push to Cloud DB — declared before triggerStorySave to avoid stale closure
   const pushUniverseToCloud = useCallback(async (options = {}) => {
+    if (isStoryReadOnlyRef.current) return false;
     if (!currentUser) {
       if (options.showSuccessAlert !== false) showToast({ type: 'warning', text: "Please login to push data to Cloud DB." });
       return false;
@@ -843,10 +910,11 @@ export const StoryProvider = ({ children }) => {
   }, [currentUser, saveAllElementsIndependently, saveAllMapsIndependently]);
 
   const triggerStorySave = useCallback(() => {
+    if (isStoryReadOnlyRef.current) return;
     if (debouncedSaveRef.current?.isPending()) {
       debouncedSaveRef.current.flush();
-    } else {
-      pushUniverseToCloud({ showSuccessAlert: false, force: true });
+    } else if (isDirtyRef.current) {
+      pushUniverseToCloud({ showSuccessAlert: false, force: false });
     }
   }, [pushUniverseToCloud]);
 
@@ -863,6 +931,8 @@ export const StoryProvider = ({ children }) => {
       const snap = await getDoc(userStoryDoc);
       if (snap.exists()) {
         const firestoreData = snap.data();
+        debouncedSaveRef.current?.cancel();
+        treeHistoryRef.current?.reset(firestoreData.scenarios || []);
         isSyncingFromFirestore.current = true;
         lastSyncedCloudUpdatedAtRef.current = firestoreData.updatedAt || new Date().toISOString();
         setUniverseState(firestoreData);
@@ -906,15 +976,23 @@ export const StoryProvider = ({ children }) => {
       return false;
     }
     if (!elementNode || !elementNode.id) return false;
+    if (
+      elementNode.authorUid &&
+      elementNode.authorUid !== 'local' &&
+      elementNode.authorUid !== currentUser.uid &&
+      elementNode.creatorId !== currentUser.uid
+    ) {
+      return false;
+    }
     try {
       setCloudSyncStatus('syncing');
       const taggedNode = attachCreatorTag(elementNode, localStorage.getItem('userHandle'), currentUser);
       const payload = {
         ...taggedNode,
         updatedAt: new Date().toISOString(),
-        authorEmail: currentUser.email || 'Anonymous',
         authorHandle: getEffectiveUserHandle(currentUser),
-        authorUid: currentUser.uid
+        authorUid: currentUser.uid,
+        creatorId: taggedNode.creatorId || currentUser.uid
       };
       await setDoc(doc(db, 'story_elements', elementNode.id), sanitizeFirestoreData(payload));
       setCloudSyncStatus('synced');
@@ -936,8 +1014,8 @@ export const StoryProvider = ({ children }) => {
     }
     try {
       setCloudSyncStatus('syncing');
-      const colRef = collection(db, 'story_elements');
-      const snap = await getDocs(colRef);
+      const colQuery = query(collection(db, 'story_elements'), where('authorUid', '==', currentUser.uid));
+      const snap = await getDocs(colQuery);
       const elements = snap.docs.map(d => ({ ...d.data(), id: d.id }));
       setCloudSyncStatus('synced');
       return elements;
@@ -950,7 +1028,10 @@ export const StoryProvider = ({ children }) => {
   };
 
   const handleClearUniverse = async () => {
+    if (isStoryReadOnlyRef.current) return false;
     const currentProjectId = universeStateRef.current?.id || 'proj_default_universe';
+    debouncedSaveRef.current?.cancel();
+    treeHistoryRef.current?.reset(DEFAULT_UNIVERSE_STATE.scenarios || []);
     await StorageService.removeItem('tangent_universe_state');
     setUniverseState(DEFAULT_UNIVERSE_STATE);
     setActiveScenarioId(null);
@@ -966,6 +1047,7 @@ export const StoryProvider = ({ children }) => {
         console.warn('Firestore universe clear failed:', err.message);
       }
     }
+    return true;
   };
 
   // Master Unified Save/Load logic
@@ -993,15 +1075,40 @@ export const StoryProvider = ({ children }) => {
     reader.onload = async (event) => {
       try {
         const data = JSON.parse(event.target.result);
-        if (data.type === "TangentUniverse" || data.type === "TangentStory" || data.type === "TangentCampaign") {
+        if (data.type === "TangentUniverse" || data.type === "TangentStory" || data.type === "TangentCampaign" || data.type === "TangentStoryProject") {
           const loadedData = data.data || data;
           const loadedStories = loadedData.scenarios || loadedData.stories || [];
-          setUniverseState({
-            projectName: loadedData.projectName || 'Tangent Universe',
+          const projectTitle = loadedData.projectName || 'Tangent Universe';
+          const custom = loadedData.customAssets || {};
+          const nextUniverse = {
+            id: loadedData.id || `proj_${Date.now()}`,
+            projectName: projectTitle,
+            description: loadedData.description || '',
             scenarios: loadedStories,
             maps: loadedData.maps || [],
-            customAssets: loadedData.customAssets || { terrains: [], objects: [] }
-          });
+            customAssets: {
+              terrains: Array.isArray(custom.terrains) ? custom.terrains : [],
+              objects: Array.isArray(custom.objects) ? custom.objects : [],
+              chunks: Array.isArray(custom.chunks) ? custom.chunks : []
+            },
+            creativeState: loadedData.creativeState || {
+              gems: [],
+              storyCards: [],
+              storyOutline: '',
+              sceneBeats: '',
+              storyDraft: '',
+              linkedElements: []
+            },
+            cronicle: loadedData.cronicle || createDefaultCronicleState(projectTitle),
+            galleryModifiers: Array.isArray(loadedData.galleryModifiers) ? loadedData.galleryModifiers : [],
+            scripts: Array.isArray(loadedData.scripts) ? loadedData.scripts : [],
+            isPublic: Boolean(loadedData.isPublic),
+            updatedAt: loadedData.updatedAt || new Date().toISOString()
+          };
+          debouncedSaveRef.current?.cancel();
+          treeHistoryRef.current?.reset(loadedStories);
+          setUniverseState(nextUniverse);
+          setStoryReadOnlyState(false);
           if (loadedData.maps?.length > 0) setActiveMapId(loadedData.maps[0].id);
           if (loadedStories.length > 0) setActiveScenarioId(loadedStories[0].id);
           setIsDirty(false);
@@ -1034,9 +1141,11 @@ export const StoryProvider = ({ children }) => {
   };
 
   const handleLoadStory = (file) => {
+    if (isStoryReadOnlyRef.current) return;
     if (!file) return;
     const reader = new FileReader();
     reader.onload = async (event) => {
+      if (isStoryReadOnlyRef.current) return;
       try {
         const data = JSON.parse(event.target.result);
         let loadedStories = [];
@@ -1049,6 +1158,7 @@ export const StoryProvider = ({ children }) => {
         }
 
         if (loadedStories.length > 0) {
+          treeHistoryRef.current?.reset(loadedStories);
           setUniverseState(prev => ({
             ...prev,
             scenarios: loadedStories
@@ -1086,9 +1196,11 @@ export const StoryProvider = ({ children }) => {
   };
 
   const handleLoadMap = (file) => {
+    if (isStoryReadOnlyRef.current) return;
     if (!file) return;
     const reader = new FileReader();
     reader.onload = async (event) => {
+      if (isStoryReadOnlyRef.current) return;
       try {
         const data = JSON.parse(event.target.result);
         let mapToLoad = null;
@@ -1218,6 +1330,7 @@ export const StoryProvider = ({ children }) => {
   }, [universeState?.scenarios]);
 
   const undoScenarioTree = () => {
+    if (isStoryReadOnlyRef.current) return;
     if (!treeHistoryRef.current.canUndo) {
       showToast('No undo history available for scenario hierarchy.', 'info');
       return;
@@ -1233,6 +1346,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const redoScenarioTree = () => {
+    if (isStoryReadOnlyRef.current) return;
     if (!treeHistoryRef.current.canRedo) {
       showToast('No redo history available for scenario hierarchy.', 'info');
       return;
@@ -1291,19 +1405,45 @@ export const StoryProvider = ({ children }) => {
   const addMap = (rawMap) => {
     if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     const newMap = attachCreatorTag(rawMap, localStorage.getItem('userHandle'), currentUser);
-    setUniverseState(prev => ({
-      ...prev,
-      maps: [...prev.maps, newMap]
-    }));
+    setUniverseState(prev => {
+      const existing = Array.isArray(prev.maps) ? prev.maps : [];
+      if (newMap.id && existing.some(m => m.id === newMap.id)) {
+        return prev;
+      }
+      return {
+        ...prev,
+        maps: [...existing, newMap]
+      };
+    });
     setActiveMapId(newMap.id);
   };
 
   const updateMap = (id, updates) => {
     if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
-    setUniverseState(prev => ({
-      ...prev,
-      maps: prev.maps.map(m => m.id === id ? { ...m, ...updates } : m)
-    }));
+    const nowIso = new Date().toISOString();
+    setUniverseState(prev => {
+      const existingMaps = Array.isArray(prev.maps) ? prev.maps : [];
+      const found = existingMaps.some(m => m.id === id);
+      if (!found && updates && typeof updates === 'object') {
+        const seedFromCatalog = mapsCatalogRef?.current?.find(m => m.id === id) || {};
+        return {
+          ...prev,
+          maps: [...existingMaps, { ...seedFromCatalog, ...updates, id, updatedAt: nowIso }]
+        };
+      }
+      return {
+        ...prev,
+        maps: existingMaps.map(m => {
+          if (m.id !== id) return m;
+          const resolved = typeof updates === 'function' ? updates(m) : updates;
+          return {
+            ...m,
+            ...(resolved || {}),
+            updatedAt: nowIso
+          };
+        })
+      };
+    });
   };
 
   const deleteMap = (id) => {
@@ -1316,6 +1456,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const addCustomTerrain = (terrain) => {
+    if (isStoryReadOnly) return;
     const taggedTerrain = attachCreatorTag(terrain, localStorage.getItem('userHandle'), currentUser);
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [] };
@@ -1330,6 +1471,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateCustomTerrain = (terrainId, updates) => {
+    if (isStoryReadOnly) return;
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [] };
       return {
@@ -1343,6 +1485,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteCustomTerrain = (terrainId) => {
+    if (isStoryReadOnly) return;
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [] };
       return {
@@ -1356,6 +1499,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const addCustomObject = (obj) => {
+    if (isStoryReadOnly) return;
     const taggedObj = attachCreatorTag(obj, localStorage.getItem('userHandle'), currentUser);
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [] };
@@ -1370,6 +1514,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateCustomObject = (objectId, updates) => {
+    if (isStoryReadOnly) return;
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [] };
       return {
@@ -1383,6 +1528,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteCustomObject = (objectId) => {
+    if (isStoryReadOnly) return;
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [] };
       return {
@@ -1396,6 +1542,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const addCustomChunk = (chunk) => {
+    if (isStoryReadOnly) return;
     const taggedChunk = attachCreatorTag(chunk, localStorage.getItem('userHandle'), currentUser);
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [], chunks: [] };
@@ -1411,6 +1558,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateCustomChunk = (chunkId, updates) => {
+    if (isStoryReadOnly) return;
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [], chunks: [] };
       const existingChunks = custom.chunks || [];
@@ -1425,6 +1573,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteCustomChunk = (chunkId) => {
+    if (isStoryReadOnly) return;
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [], chunks: [] };
       const existingChunks = custom.chunks || [];
@@ -1439,6 +1588,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateCreativeState = (updates) => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => ({
       ...prev,
@@ -1460,6 +1610,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateProjectName = (name) => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => ({
       ...prev,
@@ -1467,10 +1618,21 @@ export const StoryProvider = ({ children }) => {
     }));
   };
 
+  const updateUniverseMetadata = (patch) => {
+    if (isStoryReadOnly || !patch || typeof patch !== 'object') return;
+    setIsDirty(true);
+    setUniverseState(prev => ({
+      ...prev,
+      ...patch,
+      updatedAt: new Date().toISOString()
+    }));
+  };
+
   // ── CRONICLE PERSISTENT MEMORY STATE MANAGEMENT ──
   const cronicle = universeState?.cronicle || createDefaultCronicleState(universeState?.projectName);
 
   const updateCronicle = (updates) => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => {
       const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
@@ -1486,6 +1648,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateWorkingMemory = (wmUpdates) => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => {
       const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
@@ -1504,6 +1667,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const applyCronicleDeltaAction = (delta) => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => {
       const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
@@ -1516,6 +1680,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const stageCronicleDeltas = (newDeltas) => {
+    if (isStoryReadOnly) return;
     if (!Array.isArray(newDeltas) || newDeltas.length === 0) return;
     setIsDirty(true);
     setUniverseState(prev => {
@@ -1546,6 +1711,7 @@ export const StoryProvider = ({ children }) => {
   }, []);
 
   const acceptPendingDelta = (deltaId) => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => {
       const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
@@ -1560,6 +1726,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const acceptAllPendingDeltas = () => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => {
       const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
@@ -1577,6 +1744,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const rejectPendingDelta = (deltaId) => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => {
       const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
@@ -1592,6 +1760,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const clearPendingDeltas = () => {
+    if (isStoryReadOnly) return;
     setIsDirty(true);
     setUniverseState(prev => {
       const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
@@ -1607,7 +1776,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const cloneElementToCronicle = (element) => {
-    if (!element) return;
+    if (isStoryReadOnly || !element) return;
     setIsDirty(true);
     setUniverseState(prev => {
       const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
@@ -1663,10 +1832,13 @@ export const StoryProvider = ({ children }) => {
     };
     const newStory = attachCreatorTag(rawStory, localStorage.getItem('userHandle'), currentUser);
 
+    debouncedSaveRef.current?.cancel();
+    treeHistoryRef.current?.reset([overviewElem]);
     isSyncingFromFirestore.current = true;
     lastSyncedCloudUpdatedAtRef.current = newStory.updatedAt;
     universeStateRef.current = newStory;
     setUniverseState(newStory);
+    setStoryReadOnlyState(false);
     StorageService.setItem('tangent_universe_state', newStory);
     setActiveScenarioId(overviewElem.id);
     setActiveMapId(null);
@@ -1687,10 +1859,15 @@ export const StoryProvider = ({ children }) => {
     return newStory;
   };
 
-  const openStory = (storyId) => {
-    const target = storyCatalog.find(s => s.id === storyId) || publicStoryCatalog.find(s => s.id === storyId);
+  const openStory = useCallback((storyId) => {
+    const currentCatalog = Array.isArray(storyCatalogRef.current) ? storyCatalogRef.current : storyCatalog;
+    const target = currentCatalog.find(s => s.id === storyId) || publicStoryCatalog.find(s => s.id === storyId);
     if (target) {
-      const isOwner = !currentUser || !target.ownerId || target.ownerId === currentUser.uid;
+      const user = currentUserRef.current;
+      const isLocalDoc = !target.ownerId || target.ownerId === 'local';
+      const isOwner = user ? (isLocalDoc || target.ownerId === user.uid) : isLocalDoc;
+      debouncedSaveRef.current?.cancel();
+      treeHistoryRef.current?.reset(target.scenarios || []);
       isSyncingFromFirestore.current = true;
       lastSyncedCloudUpdatedAtRef.current = target.updatedAt || null;
       universeStateRef.current = target;
@@ -1698,7 +1875,7 @@ export const StoryProvider = ({ children }) => {
       StorageService.setItem('tangent_universe_state', target);
       setIsDirty(false);
       setSyncConflict(null);
-      setIsStoryReadOnly(!isOwner);
+      setStoryReadOnlyState(!isOwner);
       if (target.scenarios?.length > 0) {
         setActiveScenarioId(target.scenarios[0].id);
       } else {
@@ -1712,9 +1889,10 @@ export const StoryProvider = ({ children }) => {
       return true;
     }
     return false;
-  };
+  }, [publicStoryCatalog, storyCatalog, setStoryReadOnlyState]);
 
   const closeStory = () => {
+    if (isStoryReadOnlyRef.current) return true;
     // Perform final backup save of current working story
     if (universeState && universeState.scenarios) {
       saveAllElementsIndependently(universeState.scenarios, currentUser);
@@ -1724,7 +1902,14 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteStoryProject = async (storyId) => {
-    if (!storyId) return;
+    if (!storyId) return false;
+    const currentCatalog = Array.isArray(storyCatalogRef.current) ? storyCatalogRef.current : storyCatalog;
+    const target = currentCatalog.find(s => s.id === storyId) || publicStoryCatalog.find(s => s.id === storyId);
+    const user = currentUserRef.current;
+    if (target?.ownerId && target.ownerId !== 'local' && (!user || target.ownerId !== user.uid)) {
+      showToast({ type: 'warning', text: 'Only the story owner can delete this project.' });
+      return false;
+    }
 
     // 1. Mark storyId as deleted so it won't resurrect from cache or cloud sync
     markStoryIdDeleted(storyId);
@@ -1737,13 +1922,14 @@ export const StoryProvider = ({ children }) => {
     }
 
     // 3. Remove from storyCatalog and handle active story fallback
-    const currentCatalog = Array.isArray(storyCatalogRef.current) ? storyCatalogRef.current : storyCatalog;
     const remaining = currentCatalog.filter(s => s.id !== storyId);
 
     if (isDeletingActive) {
       if (remaining.length > 0) {
         const nextStory = remaining[0];
-        const isOwner = !currentUser || !nextStory.ownerId || nextStory.ownerId === currentUser.uid;
+        const isNextLocal = !nextStory.ownerId || nextStory.ownerId === 'local';
+        const isOwner = user ? (isNextLocal || nextStory.ownerId === user.uid) : isNextLocal;
+        treeHistoryRef.current?.reset(nextStory.scenarios || []);
         isSyncingFromFirestore.current = true;
         lastSyncedCloudUpdatedAtRef.current = nextStory.updatedAt || null;
         universeStateRef.current = nextStory;
@@ -1751,7 +1937,7 @@ export const StoryProvider = ({ children }) => {
         StorageService.setItem('tangent_universe_state', nextStory);
         setIsDirty(false);
         setSyncConflict(null);
-        setIsStoryReadOnly(!isOwner);
+        setStoryReadOnlyState(!isOwner);
         setActiveScenarioId(nextStory.scenarios?.length > 0 ? nextStory.scenarios[0].id : null);
         setActiveMapId(nextStory.maps?.length > 0 ? nextStory.maps[0].id : null);
         storyCatalogRef.current = remaining;
@@ -1767,6 +1953,7 @@ export const StoryProvider = ({ children }) => {
           id: freshDefaultId,
           updatedAt: new Date().toISOString()
         };
+        treeHistoryRef.current?.reset(fallback.scenarios || []);
         isSyncingFromFirestore.current = true;
         lastSyncedCloudUpdatedAtRef.current = fallback.updatedAt;
         universeStateRef.current = fallback;
@@ -1774,7 +1961,7 @@ export const StoryProvider = ({ children }) => {
         StorageService.setItem('tangent_universe_state', fallback);
         setIsDirty(false);
         setSyncConflict(null);
-        setIsStoryReadOnly(false);
+        setStoryReadOnlyState(false);
         setActiveScenarioId(fallback.scenarios?.[0]?.id || null);
         setActiveMapId(null);
         storyCatalogRef.current = [fallback];
@@ -1808,6 +1995,15 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteSavedMap = useCallback(async (mapId) => {
+    const targetMap = (mapsCatalogRef.current || []).find(m => m.id === mapId);
+    if (
+      targetMap &&
+      ((targetMap.authorUid && targetMap.authorUid !== 'local' && targetMap.authorUid !== currentUser?.uid) ||
+        (targetMap.ownerId && targetMap.ownerId !== 'local' && targetMap.ownerId !== currentUser?.uid))
+    ) {
+      return false;
+    }
+
     setMapsCatalog(prev => {
       const updated = prev.filter(m => m.id !== mapId);
       StorageService.setItem('tangent_maps_catalog', updated);
@@ -1820,10 +2016,107 @@ export const StoryProvider = ({ children }) => {
       } catch (e) {
         console.warn('Failed to delete map from cloud:', e);
       }
+      deleteDoc(doc(db, 'spectator_maps', mapId)).catch(() => {});
     }
+    return true;
   }, [currentUser]);
 
+  const publishSpectatorMap = useCallback(async (mapId, mapOverride = null) => {
+    if (!mapId) return false;
+    const localMaps = universeStateRef.current?.maps || [];
+    const catalogMaps = mapsCatalogRef.current || [];
+    const inLocalOnly = localMaps.some(m => m.id === mapId) && !catalogMaps.some(m => m.id === mapId);
+    if (isStoryReadOnlyRef.current && inLocalOnly) {
+      return false;
+    }
+    const targetMap = mapOverride || localMaps.find(m => m.id === mapId) || catalogMaps.find(m => m.id === mapId);
+    if (!targetMap) return false;
+    if (
+      targetMap.authorUid &&
+      targetMap.authorUid !== 'local' &&
+      (!currentUser || targetMap.authorUid !== currentUser.uid)
+    ) {
+      return false;
+    }
+
+    const liveFlaggedMap = { ...targetMap, isSpectatorLive: true };
+    if (localMaps.some(m => m.id === mapId) && !targetMap.isSpectatorLive && !isStoryReadOnlyRef.current) {
+      setUniverseState(prev => ({
+        ...prev,
+        maps: (prev.maps || []).map(m => (m.id === mapId ? { ...m, isSpectatorLive: true } : m))
+      }));
+    }
+    if (!catalogMaps.find(m => m.id === mapId)?.isSpectatorLive) {
+      setMapsCatalog(prev => {
+        const updated = prev.map(m => (m.id === mapId ? { ...m, isSpectatorLive: true } : m));
+        StorageService.setItem('tangent_maps_catalog', updated);
+        return updated;
+      });
+    }
+
+    if (currentUser && db) {
+      try {
+        const sanitized = sanitizeMapForSpectator(liveFlaggedMap, currentUser);
+        if (sanitized) {
+          await setDoc(doc(db, 'spectator_maps', mapId), sanitizeFirestoreData(sanitized), { merge: true });
+        }
+        return true;
+      } catch (err) {
+        console.warn('Failed to publish sanitized spectator map:', err);
+        return false;
+      }
+    }
+    return true;
+  }, [currentUser]);
+
+  const lastSpectatorPublishSigRef = useRef(new Map());
+  useEffect(() => {
+    if (isStoryReadOnly || !currentUser || !db) return;
+    const liveMaps = (universeState?.maps || []).filter(m => m?.id && m.isSpectatorLive);
+    if (liveMaps.length === 0) return;
+
+    const timer = setTimeout(() => {
+      liveMaps.forEach((m) => {
+        try {
+          const sig = JSON.stringify({
+            t: m.title,
+            w: m.walls,
+            o: m.objects,
+            tok: m.tokens,
+            ter: m.terrains,
+            l: m.lights,
+            f: m.fog,
+            fe: m.fogEnabled,
+            ln: m.lines,
+            txt: m.texts,
+            u: m.underlay,
+            g: m.gridSize,
+            gm: m.gridMode
+          });
+          if (lastSpectatorPublishSigRef.current.get(m.id) !== sig) {
+            lastSpectatorPublishSigRef.current.set(m.id, sig);
+            publishSpectatorMap(m.id, m);
+          }
+        } catch {
+          // Ignore non-serializable map draft
+        }
+      });
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [universeState?.maps, isStoryReadOnly, currentUser, publishSpectatorMap]);
+
   const deleteSavedElement = useCallback(async (elementId) => {
+    const targetEl = (elementsCatalogRef.current || []).find(e => e.id === elementId);
+    if (
+      targetEl &&
+      targetEl.authorUid &&
+      targetEl.authorUid !== 'local' &&
+      (!currentUser || (targetEl.authorUid !== currentUser.uid && targetEl.creatorId !== currentUser.uid))
+    ) {
+      return false;
+    }
+
     setElementsCatalog(prev => {
       const updated = prev.filter(e => e.id !== elementId);
       StorageService.setItem('tangent_elements_catalog', updated);
@@ -1837,51 +2130,46 @@ export const StoryProvider = ({ children }) => {
         console.warn('Failed to delete element from Firestore:', e);
       }
     }
+    return true;
   }, [currentUser]);
 
   const updateSavedElement = async (elementId, updates) => {
-    let updatedElem = null;
+    const existingElem = (elementsCatalogRef.current || []).find(e => e.id === elementId);
+    if (
+      existingElem &&
+      existingElem.authorUid &&
+      existingElem.authorUid !== 'local' &&
+      (!currentUser || (existingElem.authorUid !== currentUser.uid && existingElem.creatorId !== currentUser.uid))
+    ) {
+      return null;
+    }
     const taggedUpdates = attachCreatorTag(updates, localStorage.getItem('userHandle'), currentUser);
-    setElementsCatalog(prev => {
-      const updated = prev.map(e => {
-        if (e.id === elementId) {
-          updatedElem = attachCreatorTag({
-            ...e,
-            ...taggedUpdates,
-            updatedAt: new Date().toISOString()
-          }, localStorage.getItem('userHandle'), currentUser);
-          return updatedElem;
-        }
-        return e;
-      });
-      if (!updatedElem) {
-        updatedElem = attachCreatorTag({
+    const updatedElem = existingElem
+      ? attachCreatorTag({
+          ...existingElem,
+          ...taggedUpdates,
+          updatedAt: new Date().toISOString()
+        }, localStorage.getItem('userHandle'), currentUser)
+      : attachCreatorTag({
           id: elementId,
           ...taggedUpdates,
           updatedAt: new Date().toISOString(),
-          authorEmail: currentUser?.email || 'Local User',
           authorHandle: currentUser ? getEffectiveUserHandle(currentUser) : 'Local User',
-          authorUid: currentUser?.uid || 'local'
+          authorUid: currentUser?.uid || 'local',
+          creatorId: taggedUpdates.creatorId || currentUser?.uid || 'local'
         }, localStorage.getItem('userHandle'), currentUser);
-        updated.unshift(updatedElem);
-      }
+
+    setElementsCatalog(prev => {
+      const exists = prev.some(e => e.id === elementId);
+      const updated = exists
+        ? prev.map(e => (e.id === elementId ? updatedElem : e))
+        : [updatedElem, ...prev];
       StorageService.setItem('tangent_elements_catalog', updated);
       return updated;
     });
 
-    // If element exists in current working story, sync updates there too
-    setUniverseState(prev => {
-      const updateTree = (nodes) => {
-        return nodes.map(node => {
-          if (node.id === elementId) {
-            return { ...node, ...updates };
-          }
-          if (node.children && node.children.length > 0) {
-            return { ...node, children: updateTree(node.children) };
-          }
-          return node;
-        });
-      };
+    // If element exists in current working story, sync updates there too (unless read-only)
+    if (!isStoryReadOnlyRef.current) {
       const containsId = (nodes) => {
         for (let n of nodes) {
           if (n.id === elementId) return true;
@@ -1889,12 +2177,28 @@ export const StoryProvider = ({ children }) => {
         }
         return false;
       };
-      if (prev.scenarios && containsId(prev.scenarios)) {
+      const hasMatchInCurrent = containsId(universeStateRef.current?.scenarios || []);
+      if (hasMatchInCurrent) {
+        setUniverseState(prev => {
+          const updateTree = (nodes) => {
+            return nodes.map(node => {
+              if (node.id === elementId) {
+                return { ...node, ...updates };
+              }
+              if (node.children && node.children.length > 0) {
+                return { ...node, children: updateTree(node.children) };
+              }
+              return node;
+            });
+          };
+          if (prev.scenarios && containsId(prev.scenarios)) {
+            return { ...prev, scenarios: updateTree(prev.scenarios) };
+          }
+          return prev;
+        });
         setIsDirty(true);
-        return { ...prev, scenarios: updateTree(prev.scenarios) };
       }
-      return prev;
-    });
+    }
 
     if (currentUser && updatedElem) {
       try {
@@ -1908,49 +2212,56 @@ export const StoryProvider = ({ children }) => {
 
   // Story Gallery Situational & Temporary Modifier Management
   const addGalleryModifier = (modifier) => {
+    if (isStoryReadOnlyRef.current) return;
     setUniverseState(prev => {
       const current = prev.galleryModifiers || [];
       const updated = [...current, modifier];
-      setIsDirty(true);
       return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
     });
+    setIsDirty(true);
   };
 
   const updateGalleryModifier = (modifierId, patch) => {
+    if (isStoryReadOnlyRef.current) return;
     setUniverseState(prev => {
       const current = prev.galleryModifiers || [];
       const updated = current.map(m => (m.id === modifierId ? { ...m, ...patch } : m));
-      setIsDirty(true);
       return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
     });
+    setIsDirty(true);
   };
 
   const deleteGalleryModifier = (modifierId) => {
+    if (isStoryReadOnlyRef.current) return;
     setUniverseState(prev => {
       const current = prev.galleryModifiers || [];
       const updated = current.filter(m => m.id !== modifierId);
-      setIsDirty(true);
       return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
     });
+    setIsDirty(true);
   };
 
   const toggleGalleryModifier = (modifierId) => {
+    if (isStoryReadOnlyRef.current) return;
     setUniverseState(prev => {
       const current = prev.galleryModifiers || [];
       const updated = current.map(m => (m.id === modifierId ? { ...m, isActive: !m.isActive } : m));
-      setIsDirty(true);
       return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
     });
+    setIsDirty(true);
   };
 
   const setGalleryModifiers = (modifiers) => {
-    setUniverseState(prev => {
-      setIsDirty(true);
-      return { ...prev, galleryModifiers: Array.isArray(modifiers) ? modifiers : [], updatedAt: new Date().toISOString() };
-    });
+    if (isStoryReadOnlyRef.current) return;
+    setUniverseState(prev => ({
+      ...prev,
+      galleryModifiers: Array.isArray(modifiers) ? modifiers : [],
+      updatedAt: new Date().toISOString()
+    }));
+    setIsDirty(true);
   };
 
-  const value = {
+  const value = useMemo(() => ({
     universeState,
     setUniverseState,
     galleryModifiers: universeState?.galleryModifiers || [],
@@ -1977,6 +2288,7 @@ export const StoryProvider = ({ children }) => {
     saveAllMapsIndependently,
     deleteSavedMap,
     updateProjectName,
+    updateUniverseMetadata,
     handleClearUniverse,
     updateCreativeState,
     updateGems,
@@ -1984,6 +2296,7 @@ export const StoryProvider = ({ children }) => {
     updateOutline,
     updateSceneBeats,
     updateDraft,
+    updateLinkedElements,
     getActiveGemsText,
     cronicle,
     updateCronicle,
@@ -2046,6 +2359,7 @@ export const StoryProvider = ({ children }) => {
     updateCustomChunk,
     deleteCustomChunk,
     isStoryReadOnly,
+    setIsStoryReadOnly: setStoryReadOnlyState,
     publicStoryCatalog,
     toggleStoryVisibility,
     loadPublicStories,
@@ -2055,8 +2369,41 @@ export const StoryProvider = ({ children }) => {
     lastSavedTimestamp,
     saveError,
     triggerSave,
-    forceSaveNow
-  };
+    forceSaveNow,
+    publishSpectatorMap
+  }), [
+    universeState,
+    storyCatalog,
+    elementsCatalog,
+    mapsCatalog,
+    lastCloudSavedAt,
+    isDirty,
+    confirmIfDirty,
+    openStory,
+    deleteSavedElement,
+    enforceElementNames,
+    saveAllElementsIndependently,
+    saveAllMapsIndependently,
+    deleteSavedMap,
+    cloudSyncStatus,
+    syncConflict,
+    pushUniverseToCloud,
+    activeScenarioId,
+    activeMapId,
+    isStoryReadOnly,
+    setStoryReadOnlyState,
+    publicStoryCatalog,
+    toggleStoryVisibility,
+    loadPublicStories,
+    clonePublicStory,
+    saveStatus,
+    lastSavedTimestamp,
+    saveError,
+    triggerSave,
+    forceSaveNow,
+    publishSpectatorMap,
+    currentUser
+  ]);
 
   return (
     <StoryContext.Provider value={value}>

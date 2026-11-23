@@ -50,6 +50,7 @@ export interface RawPortalInput {
   horizontal?: boolean;
   closed?: boolean;
   freemove?: boolean;
+  bounds?: [[number, number], [number, number]];
 }
 
 export interface RawLightInput {
@@ -99,6 +100,26 @@ export class UniversalVttPackager {
 
     // 2. Format Portals / Doors
     const formattedPortals: UvttPortal[] = portals.map(p => {
+      if (Array.isArray(p.bounds) && p.bounds.length === 2) {
+        const b0 = {
+          x: Number(p.bounds[0][0].toFixed(3)),
+          y: Number(p.bounds[0][1].toFixed(3))
+        };
+        const b1 = {
+          x: Number(p.bounds[1][0].toFixed(3)),
+          y: Number(p.bounds[1][1].toFixed(3))
+        };
+        return {
+          position: {
+            x: Number(((b0.x + b1.x) / 2).toFixed(3)),
+            y: Number(((b0.y + b1.y) / 2).toFixed(3))
+          },
+          bounds: [b0, b1],
+          closed: p.closed ?? true,
+          freemove: p.freemove ?? false
+        };
+      }
+
       const isHoriz = p.horizontal ?? true;
       const x = p.col;
       const y = p.row;
@@ -176,10 +197,11 @@ export class UniversalVttPackager {
       const [x2, y2] = w.p2;
 
       let normW: RawWallSegment;
+      const lightProp = w.blocksLight !== undefined ? { blocksLight: w.blocksLight } : {};
       if (x1 < x2 || (Math.abs(x1 - x2) < EPSILON && y1 <= y2)) {
-        normW = { p1: [x1, y1], p2: [x2, y2], blocksLight: w.blocksLight };
+        normW = { p1: [x1, y1], p2: [x2, y2], ...lightProp };
       } else {
-        normW = { p1: [x2, y2], p2: [x1, y1], blocksLight: w.blocksLight };
+        normW = { p1: [x2, y2], p2: [x1, y1], ...lightProp };
       }
 
       if (Math.abs(normW.p1[1] - normW.p2[1]) < EPSILON) {
@@ -228,12 +250,14 @@ export class UniversalVttPackager {
       list.sort((a, b) => a.p1[variableCoordIdx] - b.p1[variableCoordIdx]);
 
       let current = list[0];
+      if (!current) continue;
 
       for (let i = 1; i < list.length; i++) {
         const next = list[i];
+        if (!next) continue;
 
         // Check if `next` connects or overlaps with `current`
-        if (Math.abs(current.p2[variableCoordIdx] - next.p1[variableCoordIdx]) < EPSILON &&
+        if (next.p1[variableCoordIdx] <= current.p2[variableCoordIdx] + EPSILON &&
             current.blocksLight === next.blocksLight) {
           // Extend current segment
           const newP2: [number, number] = [...current.p2];
@@ -241,7 +265,7 @@ export class UniversalVttPackager {
           current = {
             p1: current.p1,
             p2: newP2,
-            blocksLight: current.blocksLight
+            ...(current.blocksLight !== undefined ? { blocksLight: current.blocksLight } : {})
           };
         } else {
           merged.push(current);

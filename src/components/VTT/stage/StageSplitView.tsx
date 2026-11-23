@@ -5,8 +5,7 @@
  * [Folio Sheet | Team Roster | Story Tree | Bestiary] on the other.
  */
 
-import React from 'react';
-import Split from 'react-split';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { 
   FileText, 
   Users, 
@@ -49,13 +48,38 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
     ? elementsCatalog.filter((e: any) => e.type === 'Persona' || e.type === 'Encounter' || e.type === 'Hazard')
     : [];
 
-  if (!isOpen) {
-    return <div className="w-full h-full relative overflow-hidden">{children}</div>;
-  }
+  const [leftPercent, setLeftPercent] = useState<number>(58);
+  const splitContainerRef = useRef<HTMLDivElement | null>(null);
+  const draggingRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    const handlePointerMove = (e: PointerEvent) => {
+      if (!draggingRef.current || !splitContainerRef.current) return;
+      const rect = splitContainerRef.current.getBoundingClientRect();
+      if (rect.width <= 0) return;
+      const pct = ((e.clientX - rect.left) / rect.width) * 100;
+      setLeftPercent(Math.min(78, Math.max(30, pct)));
+    };
+    const handlePointerUp = () => {
+      draggingRef.current = false;
+    };
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+    };
+  }, []);
+
+  const handleStartResize = useCallback((e: React.PointerEvent) => {
+    e.preventDefault();
+    draggingRef.current = true;
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col relative overflow-hidden">
-      {/* Top Split Sub-Header Navigation Bar */}
+      {/* Child slot 0: Conditional Top Split Sub-Header (keeps stage-split-body mounted at invariant slot 1) */}
+      {isOpen ? (
       <div className="h-8 bg-[#090d15] border-b border-slate-800 flex items-center justify-between px-3 shrink-0 select-none z-10">
         <div className="flex items-center gap-1.5 font-mono text-xs">
           <span className="text-cyan-400 font-bold flex items-center gap-1">
@@ -149,22 +173,37 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
           <span>Close</span>
         </button>
       </div>
+      ) : null}
 
-      {/* Resizable React-Split Pane */}
-      <Split
-        sizes={[58, 42]}
-        minSize={[350, 320]}
-        gutterSize={6}
-        direction="horizontal"
-        className="flex-1 flex overflow-hidden split-horizontal"
+      {/* Child slot 1: Persistent Primary Canvas + Optional Split Secondary Workspace */}
+      <div
+        key="stage-split-body"
+        ref={splitContainerRef}
+        className="flex-1 flex min-h-0 overflow-hidden"
       >
-        {/* Left Side: The Canvas / Stage */}
-        <div className="h-full w-full overflow-hidden relative">
+        {/* Left Side: Always-mounted Canvas / Stage so toggling Split View never destroys WebGL/Pixi */}
+        <div
+          key="stage-primary-pane"
+          style={isOpen ? { width: `${leftPercent}%` } : undefined}
+          className={isOpen ? 'h-full overflow-hidden relative shrink-0' : 'w-full h-full overflow-hidden relative'}
+        >
           {children}
         </div>
 
+        {/* Drag Resize Handle */}
+        {isOpen && (
+          <div
+            role="separator"
+            aria-orientation="vertical"
+            aria-label="Resize split view panes"
+            onPointerDown={handleStartResize}
+            className="w-1.5 h-full bg-slate-900 hover:bg-cyan-500/70 border-l border-slate-800 cursor-col-resize shrink-0 transition-colors"
+          />
+        )}
+
         {/* Right Side: Secondary Tabbed Content */}
-        <div className="h-full w-full overflow-hidden bg-[#070b14] border-l border-slate-800 flex flex-col">
+        {isOpen && (
+        <div className="flex-1 h-full min-w-[320px] overflow-hidden bg-[#070b14] border-l border-slate-800 flex flex-col">
           {/* Folio Sheet Tab */}
           {activeTab === 'folio' && (
             <ConnectedFolioTab />
@@ -337,7 +376,8 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
             </div>
           )}
         </div>
-      </Split>
+        )}
+      </div>
     </div>
   );
 };

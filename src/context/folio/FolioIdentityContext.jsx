@@ -4,6 +4,7 @@ import { collection, doc, setDoc, getDocs, onSnapshot, deleteDoc, arrayUnion } f
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDBM } from '../DBMContext';
 import { attachCreatorTag } from '../../utils/creatorUtils';
+import { sanitizeFirestoreData } from '../../utils/firestoreUtils';
 import { StorageService } from '../../services/storageService';
 import { AudioService } from '../../services/audioService';
 import { 
@@ -263,6 +264,7 @@ export const DEFAULT_IDENTITY_FALLBACK = {
   activePersona: DEFAULT_CHARACTER,
   activeHeroName: 'Operator',
   updateField: () => {},
+  updateFields: () => {},
   activeTab: 'identity',
   setActiveTab: () => {},
   viewMode: 'builder',
@@ -799,6 +801,36 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     });
   }, [dbData, triggerSave]);
 
+  const updateFields = useCallback((updates = {}) => {
+    if (!updates || typeof updates !== 'object') return;
+    setCharacterData(prev => {
+      const next = { ...prev };
+      Object.entries(updates).forEach(([k, v]) => {
+        if (k === 'attr-wisdom') {
+          next['attr-wisdom'] = v;
+        } else if (k === 'magic-level' || k === 'meta-level') {
+          const clamped = Math.min(5, Math.max(0, parseInt(v, 10) || 0));
+          next['magic-level'] = clamped;
+          next['meta-level'] = clamped;
+        } else if (k === 'tech-level') {
+          next['tech-level'] = Math.min(5, Math.max(0, parseInt(v, 10) || 0));
+        } else if (typeof k === 'string' && k.startsWith('skill-') && k.endsWith('-rank')) {
+          next[k] = Math.min(20, Math.max(0, parseInt(v, 10) || 0));
+        } else {
+          next[k] = v;
+        }
+      });
+      if (updates['attr-will'] !== undefined && updates['attr-willpower'] === undefined) {
+        next['attr-willpower'] = updates['attr-will'];
+      } else if (updates['attr-willpower'] !== undefined && updates['attr-will'] === undefined) {
+        next['attr-will'] = updates['attr-willpower'];
+      }
+      const sanitized = sanitizeSubAttributes(next);
+      triggerSave(sanitized);
+      return sanitized;
+    });
+  }, [triggerSave]);
+
   const activeCharacter = useMemo(() => ({
     name: characterData['char-name'] || 'Operator',
     archetype: characterData['char-archetype'] || 'Operative',
@@ -832,11 +864,17 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     };
     const finalized = attachCreatorTag(rawData, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '', user);
 
-    StorageService.setItem('personaFolioData', finalized);
-    try {
-      localStorage.setItem('personaFolioData', JSON.stringify(finalized));
-      localStorage.setItem('tangent_folio_character', JSON.stringify(finalized));
-    } catch (e) {}
+    const activeDocId = characterData?.['character-doc-id'] || characterData?.id;
+    const isActiveChar = !charToSave || !activeDocId || activeDocId === docId;
+
+    if (isActiveChar) {
+      setCharacterData(finalized);
+      StorageService.setItem('personaFolioData', finalized);
+      try {
+        localStorage.setItem('personaFolioData', JSON.stringify(finalized));
+        localStorage.setItem('tangent_folio_character', JSON.stringify(finalized));
+      } catch (e) {}
+    }
 
     setPersonaRoster(prev => {
       const cleanPrev = prev.filter(p => !isFolioPersonaDeleted(p, tombstones));
@@ -860,7 +898,10 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       setCloudSaveStatus('saving');
       try {
         const ref = doc(db, 'users', user.uid, 'personas', docId);
-        await setDoc(ref, finalized, { merge: true });
+        const cloudPayload = sanitizeFirestoreData(
+          Object.fromEntries(Object.entries(finalized).filter(([, v]) => v !== undefined))
+        );
+        await setDoc(ref, cloudPayload, { merge: true });
         setCloudSaveStatus('saved');
         setLastSavedTime(new Date());
       } catch (err) {
@@ -1446,19 +1487,23 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   }, []);
 
   const lockPersona = useCallback(() => {
-    updateField('is_locked', true);
-    updateField('locked_at', new Date().toISOString());
-    updateField('folio_phase', 'tactical');
+    updateFields({
+      is_locked: true,
+      locked_at: new Date().toISOString(),
+      folio_phase: 'tactical'
+    });
     setViewMode('play');
     showToast({ type: 'info', title: 'Persona Sealed', message: 'Persona is now locked for VTT tactical play.' });
-  }, [updateField]);
+  }, [updateFields]);
 
   const unlockPersona = useCallback(() => {
-    updateField('is_locked', false);
-    updateField('folio_phase', 'development');
+    updateFields({
+      is_locked: false,
+      folio_phase: 'development'
+    });
     setViewMode('builder');
     showToast({ type: 'info', title: 'Persona Unlocked', message: 'Persona is in open development mode.' });
-  }, [updateField]);
+  }, [updateFields]);
 
   const togglePersonaVttLock = useCallback(async (docId, forceValue) => {
     const user = auth.currentUser;
@@ -1589,6 +1634,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     activePersona: characterData,
     activeHeroName: activeCharacter.name,
     updateField,
+    updateFields,
     activeTab,
     setActiveTab,
     viewMode,
@@ -1641,6 +1687,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     setCharacterData,
     activeCharacter,
     updateField,
+    updateFields,
     activeTab,
     setActiveTab,
     viewMode,

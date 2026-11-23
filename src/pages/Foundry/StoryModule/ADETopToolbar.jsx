@@ -75,7 +75,7 @@ export default function ADETopToolbar({
     }
   }, [moduleHealth, setPreflightTelemetry]);
 
-  const storyTitle = universeState?.storyTitle || universeState?.name || universeState?.title || 'Story Module';
+  const storyTitle = universeState?.projectName || universeState?.storyTitle || universeState?.name || universeState?.title || 'Story Module';
 
   return (
     <header className="relative z-40 bg-slate-950/98 border-b border-cyan-500/30 px-2 sm:px-3 py-1.5 flex items-center justify-between gap-1.5 sm:gap-3 select-none shadow-xl backdrop-blur-2xl font-mono shrink-0 h-12 overflow-x-auto no-scrollbar">

@@ -7,15 +7,16 @@ import { useState, useRef, useCallback } from 'react';
 import { 
   useEngineStore,
   CombatArbitrator,
-  SkillRank,
   SizeCategory,
   RangeCategory,
   DamagePipeline,
   DiceASTParser,
   EssenceTracker,
+  resolveTangent2d10Check,
   type BVHBuilder
 } from '../../../engine/index';
 import { AudioService } from '../../../services/audioService';
+import { CANONICAL_DEFAULT_DEFENSE_CR } from '../../../engine/rules/CanonicalCombatMath';
 import { showToast } from '../../../context/ToastContext';
 import { AimeAgent } from '../../../engine/ai/AimeAgent';
 
@@ -142,35 +143,41 @@ export function useCombatController({
       return;
     }
 
-    const limbMod = targetedLimb === 'head' ? -2 : targetedLimb === 'arms' ? -2 : targetedLimb === 'optics' ? -3 : targetedLimb === 'legs' ? -2 : -1;
-    const stanceBonus = activeStance === 'aim' ? 2 : 0;
-
+    const attackerSkillRank = Number(selectedToken.skill_rank ?? (selectedToken as any).attack_skill ?? 14);
+    const attackerBaseMod = Number((selectedToken as any).attack_mod ?? attackerSkillRank);
     const toHit = combatArbRef.current.buildToHitPackage(
-      14 + limbMod + stanceBonus,
-      SkillRank.Expert,
+      attackerBaseMod,
+      attackerSkillRank,
       attackMapStep,
       SizeCategory.Medium,
       targetToken.size_modifier > 0 ? SizeCategory.Large : SizeCategory.Medium,
       1.0,
       rangeCat,
-      { isAiming: activeStance === 'aim', aimRounds: 1 }
+      {
+        isAiming: activeStance === 'aim',
+        aimRounds: 1,
+        isCalledShot: targetedLimb !== 'torso',
+        calledShotLocation: targetedLimb
+      }
     );
 
     toHit.finalTarget += coverCheck.coverMod;
 
-    const d1 = Math.floor(Math.random() * 10) + 1;
-    const d2 = Math.floor(Math.random() * 10) + 1;
-    const isDoubleTens = d1 === 10 && d2 === 10;
-    const isDoubleOnes = d1 === 1 && d2 === 1;
-    const critAttackBonus = isDoubleTens ? 30 : (isDoubleOnes ? -10 : 0);
-    const totalAttack = d1 + d2 + toHit.finalTarget + critAttackBonus;
-
-    const targetDefenseDC = combatArbRef.current.calculateUnopposedDC(
-      targetToken.size_modifier > 0 ? SizeCategory.Large : SizeCategory.Medium,
-      rangeCat
+    const targetDefenseDC = Number(
+      targetToken.defense_dc ?? (targetToken as any).defense ?? CANONICAL_DEFAULT_DEFENSE_CR
     );
 
-    const isHit = totalAttack > targetDefenseDC && !isDoubleOnes;
+    const attackCheck = resolveTangent2d10Check({
+      modifier: toHit.finalTarget,
+      targetCR: targetDefenseDC,
+      isOpposed: true
+    });
+    const d1 = attackCheck.d1;
+    const d2 = attackCheck.d2;
+    const isDoubleTens = attackCheck.isCrit;
+    const isDoubleOnes = attackCheck.isFumble;
+    const totalAttack = attackCheck.total;
+    const isHit = attackCheck.isSuccess;
 
     if (!isHit) {
       const missNarration = AimeAgent.narrateCombatStrike({
@@ -205,26 +212,45 @@ export function useCombatController({
     const stanceDmg = activeStance === 'overcharge' ? 6 : 0;
     const ap = attackWeapon === 'plasma' ? 6 : attackWeapon === 'laser' ? 4 : 2;
     const isCalled = targetedLimb !== 'torso';
-    const targetLoc = targetedLimb === 'head' ? 'head' : targetedLimb === 'arms' ? 'arm_right' : targetedLimb === 'legs' ? 'leg_right' : 'torso';
+    const targetLoc = targetedLimb === 'head'
+      ? 'head'
+      : targetedLimb === 'arms'
+        ? 'arm_right'
+        : targetedLimb === 'legs'
+          ? 'leg_right'
+          : targetedLimb === 'optics'
+            ? 'optics'
+            : 'torso';
 
     const strikeResult = damagePipeRef.current.resolveStrike(
       {
         rawDamage: baseDamage + stanceDmg,
         armorPenetration: ap,
         damageType: attackWeapon,
+        isCritical: isDoubleTens,
         isCalledShot: isCalled,
         targetLocation: targetLoc as any
       },
       targetToken,
-      [targetToken.armor_dr || 10],
-      (targetToken as any).con_mod || 2,
-      (targetToken as any).constitution || 12
+      [targetToken.armor_dr ?? 0],
+      Number(targetToken.stamina_dr ?? (targetToken as any).stamina_mod ?? 0),
+      Number((targetToken as any).stamina ?? (targetToken as any).attributes?.stamina ?? 0)
     );
 
-    useEngineStore.getState().applyDamage(targetToken.id, strikeResult.healthDamage);
+    const engStore = useEngineStore.getState();
+    if (targetToken.is_synthetic) {
+      engStore.setStructure(targetToken.id, Math.max(0, (targetToken.current_structure ?? targetToken.current_hp ?? 60) - (strikeResult.structureDamage ?? strikeResult.netDamage)));
+    } else {
+      if (strikeResult.vitalityDamage > 0) {
+        engStore.setVitality(targetToken.id, Math.max(0, (targetToken.current_vitality ?? targetToken.base_vitality ?? 30) - strikeResult.vitalityDamage));
+      }
+      if (strikeResult.healthDamage > 0) {
+        engStore.applyDamage(targetToken.id, strikeResult.healthDamage);
+      }
+    }
 
     strikeResult.appliedStatuses.forEach(status => {
-      useEngineStore.getState().toggleCondition(targetToken.id, status);
+      engStore.addCondition(targetToken.id, status);
     });
 
     let logMsg = `[COMBAT HIT] ${selectedToken.name} struck ${targetedLimb.toUpperCase()} of ${targetToken.name} for ${strikeResult.netDamage} NET DMG (${strikeResult.effectiveDR} DR + ${strikeResult.conModSoak} STA Soak) [Cover: ${coverCheck.coverType.toUpperCase()}].`;
@@ -296,7 +322,7 @@ export function useCombatController({
       essenceTrackerRef.current.processRoundDegradation([]);
       const entropyRoll = Math.floor(Math.random() * 10) + 1;
       setCombatLog(prev => [
-        `[ROUND ${nextRound}] Initiated. Essence Degradation Protocol rolled -${entropyRoll} DC to active sustained effects.`,
+        `[ROUND ${nextRound}] Initiated. Essence Degradation Protocol rolled -${entropyRoll} CR to active sustained effects.`,
         ...prev.slice(0, 8)
       ]);
     } else {
@@ -311,12 +337,16 @@ export function useCombatController({
     AudioService.playTerminalBeep(1200, 0.04);
     const scores: Record<string, number> = {};
     tokens.forEach(t => {
-      scores[t.id] = (Math.floor(Math.random() * 10) + 1) + (Math.floor(Math.random() * 10) + 1) + (t.tech_level || 3);
+      const initMod = Number((t as any).initiative_mod ?? (t as any).attributes?.agi ?? (t as any).attributes?.agility ?? 0);
+      scores[t.id] = (Math.floor(Math.random() * 10) + 1) + (Math.floor(Math.random() * 10) + 1) + initMod;
     });
     setInitiativeScores(scores);
     setCurrentTurnIndex(0);
+    if (tokens[0]) {
+      setSelectedTokenId(tokens[0].id);
+    }
     setCombatLog(prev => [`[INITIATIVE] Roster initiative rolled for ${tokens.length} combatants.`, ...prev.slice(0, 8)]);
-  }, [tokens]);
+  }, [tokens, setSelectedTokenId]);
 
   return {
     combatLog,

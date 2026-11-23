@@ -797,19 +797,63 @@ export function computeGuidedElementReadiness(draft = {}) {
   }
 
   // Stage 4: Tactical / VTT Calibration (Family-specific)
+  const hasVal = (v) => v !== undefined && v !== null && String(v).trim().length > 0;
   let tacticalStatus = 'optional';
   if (playbook.family === 'entity' && type === 'Persona') {
-    if (fields.mcmTier && (fields.health || fields.defense)) tacticalStatus = 'complete';
-    else if (fields.mcmChassis || fields.mcmRole || fields['char-species']) tacticalStatus = 'partial';
+    if (
+      hasVal(fields.mcmTier) &&
+      (hasVal(fields.health) || hasVal(fields.structure) || hasVal(fields.structurePoints) || hasVal(fields.defense) || hasVal(fields.defense_dc))
+    ) {
+      tacticalStatus = 'complete';
+    } else if (hasVal(fields.mcmChassis) || hasVal(fields.mcmRole) || hasVal(fields['char-species'])) {
+      tacticalStatus = 'partial';
+    }
+  } else if (playbook.family === 'entity') {
+    if (
+      hasVal(fields.disposition) ||
+      hasVal(fields.techLevel) ||
+      hasVal(fields['tech-level']) ||
+      hasVal(fields.tech_level) ||
+      hasVal(fields.metaLevel) ||
+      hasVal(fields['meta-level']) ||
+      hasVal(fields.meta_level) ||
+      hasVal(fields.clockGoal)
+    ) {
+      tacticalStatus = 'complete';
+    } else if (hasVal(fields.movement) || hasVal(fields.classification)) {
+      tacticalStatus = 'partial';
+    }
   } else if (playbook.family === 'relic') {
-    if ((fields.techLevel || fields['tech-level']) && (fields.costCr || fields.craft_dc || fields.cost || fields.mechanic)) tacticalStatus = 'complete';
-    else if (fields.techLevel || fields['tech-level'] || fields.rarity || fields.propertySubcategory) tacticalStatus = 'partial';
+    if (
+      (hasVal(fields.techLevel) || hasVal(fields['tech-level']) || hasVal(fields.tech_level)) &&
+      (hasVal(fields.costCr) || hasVal(fields.craft_dc) || hasVal(fields.cost) || hasVal(fields.mechanic))
+    ) {
+      tacticalStatus = 'complete';
+    } else if (
+      hasVal(fields.techLevel) ||
+      hasVal(fields['tech-level']) ||
+      hasVal(fields.tech_level) ||
+      hasVal(fields.rarity) ||
+      hasVal(fields.propertySubcategory)
+    ) {
+      tacticalStatus = 'partial';
+    }
   } else if (playbook.family === 'location') {
-    if (fields.sceneBeats || fields.readAloud || fields.pairedMapId || fields.weatherPreset) tacticalStatus = 'complete';
+    if (hasVal(fields.sceneBeats) || hasVal(fields.readAloud) || hasVal(fields.pairedMapId) || hasVal(fields.weatherPreset)) tacticalStatus = 'complete';
   } else if (playbook.family === 'epistemic') {
-    if (fields.analysisCr || fields.analysisSkill || fields.gmNotes) tacticalStatus = 'complete';
+    if (hasVal(fields.analysisCr) || hasVal(fields.analysisSkill) || hasVal(fields.gmNotes)) tacticalStatus = 'complete';
   } else if (playbook.family === 'macro') {
-    if (fields['tech-level'] || fields['meta-level'] || fields.storyFlagKey) tacticalStatus = 'complete';
+    if (
+      hasVal(fields['tech-level']) ||
+      hasVal(fields.techLevel) ||
+      hasVal(fields.tech_level) ||
+      hasVal(fields['meta-level']) ||
+      hasVal(fields.metaLevel) ||
+      hasVal(fields.meta_level) ||
+      hasVal(fields.storyFlagKey)
+    ) {
+      tacticalStatus = 'complete';
+    }
   }
 
   // Stage 5: Web, Lorebook & Art

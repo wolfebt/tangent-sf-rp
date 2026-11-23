@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ELEMENT_SCHEMAS, getTypePillStyle, getElementFileExtension } from '../ElementForge/elementSchemas';
 import { isHalfPageElement } from './exportUtils';
 import { showToast } from '../../../context/ToastContext';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { ElementSelectorModal as UnifiedRelationalSelectorModal } from '../ElementForge/ElementSelectorModal';
 import { ModularCharacterAssembler } from '../ElementForge/components/ModularCharacterAssembler';
 import { NpcScriptBuilder } from '../ElementForge/components/NpcScriptBuilder';
@@ -110,6 +111,14 @@ export const ElementImageUploader = ({ activeNode, updateStory }) => {
         </span>
       </div>
 
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={handleImageFileChange}
+      />
+
       {activeNode.imageUrl ? (
         <div className="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950">
           <img
@@ -134,13 +143,6 @@ export const ElementImageUploader = ({ activeNode, updateStory }) => {
         </div>
       ) : (
         <div className="flex gap-2">
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            className="hidden"
-            onChange={handleImageFileChange}
-          />
           <button
             onClick={() => fileInputRef.current?.click()}
             className="flex-1 py-1.5 px-2 bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
@@ -862,10 +864,10 @@ export const ScenarioCockpitDockPanel = ({
                           )}
                           <button
                             type="button"
-                            onClick={() => {
-                              if (handleDeleteElement) {
-                                handleDeleteElement(elem.id, elem.title);
-                              } else if (deleteSavedElement) {
+                            onClick={async () => {
+                              if (!deleteSavedElement) return;
+                              const ok = await confirmTypedDeletion(elem.title || 'world element', 'world element');
+                              if (ok) {
                                 deleteSavedElement(elem.id);
                               }
                             }}

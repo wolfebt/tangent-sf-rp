@@ -6,8 +6,6 @@
 // Stage 1: Core State, Relational OPFS & Network Sync
 export { useEngineStore, selectFusedToken, selectAllFusedTokens, selectVehicle, selectAllVehicles } from './state/VolatileSharder.ts';
 export type { StaticEntity, EphemeralState, FusedToken, EngineState } from './state/VolatileSharder.ts';
-export { DBMBridge } from './state/DBMBridge.ts';
-export type { OPFSWorkerAPI } from './state/DBMBridge.ts';
 
 export type { DbRequest, DbResponse } from './database/OPFSDatabaseWorker.ts';
 
@@ -47,11 +45,9 @@ export { FoundryIngestion } from './assets/FoundryIngestion.ts';
 export type { SceneManifest, SceneInteractiveObject } from './assets/FoundryIngestion.ts';
 export { InteractiveObjectManager } from './assets/InteractiveObjectManager.ts';
 export type { InteractiveObjectState } from './assets/InteractiveObjectManager.ts';
-export { cacheAssetInOPFS, getAssetFromOPFS, getMimeType } from './assets/OPFSCacheWorker.ts';
 export { AssetIngestionPipeline } from './assets/AssetIngestionPipeline.ts';
 export { SpriteSheetSlicer } from './assets/SpriteSheetSlicer.ts';
 export { TangentPackager } from './assets/TangentPackager.ts';
-export { SpatialAudioGraph } from './audio/SpatialAudioGraph.ts';
 export { NVectorCalculator, DEFAULT_PLANETARY_RADIUS_KM } from './cartography/NVectorCalculator.ts';
 export type { LatLon, NVector } from './cartography/NVectorCalculator.ts';
 export { AstrogationGenerator } from './cartography/AstrogationGenerator.ts';
@@ -73,24 +69,39 @@ export { CharacterBuilder, MECHANICS_DB } from './rules/CharacterBuilder.ts';
 export type { CharacterDraft, AttributeStats, SpeciesRule } from './rules/CharacterBuilder.ts';
 export { CombatArbitrator, SkillRank, SizeCategory, RangeCategory } from './rules/CombatArbitrator.ts';
 export type { ActionEconomyTier, RangeConfig } from './rules/CombatArbitrator.ts';
-export { DamagePipeline } from './rules/DamagePipeline.ts';
+export { DamagePipeline, calculateCrossDomainArmorDR } from './rules/DamagePipeline.ts';
 export type { DamagePayload, DamageResult } from './rules/DamagePipeline.ts';
+export {
+  CANONICAL_DEFAULT_DEFENSE_CR,
+  CANONICAL_CRIT_ROLL_BONUS,
+  CANONICAL_FUMBLE_FLAT_ROLL,
+  CANONICAL_CRIT_DAMAGE_MULTIPLIER,
+  CANONICAL_SIZE_TABLE,
+  CANONICAL_SKILL_ALIASES,
+  resolveSkillRank,
+  resolveTangent2d10Check,
+  compute2d10HitOdds,
+  calculateDamageMitigation,
+  routePoolDamage
+} from './rules/CanonicalCombatMath.ts';
+export type {
+  CanonicalSizeEntry,
+  DiceRollInput,
+  Tangent2d10Result,
+  HitOddsResult,
+  DamageMitigationInput,
+  DamageMitigationResult,
+  PoolRoutingInput,
+  PoolRoutingResult
+} from './rules/CanonicalCombatMath.ts';
 export { MechaSocketManager, TechLevel, UDUTier } from './rules/MechaSocketManager.ts';
 export type { MechaChassis, Augmentation, HardpointSlot, VehicleEntity, PassengerNode, ChildedPassengerPosition } from './rules/MechaSocketManager.ts';
 
 // Stage 6: UI Glass-Cockpit HUD, Dice AST & Scripting
 export { DashboardOverlay } from './ui/DashboardOverlay.tsx';
 export type { DashboardOverlayProps } from './ui/DashboardOverlay.tsx';
-export { ResponsiveGridConfig, RESPONSIVE_BREAKPOINTS, RESPONSIVE_COLS, COCKPIT_LAYOUT_PRESETS, WIDGET_CONSTRAINTS } from './ui/layout/ResponsiveGridConfig.ts';
-export type { WidgetLayoutItem, LayoutPresetType } from './ui/layout/ResponsiveGridConfig.ts';
-export { FirestoreProfileSync } from './ui/layout/FirestoreProfileSync.ts';
-export type { UserLayoutProfile } from './ui/layout/FirestoreProfileSync.ts';
 export { WidgetErrorBoundary } from './ui/WidgetErrorBoundary.tsx';
-export { WidgetRegistry } from './ui/WidgetRegistry.tsx';
-export type { IWidgetDefinition, WidgetCategory } from './ui/WidgetRegistry.tsx';
 export { ContextActionBar } from './ui/widgets/ContextActionBar.tsx';
-export { CombatTrackerWidget } from './ui/widgets/CombatTrackerWidget.tsx';
-export { MechaFoundryWidget } from './ui/widgets/MechaFoundryWidget.tsx';
 export { DiceASTParser } from './math/DiceASTParser.ts';
 export type { ASTNode } from './math/DiceASTParser.ts';
 export { QuickJSSandbox } from './scripting/QuickJSSandbox.ts';
@@ -109,11 +120,6 @@ export { DBMFunctionRegistry } from './ai/DBMFunctionRegistry.ts';
 export type { FunctionCallDefinition, ToolCallInvocation } from './ai/DBMFunctionRegistry.ts';
 export { MapWallingProcessor } from './ai/MapWallingProcessor.ts';
 export type { AutoWallRequest, DetectedWall, AutoWallResponse } from './ai/MapWallingProcessor.ts';
-
-// Stage 8: Schema Normalization & Migration Adapters
-export { sanitizeRichText, enforceInteger, adaptLegacyElement, validateAdaptedElement } from './migration/legacyElementAdapters.js';
-export { HIERARCHY_TIERS, TIER_DEFINITIONS, getFieldTier, sortFieldsByHierarchy } from './migration/categoryConfig.js';
-export { runMigration } from './migration/migrate_omnicortex_schema.mjs';
 
 // Stage 9: Publishing Compilers, VTT Packagers & Exporters
 export { PagedPdfCompiler } from './compilers/PagedPdfCompiler.ts';

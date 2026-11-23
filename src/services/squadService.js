@@ -15,7 +15,7 @@ import {
   arrayUnion,
   arrayRemove
 } from 'firebase/firestore';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 import { StorageService } from './storageService';
 import { ChatService } from './chatService';
 import { getEffectiveUserHandle } from '../utils/personaValidationUtils';
@@ -261,7 +261,7 @@ export const SquadService = {
           groupId: group.id,
           groupName: cleanName,
           isPublic: false,
-          createdById: group.creatorId || currentUser?.uid || 'system',
+          createdById: currentUser?.uid || group.creatorId || 'system',
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
           members: memberUids,
@@ -393,6 +393,7 @@ export const SquadService = {
         const existingQ = query(
           collection(db, 'group_invites'),
           where('groupId', '==', groupId),
+          where('fromUserId', '==', currentUser.uid),
           where('toUserId', '==', targetUserId),
           where('status', '==', 'pending')
         );
@@ -818,7 +819,7 @@ export const SquadService = {
   },
 
   // 9. Subscribe to outgoing pending invites for a specific group (GM monitoring)
-  subscribeToGroupOutgoingInvites(groupId, callback) {
+  subscribeToGroupOutgoingInvites(groupId, callback, currentUserUid = null) {
     if (!groupId) {
       callback([]);
       return () => {};
@@ -834,7 +835,8 @@ export const SquadService = {
       }
     };
 
-    if (!db) {
+    const uid = currentUserUid || auth?.currentUser?.uid;
+    if (!db || !uid) {
       deliverLocalFallback();
       return () => {};
     }
@@ -843,6 +845,7 @@ export const SquadService = {
       const q = query(
         collection(db, 'group_invites'),
         where('groupId', '==', groupId),
+        where('fromUserId', '==', uid),
         where('status', '==', 'pending')
       );
 
@@ -1154,13 +1157,23 @@ export const SquadService = {
     try {
       const cached = (await StorageService.getItem('tangent_game_groups')) || [];
       const updated = cached.map(g => {
-        if (g.id === groupId && g.memberDetails?.[targetUserId]) {
+        if (g.id === groupId) {
+          let coArchitects = Array.isArray(g.coArchitects) ? [...g.coArchitects] : [];
+          if (isCoArchitect) {
+            if (!coArchitects.includes(targetUserId)) coArchitects.push(targetUserId);
+          } else {
+            coArchitects = coArchitects.filter(id => id !== targetUserId);
+          }
+          const nextDetails = g.memberDetails?.[targetUserId]
+            ? {
+                ...g.memberDetails,
+                [targetUserId]: { ...g.memberDetails[targetUserId], role: newRole }
+              }
+            : g.memberDetails;
           return {
             ...g,
-            memberDetails: {
-              ...g.memberDetails,
-              [targetUserId]: { ...g.memberDetails[targetUserId], role: newRole }
-            }
+            coArchitects,
+            ...(nextDetails ? { memberDetails: nextDetails } : {})
           };
         }
         return g;
@@ -1173,15 +1186,21 @@ export const SquadService = {
 
   // 17. Toggle Persona "Lock for Play" Status
   async togglePersonaPlayLock({ groupId, userId, isLocked }) {
-    if (!groupId || !userId) return;
+    if (!groupId || !userId) return { ok: false, synced: false };
 
+    let synced = false;
     if (db) {
       const groupRef = doc(db, 'game_groups', groupId);
-      await updateDoc(groupRef, {
-        [`memberDetails.${userId}.persona.locked`]: Boolean(isLocked),
-        [`memberDetails.${userId}.persona.lockedAt`]: isLocked ? new Date().toISOString() : null,
-        updatedAt: new Date().toISOString()
-      }).catch(err => console.warn('[GroupService] Failed to update persona lock in DB:', err));
+      try {
+        await updateDoc(groupRef, {
+          [`memberDetails.${userId}.persona.locked`]: Boolean(isLocked),
+          [`memberDetails.${userId}.persona.lockedAt`]: isLocked ? new Date().toISOString() : null,
+          updatedAt: new Date().toISOString()
+        });
+        synced = true;
+      } catch (err) {
+        console.warn('[GroupService] Failed to update persona lock in DB:', err);
+      }
     }
 
     try {
@@ -1204,8 +1223,9 @@ export const SquadService = {
         return g;
       });
       await StorageService.setItem('tangent_game_groups', updated);
+      return { ok: true, synced };
     } catch (e) {
-      // Ignored
+      return { ok: synced, synced };
     }
   },
 

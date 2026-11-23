@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
+import { lazyWithRetry } from '../../../../utils/lazyWithRetry';
 import Split from 'react-split';
 import { 
   BookOpen, 
@@ -15,7 +16,7 @@ import {
 import { getTypePillStyle } from '../../ElementForge/elementSchemas';
 import StoryWeaver from '../workspaces/StoryWeaver';
 import OsrControlPanelDeck from '../workspaces/OsrControlPanelDeck';
-import InteractiveStoryStudio from '../workspaces/InteractiveStoryStudio';
+const InteractiveStoryStudio = lazyWithRetry(() => import('../workspaces/InteractiveStoryStudio'));
 import TacticalStageViewport from './TacticalStageViewport';
 import WeaverWorkspace from '../../Weaver/WeaverWorkspace';
 import { useAdeStore } from '../../store/adeStore';
@@ -47,6 +48,8 @@ export default function ScenarioCanvasSwitch({
   onSwitchView,
   waypointPromptData,
   executeWaypointTrigger,
+  handleConfirmWaypointBeat,
+  handleToggleAutoTrigger,
   setWaypointPromptData
 }) {
   const {
@@ -87,12 +90,14 @@ export default function ScenarioCanvasSwitch({
   if (!activeNode && scenarioWorkspaceTab === 'interactive') {
     return (
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#080c14] font-mono">
-        <InteractiveStoryStudio
-          activeNode={null}
-          onSelectScenario={(id) => setActiveScenarioId(id)}
-          linkedMap={linkedMap}
-          allAvailableMaps={allAvailableMaps}
-        />
+        <Suspense fallback={<div className="flex-1 flex items-center justify-center text-cyan-400 font-mono text-xs">Loading Interactive Story Studio...</div>}>
+          <InteractiveStoryStudio
+            activeNode={null}
+            onSelectScenario={(id) => setActiveScenarioId(id)}
+            linkedMap={linkedMap}
+            allAvailableMaps={allAvailableMaps}
+          />
+        </Suspense>
       </div>
     );
   }
@@ -144,6 +149,12 @@ export default function ScenarioCanvasSwitch({
     : viewportSplit === 'story_only' 
     ? [75, 25] 
     : [50, 50];
+
+  const formatGemsText = () =>
+    (universeState?.creativeState?.gems || [])
+      .map(g => (typeof g === 'string' ? g : (g?.name || g?.label || g?.text || '')))
+      .filter(Boolean)
+      .join(', ');
 
   const isFullStage = scenarioWorkspaceTab === 'stage' && !isSplitView;
 
@@ -211,31 +222,40 @@ export default function ScenarioCanvasSwitch({
         </div>
       )}
 
-      {/* SPLIT VIEW: SIDE-BY-SIDE MANUSCRIPT + TACTICAL STAGE */}
+      {/* SPLIT VIEW: SIDE-BY-SIDE MANUSCRIPT/TACTICAL + TACTICAL STAGE */}
       {isSplitView ? (
         <Split
-          key={viewportSplit}
           sizes={splitSizes}
           minSize={[280, 280]}
           gutterSize={6}
           direction="horizontal"
           className="flex h-full w-full overflow-hidden split-horizontal flex-1 min-h-0"
         >
-          {/* Left: Story Weaver */}
+          {/* Left: Story Weaver or OSR Tactical Panel */}
           <div className="h-full w-full overflow-hidden bg-[#090d16] flex flex-col min-w-0">
-            <StoryWeaver
-              activeNode={activeNode}
-              updateStory={updateStory}
-              guidanceGems={universeState?.creativeState?.gems?.map(g => g.name || g.label).join(', ') || ''}
-              onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
-              isSplitView={isSplitView}
-              setIsSplitView={setIsSplitView}
-              viewportSplit={viewportSplit}
-              setViewportSplit={setViewportSplit}
-              handleOpenAddModal={handleOpenAddModal}
-              handleDeleteElement={handleDeleteElement}
-              locationPath={locationPath}
-            />
+            {scenarioWorkspaceTab === 'tactical' ? (
+              <div className="flex-1 overflow-y-auto bg-[#090d16]">
+                <OsrControlPanelDeck
+                  activeNode={activeNode}
+                  updateStory={updateStory}
+                  guidanceGems={formatGemsText()}
+                />
+              </div>
+            ) : (
+              <StoryWeaver
+                activeNode={activeNode}
+                updateStory={updateStory}
+                guidanceGems={formatGemsText()}
+                onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+                isSplitView={isSplitView}
+                setIsSplitView={setIsSplitView}
+                viewportSplit={viewportSplit}
+                setViewportSplit={setViewportSplit}
+                handleOpenAddModal={handleOpenAddModal}
+                handleDeleteElement={handleDeleteElement}
+                locationPath={locationPath}
+              />
+            )}
           </div>
 
           {/* Right: Live Tactical Stage */}
@@ -252,6 +272,8 @@ export default function ScenarioCanvasSwitch({
               onSwitchView={onSwitchView}
               waypointPromptData={waypointPromptData}
               executeWaypointTrigger={executeWaypointTrigger}
+              handleConfirmWaypointBeat={handleConfirmWaypointBeat}
+              handleToggleAutoTrigger={handleToggleAutoTrigger}
               setWaypointPromptData={setWaypointPromptData}
               onSwitchToWeaver={() => setScenarioWorkspaceTab('weaver')}
             />
@@ -260,7 +282,7 @@ export default function ScenarioCanvasSwitch({
       ) : (
         <>
           {/* FORMAT VIEW 1: MASTER WEAVER WORKSPACE (Write, Brainstorm, Gems, Elements, Graph, Play) */}
-          {scenarioWorkspaceTab !== 'stage' && (
+          {scenarioWorkspaceTab !== 'stage' && scenarioWorkspaceTab !== 'tactical' && (
             <WeaverWorkspace
               activeNode={activeNode}
               updateStory={updateStory}
@@ -270,10 +292,25 @@ export default function ScenarioCanvasSwitch({
               linkedMap={linkedMap}
               allAvailableMaps={allAvailableMaps}
               setActiveScenarioId={setActiveScenarioId}
+              isSplitView={isSplitView}
+              setIsSplitView={setIsSplitView}
+              viewportSplit={viewportSplit}
+              setViewportSplit={setViewportSplit}
               handleOpenAddModal={handleOpenAddModal}
               handleDeleteElement={handleDeleteElement}
               locationPath={locationPath}
             />
+          )}
+
+          {/* FORMAT VIEW 1B: OSR TACTICAL SPREAD PANEL */}
+          {scenarioWorkspaceTab === 'tactical' && (
+            <div className="flex-1 overflow-y-auto bg-[#090d16]">
+              <OsrControlPanelDeck
+                activeNode={activeNode}
+                updateStory={updateStory}
+                guidanceGems={formatGemsText()}
+              />
+            </div>
           )}
 
           {/* FORMAT VIEW 2: INTEGRATED TACTICAL STAGE */}
@@ -291,6 +328,8 @@ export default function ScenarioCanvasSwitch({
                 onSwitchView={onSwitchView}
                 waypointPromptData={waypointPromptData}
                 executeWaypointTrigger={executeWaypointTrigger}
+                handleConfirmWaypointBeat={handleConfirmWaypointBeat}
+                handleToggleAutoTrigger={handleToggleAutoTrigger}
                 setWaypointPromptData={setWaypointPromptData}
                 onSwitchToWeaver={() => setScenarioWorkspaceTab('write')}
               />

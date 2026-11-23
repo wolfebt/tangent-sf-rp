@@ -109,10 +109,11 @@ export default function ModuleMissionControl({
     updateMap, 
     addStory, 
     updateStory, 
-    addSavedElement 
+    updateSavedElement,
+    setActiveMapId,
+    setActiveScenarioId,
+    setGalleryModifiers
   } = useCampaign();
-
-  const { savedElements = [] } = useStory();
 
   // ADE Store
   const { 
@@ -176,8 +177,8 @@ export default function ModuleMissionControl({
   // Telemetry computation
   const scenariosWithMaps = scenarios.filter(s => s.mapId || (s.fields && s.fields.mapId)).length;
   const scenariosWithBeats = scenarios.filter(s => (s.beats && s.beats.length > 0) || (s.fields && s.fields.beats)).length;
-  const elementsCount = savedElements.length > 0 ? savedElements.length : (elementsCatalog?.length || 0);
-  const scriptedNpcsCount = (savedElements.length > 0 ? savedElements : (elementsCatalog || [])).filter(
+  const elementsCount = elementsCatalog?.length || 0;
+  const scriptedNpcsCount = (elementsCatalog || []).filter(
     e => e.fields?.vttScript || e.fields?.vttScriptActive === 'true'
   ).length;
   
@@ -203,7 +204,7 @@ export default function ModuleMissionControl({
     const scenariosList = universeState?.scenarios || [];
     const mapsList = universeState?.maps || [];
     const gemsList = universeState?.creativeState?.gems || [];
-    const elementsList = savedElements?.length > 0 ? savedElements : (elementsCatalog || []);
+    const elementsList = elementsCatalog || [];
 
     if (scenariosList.length === 0) {
       healthScore -= 35;
@@ -242,7 +243,7 @@ export default function ModuleMissionControl({
         ? 'text-amber-400 border-amber-500/40 bg-amber-950/40' 
         : 'text-red-400 border-red-500/40 bg-red-950/40'
     };
-  }, [universeState, savedElements, elementsCatalog]);
+  }, [universeState, elementsCatalog]);
 
   // Title rename submission
   const handleTitleSubmit = () => {
@@ -327,7 +328,7 @@ export default function ModuleMissionControl({
   // Module Export Handlers
   const handleExportArchitectPackage = () => {
     AudioService.playTerminalBeep(1200, 0.04);
-    const res = exportArchitectModuleToFile(universeState, savedElements);
+    const res = exportArchitectModuleToFile(universeState, elementsCatalog);
     if (res.success) {
       toast?.showSuccess?.(`Exported Architect Master Package: ${res.filename}`);
     } else {
@@ -337,7 +338,7 @@ export default function ModuleMissionControl({
 
   const handleExportOperatorPackage = () => {
     AudioService.playTerminalBeep(980, 0.04);
-    const res = exportOperatorModuleToFile(universeState, savedElements);
+    const res = exportOperatorModuleToFile(universeState, elementsCatalog);
     if (res.success) {
       toast?.showSuccess?.(`Exported Sanitized Operator Package: ${res.filename}`);
     } else {
@@ -365,8 +366,10 @@ export default function ModuleMissionControl({
         for (const res of batchResults) {
           if (res.success && res.element) {
             const el = res.element;
-            await addSavedElement({
+            const elemId = el.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+            await updateSavedElement(elemId, {
               ...el,
+              id: elemId,
               title: el.name || el.title,
               content: el.description || ''
             });
@@ -395,10 +398,13 @@ export default function ModuleMissionControl({
           updateMap,
           addStory,
           updateStory,
-          addSavedElement,
-          setActiveMapId: () => {},
-          setActiveScenarioId: () => {},
-          setGalleryModifiers: () => {}
+          addSavedElement: (el) => {
+            const elemId = el?.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+            return updateSavedElement(elemId, { ...el, id: elemId });
+          },
+          setActiveMapId: setActiveMapId || (() => {}),
+          setActiveScenarioId: setActiveScenarioId || (() => {}),
+          setGalleryModifiers: setGalleryModifiers || (() => {})
         });
 
         toast?.showSuccess?.(`Module Hydrated: ${results.scenariosImported} scenarios, ${results.mapsImported} maps, ${results.elementsImported} assets.`);

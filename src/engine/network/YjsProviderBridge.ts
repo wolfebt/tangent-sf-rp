@@ -16,6 +16,9 @@ export class YjsProviderBridge {
   public room: Room;
   private isConnected: boolean = false;
   private updateHandler?: (update: Uint8Array, origin: any) => void;
+  private dataReceivedHandler?: (payload: Uint8Array, participant?: RemoteParticipant, kind?: DataPacket_Kind) => void;
+  private connectedHandler?: () => void;
+  private disconnectedHandler?: () => void;
   
   // High-level CRDT structures mapped to Tangent mechanics
   public personaSheets: Y.Map<any>;
@@ -46,23 +49,27 @@ export class YjsProviderBridge {
   }
 
   private setupLiveKitListeners() {
-    this.room.on(RoomEvent.DataReceived, (payload: Uint8Array, participant?: RemoteParticipant, kind?: DataPacket_Kind) => {
+    this.dataReceivedHandler = (payload: Uint8Array, participant?: RemoteParticipant, kind?: DataPacket_Kind) => {
       // Yjs updates MUST be reliable. Ignore LOSSY packets (which are for 60Hz telemetry).
       if (kind === DataPacket_Kind.RELIABLE && participant) {
         this.decodeAndApplyYjsPayload(payload);
       }
-    });
+    };
 
-    this.room.on(RoomEvent.Connected, () => {
+    this.connectedHandler = () => {
       console.log('[Yjs Bridge] Connected to LiveKit. Broadcasting full state update sync.');
       this.isConnected = true;
       // Send our current encoded state update to peers so they can merge our document state
       this.broadcastStateVector();
-    });
+    };
 
-    this.room.on(RoomEvent.Disconnected, () => {
+    this.disconnectedHandler = () => {
       this.isConnected = false;
-    });
+    };
+
+    this.room?.on?.(RoomEvent.DataReceived, this.dataReceivedHandler);
+    this.room?.on?.(RoomEvent.Connected, this.connectedHandler);
+    this.room?.on?.(RoomEvent.Disconnected, this.disconnectedHandler);
   }
 
   private setupYjsListeners() {
@@ -142,6 +149,23 @@ export class YjsProviderBridge {
   }
 
   public disconnect() {
+    const detachRoomListener = (eventName: any, handler: any) => {
+      if (!handler || !this.room) return;
+      if (typeof (this.room as any).off === 'function') {
+        (this.room as any).off(eventName, handler);
+      } else if (typeof (this.room as any).removeListener === 'function') {
+        (this.room as any).removeListener(eventName, handler);
+      }
+    };
+
+    detachRoomListener(RoomEvent.DataReceived, this.dataReceivedHandler);
+    detachRoomListener(RoomEvent.Connected, this.connectedHandler);
+    detachRoomListener(RoomEvent.Disconnected, this.disconnectedHandler);
+    this.dataReceivedHandler = undefined;
+    this.connectedHandler = undefined;
+    this.disconnectedHandler = undefined;
+    this.isConnected = false;
+
     if (this.updateHandler) {
       this.doc.off('update', this.updateHandler);
       this.updateHandler = undefined;

@@ -33,6 +33,16 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageElementRef = useRef<HTMLImageElement>(null);
 
+  const frames = useMemo(() => {
+    if (!imageDims.width || !imageDims.height) return [];
+    return SpriteSheetSlicer.computeGridFrames(imageDims.width, imageDims.height, {
+      cellWidth,
+      cellHeight,
+      margin,
+      padding
+    });
+  }, [imageDims, cellWidth, cellHeight, margin, padding]);
+
   if (!isOpen) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,16 +73,6 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
     };
     reader.readAsDataURL(file);
   };
-
-  const frames = useMemo(() => {
-    if (!imageDims.width || !imageDims.height) return [];
-    return SpriteSheetSlicer.computeGridFrames(imageDims.width, imageDims.height, {
-      cellWidth,
-      cellHeight,
-      margin,
-      padding
-    });
-  }, [imageDims, cellWidth, cellHeight, margin, padding]);
 
   const handleBatchImport = async () => {
     if (!imageElementRef.current || frames.length === 0) return;

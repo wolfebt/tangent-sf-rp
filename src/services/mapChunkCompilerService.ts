@@ -17,8 +17,8 @@ import {
   type CardinalEdge,
   type NorthFacingDirection,
   createDefaultMapChunk
-} from '../schemas/mapChunkSchema';
-import { createWallSegment, WALL_TYPES, DOOR_STATES } from '../schemas/vttWallSchema';
+} from '../schemas/mapChunkSchema.ts';
+import { createWallSegment, WALL_TYPES, DOOR_STATES } from '../schemas/vttWallSchema.js';
 
 export interface CompileChunkOptions {
   instanceId?: string;
@@ -84,7 +84,7 @@ const BIOME_PALETTES: Record<string, { floorColor: string; strokeColor: string; 
 };
 
 /**
- * Helper to transform a 4-bit cardinal bitmask (N=1, W=2, E=4, S=8)
+ * Helper to transform a 4-bit cardinal bitmask matching MicroTileSynthesizer (N=1, E=2, S=4, W=8)
  */
 function transformBitmask4Bit(
   mask: number | undefined,
@@ -92,18 +92,18 @@ function transformBitmask4Bit(
 ): number | undefined {
   if (mask === undefined) return undefined;
   const n = (mask & 1) !== 0;
-  const w = (mask & 2) !== 0;
-  const e = (mask & 4) !== 0;
-  const s = (mask & 8) !== 0;
+  const e = (mask & 2) !== 0;
+  const s = (mask & 4) !== 0;
+  const w = (mask & 8) !== 0;
 
   if (mode === 'flipX') {
-    return (n ? 1 : 0) | (e ? 2 : 0) | (w ? 4 : 0) | (s ? 8 : 0);
+    return (n ? 1 : 0) | (w ? 2 : 0) | (s ? 4 : 0) | (e ? 8 : 0);
   }
   if (mode === 'flipY') {
-    return (s ? 1 : 0) | (w ? 2 : 0) | (e ? 4 : 0) | (n ? 8 : 0);
+    return (s ? 1 : 0) | (e ? 2 : 0) | (n ? 4 : 0) | (w ? 8 : 0);
   }
-  // rot90CW: N->E, E->S, S->W, W->N
-  return (w ? 1 : 0) | (s ? 2 : 0) | (n ? 4 : 0) | (e ? 8 : 0);
+  // rot90CW: N->E(2), E->S(4), S->W(8), W->N(1)
+  return (w ? 1 : 0) | (n ? 2 : 0) | (e ? 4 : 0) | (s ? 8 : 0);
 }
 
 /**
@@ -648,7 +648,7 @@ export function compileChunkToMapElements(
       hazardType: tile.hazardType,
       movementCost: tile.movementCost,
       elevationOffsetFt: tile.elevationOffsetFt,
-      layerId: 'terrain',
+      layerId: 'layer_terrain',
       ...custom
     };
   });
@@ -709,7 +709,7 @@ export function compileChunkToMapElements(
       chunkInstanceId: instanceId,
       chunkId: blueprint.chunkId,
       cardinalEdge: w.cardinalEdge,
-      layerId: 'walls',
+      layerId: 'layer_walls',
       ...custom
     };
   });
@@ -771,7 +771,7 @@ export function compileChunkToMapElements(
       coverRating: asset.coverRating || 'none',
       storyElementId: asset.storyElementId,
       omnicortexId: asset.omnicortexId,
-      layerId: 'objects',
+      layerId: 'layer_objects',
       ...custom
     };
   });
@@ -861,7 +861,7 @@ export function compileChunkToMapElements(
       omnicortexId: mergedProps.omnicortexId,
       lootTableId: mergedProps.lootTableId,
       quickJsMacro: mergedProps.quickJsMacro,
-      layerId: 'objects',
+      layerId: 'layer_objects',
       ...custom
     });
   }
@@ -904,7 +904,7 @@ export function compileChunkToMapElements(
         color: lightColor,
         intensity: lightIntensity,
         animation: lightAnimation,
-        layerId: 'lights',
+        layerId: 'layer_lights',
         ...custom
       });
     }
@@ -1530,12 +1530,25 @@ export function extractChunkFromMapSelection(
   });
 }
 
+function sanitizeChunkSvgColor(val: unknown, fallback: string): string {
+  const s = String(val ?? '').trim();
+  if (/^#[0-9a-fA-F]{3,8}$/.test(s)) return s;
+  if (/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(?:\s*,\s*(?:0|1|0?\.\d+))?\s*\)$/i.test(s)) return s;
+  if (s === 'none') return 'none';
+  return fallback;
+}
+
+function finiteNum(val: unknown, fallback: number = 0): number {
+  const n = Number(val);
+  return Number.isFinite(n) ? n : fallback;
+}
+
 /**
  * Generates an inline SVG data URL thumbnail for a MapChunkBlueprint
  */
 export function renderChunkThumbnailDataUrl(blueprint: MapChunkBlueprint): string {
-  const W = Math.max(1, blueprint.widthCells || 6);
-  const H = Math.max(1, blueprint.heightCells || 6);
+  const W = Math.max(1, Math.min(200, finiteNum(blueprint.widthCells, 6)));
+  const H = Math.max(1, Math.min(200, finiteNum(blueprint.heightCells, 6)));
   const cellPx = 24;
   const pad = 12;
   const svgW = W * cellPx + pad * 2;
@@ -1544,18 +1557,18 @@ export function renderChunkThumbnailDataUrl(blueprint: MapChunkBlueprint): strin
   const tileRects = (blueprint.tiles || [])
     .map(
       (t) =>
-        `<rect x="${pad + t.col * cellPx}" y="${pad + t.row * cellPx}" width="${cellPx}" height="${cellPx}" fill="${
-          t.color || '#334155'
+        `<rect x="${pad + finiteNum(t.col) * cellPx}" y="${pad + finiteNum(t.row) * cellPx}" width="${cellPx}" height="${cellPx}" fill="${
+          sanitizeChunkSvgColor(t.color, '#334155')
         }" stroke="#1e293b" stroke-width="1" />`
     )
     .join('');
 
   const wallLines = (blueprint.walls || [])
     .map((w) => {
-      const x1 = pad + w.p1.x * cellPx;
-      const y1 = pad + w.p1.y * cellPx;
-      const x2 = pad + w.p2.x * cellPx;
-      const y2 = pad + w.p2.y * cellPx;
+      const x1 = pad + finiteNum(w.p1?.x) * cellPx;
+      const y1 = pad + finiteNum(w.p1?.y) * cellPx;
+      const x2 = pad + finiteNum(w.p2?.x) * cellPx;
+      const y2 = pad + finiteNum(w.p2?.y) * cellPx;
       const stroke =
         w.type === 'door' ? '#f59e0b' : w.type === 'window' ? '#38bdf8' : '#e2e8f0';
       const dash = w.type === 'door' ? 'stroke-dasharray="4,2"' : '';
@@ -1565,22 +1578,22 @@ export function renderChunkThumbnailDataUrl(blueprint: MapChunkBlueprint): strin
 
   const assetShapes = (blueprint.assets || [])
     .map((a) => {
-      const cx = pad + (a.col + (a.widthCells || 1) / 2) * cellPx;
-      const cy = pad + (a.row + (a.heightCells || 1) / 2) * cellPx;
-      const r = Math.max(4, (Math.min(a.widthCells || 1, a.heightCells || 1) * cellPx) / 3);
-      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${a.color || '#38bdf8'}" stroke="#0f172a" stroke-width="1.5" />`;
+      const cx = pad + (finiteNum(a.col) + finiteNum(a.widthCells, 1) / 2) * cellPx;
+      const cy = pad + (finiteNum(a.row) + finiteNum(a.heightCells, 1) / 2) * cellPx;
+      const r = Math.max(4, (Math.min(finiteNum(a.widthCells, 1), finiteNum(a.heightCells, 1)) * cellPx) / 3);
+      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${sanitizeChunkSvgColor(a.color, '#38bdf8')}" stroke="#0f172a" stroke-width="1.5" />`;
     })
     .join('');
 
   const cpMarkers = (blueprint.constructionPoints || [])
     .map((cp) => {
       if (cp.kind === 'perimeter_socket') {
-        const cx = pad + ((cp.col || 0) + 0.5) * cellPx;
-        const cy = pad + ((cp.row || 0) + 0.5) * cellPx;
+        const cx = pad + (finiteNum(cp.col) + 0.5) * cellPx;
+        const cy = pad + (finiteNum(cp.row) + 0.5) * cellPx;
         return `<rect x="${cx - 4}" y="${cy - 4}" width="8" height="8" fill="#10b981" stroke="#052e16" stroke-width="1" />`;
       }
-      const cx = pad + ((cp.col || 0) + 0.5) * cellPx;
-      const cy = pad + ((cp.row || 0) + 0.5) * cellPx;
+      const cx = pad + (finiteNum(cp.col) + 0.5) * cellPx;
+      const cy = pad + (finiteNum(cp.row) + 0.5) * cellPx;
       return `<polygon points="${cx},${cy - 5} ${cx + 5},${cy} ${cx},${cy + 5} ${cx - 5},${cy}" fill="#22d3ee" stroke="#083344" stroke-width="1" />`;
     })
     .join('');

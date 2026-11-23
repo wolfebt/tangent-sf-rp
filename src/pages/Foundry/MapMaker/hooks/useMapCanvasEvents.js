@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 import { getTextureUrlFromColor } from '../map/MapTextures';
@@ -44,6 +44,7 @@ export const useMapCanvasEvents = ({
   const [isDrawing, setIsDrawing] = useState(false);
   const [wallStartPoint, setWallStartPoint] = useState(null);
   const [wallPreviewEnd, setWallPreviewEnd] = useState(null);
+  const lastDrawPointRef = useRef(null);
   const [rulerWaypoints, setRulerWaypoints] = useState([]);
   const [rulerPointer, setRulerPointer] = useState(null);
   const [chunkPointerPos, setChunkPointerPos] = useState(null);
@@ -95,6 +96,13 @@ export const useMapCanvasEvents = ({
     }
 
     if (e.evt.button === 0 && currentMap) {
+      if (activeTool === 'pan') {
+        e.evt.preventDefault?.();
+        setIsPanning(true);
+        setPanStart({ x: e.evt.clientX - position.x, y: e.evt.clientY - position.y });
+        return;
+      }
+
       const pos = e.target.getStage().getRelativePointerPosition();
 
       if (activeTool === 'chunk') {
@@ -134,9 +142,11 @@ export const useMapCanvasEvents = ({
         }
       } else if (activeTool === 'pencil') {
         setIsDrawing(true);
+        lastDrawPointRef.current = pos;
         updateMap(activeMapId, { lines: [...lines, { id: uuidv4(), color: pencilColor, strokeWidth: pencilWidth, points: [pos.x, pos.y] }] });
       } else if (activeTool === 'terrain') {
         setIsDrawing(true);
+        lastDrawPointRef.current = pos;
         updateMap(activeMapId, {
           terrains: [...terrains, {
             id: uuidv4(),
@@ -150,6 +160,7 @@ export const useMapCanvasEvents = ({
         });
       } else if (activeTool === 'fog') {
         setIsDrawing(true);
+        lastDrawPointRef.current = pos;
         updateMap(activeMapId, { fog: [...fog, { id: uuidv4(), points: [pos.x, pos.y] }] });
       } else if (activeTool === 'hazard') {
         const hazardObj = {
@@ -255,30 +266,34 @@ export const useMapCanvasEvents = ({
         }
         if (activeTool === 'wall') {
           setWallPreviewEnd(point);
-        } else if (activeTool === 'pencil') {
-          const nextLines = produce(lines, draft => {
-            const lastLine = draft[draft.length - 1];
-            if (lastLine) lastLine.points.push(point.x, point.y);
+        } else if (activeTool === 'pencil' || activeTool === 'terrain' || activeTool === 'fog') {
+          const prevPt = lastDrawPointRef.current;
+          if (prevPt) {
+            const dx = point.x - prevPt.x;
+            const dy = point.y - prevPt.y;
+            if ((dx * dx + dy * dy) < 4) return;
+          }
+          lastDrawPointRef.current = point;
+
+          const fieldKey = activeTool === 'pencil' ? 'lines' : (activeTool === 'terrain' ? 'terrains' : 'fog');
+          updateMap(activeMapId, (prevMap) => {
+            const prevList = Array.isArray(prevMap?.[fieldKey]) ? prevMap[fieldKey] : [];
+            if (prevList.length === 0) return prevMap;
+            const nextList = produce(prevList, draft => {
+              const lastStroke = draft[draft.length - 1];
+              if (lastStroke && Array.isArray(lastStroke.points)) {
+                lastStroke.points.push(point.x, point.y);
+              }
+            });
+            return { [fieldKey]: nextList };
           });
-          updateMap(activeMapId, { lines: nextLines });
-        } else if (activeTool === 'terrain') {
-          const nextTerrains = produce(terrains, draft => {
-            const lastTerrain = draft[draft.length - 1];
-            if (lastTerrain) lastTerrain.points.push(point.x, point.y);
-          });
-          updateMap(activeMapId, { terrains: nextTerrains });
-        } else if (activeTool === 'fog') {
-          const nextFog = produce(fog, draft => {
-            const lastFog = draft[draft.length - 1];
-            if (lastFog) lastFog.points.push(point.x, point.y);
-          });
-          updateMap(activeMapId, { fog: nextFog });
         }
       }
     }
   };
 
   const handleMouseUp = () => {
+    lastDrawPointRef.current = null;
     if (isPanning) setIsPanning(false);
     if (isDrawing) {
       if (chunkCaptureMarquee?.active) {

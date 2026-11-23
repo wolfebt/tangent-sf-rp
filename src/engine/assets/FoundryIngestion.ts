@@ -15,6 +15,7 @@ export interface SceneInteractiveObject {
   storyElementId?: string; // Story Foundry tie-in (clue, objective, script)
   omnicortexGearId?: string; // Omnicortex compendium tie-in
   state?: Record<string, any>;
+  [key: string]: any;
 }
 
 export interface SceneManifest {

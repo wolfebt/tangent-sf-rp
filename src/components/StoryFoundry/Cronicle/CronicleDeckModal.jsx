@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   BookOpen, 
   Users, 
@@ -62,22 +62,24 @@ export default function CronicleDeckModal({
   const { personaRoster = [], publicCatalog = [] } = useFolio() || {};
 
   const unifiedCatalog = useMemo(() => {
+    if (!isOpen) return [];
     return buildUnifiedAdeCatalog({
       elementsCatalog,
       dbData,
       folioRoster: personaRoster,
       publicPersonas: publicCatalog
     });
-  }, [elementsCatalog, dbData, personaRoster, publicCatalog]);
+  }, [isOpen, elementsCatalog, dbData, personaRoster, publicCatalog]);
 
   const unifiedPersonaList = useMemo(() => {
+    if (!isOpen) return [];
     return buildUnifiedPersonaList({
       elementsCatalog,
       dbData,
       folioRoster: personaRoster,
       publicPersonas: publicCatalog
     });
-  }, [elementsCatalog, dbData, personaRoster, publicCatalog]);
+  }, [isOpen, elementsCatalog, dbData, personaRoster, publicCatalog]);
 
   // Unified Cronicle sub-tabs:
   // 'working_memory' | 'deltas' | 'personas' | 'world' | 'timeline' | 'working_copies' | 'scratchbook_doc'
@@ -143,13 +145,21 @@ export default function CronicleDeckModal({
   const [elementTypeFilter, setElementTypeFilter] = useState('ALL');
   const [clonedFeedback, setClonedFeedback] = useState({});
 
-  // Sync stored notes when universeState changes externally
+  const prevStoryIdRef = useRef(universeState?.id);
+  const wasOpenRef = useRef(isOpen);
+
+  // Sync stored notes only on active story switch or modal re-open (without clobbering active typing)
   useEffect(() => {
-    const currentStoredNotes = universeState?.creativeState?.scratchbookNotes || universeState?.scratchbookNotes || universeState?.developmentNotes || '';
-    if (currentStoredNotes && currentStoredNotes !== scratchNotes && !isNotesSaved) {
+    const storyChanged = universeState?.id !== prevStoryIdRef.current;
+    const justOpened = isOpen && !wasOpenRef.current;
+    if (storyChanged || justOpened) {
+      const currentStoredNotes = universeState?.creativeState?.scratchbookNotes || universeState?.scratchbookNotes || universeState?.developmentNotes || '';
       setScratchNotes(currentStoredNotes);
+      setIsNotesSaved(false);
     }
-  }, [universeState]);
+    prevStoryIdRef.current = universeState?.id;
+    wasOpenRef.current = isOpen;
+  }, [universeState?.id, isOpen, universeState?.creativeState?.scratchbookNotes, universeState?.scratchbookNotes, universeState?.developmentNotes]);
 
   const personas = cronicle?.personas || {};
   const locations = cronicle?.locations || {};
@@ -158,23 +168,26 @@ export default function CronicleDeckModal({
 
   // Find all elements used across scenarios and project hierarchy
   const elementsUsed = useMemo(() => {
+    if (!isOpen) return [];
     return findElementsUsed(universeState, elementsCatalog);
-  }, [universeState, elementsCatalog]);
+  }, [isOpen, universeState, elementsCatalog]);
 
   // Dynamically compile the full Scratchbook Markdown
   const compiledScratchbookMarkdown = useMemo(() => {
+    if (!isOpen) return '';
     return generateStoryScratchbook({
       universeState,
       elementsCatalog,
       customNotes: scratchNotes,
       beatsLedger: beats
     });
-  }, [universeState, elementsCatalog, scratchNotes, beats]);
+  }, [isOpen, universeState, elementsCatalog, scratchNotes, beats]);
 
   // Computed Context Injection Preview for Living Memory
   const contextPreview = useMemo(() => {
+    if (!isOpen) return '';
     return formatCronicleContextForAIME(cronicle);
-  }, [cronicle]);
+  }, [isOpen, cronicle]);
 
   // ── SCRATCHBOOK ACTIONS ──
   const handleSaveScratchNotes = () => {
@@ -518,7 +531,7 @@ export default function CronicleDeckModal({
   };
 
   // Filtered elements used
-  const filteredElements = elementsUsed.filter(el => {
+  const filteredElements = !isOpen ? [] : elementsUsed.filter(el => {
     if (elementTypeFilter !== 'ALL' && (el.type || 'Custom').toLowerCase() !== elementTypeFilter.toLowerCase()) {
       return false;
     }
@@ -534,25 +547,23 @@ export default function CronicleDeckModal({
 
   // Unique element types for filtering pills
   const availableElementTypes = useMemo(() => {
+    if (!isOpen) return [];
     const set = new Set();
     elementsUsed.forEach(e => {
       if (e.type) set.add(e.type);
     });
     return Array.from(set).sort();
-  }, [elementsUsed]);
-
-  // Sync default elementTypeFilter
-  useEffect(() => {
-    if (elementTypeFilter === 'ALL' && availableElementTypes.length > 0) {
-      setElementTypeFilter(availableElementTypes[0]);
-    }
-  }, [availableElementTypes]);
+  }, [isOpen, elementsUsed]);
 
   // Highlighted or filtered markdown display
   const displayedMarkdown = useMemo(() => {
+    if (!isOpen) return '';
     if (!docSearchQuery.trim()) return compiledScratchbookMarkdown;
-    return compiledScratchbookMarkdown;
-  }, [compiledScratchbookMarkdown, docSearchQuery]);
+    const q = docSearchQuery.trim().toLowerCase();
+    const lines = String(compiledScratchbookMarkdown || '').split('\n');
+    const filtered = lines.filter(line => line.trim().startsWith('#') || line.toLowerCase().includes(q));
+    return filtered.length > 0 ? filtered.join('\n') : `No Scratchbook entries matching "${docSearchQuery.trim()}".`;
+  }, [isOpen, compiledScratchbookMarkdown, docSearchQuery]);
 
   if (!isOpen) return null;
 

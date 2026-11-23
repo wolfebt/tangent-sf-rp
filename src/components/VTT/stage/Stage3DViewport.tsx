@@ -21,6 +21,7 @@ import {
 } from '../../../engine';
 import { toggleDoorState } from '../../../schemas/vttWallSchema.js';
 import { AudioService } from '../../../services/audioService';
+import { VttEventBus } from '../../../utils/vttEventBus';
 import { 
   Camera, 
   RotateCcw, 
@@ -52,6 +53,8 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
 
   const { universeState, activeMapId, updateMap } = useCampaign();
   const currentMap = (universeState?.maps || []).find((m: any) => m.id === activeMapId) || universeState?.maps?.[0] || null;
+  const currentMapRef = useRef<any>(currentMap);
+  currentMapRef.current = currentMap;
 
   // Engine state
   const tokens = useEngineStore(selectAllFusedTokens);
@@ -93,6 +96,18 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
 
     cameraRig.attach(canvas);
 
+    // Sync initial aspect ratio and subscribe to container resizes
+    const initW = canvas.clientWidth || canvas.parentElement?.clientWidth || window.innerWidth || 800;
+    const initH = canvas.clientHeight || canvas.parentElement?.clientHeight || window.innerHeight || 600;
+    if (initW > 0 && initH > 0) {
+      cameraRig.updateAspect(initW / initH);
+    }
+    const unbindResize = renderer.onResize((w, h) => {
+      if (w > 0 && h > 0) {
+        cameraRig.updateAspect(w / h);
+      }
+    });
+
     // Initial map sync
     compositor.syncFromMap(currentMap, tokens, selectedTokenId, targetTokenId, cameraRig.camera);
 
@@ -118,8 +133,43 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 
+    // Listen for Stage atmospheric lighting presets & PNG snapshot exports in 3D mode
+    const offAtmo = VttEventBus.on('apply-atmospheric-preset', ({ presetKey }) => {
+      compositorRef.current?.lightingManager.setAtmosphere(presetKey || 'clear');
+    });
+    const offLightMode = VttEventBus.on('change-lighting-mode', ({ mode }) => {
+      compositorRef.current?.lightingManager.setAtmosphere(mode || 'clear');
+    });
+    const offExportPng = VttEventBus.on('export-stage-png', () => {
+      const r = rendererContextRef.current;
+      const comp = compositorRef.current;
+      const rig = cameraRigRef.current;
+      const el = canvasRef.current;
+      if (!el) return;
+      if (r && comp && rig) {
+        r.renderScene(comp.scene, rig.camera);
+      }
+      try {
+        const dataUrl = el.toDataURL('image/png');
+        const slug = String(currentMapRef.current?.title || currentMapRef.current?.name || 'tactical_stage_3d')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = `${slug || 'tactical_stage_3d'}.png`;
+        a.click();
+      } catch (err) {
+        console.warn('[Stage3DViewport] PNG export failed:', err);
+      }
+    });
+
     return () => {
       isDestroyed = true;
+      offAtmo();
+      offLightMode();
+      offExportPng();
+      unbindResize();
       unbindRender();
       cameraRig.detach();
       compositor.dispose();
@@ -198,7 +248,17 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
 
     // 2. Check if clicked a Door or Interactive Wall
     const hitWall = compositor.raycastWall(ndcX, ndcY, cameraRig.camera);
-    if (hitWall && hitWall.isWall && hitWall.originalWall?.type === 'door') {
+    const isHitDoor = Boolean(
+      hitWall &&
+        hitWall.isWall &&
+        (hitWall.isDoor ||
+          hitWall.wallType === 'door' ||
+          hitWall.originalWall?.type === 'door' ||
+          hitWall.originalWall?.isDoor ||
+          hitWall.originalWall?.isDynamic ||
+          String(hitWall.originalWall?.wallType || '').toLowerCase().includes('door'))
+    );
+    if (isHitDoor) {
       const wallId = hitWall.wallId;
       const updatedWalls = (currentMap.walls || []).map((w: any) => {
         if (w.id === wallId) {
@@ -264,12 +324,39 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
 
   const handlePointerUp = useCallback(() => {
     if (draggingTokenId) {
+      const movedToken = selectAllFusedTokens(useEngineStore.getState()).find(t => t.id === draggingTokenId);
+      if (
+        movedToken &&
+        currentMap?.id &&
+        typeof updateMap === 'function' &&
+        Array.isArray(currentMap.tokens)
+      ) {
+        const existing = currentMap.tokens.find((t: any) => t.id === draggingTokenId);
+        if (
+          existing &&
+          (existing.x !== movedToken.x ||
+            existing.y !== movedToken.y ||
+            (existing.elevation_ft ?? 0) !== (movedToken.elevation_ft ?? 0))
+        ) {
+          const updatedTokens = currentMap.tokens.map((t: any) =>
+            t.id === draggingTokenId
+              ? {
+                  ...t,
+                  x: movedToken.x,
+                  y: movedToken.y,
+                  elevation_ft: movedToken.elevation_ft ?? t.elevation_ft ?? 0
+                }
+              : t
+          );
+          updateMap(currentMap.id, { tokens: updatedTokens });
+        }
+      }
       setDraggingTokenId(null);
     }
     if (activeTool === 'ruler') {
       // Keep ruler visible until cleared or new click
     }
-  }, [draggingTokenId, activeTool]);
+  }, [draggingTokenId, activeTool, currentMap, updateMap]);
 
   const selectedToken = tokens.find(t => t.id === selectedTokenId);
   const targetToken = tokens.find(t => t.id === targetTokenId);

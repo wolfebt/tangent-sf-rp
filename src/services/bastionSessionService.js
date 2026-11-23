@@ -138,8 +138,12 @@ export function extractGroupPersonas(group) {
  */
 export function resolveUserRoleInGroup(group, uid) {
   if (!group || !uid) return null;
-  if (group.creatorId && group.creatorId === uid) return BASTION_ROLES.ARCHITECT;
+  if ((group.creatorId && group.creatorId === uid) || (group.ownerId && group.ownerId === uid) || (group.gmId && group.gmId === uid)) {
+    return BASTION_ROLES.ARCHITECT;
+  }
   if (Array.isArray(group.architectIds) && group.architectIds.includes(uid)) return BASTION_ROLES.ARCHITECT;
+  if (Array.isArray(group.gmIds) && group.gmIds.includes(uid)) return BASTION_ROLES.ARCHITECT;
+  if (Array.isArray(group.coArchitects) && group.coArchitects.includes(uid)) return BASTION_ROLES.ARCHITECT;
   if (Array.isArray(group.coArchitectIds) && group.coArchitectIds.includes(uid)) return BASTION_ROLES.ARCHITECT;
 
   const memberDetail = group.memberDetails?.[uid];
@@ -172,7 +176,7 @@ export function resolveCampaignGroups({ universeState = null, groups = [] } = {}
   const safeGroups = Array.isArray(groups) ? groups.filter(Boolean) : [];
   const campaignId = universeState?.id && universeState.id !== 'proj_default_universe'
     ? String(universeState.id)
-    : (universeState?.id ? String(universeState.id) : null);
+    : null;
   const campaignTitle = String(universeState?.projectName || universeState?.title || '').trim().toLowerCase();
 
   const linkedGroups = safeGroups.filter((g) => {
@@ -280,9 +284,13 @@ export function resolveBastionSessionState({
   // Security guardrail: if the user is strictly enrolled as an Operator in a foreign-owned campaign/group
   // without cloud admin privileges, they cannot escalate to Architect.
   let hasArchitectAuthority = false;
-  if (architectGroups.length > 0 || ownsUniverse || Boolean(authState?.hasCloudAdminAccess)) {
+  if (Boolean(authState?.hasCloudAdminAccess) || ownsUniverse) {
     hasArchitectAuthority = true;
-  } else if (operatorOnlyGroups.length > 0 && (foreignOwnedUniverse || isStoryReadOnly)) {
+  } else if (foreignOwnedUniverse || isStoryReadOnly) {
+    hasArchitectAuthority = false;
+  } else if (architectGroups.length > 0) {
+    hasArchitectAuthority = true;
+  } else if (operatorOnlyGroups.length > 0) {
     hasArchitectAuthority = false;
   } else if (isAuthArchitect || isArchitectStudioRoute) {
     hasArchitectAuthority = true;

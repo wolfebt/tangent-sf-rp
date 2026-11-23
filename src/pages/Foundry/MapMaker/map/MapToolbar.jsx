@@ -58,7 +58,7 @@ const MapToolbar = ({
   is3DPreviewOpen,
   onToggle3DPreview
 }) => {
-  const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
+  const { universeState, activeMapId, setActiveMapId, updateMap, publishSpectatorMap } = useCampaign();
 
   // Dropdown states & refs
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
@@ -206,10 +206,14 @@ const MapToolbar = ({
               {/* Group 2: Deploy to The Stage (VTT) */}
               <div className="py-1">
                 <a
-                  href={`/stage?mapId=${activeMapId || currentMap?.id || ''}`}
-                  onClick={() => {
+                  href={`/foundry/story?view=stage&tab=setup&mapId=${activeMapId || currentMap?.id || ''}`}
+                  onClick={(e) => {
                     AudioService.playTerminalBeep(1400, 0.05);
                     setIsFileMenuOpen(false);
+                    if (onOpenInStage) {
+                      e.preventDefault();
+                      onOpenInStage();
+                    }
                   }}
                   className="w-full text-left px-3.5 py-1.5 bg-gradient-to-r from-purple-950/60 via-cyan-950/60 to-slate-900 hover:from-purple-900/80 hover:to-cyan-900/80 text-cyan-200 hover:text-white flex items-center justify-between transition-colors cursor-pointer border-y border-cyan-500/30"
                   title="Launch this Map into The Stage (Next-Gen WebGPU VTT Simulation Engine)"
@@ -578,6 +582,7 @@ const MapToolbar = ({
                   <button
                     type="button"
                     onClick={() => {
+                      if (publishSpectatorMap && activeMapId) { publishSpectatorMap(activeMapId); }
                       navigator.clipboard.writeText(`${window.location.origin}/foundry/view/${activeMapId}`);
                       setCopiedLink(true);
                       setTimeout(() => setCopiedLink(false), 2500);
@@ -613,6 +618,7 @@ const MapToolbar = ({
               <button
                 type="button"
                 onClick={() => {
+                  if (publishSpectatorMap && activeMapId) { publishSpectatorMap(activeMapId); }
                   window.open(`/foundry/view/${activeMapId}`, '_blank', 'width=1280,height=800');
                   setIsCastModalOpen(false);
                 }}

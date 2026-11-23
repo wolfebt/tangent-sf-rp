@@ -57,7 +57,7 @@ const RulesPolicySimulator = {
       this.isAuthenticated(auth) &&
       (auth.token?.admin === true ||
         auth.token?.role === 'GM' ||
-        auth.token?.email === 'btw.284@gmail.com')
+        (auth.token?.email_verified === true && auth.token?.email === 'btw.284@gmail.com'))
     );
   },
   isOwner(auth, userId) {
@@ -124,9 +124,11 @@ test('Firestore Rules: Core helper functions (isAuthenticated, isAdmin, isOwner)
   );
   assert.match(
     rulesText,
-    /function\s+isAdmin\(\)\s*\{\s*return\s+isAuthenticated\(\)\s*&&\s*\([\s\S]*?request\.auth\.token\.admin\s*==\s*true[\s\S]*?request\.auth\.token\.role\s*==\s*'GM'[\s\S]*?request\.auth\.token\.email\s*==\s*'btw\.284@gmail\.com'[\s\S]*?\);\s*\}/,
-    'isAdmin() must require authenticated user with admin == true, role == GM, or authorized admin email'
+    /function\s+isAdmin\(\)\s*\{\s*return\s+isAuthenticated\(\)\s*&&\s*\([\s\S]*?request\.auth\.token\.admin\s*==\s*true[\s\S]*?request\.auth\.token\.role\s*==\s*'GM'[\s\S]*?request\.auth\.token\.email_verified\s*==\s*true[\s\S]*?request\.auth\.token\.email\s*==\s*'btw\.284@gmail\.com'[\s\S]*?\);\s*\}/,
+    'isAdmin() must require authenticated user with admin == true, role == GM, or verified authorized admin email'
   );
+  assert.equal(RulesPolicySimulator.isAdmin({ uid: 'u1', token: { email: 'btw.284@gmail.com', email_verified: false } }), false);
+  assert.equal(RulesPolicySimulator.isAdmin({ uid: 'u1', token: { email: 'btw.284@gmail.com', email_verified: true } }), true);
   assert.match(
     rulesText,
     /function\s+isOwner\(userId\)\s*\{\s*return\s+isAuthenticated\(\)\s*&&\s*request\.auth\.uid\s*==\s*userId;\s*\}/,
@@ -183,13 +185,23 @@ test('Firestore Rules: /users/{userId} and /users/{userId}/private_settings/{doc
   const userProfileBody = usersSectionMatch[1];
   const privateSettingsBody = usersSectionMatch[2];
 
-  // /users/{userId} prohibits geminiApiKey and otherAiApiKey on create and update
+  // /users/{userId} prohibits geminiApiKey, otherAiApiKey, and privilege-escalation role/admin keys for non-admins
   assert.match(userProfileBody, /!\('geminiApiKey'\s+in\s+request\.resource\.data\)/, '/users/{userId} must block geminiApiKey');
   assert.match(userProfileBody, /!\('otherAiApiKey'\s+in\s+request\.resource\.data\)/, '/users/{userId} must block otherAiApiKey');
   assert.match(
     userProfileBody,
     /!request\.resource\.data\.diff\(resource\.data\)\.affectedKeys\(\)\.hasAny\(\['geminiApiKey',\s*'otherAiApiKey'\]\)/,
     '/users/{userId} update must block affectedKeys geminiApiKey and otherAiApiKey'
+  );
+  assert.match(
+    userProfileBody,
+    /!request\.resource\.data\.keys\(\)\.hasAny\(\['role',\s*'isAdmin',\s*'admin'\]\)/,
+    '/users/{userId} create must forbid non-admins from setting role/isAdmin/admin'
+  );
+  assert.match(
+    userProfileBody,
+    /!request\.resource\.data\.diff\(resource\.data\)\.affectedKeys\(\)\.hasAny\(\['role',\s*'isAdmin',\s*'admin'\]\)/,
+    '/users/{userId} update must forbid non-admins from mutating role/isAdmin/admin'
   );
 
   // /users/{userId}/private_settings/{docId} restricts strictly to isOwner(userId) (no isAdmin()) and prohibits geminiApiKey and otherAiApiKey
@@ -268,24 +280,80 @@ test('Firestore Rules: Story Foundry assets, Universe state, Commlink public cha
   // Story Foundry collections (/user_stories, /story_elements, /story_maps) enforce creator/author ownership
   assert.match(
     rulesText,
-    /match\s+\/story_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+create:\s*if\s+isAuthenticated\(\)\s*&&\s*\(request\.resource\.data\.authorUid\s*==\s*request\.auth\.uid\s*\|\|\s*request\.resource\.data\.creatorId\s*==\s*request\.auth\.uid\);/,
-    '/story_maps/{mapId} must bind creation to authorUid or creatorId'
+    /match\s+\/story_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+create:\s*if\s+isAuthenticated\(\)\s*&&\s*\([\s\S]*?\(request\.resource\.data\.get\('authorUid',\s*''\)\s*==\s*request\.auth\.uid\s*\|\|\s*request\.resource\.data\.get\('creatorId',\s*''\)\s*==\s*request\.auth\.uid\)[\s\S]*?hasNoCrossFieldOwnershipPoisoning\(request\.resource\.data\)/,
+    '/story_maps/{mapId} must bind creation to authorUid/creatorId and prevent cross-field ownership poisoning'
   );
   assert.match(
     rulesText,
-    /match\s+\/story_elements\/\{elementId\}\s*\{[\s\S]*?allow\s+update,\s*delete:\s*if\s+isAuthenticated\(\)\s*&&\s*\(resource\.data\.authorUid\s*==\s*request\.auth\.uid\s*\|\|\s*resource\.data\.creatorId\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)\);/,
-    '/story_elements/{elementId} must restrict update/delete to author, creator, or admin'
+    /match\s+\/story_elements\/\{elementId\}\s*\{[\s\S]*?allow\s+update:\s*if\s+isAuthenticated\(\)[\s\S]*?areOwnerFieldsUnchangedOnUpdate\(\)[\s\S]*?allow\s+delete:\s*if\s+isAuthenticated\(\)\s*&&\s*\(resource\.data\.get\('authorUid',\s*''\)\s*==\s*request\.auth\.uid\s*\|\|\s*resource\.data\.get\('creatorId',\s*''\)\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)\);/,
+    '/story_elements/{elementId} must split update/delete and enforce owner immutability for non-admins'
   );
   assert.match(
     rulesText,
-    /match\s+\/messages\/\{messageId\}\s*\{[\s\S]*?request\.resource\.data\.senderId\s*==\s*request\.auth\.uid(?:\s*\|\|\s*request\.resource\.data\.senderId\s*==\s*'system')?\s*\|\|\s*isAdmin\(\)/,
+    /match\s+\/messages\/\{messageId\}\s*\{[\s\S]*?request\.resource\.data\.senderId\s*==\s*request\.auth\.uid[\s\S]*?\|\|\s*isAdmin\(\)/,
     'Commlink channel messages must prevent senderId spoofing'
+  );
+  assert.doesNotMatch(
+    rulesText,
+    /request\.resource\.data\.senderId\s*==\s*'system'/,
+    'Commlink channel messages must NOT permit non-admin senderId == system spoofing'
   );
 
   // Story asset modification policy simulation
   assert.equal(RulesPolicySimulator.canModifyStoryAsset(alice, { authorUid: 'alice' }), true);
   assert.equal(RulesPolicySimulator.canModifyStoryAsset(alice, { creatorId: 'bob' }), false);
   assert.equal(RulesPolicySimulator.canModifyStoryAsset(gm, { creatorId: 'bob' }), true);
+
+  // Scoped Story Foundry & Campaign read hardening (SEC-03)
+  assert.match(
+    rulesText,
+    /match\s+\/user_stories\/\{storyId\}\s*\{[^}]*allow\s+read:\s+if\s+resource\.data\.isPublic\s*==\s*true\s*\|\|\s*\(isAuthenticated\(\)\s*&&\s*\(resource\.data\.ownerId\s*==\s*request\.auth\.uid\s*\|\|\s*resource\.data\.creatorId\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)\)\);/,
+    'user_stories must restrict reads to public or owner/creator/admin'
+  );
+  assert.match(
+    rulesText,
+    /match\s+\/story_elements\/\{elementId\}\s*\{[^}]*allow\s+read:\s+if\s+resource\.data\.isPublic\s*==\s*true\s*\|\|\s*\(isAuthenticated\(\)\s*&&\s*\(resource\.data\.authorUid\s*==\s*request\.auth\.uid\s*\|\|\s*resource\.data\.creatorId\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)\)\);/,
+    'story_elements must restrict reads to public or author/creator/admin'
+  );
+  assert.match(
+    rulesText,
+    /match\s+\/story_maps\/\{mapId\}\s*\{[^}]*allow\s+read:\s+if\s+resource\.data\.isPublic\s*==\s*true\s*\|\|\s*\(isAuthenticated\(\)\s*&&\s*\(resource\.data\.authorUid\s*==\s*request\.auth\.uid\s*\|\|\s*resource\.data\.creatorId\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)\)\);/,
+    'story_maps must restrict reads to public or author/creator/admin'
+  );
+  assert.doesNotMatch(
+    rulesText,
+    /match\s+\/(user_stories|story_elements|story_maps)\/[^}]*allow\s+read:\s+if\s+isAuthenticated\(\)\s*;/,
+    'Story Foundry collections must never use unrestricted allow read: if isAuthenticated()'
+  );
+  assert.match(
+    rulesText,
+    /match\s+\/Campaigns\/\{campaignId\}\s*\{[\s\S]*?allow\s+read:\s*if\s+isAuthenticated\(\)\s*&&\s*\([\s\S]*?isAdmin\(\)[\s\S]*?resource\.data\.get\('ownerId',\s*''\)\s*==\s*request\.auth\.uid[\s\S]*?allow\s+create:\s*if\s+isAuthenticated\(\)\s*&&\s*\([\s\S]*?'ownerId'\s+in\s+request\.resource\.data[\s\S]*?request\.resource\.data\.ownerId\s*==\s*request\.auth\.uid/,
+    'Campaigns must scope reads to owner/member/admin and require explicit ownerId == request.auth.uid on create'
+  );
+  assert.match(
+    rulesText,
+    /match\s+\/Campaigns\/\{campaignId\}\/Sessions\/\{sessionId\}\s*\{[\s\S]*?allow\s+read:\s*if\s+isAuthenticated\(\)\s*&&\s*\(isAdmin\(\)\s*\|\|\s*\(isSessionDocAuthorized\(\)\s*&&\s*isParentCampaignAuthorized\(campaignId\)\)\);[\s\S]*?allow\s+create:[\s\S]*?'ownerId'\s+in\s+request\.resource\.data[\s\S]*?request\.resource\.data\.ownerId\s*==\s*request\.auth\.uid[\s\S]*?allow\s+update:[\s\S]*?request\.resource\.data\.ownerId\s*==\s*resource\.data\.ownerId/,
+    'Campaign Sessions must require ownerId on create, enforce ownerId immutability on update, and scope reads'
+  );
+  const parentCampaignFn = rulesText.match(/function\s+isParentCampaignAuthorized\(campaignId\)\s*\{([\s\S]*?)\n\s*\}/);
+  assert.ok(parentCampaignFn, 'isParentCampaignAuthorized helper must exist');
+  assert.doesNotMatch(
+    parentCampaignFn[1],
+    /!\s*exists\(/,
+    'isParentCampaignAuthorized must NOT allow open access via !exists(...) fallback'
+  );
+
+  // Sanitized Spectator Map projection rules (Option 1A)
+  assert.match(
+    rulesText,
+    /match\s+\/spectator_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+get:\s+if\s+true;[\s\S]*?allow\s+list:\s+if\s+isAuthenticated\(\)[\s\S]*?isValidSpectatorMap\(request\.resource\.data\)[\s\S]*?allow\s+delete:\s+if\s+isAuthenticated\(\)/,
+    'spectator_maps must restrict anonymous reads to allow get (no list enumeration) and enforce schema-validated author/creator/admin writes'
+  );
+  assert.doesNotMatch(
+    rulesText,
+    /match\s+\/spectator_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+read:\s+if\s+true;/,
+    'spectator_maps must not use unrestricted allow read: if true'
+  );
 
   // Final catch-all explicit deny
   assert.match(

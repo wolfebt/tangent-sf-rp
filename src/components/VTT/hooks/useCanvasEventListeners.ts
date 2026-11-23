@@ -18,6 +18,7 @@ export interface UseCanvasEventListenersOptions {
   setIsHeroDrawerOpen: (v: boolean) => void;
   setIsOmnicortexDrawerOpen: (v: boolean) => void;
   setIsLayersPanelOpen?: (v: boolean) => void;
+  setIsUnderlayModalOpen?: (v: boolean) => void;
   setIsAssetStudioOpen?: (v: boolean) => void;
   setIsAssetIngestionOpen?: (v: boolean) => void;
   setIsSpriteSheetCutterOpen?: (v: boolean) => void;
@@ -33,6 +34,7 @@ export function useCanvasEventListeners({
   setIsHeroDrawerOpen,
   setIsOmnicortexDrawerOpen,
   setIsLayersPanelOpen,
+  setIsUnderlayModalOpen,
   setIsAssetStudioOpen,
   setIsAssetIngestionOpen,
   setIsSpriteSheetCutterOpen,
@@ -108,6 +110,7 @@ export function useCanvasEventListeners({
     const offHero = VttEventBus.on('open-hero-drawer', () => setIsHeroDrawerOpen(true));
     const offOmni = VttEventBus.on('open-omnicortex-drawer', () => setIsOmnicortexDrawerOpen(true));
     const offLayers = setIsLayersPanelOpen ? VttEventBus.on('open-layers-panel', () => setIsLayersPanelOpen(true)) : () => {};
+    const offUnderlay = setIsUnderlayModalOpen ? VttEventBus.on('open-underlay-modal', () => setIsUnderlayModalOpen(true)) : () => {};
 
     return () => {
       offLandmass();
@@ -120,6 +123,7 @@ export function useCanvasEventListeners({
       offHero();
       offOmni();
       offLayers();
+      offUnderlay();
     };
   }, [
     setIsLandmassModalOpen,
@@ -130,6 +134,7 @@ export function useCanvasEventListeners({
     setIsAssetManagerOpen,
     setIsHeroDrawerOpen,
     setIsOmnicortexDrawerOpen,
-    setIsLayersPanelOpen
+    setIsLayersPanelOpen,
+    setIsUnderlayModalOpen
   ]);
 }

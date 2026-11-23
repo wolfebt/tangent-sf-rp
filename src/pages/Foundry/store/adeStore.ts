@@ -17,7 +17,6 @@ export type PerspectiveMode = 'architect' | 'operator';
 export type AdePillar = 'mission_control' | 'narrative' | 'stage' | 'maps' | 'scripts' | 'assets' | 'live_director';
 export type AdeView = 'mission_control' | 'scenarios' | 'stage' | 'control-panel' | 'interactive' | 'graph' | 'gallery' | 'elements' | 'map' | 'scripts';
 export type ViewportSplit = 'side_by_side' | 'canvas_only' | 'story_only';
-export type GuideSection = 'scenarios' | 'sectors' | 'waypoints' | 'bestiary' | 'props' | 'weather' | 'memory' | 'aime';
 export type WeaverWorkspaceTab = 'write' | 'brainstorm' | 'gems' | 'elements' | 'graph' | 'play' | 'weaver' | 'manuscript' | 'outline' | 'genesis' | 'tactical' | 'stage' | 'interactive' | 'gallery';
 export type StoryWorkspaceTab = WeaverWorkspaceTab;
 export type StageWorkspaceTab = 'setup' | 'anchors' | 'flow' | 'environment' | 'encounters' | 'scripts' | 'run';
@@ -69,7 +68,6 @@ export interface ADEStoreState {
   activePersonaSource: string;
   activeMetaphysicsSubcategory: string;
   viewportSplit: ViewportSplit;
-  activeGuideSection: GuideSection;
   activeCockpitDeck: CockpitDeck;
   isDrawerOpen: boolean;
   isTreeExpanded: boolean;
@@ -99,7 +97,6 @@ export interface ADEStoreState {
   setActivePersonaSource: (source: string) => void;
   setActiveMetaphysicsSubcategory: (subcat: string) => void;
   setViewportSplit: (split: ViewportSplit) => void;
-  setActiveGuideSection: (section: GuideSection) => void;
   setActiveCockpitDeck: (deck: CockpitDeck) => void;
   setIsDrawerOpen: (open: boolean | ((prev: boolean) => boolean)) => void;
   toggleDrawer: () => void;
@@ -161,7 +158,8 @@ export function evaluateConditionExpression(
   const match = trimmed.match(compRegex);
 
   if (match) {
-    const [, leftKey, op, rawRight] = match;
+    const [, leftKey = '', op = '==', rawRight = ''] = match;
+    if (!leftKey) return false;
     const flagEntry = flags[leftKey];
     const leftVal = flagEntry !== undefined 
       ? (typeof flagEntry === 'object' && flagEntry !== null && 'value' in flagEntry ? flagEntry.value : flagEntry) 
@@ -226,7 +224,6 @@ export const useADEStore = create<ADEStoreState>()(
         activePersonaSource: 'all',
         activeMetaphysicsSubcategory: 'all',
         viewportSplit: 'side_by_side',
-        activeGuideSection: 'scenarios',
         activeCockpitDeck: 'inspector',
         isDrawerOpen: true,
         isTreeExpanded: true,
@@ -292,7 +289,6 @@ export const useADEStore = create<ADEStoreState>()(
         setActivePersonaSource: (source) => set({ activePersonaSource: source || 'all' }),
         setActiveMetaphysicsSubcategory: (subcat) => set({ activeMetaphysicsSubcategory: subcat || 'all' }),
         setViewportSplit: (split) => set({ viewportSplit: split }),
-        setActiveGuideSection: (section) => set({ activeGuideSection: section }),
         setActiveCockpitDeck: (deck) => set({ activeCockpitDeck: deck }),
         setIsDrawerOpen: (val) => set((state) => ({
           isDrawerOpen: typeof val === 'function' ? val(state.isDrawerOpen) : val
@@ -370,7 +366,7 @@ export const useADEStore = create<ADEStoreState>()(
               key,
               value,
               scope,
-              scenarioId,
+              ...(scenarioId !== undefined ? { scenarioId } : {}),
               lastUpdated: Date.now()
             }
           }
@@ -391,7 +387,7 @@ export const useADEStore = create<ADEStoreState>()(
                 key,
                 value: prevVal + delta,
                 scope: current?.scope || 'global',
-                scenarioId: current?.scenarioId,
+                ...(current?.scenarioId !== undefined ? { scenarioId: current.scenarioId } : {}),
                 lastUpdated: Date.now()
               }
             }

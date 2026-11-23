@@ -74,13 +74,14 @@ export class Stage3DCompositor {
   private disposeGroupChildren(group: THREE.Group, preserveSharedMaterials: boolean = false) {
     group.traverse((obj: any) => {
       if (obj === group) return;
-      if (obj.geometry && typeof obj.geometry.dispose === 'function') {
+      if (obj.geometry && typeof obj.geometry.dispose === 'function' && !obj.geometry.userData?.shared) {
         obj.geometry.dispose();
       }
       if (!preserveSharedMaterials && obj.material) {
         const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
         for (const mat of mats) {
-          if (mat.map && typeof mat.map.dispose === 'function') {
+          if (!mat || mat.userData?.shared) continue;
+          if (mat.map && typeof mat.map.dispose === 'function' && !mat.map.userData?.shared) {
             mat.map.dispose();
           }
           if (typeof mat.dispose === 'function') {
@@ -109,9 +110,13 @@ export class Stage3DCompositor {
       this.scene.remove(this.groundMesh);
       if (this.groundMesh.geometry) this.groundMesh.geometry.dispose();
       const gMat = this.groundMesh.material as any;
-      if (gMat) {
-        if (gMat.map && typeof gMat.map.dispose === 'function') gMat.map.dispose();
-        if (typeof gMat.dispose === 'function') gMat.dispose();
+      if (gMat && !gMat.userData?.shared) {
+        if (gMat.map && typeof gMat.map.dispose === 'function' && !gMat.map.userData?.shared) {
+          gMat.map.dispose();
+        }
+        if (typeof gMat.dispose === 'function') {
+          gMat.dispose();
+        }
       }
       this.groundMesh = null;
     }
@@ -125,14 +130,20 @@ export class Stage3DCompositor {
     this.plateausGroup.add(plateaus);
 
     // 3. Sync Extruded Walls & Doors
-    this.disposeGroupChildren(this.wallsGroup, true);
+    this.disposeGroupChildren(this.wallsGroup, false);
     const walls = this.wallExtruder.buildWallsGroup(map.walls || []);
     this.wallsGroup.add(walls);
 
-    // 4. Sync Dynamic Lighting
-    if (Array.isArray(map.lights)) {
-      this.lightingManager.syncLights(map.lights);
-    }
+    // 4. Sync Dynamic Lighting & Atmospheric Mode
+    this.lightingManager.syncLights(Array.isArray(map.lights) ? map.lights : []);
+    const atmoKey =
+      map.atmosphericPresetId ||
+      map.weather?.presetId ||
+      map.environmental?.weatherPreset ||
+      map.atmosphericWeather ||
+      map.lightingMode ||
+      'clear';
+    this.lightingManager.setAtmosphere(atmoKey);
 
     // 5. Sync Interactive Map Objects & Props
     this.disposeGroupChildren(this.propsGroup);
@@ -171,7 +182,7 @@ export class Stage3DCompositor {
     targetTokenId: string | null,
     camera?: THREE.Camera
   ) {
-    this.disposeGroupChildren(this.tokensGroup, true);
+    this.disposeGroupChildren(this.tokensGroup, false);
 
     for (const token of tokens) {
       const isSelected = token.id === selectedTokenId;
@@ -281,16 +292,31 @@ export class Stage3DCompositor {
   }
 
   public dispose() {
+    this.disposeGroupChildren(this.plateausGroup, false);
+    this.disposeGroupChildren(this.wallsGroup, false);
+    this.disposeGroupChildren(this.tokensGroup, false);
+    this.disposeGroupChildren(this.propsGroup, false);
+
+    if (this.groundMesh) {
+      if (this.groundMesh.geometry) this.groundMesh.geometry.dispose();
+      const gMat = this.groundMesh.material as any;
+      if (gMat && !gMat.userData?.shared) {
+        if (gMat.map && typeof gMat.map.dispose === 'function' && !gMat.map.userData?.shared) {
+          gMat.map.dispose();
+        }
+        if (typeof gMat.dispose === 'function') {
+          gMat.dispose();
+        }
+      }
+      this.groundMesh = null;
+    }
+
     this.terrainBuilder.dispose();
     this.gridOverlay.dispose();
     this.wallExtruder.dispose();
     this.tokenStandees.dispose();
     this.lightingManager.dispose();
     this.waypointRuler.dispose();
-
-    if (this.groundMesh) {
-      if (this.groundMesh.geometry) this.groundMesh.geometry.dispose();
-    }
 
     this.scene.clear();
   }

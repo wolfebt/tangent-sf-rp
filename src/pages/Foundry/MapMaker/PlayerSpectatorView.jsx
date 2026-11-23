@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Stage, Layer, Rect, Circle, Line, RegularPolygon, Group, Image as KonvaImage, Text } from 'react-konva';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../../../firebase';
+import { Stage, Layer, Rect, Circle, Line, RegularPolygon, Group, Image as KonvaImage, Text, Shape } from 'react-konva';
+import { drawSquareGridOnCanvas, drawHexGridOnCanvas } from './map/gridGeometry';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { db, auth } from '../../../firebase';
 import { useCampaign } from '../../../context/CampaignContext';
 import { TokenNode, MapObjectNode, TextLabelNode } from './map/MapObjectNode';
 import MapWallNode from './map/MapWallNode';
@@ -12,19 +13,78 @@ import { getTextureUrlFromColor } from './map/MapTextures';
 import { Maximize, Minimize, Compass, RotateCcw, Volume2, VolumeX, Shield, Swords, Eye } from 'lucide-react';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
+import { sanitizeMapForSpectator } from '../../../utils/spectatorSanitizer';
 
 const SpectatorTerrainNode = ({ t }) => {
   const [patternImg, setPatternImg] = useState(null);
-  const textureUrl = t.textureUrl || getBiomeTextureUrl(t.biomeType || t.terrainTypeId) || getTextureUrlFromColor(t.color || t.terrainTypeId);
+  const [canvasImg, setCanvasImg] = useState(null);
+  const isImageTerrain = t.renderType === 'canvasImage' || t.renderType === 'image' || (!t.points && Boolean(t.imageUrl));
+  const textureUrl = !isImageTerrain
+    ? (t.textureUrl || getBiomeTextureUrl(t.biomeType || t.terrainTypeId) || getTextureUrlFromColor(t.color || t.terrainTypeId))
+    : null;
+
+  useEffect(() => {
+    if (isImageTerrain && t.imageUrl) {
+      let cancelled = false;
+      const img = new window.Image();
+      if (typeof t.imageUrl === 'string' && !t.imageUrl.startsWith('data:')) {
+        img.crossOrigin = 'anonymous';
+      }
+      img.onload = () => { if (!cancelled) setCanvasImg(img); };
+      img.onerror = () => { if (!cancelled) setCanvasImg(null); };
+      img.src = t.imageUrl;
+      return () => { cancelled = true; };
+    }
+    setCanvasImg(null);
+    return undefined;
+  }, [isImageTerrain, t.imageUrl]);
 
   useEffect(() => {
     if (textureUrl) {
+      let cancelled = false;
       const img = new window.Image();
+      if (typeof textureUrl === 'string' && !textureUrl.startsWith('data:')) {
+        img.crossOrigin = 'anonymous';
+      }
+      img.onload = () => { if (!cancelled) setPatternImg(img); };
+      img.onerror = () => { if (!cancelled) setPatternImg(null); };
       img.src = textureUrl;
-      img.onload = () => setPatternImg(img);
-      img.onerror = () => setPatternImg(null);
+      return () => { cancelled = true; };
     }
+    setPatternImg(null);
+    return undefined;
   }, [textureUrl]);
+
+  if (isImageTerrain) {
+    if (!canvasImg) return null;
+    return (
+      <KonvaImage
+        image={canvasImg}
+        x={t.x || 0}
+        y={t.y || 0}
+        width={t.width}
+        height={t.height}
+        listening={false}
+      />
+    );
+  }
+
+  if (t.renderType === 'rect') {
+    return (
+      <Rect
+        x={t.x || 0}
+        y={t.y || 0}
+        width={t.width || 40}
+        height={t.height || 40}
+        fill={t.color}
+        fillPatternImage={patternImg}
+        fillPatternRepeat="repeat"
+        stroke={t.strokeColor || t.color}
+        strokeWidth={t.strokeWidth || 1}
+        listening={false}
+      />
+    );
+  }
 
   if (t.renderType === 'hexTile') {
     return (
@@ -40,6 +100,10 @@ const SpectatorTerrainNode = ({ t }) => {
         strokeWidth={1}
       />
     );
+  }
+
+  if (!Array.isArray(t.points) || t.points.length < 2) {
+    return null;
   }
 
   if (t.closed || t.renderType === 'polygon') {
@@ -78,18 +142,6 @@ export const PlayerSpectatorView = () => {
   const isMobile = useIsMobile();
   const { mapId } = useParams();
   const navigate = useNavigate();
-
-  if (isMobile) {
-    return (
-      <MobileTacticalBlocker
-        operation="vtt"
-        customTitle="Tactical Spectator Canvas"
-        customDescription="The Live VTT Spectator and Tactical Map Projector view is optimized for wide-format desktop displays and TV projections. It is currently unavailable on mobile screens."
-        onBack={() => navigate('/folio')}
-      />
-    );
-  }
-
   const { universeState } = useCampaign();
 
   const [mapData, setMapData] = useState(null);
@@ -106,38 +158,49 @@ export const PlayerSpectatorView = () => {
   const containerRef = useRef(null);
   const stageRef = useRef(null);
 
-  // 1. Listen to Live Firestore Map document updates, with fallback to local state
+  // 1. Listen to Live sanitized Spectator Map document updates, with owner/local fallbacks
   useEffect(() => {
-    if (!mapId) return;
+    if (isMobile || !mapId) return;
 
     let unsub = () => {};
+
+    const applyFallbackMap = async () => {
+      if (db && auth?.currentUser) {
+        try {
+          const ownerSnap = await getDoc(doc(db, 'story_maps', mapId));
+          if (ownerSnap.exists()) {
+            setMapData(sanitizeMapForSpectator(ownerSnap.data(), auth.currentUser));
+            return;
+          }
+        } catch {}
+      }
+      const localMap = universeState?.maps?.find(m => m.id === mapId);
+      if (localMap) setMapData(sanitizeMapForSpectator(localMap, auth?.currentUser));
+    };
 
     try {
       if (db) {
         unsub = onSnapshot(
-          doc(db, 'story_maps', mapId),
+          doc(db, 'spectator_maps', mapId),
           (snapshot) => {
             if (snapshot.exists()) {
-              setMapData(snapshot.data());
+              setMapData(sanitizeMapForSpectator(snapshot.data(), auth?.currentUser));
             } else {
-              // Local fallback if document does not exist in cloud yet
-              const localMap = universeState?.maps?.find(m => m.id === mapId);
-              if (localMap) setMapData(localMap);
+              applyFallbackMap();
             }
           },
           (err) => {
-            console.warn('Firestore spectator stream fallback to local state:', err);
-            const localMap = universeState?.maps?.find(m => m.id === mapId);
-            if (localMap) setMapData(localMap);
+            console.warn('Firestore spectator stream fallback to local/owner state:', err);
+            applyFallbackMap();
           }
         );
       } else {
         const localMap = universeState?.maps?.find(m => m.id === mapId);
-        if (localMap) setMapData(localMap);
+        if (localMap) setMapData(sanitizeMapForSpectator(localMap, auth?.currentUser));
       }
     } catch (e) {
       const localMap = universeState?.maps?.find(m => m.id === mapId);
-      if (localMap) setMapData(localMap);
+      if (localMap) setMapData(sanitizeMapForSpectator(localMap, auth?.currentUser));
     }
 
     const handleResize = () => {
@@ -149,7 +212,7 @@ export const PlayerSpectatorView = () => {
       unsub();
       window.removeEventListener('resize', handleResize);
     };
-  }, [mapId, universeState?.maps]);
+  }, [isMobile, mapId, universeState?.maps]);
 
   // Handle Fullscreen Toggle
   const toggleFullscreen = () => {
@@ -212,12 +275,14 @@ export const PlayerSpectatorView = () => {
   // Security Sanitization: Strip GM-hidden tokens and layers
   const visibleTokens = useMemo(() => {
     if (!mapData?.tokens) return [];
-    return mapData.tokens.filter(t => !t.isHidden && !t.isGmOnly && t.visible !== false);
+    return mapData.tokens.filter(t => !t.isHidden && !t.hidden && !t.isGmOnly && t.visible !== false);
   }, [mapData?.tokens]);
 
   const visibleObjects = useMemo(() => {
     if (!mapData?.objects) return [];
-    return mapData.objects.filter(o => !o.isHidden && !o.isGmOnly && o.visible !== false);
+    return mapData.objects.filter(
+      o => !o.isHidden && !o.isGmOnly && o.visible !== false && !o.isTrap && !o.secret && !o.isSecret
+    );
   }, [mapData?.objects]);
 
   const visibleTexts = useMemo(() => {
@@ -237,70 +302,89 @@ export const PlayerSpectatorView = () => {
 
   const visibleWalls = useMemo(() => {
     if (!mapData?.walls) return [];
-    return mapData.walls.filter(w => !w.isSecret || w.isOpen);
+    return mapData.walls.map(w => {
+      if (w?.isSecret && !w?.isOpen) {
+        return { ...w, type: 'solid', isSecret: false, isOpen: false };
+      }
+      return w;
+    });
+  }, [mapData?.walls]);
+
+  // Closed secret doors still occlude player line-of-sight even though hidden visually
+  const occludingWalls = useMemo(() => {
+    if (!mapData?.walls) return [];
+    return mapData.walls.filter(
+      w =>
+        !w.isOpen &&
+        w.doorState !== 'open' &&
+        w.doorState !== 'breached' &&
+        w.type !== 'window' &&
+        w.wallType !== 'window' &&
+        !w.isTransparent &&
+        w.blocksVision !== false
+    );
   }, [mapData?.walls]);
 
   const activeHeroToken = useMemo(() => {
     return visibleTokens.find(t => t.type === 'hero' || t.linkedHeroId) || visibleTokens[0];
   }, [visibleTokens]);
 
+  const spectatorGridSize = Math.max(15, mapData?.gridSize || 50);
+  const spectatorWidth = Math.max(4000, mapData?.width || (mapData?.gridWidth || 40) * spectatorGridSize);
+  const spectatorHeight = Math.max(3000, mapData?.height || (mapData?.gridHeight || 30) * spectatorGridSize);
+
   const visibilityPolygon = useMemo(() => {
-    if (!activeHeroToken || visibleWalls.length === 0) return null;
+    if (!activeHeroToken) return null;
     return computeVisibilityPolygon(
       { x: activeHeroToken.x, y: activeHeroToken.y },
-      visibleWalls,
+      occludingWalls,
       {
         maxRadius: 1000,
-        bounds: { width: mapData?.width || 3000, height: mapData?.height || 2000 }
+        bounds: { width: spectatorWidth, height: spectatorHeight }
       }
     );
-  }, [activeHeroToken?.x, activeHeroToken?.y, visibleWalls, mapData?.width, mapData?.height]);
+  }, [activeHeroToken?.x, activeHeroToken?.y, occludingWalls, spectatorWidth, spectatorHeight]);
 
   const lines = mapData?.lines || [];
   const gridMode = mapData?.gridMode || 'hex';
 
-  // Grid Generator
+  // Grid Generator (single-Shape canvas render for 60 FPS performance)
   const renderGrid = () => {
-    if (gridMode === 'none' || gridMode === 'off') return null;
+    if (gridMode !== 'square' && gridMode !== 'hex') return null;
 
-    if (gridMode === 'square') {
-      const gridSize = 50, width = 4000, height = 3000;
-      const gridLines = [];
-      for (let i = 0; i <= width; i += gridSize) {
-        gridLines.push(<Line key={`v-${i}`} points={[i, 0, i, height]} stroke="rgba(255, 255, 255, 0.08)" strokeWidth={1} />);
-      }
-      for (let j = 0; j <= height; j += gridSize) {
-        gridLines.push(<Line key={`h-${j}`} points={[0, j, width, j]} stroke="rgba(255, 255, 255, 0.08)" strokeWidth={1} />);
-      }
-      return gridLines;
-    }
-
-    if (gridMode === 'hex') {
-      const hexRadius = 50, hexWidth = Math.sqrt(3) * hexRadius, hexHeight = 2 * hexRadius;
-      const cols = Math.ceil(4000 / hexWidth), rows = Math.ceil(3000 / (hexHeight * 0.75));
-      const hexes = [];
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          let x = c * hexWidth;
-          if (r % 2 !== 0) x += hexWidth / 2;
-          let y = r * hexHeight * 0.75;
-          hexes.push(
-            <RegularPolygon
-              key={`${r}-${c}`}
-              x={x}
-              y={y}
-              sides={6}
-              radius={hexRadius}
-              stroke="rgba(255, 255, 255, 0.08)"
-              strokeWidth={1}
-            />
-          );
-        }
-      }
-      return hexes;
-    }
-    return null;
+    return (
+      <Shape
+        listening={false}
+        perfectDrawEnabled={false}
+        sceneFunc={(ctx) => {
+          const boundedBox = { width: spectatorWidth, height: spectatorHeight };
+          if (gridMode === 'square') {
+            drawSquareGridOnCanvas(ctx, null, spectatorGridSize, {
+              minorStroke: 'rgba(255, 255, 255, 0.08)',
+              majorStroke: null,
+              boundedBox
+            });
+          } else {
+            drawHexGridOnCanvas(ctx, null, spectatorGridSize, {
+              stroke: 'rgba(255, 255, 255, 0.08)',
+              boundedBox
+            });
+          }
+        }}
+      />
+    );
   };
+
+  if (isMobile) {
+    return (
+      <MobileTacticalBlocker
+        operation="vtt"
+        customTitle="Tactical Spectator Canvas"
+        customDescription="The Live VTT Spectator and Tactical Map Projector view is optimized for wide-format desktop displays and TV projections. It is currently unavailable on mobile screens."
+        onBack={() => navigate('/folio')}
+      />
+    );
+  }
 
   if (!mapData) {
     return (
@@ -487,7 +571,7 @@ export const PlayerSpectatorView = () => {
         </Layer>
 
         {/* Layer 4: Dynamic Fog of War Mask & Line of Sight */}
-        {(visibleFog.length > 0 || (mapData.fogEnabled && visibilityPolygon)) && (
+        {(visibleFog.length > 0 || mapData.fogEnabled) && (
           <Layer id="spectator_fog" opacity={0.94}>
             {mapData.fogEnabled && (
               <Group>
@@ -503,15 +587,31 @@ export const PlayerSpectatorView = () => {
                 )}
               </Group>
             )}
-            {visibleFog.map((f) => (
-              <Line
-                key={f.id}
-                points={f.points}
-                fill="#05070a"
-                closed={true}
-                tension={0.2}
-              />
-            ))}
+            {visibleFog.map((f) =>
+              f.closed ? (
+                <Line
+                  key={f.id}
+                  points={f.points}
+                  fill="#05070a"
+                  closed={true}
+                  tension={0.2}
+                  globalCompositeOperation={f.isEraser || f.erase ? 'destination-out' : 'source-over'}
+                  listening={false}
+                />
+              ) : (
+                <Line
+                  key={f.id}
+                  points={f.points}
+                  stroke={f.color || '#05070a'}
+                  strokeWidth={f.strokeWidth || 50}
+                  tension={0.4}
+                  lineCap="round"
+                  lineJoin="round"
+                  globalCompositeOperation={f.isEraser || f.erase ? 'destination-out' : 'source-over'}
+                  listening={false}
+                />
+              )
+            )}
           </Layer>
         )}
       </Stage>

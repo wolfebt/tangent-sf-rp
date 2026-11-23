@@ -65,16 +65,20 @@ function rulesCompendiumPlugin() {
 export default defineConfig(({ command, mode }) => {
   const isProdBuild = command === 'build' || mode === 'production'
   const env = loadEnv(mode, __dirname, '')
-  const resolvedGeminiKey = env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY || ''
+  const resolvedGeminiKey = isProdBuild ? '' : (env.VITE_GEMINI_API_KEY || '')
 
   return {
     define: {
       'process.env': {},
-      ...(resolvedGeminiKey
+      ...(isProdBuild
         ? {
-            'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(resolvedGeminiKey)
+            'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify('')
           }
-        : {}),
+        : (resolvedGeminiKey
+          ? {
+              'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(resolvedGeminiKey)
+            }
+          : {})),
       // Security Hardening: Never bundle LiveKit HMAC secret into production client JS
       ...(isProdBuild
         ? {
@@ -106,12 +110,10 @@ export default defineConfig(({ command, mode }) => {
           if (cleanId.includes('node_modules/lucide-react')) return 'vendor-icons';
           if (cleanId.includes('node_modules/react/') || cleanId.includes('node_modules/react-dom/') || cleanId.includes('node_modules/react-router')) return 'vendor-react';
           if (cleanId.includes('node_modules/konva') || cleanId.includes('node_modules/react-konva')) return 'vendor-konva';
-          if (cleanId.includes('node_modules/@google/genai')) return 'vendor-genai';
           if (cleanId.includes('node_modules/yjs')) return 'vendor-yjs';
           if (
             cleanId.includes('node_modules/react-markdown') ||
             cleanId.includes('node_modules/remark-gfm') ||
-            cleanId.includes('node_modules/marked') ||
             cleanId.includes('node_modules/dompurify') ||
             cleanId.includes('node_modules/micromark') ||
             cleanId.includes('node_modules/mdast') ||
@@ -177,8 +179,28 @@ export default defineConfig(({ command, mode }) => {
         navigateFallbackDenylist: [/^\/api/, /^\/__(.*)/],
         runtimeCaching: [
           {
+            urlPattern: /^\/api\/.*/i,
+            handler: 'NetworkOnly'
+          },
+          {
+            urlPattern: /^https:\/\/(identitytoolkit|securetoken)\.googleapis\.com\/.*/i,
+            handler: 'NetworkOnly'
+          },
+          {
+            urlPattern: /^https:\/\/firestore\.googleapis\.com\/.*/i,
+            handler: 'NetworkOnly'
+          },
+          {
+            urlPattern: /^https:\/\/([a-z0-9-]+\.)?(cloudfunctions\.net|run\.app)\/.*/i,
+            handler: 'NetworkOnly'
+          },
+          {
+            urlPattern: /^https:\/\/generativelanguage\.googleapis\.com\/.*/i,
+            handler: 'NetworkOnly'
+          },
+          {
             urlPattern: /^https:\/\/firebasestorage\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'firebase-storage-cache',
               expiration: {

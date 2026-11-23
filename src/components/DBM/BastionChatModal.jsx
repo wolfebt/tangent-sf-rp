@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import UnifiedBastionDrawer from '../Folio/BastionDrawer';
+import React, { useEffect, Suspense } from 'react';
+import { lazyWithRetry } from '../../utils/lazyWithRetry';
 import { useBastion } from '../../context/BastionContext';
+
+const UnifiedBastionDrawer = lazyWithRetry(() => import('../Folio/BastionDrawer'));
 import {
   DEFAULT_COMPENDIUM_PRESETS,
   CATEGORY_PRESETS_MAP,
@@ -58,7 +60,11 @@ export const BastionChatModal = ({
   ]);
 
   if (!isOpen) return null;
-  return <UnifiedBastionDrawer isOpen={isOpen} onClose={onClose} />;
+  return (
+    <Suspense fallback={null}>
+      <UnifiedBastionDrawer isOpen={isOpen} onClose={onClose} />
+    </Suspense>
+  );
 };
 
 export default BastionChatModal;

@@ -93,11 +93,23 @@ function createMockHttpContext({ method = 'POST', headers = {}, body = {} } = {}
   return { req, res };
 }
 
-test('Cloud Functions [getLiveKitToken]: Handles CORS OPTIONS preflight and rejects non-POST methods', async () => {
-  const optCtx = createMockHttpContext({ method: 'OPTIONS' });
+test('Cloud Functions [getLiveKitToken]: Handles CORS OPTIONS preflight (allowlisted vs untrusted origin) and rejects non-POST methods', async () => {
+  const optCtx = createMockHttpContext({
+    method: 'OPTIONS',
+    headers: { origin: 'http://localhost:5173' }
+  });
   await getLiveKitToken(optCtx.req, optCtx.res);
   assert.equal(optCtx.res.getStatusCode(), 204);
-  assert.equal(optCtx.res.getHeaders()['Access-Control-Allow-Origin'], '*');
+  assert.equal(optCtx.res.getHeaders()['Access-Control-Allow-Origin'], 'http://localhost:5173');
+  assert.equal(optCtx.res.getHeaders()['Vary'], 'Origin');
+
+  const untrustedOptCtx = createMockHttpContext({
+    method: 'OPTIONS',
+    headers: { origin: 'https://evil-attacker.example' }
+  });
+  await getLiveKitToken(untrustedOptCtx.req, untrustedOptCtx.res);
+  assert.equal(untrustedOptCtx.res.getStatusCode(), 204);
+  assert.equal(untrustedOptCtx.res.getHeaders()['Access-Control-Allow-Origin'], undefined);
 
   const getCtx = createMockHttpContext({ method: 'GET' });
   await getLiveKitToken(getCtx.req, getCtx.res);
@@ -269,6 +281,81 @@ test('Cloud Functions [geminiProxy]: Validates auth, prompt parameter, and forwa
     });
     await geminiProxy(rateLimited.req, rateLimited.res);
     assert.equal(rateLimited.res.getStatusCode(), 429);
+
+    // Verify disallowed model rejection (400), maxOutputTokens clamping (8192), and non-admin googleSearch tool stripping
+    const badModel = createMockHttpContext({
+      method: 'POST',
+      headers: { authorization: 'Bearer valid-player-token' },
+      body: { prompt: 'Test', model: 'gemini-exp-disallowed-99' }
+    });
+    await geminiProxy(badModel.req, badModel.res);
+    assert.equal(badModel.res.getStatusCode(), 400);
+
+    let inspectedPayload = null;
+    globalThis.fetch = async (url, init) => {
+      inspectedPayload = JSON.parse(init.body);
+      return {
+        status: 200,
+        json: async () => ({ candidates: [{ content: { parts: [{ text: 'OK' }] } }] })
+      };
+    };
+
+    const clampedReq = createMockHttpContext({
+      method: 'POST',
+      headers: { authorization: 'Bearer valid-player-token' },
+      body: {
+        prompt: 'Test clamp and tools',
+        model: 'gemini-2.5-flash',
+        generationConfig: { maxOutputTokens: 65000, temperature: 0.2 },
+        tools: [
+          { googleSearch: {} },
+          { codeExecution: {} },
+          { urlContext: {} },
+          { functionDeclarations: [{ name: 'lookup_rule', description: 'Lookup' }] }
+        ]
+      }
+    });
+    await geminiProxy(clampedReq.req, clampedReq.res);
+    assert.equal(clampedReq.res.getStatusCode(), 200);
+    assert.equal(inspectedPayload.generationConfig.maxOutputTokens, 8192);
+    assert.equal(inspectedPayload.tools.length, 1);
+    assert.ok(inspectedPayload.tools[0].functionDeclarations);
+    assert.equal(inspectedPayload.tools[0].googleSearch, undefined);
+    assert.equal(inspectedPayload.tools[0].codeExecution, undefined);
+    assert.equal(inspectedPayload.tools[0].urlContext, undefined);
+
+    // Verify omitted generationConfig still enforces default maxOutputTokens cap (8192)
+    const defaultCapReq = createMockHttpContext({
+      method: 'POST',
+      headers: { authorization: 'Bearer valid-player-token' },
+      body: { prompt: 'Test default output cap', model: 'gemini-2.5-flash' }
+    });
+    await geminiProxy(defaultCapReq.req, defaultCapReq.res);
+    assert.equal(defaultCapReq.res.getStatusCode(), 200);
+    assert.equal(inspectedPayload.generationConfig.maxOutputTokens, 8192);
+
+    // Verify getLiveKitToken rejects invalid roomName (400)
+    const badRoomCtx = createMockHttpContext({
+      method: 'POST',
+      headers: { authorization: 'Bearer valid-player-token' },
+      body: { roomName: 'bad room/with spaces & chars!' }
+    });
+    await getLiveKitToken(badRoomCtx.req, badRoomCtx.res);
+    assert.equal(badRoomCtx.res.getStatusCode(), 400);
+
+    // Verify getLiveKitToken rate limiting after 60 requests
+    let lastRateStatus = 200;
+    for (let i = 0; i < 65; i++) {
+      const rateCtx = createMockHttpContext({
+        method: 'POST',
+        headers: { authorization: 'Bearer valid-gm-token' },
+        body: { roomName: 'rate-limit-room' }
+      });
+      await getLiveKitToken(rateCtx.req, rateCtx.res);
+      lastRateStatus = rateCtx.res.getStatusCode();
+      if (lastRateStatus === 429) break;
+    }
+    assert.equal(lastRateStatus, 429);
 
     // Verify missing server credentials return 500 for both functions
     const savedConfig = mockFunctionsConfig;

@@ -369,21 +369,26 @@ export default function InteractiveBookView({
                       </span>
                     </div>
 
-                    {opt.skill && (
-                      <div className="flex items-center justify-between text-[10px] text-amber-300/90 pt-1.5 border-t border-slate-800/80">
-                        <span className="truncate">{opt.skill}</span>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onRollCheck(opt.skill, 12);
-                          }}
-                          className="px-1.5 py-0.5 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[9px] font-bold uppercase transition-colors shrink-0 ml-1 cursor-pointer"
-                        >
-                          🎲 2d10
-                        </button>
-                      </div>
-                    )}
+                    {(opt.skillCheck || opt.skill) && (() => {
+                      const optSkill = opt.skillCheck || opt.skill;
+                      const dcMatch = String(optSkill).match(/(?:CR|DC)\s*(\d+)/i);
+                      const parsedDc = dcMatch ? parseInt(dcMatch[1], 10) : 12;
+                      return (
+                        <div className="flex items-center justify-between text-[10px] text-amber-300/90 pt-1.5 border-t border-slate-800/80">
+                          <span className="truncate">{optSkill}</span>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onRollCheck(optSkill, parsedDc);
+                            }}
+                            className="px-1.5 py-0.5 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[9px] font-bold uppercase transition-colors shrink-0 ml-1 cursor-pointer"
+                          >
+                            🎲 2d10
+                          </button>
+                        </div>
+                      );
+                    })()}
                   </button>
                 ))}
               </div>

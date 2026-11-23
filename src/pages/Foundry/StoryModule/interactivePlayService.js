@@ -15,6 +15,10 @@ import { resolveSubAttrScore, calculateSubAttrBase, SUB_ATTRIBUTE_PAIRS } from '
 import { DEFAULT_MODIFIERS } from '../../../data/supportingCatalogsData.js';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData.js';
 import { MODIFIER_PRESETS } from '../../../services/modifierService.ts';
+import {
+  resolveTangent2d10Check,
+  CANONICAL_DEFAULT_DEFENSE_CR
+} from '../../../engine/rules/CanonicalCombatMath.ts';
 
 export const INTERACTIVE_SESSIONS_STORAGE_KEY = 'tangent_interactive_sessions';
 
@@ -51,8 +55,13 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
     const wis = Number(entry['attr-wisdom']) || 1;
     const cha = Number(entry['attr-charisma']) || 1;
 
+    const isSynth = Boolean(entry.is_synthetic || entry.isSynthetic || String(entry['char-species'] || '').toLowerCase().includes('synthetic'));
     const hp = Number(entry['current-health']) || Number(entry['health']) || 30;
     const maxHp = Number(entry['max-health']) || Number(entry['health']) || 30;
+    const vitality = isSynth ? 0 : (Number(entry['current-vitality']) ?? Number(entry['vitality']) ?? 30);
+    const maxVitality = isSynth ? 0 : (Number(entry['max-vitality']) ?? Number(entry['vitality']) ?? 30);
+    const structure = isSynth ? (Number(entry['current-structure']) ?? Number(entry['structure']) ?? 60) : 0;
+    const maxStructure = isSynth ? (Number(entry['max-structure']) ?? Number(entry['structure']) ?? 60) : 0;
     const shields = Number(entry['current-shields']) || 15;
     const maxShields = Number(entry['max-shields']) || 15;
     const strain = Number(entry['current-strain']) || 0;
@@ -66,6 +75,7 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
       name: entry['char-name'] || 'Unnamed Operator',
       archetype: entry['char-archetype'] || 'Hero',
       species: entry['char-species'] || 'Terran',
+      isSynthetic: isSynth,
       focus: entry['char-concept'] || entry['char-occu'] || 'Operative',
       concept: entry['char-concept'] || 'Custom Persona from Folio Roster',
       attributes: { strength: str, agility: agi, stamina: sta, intellect: int, wisdom: wis, charisma: cha },
@@ -80,6 +90,10 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
       vitals: {
         health: hp,
         maxHealth: maxHp,
+        vitality,
+        maxVitality,
+        structure,
+        maxStructure,
         shields,
         maxShields,
         strain,
@@ -103,7 +117,10 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
     const wis = Number(fields['attr-wisdom']) || 1;
     const cha = Number(fields['attr-charisma']) || 1;
 
+    const isSynth = Boolean(fields['is_synthetic'] || fields['isSynthetic'] || String(fields['char-species'] || '').toLowerCase().includes('synthetic'));
     const hp = Number(fields['health']) || 30;
+    const vitality = isSynth ? 0 : (Number(fields['vitality']) ?? 30);
+    const structure = isSynth ? (Number(fields['structure']) ?? 60) : 0;
     const shields = Number(fields['shields']) || 15;
 
     return {
@@ -114,6 +131,7 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
       name,
       archetype: fields['char-concept'] || fields['role'] || 'Story Persona',
       species: fields['char-species'] || 'Terran',
+      isSynthetic: isSynth,
       focus: fields['role'] || fields['char-motive'] || entry.summary || 'Scenario Character',
       concept: entry.content || entry.summary || fields['char-concept'] || 'Story Foundry Element',
       attributes: { strength: str, agility: agi, stamina: sta, intellect: int, wisdom: wis, charisma: cha },
@@ -128,6 +146,10 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
       vitals: {
         health: hp,
         maxHealth: hp,
+        vitality,
+        maxVitality: vitality,
+        structure,
+        maxStructure: structure,
         shields,
         maxShields: shields,
         strain: 0,
@@ -410,41 +432,59 @@ export const evaluateTangentCheck = ({
   operative,
   skillName = 'Might',
   subAttrKey = 'attr-might',
-  targetCR = 12,
-  activeModifiers = []
+  targetCR = CANONICAL_DEFAULT_DEFENSE_CR,
+  activeModifiers = [],
+  diceOverride = null,
+  isOpposed = false
 }) => {
   const baseScore = operative?.subAttributes?.[subAttrKey] ?? 6;
   const modBonus = calculateActiveModifiersBonus(activeModifiers, subAttrKey);
   const totalMod = baseScore + modBonus;
 
-  // Roll canonical 2d10 with exploding dice
-  const rollRes = rollDice(`2d10+${totalMod}`, { targetNumber: targetCR });
-
-  const d1 = rollRes.rolls?.[0]?.value ?? 5;
-  const d2 = rollRes.rolls?.[1]?.value ?? 5;
+  // Roll canonical 2d10 and evaluate via CanonicalCombatMath (Nat 20 +10, Nat 2 -> -10 flat)
+  const rollRes = rollDice(`2d10+${totalMod}`, { targetNumber: targetCR, expandedThreat: true });
+  const d1 = Array.isArray(diceOverride) ? Number(diceOverride[0]) : (rollRes.rolls?.[0]?.value ?? 5);
+  const d2 = Array.isArray(diceOverride) ? Number(diceOverride[1]) : (rollRes.rolls?.[1]?.value ?? 5);
   const naturalRoll = d1 + d2;
-  const total = rollRes.total;
-  const margin = total - targetCR;
+
+  const canonical = resolveTangent2d10Check({
+    d1,
+    d2,
+    modifier: totalMod,
+    targetCR,
+    isOpposed
+  });
+
+  const effectiveTotal = canonical.total;
+  const margin = canonical.margin;
 
   let tier = 'failure';
   let tierLabel = 'FAILURE';
   let badgeColor = 'rose';
 
-  if (naturalRoll === 20 || margin >= 10) {
+  if (canonical.isCrit) {
     tier = 'critical_success';
     tierLabel = 'CRITICAL SUCCESS (DECISIVE)';
     badgeColor = 'emerald';
-  } else if (total >= targetCR) {
+  } else if (canonical.isFumble) {
+    tier = 'critical_fumble';
+    tierLabel = 'CRITICAL FUMBLE (CATASTROPHIC)';
+    badgeColor = 'rose';
+  } else if (margin >= 10) {
+    tier = 'critical_success';
+    tierLabel = 'OVERWHELMING SUCCESS (DECISIVE)';
+    badgeColor = 'emerald';
+  } else if (canonical.isSuccess) {
     tier = 'success';
     tierLabel = 'SUCCESS';
     badgeColor = 'cyan';
-  } else if (margin >= -2) {
+  } else if (margin >= -2 && !isOpposed) {
     tier = 'cost_success';
     tierLabel = 'SUCCESS AT A COST (COMPLICATION)';
     badgeColor = 'amber';
-  } else if (naturalRoll === 2 || margin <= -10) {
+  } else if (margin <= -10) {
     tier = 'critical_fumble';
-    tierLabel = 'CRITICAL FUMBLE (CATASTROPHIC)';
+    tierLabel = 'CATASTROPHIC FAILURE';
     badgeColor = 'rose';
   } else {
     tier = 'failure';
@@ -459,17 +499,20 @@ export const evaluateTangentCheck = ({
     d1,
     d2,
     naturalRoll,
+    effectiveDiceSum: canonical.effectiveDiceSum,
     baseScore,
     modBonus,
     totalMod,
-    total,
+    total: effectiveTotal,
     margin,
+    isCrit: canonical.isCrit,
+    isFumble: canonical.isFumble,
     tier,
     tierLabel,
     badgeColor,
-    isSuccess: tier === 'critical_success' || tier === 'success' || tier === 'cost_success',
-    formula: `2d10 (${d1}+${d2}=${naturalRoll}) + Mod ${totalMod} [Base ${baseScore}${modBonus !== 0 ? ` + Modifiers ${modBonus}` : ''}] = ${total} vs CR ${targetCR}`,
-    summary: `${operative?.name || 'Operator'} [${skillName}]: Rolled ${total} vs CR ${targetCR} ➔ ${tierLabel}`
+    isSuccess: canonical.isSuccess || tier === 'cost_success',
+    formula: `2d10 (${d1}+${d2}=${naturalRoll}${canonical.isCrit ? ' -> 30 CRIT' : canonical.isFumble ? ' -> -10 FUMBLE' : ''}) + Mod ${totalMod} [Base ${baseScore}${modBonus !== 0 ? ` + Modifiers ${modBonus}` : ''}] = ${effectiveTotal} vs CR ${targetCR}`,
+    summary: `${operative?.name || 'Operator'} [${skillName}]: Rolled ${effectiveTotal} vs CR ${targetCR} ➔ ${tierLabel}`
   };
 };
 

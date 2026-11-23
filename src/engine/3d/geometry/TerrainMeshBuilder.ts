@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { feetToWorldUnits } from '../scaleConstants.ts';
 
 export interface TerrainMeshOptions {
   width?: number;
@@ -78,7 +79,9 @@ export class TerrainMeshBuilder {
   }
 
   private createPlateauMesh(terrain: any): THREE.Mesh | null {
-    const elevation = terrain.elevationOffsetFt ?? terrain.elevation ?? (terrain.renderType === 'hexTile' ? terrain.height : 2) ?? 2; // in world units
+    const elevation = terrain.elevationOffsetFt !== undefined
+      ? feetToWorldUnits(terrain.elevationOffsetFt)
+      : (terrain.elevation ?? (terrain.renderType === 'hexTile' ? terrain.height : 2) ?? 2); // in world units
     const color = terrain.color || '#334155';
 
     let geometry: THREE.BufferGeometry | null = null;
@@ -160,6 +163,7 @@ export class TerrainMeshBuilder {
     const texture = this.textureLoader.load(url, () => {
       texture.needsUpdate = true;
     });
+    texture.userData.shared = true;
     this.loadedTextures.set(url, texture);
     return texture;
   }

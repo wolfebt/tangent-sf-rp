@@ -88,13 +88,13 @@ export function resolveStageMenu(context, appState, handlers) {
           },
           {
             id: 'shot-legs',
-            label: 'Legs / Locomotion (-1 penalty)',
-            onClick: () => handlers.rollDice?.({ label: `Called Shot [Legs] on ${tokenName}`, penalty: -1 })
+            label: 'Legs / Locomotion (-2 penalty)',
+            onClick: () => handlers.rollDice?.({ label: `Called Shot [Legs] on ${tokenName}`, penalty: -2 })
           },
           {
             id: 'shot-optics',
-            label: 'Optics / Sensors (-3 penalty)',
-            onClick: () => handlers.rollDice?.({ label: `Called Shot [Optics] on ${tokenName}`, penalty: -3 })
+            label: 'Optics / Sensors (-5 penalty)',
+            onClick: () => handlers.rollDice?.({ label: `Called Shot [Optics] on ${tokenName}`, penalty: -5 })
           }
         ]
       },

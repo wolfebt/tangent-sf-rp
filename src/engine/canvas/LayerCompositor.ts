@@ -129,4 +129,16 @@ export class LayerCompositor {
   public getAllLayers(): Map<ZLayer, Container> {
     return this.layers;
   }
+
+  public destroy(): void {
+    for (const container of this.layers.values()) {
+      if (container && !container.destroyed) {
+        container.destroy({ children: true });
+      }
+    }
+    if (this.roofMask && !this.roofMask.destroyed) {
+      this.roofMask.destroy();
+    }
+    this.layers.clear();
+  }
 }

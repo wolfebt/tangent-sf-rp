@@ -10,7 +10,7 @@
  *      - Active story flags and mechanical target DC
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { generateContent } from '../../../../services/aimeService.js';
 import { ATMOSPHERIC_PRESETS } from '../../PresetsAndScripts/constants/atmosphericPresets.js';
 import { AudioService } from '../../../../services/audioService.js';
@@ -38,8 +38,6 @@ export default function ArchitectIdeationModal({
   folioCharacter,
   onCommitNode
 }) {
-  if (!isOpen) return null;
-
   // Step 1: Architect Intent | Step 2: Mechanical Stakes | Step 3: Sensory Flavor | Step 4: Review
   const [step, setStep] = useState(1);
   const [nodeType, setNodeType] = useState(initialNodeType || 'Climax');
@@ -62,6 +60,14 @@ export default function ArchitectIdeationModal({
   const [flavorOptions, setFlavorOptions] = useState([]);
   const [selectedFlavor, setSelectedFlavor] = useState('');
   const [assembledDraft, setAssembledDraft] = useState('');
+
+  useEffect(() => {
+    if (initialNodeType) {
+      setNodeType(initialNodeType);
+    }
+  }, [initialNodeType, isOpen]);
+
+  if (!isOpen) return null;
 
   const handleGenerateFlavor = async () => {
     if (!architectIntent.trim()) return;
@@ -107,7 +113,7 @@ Option 3: [Sensory depiction]`;
   const handleProceedToReview = () => {
     const combined = `### [${nodeType.toUpperCase()}]: ${architectIntent.trim()}
 **Objective:** ${primaryObjective.trim() || 'Overcome primary conflict'} (vs DC ${targetDC})
-**Environmental Grounding:** ${activeWeatherObj.name} | *${activeWeatherObj.rule}*
+${opposingForce.trim() ? `**Opposing Force:** ${opposingForce.trim()}\n` : ''}**Environmental Grounding:** ${activeWeatherObj.name} | *${activeWeatherObj.rule}*
 **Tactical Conditions:** ${operativeConditions.join(', ')}
 
 > 👁️ *Sensory Atmosphere:* ${selectedFlavor.trim()}`;
@@ -123,6 +129,7 @@ Option 3: [Sensory depiction]`;
         title: architectIntent.trim() || 'Untitled Node',
         intent: architectIntent.trim(),
         objective: primaryObjective.trim() || 'Overcome primary conflict',
+        opposingForce: opposingForce.trim(),
         targetDC,
         weatherPreset: `${activeWeatherObj.name} (${activeWeatherObj.rule})`,
         conditions: operativeConditions,

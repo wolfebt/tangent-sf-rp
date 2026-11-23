@@ -7,6 +7,7 @@
 
 import * as THREE from 'three';
 import { WALL_TYPES, DOOR_STATES } from '../../../schemas/vttWallSchema.js';
+import { DEFAULT_WALL_HEIGHT_WORLD } from '../scaleConstants.ts';
 
 export interface Wall3DOptions {
   defaultHeight?: number;       // default wall height in world units (e.g. 70 = 10ft)
@@ -27,7 +28,7 @@ export class WallExtruder3D {
   private frameMaterial: THREE.MeshStandardMaterial;
 
   constructor(options: Wall3DOptions = {}) {
-    this.defaultHeight = options.defaultHeight || 70; // 70px = 1 standard 5ft grid cell height = 10ft wall
+    this.defaultHeight = options.defaultHeight ?? DEFAULT_WALL_HEIGHT_WORLD; // 140px = 10ft wall at 14 units/ft
     this.defaultThickness = options.defaultThickness || 8;
 
     // Sci-Fi Plasteel Wall Material
@@ -89,6 +90,18 @@ export class WallExtruder3D {
       roughness: 0.4,
       metalness: 0.8
     });
+
+    [
+      this.solidWallMaterial,
+      this.windowMaterial,
+      this.etherealMaterial,
+      this.doorClosedMaterial,
+      this.doorOpenMaterial,
+      this.doorBreachedMaterial,
+      this.frameMaterial
+    ].forEach((mat) => {
+      mat.userData.shared = true;
+    });
   }
 
   /**
@@ -145,10 +158,37 @@ export class WallExtruder3D {
     wallGroup.position.set(midX, baseElevation, midZ);
     wallGroup.rotation.y = -angle; // Rotate to align with segment vector
 
+    const rawType = String(wall.type || wall.wallType || '').toLowerCase();
+    const isDoor =
+      rawType === WALL_TYPES.DOOR ||
+      rawType.includes('door') ||
+      Boolean(wall.isDoor) ||
+      Boolean(wall.isDynamic);
+    const isEthereal =
+      !isDoor &&
+      (rawType === WALL_TYPES.ETHEREAL || rawType.includes('ethereal') || rawType === 'energy_shield');
+    const isWindow =
+      !isDoor &&
+      !isEthereal &&
+      (rawType === WALL_TYPES.WINDOW ||
+        rawType.includes('window') ||
+        rawType.includes('glass') ||
+        Boolean(wall.isTransparent));
+    const normalizedWallType = isDoor
+      ? WALL_TYPES.DOOR
+      : isWindow
+        ? WALL_TYPES.WINDOW
+        : isEthereal
+          ? WALL_TYPES.ETHEREAL
+          : (wall.type || wall.wallType || WALL_TYPES.SOLID);
+
     // Attach metadata for raycasting / interactive clicks and multi-deck slicing
     (wallGroup as any).userData = {
       wallId: wall.id,
-      wallType: wall.type,
+      wallType: normalizedWallType,
+      isDoor,
+      isWindow,
+      isEthereal,
       doorState: wall.doorState,
       isOpen: wall.isOpen,
       isLocked: wall.isLocked,
@@ -157,10 +197,6 @@ export class WallExtruder3D {
       elevationWorld: baseElevation,
       deckSliceable: true
     };
-
-    const isDoor = wall.type === WALL_TYPES.DOOR;
-    const isWindow = wall.type === WALL_TYPES.WINDOW;
-    const isEthereal = wall.type === WALL_TYPES.ETHEREAL;
 
     if (isDoor) {
       // Build 3D Bulkhead Door with structural frame and sliding door leaf
@@ -248,6 +284,26 @@ export class WallExtruder3D {
       capMesh.position.set(0, wallHeight + 1, 0);
       wallGroup.add(capMesh);
     }
+
+    const childWallMeta = {
+      wallId: wall.id,
+      wallType: normalizedWallType,
+      isDoor,
+      isWindow,
+      isEthereal,
+      doorState: wall.doorState,
+      isOpen: Boolean(wall.isOpen || wall.doorState === DOOR_STATES.OPEN || wall.doorState === DOOR_STATES.BREACHED),
+      isLocked: wall.isLocked,
+      isWall: true
+    };
+    wallGroup.traverse((child) => {
+      if (child !== wallGroup) {
+        child.userData = {
+          ...(child.userData || {}),
+          ...childWallMeta
+        };
+      }
+    });
 
     return wallGroup;
   }

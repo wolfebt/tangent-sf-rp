@@ -66,6 +66,16 @@ export const MapMaker3DPreviewModal = ({
     }
 
     cameraRig.attach(canvas);
+    const initW = canvas.clientWidth || canvas.parentElement?.clientWidth || window.innerWidth || 800;
+    const initH = canvas.clientHeight || canvas.parentElement?.clientHeight || window.innerHeight || 600;
+    if (initW > 0 && initH > 0) {
+      cameraRig.updateAspect(initW / initH);
+    }
+    const unbindResize = renderer.onResize((w, h) => {
+      if (w > 0 && h > 0) {
+        cameraRig.updateAspect(w / h);
+      }
+    });
     compositor.syncFromMap(currentMap, tokens, null, null, cameraRig.camera);
 
     const unbindRender = renderer.onRender((delta, elapsed) => {
@@ -76,6 +86,7 @@ export const MapMaker3DPreviewModal = ({
 
     return () => {
       isDestroyed = true;
+      unbindResize();
       unbindRender();
       cameraRig.detach();
       compositor.dispose();

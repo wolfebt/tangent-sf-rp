@@ -244,12 +244,10 @@ export const ChatService = {
 
     const docRef = await addDoc(messagesRef, docData);
 
-    // Update parent channel's lastMessage and updatedAt
+    // Update parent channel's lastMessage and updatedAt (strict key subset for public channel rules)
     try {
       const channelDocRef = doc(db, 'channels', channelId);
-      const defaultMeta = DEFAULT_PUBLIC_CHANNELS.find(c => c.id === channelId);
-      await setDoc(channelDocRef, {
-        ...(defaultMeta || {}),
+      await updateDoc(channelDocRef, {
         updatedAt: serverTimestamp(),
         lastMessage: {
           text: messagePayload.type === 'dice_roll' 
@@ -265,7 +263,7 @@ export const ChatService = {
           senderId: messagePayload.senderId || '',
           timestamp: now.toISOString()
         }
-      }, { merge: true });
+      });
     } catch (err) {
       console.warn('[ChatService] Failed to update channel lastMessage:', err);
     }

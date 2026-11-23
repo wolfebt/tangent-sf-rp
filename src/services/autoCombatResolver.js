@@ -11,47 +11,58 @@
  */
 
 import { AudioService } from './audioService.js';
+import {
+  resolveTangent2d10Check,
+  calculateDamageMitigation,
+  routePoolDamage
+} from '../engine/rules/CanonicalCombatMath.ts';
 
 export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan = {}) {
-  // 1. Roll 2d10
-  const d1 = Math.floor(Math.random() * 10) + 1;
-  const d2 = Math.floor(Math.random() * 10) + 1;
-  const isTriumph = d1 === 10 && d2 === 10;
-  const isFumble = d1 === 1 && d2 === 1;
+  const numOr = (val, fallback) => {
+    const parsed = parseInt(val, 10);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  };
 
-  const rawRoll = d1 + d2;
-  // Per 3.00 COMBAT.md: Critical adds +10 to rolled dice value (20 -> 30). Fumble replaces rolled dice value with flat -10.
-  let baseRoll = isTriumph ? (rawRoll + 10) : isFumble ? -10 : rawRoll;
-
-  const attackBonus = parseInt(attackerToken.attackBonus || attackerToken.atkBonus || attackerToken.skillRank || 4, 10);
-  const attributeMod = parseInt(attackerToken.attributeMod || attackerToken.abilityMod || 2, 10);
-  const aimBonus = actionPlan.isAiming ? Math.min(6, (actionPlan.aimRounds || 1) * 2) : 0;
+  const attackBonus = numOr(attackerToken.attackBonus ?? attackerToken.atkBonus ?? attackerToken.skillRank, 4);
+  const attributeMod = numOr(attackerToken.attributeMod ?? attackerToken.abilityMod, 2);
+  const aimBonus = actionPlan.isAiming ? Math.min(6, (actionPlan.aimRounds ?? 1) * 2) : 0;
   const burstBonus = actionPlan.isBurst ? 1 : 0;
   const pointBlankBonus = actionPlan.isPointBlank ? 5 : 0;
 
   // Called Shot penalty per 3.00 COMBAT.md: Torso -1, Head -2, Arm -2, Leg -2
-  let location = actionPlan.hitLocation || 'torso';
+  const location = actionPlan.hitLocation || actionPlan.targetLocation || 'torso';
   let calledShotPenalty = 0;
   if (actionPlan.isCalledShot) {
     if (location === 'torso') calledShotPenalty = -1;
     else if (location === 'head' || location === 'arm' || location === 'leg') calledShotPenalty = -2;
   }
 
-  const totalAttack = baseRoll + attackBonus + attributeMod + aimBonus + burstBonus + pointBlankBonus + calledShotPenalty;
-
-  // 2. Compute Target Defense DC (CR 15 baseline for Medium at Short range)
-  const targetBaseDef = parseInt(targetToken.defenseDc || targetToken.defense || 15, 10);
-  const targetSize = parseInt(targetToken.sizeModifier || 0, 10); // Target size reduces DC if large, increases if small
+  // 2. Compute Target Defense CR (CR 15 baseline for Medium at Short range)
+  const targetBaseDef = numOr(targetToken.defenseDc ?? targetToken.defense, 15);
+  const targetSize = numOr(targetToken.sizeModifier, 0);
   const coverBonus = targetToken.inCover ? (targetToken.coverType === 'full' ? 5 : 2) : 0;
   const evasionBonus = targetToken.isEvasive ? 2 : 0;
   const totalDefenseCr = Math.max(5, targetBaseDef - targetSize + coverBonus + evasionBonus);
 
-  // CRITICAL CANONICAL RULE: "DEFENDER WINS ALL TIES"
-  const isHit = totalAttack > totalDefenseCr && !isFumble;
-  const margin = totalAttack - totalDefenseCr;
+  // 1. Canonical 2d10 Attack Roll (Defender Wins All Ties)
+  const attackModifier = attackBonus + attributeMod + aimBonus + burstBonus + pointBlankBonus + calledShotPenalty;
+  const check = resolveTangent2d10Check({
+    diceOverride: actionPlan.diceOverride,
+    modifier: attackModifier,
+    targetCR: totalDefenseCr,
+    isOpposed: true
+  });
+
+  const d1 = check.d1;
+  const d2 = check.d2;
+  const baseRoll = check.effectiveDiceSum;
+  const isTriumph = check.isCrit;
+  const isFumble = check.isFumble;
+  const totalAttack = check.total;
+  const isHit = check.isSuccess;
+  const margin = check.margin;
 
   // 3. Damage Calculation
-  // Formula: (Weapon Dice + Ability Mod + Precision) - (Target Armor DR + Target STA Mod)
   let rawDamage = 0;
   let effectiveDamage = 0;
   let statusInflicted = null;
@@ -59,10 +70,9 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
   let isTargetDead = false;
 
   if (isHit) {
-    let baseWpnDmg = parseInt(attackerToken.weaponDamage || 8, 10);
-    // Point Blank advantage or standard roll
-    let die1 = Math.floor(Math.random() * 8) + 1;
-    let die2 = Math.floor(Math.random() * 8) + 1;
+    let baseWpnDmg = numOr(attackerToken.weaponDamage, 8);
+    const die1 = Math.floor(Math.random() * 8) + 1;
+    const die2 = Math.floor(Math.random() * 8) + 1;
     let variableDmg = actionPlan.isPointBlank ? Math.max(die1, die2) : die1;
 
     // Natural 20 doubles weapon damage dice
@@ -72,32 +82,27 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
     }
 
     const burstDmg = actionPlan.isBurst ? 3 : 0;
-    const attackerAbilityDmg = parseInt(attackerToken.strMod || attackerToken.agiMod || 2, 10);
+    const attackerAbilityDmg = numOr(attackerToken.strMod ?? attackerToken.agiMod, 2);
     rawDamage = baseWpnDmg + variableDmg + burstDmg + attackerAbilityDmg;
 
-    // Armor DR & Target Stamina Natural DR Soak
-    let targetDr = Array.isArray(targetToken.armorLayers) && targetToken.armorLayers.length > 0
-      ? Math.max(0, ...targetToken.armorLayers)
-      : parseInt(targetToken.armorDr || targetToken.dr || 2, 10);
-    const dmgType = String(actionPlan.damageType || 'kinetic').toLowerCase();
-    const bypassesAll = dmgType === 'bleed' || Boolean(actionPlan.isOverchannelBurn);
-    if (bypassesAll || dmgType === 'sonic' || dmgType === 'spectral' || dmgType === 'phase' || dmgType === 'mental' || dmgType === 'psyche') {
-      targetDr = 0;
-    } else if (dmgType === 'force') {
-      targetDr = Math.floor(targetDr / 2); // Force damage ignores 1/2 of Armor DR
-    }
-    const damageAfterDefenses = Math.max(0, rawDamage - targetDr);
-    const targetStaDR = bypassesAll
-      ? 0
-      : parseInt(targetToken.stamina ?? targetToken.toughness ?? targetToken.staMod ?? targetToken.conMod ?? 1, 10);
-    if (damageAfterDefenses > 0) {
-      effectiveDamage = Math.max(0, damageAfterDefenses - Math.max(0, targetStaDR));
-    } else {
-      effectiveDamage = 0;
-    }
+    const armorLayers = Array.isArray(targetToken.armorLayers) && targetToken.armorLayers.length > 0
+      ? targetToken.armorLayers
+      : [numOr(targetToken.armorDr ?? targetToken.dr, 2)];
+    const penetration = numOr(actionPlan.penetration ?? attackerToken.penetration ?? actionPlan.armorPenetration, 0);
+    const targetStaDR = numOr(targetToken.stamina ?? targetToken.toughness ?? targetToken.staMod ?? targetToken.conMod, 1);
 
-    // Hit Location Saving Throw & Status Effect Evaluation
-    if (effectiveDamage > 0) {
+    const mitigation = calculateDamageMitigation({
+      rawDamage,
+      armorLayers,
+      penetration,
+      damageType: actionPlan.damageType || 'kinetic',
+      isOverchannelBurn: Boolean(actionPlan.isOverchannelBurn),
+      staminaToughness: targetStaDR
+    });
+    effectiveDamage = mitigation.netDamage;
+
+    // Called Shot / Critical Trauma Status (do not inflict on standard uncalled hits)
+    if (effectiveDamage > 0 && (actionPlan.isCalledShot || isTriumph || Boolean(actionPlan.hitLocation || actionPlan.targetLocation))) {
       if (location === 'head') {
         statusInflicted = 'KO (Reason Save or Stunned, fail by 10+ Unconscious)';
       } else if (location === 'torso') {
@@ -110,44 +115,42 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
     }
   }
 
-  // 4. Update Target Vitals & Mortality State (Vitality-First Routing unless Critical Hit / Bleed)
+  // 4. Update Target Vitals & Mortality State (Synthetic or Vitality-First Routing unless Crit / Bleed)
+  const isSynthetic = Boolean(targetToken.isSynthetic || targetToken.is_synthetic || targetToken.structure !== undefined);
   const hasVitalityPool = targetToken.vitality !== undefined && targetToken.vitality !== null;
   const targetVit = hasVitalityPool
-    ? parseInt(targetToken.vitality?.current ?? targetToken.vitality ?? 0, 10)
+    ? numOr(targetToken.vitality?.current ?? targetToken.vitality, 0)
     : 0;
-  const targetHp = parseInt(targetToken.health?.current ?? targetToken.hp?.current ?? 20, 10);
-  const targetMaxHp = parseInt(targetToken.health?.max ?? targetToken.hp?.max ?? 20, 10);
-  const targetStaScore = parseInt(
-    targetToken.staminaScore ?? targetToken.stamina ?? targetToken.constitution ?? targetToken.conScore ?? 0,
-    10
+  const targetHp = numOr(targetToken.health?.current ?? targetToken.hp?.current ?? targetToken.health ?? targetToken.hp, 20);
+  const targetMaxHp = numOr(targetToken.health?.max ?? targetToken.hp?.max ?? targetToken.maxHp, 20);
+  const targetStruct = numOr(targetToken.structure?.current ?? targetToken.structure, targetHp);
+  const targetStaScore = numOr(
+    targetToken.staminaScore ?? targetToken.stamina ?? targetToken.constitution ?? targetToken.conScore,
+    0
   );
-  const maxStabilityPoints = Math.max(1, targetStaScore + 5);
 
-  let newVit = targetVit;
-  let healthDamage = effectiveDamage;
-  const bypassesVit = Boolean(isTriumph || String(actionPlan.damageType || '').toLowerCase() === 'bleed' || actionPlan.isOverchannelBurn);
-  if (hasVitalityPool && !bypassesVit && effectiveDamage > 0) {
-    if (effectiveDamage <= targetVit) {
-      newVit = targetVit - effectiveDamage;
-      healthDamage = 0;
-    } else {
-      newVit = 0;
-      healthDamage = effectiveDamage - targetVit;
-    }
-  }
+  const routing = routePoolDamage({
+    netDamage: effectiveDamage,
+    isSynthetic,
+    isLethal: actionPlan.isLethal !== false,
+    isCritical: isTriumph,
+    damageType: actionPlan.damageType || 'kinetic',
+    isOverchannelBurn: Boolean(actionPlan.isOverchannelBurn),
+    attemptedReduction: actionPlan.attemptedReduction !== false,
+    hasVitalityPool,
+    currentVitality: targetVit,
+    currentHealth: targetHp,
+    currentStructure: targetStruct,
+    staminaScore: targetStaScore,
+    currentStabilityPoints: targetToken.stabilityPoints
+  });
 
-  let newHp = targetHp - healthDamage;
-  let remainingStability = targetToken.stabilityPoints !== undefined ? targetToken.stabilityPoints : maxStabilityPoints;
-
-  if (newHp <= 0) {
-    entersMortalityState = true;
-    const excessDmg = Math.abs(newHp);
-    remainingStability = Math.max(0, remainingStability - excessDmg);
-    if (remainingStability <= 0) {
-      isTargetDead = true;
-    }
-    newHp = 0;
-  }
+  const newVit = routing.remainingVitality;
+  const newHp = routing.remainingHealth;
+  const remainingStability = routing.stabilityPointsRemaining;
+  const maxStabilityPoints = routing.maxStabilityPoints;
+  entersMortalityState = routing.entersMortalityState;
+  isTargetDead = routing.isDead;
 
   // Play audio cues
   if (isHit) {

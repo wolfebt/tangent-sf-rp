@@ -24,30 +24,88 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
   const [pixelsPerGrid, setPixelsPerGrid] = useState<number>(100);
   const [downloadSuccess, setDownloadSuccess] = useState<string | null>(null);
 
-  const rawWalls = (currentMap?.walls || []).map((w: any) => ({
-    p1: [w.x1 || 0, w.y1 || 0] as [number, number],
-    p2: [w.x2 || 0, w.y2 || 0] as [number, number],
-    blocksLight: w.blocksLight ?? true
-  }));
+  const sourceGridSize = currentMap?.gridSize || 50;
+  const mapWidthCells = currentMap?.gridWidth || Math.max(1, Math.round((currentMap?.width || 1500) / sourceGridSize));
+  const mapHeightCells = currentMap?.gridHeight || Math.max(1, Math.round((currentMap?.height || 1000) / sourceGridSize));
 
-  const portals = (currentMap?.portals || currentMap?.doors || []).map((d: any) => ({
-    col: d.x || d.col || 0,
-    row: d.y || d.row || 0,
-    horizontal: d.horizontal ?? true,
-    closed: d.closed ?? true,
-    freemove: false
-  }));
+  const mapWallsList = Array.isArray(currentMap?.walls) ? currentMap.walls : [];
+  const maxRawCoord = mapWallsList.reduce((acc: number, w: any) => {
+    const coords = [
+      w.p1?.x ?? w.x1 ?? 0,
+      w.p1?.y ?? w.y1 ?? 0,
+      w.p2?.x ?? w.x2 ?? 0,
+      w.p2?.y ?? w.y2 ?? 0
+    ];
+    return Math.max(acc, ...coords.map(c => Math.abs(Number(c) || 0)));
+  }, 0);
+  const coordScale = maxRawCoord > Math.max(mapWidthCells, mapHeightCells) * 1.5 ? 1 / sourceGridSize : 1;
 
-  const lights = (currentMap?.lights || []).map((l: any) => ({
-    col: l.x || l.col || 0,
-    row: l.y || l.row || 0,
-    rangeFt: l.radius || 20,
-    colorHex: l.color || '#f59e0b',
-    intensity: l.intensity || 1.0
-  }));
+  const isDoorWall = (w: any) => w.type === 'door' || w.wallType === 'door' || w.isDoor === true || w.isDynamic === true;
+  const isWindowWall = (w: any) => w.type === 'window' || w.wallType === 'window' || w.isTransparent === true;
+  const isEtherealWall = (w: any) => w.type === 'ethereal' || w.wallType === 'ethereal';
+  const isBreachedWall = (w: any) => w.doorState === 'breached' || (w.breachHp !== undefined && w.breachHp <= 0);
 
-  const mapWidthCells = currentMap?.gridWidth || 30;
-  const mapHeightCells = currentMap?.gridHeight || 20;
+  const rawWalls = mapWallsList
+    .filter((w: any) => !isDoorWall(w) && !isWindowWall(w) && !isEtherealWall(w) && !isBreachedWall(w))
+    .map((w: any) => {
+      const x1 = Number(w.p1?.x ?? w.x1 ?? 0) * coordScale;
+      const y1 = Number(w.p1?.y ?? w.y1 ?? 0) * coordScale;
+      const x2 = Number(w.p2?.x ?? w.x2 ?? 0) * coordScale;
+      const y2 = Number(w.p2?.y ?? w.y2 ?? 0) * coordScale;
+      return {
+        p1: [x1, y1] as [number, number],
+        p2: [x2, y2] as [number, number],
+        blocksLight: w.blocksLight ?? (w.blocksVision !== false)
+      };
+    });
+
+  const derivedDoorPortals = mapWallsList
+    .filter((w: any) => (isDoorWall(w) || isWindowWall(w)) && !isBreachedWall(w))
+    .map((w: any) => {
+      const x1 = Number(w.p1?.x ?? w.x1 ?? 0) * coordScale;
+      const y1 = Number(w.p1?.y ?? w.y1 ?? 0) * coordScale;
+      const x2 = Number(w.p2?.x ?? w.x2 ?? 0) * coordScale;
+      const y2 = Number(w.p2?.y ?? w.y2 ?? 0) * coordScale;
+      const isWindow = isWindowWall(w);
+      const isOpen = w.isOpen === true || w.doorState === 'open' || isBreachedWall(w);
+      return {
+        col: (x1 + x2) / 2,
+        row: (y1 + y2) / 2,
+        horizontal: Math.abs(x2 - x1) >= Math.abs(y2 - y1),
+        closed: isWindow ? true : !isOpen,
+        freemove: isWindow || isOpen,
+        bounds: [[x1, y1], [x2, y2]] as [[number, number], [number, number]]
+      };
+    });
+
+  const explicitPortals = (currentMap?.portals || currentMap?.doors || []).map((d: any) => {
+    const rawX = Number(d.x ?? d.col ?? 0);
+    const rawY = Number(d.y ?? d.row ?? 0);
+    return {
+      col: rawX > mapWidthCells * 1.5 ? rawX / sourceGridSize : rawX,
+      row: rawY > mapHeightCells * 1.5 ? rawY / sourceGridSize : rawY,
+      horizontal: d.horizontal ?? true,
+      closed: d.closed ?? true,
+      freemove: Boolean(d.freemove)
+    };
+  });
+
+  const portals = [...explicitPortals, ...derivedDoorPortals];
+
+  const lights = (currentMap?.lights || []).map((l: any) => {
+    const rawX = Number(l.x ?? l.col ?? 0);
+    const rawY = Number(l.y ?? l.row ?? 0);
+    const rangeFt = l.rangeFt !== undefined
+      ? Number(l.rangeFt)
+      : Math.round((((Number(l.radius) || sourceGridSize * 3) / sourceGridSize) * 5) * 10) / 10;
+    return {
+      col: rawX > mapWidthCells * 1.5 ? rawX / sourceGridSize : rawX,
+      row: rawY > mapHeightCells * 1.5 ? rawY / sourceGridSize : rawY,
+      rangeFt,
+      colorHex: l.color || '#f59e0b',
+      intensity: l.intensity || 1.0
+    };
+  });
 
   // Calculate collinear reduction
   const reducedWalls = UniversalVttPackager.reduceCollinearSegments(rawWalls);
@@ -55,14 +113,19 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
     ? Math.round(((rawWalls.length - reducedWalls.length) / rawWalls.length) * 100)
     : 0;
 
-  const handleDownloadUvtt = () => {
-    const base64Image = currentMap?.thumbnail || MapGraphicsCompiler.compileForUniversalVtt({
-      widthCells: mapWidthCells,
-      heightCells: mapHeightCells,
-      pixelsPerGrid,
-      terrains: currentMap?.terrains || [],
-      underlays: currentMap?.underlays || []
-    });
+  const handleDownloadUvtt = async () => {
+    const rawThumb = currentMap?.thumbnail || '';
+    const thumbBase64Idx = rawThumb.indexOf('base64,');
+    const base64Image = rawThumb
+      ? (thumbBase64Idx !== -1 ? rawThumb.slice(thumbBase64Idx + 'base64,'.length) : rawThumb)
+      : await MapGraphicsCompiler.compileForUniversalVttAsync({
+          widthCells: mapWidthCells,
+          heightCells: mapHeightCells,
+          pixelsPerGrid,
+          sourceGridSize,
+          terrains: currentMap?.terrains || [],
+          underlays: currentMap?.underlays || []
+        });
 
     const result = UniversalVttPackager.package({
       widthCells: mapWidthCells,
@@ -78,7 +141,7 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${(currentMap?.title || 'tactical-map').toLowerCase().replace(/\s+/g, '-')}.dd2vtt`;
+    a.download = `${(currentMap?.title || 'tactical-map').toLowerCase().replace(/[^a-z0-9-_]+/g, '-')}.dd2vtt`;
     a.click();
     URL.revokeObjectURL(url);
 
@@ -93,14 +156,14 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
       title: currentMap?.title || 'Tangent SF RP Tactical Map',
       scenarios: [],
       elements: [],
-      maps: [currentMap]
+      maps: currentMap ? [currentMap] : []
     });
 
     const blob = new Blob([result.jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `foundry-vtt-${Date.now()}.json`;
+    a.download = `${(currentMap?.title || 'foundry-vtt').toLowerCase().replace(/[^a-z0-9-_]+/g, '-')}-foundry.json`;
     a.click();
     URL.revokeObjectURL(url);
 

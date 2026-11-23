@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noEmit": true
+  },
+  "include": [
+    "src/engine/rules/**/*.ts",
+    "src/services/ade/**/*.ts",
+    "src/types/**/*.ts",
+    "src/schemas/**/*.ts",
+    "src/engine/3d/scaleConstants.ts",
+    "src/services/lorebookScanner.ts",
+    "src/utils/vttEventBus.ts",
+    "src/engine/compilers/UniversalVttPackager.ts",
+    "src/engine/compilers/FoundryVttJsonExporter.ts",
+    "src/engine/assets/assetVisualFallbacks.ts",
+    "src/engine/scripting/QuickJSSandbox.ts",
+    "src/engine/canvas/LayerCompositor.ts",
+    "src/engine/canvas/RendererContext.ts"
+  ]
+}

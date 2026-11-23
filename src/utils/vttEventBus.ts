@@ -60,6 +60,8 @@ export interface VttEventMap {
   'spawn-environmental-hazard': { type: 'plasma_fire' | 'corrosive_gas' | 'void_mist' | 'smoke'; x?: number; y?: number; radius?: number };
   'clear-environmental-hazards': void;
   'apply-atmospheric-preset': { presetKey: string };
+  'change-lighting-mode': { mode: string };
+  'toggle-stage-aime': void;
   'token-defeated': { token?: any; entityId?: string; name?: string; type?: string; status?: string; excessDamage?: number; killer?: string; [key: string]: any };
   'stage-bulkhead-toggled': { bulkheadId?: string; objectId?: string; isOpen?: boolean; operativeId?: string; storyElementId?: string; [key: string]: any };
   'stage-hazard-toggled': { hazardId?: string; objectId?: string; isActive?: boolean; hazardType?: string; [key: string]: any };
@@ -69,6 +71,7 @@ export interface VttEventMap {
   'ai-action-requested': { request: any };
   'ai-action-adjudicated': { request: any; mandate: any; appliedDelta?: any; error?: string };
   'vtt-spawn-entity': { name: string; hp?: number; armorDr?: number; isPersona?: boolean; storyElementId?: string; [key: string]: any };
+  'chat-message': { sender: string; text: string; type?: string; timestamp?: string; [key: string]: any };
 }
 
 type VttEventCallback<K extends keyof VttEventMap> =

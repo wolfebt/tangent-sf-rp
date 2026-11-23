@@ -253,11 +253,28 @@ export async function callLocalLlama({
           }
         }
       }
+      if (buffer.trim().startsWith('data: ')) {
+        const tailStr = buffer.trim().slice(6).trim();
+        if (tailStr && tailStr !== '[DONE]') {
+          try {
+            const parsed = JSON.parse(tailStr);
+            const piece = parsed.content || parsed.text || '';
+            if (piece) {
+              accumulated += piece;
+              onChunk(piece);
+            }
+          } catch {}
+        }
+      }
       return accumulated;
     }
 
     const json = await res.json();
-    return json.content || json.text || '';
+    const text = json.content || json.text || '';
+    if (text && onChunk) {
+      onChunk(text);
+    }
+    return text;
   } catch (err) {
     // If connection refused or offline, gracefully return null to trigger cloud fallback
     return null;
@@ -348,11 +365,25 @@ export async function callLocalOllama({
           } catch (e) {}
         }
       }
+      if (buffer.trim()) {
+        try {
+          const parsed = JSON.parse(buffer.trim());
+          const piece = parsed.response || '';
+          if (piece) {
+            accumulated += piece;
+            onChunk(piece);
+          }
+        } catch {}
+      }
       return accumulated;
     }
 
     const json = await res.json();
-    return json.response || '';
+    const text = json.response || '';
+    if (text && onChunk) {
+      onChunk(text);
+    }
+    return text;
   } catch (err) {
     return null;
   }

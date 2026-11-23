@@ -1,7 +1,8 @@
-import { TERRAIN_TEXTURE_PATTERNS, PRESET_OBJECT_SPRITES } from './MapTextures';
+import { TERRAIN_TEXTURE_PATTERNS, PRESET_OBJECT_SPRITES } from './MapTextures.js';
 
 export function getBiomeTextureUrl(biomeType) {
   if (!biomeType) return null;
+  if (TERRAIN_TEXTURE_PATTERNS[biomeType]) return TERRAIN_TEXTURE_PATTERNS[biomeType];
   if (['ocean', 'abyssal', 'deepOcean', 'shallowWater', 'river'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.waterOcean;
   if (['seafloor', 'benthic', 'trench'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.seafloorBenthic || TERRAIN_TEXTURE_PATTERNS.waterOcean;
   if (['grass', 'plains'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.grassland;
@@ -9,10 +10,12 @@ export function getBiomeTextureUrl(biomeType) {
   if (['badlands', 'mesa', 'canyon'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.badlandsMesa || TERRAIN_TEXTURE_PATTERNS.desertSand;
   if (['ravines', 'ravine', 'chasm', 'fissure', 'rift'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.ravineChasm || TERRAIN_TEXTURE_PATTERNS.topographicContour;
   if (['beach', 'desert', 'savanna'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.desertSand;
-  if (['volcanic', 'lava', 'magma', 'ash'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.volcanicLava;
+  if (['volcanic', 'lava', 'magma', 'ash', 'volcanicLava'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.volcanicLava;
+  if (['toxic', 'acid', 'swamp', 'sludge', 'toxicSludge'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.toxicSludge;
   if (['snow', 'ice', 'polar', 'tundra', 'glacial', 'arctic'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.iceSheet;
-  if (['mountains', 'granite', 'peaks'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.mountainGranite || TERRAIN_TEXTURE_PATTERNS.topographicContour;
-  if (['mountain', 'highPeaks', 'crags', 'hills'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.topographicContour;
+  if (['mountains', 'granite', 'peaks', 'rock_cavern', 'cavern'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.mountainGranite || TERRAIN_TEXTURE_PATTERNS.topographicContour;
+  if (['mountain', 'highPeaks', 'crags', 'hills', 'dirt_subterranean', 'mining'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.topographicContour;
+  if (['metalDecking', 'metal_deck', 'starship', 'outpost'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.metalDecking;
   if (['scifi', 'cyber', 'ecumenopolis'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.cyberGrid;
   return null;
 }
@@ -572,8 +575,10 @@ export function convertGridToKonvaElements(gridData, options) {
   const objects = [];
 
   if (renderMode === 'hex') {
-    // Discrete Hex Tile Grid Rendering
-    const hexRadius = Math.max(8, cellW * 0.9);
+    // Discrete Hex Tile Grid Rendering (hard-capped <= 2500 tiles to prevent Firestore payload bloat)
+    const maxHexTiles = Math.min(options.maxHexTiles || 2000, 2500);
+    const minHexRadius = Math.sqrt((stageWidth * stageHeight) / (1.5 * Math.sqrt(3) * maxHexTiles));
+    const hexRadius = Math.max(8, cellW * 0.9, Math.ceil(minHexRadius));
     const hexWidth = Math.sqrt(3) * hexRadius;
     const hexHeight = 2 * hexRadius;
 
@@ -582,7 +587,9 @@ export function convertGridToKonvaElements(gridData, options) {
     const gridRows = Math.floor(stageHeight / (hexHeight * 0.75));
 
     for (let r = 0; r < gridRows; r++) {
+      if (terrains.length >= maxHexTiles) break;
       for (let c = 0; c < gridCols; c++) {
+        if (terrains.length >= maxHexTiles) break;
         let posX = c * hexWidth + hexWidth / 2;
         if (r % 2 !== 0) posX += hexWidth / 2;
         let posY = r * hexHeight * 0.75 + hexRadius;
@@ -593,38 +600,41 @@ export function convertGridToKonvaElements(gridData, options) {
         const val = grid[gy * width + gx];
         const biome = getBiome(val, gx, gy);
 
+        const roundedX = Math.round(posX * 10) / 10;
+        const roundedY = Math.round(posY * 10) / 10;
+        const roundedRadius = Math.round(hexRadius * 10) / 10;
+
         terrains.push({
           id: `hex_tile_${r}_${c}_` + Math.random().toString(36).substr(2, 4),
           renderType: 'hexTile',
-          x: posX,
-          y: posY,
-          radius: hexRadius,
+          x: roundedX,
+          y: roundedY,
+          radius: roundedRadius,
           color: biome.color,
-          textureUrl: getBiomeTextureUrl(biome.type),
           biomeType: biome.type
         });
 
-        // Sparse object scattering on hexes
-        if (rng() < (scatterDensity / 100) * 0.12) {
+        // Sparse object scattering on hexes (capped < 400 objects)
+        if (objects.length < 400 && rng() < (scatterDensity / 100) * 0.12) {
           if (biome.isVegetation) {
             objects.push({
               id: 'obj_foliage_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-              x: posX,
-              y: posY,
+              x: roundedX,
+              y: roundedY,
               type: 'foliageTreeTrunk',
               color: '#15803d',
-              radius: Math.max(6, hexRadius * 0.5),
+              radius: Math.max(6, Math.round(hexRadius * 5) / 10),
               shape: 'circle',
               hideLabel: true
             });
           } else if (biome.isMountain) {
             objects.push({
               id: 'obj_crag_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-              x: posX,
-              y: posY,
+              x: roundedX,
+              y: roundedY,
               type: 'naturalBoulder',
               color: '#475569',
-              radius: Math.max(6, hexRadius * 0.5),
+              radius: Math.max(6, Math.round(hexRadius * 5) / 10),
               shape: 'hexagon',
               hideLabel: true
             });
@@ -633,10 +643,13 @@ export function convertGridToKonvaElements(gridData, options) {
       }
     }
   } else {
-    // Organic Vector Contours (Default) - Bilinear Heightmap Interpolation (Smooth Curves + 100% Crisp Biome Colors, 0% Grey Borders)
+    // Organic Vector Contours (Default) - Bilinear Heightmap Interpolation capped <= 1024x768 & <= 420KB data URL
     if (typeof document !== 'undefined') {
-      const midWidth = Math.min(stageWidth, width * 5);
-      const midHeight = Math.min(stageHeight, height * 5);
+      const rawMidWidth = Math.min(stageWidth, width * 5);
+      const rawMidHeight = Math.min(stageHeight, height * 5);
+      const downScale = Math.min(1, 1024 / Math.max(1, rawMidWidth), 768 / Math.max(1, rawMidHeight));
+      const midWidth = Math.max(1, Math.round(rawMidWidth * downScale));
+      const midHeight = Math.max(1, Math.round(rawMidHeight * downScale));
 
       const midCanvas = document.createElement('canvas');
       midCanvas.width = midWidth;
@@ -717,16 +730,33 @@ export function convertGridToKonvaElements(gridData, options) {
 
       mctx.putImageData(imgData, 0, 0);
 
-      // Upscale crisp to stage dimensions
-      const hiResCanvas = document.createElement('canvas');
-      hiResCanvas.width = stageWidth;
-      hiResCanvas.height = stageHeight;
-      const hctx = hiResCanvas.getContext('2d');
+      // Encode directly from midCanvas as bounded WebP/JPEG (<= 420KB) to avoid 4000x3000 PNG payload bloat
+      const encodeBoundedDataUrl = (sourceCanvas, maxChars = 420000) => {
+        const qualities = [0.85, 0.72, 0.58, 0.42];
+        for (const q of qualities) {
+          const webpUrl = sourceCanvas.toDataURL('image/webp', q);
+          if (webpUrl && webpUrl.startsWith('data:image/webp') && webpUrl.length <= maxChars) {
+            return webpUrl;
+          }
+        }
+        for (const q of qualities) {
+          const jpegUrl = sourceCanvas.toDataURL('image/jpeg', q);
+          if (jpegUrl && jpegUrl.length <= maxChars) {
+            return jpegUrl;
+          }
+        }
+        const fallbackCanvas = document.createElement('canvas');
+        fallbackCanvas.width = Math.max(64, Math.round(sourceCanvas.width * 0.65));
+        fallbackCanvas.height = Math.max(64, Math.round(sourceCanvas.height * 0.65));
+        const fctx = fallbackCanvas.getContext('2d');
+        if (fctx) {
+          fctx.drawImage(sourceCanvas, 0, 0, fallbackCanvas.width, fallbackCanvas.height);
+          return fallbackCanvas.toDataURL('image/jpeg', 0.45);
+        }
+        return sourceCanvas.toDataURL('image/jpeg', 0.35);
+      };
 
-      hctx.imageSmoothingEnabled = false;
-      hctx.drawImage(midCanvas, 0, 0, stageWidth, stageHeight);
-
-      const dataUrl = hiResCanvas.toDataURL('image/png');
+      const dataUrl = encodeBoundedDataUrl(midCanvas, 420000);
 
       terrains.push({
         id: 'terrain_canvas_' + Date.now(),
@@ -739,16 +769,18 @@ export function convertGridToKonvaElements(gridData, options) {
         biomeType: 'organicMap'
       });
 
-      // Moderate clean object scattering without text clutter
+      // Moderate clean object scattering without text clutter (capped < 400 objects)
       for (let y = 0; y < height; y += 3) {
+        if (objects.length >= 400) break;
         for (let x = 0; x < width; x += 3) {
+          if (objects.length >= 400) break;
           const val = grid[y * width + x];
           const biome = getBiome(val, x, y);
           const densityFactor = scatterDensity / 100;
 
-          if (rng() < 0.05 * densityFactor) {
-            const objX = x * cellW + cellW / 2;
-            const objY = y * cellH + cellH / 2;
+          if (objects.length < 400 && rng() < 0.05 * densityFactor) {
+            const objX = Math.round((x * cellW + cellW / 2) * 10) / 10;
+            const objY = Math.round((y * cellH + cellH / 2) * 10) / 10;
 
             if (biome.isVegetation) {
               objects.push({

@@ -11,6 +11,7 @@
 
 import { useEffect } from 'react';
 import { Graphics, Container, Text as PixiText, TextStyle, Assets, Sprite } from 'pixi.js';
+import { clearPixiContainer } from '../utils/pixiCleanup';
 import { 
   type LayerCompositor, 
   ZLayer, 
@@ -26,6 +27,7 @@ export interface UseStageRenderersOptions {
   wallPreviewContainerRef: React.MutableRefObject<Container | null>;
   pingsContainerRef: React.MutableRefObject<Container | null>;
   isCanvasReady: boolean;
+  canvasGeneration?: number;
   localWalls: WallSegment[];
   currentMap: any;
   isDrawingToolActive: boolean;
@@ -51,6 +53,7 @@ export function useStageRenderers({
   wallPreviewContainerRef,
   pingsContainerRef,
   isCanvasReady,
+  canvasGeneration = isCanvasReady ? 1 : 0,
   localWalls,
   currentMap,
   isDrawingToolActive,
@@ -75,7 +78,14 @@ export function useStageRenderers({
     const wallLayer = compositor.getLayer(ZLayer.UnderlayDebris);
     if (!wallLayer) return;
 
-    wallLayer.removeChildren();
+    let wallsContainer = wallLayer.children.find((c: any) => c.label === 'WallsLayer') as Container | undefined;
+    if (!wallsContainer) {
+      wallsContainer = new Container();
+      wallsContainer.label = 'WallsLayer';
+      wallLayer.addChild(wallsContainer);
+    }
+
+    clearPixiContainer(wallsContainer);
 
     const g = new Graphics();
     localWalls.forEach(wall => {
@@ -104,14 +114,15 @@ export function useStageRenderers({
       g.fill({ color: strokeColor });
     });
 
-    wallLayer.addChild(g);
-  }, [layerCompositorRef, isCanvasReady, localWalls]);
+    wallsContainer.addChild(g);
+  }, [layerCompositorRef, isCanvasReady, canvasGeneration, localWalls]);
 
   // ── Render Terrains (Hex Tiles & Organic Polygons) onto BackgroundMap Layer ──
   useEffect(() => {
     const container = terrainsContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    let isCancelled = false;
+    clearPixiContainer(container);
 
     const terrains = currentMap?.terrains || [];
     if (terrains.length === 0) return;
@@ -179,7 +190,7 @@ export function useStageRenderers({
         // Render MicroTile / Chunk Studio custom textureUrl if present
         if (t.textureUrl) {
           Assets.load(t.textureUrl).then((tex) => {
-            if (!container.destroyed && tex) {
+            if (!isCancelled && !container.destroyed && tex) {
               const sprite = new Sprite(tex);
               sprite.x = x;
               sprite.y = y;
@@ -194,13 +205,16 @@ export function useStageRenderers({
     });
 
     container.addChild(g);
-  }, [terrainsContainerRef, isCanvasReady, currentMap?.terrains]);
+    return () => {
+      isCancelled = true;
+    };
+  }, [terrainsContainerRef, isCanvasReady, canvasGeneration, currentMap?.terrains]);
 
   // ── Render Freehand Tactical Pencil Lines onto UnderlayDebris Layer ──
   useEffect(() => {
     const container = linesContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
     const lines = currentMap?.lines || [];
     if (lines.length === 0) return;
@@ -220,13 +234,13 @@ export function useStageRenderers({
     });
 
     container.addChild(g);
-  }, [linesContainerRef, isCanvasReady, currentMap?.lines]);
+  }, [linesContainerRef, isCanvasReady, canvasGeneration, currentMap?.lines]);
 
   // ── Render Text Labels onto ForegroundUI Layer ──
   useEffect(() => {
     const container = textsContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
     const texts = currentMap?.texts || [];
     if (texts.length === 0) return;
@@ -259,13 +273,13 @@ export function useStageRenderers({
       textNode.addChild(pixiText);
       container.addChild(textNode);
     });
-  }, [textsContainerRef, isCanvasReady, currentMap?.texts]);
+  }, [textsContainerRef, isCanvasReady, canvasGeneration, currentMap?.texts]);
 
   // ── Render Dynamic Drawing Preview (Live Wall Drag Line or Live Brush Stroke) ──
   useEffect(() => {
     const container = wallPreviewContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
     if (!isDrawingToolActive || !isDesignModeActive) return;
 
@@ -329,6 +343,8 @@ export function useStageRenderers({
     container.addChild(g);
   }, [
     wallPreviewContainerRef,
+    isCanvasReady,
+    canvasGeneration,
     isDrawingToolActive,
     isDesignModeActive,
     activeDesignTool,
@@ -347,7 +363,7 @@ export function useStageRenderers({
   useEffect(() => {
     const container = pingsContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
     if (activePings.length === 0) return;
 
@@ -372,5 +388,5 @@ export function useStageRenderers({
     });
 
     container.addChild(g);
-  }, [pingsContainerRef, activePings]);
+  }, [pingsContainerRef, isCanvasReady, canvasGeneration, activePings]);
 }

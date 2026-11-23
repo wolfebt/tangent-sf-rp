@@ -188,8 +188,23 @@ class ModifierManagerService {
    */
   createModifierFromPerson(persona: any, customProps: Partial<StoryModifier> = {}): StoryModifier {
     const pName = persona.fields?.['char-name'] || persona.title || 'Operator';
-    const role = persona.fields?.mcmRole?.toLowerCase() || 'commander';
-    const isPsion = persona.fields?.magicLevel > 0 || persona.fields?.invocations;
+    const role = String(persona.fields?.mcmRole || 'commander').toLowerCase();
+    const rawInv = persona.fields?.invocations;
+    const hasInvocations = Array.isArray(rawInv)
+      ? rawInv.length > 0
+      : (typeof rawInv === 'string' && rawInv.trim() !== '' && rawInv.trim() !== '[]');
+    const rawMl =
+      persona.fields?.magicLevel ??
+      persona.fields?.['magic-level'] ??
+      persona.fields?.['meta-level'] ??
+      persona.fields?.meta_level ??
+      0;
+    const parsedMl = Number(String(rawMl).replace(/^ML-/i, '').trim()) || 0;
+    const isPsion =
+      parsedMl > 0 ||
+      hasInvocations ||
+      role.includes('meta') ||
+      role.includes('psion');
 
     let defaultPreset = MODIFIER_PRESETS.find(p => p.name === "Commander's Tactical Aura") || MODIFIER_PRESETS[0];
     if (isPsion) {
@@ -214,8 +229,29 @@ class ModifierManagerService {
    */
   createModifierFromItem(item: any, customProps: Partial<StoryModifier> = {}): StoryModifier {
     const iName = item.title || item.name || 'Artifact Device';
-    const isMetaphysic = (item.fields?.properties || '').toLowerCase().includes('magic') || 
-                         (item.fields?.tags || '').toLowerCase().includes('psi');
+    const toLowerText = (val: any): string => {
+      if (Array.isArray(val)) return val.map((v) => toLowerText(v)).join(' ');
+      if (val === undefined || val === null) return '';
+      return String(val).toLowerCase();
+    };
+    const textCorpus = [
+      toLowerText(item.fields?.properties),
+      toLowerText(item.fields?.functionPurpose),
+      toLowerText(item.fields?.mechanic),
+      toLowerText(item.fields?.mechanismPowerSource),
+      toLowerText(item.fields?.tags),
+      toLowerText(item.fields?.keywords)
+    ].join(' ');
+    const rawMetaLevel =
+      item.fields?.metaLevel ??
+      item.fields?.meta_level ??
+      item.fields?.['meta-level'] ??
+      0;
+    const parsedMetaLevel = Number(String(rawMetaLevel).replace(/^ML-/i, '').trim()) || 0;
+    const isMetaphysic =
+      item.type === 'Metaphysics' ||
+      parsedMetaLevel > 0 ||
+      /(?:magic|psi|arcane|meta|warp|ether|void|psion)/.test(textCorpus);
 
     const defaultPreset = isMetaphysic 
       ? (MODIFIER_PRESETS.find(p => p.name === 'Null-Field Matrix') || MODIFIER_PRESETS[1])

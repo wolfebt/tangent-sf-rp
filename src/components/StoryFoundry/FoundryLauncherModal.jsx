@@ -1,5 +1,8 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { useStory } from '../../context/CampaignContext';
+import { useDBM } from '../../context/DBMContext';
+import { useFolio } from '../../context/FolioContext';
+import { persistAdeElement } from '../../utils/adeElementPersistence';
 import { exportElementJSON, exportElementMarkdown, exportElementPDF } from '../../pages/Foundry/StoryModule/exportUtils';
 import EditElementModal from '../../pages/Foundry/ElementForge/EditElementModal';
 import { ELEMENT_TYPES } from '../../pages/Foundry/ElementForge/elementSchemas';
@@ -7,9 +10,13 @@ import { attachCreatorTag } from '../../utils/creatorUtils';
 import { generateTempHandle } from '../../utils/personaValidationUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { useToast } from '../../context/ToastContext';
+import { hydrateModuleIntoCampaign } from '../../services/modulePackageService';
+import { createDefaultCronicleState } from '../../services/cronicleService';
 
 const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   const { toast } = useToast();
+  const { saveEntry } = useDBM() || {};
+  const { saveCurrentToRoster } = useFolio() || {};
   const {
     storyCatalog,
     elementsCatalog,
@@ -19,7 +26,15 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     deleteSavedElement,
     updateSavedElement,
     addStory,
+    updateStory,
     universeState,
+    setUniverseState,
+    setActiveScenarioId,
+    setActiveMapId,
+    setIsDirty,
+    isStoryReadOnly = false,
+    setIsStoryReadOnly,
+    setGalleryModifiers,
     handleSaveLocal,
     confirmIfDirty,
     toggleStoryVisibility,
@@ -28,7 +43,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     clonePublicStory,
     mapsCatalog,
     deleteSavedMap,
-    addMap
+    addMap,
+    updateMap
   } = useStory();
 
   const [activeTab, setActiveTab] = useState(initialTab); // 'stories' | 'elements' | 'maps'
@@ -99,9 +115,18 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
   const handleSaveEditElement = async (updatedElem) => {
     const tagged = attachCreatorTag(updatedElem, localStorage.getItem('userHandle'));
-    await updateSavedElement(tagged.id, tagged);
+    const res = await persistAdeElement({
+      element: tagged,
+      elementsCatalog,
+      updateSavedElement,
+      saveEntry,
+      saveCurrentToRoster,
+      showToast: (payload) => toast(typeof payload === 'string' ? { type: 'info', text: payload } : payload)
+    });
+    if (!res) return null;
     setIsEditModalOpen(false);
     setEditingElement(null);
+    return res;
   };
 
   // Helper to count total elements recursively in a story project
@@ -280,19 +305,116 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   };
 
   const handleFileUpload = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       try {
         const data = JSON.parse(event.target.result);
-        if (data.type === "TangentUniverse" || data.type === "TangentStoryProject" || data.scenarios) {
-          const newStory = createNewStory(
-            data.data?.projectName || data.projectName || file.name.replace('.json', ''),
-            "Imported story file"
-          );
-          toast({ type: 'success', text: `Successfully imported and opened "${newStory.projectName}".` });
+        const isModulePackage = Boolean(
+          data &&
+          (data.packageVersion ||
+            data.manifest ||
+            data.type === 'TangentModulePackage' ||
+            data.format === 'tangent-adventure-module')
+        );
+
+        if (isModulePackage) {
+          if (isStoryReadOnly) {
+            toast({
+              type: 'warning',
+              text: 'Current story is read-only. Create or open an editable story before importing a module package.'
+            });
+            return;
+          }
+          const summary = hydrateModuleIntoCampaign(data, {
+            addMap,
+            updateMap,
+            addStory,
+            updateStory,
+            addSavedElement: (el) => {
+              const eid = el?.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+              return updateSavedElement?.(eid, { ...el, id: eid });
+            },
+            setActiveMapId,
+            setActiveScenarioId,
+            setGalleryModifiers
+          });
+          setIsStoryReadOnly?.(false);
+          setIsDirty?.(true);
+          const pkgTitle = data.manifest?.title || data.projectName || data.title || file.name.replace('.json', '');
+          toast({
+            type: 'success',
+            text: `Imported module "${pkgTitle}" (${summary?.scenariosImported || 0} scenarios, ${summary?.mapsImported || 0} maps).`
+          });
           onClose();
+          return;
+        }
+
+        if (
+          data &&
+          (data.type === 'TangentUniverse' ||
+            data.type === 'TangentStoryProject' ||
+            data.type === 'TangentStory' ||
+            data.type === 'TangentCampaign' ||
+            data.scenarios ||
+            data.stories)
+        ) {
+          const loaded = data.data || data;
+          const loadedScenarios = Array.isArray(loaded.scenarios || loaded.stories)
+            ? (loaded.scenarios || loaded.stories)
+            : [];
+          const loadedMaps = Array.isArray(loaded.maps) ? loaded.maps : [];
+          const importedName = loaded.projectName || loaded.title || file.name.replace('.json', '');
+          const custom = loaded.customAssets || {};
+
+          if (typeof setUniverseState === 'function') {
+            setUniverseState({
+              id: loaded.id || `proj_${Date.now()}`,
+              projectName: importedName,
+              description: loaded.description || '',
+              scenarios: loadedScenarios,
+              maps: loadedMaps,
+              customAssets: {
+                terrains: Array.isArray(custom.terrains) ? custom.terrains : [],
+                objects: Array.isArray(custom.objects) ? custom.objects : [],
+                chunks: Array.isArray(custom.chunks) ? custom.chunks : []
+              },
+              creativeState: loaded.creativeState || {
+                gems: [],
+                storyCards: [],
+                storyOutline: '',
+                sceneBeats: '',
+                storyDraft: '',
+                linkedElements: []
+              },
+              cronicle: loaded.cronicle || createDefaultCronicleState(importedName),
+              galleryModifiers: Array.isArray(loaded.galleryModifiers) ? loaded.galleryModifiers : [],
+              scripts: Array.isArray(loaded.scripts) ? loaded.scripts : [],
+              isPublic: Boolean(loaded.isPublic),
+              updatedAt: loaded.updatedAt || new Date().toISOString()
+            });
+            if (Array.isArray(loaded.elements) && typeof updateSavedElement === 'function') {
+              for (const el of loaded.elements) {
+                if (!el) continue;
+                const eid = el.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+                await updateSavedElement(eid, { ...el, id: eid });
+              }
+            }
+            if (loadedMaps[0]?.id) setActiveMapId?.(loadedMaps[0].id);
+            if (loadedScenarios[0]?.id) setActiveScenarioId?.(loadedScenarios[0].id);
+            setIsStoryReadOnly?.(false);
+            setIsDirty?.(true);
+            toast({
+              type: 'success',
+              text: `Imported "${importedName}" (${loadedScenarios.length} scenarios, ${loadedMaps.length} maps).`
+            });
+            onClose();
+          } else {
+            const newStory = createNewStory(importedName, 'Imported story file');
+            toast({ type: 'success', text: `Successfully imported and opened "${newStory.projectName}".` });
+            onClose();
+          }
         } else {
           toast({ type: 'error', text: 'Unrecognized story file format.' });
         }
@@ -301,6 +423,9 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
       }
     };
     reader.readAsText(file);
+    if (e.target) {
+      e.target.value = '';
+    }
   };
 
   return (

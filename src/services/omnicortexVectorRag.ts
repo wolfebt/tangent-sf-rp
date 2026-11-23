@@ -48,11 +48,11 @@ export const CANONICAL_FOUNDATIONAL_CHUNKS: RuleChunk[] = [
     citation: 'Omnicortex 3.02 Damage & Wound Pipeline',
     tags: ['called shot', 'limb targeting', 'trauma', 'major wound', 'head', 'arms', 'legs', 'optics', 'injury'],
     text: `Called Shots allow operators to target specific anatomy with specialized modifiers and trauma outcomes:
-- Torso (Center Mass): +0 modifier, standard damage.
+- Torso (Center Mass): -1 to hit, standard trauma (Fortitude Save vs Winded -2 actions).
 - Head (Disorient): -2 to hit. If net damage >= 33.3% max HP, inflicts Disoriented (-2 to all mental/action rolls).
 - Arms (Disarm / Sever): -2 to hit. If net damage >= 33.3% max HP, forces immediate weapon drop and applies Disabled Arm (-4 attack).
-- Legs (Mobility Kill): -1 to hit. If net damage >= 33.3% max HP, inflicts Crippled Leg (halves base movement speed immediately).
-- Optics / Sensors: -3 to hit. If net damage >= 33.3% max HP, inflicts Blind / Sensor Jam (-4 to all ranged checks).`
+- Legs (Mobility Kill): -2 to hit. If net damage >= 33.3% max HP, inflicts Crippled Leg (halves base movement speed immediately).
+- Optics / Sensors: -5 to hit. If net damage >= 33.3% max HP, inflicts Blind / Sensor Jam (-4 to all ranged checks).`
   },
   {
     id: 'rule-combat-stances',

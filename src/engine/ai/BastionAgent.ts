@@ -13,6 +13,11 @@ import { analyzeCombatPacing } from '../../services/bastionWhisperService.js';
 import { getTacticalBark } from '../../services/tacticalBarksService.js';
 import { useEngineStore, selectAllFusedTokens } from '../state/VolatileSharder.ts';
 import { DamagePipeline } from '../rules/DamagePipeline.ts';
+import {
+  resolveTangent2d10Check,
+  CANONICAL_CRIT_DAMAGE_MULTIPLIER,
+  CANONICAL_DEFAULT_DEFENSE_CR
+} from '../rules/CanonicalCombatMath.ts';
 
 export interface AdversaryTurnExecutionReport {
   success: boolean;
@@ -120,7 +125,6 @@ const CANONICAL_FILL_SKILLS = [
   'Insight',
   'Persuasion',
   'Resolve',
-  'Endurance',
   'Mechanics',
 ];
 
@@ -549,56 +553,74 @@ Rules:
       useEngineStore.getState().healHP(adversaryId, tactic.healAmount);
     }
 
-    // Resolve 2d10 Attack Roll (Defender Wins Ties)
-    const dice = options.diceOverride || options.rollOverride;
-    let d1 = Math.floor(Math.random() * 10) + 1;
-    let d2 = Math.floor(Math.random() * 10) + 1;
-    if (Array.isArray(dice)) {
-      d1 = dice[0];
-      d2 = dice[1];
-    } else if (dice && typeof dice === 'object') {
-      d1 = (dice as any).d1 ?? d1;
-      d2 = (dice as any).d2 ?? d2;
-    }
-    const isCriticalTriumph = d1 === 10 && d2 === 10;
-    const isCriticalFumble = d1 === 1 && d2 === 1;
-
+    // Resolve 2d10 Attack Roll (Canonical Defender Wins Ties, Nat 20 +10, Nat 2 -> -10)
     const baseAttackBonus = (adversary.tech_level || 3) * 2 + (tactic.attackBonusDelta || 0);
-    const effectiveDiceScore = isCriticalTriumph ? (d1 + d2 + 10) : isCriticalFumble ? -10 : (d1 + d2);
-    const totalAttack = effectiveDiceScore + baseAttackBonus;
     const targetDefenseBonus = targetToken
       ? ((targetToken.active_conditions || []).includes('Cover') ? 2 : 0) +
         ((targetToken.active_conditions || []).includes('Total Defense') ? 4 : 0)
       : 0;
-    const targetDefenseDC = 15 + targetDefenseBonus;
+    const targetDefenseDC = CANONICAL_DEFAULT_DEFENSE_CR + targetDefenseBonus;
 
-    // Canonical v6: Defender wins ties -> attacker must strictly exceed targetDefenseDC (or roll Nat 20)
-    const isHit = Boolean(targetToken) && !isCriticalFumble && (isCriticalTriumph || totalAttack > targetDefenseDC);
+    const attackCheck = resolveTangent2d10Check({
+      diceOverride: options.diceOverride || options.rollOverride,
+      modifier: baseAttackBonus,
+      targetCR: targetDefenseDC,
+      isOpposed: true
+    });
+    const d1 = attackCheck.d1;
+    const d2 = attackCheck.d2;
+    const isCriticalTriumph = attackCheck.isCrit;
+    const isCriticalFumble = attackCheck.isFumble;
+    const totalAttack = attackCheck.total;
+    const isHit = Boolean(targetToken) && attackCheck.isSuccess;
     let damageDealt = 0;
 
     if (isHit && targetToken) {
       const rawDamage = options.rawDamageOverride ?? options.baseRawDamage;
-      const rawBase = rawDamage ?? (14 + (adversary.tech_level || 3) * 2 + (d1 === d2 ? 4 : 0));
+      const rawBase = rawDamage ?? (14 + (adversary.tech_level || 3) * 2);
+      const armorLayers = Array.isArray((targetToken as any).armorLayers) && (targetToken as any).armorLayers.length > 0
+        ? (targetToken as any).armorLayers
+        : [targetToken.armor_dr || 0];
+      const targetStaminaMod = Number(targetToken.stamina_dr ?? (targetToken as any).stamina_mod ?? 0);
+      const targetStaminaScore = Number((targetToken as any).stamina ?? (targetToken as any).attributes?.stamina ?? 0);
+
       const damagePipeline = new DamagePipeline();
       const strikeRes = damagePipeline.resolveStrike(
         {
-          rawDamage: isCriticalTriumph ? Math.round(rawBase * 1.5) : rawBase,
+          rawDamage: isCriticalTriumph ? rawBase * CANONICAL_CRIT_DAMAGE_MULTIPLIER : rawBase,
           armorPenetration: adversary.tech_level || 3,
           damageType: (options.weaponType || 'kinetic') as any,
+          isCritical: isCriticalTriumph,
           isCalledShot: Boolean(tactic.calledShotLocation),
           targetLocation: (tactic.calledShotLocation || 'torso') as any
         },
         targetToken as any,
-        [targetToken.armor_dr || 0]
+        armorLayers,
+        targetStaminaMod,
+        targetStaminaScore,
+        (targetToken as any).stability_points
       );
 
       damageDealt = strikeRes.netDamage;
-      useEngineStore.getState().applyDamage(targetToken.id, damageDealt);
+      const store = useEngineStore.getState();
+      if (targetToken.is_synthetic) {
+        const curStruct = targetToken.current_structure ?? targetToken.current_hp ?? 60;
+        store.setStructure(targetToken.id, Math.max(0, curStruct - (strikeRes.structureDamage ?? damageDealt)));
+      } else {
+        if (strikeRes.vitalityDamage > 0) {
+          const curVit = targetToken.current_vitality ?? targetToken.base_vitality ?? 30;
+          store.setVitality(targetToken.id, Math.max(0, curVit - strikeRes.vitalityDamage));
+        }
+        if (strikeRes.healthDamage > 0) {
+          const curHp = targetToken.current_health ?? targetToken.current_hp ?? 30;
+          store.setHealth(targetToken.id, Math.max(0, curHp - strikeRes.healthDamage));
+        }
+      }
 
       for (const status of strikeRes.appliedStatuses) {
         const targetConds = useEngineStore.getState().ephemeralData[targetToken.id]?.active_conditions || [];
         if (!targetConds.includes(status)) {
-          useEngineStore.getState().toggleCondition(targetToken.id, status);
+          store.toggleCondition(targetToken.id, status);
         }
         appliedConditions.push(status);
       }

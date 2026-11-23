@@ -37,8 +37,9 @@ test('Storage Rules: Authentication & Read Access Policy', () => {
   const personaBlock = personaBlockMatch[1];
 
   assert.ok(
-    personaBlock.includes('allow read: if request.auth != null;'),
-    'Read access must require authentication for campaign/VTT sharing'
+    personaBlock.includes('allow get: if request.auth != null;') &&
+      personaBlock.includes('allow list: if request.auth != null && request.auth.uid == userId;'),
+    'Direct fetch must require authentication while listing is restricted to directory owner'
   );
 });
 

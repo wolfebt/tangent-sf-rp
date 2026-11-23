@@ -10,7 +10,7 @@ export const CONDITION_COLORS = {
   Poisoned: '#84cc16'   // Lime
 };
 
-export const MapObjectNode = ({
+export const MapObjectNode = React.memo(({
   shapeProps,
   isSelected,
   onSelect,
@@ -25,9 +25,10 @@ export const MapObjectNode = ({
   const [imageObj, setImageObj] = useState(null);
 
   useEffect(() => {
+    let isMounted = true;
     if (shapeProps.imageUrl) {
       const img = getLoadedImage(shapeProps.imageUrl, (loadedImg) => {
-        setImageObj(loadedImg);
+        if (isMounted) setImageObj(loadedImg);
       });
       if (img && img.complete) {
         setImageObj(img);
@@ -35,12 +36,15 @@ export const MapObjectNode = ({
     } else {
       setImageObj(null);
     }
+    return () => {
+      isMounted = false;
+    };
   }, [shapeProps.imageUrl]);
 
   useEffect(() => {
-    if (isSelected && trRef.current && !isLocked) {
+    if (isSelected && trRef.current && shapeRef.current && !isLocked) {
       trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
+      trRef.current.getLayer()?.batchDraw();
     }
   }, [isSelected, isLocked]);
 
@@ -340,9 +344,9 @@ export const MapObjectNode = ({
       )}
     </React.Fragment>
   );
-};
+});
 
-export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onChange, onDoubleClick, isEraser, onErase, isLocked, onDragMove, onDragEnd }) => {
+export const TokenNode = React.memo(({ shapeProps, isSelected, isActiveTurn, onSelect, onChange, onDoubleClick, isEraser, onErase, isLocked, onDragMove, onDragEnd }) => {
   const shapeRef = useRef();
   const trRef = useRef();
   const [tokenImgObj, setTokenImgObj] = useState(null);
@@ -350,20 +354,26 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
   const imgSource = shapeProps.avatarUrl || shapeProps.imageUrl;
 
   useEffect(() => {
+    let isMounted = true;
     if (imgSource) {
-      const img = new window.Image();
-      img.src = imgSource;
-      img.onload = () => setTokenImgObj(img);
-      img.onerror = () => setTokenImgObj(null);
+      const img = getLoadedImage(imgSource, (loadedImg) => {
+        if (isMounted) setTokenImgObj(loadedImg);
+      });
+      if (img && img.complete) {
+        setTokenImgObj(img);
+      }
     } else {
       setTokenImgObj(null);
     }
+    return () => {
+      isMounted = false;
+    };
   }, [imgSource]);
 
   useEffect(() => {
-    if (isSelected && trRef.current && !isLocked) {
+    if (isSelected && trRef.current && shapeRef.current && !isLocked) {
       trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
+      trRef.current.getLayer()?.batchDraw();
     }
   }, [isSelected, isLocked]);
 
@@ -650,16 +660,16 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
       )}
     </React.Fragment>
   );
-};
+});
 
-export const TextLabelNode = ({ shapeProps, isSelected, onSelect, onChange, isEraser, onErase, isLocked }) => {
+export const TextLabelNode = React.memo(({ shapeProps, isSelected, onSelect, onChange, isEraser, onErase, isLocked }) => {
   const shapeRef = useRef();
   const trRef = useRef();
 
   useEffect(() => {
-    if (isSelected && trRef.current && !isLocked) {
+    if (isSelected && trRef.current && shapeRef.current && !isLocked) {
       trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
+      trRef.current.getLayer()?.batchDraw();
     }
   }, [isSelected, isLocked]);
 
@@ -708,4 +718,4 @@ export const TextLabelNode = ({ shapeProps, isSelected, onSelect, onChange, isEr
       )}
     </React.Fragment>
   );
-};
+});

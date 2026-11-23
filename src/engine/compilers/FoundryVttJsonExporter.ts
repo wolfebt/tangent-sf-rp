@@ -31,6 +31,15 @@ export interface FoundryCompendiumPack {
   scenes: any[];
 }
 
+function escapeFoundryHtml(val: unknown): string {
+  return String(val ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export class FoundryVttJsonExporterService {
   /**
    * Generates a 16-character alphanumeric Foundry VTT ID.
@@ -90,7 +99,7 @@ export class FoundryVttJsonExporterService {
             name: 'Briefing',
             type: 'text',
             text: {
-              content: `<h2>${scenario.title}</h2><p>${scenario.content || scenario.summary || ''}</p>`,
+              content: `<h2>${escapeFoundryHtml(scenario.title || 'Untitled Sector')}</h2><p>${escapeFoundryHtml(scenario.content || scenario.summary || '')}</p>`,
               format: 1
             }
           }
@@ -106,7 +115,14 @@ export class FoundryVttJsonExporterService {
 
     // 2. Export Elements as Actors or Items
     for (const elem of payload.elements || []) {
-      const isActor = elem.schemaType === 'Entity' || elem.category === 'Operatives' || elem.category === 'Species';
+      const isActor =
+        elem.schemaType === 'Entity' ||
+        elem.category === 'Operatives' ||
+        elem.category === 'Species' ||
+        elem.type === 'Persona' ||
+        elem.type === 'Character' ||
+        elem.type === 'NPC' ||
+        elem.type === 'Species';
       const fId = this.generateFoundryId();
 
       if (isActor) {
@@ -128,7 +144,7 @@ export class FoundryVttJsonExporterService {
           type: 'equipment',
           system: {
             techLevel: elem.fields?.tl || 3,
-            description: { value: elem.summary || elem.content || '' }
+            description: { value: escapeFoundryHtml(elem.summary || elem.content || '') }
           }
         });
       }
@@ -137,17 +153,59 @@ export class FoundryVttJsonExporterService {
     // 3. Export Maps as Scenes
     for (const map of payload.maps || []) {
       const sceneId = this.generateFoundryId();
+      const mapGridSize = map.gridSize || 50;
+      const mapWidthPx = map.width || ((map.gridWidth || 40) * mapGridSize);
+      const mapHeightPx = map.height || ((map.gridHeight || 30) * mapGridSize);
       pack.scenes.push({
         _id: sceneId,
         name: map.title || 'Tactical Sector',
-        width: map.width || 2000,
-        height: map.height || 2000,
-        grid: { size: map.gridSize || 50, type: 1 },
-        walls: (map.walls || []).map((w: any) => ({
-          c: [w.p1?.x || 0, w.p1?.y || 0, w.p2?.x || 0, w.p2?.y || 0],
-          move: w.blocksMovement ? 1 : 0,
-          sense: w.blocksVision ? 1 : 0
-        }))
+        width: mapWidthPx,
+        height: mapHeightPx,
+        grid: { size: mapGridSize, type: map.gridMode === 'hex' ? 2 : 1 },
+        walls: (map.walls || []).map((w: any) => {
+          const isDoor = w.type === 'door' || w.wallType === 'door' || w.isDoor === true || w.isDynamic === true;
+          const isWindow = w.type === 'window' || w.wallType === 'window' || w.isTransparent === true;
+          const isEthereal = w.type === 'ethereal' || w.wallType === 'ethereal';
+          const isBreached = w.doorState === 'breached' || (w.breachHp !== undefined && w.breachHp <= 0);
+          const isOpen = Boolean(w.isOpen || w.doorState === 'open' || isBreached);
+          const isLocked = Boolean(w.isLocked || w.doorState === 'locked');
+
+          let move: number;
+          let sense: number;
+          if (isBreached || (isDoor && isOpen)) {
+            move = 0;
+            sense = 0;
+          } else if (isDoor) {
+            move = 20;
+            sense = 20;
+          } else if (isWindow) {
+            move = w.blocksMovement !== undefined ? (w.blocksMovement ? 20 : 0) : 20;
+            sense = w.blocksVision !== undefined ? (w.blocksVision ? 20 : 0) : 0;
+          } else if (isEthereal) {
+            move = w.blocksMovement !== undefined ? (w.blocksMovement ? 20 : 0) : 0;
+            sense = w.blocksVision !== undefined ? (w.blocksVision ? 20 : 0) : 20;
+          } else {
+            move = w.blocksMovement !== undefined ? (w.blocksMovement ? 20 : 0) : 20;
+            sense = w.blocksVision !== undefined ? (w.blocksVision ? 20 : 0) : 20;
+          }
+
+          return {
+            c: [
+              w.p1?.x ?? w.x1 ?? 0,
+              w.p1?.y ?? w.y1 ?? 0,
+              w.p2?.x ?? w.x2 ?? 0,
+              w.p2?.y ?? w.y2 ?? 0
+            ],
+            move,
+            sense,
+            ...(isDoor
+              ? {
+                  door: w.isSecret ? 2 : 1,
+                  ds: isOpen ? 1 : (isLocked ? 2 : 0)
+                }
+              : {})
+          };
+        })
       });
     }
 

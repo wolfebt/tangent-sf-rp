@@ -92,6 +92,7 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
   const isCompendium = location.pathname.startsWith('/compendium') || location.pathname.startsWith('/rules');
   const isCodex = location.pathname.startsWith('/codex');
   const isCortex = isDBM || isCodex;
+  const isSpectator = location.pathname.startsWith('/spectator');
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
   const isFoundry = location.pathname.startsWith('/foundry') || 
                     location.pathname.startsWith('/story-foundry') || 
@@ -99,7 +100,6 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                     location.pathname.startsWith('/ade-stage') || 
                     location.pathname.startsWith('/vtt-ops') || 
                     location.pathname.startsWith('/campaign-builder') || 
-                    location.pathname.startsWith('/spectator') || 
                     location.pathname.startsWith('/stage') || 
                     location.pathname.startsWith('/ade') ||
                     location.pathname === '/vtt';
@@ -291,6 +291,10 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
   const hasDynamicTabs = isFolioOpened || isFoundry;
 
   useLayoutEffect(() => {
+    if (isSpectator) {
+      document.documentElement.style.setProperty('--header-height', '0px');
+      return undefined;
+    }
     const updateHeaderHeight = () => {
       if (headerRef.current) {
         const height = headerRef.current.offsetHeight;
@@ -313,7 +317,7 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
       if (ro) ro.disconnect();
       window.removeEventListener('resize', updateHeaderHeight);
     };
-  }, [location.pathname, location.search, isFolioOpened, isFoundry]);
+  }, [location.pathname, location.search, isFolioOpened, isFoundry, isSpectator]);
 
   const renderDynamicTabs = () => {
     if (isFolioOpened) {
@@ -412,6 +416,10 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
 
     return null;
   };
+
+  if (isSpectator) {
+    return null;
+  }
 
   return (
     <>

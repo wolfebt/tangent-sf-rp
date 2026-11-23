@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useDBM } from '../../../../context/DBMContext';
@@ -33,24 +33,25 @@ import {
 } from 'lucide-react';
 
 const PRIMARY_ATTR_SCHEMA = [
-  { key: 'str', label: 'STR', subs: [{ key: 'might', label: 'Might' }, { key: 'reflex', label: 'Reflex' }] },
-  { key: 'agi', label: 'AGI', subs: [{ key: 'coordination', label: 'Coord' }, { key: 'quickness', label: 'Quick' }] },
-  { key: 'sta', label: 'STA', subs: [{ key: 'endurance', label: 'Endur' }, { key: 'vigor', label: 'Vigor' }] },
-  { key: 'int', label: 'INT', subs: [{ key: 'reason', label: 'Reason' }, { key: 'intuition', label: 'Intuit' }] },
-  { key: 'wil', label: 'WIL', subs: [{ key: 'resolve', label: 'Resolve' }, { key: 'composure', label: 'Compos' }] },
-  { key: 'cha', label: 'CHA', subs: [{ key: 'presence', label: 'Pres' }, { key: 'manipulation', label: 'Manip' }] }
+  { key: 'str', attrKey: 'attr-strength', label: 'STR', sub: { key: 'might', attrKey: 'attr-might', label: 'Might' } },
+  { key: 'agi', attrKey: 'attr-agility', label: 'AGI', sub: { key: 'reflex', attrKey: 'attr-reflex', label: 'Reflex' } },
+  { key: 'sta', attrKey: 'attr-stamina', label: 'STA', sub: { key: 'fortitude', attrKey: 'attr-fortitude', label: 'Fortitude' } },
+  { key: 'int', attrKey: 'attr-intellect', label: 'INT', sub: { key: 'logic', attrKey: 'attr-logic', label: 'Logic' } },
+  { key: 'wis', attrKey: 'attr-wisdom', label: 'WIS', sub: { key: 'will', attrKey: 'attr-will', label: 'Will' } },
+  { key: 'cha', attrKey: 'attr-charisma', label: 'CHA', sub: { key: 'etiquette', attrKey: 'attr-etiquette', label: 'Etiquette' } }
 ];
 
 const CHASSIS_PRESETS = {
-  combatant: { name: 'Combatant', label: 'STR +3, AGI +2', str: 3, agi: 2, sta: 2, int: 0, wil: 1, cha: 0 },
-  specialist: { name: 'Specialist', label: 'INT +3, AGI +2', str: 0, agi: 2, sta: 1, int: 3, wil: 1, cha: 1 },
-  socialite: { name: 'Socialite', label: 'CHA +3, WIL +2', str: 0, agi: 1, sta: 1, int: 1, wil: 2, cha: 3 },
-  balanced: { name: 'Balanced', label: '+1 All Attributes', str: 1, agi: 1, sta: 1, int: 1, wil: 1, cha: 1 }
+  combatant: { name: 'Combatant', label: 'STR +3, AGI +2', str: 3, agi: 2, sta: 2, int: 0, wis: 1, cha: 0 },
+  specialist: { name: 'Specialist', label: 'INT +3, AGI +2', str: 0, agi: 2, sta: 1, int: 3, wis: 1, cha: 1 },
+  socialite: { name: 'Socialite', label: 'CHA +3, WIS +2', str: 0, agi: 1, sta: 1, int: 1, wis: 2, cha: 3 },
+  balanced: { name: 'Balanced', label: '+1 All Attributes', str: 1, agi: 1, sta: 1, int: 1, wis: 1, cha: 1 }
 };
 
 export const ModularCharacterAssembler = ({
   fields = {},
   onFieldChange,
+  onBatchFieldChange,
   elementTitle = '',
   onOpenAimeGuidance = null
 }) => {
@@ -67,10 +68,10 @@ export const ModularCharacterAssembler = ({
   const traitsList = dbData?.traits || [];
   const disadvantagesList = dbData?.disadvantages || [];
   const augmentationsList = dbData?.augmentations || [];
-  const metaphysicsList = dbData?.metaphysics || [];
+  const metaphysicsList = dbData?.invocations || [];
   const weaponsList = dbData?.weaponry || [];
   const armorsList = dbData?.armoring || [];
-  const gearList = dbData?.equipment || [];
+  const gearList = dbData?.gear || [];
   const mcmPresetsList = dbData?.modular_characters || [];
 
   const [selectedMcmPresetId, setSelectedMcmPresetId] = useState('');
@@ -112,9 +113,9 @@ export const ModularCharacterAssembler = ({
   });
   const [designation, setDesignation] = useState(() => resolveDesignationKey(fields.mcmDesignation || fields['char-role'] || 'Adversary'));
   const [chassisKey, setChassisKey] = useState(fields.mcmChassis?.toLowerCase() || 'combatant');
-  const [roleKey, setRoleKey] = useState(() => resolveCompetencyRoleKey(fields.mcmRole || 'SKIRMISHER'));
-  const [bossType, setBossType] = useState(() => resolveBossTypeKey(fields.bossType || 'STANDARD', parseInt(fields.mcmTier ?? '1', 10) || 1));
-  const [speciesSize, setSpeciesSize] = useState(fields.speciesSize || 'Medium');
+  const [roleKey, setRoleKey] = useState(() => resolveCompetencyRoleKey(fields.mcmRole || 'Tank'));
+  const [bossType, setBossType] = useState(() => resolveBossTypeKey(fields.mcmBossType || fields.bossType || 'STANDARD', parseInt(fields.mcmTier ?? '1', 10) || 1));
+  const [speciesSize, setSpeciesSize] = useState(fields.speciesSize || fields['char-size'] || 'Medium');
 
   // 5-Pillar Identity
   const [selectedSpecies, setSelectedSpecies] = useState(fields['char-species'] || '');
@@ -125,12 +126,12 @@ export const ModularCharacterAssembler = ({
 
   // Custom Attribute & Skill Overrides
   const [customAttrs, setCustomAttrs] = useState(() => ({
-    str: fields['attr-str-base'],
-    agi: fields['attr-agi-base'],
-    sta: fields['attr-sta-base'],
-    int: fields['attr-int-base'],
-    wil: fields['attr-wil-base'],
-    cha: fields['attr-cha-base']
+    str: fields['attr-strength'] ?? fields['attr-str-base'],
+    agi: fields['attr-agility'] ?? fields['attr-agi-base'],
+    sta: fields['attr-stamina'] ?? fields['attr-sta-base'],
+    int: fields['attr-intellect'] ?? fields['attr-int-base'],
+    wis: fields['attr-wisdom'] ?? fields['attr-wis'] ?? fields['attr-wil-base'],
+    cha: fields['attr-charisma'] ?? fields['attr-cha-base']
   }));
   const [skillRanks, setSkillRanks] = useState(() => {
     const map = {};
@@ -145,7 +146,11 @@ export const ModularCharacterAssembler = ({
   // Loadout & Aspects
   const [selectedWeapon, setSelectedWeapon] = useState(fields.weapon || '');
   const [selectedArmor, setSelectedArmor] = useState(fields.armor || '');
-  const [selectedGear, setSelectedGear] = useState(fields.gear || '');
+  const [selectedGear, setSelectedGear] = useState(() => {
+    if (typeof fields.selectedGear === 'string') return fields.selectedGear;
+    if (typeof fields.gear === 'string' && !fields.gear.trim().startsWith('[')) return fields.gear;
+    return '';
+  });
   const [selectedFeature, setSelectedFeature] = useState(fields.selectedFeature || '');
   const [selectedTrait, setSelectedTrait] = useState(fields.selectedTrait || '');
   const [selectedDisadvantage, setSelectedDisadvantage] = useState(fields.selectedDisadvantage || '');
@@ -155,44 +160,81 @@ export const ModularCharacterAssembler = ({
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [appliedNotification, setAppliedNotification] = useState(false);
 
+  // Sync local controls if external BASTION Auto-Calibrate mutates fields
+  useEffect(() => {
+    if (fields.mcmTier !== undefined && fields.mcmTier !== '') {
+      const parsedTier = parseInt(fields.mcmTier, 10);
+      if (!Number.isNaN(parsedTier)) {
+        const clamped = Math.max(0, Math.min(20, parsedTier));
+        setTier((prev) => (prev === clamped ? prev : clamped));
+      }
+    }
+    if (fields.mcmRole) {
+      const resolvedRole = resolveCompetencyRoleKey(fields.mcmRole);
+      setRoleKey((prev) => (prev === resolvedRole ? prev : resolvedRole));
+    }
+    const incomingBoss = fields.mcmBossType || fields.bossType;
+    if (incomingBoss) {
+      const parsedTier = parseInt(fields.mcmTier ?? '1', 10) || 1;
+      const resolvedBoss = resolveBossTypeKey(incomingBoss, parsedTier);
+      setBossType((prev) => (prev === resolvedBoss ? prev : resolvedBoss));
+    }
+    if (fields.mcmDesignation) {
+      const resolvedDes = resolveDesignationKey(fields.mcmDesignation);
+      setDesignation((prev) => (prev === resolvedDes ? prev : resolvedDes));
+    }
+    const incomingSize = fields.speciesSize || fields['char-size'];
+    if (incomingSize) {
+      setSpeciesSize((prev) => (prev === incomingSize ? prev : incomingSize));
+    }
+  }, [fields.mcmTier, fields.mcmRole, fields.mcmBossType, fields.bossType, fields.mcmDesignation, fields.speciesSize, fields['char-size']]);
+
   const isSyntheticSpecies =
     fields.physiology === 'Synthetic' ||
     String(selectedSpecies || '').toLowerCase().includes('synthetic') ||
     String(selectedSpecies || '').toLowerCase().includes('automata');
 
   const activeChassis = CHASSIS_PRESETS[chassisKey] || CHASSIS_PRESETS.combatant;
-  const activeRoleObj = COMPETENCY_ROLES[roleKey] || COMPETENCY_ROLES.SKIRMISHER;
+  const activeRoleObj = COMPETENCY_ROLES[roleKey] || COMPETENCY_ROLES.Tank;
 
-  // Lookup Armor DR from selected Armor if available
+  // Lookup Armor DR from selected Armor if available (supports dr, dr_rating, armor_dr)
   const selectedArmorObj = useMemo(
     () => armorsList.find((a) => (a.name || a.title) === selectedArmor),
     [armorsList, selectedArmor]
   );
   const armorDRValue = useMemo(() => {
-    if (selectedArmorObj?.dr !== undefined) return Number(selectedArmorObj.dr) || 0;
-    return Math.max(0, Math.floor(tier / 2) + (roleKey === 'DEFENDER' || roleKey === 'BRUTE' ? 3 : 1));
+    const rawDr = selectedArmorObj?.dr ?? selectedArmorObj?.dr_rating ?? selectedArmorObj?.armor_dr;
+    if (rawDr !== undefined && rawDr !== null && rawDr !== '') {
+      const parsed = Number(rawDr);
+      if (Number.isFinite(parsed)) return Math.max(0, parsed);
+    }
+    return Math.max(0, Math.floor(tier / 2) + (roleKey === 'Tank' || roleKey === 'Brute' ? 3 : 1));
   }, [selectedArmorObj, tier, roleKey]);
 
   // Canonical Combat Stat Block via tangentEntityEngines
   const combatBlock = useMemo(() => {
     return calculateNPCCombatBlock({
-      name: elementTitle || `${designation} ${activeRoleObj.name}`,
-      threatTier: tier,
-      competencyRoleKey: roleKey,
-      bossTypeKey: bossType,
-      designationKey: designation,
-      sizeKey: speciesSize,
+      tier,
+      role: roleKey,
+      bossType,
+      size: speciesSize,
+      designation,
       isSynthetic: isSyntheticSpecies,
-      armorDR: armorDRValue,
-      staminaDR: customAttrs.sta !== undefined ? Number(customAttrs.sta) : undefined
+      agility: customAttrs.agi !== undefined && customAttrs.agi !== '' ? Number(customAttrs.agi) : null,
+      chassisType: isSyntheticSpecies ? 'Synthetic' : 'Biological'
     });
-  }, [elementTitle, tier, roleKey, bossType, designation, speciesSize, isSyntheticSpecies, armorDRValue, customAttrs.sta]);
+  }, [tier, roleKey, bossType, speciesSize, designation, isSyntheticSpecies, customAttrs.agi]);
 
-  const calculatedHealth = isSyntheticSpecies ? combatBlock.structurePoints : combatBlock.healthPoints;
-  const calculatedVitality = isSyntheticSpecies ? 0 : combatBlock.vitalityPoints;
-  const calculatedToughness = combatBlock.staminaDR;
-  const calculatedDefense = combatBlock.defenseDC;
-  const calculatedAttackBonus = combatBlock.attackBonus;
+  const calculatedHealth = isSyntheticSpecies ? (combatBlock.structurePoints ?? 0) : (combatBlock.health ?? 0);
+  const calculatedVitality = isSyntheticSpecies ? 0 : (combatBlock.vitality ?? 0);
+  const calculatedToughness = customAttrs.sta !== undefined && customAttrs.sta !== ''
+    ? Number(customAttrs.sta)
+    : (combatBlock.attributes?.sta ?? combatBlock.attributeBonus ?? 0);
+  const effectiveArmorDR = selectedArmorObj?.dr !== undefined ? armorDRValue : (combatBlock.expectedDR ?? armorDRValue);
+  const calculatedBaseDamageDice = combatBlock.baseDamageDice || (tier >= 10 ? '3d8+4' : tier >= 5 ? '2d8+2' : '2d6+1');
+  const calculatedTierTitle = combatBlock.narrativeRank || `Tier ${tier}`;
+  const calculatedDefense = combatBlock.defenseDC ?? 10;
+  const calculatedAttackBonus = combatBlock.attackBonus ?? 0;
 
   // Build Complete MCM Payload aligned with Persona Folio
   const buildFullMcmConfig = () => {
@@ -220,28 +262,28 @@ export const ModularCharacterAssembler = ({
       faction: selectedFaction || 'Independent',
       vitalityPoints: calculatedVitality,
       healthPoints: calculatedHealth,
-      structurePoints: combatBlock.structurePoints,
-      armorDR: combatBlock.armorDR,
+      structurePoints: combatBlock.structurePoints ?? 0,
+      armorDR: effectiveArmorDR,
       staminaDR: calculatedToughness,
       defenseDC: calculatedDefense,
       attackBonus: calculatedAttackBonus,
-      actionsPerRound: combatBlock.actionsPerRound,
-      primaryAttributes: {
-        str: customAttrs.str !== undefined ? Number(customAttrs.str) : combatBlock.primaryAttrBonus,
-        agi: customAttrs.agi !== undefined ? Number(customAttrs.agi) : combatBlock.secondaryAttrBonus,
-        sta: customAttrs.sta !== undefined ? Number(customAttrs.sta) : calculatedToughness,
-        int: customAttrs.int !== undefined ? Number(customAttrs.int) : combatBlock.secondaryAttrBonus,
-        wil: customAttrs.wil !== undefined ? Number(customAttrs.wil) : combatBlock.tertiaryAttrBonus,
-        cha: customAttrs.cha !== undefined ? Number(customAttrs.cha) : combatBlock.tertiaryAttrBonus
+      actionsPerRound: combatBlock.actionsPerRound ?? 1,
+      attributes: {
+        str: customAttrs.str !== undefined && customAttrs.str !== '' ? Number(customAttrs.str) : (combatBlock.attributes?.str ?? combatBlock.attributeBonus ?? 0),
+        agi: customAttrs.agi !== undefined && customAttrs.agi !== '' ? Number(customAttrs.agi) : (combatBlock.attributes?.agi ?? combatBlock.secondaryAttrBonus ?? 0),
+        sta: customAttrs.sta !== undefined && customAttrs.sta !== '' ? Number(customAttrs.sta) : calculatedToughness,
+        int: customAttrs.int !== undefined && customAttrs.int !== '' ? Number(customAttrs.int) : (combatBlock.attributes?.int ?? combatBlock.secondaryAttrBonus ?? 0),
+        wis: customAttrs.wis !== undefined && customAttrs.wis !== '' ? Number(customAttrs.wis) : (combatBlock.attributes?.wis ?? combatBlock.secondaryAttrBonus ?? 0),
+        cha: customAttrs.cha !== undefined && customAttrs.cha !== '' ? Number(customAttrs.cha) : (combatBlock.attributes?.cha ?? 0)
       },
       skills: skillRanks,
       weapons: selectedWeapon
-        ? [weapObj || { id: 'wpn_1', name: selectedWeapon, damage: combatBlock.baseDamageDice, range: 'Medium', type: 'Tactical' }]
-        : [{ id: 'wpn_default', name: `${activeRoleObj.name} Armament`, damage: combatBlock.baseDamageDice, range: 'Medium', type: 'Tactical' }],
+        ? [weapObj || { id: 'wpn_1', name: selectedWeapon, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' }]
+        : [{ id: 'wpn_default', name: `${activeRoleObj.name} Armament`, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' }],
       armor: selectedArmor
-        ? [selectedArmorObj || { id: 'arm_1', name: selectedArmor, dr: combatBlock.armorDR, equipped: true }]
-        : combatBlock.armorDR > 0
-          ? [{ id: 'arm_default', name: 'Tactical Plating', dr: combatBlock.armorDR, equipped: true }]
+        ? [selectedArmorObj || { id: 'arm_1', name: selectedArmor, dr: effectiveArmorDR, equipped: true }]
+        : effectiveArmorDR > 0
+          ? [{ id: 'arm_default', name: 'Tactical Plating', dr: effectiveArmorDR, equipped: true }]
           : [],
       gear: selectedGear ? [gearObj || { id: 'gear_1', name: selectedGear }] : [],
       features: selectedFeature ? [featObj || { id: 'feat_1', name: selectedFeature }] : [],
@@ -249,7 +291,7 @@ export const ModularCharacterAssembler = ({
       disadvantages: selectedDisadvantage ? [disObj || { id: 'dis_1', name: selectedDisadvantage }] : [],
       augmentations: selectedAugmentation ? [augObj || { id: 'aug_1', name: selectedAugmentation }] : [],
       invocations: selectedInvocation ? [invObj || { id: 'inv_1', name: selectedInvocation }] : [],
-      concept: fields['char-concept'] || `${combatBlock.tierTitle} ${activeRoleObj.name} (${designation})`,
+      concept: fields['char-concept'] || `${calculatedTierTitle} ${activeRoleObj.name} (${designation})`,
       motive: fields['char-motive'] || '',
       conflict: fields['char-conflict'] || '',
       theLie: fields.theLie || '',
@@ -268,64 +310,75 @@ export const ModularCharacterAssembler = ({
     const folioPersona = convertMcmToFolioPersona(fullConfig);
     const vttUnit = buildVttUnitFromPersona(folioPersona, { uniqueInstance: false });
 
-    onFieldChange?.('personaSubcategory', 'mcm');
-    onFieldChange?.('mcmTier', String(tier));
-    onFieldChange?.('mcmDesignation', designation);
-    onFieldChange?.('mcmChassis', activeChassis.name);
-    onFieldChange?.('mcmRole', activeRoleObj.name);
-    onFieldChange?.('bossType', bossType);
-    onFieldChange?.('speciesSize', speciesSize);
-    onFieldChange?.('physiology', isSyntheticSpecies ? 'Synthetic' : 'Organic');
-    onFieldChange?.('health', String(calculatedHealth));
-    onFieldChange?.('vitality', String(calculatedVitality));
-    onFieldChange?.('structurePoints', String(combatBlock.structurePoints));
-    onFieldChange?.('toughness', String(calculatedToughness));
-    onFieldChange?.('armorDR', String(combatBlock.armorDR));
-    onFieldChange?.('defense', String(calculatedDefense));
-    onFieldChange?.('attackBonus', String(calculatedAttackBonus));
-    onFieldChange?.('actionsPerRound', String(combatBlock.actionsPerRound));
-    onFieldChange?.('damageDice', combatBlock.baseDamageDice);
+    const batchPatch = {
+      personaSubcategory: 'mcm',
+      mcmTier: String(tier),
+      mcmDesignation: designation,
+      mcmChassis: activeChassis.name,
+      mcmRole: activeRoleObj.name,
+      mcmBossType: bossType,
+      bossType,
+      speciesSize,
+      'char-size': speciesSize,
+      physiology: isSyntheticSpecies ? 'Synthetic' : 'Organic',
+      isSynthetic: isSyntheticSpecies,
+      health: String(calculatedHealth),
+      vitality: String(calculatedVitality),
+      structure: String(combatBlock.structurePoints ?? 0),
+      structurePoints: String(combatBlock.structurePoints ?? 0),
+      toughness: String(calculatedToughness),
+      armorDR: String(effectiveArmorDR),
+      defense_dc: String(calculatedDefense),
+      defense: String(calculatedDefense),
+      attack_bonus: String(calculatedAttackBonus),
+      attackBonus: String(calculatedAttackBonus),
+      actions: String(combatBlock.actionsPerRound ?? 1),
+      actionsPerRound: String(combatBlock.actionsPerRound ?? 1),
+      damageDice: calculatedBaseDamageDice,
+      ...(selectedSpecies ? { 'char-species': selectedSpecies } : {}),
+      ...(selectedArchetype ? { 'char-archetype': selectedArchetype } : {}),
+      ...(selectedOccupation ? { 'char-occu': selectedOccupation } : {}),
+      ...(selectedOrigin ? { 'char-origin': selectedOrigin } : {}),
+      ...(selectedFaction ? { 'char-faction': selectedFaction } : {}),
+      ...(selectedWeapon ? { weapon: selectedWeapon } : {}),
+      ...(selectedArmor ? { armor: selectedArmor } : {}),
+      ...(selectedGear ? { selectedGear } : {}),
+      ...(selectedFeature ? { selectedFeature } : {}),
+      ...(selectedTrait ? { selectedTrait } : {}),
+      ...(selectedDisadvantage ? { selectedDisadvantage } : {}),
+      ...(selectedAugmentation ? { selectedAugmentation } : {}),
+      ...(selectedInvocation ? { selectedInvocation } : {}),
+      features: folioPersona.features,
+      traits: folioPersona.traits,
+      disadvantages: folioPersona.disadvantages,
+      augmentations: folioPersona.augmentations,
+      invocations: folioPersona.invocations,
+      weapons: folioPersona.weapons,
+      gear: folioPersona.gear,
+      attacks: folioPersona.attacks,
+      vttUnitData: vttUnit,
+      isReadyForVtt: true
+    };
 
-    // 5-Pillar Sync
-    if (selectedSpecies) onFieldChange?.('char-species', selectedSpecies);
-    if (selectedArchetype) onFieldChange?.('char-archetype', selectedArchetype);
-    if (selectedOccupation) onFieldChange?.('char-occu', selectedOccupation);
-    if (selectedOrigin) onFieldChange?.('char-origin', selectedOrigin);
-    if (selectedFaction) onFieldChange?.('char-faction', selectedFaction);
-
-    // Primary + Sub Attributes Sync
-    PRIMARY_ATTR_SCHEMA.forEach(({ key, subs }) => {
-      onFieldChange?.(`attr-${key}-base`, folioPersona[`attr-${key}-base`]);
-      subs.forEach((s) => {
-        onFieldChange?.(`sub-${s.key}-bonus`, folioPersona[`sub-${s.key}-bonus`]);
-      });
+    PRIMARY_ATTR_SCHEMA.forEach(({ attrKey, sub }) => {
+      batchPatch[attrKey] = String(folioPersona[attrKey] ?? 0);
+      batchPatch[sub.attrKey] = String(folioPersona[sub.attrKey] ?? 2);
+      if (sub.attrKey === 'attr-will') {
+        batchPatch['attr-willpower'] = String(folioPersona[sub.attrKey] ?? 2);
+      } else if (sub.attrKey === 'attr-logic') {
+        batchPatch['attr-reason'] = String(folioPersona[sub.attrKey] ?? 2);
+      }
     });
 
-    // Canonical Skills Sync
     CANONICAL_SKILLS_REGISTRY.forEach((sk) => {
-      onFieldChange?.(`skill-${sk.id}-rank`, folioPersona[`skill-${sk.id}-rank`] ?? 0);
+      batchPatch[`skill-${sk.id}-rank`] = folioPersona[`skill-${sk.id}-rank`] ?? 0;
     });
 
-    // Loadout & Aspects Sync
-    if (selectedWeapon) onFieldChange?.('weapon', selectedWeapon);
-    if (selectedArmor) onFieldChange?.('armor', selectedArmor);
-    if (selectedGear) onFieldChange?.('gear', selectedGear);
-    if (selectedFeature) onFieldChange?.('selectedFeature', selectedFeature);
-    if (selectedTrait) onFieldChange?.('selectedTrait', selectedTrait);
-    if (selectedDisadvantage) onFieldChange?.('selectedDisadvantage', selectedDisadvantage);
-    if (selectedAugmentation) onFieldChange?.('selectedAugmentation', selectedAugmentation);
-    if (selectedInvocation) onFieldChange?.('selectedInvocation', selectedInvocation);
-
-    onFieldChange?.('features', folioPersona.features);
-    onFieldChange?.('traits', folioPersona.traits);
-    onFieldChange?.('disadvantages', folioPersona.disadvantages);
-    onFieldChange?.('augmentations', folioPersona.augmentations);
-    onFieldChange?.('invocations', folioPersona.invocations);
-    onFieldChange?.('weapons', folioPersona.weapons);
-    onFieldChange?.('gear', folioPersona.gear);
-    onFieldChange?.('attacks', folioPersona.attacks);
-    onFieldChange?.('vttUnitData', vttUnit);
-    onFieldChange?.('isReadyForVtt', true);
+    if (typeof onBatchFieldChange === 'function') {
+      onBatchFieldChange(batchPatch);
+    } else if (typeof onFieldChange === 'function') {
+      Object.entries(batchPatch).forEach(([k, v]) => onFieldChange(k, v));
+    }
 
     setAppliedNotification(true);
     setTimeout(() => setAppliedNotification(false), 2500);
@@ -337,13 +390,15 @@ export const ModularCharacterAssembler = ({
     const { fullConfig } = handleApplyToElement();
     const sent = sendMcmToFolioRoster(fullConfig, {
       lockForVtt: !openFolioAfter,
-      openInFolio: true
+      openInFolio: openFolioAfter,
+      activateInFolio: openFolioAfter
     });
+    const sentName = sent?.['char-name'] || sent?.name || sent?.character_name || elementTitle || 'Persona';
     showToast({
       type: 'success',
       text: openFolioAfter
-        ? `Sent "${sent.character_name}" to Persona Folio — opening Folio...`
-        : `Sent "${sent.character_name}" to Persona Folio Roster (VTT & Folio Ready)!`
+        ? `Sent "${sentName}" to Persona Folio — opening Folio...`
+        : `Sent "${sentName}" to Persona Folio Roster (VTT & Folio Ready)!`
     });
     if (openFolioAfter) {
       navigate('/folio');
@@ -505,11 +560,30 @@ Respond in JSON format:
               const mcmRecord = convertFolioToMcmRecord(folioPersona, {
                 id: fields.dbmId || `mcm_${Date.now()}`
               });
-              await saveEntry(mcmRecord, 'modular_characters');
-              onFieldChange?.('personaSubcategory', 'mcm');
+              const res = await saveEntry(mcmRecord, 'modular_characters');
+              if (res === false || res?.ok === false) {
+                showToast({
+                  type: 'error',
+                  text: `Failed to save "${mcmRecord.name}" to OmniCortex Modular Character Matrix.`
+                });
+                return;
+              }
+              const patch = {
+                dbmId: mcmRecord.id,
+                dbmRef: mcmRecord.id,
+                dbmCategory: 'modular_characters',
+                personaSubcategory: 'mcm'
+              };
+              if (typeof onBatchFieldChange === 'function') {
+                onBatchFieldChange(patch);
+              } else {
+                Object.entries(patch).forEach(([k, v]) => onFieldChange?.(k, v));
+              }
               showToast({
-                type: 'success',
-                text: `Saved "${mcmRecord.name}" to OmniCortex Modular Character Matrix!`
+                type: res?.localOnly || res?.permissionDenied ? 'warning' : 'success',
+                text: res?.localOnly || res?.permissionDenied
+                  ? `Saved "${mcmRecord.name}" locally (Cloud OmniCortex requires Admin clearance).`
+                  : `Saved "${mcmRecord.name}" to OmniCortex Modular Character Matrix!`
               });
             }}
             className="px-2.5 py-1.5 bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-200 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider cursor-pointer"
@@ -554,7 +628,7 @@ Respond in JSON format:
             <div className="p-3 bg-slate-900/90 border border-slate-800 rounded-xl space-y-1.5">
               <label className="text-[10px] font-mono font-bold uppercase text-cyan-400 flex items-center justify-between">
                 <span>Threat Tier</span>
-                <span className="text-amber-300 font-mono font-extrabold">T-{tier} ({combatBlock.tierTitle})</span>
+                <span className="text-amber-300 font-mono font-extrabold">T-{tier} ({calculatedTierTitle})</span>
               </label>
               <input
                 type="range"
@@ -597,9 +671,11 @@ Respond in JSON format:
                 onChange={(e) => setRoleKey(e.target.value)}
                 className="w-full bg-slate-950 border border-slate-700 text-purple-300 p-1.5 rounded-lg text-xs font-bold outline-none focus:border-cyan-400 font-mono"
               >
-                {Object.entries(COMPETENCY_ROLES).map(([k, r]) => (
-                  <option key={k} value={k}>{r.name}</option>
-                ))}
+                {Object.entries(COMPETENCY_ROLES)
+                  .filter(([k, r]) => r && r.id === k)
+                  .map(([k, r]) => (
+                    <option key={k} value={k}>{r.name}</option>
+                  ))}
               </select>
             </div>
 
@@ -614,7 +690,7 @@ Respond in JSON format:
                 className="w-full bg-slate-950 border border-slate-700 text-amber-300 p-1.5 rounded-lg text-xs font-bold outline-none focus:border-cyan-400 font-mono"
               >
                 {Object.entries(BOSS_TYPES).map(([k, b]) => (
-                  <option key={k} value={k}>{b.name} (x{b.hpMult} HP, {b.actions} Act)</option>
+                  <option key={k} value={k}>{b.name}</option>
                 ))}
               </select>
             </div>
@@ -717,10 +793,12 @@ Respond in JSON format:
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             {PRIMARY_ATTR_SCHEMA.map(({ key, label }) => {
               const defaultVal =
-                key === 'str' ? combatBlock.primaryAttrBonus :
-                key === 'agi' || key === 'int' ? combatBlock.secondaryAttrBonus :
+                key === 'str' ? (combatBlock.attributes?.str ?? combatBlock.attributeBonus ?? 0) :
+                key === 'agi' ? (combatBlock.attributes?.agi ?? combatBlock.secondaryAttrBonus ?? 0) :
+                key === 'int' ? (combatBlock.attributes?.int ?? combatBlock.secondaryAttrBonus ?? 0) :
                 key === 'sta' ? calculatedToughness :
-                combatBlock.tertiaryAttrBonus;
+                key === 'wis' ? (combatBlock.attributes?.wis ?? combatBlock.secondaryAttrBonus ?? 0) :
+                (combatBlock.attributes?.cha ?? 0);
               const val = customAttrs[key] !== undefined ? customAttrs[key] : defaultVal;
               return (
                 <div key={key} className="p-2.5 bg-slate-900/90 border border-slate-800 rounded-xl flex flex-col gap-1">
@@ -771,7 +849,7 @@ Respond in JSON format:
               onChange={(e) => setSelectedFeature(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700 text-slate-200 p-1.5 rounded-lg text-xs font-mono"
             >
-              <option value="">Role Default: {activeRoleObj.roleFeature?.split(':')[0]}</option>
+              <option value="">Role Default: {activeRoleObj?.feature?.split(':')[0] || activeRoleObj?.name || 'Standard'}</option>
               {featuresList.map((f, idx) => (
                 <option key={f.id || idx} value={f.name || f.title}>{f.name || f.title}</option>
               ))}
@@ -846,7 +924,7 @@ Respond in JSON format:
               onChange={(e) => setSelectedWeapon(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700 text-slate-200 p-1.5 rounded-lg text-xs font-mono outline-none focus:border-cyan-400"
             >
-              <option value="">Default ({combatBlock.baseDamageDice})</option>
+              <option value="">Default ({calculatedBaseDamageDice})</option>
               {weaponsList.map((w, idx) => (
                 <option key={w.id || idx} value={w.name || w.title}>{w.name || w.title}</option>
               ))}
@@ -860,7 +938,7 @@ Respond in JSON format:
               onChange={(e) => setSelectedArmor(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700 text-slate-200 p-1.5 rounded-lg text-xs font-mono outline-none focus:border-cyan-400"
             >
-              <option value="">Default (DR {combatBlock.armorDR})</option>
+              <option value="">Default (DR {effectiveArmorDR})</option>
               {armorsList.map((a, idx) => (
                 <option key={a.id || idx} value={a.name || a.title}>{a.name || a.title}</option>
               ))}
@@ -1071,7 +1149,7 @@ Respond in JSON format:
             <Crosshair size={14} className="text-purple-400" />
             <span className="text-[10px] font-mono uppercase text-slate-400">Atk / Dmg:</span>
             <span className="text-xs font-mono font-extrabold text-purple-300">
-              +{calculatedAttackBonus} ({combatBlock.baseDamageDice})
+              +{calculatedAttackBonus} ({calculatedBaseDamageDice})
             </span>
           </div>
 
@@ -1080,7 +1158,7 @@ Respond in JSON format:
             <Activity size={14} className="text-emerald-400" />
             <span className="text-[10px] font-mono uppercase text-slate-400">DR / Act:</span>
             <span className="text-xs font-mono font-extrabold text-emerald-300">
-              DR {combatBlock.armorDR}+{calculatedToughness} • {combatBlock.actionsPerRound} Act
+              DR {effectiveArmorDR}+{calculatedToughness} • {combatBlock.actionsPerRound ?? 1} Act
             </span>
           </div>
         </div>

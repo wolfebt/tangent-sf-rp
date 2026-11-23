@@ -17,8 +17,6 @@ export default function EpistemicPlayPanel({
   activeOperative,
   onInsertToProse
 }) {
-  if (!isOpen) return null;
-
   const [activeTab, setActiveTab] = useState('terminal'); // 'terminal' | 'interrogation'
 
   // ── TERMINAL HACKING CONSOLE STATE ──
@@ -38,6 +36,16 @@ export default function EpistemicPlayPanel({
     { speaker: 'suspect', text: 'I already told your enforcers everything I know. I was just delivering an encrypted drive to the docking bay.' }
   ]);
   const [activeSkill, setActiveSkill] = useState('Etiquette'); // 'Etiquette' | 'Intimidation' | 'Perception'
+
+  if (!isOpen) return null;
+
+  const escapeHtml = (val) =>
+    String(val ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
 
   // Handle Terminal CLI command execution
   const handleRunTerminalCommand = (e) => {
@@ -106,28 +114,32 @@ export default function EpistemicPlayPanel({
       targetDC: 13
     });
 
+    const isRefused = mandate.systemIntent === 'REFUSE_ACTION';
     const isSuccess = mandate.systemIntent === 'EXECUTE_SUCCESS' || mandate.systemIntent === 'CRITICAL_TRIUMPH';
+    const margin = mandate.diceSummary?.margin ?? 0;
     let npcReply = '';
 
-    if (isSuccess) {
-      npcReply = `[Crack in composure (+${mandate.diceSummary.margin} margin)]: "Alright! Don't involve my family. The drive has coordinates to the syndicate sub-level behind the hydroponics bay. The passcode is 7-0-4-1."`;
+    if (isRefused) {
+      npcReply = `[Interrogation Blocked]: ${mandate.narrativeBounds?.refusalReason || 'That line of technical questioning requires elevated deck clearance.'}`;
+    } else if (isSuccess) {
+      npcReply = `[Crack in composure (+${margin} margin)]: "Alright! Don't involve my family. The drive has coordinates to the syndicate sub-level behind the hydroponics bay. The passcode is 7-0-4-1."`;
     } else {
-      npcReply = `[Deception maintained (${mandate.diceSummary.margin} margin)]: "You're bluffing. Your jurisdiction ends at this airlock, operator. You don't have the clearance to hold me."`;
+      npcReply = `[Deception maintained (${margin} margin)]: "You're bluffing. Your jurisdiction ends at this airlock, operator. You don't have the clearance to hold me."`;
     }
 
     setInterrogationHistory(prev => [
       ...prev,
-      { speaker: 'operative', text: query, skill: activeSkill, margin: mandate.diceSummary.margin, isSuccess },
+      { speaker: 'operative', text: query, skill: activeSkill, margin, isSuccess },
       { speaker: 'suspect', text: npcReply }
     ]);
   };
 
   const handleExportToStory = () => {
     if (activeTab === 'terminal') {
-      const text = terminalLogs.map(l => `${l.text}`).join('\n');
+      const text = terminalLogs.map(l => escapeHtml(l.text)).join('\n');
       onInsertToProse(`<blockquote style="border-left: 3px solid #06b6d4; padding-left: 10px; margin: 10px 0; background: rgba(8,51,68,0.3);"><pre style="font-family: monospace; font-size: 11px;">${text}</pre></blockquote>`);
     } else {
-      const text = interrogationHistory.map(h => `<p><strong>${h.speaker === 'operative' ? (activeOperative?.name || 'Operator') : suspectName}:</strong> ${h.text}</p>`).join('');
+      const text = interrogationHistory.map(h => `<p><strong>${escapeHtml(h.speaker === 'operative' ? (activeOperative?.name || 'Operator') : suspectName)}:</strong> ${escapeHtml(h.text)}</p>`).join('');
       onInsertToProse(text);
     }
     onClose();

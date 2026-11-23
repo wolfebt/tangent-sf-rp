@@ -24,7 +24,7 @@ import { useDBM } from '../../../../context/DBMContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { buildUnifiedAdeCatalog } from '../../../../utils/cortexAdeAssetBridge';
 import { showConfirm } from '../../../../context/ConfirmContext';
-import { getTypePillStyle } from '../../ElementForge/elementSchemas';
+import { ELEMENT_TYPES, getTypePillStyle, normalizeElementType } from '../../ElementForge/elementSchemas';
 import { useAdeStore } from '../../store/adeStore';
 import { AudioService } from '../../../../services/audioService';
 import { v4 as uuidv4 } from 'uuid';
@@ -50,7 +50,7 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
     });
   }, [elementsCatalog, dbData, personaRoster, publicCatalog]);
 
-  const categories = ['All', 'Persona', 'Faction', 'Location', 'Object', 'Lore', 'Encounter', 'Hazard'];
+  const categories = ['All', ...ELEMENT_TYPES];
 
   // Check if an element is mentioned in the active story text
   const isMentionedInStory = (elem) => {
@@ -67,7 +67,7 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
         (elem.fields?.description || elem.fields?.summary || '').toLowerCase().includes(search.toLowerCase()) ||
         (elem.type || '').toLowerCase().includes(search.toLowerCase());
       
-      const matchesType = selectedType === 'All' || elem.type?.toLowerCase() === selectedType.toLowerCase();
+      const matchesType = selectedType === 'All' || normalizeElementType(elem.type) === selectedType;
       return matchesSearch && matchesType;
     });
   }, [unifiedCatalog, search, selectedType]);
@@ -87,21 +87,19 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
   };
 
   const handleCreateNewElement = () => {
+    const targetType = selectedType === 'All' ? 'Persona' : normalizeElementType(selectedType);
     const newElem = {
       id: uuidv4(),
-      title: 'New Story Element',
-      type: selectedType === 'All' ? 'Persona' : selectedType,
+      title: `New ${targetType}`,
+      type: targetType,
       content: '',
       fields: {
         description: 'Newly forged world element.',
         oneLinePitch: 'A critical figure or location in the sector.',
-        tags: ['new']
+        tags: 'new'
       },
       createdAt: Date.now()
     };
-    if (updateSavedElement) {
-      updateSavedElement(newElem.id, newElem);
-    }
     useAdeStore.getState().setEditingElement(newElem);
     AudioService.playCriticalChime(true);
   };
@@ -182,7 +180,8 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {filteredElements.map((elem) => {
-              const pill = getTypePillStyle(elem.type || 'Object');
+              const pill = getTypePillStyle(elem.type || 'Custom');
+              const pillClasses = typeof pill === 'string' ? pill : `${pill?.bg || ''} ${pill?.border || ''} ${pill?.text || ''}`;
               const mentioned = isMentionedInStory(elem);
 
               return (
@@ -201,7 +200,7 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
                     {/* Header badge & title */}
                     <div className="flex items-center justify-between gap-1.5">
                       <div className="flex items-center gap-1">
-                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase border ${pill.bg} ${pill.border} ${pill.text}`}>
+                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase border ${pillClasses}`}>
                           {elem.type || 'Asset'}
                         </span>
                         {elem.sourceLabel && (

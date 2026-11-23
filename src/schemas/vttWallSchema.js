@@ -45,13 +45,20 @@ export const createWallSegment = (p1, p2, type = WALL_TYPES.SOLID, options = {})
  * Toggles a door segment state (Closed -> Open -> Closed)
  */
 export const toggleDoorState = (wall) => {
-  if (wall.type !== WALL_TYPES.DOOR || wall.doorState === DOOR_STATES.BREACHED) {
+  const rawType = String(wall?.type || wall?.wallType || '').toLowerCase();
+  const isDoor =
+    rawType === WALL_TYPES.DOOR ||
+    rawType.includes('door') ||
+    Boolean(wall?.isDoor) ||
+    Boolean(wall?.isDynamic);
+  if (!isDoor || wall.doorState === DOOR_STATES.BREACHED) {
     return wall;
   }
   if (wall.doorState === DOOR_STATES.LOCKED) {
     return wall; // Must unlock before toggling
   }
-  const nextState = wall.doorState === DOOR_STATES.OPEN ? DOOR_STATES.CLOSED : DOOR_STATES.OPEN;
+  const currentlyOpen = wall.doorState === DOOR_STATES.OPEN || (!wall.doorState && Boolean(wall.isOpen));
+  const nextState = currentlyOpen ? DOOR_STATES.CLOSED : DOOR_STATES.OPEN;
   return {
     ...wall,
     doorState: nextState,
@@ -77,6 +84,9 @@ export const damageWallSegment = (wall, damageAmount) => {
  * Determines if a wall currently blocks line-of-sight based on type and door state
  */
 export const doesWallBlockVision = (wall, sensorMode = 'standard_optical') => {
+  if (!wall || wall.doorState === DOOR_STATES.BREACHED || (wall.breachHp !== undefined && wall.breachHp <= 0)) {
+    return false;
+  }
   if (wall.type === WALL_TYPES.DOOR) {
     return wall.doorState !== DOOR_STATES.OPEN && wall.doorState !== DOOR_STATES.BREACHED;
   }

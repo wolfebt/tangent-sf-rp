@@ -1117,15 +1117,34 @@ export const DBMProvider = ({ children }) => {
     });
 
     // 4. Firestore persistence if authenticated and quota available
+    let permissionDenied = false;
+    let cloudSynced = false;
     if ((auth.currentUser || currentUser) && !isFirestoreQuotaExhausted()) {
       try {
         const docRef = doc(db, key, docId);
         const cleanPayload = sanitizeFirestoreData(sanitizedEntry);
         await setDoc(docRef, cleanPayload, { merge: true });
+        cloudSynced = true;
       } catch (err) {
+        const errCode = String(err?.code || '').toLowerCase();
+        const errMsg = String(err?.message || '').toLowerCase();
+        permissionDenied = errCode === 'permission-denied' || errMsg.includes('permission') || errMsg.includes('insufficient permissions');
         handleFirestoreQuotaError(err);
+        if (permissionDenied) {
+          console.warn(`[DBMContext] Cloud OmniCortex write blocked by permissions for "${key}/${docId}"; kept local override.`);
+        }
         // Do NOT rollback local state! Local storage and state have preserved the changes.
       }
+    }
+
+    if (permissionDenied) {
+      return {
+        ok: true,
+        id: docId,
+        cloudSynced: false,
+        permissionDenied: true,
+        localOnly: true
+      };
     }
 
     return true;

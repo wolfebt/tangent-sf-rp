@@ -1,4 +1,6 @@
 import { getDatasetByKey, validateDatasetPayload } from '../pages/Codex/codexPromptRegistry.js';
+import { auth } from '../firebase.js';
+import { hasInMemoryFirebaseIdToken, getFreshFirebaseIdToken } from '../utils/firebaseTokenStore.js';
 import { adaptSparkItemToFirestore } from '../utils/codexIngestionAdapters.js';
 import { queryOmnicortexRAG, formatRagContextForBastion, loadCompendiumSeedDataset } from './omnicortexVectorRag.ts';
 import {
@@ -56,7 +58,7 @@ export const getGeminiApiKey = () => {
   }
 
   const envKey = (
-    (typeof import.meta !== 'undefined' && (import.meta.env?.VITE_GEMINI_API_KEY || import.meta.env?.GEMINI_API_KEY)) ||
+    (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) ||
     (typeof process !== 'undefined' && (process.env?.VITE_GEMINI_API_KEY || process.env?.GEMINI_API_KEY)) ||
     ''
   ).trim();
@@ -98,12 +100,15 @@ export const hasAvailableAiTransport = (explicitApiKey = '') => {
           }
         } catch {}
       }
-      const idToken = localStorage.getItem('firebaseIdToken') || '';
-      if (idToken.trim().length > 15) {
+      if (hasInMemoryFirebaseIdToken(auth)) {
         return true;
       }
     }
   } catch {}
+
+  if (hasInMemoryFirebaseIdToken(auth)) {
+    return true;
+  }
 
   return false;
 };
@@ -126,7 +131,7 @@ Ground every ruling, build, and calculation strictly in the canonical Tangent SF
 - Augmentations & UDU 10:1 Hierarchy: No max strain; 3 body-alteration tiers (<20% Augmentation, <50% Heavy, >50% Severe/FBC). UDU scales 10:1: 10 Nodes = 1 Socket, 10 Sockets = 1 Mount, 10 Mounts = 1 Module (humanoid = 200 Body Nodes).
 - Character Economy (150 CP, Award Points & The 5 Pillars): 150 CP starting budget (80 CP Archetype + 70 CP Customization; post-creation advancement uses Award Points [AP] spent 1-for-1 at 1 AP = 1 CP, standard 1-3 AP per session), three free 20-SP background pools (20 Faction + 20 Origin + 20 Occupation = 60 Free SP), 4 free background traits (2 Origin + 2 Occupation at 0 CP; Faction traits are optional at 1 CP each, with configurable platform support for future Faction trait revisions; extra traits 1 CP), first 4 Recommended Features at 2 CP (-1 CP discount vs 3 CP standard), +10 CP max Personal Hindrance rebate (Species flaws & Stigmas exempt). Base Skill Ranks span 0-20 at 1 SP/CP per rank (Character Creation cap = Rank 11 [Stage 3: Expert]; Base Skill ceiling = Rank 20 [Stage 4: Master]). Specializations are built-up sub-skills (Rank 1-10 at 1 SP/CP per rank, Prerequisite Base Rank 6+, max 1 viable per check, NOT a flat +2) adding directly to Base Skill to unlock Ranks 21-30 (Grand Master 21-25 & Pinnacle 26-30). Retired skill names Endurance (-> Athletics), Arcane (-> Discipline), and Perception (-> Alertness) are never used. Always ground characters in the 5 canonical Omnicortex Pillars: 1. Archetype -> 2. Species -> 3. Faction -> 4. Origin -> 5. Occupation.
 - 2d10 Dual Resolution & Combat: 2d10 + Skill Rank + Attribute Mod vs. Target Defense / CR (Advantage/Disadvantage = +1d10 keep highest/lowest 2, cancelling 1-for-1). Opposed combat rolls: DEFENDER WINS ALL TIES. Unopposed static baseline = CR 15. Critical Success (Nat 20 [10,10] or expanded threat 19, 18) adds +10 to rolled dice (20 -> 30, 19 -> 29), doubles (2x) base weapon damage dice, and bypasses Vitality to Health; Critical Fumble (Nat 2 [1,1] or expanded fumble 3, 4) replaces rolled dice with a flat -10 (Base Score - 10) + complication. 6-Stage Skill Tier Action Economy (NO Action Points / AP): Rank 0 Full Round; 1-5 (1 action, +2 Focus); 6-10 (2nd at -5, +3 Focus); 11-15 (3rd at -10, +4 Focus); 16-20 (4th at -15, +5 Focus); 21-25 (5th at -20, +6 Focus); 26-30 (6th at -25, +7 Focus). Precision Strike consolidation requires Combat Features (Skill 6 -> 2x, Skill 11 -> 3x, Skill 16 -> 4x).
-- Called Shots, Scaling & Economatrix (EUFT): Anatomy strike penalties (-2 Head/Arms, -1 Legs, -3 Optics); Limb Disabled >= 1/3 Max HP, Destroyed >= 2/3 Max HP (+50% threshold for Synthetics). 14 Size Categories (Miniscule to Mega Colossal x320). EUFT Credit Value: Base_5 = floor(CR / 5) * 5; Value = round(10 * 4^(Base_5 / 5) * MicroModifier[CR - Base_5]) where MicroModifier = { -1: 0.75, 0: 1.00, +1: 1.30, +2: 1.75, +3: 2.30, +4: 3.00 } (e.g., CR 15 = 640 Cr, CR 18 = 1,472 Cr, CR 32 = 71,680 Cr). Golden Rule: Purchase CR = Crafting CR <= Wealth Score (Auto-Buy 0 Cr); Pristine Materials = 50% Market Value; Scavenged Scrap = 10% (5x mass). Modular Companions = 40 CP (15 CP Form + 25 CP Function, unlocked via 3 CP Companion feature).`;
+- Called Shots, Scaling & Economatrix (EUFT): Anatomy strike penalties (-1 Torso, -2 Head/Arms/Legs, -5 Optics/Sensors); Limb Disabled >= 1/3 Max HP, Destroyed >= 2/3 Max HP (+50% threshold for Synthetics). 14 Size Categories (Miniscule to Mega Colossal x320). EUFT Credit Value: Base_5 = floor(CR / 5) * 5; Value = round(10 * 4^(Base_5 / 5) * MicroModifier[CR - Base_5]) where MicroModifier = { -1: 0.75, 0: 1.00, +1: 1.30, +2: 1.75, +3: 2.30, +4: 3.00 } (e.g., CR 15 = 640 Cr, CR 18 = 1,472 Cr, CR 32 = 71,680 Cr). Golden Rule: Purchase CR = Crafting CR <= Wealth Score (Auto-Buy 0 Cr); Pristine Materials = 50% Market Value; Scavenged Scrap = 10% (5x mass). Modular Companions = 40 CP (15 CP Form + 25 CP Function, unlocked via 3 CP Companion feature).`;
 
 /**
  * Layer 1: Role-Specific Persona & Linguistic Framing Contracts.
@@ -1141,16 +1146,25 @@ let cachedWorkingGeminiModel = null;
  * with session-cached Flash model selection and optional SSE streaming (`options.onStreamChunk`).
  */
 export const fetchGeminiContent = async (apiKey, requestBody, options = {}) => {
+  const skipLocalInference = Boolean(options?.skipLocalInference);
   const onStreamChunk = typeof options?.onStreamChunk === 'function' ? options.onStreamChunk : null;
+  const preferredModel = typeof options?.preferredModel === 'string' && options.preferredModel.trim()
+    ? options.preferredModel.trim()
+    : (typeof requestBody?.preferredModel === 'string' && requestBody.preferredModel.trim()
+      ? requestBody.preferredModel.trim()
+      : null);
 
-  // 1. Check for Local Inference (llama.cpp -> Ollama automated cascade) if configured in UserSettings
+  // 1. Check for Local Inference (llama.cpp -> Ollama automated cascade) if configured in UserSettings and not skipped
   const preferredPlatform = (typeof localStorage !== 'undefined' && localStorage.getItem('aiPlatform')) || 'gemini';
   const configuredEndpoint = typeof localStorage !== 'undefined'
     ? (localStorage.getItem('customEndpoint') || localStorage.getItem('tangent_local_llm_endpoint'))
     : null;
   const localExplicit = typeof localStorage !== 'undefined' && localStorage.getItem('tangent_local_llm_enabled') === 'true';
 
-  if (preferredPlatform === 'custom' || preferredPlatform === 'local' || localExplicit || (!apiKey && configuredEndpoint)) {
+  if (
+    !skipLocalInference &&
+    (preferredPlatform === 'custom' || preferredPlatform === 'local' || localExplicit || (!apiKey && configuredEndpoint))
+  ) {
     try {
       const { resolveIntelligenceTier, callAutomatedInferencePipeline } = await import('./aimeTierRouter.ts');
       const sysText = requestBody?.systemInstruction?.parts?.[0]?.text || '';
@@ -1194,24 +1208,33 @@ export const fetchGeminiContent = async (apiKey, requestBody, options = {}) => {
 
   // 2. If no browser API key, check for authenticated Cloud Function geminiProxy
   if (!apiKey) {
-    const idToken = typeof localStorage !== 'undefined' ? localStorage.getItem('firebaseIdToken') : null;
+    let idToken = await getFreshFirebaseIdToken(auth, false);
     const proxyUrl = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_PROXY_URL) || '/geminiProxy';
     if (idToken) {
       try {
-        const proxyRes = await fetch(proxyUrl, {
+        const sendProxyRequest = (bearerToken) => fetch(proxyUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${idToken}`
+            'Authorization': `Bearer ${bearerToken}`
           },
           body: JSON.stringify({
-            model: cachedWorkingGeminiModel || GEMINI_FLASH_MODELS[0],
+            model: preferredModel || cachedWorkingGeminiModel || GEMINI_FLASH_MODELS[0],
             contents: requestBody?.contents,
             systemInstruction: requestBody?.systemInstruction,
             generationConfig: requestBody?.generationConfig,
             tools: requestBody?.tools
           })
         });
+
+        let proxyRes = await sendProxyRequest(idToken);
+        if (proxyRes.status === 401) {
+          const refreshedToken = await getFreshFirebaseIdToken(auth, true);
+          if (refreshedToken && refreshedToken !== idToken) {
+            idToken = refreshedToken;
+            proxyRes = await sendProxyRequest(idToken);
+          }
+        }
         if (proxyRes.ok) {
           const json = await proxyRes.json();
           const txt = json?.candidates?.[0]?.content?.parts?.find(p => typeof p?.text === 'string')?.text || '';
@@ -1229,21 +1252,22 @@ export const fetchGeminiContent = async (apiKey, requestBody, options = {}) => {
   }
 
   let lastError = null;
-  const candidateModels = cachedWorkingGeminiModel
-    ? [cachedWorkingGeminiModel, ...GEMINI_FLASH_MODELS.filter(m => m !== cachedWorkingGeminiModel)]
-    : GEMINI_FLASH_MODELS;
+  const candidateModels = Array.from(
+    new Set([preferredModel, cachedWorkingGeminiModel, ...GEMINI_FLASH_MODELS].filter(Boolean))
+  );
 
   for (const model of candidateModels) {
     try {
-      const useSse = Boolean(onStreamChunk) && !requestBody?.tools;
+      const useSse = Boolean(onStreamChunk);
       const endpointAction = useSse ? 'streamGenerateContent?alt=sse' : 'generateContent';
+      const { preferredModel: _ignoredPreferredModel, ...apiRequestBody } = requestBody || {};
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:${endpointAction}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-goog-api-key': apiKey
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(apiRequestBody)
       });
 
       if (useSse && response.ok && response.body) {
@@ -1252,6 +1276,31 @@ export const fetchGeminiContent = async (apiKey, requestBody, options = {}) => {
         const decoder = new TextDecoder('utf-8');
         let accumulated = '';
         let sseBuffer = '';
+        const collectedFunctionCalls = [];
+
+        const processSseLine = (rawLine) => {
+          const trimmed = rawLine.trim();
+          if (!trimmed.startsWith('data:')) return;
+          const payload = trimmed.slice(5).trim();
+          if (!payload || payload === '[DONE]') return;
+          try {
+            const evt = JSON.parse(payload);
+            const evtParts = evt?.candidates?.[0]?.content?.parts || [];
+            let piece = '';
+            for (const part of evtParts) {
+              if (typeof part?.text === 'string' && part.text) {
+                piece += part.text;
+              }
+              if (part?.functionCall) {
+                collectedFunctionCalls.push(part.functionCall);
+              }
+            }
+            if (piece) {
+              accumulated += piece;
+              onStreamChunk(piece, accumulated);
+            }
+          } catch {}
+        };
 
         while (true) {
           const { done, value } = await reader.read();
@@ -1260,26 +1309,26 @@ export const fetchGeminiContent = async (apiKey, requestBody, options = {}) => {
           const lines = sseBuffer.split('\n');
           sseBuffer = lines.pop() || '';
           for (const line of lines) {
-            const trimmed = line.trim();
-            if (!trimmed.startsWith('data:')) continue;
-            const payload = trimmed.slice(5).trim();
-            if (!payload || payload === '[DONE]') continue;
-            try {
-              const evt = JSON.parse(payload);
-              const piece = evt?.candidates?.[0]?.content?.parts?.map(p => p?.text || '').join('') || '';
-              if (piece) {
-                accumulated += piece;
-                onStreamChunk(piece, accumulated);
-              }
-            } catch {}
+            processSseLine(line);
           }
+        }
+        if (sseBuffer.trim()) {
+          processSseLine(sseBuffer);
+        }
+
+        const resultParts = [];
+        if (accumulated) {
+          resultParts.push({ text: accumulated });
+        }
+        for (const fc of collectedFunctionCalls) {
+          resultParts.push({ functionCall: fc });
         }
 
         return {
           candidates: [
             {
               content: {
-                parts: [{ text: accumulated }]
+                parts: resultParts
               }
             }
           ]
@@ -1697,7 +1746,7 @@ export const sendBastionChatMessage = async (options = {}) => {
         ...(toolsPayload ? { tools: toolsPayload } : {}),
       },
       {
-        onStreamChunk: toolsPayload ? null : safeStreamChunk,
+        onStreamChunk: safeStreamChunk,
       }
     );
 
@@ -1745,11 +1794,27 @@ export const sendBastionChatMessage = async (options = {}) => {
       );
     }
 
-    const finalParts = data?.candidates?.[0]?.content?.parts || [];
+    let finalParts = data?.candidates?.[0]?.content?.parts || [];
     let replyText = finalParts
       .map((p) => (typeof p?.text === 'string' ? p.text : ''))
       .join('')
       .trim();
+
+    if (!replyText && executedToolCalls.length > 0) {
+      data = await fetchGeminiContent(
+        apiKey,
+        {
+          systemInstruction: { parts: [{ text: systemPromptContent }] },
+          contents,
+        },
+        { onStreamChunk: safeStreamChunk }
+      );
+      finalParts = data?.candidates?.[0]?.content?.parts || [];
+      replyText = finalParts
+        .map((p) => (typeof p?.text === 'string' ? p.text : ''))
+        .join('')
+        .trim();
+    }
 
     if (!replyText) {
       throw new Error('No response content returned from BASTION AI.');

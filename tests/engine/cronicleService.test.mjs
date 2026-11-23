@@ -19,7 +19,8 @@ import {
   applyCronicleDelta,
   applyBatchDeltas,
   formatCronicleContextForAIME,
-  exportCronicleToMarkdown
+  exportCronicleToMarkdown,
+  extractNarrativeDeltas
 } from '../../src/services/cronicleService.js';
 
 test('CRONICLE: Prefix sanitization converts strings to valid identifier tokens', () => {
@@ -372,5 +373,42 @@ test('Stage-to-CRONICLE Bridge: Generates accurate deltas and mutates CRONICLE s
 
   cleanup();
   assert.equal(mockHandlers['token-defeated'], undefined);
+});
+
+test('CRONICLE extractNarrativeDeltas: Parses live Gemini candidates object response without heuristic fallback', async () => {
+  const origFetch = globalThis.fetch;
+  globalThis.fetch = async () => ({
+    ok: true,
+    status: 200,
+    json: async () => ({
+      candidates: [
+        {
+          content: {
+            parts: [
+              {
+                text: '```json\n[{"entityId":"p_elara","action":"add_item","target":"inventory","value":"Precursor Cipher Key","explanation":"Elara recovered the cipher key from the downed courier."}]\n```'
+              }
+            ]
+          }
+        }
+      ]
+    })
+  });
+
+  try {
+    const cronicle = createDefaultCronicleState('Sector Probe');
+    cronicle.personas.p_elara = { id: 'p_elara', name: 'Elara Vex' };
+    const deltas = await extractNarrativeDeltas({
+      prose: 'Elara retrieved the Precursor Cipher Key from the courier.',
+      cronicle,
+      apiKey: 'test-key'
+    });
+    assert.equal(deltas.length, 1);
+    assert.equal(deltas[0].entityId, 'p_elara');
+    assert.equal(deltas[0].action, 'add_item');
+    assert.equal(deltas[0].value, 'Precursor Cipher Key');
+  } finally {
+    globalThis.fetch = origFetch;
+  }
 });
 

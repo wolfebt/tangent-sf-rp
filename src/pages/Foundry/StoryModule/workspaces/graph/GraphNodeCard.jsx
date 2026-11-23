@@ -73,6 +73,12 @@ export const GraphNodeCard = ({
         opacity: isDimmed ? 0.35 : 1
       }}
       className={`node-card absolute pointer-events-auto rounded-2xl border transition-all cursor-default flex flex-col backdrop-blur-md shadow-2xl select-none group font-sans ${cardClasses}`}
+      onMouseUp={(e) => {
+        if (isConnecting && onCompleteConnection) {
+          e.stopPropagation();
+          onCompleteConnection(e, node.id);
+        }
+      }}
       onClick={(e) => {
         e.stopPropagation();
         if (onSelect) onSelect(node);
@@ -284,8 +290,12 @@ export const GraphNodeCard = ({
           e.stopPropagation();
           if (onStartConnection) onStartConnection(e, node.id);
         }}
+        onMouseUp={(e) => {
+          // Keep click-then-click connection mode alive if user clicks & releases on source port
+          e.stopPropagation();
+        }}
         className="node-port absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-950 border-2 border-cyan-400 flex items-center justify-center cursor-crosshair hover:scale-135 transition-transform shadow-[0_0_10px_rgba(6,182,212,0.6)] z-20 group/port"
-        title="Drag wire to connect to another node"
+        title="Drag wire (or click then click target) to connect to another node"
       >
         <div className="w-2 h-2 rounded-full bg-cyan-300 group-hover/port:bg-white" />
       </div>
@@ -293,12 +303,16 @@ export const GraphNodeCard = ({
       {/* ── INPUT CONNECTION RECEIVER TARGET (LEFT EDGE) ── */}
       {isConnecting && (
         <div
+          onMouseUp={(e) => {
+            e.stopPropagation();
+            if (onCompleteConnection) onCompleteConnection(e, node.id);
+          }}
           onClick={(e) => {
             e.stopPropagation();
             if (onCompleteConnection) onCompleteConnection(e, node.id);
           }}
           className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-emerald-950 border-2 border-emerald-400 flex items-center justify-center cursor-pointer animate-ping hover:scale-135 transition-transform z-20 shadow-[0_0_12px_rgba(16,185,129,0.8)]"
-          title="Click to complete connection wire here"
+          title="Drop wire or click to complete connection here"
         >
           <div className="w-2 h-2 rounded-full bg-emerald-300" />
         </div>

@@ -10,27 +10,20 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import ScenarioPane from './ScenarioPane';
 import StoryGallery from './workspaces/StoryGallery';
-import SelectivePrintModal from '../../../components/StoryFoundry/SelectivePrintModal';
-import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
-import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
-import { UserSettingsModal } from '../../../components/UserSettingsModal';
-import AIMEChatBox from '../AIME/AIMEChatBox';
-import EditElementModal from '../ElementForge/EditElementModal';
 import ADETopToolbar from './ADETopToolbar';
 import ADENavRail from './ADENavRail';
 import ModuleMissionControl from '../Dashboard/ModuleMissionControl';
 import StageWorkspace from '../Stage/StageWorkspace';
-import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
-import VttCompilerModal from '../../../components/StoryFoundry/VttCompilerModal';
-import ModulePackageModal from '../../../components/StoryFoundry/ModulePackageModal';
-import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
+import FoundryModalHost from './FoundryModalHost';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 const MapMaker = React.lazy(() => import('../MapMaker/MapMaker'));
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
+import { useDBM } from '../../../context/DBMContext';
+import { useFolio } from '../../../context/FolioContext';
+import { showToast } from '../../../context/ToastContext';
 import { exportElementMarkdown, exportElementPDF } from './exportUtils';
-import { generateScratchbookMarkdown } from './scratchbookService';
 import { useAdeStore } from '../store/adeStore';
 import { useShallow } from 'zustand/react/shallow';
 import { v4 as uuidv4 } from 'uuid';
@@ -50,7 +43,6 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     getActiveGemsText, 
     updateSavedElement, 
     deleteSavedElement, 
-    saveElementToCloud,
     updateStory,
     activeScenarioId,
     setActiveScenarioId,
@@ -58,9 +50,17 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     mapsCatalog,
     activeMapId,
     setActiveMapId,
-    handleLoadStory
+    addMap,
+    updateMap,
+    addStory,
+    setGalleryModifiers,
+    updateCreativeState,
+    updateCronicle,
+    isStoryReadOnly = false
   } = useStory();
   const { currentUser, userHandle } = useAuth();
+  const { saveEntry } = useDBM() || {};
+  const { saveCurrentToRoster } = useFolio() || {};
   const isMobile = useIsMobile();
 
   // Centralized ADE Store State & Actions via a single useShallow subscription
@@ -213,15 +213,19 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     setActiveView(resolvedView);
   }, [viewParam, tabParam, defaultView, setActiveView, setStageWorkspaceTab, setScenarioWorkspaceTab]);
 
-  // Workspace tab synchronization: update tab from URL param if present, or initial defaultWorkspaceTab
+  // Workspace tab synchronization: update tab from URL param only for scenario views & scenario tabs
   useEffect(() => {
-    if (tabParam) {
-      const resolvedTab = (tabParam === 'canvas' || tabParam === 'manuscript') ? 'write' : tabParam;
+    const v = viewParam?.toLowerCase();
+    const t = tabParam?.toLowerCase();
+    const isNonScenarioView = v && ['stage', 'live', 'vtt', 'map', 'elements', 'gallery', 'mission_control', 'dashboard', 'aime', 'presets', 'scripts', 'encounters'].includes(v);
+    const isStageOnlyTab = t && ['run', 'setup', 'encounters', 'loot', 'audio', 'assets', 'scripts', 'presets'].includes(t);
+    if (tabParam && !isNonScenarioView && !isStageOnlyTab) {
+      const resolvedTab = (tabParam === 'canvas' || tabParam === 'manuscript' || tabParam === 'weaver') ? 'write' : tabParam;
       setScenarioWorkspaceTab(resolvedTab);
-    } else if (defaultWorkspaceTab && defaultWorkspaceTab !== 'weaver') {
+    } else if (!tabParam && defaultWorkspaceTab && defaultWorkspaceTab !== 'weaver') {
       setScenarioWorkspaceTab(defaultWorkspaceTab);
     }
-  }, [tabParam, defaultWorkspaceTab, setScenarioWorkspaceTab]);
+  }, [viewParam, tabParam, defaultWorkspaceTab, setScenarioWorkspaceTab]);
 
   // Global hotkeys for glass cockpit: ] toggles right dock, [ toggles left outliner
   useEffect(() => {
@@ -394,7 +398,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           isTreeExpanded={isTreeExpanded}
           onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
           isRightDockOpen={isRightDockOpen}
-          onToggleRightDock={() => setIsRightDockOpen(prev => !prev)}
+          onToggleRightDock={(next) => setIsRightDockOpen(prev => (typeof next === 'boolean' ? next : !prev))}
           activeCockpitDeck={activeCockpitDeck}
           onSelectCockpitDeck={setActiveCockpitDeck}
           activeNode={activeNode}
@@ -423,7 +427,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           elementsCount={elementsCatalog?.length || 0}
           mapsCount={universeState?.maps?.length || 0}
           modifiersCount={universeState?.galleryModifiers?.length || 0}
-          pendingCronicleCount={cronicle?.history?.length || 0}
+          pendingCronicleCount={cronicle?.pendingDeltas?.length || 0}
           onOpenCronicle={() => {
             setCronicleInitialMode('living_memory');
             setIsCronicleOpen(true);
@@ -540,144 +544,36 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         )}
       </div>
 
-      {/* Floating Movable / Dockable AIME Co-Pilot Chat Window */}
-      {isFloatingAimeOpen && (
-        <AIMEChatBox
-          onClose={() => setIsFloatingAimeOpen(false)}
-          activeNode={activeNode}
-          contextData={{
-            projectName: universeState?.projectName || 'Tangent Universe',
-            activeNode: activeNode ? {
-              id: activeNode.id,
-              title: activeNode.title,
-              type: activeNode.type,
-              content: activeNode.content,
-              fields: activeNode.fields
-            } : null,
-            guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : '',
-            outline: universeState?.creativeState?.storyOutline || '',
-            sceneBeats: universeState?.creativeState?.sceneBeats || '',
-            draft: universeState?.creativeState?.storyDraft || '',
-            customCatalog: elementsCatalog || [],
-            scratchbook: generateScratchbookMarkdown(universeState, elementsCatalog),
-            cronicle: universeState?.cronicle || cronicle || null
-          }}
-        />
-      )}
-
-      {/* Full Element Forge Modal inside Story Module (Dual-Mode Guided + Sheet) */}
-      {isEditElementModalOpen && (
-        <EditElementModal
-          isOpen={isEditElementModalOpen}
-          onClose={() => {
-            setIsEditElementModalOpen(false);
-            setEditingModalElement(null);
-          }}
-          element={editingModalElement}
-          initialMode={elementEditorMode}
-          initialSeedTab={elementEditorInitialSeed || 'spark'}
-          activeScenario={activeNode}
-          onSave={async (savedElem) => {
-            if (typeof updateSavedElement === 'function' && savedElem?.id) {
-              await updateSavedElement(savedElem.id, savedElem);
-            }
-            if (typeof saveElementToCloud === 'function' && savedElem) {
-              await saveElementToCloud(savedElem);
-            }
-            setIsEditElementModalOpen(false);
-            setEditingModalElement(null);
-          }}
-          onDelete={(elementId) => {
-            if (typeof deleteSavedElement === 'function' && elementId) {
-              deleteSavedElement(elementId);
-            }
-            setIsEditElementModalOpen(false);
-            setEditingModalElement(null);
-          }}
-        />
-      )}
-
-      {/* Story Project Catalog / Dashboard Modal */}
-      <FoundryLauncherModal
-        isOpen={isCatalogOpen}
-        onClose={() => setIsCatalogOpen(false)}
-        initialTab="stories"
-      />
-
-      {/* Selective Print & Publishing Studio Modal */}
-      <SelectivePrintModal
-        isOpen={isPrintModalOpen}
-        onClose={() => setIsPrintModalOpen(false)}
+      <FoundryModalHost
+        modals={modals}
+        setModal={setModal}
+        cronicleInitialMode={cronicleInitialMode}
+        editingModalElement={editingModalElement}
+        setEditingModalElement={setEditingModalElement}
+        elementEditorMode={elementEditorMode}
+        elementEditorInitialSeed={elementEditorInitialSeed}
+        activeNode={activeNode}
+        activeMap={activeMap}
         universeState={universeState}
         elementsCatalog={elementsCatalog}
-        activeScenario={activeNode}
-        activeMap={activeMap}
+        cronicle={cronicle}
+        getActiveGemsText={getActiveGemsText}
+        updateSavedElement={updateSavedElement}
+        deleteSavedElement={deleteSavedElement}
+        saveEntry={saveEntry}
+        saveCurrentToRoster={saveCurrentToRoster}
+        showToast={showToast}
+        addMap={addMap}
+        updateMap={updateMap}
+        addStory={addStory}
+        updateStory={updateStory}
+        setActiveMapId={setActiveMapId}
+        setActiveScenarioId={setActiveScenarioId}
+        setGalleryModifiers={setGalleryModifiers}
+        updateCreativeState={updateCreativeState}
+        updateCronicle={updateCronicle}
+        isStoryReadOnly={isStoryReadOnly}
       />
-
-      {/* ADE Master User Guide Modal */}
-      {isGuideOpen && (
-        <StoryFoundryGuideModal
-          isOpen={isGuideOpen}
-          onClose={() => setIsGuideOpen(false)}
-        />
-      )}
-
-      {/* User Settings & Identity Modal */}
-      {isSettingsOpen && (
-        <UserSettingsModal
-          isOpen={isSettingsOpen}
-          onClose={() => setIsSettingsOpen(false)}
-        />
-      )}
-
-      {/* Master Cronicle Living Memory & Scratchbook Deck Modal */}
-      <CronicleDeckModal
-        isOpen={isCronicleOpen}
-        onClose={() => setIsCronicleOpen(false)}
-        initialMode={cronicleInitialMode}
-      />
-
-      {/* VTT Module Compiler & Runtime Prep Modal */}
-      <VttCompilerModal
-        isOpen={isCompilerOpen}
-        onClose={() => setIsCompilerOpen(false)}
-        activeScenario={activeNode}
-      />
-
-      {/* Global ADE Artist Hub Modal (HIFI CHROMA & HI-FI SKETCH) */}
-      {isArtistHubOpen && (
-        <ArtistHubModal
-          isOpen={isArtistHubOpen}
-          onClose={() => setIsArtistHubOpen(false)}
-          initialPrompt={
-            editingModalElement?.title
-              ? `${editingModalElement.title} (${editingModalElement.type || 'Element'})`
-              : activeNode?.title
-              ? `${activeNode.title}`
-              : ''
-          }
-          elementContext={editingModalElement || activeNode || null}
-        />
-      )}
-
-      {/* Standalone Module Package Export / Import Modal */}
-      {(isModuleExportOpen || isModuleImportOpen) && (
-        <ModulePackageModal
-          isOpen={isModuleExportOpen || isModuleImportOpen}
-          onClose={() => {
-            setModal('moduleExport', false);
-            setModal('moduleImport', false);
-          }}
-          initialMode={isModuleExportOpen ? 'export' : 'import'}
-          universeState={universeState}
-          elementsCatalog={elementsCatalog}
-          onImportPackage={(pkg) => {
-            if (typeof handleLoadStory === 'function' && pkg) {
-              handleLoadStory(pkg);
-            }
-          }}
-        />
-      )}
     </div>
   );
 }

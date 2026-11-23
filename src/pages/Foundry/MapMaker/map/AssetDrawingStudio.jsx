@@ -7,6 +7,9 @@ import {
   generateAutoTileVariants4Bit
 } from '../../../../engine/assets/MicroTileSynthesizer';
 import { synthesizeTileRecipeFromPrompt } from '../../../../services/tileAiRecipeService';
+import { uploadAdeImageAsset } from '../../../../services/adeMediaStorageService';
+import { auth } from '../../../../firebase';
+import { showToast } from '../../../../context/ToastContext';
 
 const PRESET_PALETTES = {
   'Cyber & Neon': [
@@ -122,9 +125,11 @@ export default function AssetDrawingStudio({
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
 
-  // History for Undo / Redo
-  const [history, setHistory] = useState([]);
-  const [historyStep, setHistoryStep] = useState(-1);
+  // History for Undo / Redo (atomic stack + step)
+  const [historyState, setHistoryState] = useState({ stack: [], step: -1 });
+  const history = historyState.stack;
+  const historyStep = historyState.step;
+  const [previewDataUrl, setPreviewDataUrl] = useState('');
 
   // Active procedural generator modal/panel (HIFI CHROMA Micro-Tile Synthesizer)
   const [showGeneratorModal, setShowGeneratorModal] = useState(false);
@@ -145,32 +150,54 @@ export default function AssetDrawingStudio({
 
   // Keep track of loaded image ID to prevent re-load loops on local changes
   const loadedImageRef = useRef(null);
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  const emitCanvasChange = useCallback((canvas) => {
+    if (!canvas) return '';
+    const dataUrl = canvas.toDataURL('image/png');
+    setPreviewDataUrl(dataUrl);
+    if (onChangeRef.current) {
+      onChangeRef.current(dataUrl);
+    }
+    return dataUrl;
+  }, []);
 
   // Save current canvas state to history stack
-  const saveToHistory = useCallback(() => {
+  const saveToHistory = useCallback((emitChange = true) => {
     const canvas = mainCanvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return '';
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-    setHistory(prev => {
-      const nextHistory = prev.slice(0, historyStep + 1);
-      if (nextHistory.length > 25) nextHistory.shift(); // Limit history stack to 25
-      return [...nextHistory, imageData];
+    setHistoryState(prev => {
+      const nextStack = prev.stack.slice(0, prev.step + 1);
+      if (nextStack.length >= 25) nextStack.shift(); // Limit history stack to 25
+      nextStack.push(imageData);
+      return {
+        stack: nextStack,
+        step: nextStack.length - 1
+      };
     });
-    setHistoryStep(prev => Math.min(prev + 1, 24));
 
-    if (onChange) {
-      onChange(canvas.toDataURL('image/png'));
+    const dataUrl = canvas.toDataURL('image/png');
+    setPreviewDataUrl(dataUrl);
+    if (emitChange && onChangeRef.current) {
+      onChangeRef.current(dataUrl);
     }
-  }, [historyStep, onChange]);
+    return dataUrl;
+  }, []);
 
   // Load initial image upon mount or if external asset changes
   useEffect(() => {
+    let cancelled = false;
+
     if (initialImage && initialImage !== loadedImageRef.current) {
       loadedImageRef.current = initialImage;
       const canvas = mainCanvasRef.current;
-      if (!canvas) return;
+      if (!canvas) return () => { cancelled = true; };
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
       canvas.width = canvasResolution;
@@ -181,26 +208,32 @@ export default function AssetDrawingStudio({
         img.crossOrigin = 'anonymous';
       }
       img.onload = () => {
+        if (cancelled) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        saveToHistory();
+        saveToHistory(false);
       };
       img.onerror = () => {
+        if (cancelled) return;
         console.warn('AssetDrawingStudio: Failed to load initial image, initializing clear canvas');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        saveToHistory();
+        saveToHistory(false);
       };
       img.src = initialImage;
     } else if (!initialImage && loadedImageRef.current !== 'blank') {
       loadedImageRef.current = 'blank';
       const canvas = mainCanvasRef.current;
-      if (!canvas) return;
+      if (!canvas) return () => { cancelled = true; };
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
       canvas.width = canvasResolution;
       canvas.height = canvasResolution;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      saveToHistory();
+      saveToHistory(false);
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [initialImage, canvasResolution, saveToHistory]);
 
   // Undo / Redo
@@ -211,8 +244,8 @@ export default function AssetDrawingStudio({
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     ctx.putImageData(history[newStep], 0, 0);
-    setHistoryStep(newStep);
-    if (onChange) onChange(canvas.toDataURL('image/png'));
+    setHistoryState(prev => ({ ...prev, step: newStep }));
+    emitCanvasChange(canvas);
   };
 
   const handleRedo = () => {
@@ -222,8 +255,8 @@ export default function AssetDrawingStudio({
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     ctx.putImageData(history[newStep], 0, 0);
-    setHistoryStep(newStep);
-    if (onChange) onChange(canvas.toDataURL('image/png'));
+    setHistoryState(prev => ({ ...prev, step: newStep }));
+    emitCanvasChange(canvas);
   };
 
   // Get coords relative to main canvas
@@ -260,15 +293,19 @@ export default function AssetDrawingStudio({
     }
   };
 
-  // Import local image file onto canvas
-  const handleImageFileUpload = (e) => {
+  // Import local image file onto canvas (validated via uploadAdeImageAsset before rasterizing)
+  const handleImageFileUpload = async (e) => {
     const file = e.target.files?.[0];
+    e.target.value = '';
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result;
-      if (!dataUrl) return;
+    try {
+      const processed = await uploadAdeImageAsset(file, {
+        userId: auth?.currentUser?.uid,
+        assetCategory: 'tokens',
+        fileName: file.name
+      });
       const img = new Image();
+      img.crossOrigin = 'anonymous';
       img.onload = () => {
         const canvas = mainCanvasRef.current;
         if (!canvas) return;
@@ -277,10 +314,10 @@ export default function AssetDrawingStudio({
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         saveToHistory();
       };
-      img.src = dataUrl;
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
+      img.src = processed.url;
+    } catch (err) {
+      showToast?.({ type: 'error', text: err?.message || 'Blocked unsafe or invalid image file.' });
+    }
   };
 
   // Export canvas as PNG
@@ -794,7 +831,7 @@ export default function AssetDrawingStudio({
       dst[i + 3] = src[i + 3];
     }
     ctx.putImageData(newImgData, 0, 0);
-    if (onChange) onChange(canvas.toDataURL('image/png'));
+    emitCanvasChange(canvas);
   };
 
   // HIFI CHROMA Micro-Tile Synthesizer Handlers
@@ -834,8 +871,7 @@ export default function AssetDrawingStudio({
           ctx.drawImage(img, col * subW, row * subH, subW, subH);
           loadedCount += 1;
           if (loadedCount === 16) {
-            saveToHistory();
-            const finalDataUrl = canvas.toDataURL('image/png');
+            const finalDataUrl = saveToHistory() || canvas.toDataURL('image/png');
             if (onSynthesizeRecipe) {
               onSynthesizeRecipe(synthRecipe, finalDataUrl);
             }
@@ -853,8 +889,7 @@ export default function AssetDrawingStudio({
     img.onload = () => {
       ctx.clearRect(0, 0, w, h);
       ctx.drawImage(img, 0, 0, w, h);
-      saveToHistory();
-      const finalDataUrl = canvas.toDataURL('image/png');
+      const finalDataUrl = saveToHistory() || canvas.toDataURL('image/png');
       if (onSynthesizeRecipe) {
         onSynthesizeRecipe(synthRecipe, finalDataUrl);
       }
@@ -1338,7 +1373,7 @@ export default function AssetDrawingStudio({
                   <div
                     className="w-full h-32 rounded border border-cyan-500/40"
                     style={{
-                      backgroundImage: mainCanvasRef.current ? `url(${mainCanvasRef.current.toDataURL('image/png')})` : 'none',
+                      backgroundImage: previewDataUrl ? `url(${previewDataUrl})` : 'none',
                       backgroundRepeat: 'repeat',
                       backgroundSize: '48px 48px'
                     }}
@@ -1346,9 +1381,9 @@ export default function AssetDrawingStudio({
                   />
                 ) : (
                   <div className="w-full h-32 flex items-center justify-center bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:8px_8px] rounded border border-cyan-500/40 p-2">
-                    {mainCanvasRef.current && (
+                    {previewDataUrl && (
                       <img
-                        src={mainCanvasRef.current.toDataURL('image/png')}
+                        src={previewDataUrl}
                         alt="Sprite Preview"
                         className="max-h-28 max-w-28 object-contain drop-shadow-[0_4px_12px_rgba(34,211,238,0.4)]"
                       />

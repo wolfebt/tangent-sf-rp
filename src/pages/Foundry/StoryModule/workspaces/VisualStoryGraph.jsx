@@ -69,6 +69,7 @@ export const VisualStoryGraph = ({
   // ── CONNECTION WIRE DRAWING STATE ──
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectingSourceId, setConnectingSourceId] = useState(null);
+  const connectingSourceIdRef = useRef(null);
   const [connectingMousePos, setConnectingMousePos] = useState(null);
 
   // ── SELECTION STATE ──
@@ -245,11 +246,18 @@ export const VisualStoryGraph = ({
     });
   };
 
-  const handleWheel = (e) => {
+  const handleWheel = useCallback((e) => {
     e.preventDefault();
     const factor = e.deltaY < 0 ? 1.08 : 0.92;
     handleZoom(factor, e.clientX, e.clientY);
-  };
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return undefined;
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [handleWheel]);
 
   // ── CANVAS MOUSE PAN & DRAG HANDLERS ──
   const handleCanvasMouseDown = (e) => {
@@ -308,6 +316,8 @@ export const VisualStoryGraph = ({
     }
   };
 
+  const handleCanvasMouseUpRef = useRef(null);
+
   const handleCanvasMouseUp = () => {
     if (isPanning) {
       setIsPanning(false);
@@ -328,11 +338,24 @@ export const VisualStoryGraph = ({
     }
 
     if (isConnecting) {
+      connectingSourceIdRef.current = null;
       setIsConnecting(false);
       setConnectingSourceId(null);
       setConnectingMousePos(null);
     }
   };
+  handleCanvasMouseUpRef.current = handleCanvasMouseUp;
+
+  useEffect(() => {
+    if (!isPanning && !draggingNodeId && !isConnecting) return undefined;
+    const onGlobalRelease = () => handleCanvasMouseUpRef.current?.();
+    window.addEventListener('mouseup', onGlobalRelease);
+    window.addEventListener('blur', onGlobalRelease);
+    return () => {
+      window.removeEventListener('mouseup', onGlobalRelease);
+      window.removeEventListener('blur', onGlobalRelease);
+    };
+  }, [isPanning, draggingNodeId, isConnecting]);
 
   // ── NODE MOUSE DOWN (DRAG START) ──
   const handleNodeMouseDown = (e, node) => {
@@ -358,6 +381,7 @@ export const VisualStoryGraph = ({
   // ── CONNECTION WIRE DRAWING HANDLERS ──
   const handleStartConnection = (e, sourceNodeId) => {
     e.stopPropagation();
+    connectingSourceIdRef.current = sourceNodeId;
     setIsConnecting(true);
     setConnectingSourceId(sourceNodeId);
     const sourceNode = flatNodes.find(n => n.id === sourceNodeId);
@@ -369,15 +393,22 @@ export const VisualStoryGraph = ({
 
   const handleCompleteConnection = (e, targetNodeId) => {
     e.stopPropagation();
-    if (!connectingSourceId || connectingSourceId === targetNodeId) {
+    const activeSourceId = connectingSourceIdRef.current;
+    connectingSourceIdRef.current = null;
+    if (!activeSourceId || activeSourceId === targetNodeId) {
       setIsConnecting(false);
       setConnectingSourceId(null);
       setConnectingMousePos(null);
       return;
     }
 
-    const sourceNode = flatNodes.find(n => n.id === connectingSourceId);
-    if (!sourceNode || !updateStory) return;
+    const sourceNode = flatNodes.find(n => n.id === activeSourceId);
+    if (!sourceNode || !updateStory) {
+      setIsConnecting(false);
+      setConnectingSourceId(null);
+      setConnectingMousePos(null);
+      return;
+    }
 
     const existingConnections = sourceNode.fields?.connections || [];
     const alreadyConnected = existingConnections.some(c => c.targetId === targetNodeId);
@@ -391,7 +422,7 @@ export const VisualStoryGraph = ({
         type: 'branch'
       };
 
-      updateStory(connectingSourceId, {
+      updateStory(activeSourceId, {
         fields: {
           ...(sourceNode.fields || {}),
           connections: [...existingConnections, newConn]
@@ -703,6 +734,7 @@ export const VisualStoryGraph = ({
         }
       } else if (e.key === 'Escape') {
         if (isConnecting) {
+          connectingSourceIdRef.current = null;
           setIsConnecting(false);
           setConnectingSourceId(null);
           setConnectingMousePos(null);
@@ -780,6 +812,7 @@ export const VisualStoryGraph = ({
           a.href = url;
           a.download = `${(universeState?.projectName || 'campaign').toLowerCase().replace(/\s+/g, '_')}_graph.json`;
           a.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
         }}
       />
 
@@ -824,7 +857,6 @@ export const VisualStoryGraph = ({
           onCanvasMouseDown={handleCanvasMouseDown}
           onCanvasMouseMove={handleCanvasMouseMove}
           onCanvasMouseUp={handleCanvasMouseUp}
-          onWheel={handleWheel}
           onOpenWeaver={onOpenInWeaver}
           onOpenPlay={handleOpenPlay}
           onPanStage={handlePanStage}

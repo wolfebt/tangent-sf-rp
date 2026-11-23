@@ -29,6 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getTypePillStyle, ELEMENT_TYPES } from '../ElementForge/elementSchemas';
 import { useStory } from '../../../context/CampaignContext';
 import { showToast } from '../../../context/ToastContext';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { parseAimeAssetFile } from '../../../services/aimeAssetFileService';
 import { batchIngestElementFiles } from '../../../services/elementIngestionService';
 import { AudioService } from '../../../services/audioService';
@@ -619,10 +620,10 @@ export const ScenarioOutlinerRail = ({
             </button>
             <button
               type="button"
-              onClick={() => {
-                if (handleDeleteElement) {
-                  handleDeleteElement(elem.id, elem.title);
-                } else if (deleteSavedElement) {
+              onClick={async () => {
+                if (!deleteSavedElement) return;
+                const ok = await confirmTypedDeletion(elem.title || 'world element', 'world element');
+                if (ok) {
                   deleteSavedElement(elem.id);
                 }
               }}

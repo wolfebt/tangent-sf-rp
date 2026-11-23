@@ -58,7 +58,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
   const isDM = targetChannel?.type === 'direct' || targetChannel?.id?.startsWith('dm_');
   const isPersonaLog = targetChannel?.type === 'persona_log' || targetChannel?.id?.startsWith('persona_log_');
   const isLocalCreator = targetChannel?.createdById?.startsWith('local_') && (!currentUser || targetChannel?.createdById === `local_${localStorage.getItem('userHandle') || 'operator'}`);
-  const isCreator = targetChannel?.createdById === currentUser?.uid || isLocalCreator || targetChannel?.type === 'custom';
+  const isCreator = targetChannel?.createdById === currentUser?.uid || isLocalCreator;
   const canEdit = !isDefaultPublic && !isPersonaLog && (isCreator || isAdmin);
   const canDelete = !isDefaultPublic && !isPersonaLog && (isCreator || isAdmin);
 
@@ -179,9 +179,17 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
         return;
       }
 
-      const freqName = targetChannel.displayName || `#${targetChannel.name || 'frequency'}`;
-      const freqTopic = targetChannel.topic || 'No topic specified';
-      const exportDate = new Date().toLocaleString();
+      const escapeHtml = (val) => String(val ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
+      const freqName = escapeHtml(targetChannel.displayName || `#${targetChannel.name || 'frequency'}`);
+      const freqTopic = escapeHtml(targetChannel.topic || 'No topic specified');
+      const exportDate = escapeHtml(new Date().toLocaleString());
+      const safeChannelId = escapeHtml(targetChannel.id || '');
 
       const rowsHtml = (printableMessages || []).map((msg, idx) => {
         let d = null;
@@ -208,7 +216,8 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
           timestamp = `${hours}:${minutes} - ${day}${month}${year}`;
         }
 
-        const sender = msg.senderHandle || 'Unknown Operator';
+        const sender = escapeHtml(msg.senderHandle || 'Unknown Operator');
+        const safeTimestamp = escapeHtml(timestamp);
         const isIC = Boolean(msg.isIC || msg.type === 'ic_transmission');
         const isDice = msg.type === 'dice_roll';
         const isTelemetry = msg.type === 'persona_log_entry' || msg.isReadOnlyLog;
@@ -222,14 +231,15 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
         } else if (isTelemetry && msg.summary) {
           content = `📋 ${msg.summary}`;
         }
+        const safeContent = escapeHtml(content);
 
         return `
           <div style="border-bottom: 1px solid #e2e8f0; padding: 8px 0; font-family: monospace; font-size: 12px; page-break-inside: avoid;">
             <div style="display: flex; justify-content: space-between; color: #64748b; font-size: 11px; margin-bottom: 3px;">
               <span><strong>#${idx + 1}</strong> &bull; <span style="color: ${isIC ? '#7e22ce' : '#0284c7'}; font-weight: bold;">${sender}</span> ${isIC ? '(IN-CHARACTER)' : ''}</span>
-              <span>${timestamp}</span>
+              <span>${safeTimestamp}</span>
             </div>
-            <div style="color: #0f172a; white-space: pre-wrap; font-family: ${isDice || isTelemetry ? 'monospace' : 'sans-serif'};">${content}</div>
+            <div style="color: #0f172a; white-space: pre-wrap; font-family: ${isDice || isTelemetry ? 'monospace' : 'sans-serif'};">${safeContent}</div>
           </div>
         `;
       }).join('');
@@ -259,7 +269,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
               <div style="font-size: 16px; font-weight: bold; margin-top: 4px; color: #0369a1;">${freqName}</div>
               <div style="font-size: 12px; color: #475569; margin-top: 2px;">${freqTopic}</div>
               <div class="meta-grid">
-                <div>Channel ID: <code>${targetChannel.id}</code></div>
+                <div>Channel ID: <code>${safeChannelId}</code></div>
                 <div>Exported: <strong>${exportDate}</strong></div>
                 <div>Total Transmissions: <strong>${printableMessages.length}</strong></div>
               </div>

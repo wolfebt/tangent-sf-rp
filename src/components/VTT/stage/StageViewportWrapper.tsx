@@ -5,13 +5,15 @@
  * and the floating TokenContextualPill action HUD.
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TokenContextualPill } from './TokenContextualPill';
 import { StageSplitView } from './StageSplitView';
 import StageView from '../StageView';
 import type { StageViewProps } from '../StageView';
-import { Stage3DViewport } from './Stage3DViewport';
+import { lazyWithRetry } from '../../../utils/lazyWithRetry';
+
+const Stage3DViewport = lazyWithRetry(() => import('./Stage3DViewport'));
 import { A11yStageFeed } from '../A11yStageFeed';
 import { useCampaign } from '../../../context/CampaignContext';
 import { useEngineStore } from '../../../engine/index';
@@ -455,7 +457,9 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           }`}
         >
           {is3DActive ? (
-            <Stage3DViewport onSwitchTo2D={() => set3DActive(false)} />
+            <Suspense fallback={<div className="flex items-center justify-center w-full h-full bg-[#050811] text-cyan-400 font-mono text-xs">Initializing 3D Viewport...</div>}>
+              <Stage3DViewport onSwitchTo2D={() => set3DActive(false)} />
+            </Suspense>
           ) : (
             <StageView
               {...stageProps}

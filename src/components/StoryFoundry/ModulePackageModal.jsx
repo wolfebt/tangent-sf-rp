@@ -4,7 +4,7 @@
  * Supports Architect Master packages and Sanitized Player/Operator editions.
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   X, 
   Download, 
@@ -39,7 +39,24 @@ export default function ModulePackageModal({
   const [parsedPreview, setParsedPreview] = useState(null);
   const [importError, setImportError] = useState(null);
   const [importStatus, setImportStatus] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
+  const closeTimerRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setMode(initialMode || 'export');
+      setParsedPreview(null);
+      setImportError(null);
+      setImportStatus(null);
+    }
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+    };
+  }, [isOpen, initialMode]);
 
   if (!isOpen) return null;
 
@@ -49,17 +66,21 @@ export default function ModulePackageModal({
   const modifiersCount = (universeState?.galleryModifiers || []).length;
 
   const handleExport = () => {
-    AudioService.playCriticalChime(true);
-    if (exportType === 'architect') {
-      exportArchitectModuleToFile(universeState, elementsCatalog);
-    } else {
-      exportOperatorModuleToFile(universeState, elementsCatalog);
+    setImportError(null);
+    setImportStatus(null);
+    const result = exportType === 'architect'
+      ? exportArchitectModuleToFile(universeState, elementsCatalog)
+      : exportOperatorModuleToFile(universeState, elementsCatalog);
+    if (result && result.success === false) {
+      setImportError(result.error || 'Export failed.');
+      AudioService.playTerminalBeep(500, 0.06);
+      return;
     }
+    AudioService.playCriticalChime(true);
     setImportStatus('Export downloaded successfully.');
   };
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files?.[0];
+  const processFile = (file) => {
     if (!file) return;
 
     setImportError(null);
@@ -81,7 +102,16 @@ export default function ModulePackageModal({
       }
     };
     reader.readAsText(file);
-    e.target.value = '';
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      processFile(file);
+    }
+    if (e.target) {
+      e.target.value = '';
+    }
   };
 
   const handleConfirmImport = () => {
@@ -91,7 +121,9 @@ export default function ModulePackageModal({
       onImportPackage(parsedPreview);
     }
     setImportStatus('Module package successfully imported!');
-    setTimeout(() => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => {
+      closeTimerRef.current = null;
       onClose();
     }, 800);
   };
@@ -255,7 +287,26 @@ export default function ModulePackageModal({
             {!parsedPreview ? (
               <div 
                 onClick={() => fileInputRef.current?.click()}
-                className="p-8 border-2 border-dashed border-slate-700 hover:border-purple-400 bg-slate-950/60 hover:bg-slate-950 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors text-center"
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsDragging(true);
+                }}
+                onDragLeave={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsDragging(false);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsDragging(false);
+                  const droppedFile = e.dataTransfer?.files?.[0];
+                  if (droppedFile) {
+                    processFile(droppedFile);
+                  }
+                }}
+                className={`p-8 border-2 border-dashed ${isDragging ? 'border-purple-400 bg-slate-900' : 'border-slate-700 hover:border-purple-400 bg-slate-950/60 hover:bg-slate-950'} rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors text-center`}
               >
                 <div className="p-3 rounded-xl bg-purple-950/80 border border-purple-500/40 text-purple-300">
                   <Upload size={20} />

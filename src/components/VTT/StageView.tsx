@@ -43,6 +43,7 @@ import { deployCompiledPackage } from '../../utils/deployVttPackage';
 import { evaluateTrapTriggers } from '../../services/reactiveVttService';
 import { VttEventBus } from '../../utils/vttEventBus';
 import { useMapIngestion } from './hooks/useMapIngestion';
+import { clearPixiContainer } from './utils/pixiCleanup';
 import { useCanvasEventListeners } from './hooks/useCanvasEventListeners';
 import { useDesignModeController } from './hooks/useDesignModeController';
 import { useCombatController } from './hooks/useCombatController';
@@ -54,8 +55,10 @@ import { Graphics, Container, Text, TextStyle, Sprite } from 'pixi.js';
 import { 
   LightSourceManager, 
   type SceneLightSource, 
-  type LightAnimationType 
+  type LightAnimationType,
+  resolveAtmosphericPreset
 } from '../../engine/vision/LightSourceManager';
+import { MapGraphicsCompiler } from '../../engine/compilers/MapGraphicsCompiler';
 import { 
   Box, 
   X 
@@ -63,6 +66,7 @@ import {
 import { AudioService } from '../../services/audioService';
 import { createTacticalPing, filterExpiredPings } from '../../services/mapPingService';
 import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
+import { createDefaultAssetUnit } from '../../schemas/assetUnitSchema';
 import { useMapHistory } from '../../pages/Foundry/MapMaker/hooks/useMapHistory';
 
 // Map Maker Modals & Drawers
@@ -131,7 +135,8 @@ export const StageView: React.FC<StageViewProps> = ({
     deleteCustomObject
   } = useCampaign();
   const [currentMapId, setCurrentMapId] = useState<string>(sceneId || mapIdParam || activeMapId || '');
-  const [isCanvasReady, setIsCanvasReady] = useState<boolean>(false);
+  const [canvasGeneration, setCanvasGeneration] = useState<number>(0);
+  const isCanvasReady = canvasGeneration > 0;
 
   useEffect(() => {
     if (sceneId && sceneId !== currentMapId) {
@@ -154,9 +159,13 @@ export const StageView: React.FC<StageViewProps> = ({
   const baseMap = availableMaps.find((m: any) => m.id === effectiveMapId) || availableMaps[0] || null;
   const currentMap = useMemo(() => {
     if (compiledStage?.map && (!baseMap || compiledStage.map.id === baseMap.id)) {
+      const envAtmo =
+        compiledStage.environment?.weather ||
+        compiledStage.environment?.lighting?.mode;
       return {
         ...baseMap,
         ...compiledStage.map,
+        ...(envAtmo && !compiledStage.map.atmosphericWeather ? { atmosphericWeather: envAtmo } : {}),
         tokens: compiledStage.map.tokens || baseMap?.tokens || [],
         objects: compiledStage.map.objects || baseMap?.objects || [],
         waypoints: compiledStage.map.waypoints || baseMap?.waypoints || []
@@ -266,6 +275,7 @@ export const StageView: React.FC<StageViewProps> = ({
   } = useStageLighting({
     currentMap,
     isCanvasReady,
+    canvasGeneration,
     atmosphereOverlayRef,
     lightingContainerRef: lightsContainerRef,
     hazardSimulatorRef,
@@ -273,6 +283,13 @@ export const StageView: React.FC<StageViewProps> = ({
     toggleDynamicLighting,
     updateMap
   });
+
+  const isDynamicLightingRef = useRef<boolean>(isDynamicLightingEnabled);
+  isDynamicLightingRef.current = isDynamicLightingEnabled;
+  const atmosphericWeatherRef = useRef(atmosphericWeather);
+  atmosphericWeatherRef.current = atmosphericWeather;
+  const currentMapRef = useRef<any>(currentMap);
+  currentMapRef.current = currentMap;
 
   // Initialize VTT Multiplayer Synchronization (CRDT + LiveKit + Multi-Window Mesh)
   useEffect(() => {
@@ -306,26 +323,21 @@ export const StageView: React.FC<StageViewProps> = ({
 
   const handleOpenAssetStudio = () => {
     if (!selectedStudioAsset) {
-      setSelectedStudioAsset({
-        id: `unit-${Date.now()}`,
-        name: 'Custom Tactical Unit',
-        tree_path: 'Custom / Studio',
-        category: 'doodad',
-        tags: ['custom', 'tactical'],
-        dimensions: { width: 1, height: 1 },
-        visuals: {
-          primary_sprite: '',
-          scale: 1,
-          anchor: { x: 0.5, y: 0.5 },
-          rotation: 0
-        },
-        tactical: {
-          blocks_movement: true,
-          blocks_vision: false,
-          cover_rating: 'half',
-          flammable: false
-        }
-      });
+      setSelectedStudioAsset(
+        createDefaultAssetUnit({
+          unit_id: `unit-${Date.now()}`,
+          name: 'Custom Tactical Unit',
+          category: 'doodad',
+          tree_path: ['Custom', 'Studio'],
+          tags: ['custom', 'tactical'],
+          dimensions: [1, 1],
+          vtt_properties: {
+            blocks_movement: true,
+            blocks_vision: false,
+            z_index_layer: 'interactive_objects'
+          }
+        })
+      );
     }
     setIsAssetStudioOpen(true);
   };
@@ -425,9 +437,13 @@ export const StageView: React.FC<StageViewProps> = ({
     rendererContextRef
   });
 
+  // Keep viewport transform in a ref before initRenderer so device-loss recovery can restore pan/zoom
+  const viewportTransformRef = useRef({ zoom, pan });
+  viewportTransformRef.current = { zoom, pan };
+
   // Tactical Movement & Action States
   const [isMoveModeActive, setIsMoveModeActive] = useState(false);
-  const [mouseWorldPos, setMouseWorldPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const mouseWorldPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const tokens = useEngineStore(selectAllFusedTokens);
   const selectedToken = tokens.find(t => t.id === selectedTokenId) || null;
@@ -520,6 +536,7 @@ export const StageView: React.FC<StageViewProps> = ({
     setIsHeroDrawerOpen,
     setIsOmnicortexDrawerOpen,
     setIsLayersPanelOpen,
+    setIsUnderlayModalOpen,
     setIsAssetStudioOpen: () => handleOpenAssetStudio(),
     setIsAssetIngestionOpen,
     setIsSpriteSheetCutterOpen,
@@ -537,6 +554,7 @@ export const StageView: React.FC<StageViewProps> = ({
     wallPreviewContainerRef,
     pingsContainerRef,
     isCanvasReady,
+    canvasGeneration,
     localWalls,
     currentMap,
     isDrawingToolActive,
@@ -558,7 +576,7 @@ export const StageView: React.FC<StageViewProps> = ({
   useEffect(() => {
     const container = transformGizmoContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
     const g = new Graphics();
 
@@ -660,7 +678,7 @@ export const StageView: React.FC<StageViewProps> = ({
     }
 
     container.addChild(g);
-  }, [selectedAssetIds, isMarqueeActive, marqueeStart, marqueeCurrent, localObjects, tokens, localWalls]);
+  }, [isCanvasReady, canvasGeneration, selectedAssetIds, isMarqueeActive, marqueeStart, marqueeCurrent, localObjects, tokens, localWalls]);
 
 
   // ── Render Tactical Canvas Mat Plate & Background Blueprint Underlay ──
@@ -668,7 +686,7 @@ export const StageView: React.FC<StageViewProps> = ({
     if (!isCanvasReady) return;
     const container = underlayContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
     const mapWidth = currentMap?.width || 2800;
     const mapHeight = currentMap?.height || 2100;
@@ -738,6 +756,7 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   }, [
     isCanvasReady,
+    canvasGeneration,
     currentMap?.id, 
     currentMap?.background_url, 
     currentMap?.width, 
@@ -1057,37 +1076,50 @@ export const StageView: React.FC<StageViewProps> = ({
 
     let isCancelled = false;
     let localRenderer: RendererContext | null = null;
+    let activeTickerApp: any = null;
+    let activeTickerFn: ((ticker: any) => void) | null = null;
 
-    const initRenderer = async () => {
-      // If a previous renderer instance is still active/initializing, await its full teardown first
-      if (rendererContextRef.current) {
+    const teardownStageScene = (preserveHazards: boolean): HazardField[] => {
+      const savedHazards = preserveHazards && hazardSimulatorRef.current
+        ? hazardSimulatorRef.current.getActiveHazards().map(h => ({ ...h }))
+        : [];
+
+      if (activeTickerApp?.ticker && activeTickerFn) {
         try {
-          await rendererContextRef.current.destroy();
+          activeTickerApp.ticker.remove(activeTickerFn);
         } catch {
-          // Ignored
+          // App or ticker may already be destroyed on device loss
         }
-        rendererContextRef.current = null;
       }
+      activeTickerApp = null;
+      activeTickerFn = null;
 
-      if (isCancelled) return;
+      hazardSimulatorRef.current?.destroy();
+      hazardSimulatorRef.current = null;
+      layerCompositorRef.current?.destroy?.();
+      layerCompositorRef.current = null;
 
-      const renderer = new RendererContext();
-      localRenderer = renderer;
-      rendererContextRef.current = renderer;
+      underlayContainerRef.current = null;
+      terrainsContainerRef.current = null;
+      linesContainerRef.current = null;
+      wallPreviewContainerRef.current = null;
+      pingsContainerRef.current = null;
+      lightsContainerRef.current = null;
+      atmosphereOverlayRef.current = null;
+      textsContainerRef.current = null;
+      transformGizmoContainerRef.current = null;
+      waypointsContainerRef.current = null;
+      remoteCursorsContainerRef.current = null;
+      setGridOverlayContainer(null);
+      setMoveRulerContainer(null);
 
-      await renderer.initialize(canvas);
+      return savedHazards;
+    };
 
-      if (isCancelled) {
-        hazardSimulatorRef.current?.destroy();
-        hazardSimulatorRef.current = null;
-        await renderer.destroy();
-        if (rendererContextRef.current === renderer) {
-          rendererContextRef.current = null;
-        }
-        return;
-      }
-
+    const mountStageScene = (renderer: RendererContext, restoredHazards: HazardField[] = []) => {
       const app = renderer.getApp();
+      if (!app || !app.stage) return;
+
       const compositor = new LayerCompositor(app);
       layerCompositorRef.current = compositor;
 
@@ -1174,6 +1206,10 @@ export const StageView: React.FC<StageViewProps> = ({
       if (fxLayer && lightLayer) {
         const hazardSim = new HazardParticleSimulator(fxLayer, lightLayer);
         hazardSim.initializeCompute(renderer.getGPUDevice());
+        hazardSim.setDynamicLighting(isDynamicLightingRef.current);
+        const preset = resolveAtmosphericPreset(atmosphericWeatherRef.current);
+        hazardSim.setAmbientDarkness(Math.max(0, Math.min(0.85, 1 - preset.ambientIntensity)));
+        restoredHazards.forEach(h => hazardSim.addHazardField(h));
         hazardSimulatorRef.current = hazardSim;
       }
 
@@ -1185,9 +1221,14 @@ export const StageView: React.FC<StageViewProps> = ({
         remoteCursorsContainerRef.current = cursorsContainer;
       }
 
+      // Restore pan & zoom immediately on the new Stage
+      const { zoom: savedZoom, pan: savedPan } = viewportTransformRef.current;
+      app.stage.scale.set(savedZoom);
+      app.stage.position.set(savedPan.x, savedPan.y);
+
       // PixiJS Ticker Animation Loop for Particle Fields & Dynamic Lighting
       if (app?.ticker) {
-        app.ticker.add((ticker) => {
+        const tick = (ticker: any) => {
           const timeSec = performance.now() / 1000;
           const currentTokens = selectAllFusedTokens(useEngineStore.getState());
           const lightEmitters = currentTokens.map((t: FusedToken) => ({
@@ -1213,19 +1254,128 @@ export const StageView: React.FC<StageViewProps> = ({
           });
 
           hazardSimulatorRef.current?.update(ticker.deltaTime, lightEmitters);
-        });
+        };
+        app.ticker.add(tick);
+        activeTickerApp = app;
+        activeTickerFn = tick;
       }
 
-      setIsCanvasReady(true);
+      setCanvasGeneration(g => g + 1);
+    };
+
+    const handleRendererRebuilt = (e: Event) => {
+      if (isCancelled || !localRenderer) return;
+      const detail = (e as CustomEvent)?.detail;
+      if (detail?.rendererContext && detail.rendererContext !== localRenderer) return;
+      if (!localRenderer.getIsInitialized()) return;
+      const savedHazards = teardownStageScene(true);
+      mountStageScene(localRenderer, savedHazards);
+      setCombatLog(prev => [
+        '[STAGE RECOVERY] Rebuilt WebGPU/WebGL graphics pipeline and restored active Stage layers.',
+        ...prev.slice(0, 8)
+      ]);
+    };
+
+    const handleExportStagePng = async () => {
+      const mapSnap = currentMapRef.current;
+      const slug = String(mapSnap?.title || mapSnap?.name || 'tactical_stage')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '');
+      const filename = `${slug || 'tactical_stage'}.png`;
+
+      let exportedDataUrl = '';
+      const activeApp = localRenderer?.getApp();
+      if (activeApp?.stage && (activeApp.renderer as any)?.extract?.base64) {
+        try {
+          exportedDataUrl = await (activeApp.renderer as any).extract.base64(activeApp.stage);
+        } catch {
+          // Fall back below
+        }
+      }
+      if (!exportedDataUrl && canvasRef.current) {
+        try {
+          exportedDataUrl = canvasRef.current.toDataURL('image/png');
+        } catch {
+          // Fall back below
+        }
+      }
+      if (!exportedDataUrl && mapSnap) {
+        try {
+          exportedDataUrl = await MapGraphicsCompiler.compileToDataUrlAsync({
+            widthCells: Math.max(10, Math.round((mapSnap.width || 1500) / (mapSnap.gridSize || 50))),
+            heightCells: Math.max(10, Math.round((mapSnap.height || 1000) / (mapSnap.gridSize || 50))),
+            pixelsPerGrid: mapSnap.gridSize || 50,
+            sourceGridSize: mapSnap.gridSize || 50,
+            terrains: mapSnap.terrains || [],
+            underlays: mapSnap.underlay ? [mapSnap.underlay] : [],
+            lines: mapSnap.lines || [],
+            objects: mapSnap.objects || [],
+            walls: mapSnap.walls || [],
+            lights: mapSnap.lights || [],
+            tokens: mapSnap.tokens || [],
+            texts: mapSnap.texts || [],
+            gridMode: mapSnap.gridMode
+          });
+        } catch {
+          // Ignore failure
+        }
+      }
+
+      if (exportedDataUrl) {
+        const a = document.createElement('a');
+        a.href = exportedDataUrl;
+        a.download = filename;
+        a.click();
+        setCombatLog(prev => [
+          `[EXPORT] Downloaded Stage snapshot "${filename}".`,
+          ...prev.slice(0, 8)
+        ]);
+      }
+    };
+
+    window.addEventListener('stage-renderer-rebuilt', handleRendererRebuilt);
+    const offExportStagePng = VttEventBus.on('export-stage-png', handleExportStagePng);
+
+    const initRenderer = async () => {
+      // If a previous renderer instance is still active/initializing, await its full teardown first
+      if (rendererContextRef.current) {
+        try {
+          await rendererContextRef.current.destroy();
+        } catch {
+          // Ignored
+        }
+        rendererContextRef.current = null;
+      }
+
+      if (isCancelled) return;
+
+      const renderer = new RendererContext();
+      localRenderer = renderer;
+      rendererContextRef.current = renderer;
+
+      await renderer.initialize(canvas);
+
+      if (isCancelled) {
+        teardownStageScene(false);
+        await renderer.destroy();
+        if (rendererContextRef.current === renderer) {
+          rendererContextRef.current = null;
+        }
+        return;
+      }
+
+      mountStageScene(renderer, []);
     };
 
     initRenderer();
 
     return () => {
       isCancelled = true;
-      setIsCanvasReady(false);
-      hazardSimulatorRef.current?.destroy();
-      hazardSimulatorRef.current = null;
+      window.removeEventListener('stage-renderer-rebuilt', handleRendererRebuilt);
+      offExportStagePng();
+      setCanvasGeneration(0);
+      teardownStageScene(false);
       if (localRenderer) {
         localRenderer.destroy().then(() => {
           if (rendererContextRef.current === localRenderer) {
@@ -1246,13 +1396,13 @@ export const StageView: React.FC<StageViewProps> = ({
 
     app.stage.scale.set(zoom);
     app.stage.position.set(pan.x, pan.y);
-  }, [isCanvasReady, zoom, pan]);
+  }, [isCanvasReady, canvasGeneration, zoom, pan]);
 
   // Draw Grid Overlay when Scale Tier / Grid Type / Visibility changes
   const redrawGrid = useCallback(() => {
     if (!gridOverlayContainer || !layerCompositorRef.current) return;
 
-    gridOverlayContainer.removeChildren();
+    clearPixiContainer(gridOverlayContainer);
     if (!isGridVisible) return;
 
     const engine = coordEngineRef.current;
@@ -1261,8 +1411,6 @@ export const StageView: React.FC<StageViewProps> = ({
 
     const width = currentMap?.width || 2800;
     const height = currentMap?.height || 2100;
-
-    graphics.stroke({ width: 1, color: 0x00ffff, alpha: 0.15 });
 
     if (gridType === GridType.Square) {
       for (let x = 0; x <= width; x += cellSize) {
@@ -1291,6 +1439,7 @@ export const StageView: React.FC<StageViewProps> = ({
       }
     }
 
+    graphics.stroke({ width: 1, color: 0x00ffff, alpha: 0.15 });
     gridOverlayContainer.addChild(graphics);
   }, [gridOverlayContainer, isGridVisible, gridType, currentMap?.width, currentMap?.height]);
 
@@ -1301,18 +1450,19 @@ export const StageView: React.FC<StageViewProps> = ({
     if (isCanvasReady) {
       redrawGrid();
     }
-  }, [isCanvasReady, redrawGrid, scaleTier, gridType, currentMap?.gridSize]);
+  }, [isCanvasReady, canvasGeneration, redrawGrid, scaleTier, gridType, currentMap?.gridSize]);
 
-  // Redraw Movement Distance Range & Waypoint Ruler
-  useEffect(() => {
+  // Redraw Movement Distance Range & Waypoint Ruler without triggering React state re-renders per pointer pixel
+  const redrawMoveRuler = useCallback(() => {
     if (!moveRulerContainer || !selectedToken) return;
 
-    moveRulerContainer.removeChildren();
+    clearPixiContainer(moveRulerContainer);
 
     const g = new Graphics();
     const cellSizePx = coordEngineRef.current.getCellSizePx();
     const speedRadiusPx = (effectiveSpeedFt / 5) * cellSizePx;
     const sprintRadiusPx = speedRadiusPx * 2;
+    const pointerPos = mouseWorldPosRef.current;
 
     // 1. Draw Base Movement Radius (Cyan/Green for 1 Action)
     g.circle(selectedToken.x, selectedToken.y, speedRadiusPx);
@@ -1326,8 +1476,8 @@ export const StageView: React.FC<StageViewProps> = ({
 
     if (isMoveModeActive || activeDesignTool === 'ruler') {
       // 3. Draw Distance Vector to Mouse Cursor
-      const dx = mouseWorldPos.x - selectedToken.x;
-      const dy = mouseWorldPos.y - selectedToken.y;
+      const dx = pointerPos.x - selectedToken.x;
+      const dy = pointerPos.y - selectedToken.y;
       const distPx = Math.sqrt(dx * dx + dy * dy);
       const distFt = Math.round((distPx / cellSizePx) * 5);
       const distCells = Math.round(distPx / cellSizePx);
@@ -1344,8 +1494,8 @@ export const StageView: React.FC<StageViewProps> = ({
       else if (!isSprint) paceLabel = 'EXCEEDS SPRINT PACE';
 
       const intersectsHazard = (hazardSimulatorRef.current?.getHazardFields?.() || []).some((h: any) => {
-        const midX = (selectedToken.x + mouseWorldPos.x) / 2;
-        const midY = (selectedToken.y + mouseWorldPos.y) / 2;
+        const midX = (selectedToken.x + pointerPos.x) / 2;
+        const midY = (selectedToken.y + pointerPos.y) / 2;
         return Math.hypot(h.x - midX, h.y - midY) <= (h.radius || 70);
       });
 
@@ -1360,11 +1510,11 @@ export const StageView: React.FC<StageViewProps> = ({
               : 0xef4444;
 
       g.moveTo(selectedToken.x, selectedToken.y);
-      g.lineTo(mouseWorldPos.x, mouseWorldPos.y);
+      g.lineTo(pointerPos.x, pointerPos.y);
       g.stroke({ width: 2.5, color: vectorColor, alpha: 0.9 });
 
       // Target waypoint marker
-      g.circle(mouseWorldPos.x, mouseWorldPos.y, 6);
+      g.circle(pointerPos.x, pointerPos.y, 6);
       g.fill({ color: vectorColor, alpha: 0.9 });
       g.stroke({ width: 2, color: 0xffffff });
 
@@ -1388,14 +1538,18 @@ export const StageView: React.FC<StageViewProps> = ({
         text: labelText,
         style: textStyle
       });
-      distLabel.x = (selectedToken.x + mouseWorldPos.x) / 2;
-      distLabel.y = (selectedToken.y + mouseWorldPos.y) / 2 - 14;
+      distLabel.x = (selectedToken.x + pointerPos.x) / 2;
+      distLabel.y = (selectedToken.y + pointerPos.y) / 2 - 14;
       distLabel.anchor.set(0.5, 0.5);
       moveRulerContainer.addChild(distLabel);
     } else {
       moveRulerContainer.addChild(g);
     }
-  }, [moveRulerContainer, selectedToken, isMoveModeActive, mouseWorldPos, effectiveSpeedFt, activeDesignTool, storeRulerPace]);
+  }, [moveRulerContainer, selectedToken, isMoveModeActive, effectiveSpeedFt, activeDesignTool, storeRulerPace]);
+
+  useEffect(() => {
+    redrawMoveRuler();
+  }, [redrawMoveRuler]);
 
   // Render Interactive Objects on the Stage
   useEffect(() => {
@@ -1406,7 +1560,7 @@ export const StageView: React.FC<StageViewProps> = ({
     const objLayer = compositor.getLayer(ZLayer.InteractiveObjects);
     if (!objLayer) return;
 
-    objLayer.removeChildren();
+    clearPixiContainer(objLayer);
 
     const objects = interactiveObjMgrRef.current.getAllObjects();
     objects.forEach(obj => {
@@ -1442,14 +1596,14 @@ export const StageView: React.FC<StageViewProps> = ({
 
       objLayer.addChild(container);
     });
-  }, [isCanvasReady, tokens, localObjects]);
+  }, [isCanvasReady, canvasGeneration, tokens, localObjects]);
 
   // ── Render Spatial Waypoints & Tactical Route on the Stage ──
   useEffect(() => {
     if (!isCanvasReady) return;
     const container = waypointsContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
     const waypoints = currentMap?.waypoints || [];
     if (waypoints.length === 0) return;
@@ -1597,12 +1751,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
       container.addChild(wpGroup);
     });
-  }, [isCanvasReady, currentMap?.waypoints, updateMap]);
-
-  // Keep viewport transform in a ref so pointer handlers inside token containers
-  // can read current pan/zoom without forcing PixiJS token reconstruction on every frame.
-  const viewportTransformRef = useRef({ zoom, pan });
-  viewportTransformRef.current = { zoom, pan };
+  }, [isCanvasReady, canvasGeneration, currentMap?.waypoints, updateMap]);
 
   // Render Tokens on the Stage with Action Pips & Mortality Indicators
   useEffect(() => {
@@ -1613,10 +1762,7 @@ export const StageView: React.FC<StageViewProps> = ({
     const tokenLayer = compositor.getLayer(ZLayer.Tokens);
     if (!tokenLayer) return;
 
-    const oldChildren = tokenLayer.removeChildren();
-    oldChildren.forEach(child => {
-      try { child.destroy({ children: true }); } catch {}
-    });
+    clearPixiContainer(tokenLayer);
 
     const style = new TextStyle({
       fontFamily: 'monospace',
@@ -1753,6 +1899,9 @@ export const StageView: React.FC<StageViewProps> = ({
           e.nativeEvent?.preventDefault?.();
           setSelectedTokenId(token.id);
           setStoreSelectedTokenId(token.id);
+          const eng = useEngineStore.getState();
+          eng.clearSelection();
+          eng.setSelection(token.id, true);
           const canvasBounds = canvasRef.current?.getBoundingClientRect();
           const { zoom: curZoom, pan: curPan } = viewportTransformRef.current;
           const screenX = canvasBounds ? canvasBounds.left + token.x * curZoom + curPan.x : token.x;
@@ -1770,13 +1919,16 @@ export const StageView: React.FC<StageViewProps> = ({
         } else {
           setSelectedTokenId(token.id);
           setStoreSelectedTokenId(token.id);
+          const eng = useEngineStore.getState();
+          eng.clearSelection();
+          eng.setSelection(token.id, true);
           AudioService.playTerminalBeep(1200, 0.03);
         }
       });
 
       tokenLayer.addChild(container);
     });
-  }, [isCanvasReady, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt]);
+  }, [isCanvasReady, canvasGeneration, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt]);
 
   // Convert Screen Mouse Coordinates to World Coordinates
   const screenToWorld = useCallback((clientX: number, clientY: number) => {
@@ -1798,7 +1950,10 @@ export const StageView: React.FC<StageViewProps> = ({
   // Canvas Mouse Move
   const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const worldPos = screenToWorld(e.clientX, e.clientY);
-    setMouseWorldPos(worldPos);
+    mouseWorldPosRef.current = worldPos;
+    if ((isMoveModeActive || activeDesignTool === 'ruler') && moveRulerContainer && selectedToken) {
+      redrawMoveRuler();
+    }
 
     if (isDraggingPan) {
       // If mouse buttons are no longer pressed, release pan to avoid sticky cursor
@@ -2180,7 +2335,9 @@ export const StageView: React.FC<StageViewProps> = ({
               isOpen: false,
               isTransparent: isWindow || isEthereal
             };
+            (newWall as any).type = selectedWallType;
             (newWall as any).wallType = selectedWallType;
+            (newWall as any).isDoor = isDoor;
             (newWall as any).lockDc = doorLockDc;
 
             bvhBuilderRef.current.addWall(newWall);
@@ -2257,13 +2414,32 @@ export const StageView: React.FC<StageViewProps> = ({
 
     if (!selectedTokenId) return;
 
+    const sync = getVttMultiplayerSync();
+    if (!sync.canMoveToken(selectedTokenId)) {
+      AudioService.playTerminalBeep(420, 0.04);
+      setCombatLog(prev => [
+        `[PERMISSION DENIED] Current role cannot relocate "${selectedToken?.name || selectedTokenId}".`,
+        ...prev.slice(0, 8)
+      ]);
+      return;
+    }
+
     const worldPos = screenToWorld(e.clientX, e.clientY);
     const engine = coordEngineRef.current;
-    const snapped = engine.snapPixelToGrid(worldPos);
+    const snapped = gridSnap
+      ? engine.snapPixelToGrid(worldPos)
+      : { x: Math.round(worldPos.x), y: Math.round(worldPos.y) };
 
     const engineStore = useEngineStore.getState();
     engineStore.updatePosition(selectedTokenId, snapped.x, snapped.y);
-    getVttMultiplayerSync().broadcastTokenMove(selectedTokenId, snapped.x, snapped.y);
+    sync.broadcastTokenMove(selectedTokenId, snapped.x, snapped.y);
+
+    if (currentMap?.id && updateMap && Array.isArray(currentMap.tokens)) {
+      const nextTokens = currentMap.tokens.map((t: any) =>
+        t.id === selectedTokenId ? { ...t, x: snapped.x, y: snapped.y } : t
+      );
+      updateMap(currentMap.id, { tokens: nextTokens });
+    }
     AudioService.playTerminalBeep(1100, 0.02);
 
     if (isMoveModeActive) {
@@ -2448,10 +2624,46 @@ export const StageView: React.FC<StageViewProps> = ({
     AudioService.playTerminalBeep(1300, 0.04);
   };
 
+  const persistInteractiveState = useCallback((objId: string) => {
+    const syncedObjects = interactiveObjMgrRef.current.getAllObjects();
+    const updatedTarget = interactiveObjMgrRef.current.getObject(objId);
+    setLocalObjects(syncedObjects);
+
+    if (updatedTarget?.bvhWallId) {
+      setLocalWalls(prev => prev.map(w => (
+        w.id === updatedTarget.bvhWallId
+          ? { ...w, isOpen: Boolean(updatedTarget.isOpen), doorState: updatedTarget.isOpen ? 'open' : 'closed' } as any
+          : w
+      )));
+    }
+
+    if (currentMap?.id && updateMap) {
+      updateMap(currentMap.id, (prevMap: any) => {
+        const nextObjects = (prevMap?.objects || []).map((o: any) => (
+          o.id === objId && updatedTarget
+            ? { ...o, isOpen: updatedTarget.isOpen, isHacked: updatedTarget.isHacked }
+            : o
+        ));
+        const nextWalls = updatedTarget?.bvhWallId
+          ? (prevMap?.walls || []).map((w: any) => (
+              w.id === updatedTarget.bvhWallId
+                ? { ...w, isOpen: Boolean(updatedTarget.isOpen), doorState: updatedTarget.isOpen ? 'open' : 'closed' }
+                : w
+            ))
+          : prevMap?.walls;
+        return {
+          objects: nextObjects,
+          ...(nextWalls ? { walls: nextWalls } : {})
+        };
+      });
+    }
+  }, [currentMap?.id, updateMap]);
+
   const handleToggleBulkhead = (objId: string) => {
     if (!selectedTokenId) return;
     const res = interactiveObjMgrRef.current.interact(objId, selectedTokenId);
     if (res.success) {
+      persistInteractiveState(objId);
       AudioService.playTerminalBeep(800, 0.06);
       setCombatLog(prev => [
         `[OBJECT] ${selectedToken?.name || 'Operator'} toggled ${objId} => ${res.data.isOpen ? 'OPEN' : 'SEALED'}`,
@@ -2470,6 +2682,7 @@ export const StageView: React.FC<StageViewProps> = ({
       if (targetObj) {
         const res = interactiveObjMgrRef.current.interact(targetObj.id, selectedTokenId || 'operative');
         if (res.success) {
+          persistInteractiveState(targetObj.id);
           setCombatLog(prev => [
             `⚡ [CYBERDECK BREACH]: System override granted for node "${payload?.targetNode?.label || targetObj.id}"!`,
             ...prev.slice(0, 8)
@@ -2478,7 +2691,7 @@ export const StageView: React.FC<StageViewProps> = ({
       }
     });
     return unsub;
-  }, [selectedTokenId]);
+  }, [selectedTokenId, persistInteractiveState]);
 
   // Environmental hazard spawn handler (invoked by Tactical Console)
   const handleSpawnHazard = (type: HazardType) => {
@@ -2526,40 +2739,92 @@ export const StageView: React.FC<StageViewProps> = ({
 
   // Drop Tactical Radar Ping
   const handleDropTacticalPing = (pingType: string = 'move') => {
-    const px = mouseWorldPos.x;
-    const py = mouseWorldPos.y;
+    const px = mouseWorldPosRef.current.x;
+    const py = mouseWorldPosRef.current.y;
     const newPing = createTacticalPing(px, py, pingType, null, 'Architect', null);
     setActivePings(prev => [...prev, newPing]);
     AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
   };
 
-  // Commit Procedural Landmass
-  const handleCommitLandmass = ({ terrains, objects, replaceExisting }: any) => {
+  // Commit Procedural Landmass / PCG Sector
+  const handleCommitLandmass = ({
+    terrains = [],
+    objects = [],
+    walls = [],
+    lights = [],
+    lines = [],
+    replaceExisting = false
+  }: any) => {
     recordHistory();
     const existingTerrains = replaceExisting ? [] : (currentMap?.terrains || []);
     const existingObjects = replaceExisting ? [] : (currentMap?.objects || []);
-    const updatedTerrains = [...existingTerrains, ...terrains];
-    const updatedObjects = [...existingObjects, ...objects];
+    const existingWalls = replaceExisting ? [] : (currentMap?.walls || []);
+    const existingLights = replaceExisting ? [] : (currentMap?.lights || []);
+    const existingLines = replaceExisting ? [] : (currentMap?.lines || []);
+
+    const normalizedWalls = (walls || []).map((w: any) => ({
+      ...w,
+      id: w.id || `pcg-wall-${uuidv4()}`,
+      p1: w.p1 || { x: w.x1 || 0, y: w.y1 || 0 },
+      p2: w.p2 || { x: w.x2 || 0, y: w.y2 || 0 },
+      isDynamic: Boolean(w.isDynamic || w.isDoor || w.type === 'door' || w.wallType?.includes('door')),
+      isOpen: Boolean(w.isOpen || w.doorState === 'open'),
+      isTransparent: Boolean(w.isTransparent || w.type === 'window' || w.type === 'ethereal')
+    }));
+
+    const normalizedLights = (lights || []).map((l: any) => ({
+      ...l,
+      id: l.id || `pcg-light-${uuidv4()}`,
+      falloff: l.falloff || 'smooth',
+      castShadows: l.castShadows ?? true,
+      animation: l.animation === 'steady' ? 'none' : (l.animation || 'none'),
+      label: l.label || l.name || 'Sector Light'
+    }));
+
+    const normalizedLines = (lines || []).map((ln: any) => ({
+      ...ln,
+      color: ln.color || ln.stroke || '#0284c7',
+      strokeWidth: ln.strokeWidth || ln.width || 4
+    }));
+
+    const updatedTerrains = [...existingTerrains, ...(terrains || [])];
+    const updatedObjects = [...existingObjects, ...(objects || [])];
+    const updatedWalls = [...existingWalls, ...normalizedWalls];
+    const updatedLights = [...existingLights, ...normalizedLights];
+    const updatedLines = [...existingLines, ...normalizedLines];
 
     if (currentMap && updateMap) {
       updateMap(currentMap.id, {
         terrains: updatedTerrains,
-        objects: updatedObjects
+        objects: updatedObjects,
+        walls: updatedWalls,
+        lights: updatedLights,
+        lines: updatedLines
       });
     }
 
-    setLocalObjects(updatedObjects.map((obj: any) => ({
+    bvhBuilderRef.current.build(updatedWalls);
+    setLocalWalls(updatedWalls);
+
+    lightSourceMgrRef.current.clearLights();
+    updatedLights.forEach((l: any) => lightSourceMgrRef.current.addLight(l));
+    setLocalLights(updatedLights);
+
+    const preservedObjects: SceneInteractiveObject[] = updatedObjects.map((obj: any) => ({
+      ...obj,
       id: obj.id,
       name: obj.name || obj.label || 'Terrain Feature',
       type: (obj.type || 'prop') as any,
-      x: obj.x || 100,
-      y: obj.y || 100,
-      storyElementId: obj.id
-    })));
+      x: obj.x ?? 100,
+      y: obj.y ?? 100,
+      storyElementId: obj.storyElementId || obj.id
+    }));
+    interactiveObjMgrRef.current.loadObjects(preservedObjects);
+    setLocalObjects(preservedObjects);
 
     AudioService.playCriticalChime(true);
     setCombatLog(prev => [
-      `[LANDMASS] Generated procedural world (${terrains.length} terrains, ${objects.length} scatters).`,
+      `[PCG DEPLOY] Deployed sector (${terrains.length} terrains, ${normalizedWalls.length} walls, ${normalizedLights.length} lights, ${objects.length} scatters).`,
       ...prev.slice(0, 8)
     ]);
   };
@@ -2586,8 +2851,8 @@ export const StageView: React.FC<StageViewProps> = ({
   // Summon Hero Token from Folio
   const handleSummonHeroToken = (heroPayload: any) => {
     recordHistory();
-    const spawnX = Math.round(mouseWorldPos.x || 200);
-    const spawnY = Math.round(mouseWorldPos.y || 200);
+    const spawnX = Math.round(mouseWorldPosRef.current.x || 200);
+    const spawnY = Math.round(mouseWorldPosRef.current.y || 200);
     const newTokId = heroPayload.heroId || `hero-${Date.now()}`;
 
     const newTok: StaticEntity = {
@@ -2619,8 +2884,8 @@ export const StageView: React.FC<StageViewProps> = ({
   // Summon Omnicortex Asset
   const handleSummonOmnicortexAsset = (assetData: any) => {
     recordHistory();
-    const spawnX = Math.round(mouseWorldPos.x || 250);
-    const spawnY = Math.round(mouseWorldPos.y || 250);
+    const spawnX = Math.round(mouseWorldPosRef.current.x || 250);
+    const spawnY = Math.round(mouseWorldPosRef.current.y || 250);
 
     if (assetData._categoryKey === 'bestiary' || assetData.hp || assetData.dr) {
       const newTokId = `codex-${assetData.id || Date.now()}`;
@@ -2685,7 +2950,8 @@ export const StageView: React.FC<StageViewProps> = ({
   useMultiplayerCursors({
     containerRef: remoteCursorsContainerRef,
     isMultiplayerSimActive,
-    isSimulationPaused
+    isSimulationPaused,
+    canvasGeneration
   });
 
   // Proximity detection for Contextual Token Radial Menu
@@ -2693,7 +2959,8 @@ export const StageView: React.FC<StageViewProps> = ({
     if (!selectedToken) return null;
     return tokens.find(t => 
       t.id !== selectedToken.id && 
-      t.current_hp <= 0 && 
+      t.current_hp <= 0 &&
+      !t.active_conditions?.includes('status_dead') &&
       Math.hypot(t.x - selectedToken.x, t.y - selectedToken.y) <= 120
     ) || null;
   }, [selectedToken, tokens]);
@@ -2743,8 +3010,8 @@ export const StageView: React.FC<StageViewProps> = ({
         const d2 = Math.floor(Math.random() * 10) + 1;
         const medRoll = d1 + d2 + 4;
         if (medRoll >= 15) {
-          useEngineStore.getState().toggleCondition(downedAllyNearby.id, 'status_stabilized');
-          useEngineStore.getState().applyDamage(downedAllyNearby.id, -1);
+          useEngineStore.getState().stabilizeEntity(downedAllyNearby.id);
+          AudioService.playCriticalChime(true);
           setCombatLog(prev => [
             `[FIRST AID SUCCESS] ${selectedToken.name} stabilized ${downedAllyNearby.name} (Roll: ${d1}+${d2}+4 = ${medRoll} vs CR 15). Bleeding out halted!`,
             ...prev.slice(0, 8)
@@ -2876,7 +3143,13 @@ export const StageView: React.FC<StageViewProps> = ({
         <DashboardOverlay
           campaignName={`THE STAGE | ${campaignId.toUpperCase()} | ${currentScaleConfig.displayLabel}`}
           selectedTokenId={selectedTokenId}
-          onSelectTokenId={(id: string) => setSelectedTokenId(id)}
+          onSelectTokenId={(id: string) => {
+            setSelectedTokenId(id);
+            setStoreSelectedTokenId(id);
+            const eng = useEngineStore.getState();
+            eng.clearSelection();
+            eng.setSelection(id, true);
+          }}
           isMoveModeActive={isMoveModeActive}
           onInitiateMove={() => {
             setIsMoveModeActive(prev => !prev);
@@ -3096,8 +3369,64 @@ export const StageView: React.FC<StageViewProps> = ({
         selectedStudioAsset={selectedStudioAsset}
         onSaveStudioAsset={(updated) => {
           setSelectedStudioAsset(updated);
+          if (!updated) return;
+          const persistedUnit = {
+            ...updated,
+            provenance: {
+              ...(updated.provenance || {}),
+              source: 'custom_upload',
+              updatedAt: new Date().toISOString()
+            }
+          };
+          const texUrl = persistedUnit.visuals?.baseTexture || persistedUnit.visuals?.thumbnail || '';
+          const mapScale = currentMap?.scale || currentMap?.type || 'Encounter';
+          const gSize = currentMap?.gridSize || 50;
+
+          if (persistedUnit.category === 'terrain_brush') {
+            const existing = (universeState?.customAssets?.terrains || []).some((t: any) => t.id === persistedUnit.unit_id);
+            const terrainAsset = {
+              id: persistedUnit.unit_id,
+              label: persistedUnit.name,
+              name: persistedUnit.name,
+              scale: mapScale,
+              textureUrl: texUrl,
+              color: '#06b6d4',
+              assetUnit: persistedUnit
+            };
+            if (existing) updateCustomTerrain?.(persistedUnit.unit_id, terrainAsset);
+            else addCustomTerrain?.(terrainAsset);
+          } else {
+            const existing = (universeState?.customAssets?.objects || []).some((o: any) => o.id === persistedUnit.unit_id);
+            const objAsset = {
+              id: persistedUnit.unit_id,
+              label: persistedUnit.name,
+              name: persistedUnit.name,
+              scale: mapScale,
+              category: persistedUnit.category || 'Custom',
+              imageUrl: texUrl,
+              width: (persistedUnit.dimensions?.[0] || 1) * gSize,
+              height: (persistedUnit.dimensions?.[1] || 1) * gSize,
+              assetUnit: persistedUnit
+            };
+            if (existing) updateCustomObject?.(persistedUnit.unit_id, objAsset);
+            else addCustomObject?.(objAsset);
+          }
+
+          try {
+            const raw = localStorage.getItem('tangent_custom_asset_units');
+            const parsed = raw ? JSON.parse(raw) : [];
+            const list = Array.isArray(parsed) ? parsed : [];
+            const idx = list.findIndex((u: any) => u.unit_id === persistedUnit.unit_id);
+            const nextList = idx >= 0
+              ? list.map((u: any, i: number) => (i === idx ? persistedUnit : u))
+              : [...list, persistedUnit];
+            localStorage.setItem('tangent_custom_asset_units', JSON.stringify(nextList));
+          } catch {
+            // Ignore storage quota errors
+          }
+
           setCombatLog(prev => [
-            `[ASSET FORGE] Saved "${updated.name}" metadata.`,
+            `[ASSET FORGE] Saved & persisted "${updated.name}" to campaign asset library.`,
             ...prev.slice(0, 8)
           ]);
         }}

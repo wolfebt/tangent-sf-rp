@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { WORLD_UNITS_PER_FOOT } from '../scaleConstants.ts';
 
 export interface RulerMeasurementResult {
   distanceFt: number;
@@ -62,8 +63,8 @@ export class WaypointRuler3D {
   public calculateMetrics(): RulerMeasurementResult | null {
     if (!this.startPos || !this.endPos) return null;
 
-    // 1 cell = 70 world units = 5 ft -> scale factor: 5 / 70 = 1 / 14 ft per unit
-    const ftPerUnit = 5 / 70;
+    // 1 cell = 70 world units = 5 ft -> scale factor: 1 / WORLD_UNITS_PER_FOOT
+    const ftPerUnit = 1 / WORLD_UNITS_PER_FOOT;
 
     const dx = (this.endPos.x - this.startPos.x) * ftPerUnit;
     const dy = (this.endPos.y - this.startPos.y) * ftPerUnit;

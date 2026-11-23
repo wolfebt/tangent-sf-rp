@@ -226,15 +226,34 @@ export default function Stage1SparkAndCanon({
 
     const patch = {
       dbmRef: item.id,
+      dbmId: item.id,
       dbmCategory: item.dbmCategory,
       [playbook.pitchKey]: fields[playbook.pitchKey] || item.displaySummary || `${item.displayTitle} (${item.dbmCategory})`,
       summary: fields.summary || item.displaySummary || ''
     };
 
-    if (tl !== undefined) patch['tech-level'] = String(tl);
-    if (ml !== undefined) patch['meta-level'] = String(ml);
-    if (type === 'Persona' && item.dbmCategory === 'archetypes') {
-      patch.archetype = item.displayTitle;
+    if (tl !== undefined) {
+      patch['tech-level'] = String(tl);
+      patch.tech_level = String(tl);
+      patch.techLevel = String(tl);
+    }
+    if (ml !== undefined) {
+      patch['meta-level'] = String(ml);
+      patch.meta_level = String(ml);
+      patch.metaLevel = String(ml);
+    }
+    if (type === 'Property' && item.dbmCategory) {
+      patch.propertySubcategory = item.dbmCategory;
+    }
+    if (type === 'Metaphysics' && item.dbmCategory) {
+      patch.metaphysicsSubcategory = item.dbmCategory;
+    }
+    if (type === 'Persona') {
+      if (item.dbmCategory === 'modular_characters') {
+        patch.personaSubcategory = 'mcm';
+      } else if (item.dbmCategory === 'archetypes') {
+        patch.archetype = item.displayTitle;
+      }
     }
 
     onMergeFields?.(patch);
@@ -248,7 +267,7 @@ export default function Stage1SparkAndCanon({
 
   const handleUnlinkDbm = () => {
     AudioService.playTerminalBeep(820, 0.03);
-    onMergeFields?.({ dbmRef: '', dbmCategory: '' });
+    onMergeFields?.({ dbmRef: '', dbmId: '', dbmCategory: '' });
     onSetDbmSyncStatus?.('standalone');
   };
 

@@ -12,6 +12,8 @@ import {
 import { synthesizeTileRecipeFromPrompt } from '../../../../services/tileAiRecipeService';
 import { confirmTypedDeletion } from '../../../../utils/confirmationUtils';
 import { showToast } from '../../../../context/ToastContext';
+import { uploadAdeImageAsset } from '../../../../services/adeMediaStorageService';
+import { auth } from '../../../../firebase';
 
 const OBJECT_SHAPES = [
   { id: 'circle', label: 'Circle' },
@@ -181,73 +183,95 @@ export default function MapAssetManagerModal({
     }
   };
 
-  // Single File Upload (Data URL)
-  const handleSingleFileUpload = (e) => {
+  // Single File Upload (offloads to Firebase Storage when online, compact WebP/PNG data URL offline)
+  const handleSingleFileUpload = async (e) => {
     const file = e.target.files?.[0];
+    e.target.value = '';
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result;
-      if (activeTab === 'terrains') {
-        setTerrainForm(prev => ({ ...prev, textureUrl: dataUrl }));
-      } else {
-        setObjectForm(prev => ({ ...prev, imageUrl: dataUrl }));
+    try {
+      const uploaded = await uploadAdeImageAsset(file, {
+        userId: auth?.currentUser?.uid,
+        assetCategory: activeTab === 'terrains' ? 'maps' : 'tokens',
+        fileName: file.name
+      });
+      if (uploaded.warning) {
+        showToast({ type: 'info', text: uploaded.warning });
       }
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
+      if (activeTab === 'terrains') {
+        setTerrainForm(prev => ({ ...prev, textureUrl: uploaded.url }));
+      } else {
+        setObjectForm(prev => ({ ...prev, imageUrl: uploaded.url }));
+      }
+    } catch (err) {
+      showToast({ type: 'error', text: err?.message || 'Failed to import asset image.' });
+    }
   };
 
   // Bulk Multi-File Upload
-  const handleBulkFileUpload = (e) => {
+  const handleBulkFileUpload = async (e) => {
     const files = Array.from(e.target.files || []);
+    e.target.value = '';
     if (files.length === 0) return;
 
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const dataUrl = event.target?.result;
-        const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
-        const targetScale = filterScale === 'All' ? 'Planetary' : filterScale;
+    let importedCount = 0;
+    const uid = auth?.currentUser?.uid;
+    const targetCat = activeTab === 'terrains' ? 'maps' : 'tokens';
 
-        if (activeTab === 'terrains') {
-          onAddCustomTerrain?.({
-            id: `custom_terrain_${uuidv4().substring(0, 8)}`,
-            label: cleanName,
-            scale: targetScale,
-            color: '#06b6d4',
-            strokeWidth: 40,
-            desc: `Imported texture asset from ${file.name}`,
-            engineProps: '',
-            textureUrl: dataUrl,
-            isCustom: true
+    await Promise.all(
+      files.map(async (file) => {
+        try {
+          const uploaded = await uploadAdeImageAsset(file, {
+            userId: uid,
+            assetCategory: targetCat,
+            fileName: file.name
           });
-        } else {
-          onAddCustomObject?.({
-            id: `custom_object_${uuidv4().substring(0, 8)}`,
-            label: cleanName,
-            scale: targetScale,
-            category: filterCategory === 'All' ? 'Imported' : filterCategory,
-            shape: 'circle',
-            color: '#38bdf8',
-            radius: 30,
-            width: 40,
-            height: 40,
-            desc: `Imported image sprite from ${file.name}`,
-            hazard: '',
-            engineProps: '',
-            scaleTarget: '',
-            imageUrl: dataUrl,
-            isCustom: true
-          });
+          const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+          const targetScale = filterScale === 'All' ? 'Planetary' : filterScale;
+
+          if (activeTab === 'terrains') {
+            onAddCustomTerrain?.({
+              id: `custom_terrain_${uuidv4().substring(0, 8)}`,
+              label: cleanName,
+              scale: targetScale,
+              color: '#06b6d4',
+              strokeWidth: 40,
+              desc: `Imported texture asset from ${file.name}`,
+              engineProps: '',
+              textureUrl: uploaded.url,
+              storagePath: uploaded.storagePath || null,
+              isCustom: true
+            });
+          } else {
+            onAddCustomObject?.({
+              id: `custom_object_${uuidv4().substring(0, 8)}`,
+              label: cleanName,
+              scale: targetScale,
+              category: filterCategory === 'All' ? 'Imported' : filterCategory,
+              shape: 'circle',
+              color: '#38bdf8',
+              radius: 30,
+              width: 40,
+              height: 40,
+              desc: `Imported image sprite from ${file.name}`,
+              hazard: '',
+              engineProps: '',
+              scaleTarget: '',
+              imageUrl: uploaded.url,
+              storagePath: uploaded.storagePath || null,
+              isCustom: true
+            });
+          }
+          importedCount += 1;
+        } catch (err) {
+          showToast({ type: 'error', text: `Skipped "${file.name}": ${err?.message || 'Invalid image'}` });
         }
-      };
-      reader.readAsDataURL(file);
-    });
+      })
+    );
 
-    showToast({ type: 'success', text: `Successfully queued ${files.length} file(s) for catalog import.` });
-    e.target.value = '';
+    if (importedCount > 0) {
+      showToast({ type: 'success', text: `Successfully imported ${importedCount} of ${files.length} file(s).` });
+    }
   };
 
   // Apply a HIFI CHROMA TileSynthesisRecipe to the active Terrain or Object form

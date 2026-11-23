@@ -12,7 +12,7 @@ import {
   onSnapshot, 
   serverTimestamp 
 } from 'firebase/firestore';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 import { StorageService } from './storageService';
 
 export const ACTION_TYPES = {
@@ -39,6 +39,7 @@ export const PersonaLogService = {
     if (!personaId) return null;
     const channelId = getPersonaLogChannelId(personaId);
     const cleanName = personaName || 'Operator';
+    const resolvedOwnerId = ownerId || auth?.currentUser?.uid || 'system';
 
     const channelData = {
       id: channelId,
@@ -50,8 +51,8 @@ export const PersonaLogService = {
       personaName: cleanName,
       isPublic: false,
       isReadOnly: true,
-      createdById: ownerId || 'system',
-      members: Array.from(new Set([ownerId, gmId].filter(Boolean))),
+      createdById: resolvedOwnerId,
+      members: Array.from(new Set([ownerId || auth?.currentUser?.uid, gmId].filter(Boolean))),
       updatedAt: new Date().toISOString()
     };
 
@@ -99,6 +100,9 @@ export const PersonaLogService = {
   }) {
     if (!personaId) return null;
     const channelId = getPersonaLogChannelId(personaId);
+    const resolvedActorId = (actorId && actorId !== 'system' && actorId !== 'player')
+      ? actorId
+      : (auth?.currentUser?.uid || actorId || 'system');
 
     const logEntry = {
       id: `log_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
@@ -111,7 +115,7 @@ export const PersonaLogService = {
       metadata: metadata || {},
       personaId: String(personaId),
       personaName,
-      senderId: actorId,
+      senderId: resolvedActorId,
       senderHandle: actorHandle,
       isReadOnlyLog: true,
       createdAt: new Date().toISOString(),
@@ -134,7 +138,7 @@ export const PersonaLogService = {
         await this.ensurePersonaLogChannel({
           personaId,
           personaName,
-          ownerId: actorId,
+          ownerId: resolvedActorId,
           gmId
         });
 

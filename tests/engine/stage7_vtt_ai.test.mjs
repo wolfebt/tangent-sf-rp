@@ -15,7 +15,11 @@ import { AimeAgent } from '../../src/engine/ai/AimeAgent.ts';
 import { BastionAgent } from '../../src/engine/ai/BastionAgent.ts';
 import { DBMFunctionRegistry } from '../../src/engine/ai/DBMFunctionRegistry.ts';
 import { useEngineStore, selectAllFusedTokens } from '../../src/engine/state/VolatileSharder.ts';
-import { adjudicateActionCheck } from '../../src/services/ade/adeEngineBridge.ts';
+import { adjudicateActionCheck, formatMandateForPrompt } from '../../src/services/ade/adeEngineBridge.ts';
+import {
+  setInMemoryFirebaseIdToken,
+  getInMemoryFirebaseIdToken
+} from '../../src/utils/firebaseTokenStore.js';
 
 test('Phase 1: VertexAIGateway 4-tier hybrid cascade & AimeAgent Omnicortex RAG + Mandate assembly', async () => {
   const response = await VertexAIGateway.generateContent('Describe the docking bay tactical layout.', {
@@ -105,12 +109,12 @@ test('Phase 2: DBMFunctionRegistry registers and executes canonical Stage 7 tool
   assert.equal(typeof oddsRes.hitProbabilityPercent, 'number');
   assert.ok(oddsRes.tacticalModifiersSummary.length > 0);
 
-  // 3. resolve_called_shot
+  // 3. resolve_called_shot (canonical optics penalty is -5 per 3.00 COMBAT.md)
   const shotRes = await DBMFunctionRegistry.executeToolCall({
     name: 'resolve_called_shot',
     args: { targetLocation: 'optics', incomingDamage: 28, armorDr: 6, targetMaxHp: 30 }
   });
-  assert.equal(shotRes.attackPenalty, -3);
+  assert.equal(shotRes.attackPenalty, -5);
   assert.ok(shotRes.netDamage > 0);
   assert.ok(shotRes.traumaEffect.includes('Blindness'));
 
@@ -221,4 +225,213 @@ test('Phase 3 & 5: BastionAgent.executeAdversaryTurn & AimeAgent.narrateCombatSt
   const balance = BastionAgent.evaluateEncounterBalance(2);
   assert.equal(typeof balance.tensionScore, 'number');
   assert.ok(Array.isArray(balance.suggestedCards));
+
+  // Verify miss / fumble & non-existent adversary edge cases
+  const fumbleReport = await BastionAgent.executeAdversaryTurn('adv-juggernaut', {
+    rollOverride: { d1: 1, d2: 1 },
+    weaponType: 'kinetic',
+    baseRawDamage: 24
+  });
+  assert.equal(fumbleReport.success, true);
+  assert.equal(fumbleReport.attackRoll.isCriticalFumble, true);
+  assert.equal(fumbleReport.attackRoll.isHit, false);
+  assert.equal(fumbleReport.damageDealt, 0);
+
+  assert.throws(
+    () => BastionAgent.executeAdversaryTurn('non-existent-id', {}),
+    /not found on The Stage/
+  );
+});
+
+async function withMockAiEnv({ fetchImpl, localStorageData = {}, firebaseToken = 'mock.firebase.jwt.token' }, fn) {
+  const prevFetch = globalThis.fetch;
+  const hasLocalStorage = Object.prototype.hasOwnProperty.call(globalThis, 'localStorage');
+  const prevLocalStorage = globalThis.localStorage;
+  const prevToken = getInMemoryFirebaseIdToken();
+  const calls = [];
+
+  globalThis.fetch = async (url, init = {}) => {
+    calls.push({ url: String(url), init });
+    return fetchImpl(String(url), init, calls.length);
+  };
+  globalThis.localStorage = {
+    getItem: (k) => (Object.prototype.hasOwnProperty.call(localStorageData, k) ? localStorageData[k] : null),
+    setItem: (k, v) => { localStorageData[k] = String(v); },
+    removeItem: (k) => { delete localStorageData[k]; }
+  };
+  setInMemoryFirebaseIdToken(firebaseToken);
+
+  try {
+    return await fn(calls);
+  } finally {
+    globalThis.fetch = prevFetch;
+    if (hasLocalStorage) {
+      globalThis.localStorage = prevLocalStorage;
+    } else {
+      delete globalThis.localStorage;
+    }
+    setInMemoryFirebaseIdToken(prevToken || '');
+  }
+}
+
+test('Phase 6: VertexAIGateway 4-tier transport, executeWithTools multi-turn loop, and mandated simulation', async () => {
+  // 1. Tier 2 Cloud Proxy: markdown fence stripping & gemini-1.5-flash -> gemini-2.5-flash normalization
+  await withMockAiEnv(
+    {
+      fetchImpl: async () => ({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: 'Here is telemetry:\n```json\n{"tacticalStatus":"nominal","sectorThreat":3}\n```' }]
+              }
+            }
+          ]
+        })
+      })
+    },
+    async (calls) => {
+      const res = await VertexAIGateway.generateContent('Assess sector status', {
+        model: 'gemini-1.5-flash',
+        responseMimeType: 'application/json'
+      });
+      assert.equal(res.success, true);
+      assert.equal(res.isSimulated, false);
+      assert.equal(res.provider, 'cloud_proxy');
+      assert.deepEqual(res.data, { tacticalStatus: 'nominal', sectorThreat: 3 });
+      const sentBody = JSON.parse(calls[0].init.body);
+      assert.equal(sentBody.model, 'gemini-2.5-flash');
+    }
+  );
+
+  // 2. Tier 1 Local Llama vs multimodal inlineData skip to Cloud Proxy
+  await withMockAiEnv(
+    {
+      fetchImpl: async (url) => {
+        if (url.includes('localhost:8080')) {
+          return { ok: true, status: 200, json: async () => ({ content: 'Local llama sector briefing.' }) };
+        }
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            candidates: [{ content: { parts: [{ text: 'Cloud Vision processed image.' }] } }]
+          })
+        };
+      }
+    },
+    async (calls) => {
+      const textLocal = await VertexAIGateway.generateContent('Briefing', {
+        localEndpoint: 'http://localhost:8080'
+      });
+      assert.equal(textLocal.provider, 'local_llama');
+      assert.equal(textLocal.text, 'Local llama sector briefing.');
+
+      const multimodalVision = await VertexAIGateway.generateContent('Inspect battlemap', {
+        localEndpoint: 'http://localhost:8080',
+        contents: [
+          {
+            role: 'user',
+            parts: [
+              { text: 'Analyze walls' },
+              { inlineData: { mimeType: 'image/png', data: 'iVBORw0KGgo=' } }
+            ]
+          }
+        ]
+      });
+      assert.equal(multimodalVision.provider, 'cloud_proxy');
+      assert.ok(calls[1].url.includes('/geminiProxy'), 'Multimodal inlineData should bypass text-only Tier 1 local LLM');
+    }
+  );
+
+  // 3. Multi-turn VertexAIGateway.executeWithTools (functionCall -> toolExecutor -> functionResponse)
+  await withMockAiEnv(
+    {
+      fetchImpl: async (_url, _init, callIdx) => {
+        if (callIdx === 1) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({
+              candidates: [
+                {
+                  content: {
+                    parts: [
+                      {
+                        functionCall: {
+                          name: 'resolve_called_shot',
+                          args: { targetLocation: 'optics', incomingDamage: 24, armorDr: 4, targetMaxHp: 30 }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            })
+          };
+        }
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            candidates: [
+              {
+                content: {
+                  parts: [{ text: 'Optics shattered; -5 strike penalty and Sensor Blindness applied.' }]
+                }
+              }
+            ]
+          })
+        };
+      }
+    },
+    async (calls) => {
+      const decls = DBMFunctionRegistry.getDeclarations();
+      const execRes = await VertexAIGateway.executeWithTools(
+        'Evaluate a called shot to optics for 24 kinetic damage vs DR 4',
+        decls,
+        (call) => DBMFunctionRegistry.executeToolCall(call)
+      );
+      assert.equal(execRes.success, true);
+      assert.equal(execRes.isSimulated, false);
+      assert.equal(execRes.toolCalls.length, 1);
+      assert.equal(execRes.toolCalls[0].name, 'resolve_called_shot');
+      assert.equal(execRes.toolCalls[0].result.attackPenalty, -5);
+      assert.ok(execRes.text.includes('Optics shattered'));
+      const followUpBody = JSON.parse(calls[1].init.body);
+      assert.equal(followUpBody.contents[1].role, 'model');
+      assert.equal(followUpBody.contents[2].role, 'user');
+      assert.equal(followUpBody.contents[2].parts[0].functionResponse.name, 'resolve_called_shot');
+    }
+  );
+
+  // 4. Mandated Tier 4 fallbackSimulation honors formatMandateForPrompt
+  await withMockAiEnv(
+    {
+      fetchImpl: async () => {
+        throw new TypeError('Offline mock');
+      },
+      firebaseToken: ''
+    },
+    async () => {
+      const mandate = adjudicateActionCheck({
+        actorName: 'Kaelen',
+        actionDescription: 'Hack the airlock console',
+        skillName: 'Computers',
+        attributeScore: 16,
+        skillRank: 4,
+        difficultyCr: 15,
+        rollOverride: { d1: 9, d2: 7 }
+      });
+      const prompt = formatMandateForPrompt(mandate);
+      const simRes = await VertexAIGateway.generateContent(prompt, { responseMimeType: 'text/plain' });
+      assert.equal(simRes.isSimulated, true);
+      assert.equal(simRes.provider, 'simulation');
+      assert.ok(simRes.text.includes('AIME MANDATED BEAT'));
+      assert.ok(simRes.text.includes('EXECUTE_SUCCESS'));
+      assert.ok(simRes.text.includes('Kaelen successfully accomplishes'));
+    }
+  );
 });

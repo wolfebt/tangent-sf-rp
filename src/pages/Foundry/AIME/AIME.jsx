@@ -61,11 +61,30 @@ export default function AIME() {
 
   const flatElements = universeState?.scenarios ? getAllElements(universeState.scenarios) : [];
 
+  const resolveLinkedContextElements = () => {
+    const linkedIds = Array.isArray(creativeState.linkedElements) ? creativeState.linkedElements : [];
+    const catalogList = Array.isArray(elementsCatalog) ? elementsCatalog : [];
+    return linkedIds
+      .map((id) => flatElements.find((el) => el.id === id) || catalogList.find((el) => el.id === id))
+      .filter(Boolean);
+  };
+
   const getWeaverContext = (stageLabel, additionalInfo = {}) => {
-    const activeElement = flatElements && flatElements.length > 0 ? flatElements[0] : null;
+    const linkedContextElements = resolveLinkedContextElements();
+    const activeElement = linkedContextElements[0] || (flatElements && flatElements.length > 0 ? flatElements[0] : null);
     return {
       projectName: universeState?.projectName || 'Tangent Universe',
       activeNode: activeElement,
+      linkedContextElements,
+      assetHub: linkedContextElements.map((el) => ({
+        assetId: el.id,
+        assetType: el.type || 'Element',
+        assetTitle: el.title || 'Untitled',
+        importance: 'high',
+        content: el.content || '',
+        description: el.description || '',
+        fields: el.fields || {}
+      })),
       guidanceGems: getActiveGemsText() || 'Standard',
       outline: creativeState?.storyOutline || '',
       sceneBeats: creativeState?.sceneBeats || '',
@@ -265,9 +284,17 @@ export default function AIME() {
     let title = `${universeState.projectName || 'Story'} - AIME `;
     let content = '';
 
+    const escapeHtml = (val) =>
+      String(val ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
     if (canvasKey === 'brainstorm') {
       title += 'Concepts';
-      content = `<h3>Story Concepts</h3>` + (creativeState.storyCards || []).map(c => `<h4>${c.title}</h4><p><em>${c.hook}</em></p><p>${c.premise}</p><p><strong>Themes:</strong> ${c.themes}</p>`).join('<hr/>');
+      content = `<h3>Story Concepts</h3>` + (creativeState.storyCards || []).map(c => `<h4>${escapeHtml(c.title)}</h4><p><em>${escapeHtml(c.hook)}</em></p><p>${escapeHtml(c.premise)}</p><p><strong>Themes:</strong> ${escapeHtml(c.themes)}</p>`).join('<hr/>');
     } else if (canvasKey === 'outline') {
       title += 'Outline';
       content = creativeState.storyOutline || '';
@@ -1145,16 +1172,18 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
       {isChatOpen && (
         <AIMEChatBox 
           onClose={() => setIsChatOpen(false)}
-          contextData={`Guidance Gems: ${getActiveGemsText() || 'None'}\n\nOutline Context:\n${creativeState.storyOutline || 'None'}\n\nScene Beats:\n${creativeState.sceneBeats || 'None'}\n\nCurrent Draft:\n${creativeState.storyDraft || 'None'}`}
+          contextData={`Guidance Gems: ${getActiveGemsText() || 'None'}\n\nLinked Context Elements:\n${resolveLinkedContextElements().map((el) => `- [${el.type || 'Element'}] ${el.title || el.id}${el.fields?.oneLinePitch ? `: ${el.fields.oneLinePitch}` : ''}`).join('\n') || 'None'}\n\nOutline Context:\n${creativeState.storyOutline || 'None'}\n\nScene Beats:\n${creativeState.sceneBeats || 'None'}\n\nCurrent Draft:\n${creativeState.storyDraft || 'None'}`}
           cronicle={cronicle}
         />
       )}
 
       {/* Master Cronicle Deck Modal */}
-      <CronicleDeckModal
-        isOpen={isCronicleModalOpen}
-        onClose={() => setIsCronicleModalOpen(false)}
-      />
+      {isCronicleModalOpen && (
+        <CronicleDeckModal
+          isOpen={isCronicleModalOpen}
+          onClose={() => setIsCronicleModalOpen(false)}
+        />
+      )}
 
       {/* Floating Pending Delta Review Pill / Drawer */}
       <CronicleDeltaBadge

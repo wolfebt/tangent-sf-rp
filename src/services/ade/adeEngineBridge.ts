@@ -12,6 +12,12 @@ import { runMonteCarloEncounterSim } from '../encounterSimService.js';
 import { SessionJournal } from '../sessionRecapService.js';
 import { evaluateScenarioProgress, OBJECTIVE_TEMPLATES } from '../scenarioEngineService.js';
 import { VttEventBus } from '../../utils/vttEventBus.ts';
+import {
+  CANONICAL_DEFAULT_DEFENSE_CR,
+  calculateDamageMitigation,
+  resolveSkillRank,
+  resolveTangent2d10Check
+} from '../../engine/rules/CanonicalCombatMath.ts';
 import type { 
   AdePreflightTelemetry, 
   AdeElementRecord, 
@@ -37,15 +43,23 @@ export type {
 
 
 export interface ActionCheckParams {
-  actionText: string;
+  actionText?: string;
+  actionDescription?: string;
+  actorName?: string;
   operative?: any;
   targetEntity?: any;
   targetDC?: number;
+  targetCR?: number;
+  difficultyCr?: number;
   skillName?: string;
+  skillRank?: number;
+  attributeScore?: number;
   subAttrKey?: string;
   activeModifiers?: any[];
   storyFlags?: Record<string, any>;
-  diceOverride?: [number, number] | null;
+  diceOverride?: [number, number] | { d1?: number; d2?: number } | null;
+  rollOverride?: [number, number] | { d1?: number; d2?: number } | null;
+  isOpposed?: boolean;
 }
 
 export interface EncounterSimSummary {
@@ -201,8 +215,8 @@ export function createStructuralMandate({
     systemIntent,
     actionName,
     initiatorName,
-    targetEntity,
-    diceSummary,
+    ...(targetEntity !== undefined ? { targetEntity } : {}),
+    ...(diceSummary !== undefined ? { diceSummary } : {}),
     mechanicalOutcomes,
     narrativeBounds
   };
@@ -226,53 +240,78 @@ export function createStructuralMandate({
  */
 export function adjudicateActionCheck({
   actionText,
+  actionDescription,
+  actorName,
   operative = null,
   targetEntity = null,
-  targetDC = 12,
+  targetDC,
+  targetCR,
+  difficultyCr,
   skillName = '',
+  skillRank: explicitSkillRank,
+  attributeScore,
   subAttrKey = '',
   activeModifiers = [],
   storyFlags = {},
-  diceOverride = null
+  diceOverride = null,
+  rollOverride = null,
+  isOpposed = false
 }: ActionCheckParams): AdeStructuralMandate {
-  const initiatorName = operative?.name || operative?.title || 'Operator';
-  const lowerAction = (actionText || '').toLowerCase();
+  const effectiveActionText = actionText || actionDescription || 'Tactical Action';
+  const initiatorName = actorName || operative?.name || operative?.title || 'Operator';
+  const lowerAction = effectiveActionText.toLowerCase();
 
-  // 1. Detect Skill & Attribute if not explicitly supplied
+  // 1. Detect Canonical Skill & Sub-Attribute if not explicitly supplied
   let resolvedSkill = skillName;
   let resolvedSubAttr = subAttrKey;
 
   if (!resolvedSkill) {
-    if (lowerAction.includes('hack') || lowerAction.includes('slice') || lowerAction.includes('terminal') || lowerAction.includes('bypass') || lowerAction.includes('override')) {
-      resolvedSkill = 'Slicing';
+    if (lowerAction.includes('hack') || lowerAction.includes('slice') || lowerAction.includes('terminal') || lowerAction.includes('bypass') || lowerAction.includes('override') || lowerAction.includes('computer')) {
+      resolvedSkill = 'Computers';
       resolvedSubAttr = 'attr-logic';
     } else if (lowerAction.includes('shoot') || lowerAction.includes('fire') || lowerAction.includes('rifle') || lowerAction.includes('snipe') || lowerAction.includes('blaster')) {
-      resolvedSkill = 'Ballistics';
+      resolvedSkill = 'Ballistic';
       resolvedSubAttr = 'attr-reflex';
     } else if (lowerAction.includes('strike') || lowerAction.includes('blade') || lowerAction.includes('punch') || lowerAction.includes('kick') || lowerAction.includes('melee')) {
-      resolvedSkill = 'Kinetics';
+      resolvedSkill = 'Melee';
       resolvedSubAttr = 'attr-might';
     } else if (lowerAction.includes('stealth') || lowerAction.includes('sneak') || lowerAction.includes('shadow') || lowerAction.includes('infiltrate')) {
       resolvedSkill = 'Stealth';
       resolvedSubAttr = 'attr-reflex';
     } else if (lowerAction.includes('persuade') || lowerAction.includes('intimidate') || lowerAction.includes('interrogate') || lowerAction.includes('negotiate') || lowerAction.includes('bribe')) {
-      resolvedSkill = 'Etiquette';
+      resolvedSkill = 'Diplomacy';
       resolvedSubAttr = 'attr-etiquette';
-    } else if (lowerAction.includes('sense') || lowerAction.includes('detect') || lowerAction.includes('perceive') || lowerAction.includes('search') || lowerAction.includes('scan')) {
-      resolvedSkill = 'Perception';
+    } else if (lowerAction.includes('sense') || lowerAction.includes('detect') || lowerAction.includes('perceive') || lowerAction.includes('search') || lowerAction.includes('scan') || lowerAction.includes('alert')) {
+      resolvedSkill = 'Alertness';
       resolvedSubAttr = 'attr-will';
     } else {
       resolvedSkill = 'General Action';
       resolvedSubAttr = 'attr-reflex';
     }
+  } else if (!resolvedSubAttr) {
+    const skLower = resolvedSkill.toLowerCase();
+    if (['computers', 'slicing', 'hacking', 'engineering', 'medicine', 'science', 'electronics', 'mechanics'].some((k) => skLower.includes(k))) {
+      resolvedSubAttr = 'attr-logic';
+    } else if (['melee', 'kinetics', 'athletics', 'brawling', 'unarmed'].some((k) => skLower.includes(k))) {
+      resolvedSubAttr = 'attr-might';
+    } else if (['diplomacy', 'etiquette', 'persuasion', 'deception', 'leadership', 'performance'].some((k) => skLower.includes(k))) {
+      resolvedSubAttr = 'attr-etiquette';
+    } else if (['alertness', 'perception', 'insight', 'awareness', 'survival', 'metaphysics', 'psionics'].some((k) => skLower.includes(k))) {
+      resolvedSubAttr = 'attr-will';
+    } else if (['endurance', 'resilience', 'fortitude'].some((k) => skLower.includes(k))) {
+      resolvedSubAttr = 'attr-fortitude';
+    } else {
+      resolvedSubAttr = 'attr-reflex';
+    }
   }
 
   // 2. TECH LEVEL (TL 0-5) PRE-CHECK FOR ELECTRONIC / HACKING ACTIONS
-  const isHackAction = 
-    resolvedSkill.toLowerCase().includes('slic') || 
-    resolvedSkill.toLowerCase().includes('hack') || 
-    lowerAction.includes('slic') || 
-    lowerAction.includes('hack') || 
+  const isHackAction =
+    resolvedSkill.toLowerCase().includes('slic') ||
+    resolvedSkill.toLowerCase().includes('comput') ||
+    resolvedSkill.toLowerCase().includes('hack') ||
+    lowerAction.includes('slic') ||
+    lowerAction.includes('hack') ||
     lowerAction.includes('cyber');
 
   if (isHackAction) {
@@ -280,10 +319,9 @@ export function adjudicateActionCheck({
     const targetTL = Number(targetEntity?.fields?.techLevel ?? targetEntity?.techLevel ?? (lowerAction.includes('precursor') ? 5 : (lowerAction.includes('hard-light') ? 4 : 3)));
 
     if (targetTL > opTL + 1) {
-      // Tech Level Mismatch: Direct Refusal Mandate
       return createStructuralMandate({
         systemIntent: 'REFUSE_ACTION',
-        actionName: actionText,
+        actionName: effectiveActionText,
         initiatorName,
         targetEntity: targetEntity?.name || targetEntity?.title,
         mechanicalOutcomes: {
@@ -310,13 +348,7 @@ export function adjudicateActionCheck({
     }
   }
 
-  // 3. CANONICAL 2D10 RESOLUTION
-  const d1 = diceOverride ? diceOverride[0] : (Math.floor(Math.random() * 10) + 1);
-  const d2 = diceOverride ? diceOverride[1] : (Math.floor(Math.random() * 10) + 1);
-  const diceSum = d1 + d2;
-  const isDouble = d1 === d2;
-
-  // Extract modifiers (supports both Canonical v6 attributes and legacy keys)
+  // Extract modifiers (supports Canonical v6 subAttributes/attributes, legacy keys, and direct attributeScore)
   const CANONICAL_ATTR_ALIASES: Record<string, string[]> = {
     might: ['strength', 'might', 'attr-strength', 'attr-might'],
     strength: ['strength', 'might', 'attr-strength', 'attr-might'],
@@ -334,28 +366,33 @@ export function adjudicateActionCheck({
   const baseKey = resolvedSubAttr.replace('attr-', '');
   const candidateKeys = CANONICAL_ATTR_ALIASES[baseKey] || [baseKey, resolvedSubAttr];
 
-  let attrMod = 2; // Baseline attribute bonus
-  for (const ck of candidateKeys) {
-    if (operative?.attributes && operative.attributes[ck] !== undefined) {
-      attrMod = Number(operative.attributes[ck] || 0);
-      break;
-    }
-    if (operative?.fields && operative.fields[ck] !== undefined) {
-      attrMod = Number(operative.fields[ck] || 0);
-      break;
-    }
-    if (operative && operative[ck] !== undefined) {
-      attrMod = Number(operative[ck] || 0);
-      break;
+  let attrMod: number | undefined = attributeScore !== undefined ? Number(attributeScore) : undefined;
+  if (attrMod === undefined || !Number.isFinite(attrMod)) {
+    attrMod = 2; // Baseline attribute bonus
+    for (const ck of candidateKeys) {
+      if (operative?.subAttributes && operative.subAttributes[ck] !== undefined) {
+        attrMod = Number(operative.subAttributes[ck] || 0);
+        break;
+      }
+      if (operative?.attributes && operative.attributes[ck] !== undefined) {
+        attrMod = Number(operative.attributes[ck] || 0);
+        break;
+      }
+      if (operative?.fields && operative.fields[ck] !== undefined) {
+        attrMod = Number(operative.fields[ck] || 0);
+        break;
+      }
+      if (operative && operative[ck] !== undefined) {
+        attrMod = Number(operative[ck] || 0);
+        break;
+      }
     }
   }
 
-  let skillRank = 0;
-  if (operative?.skills && operative.skills[resolvedSkill] !== undefined) {
-    skillRank = Number(operative.skills[resolvedSkill]);
-  } else {
-    skillRank = 3; // Baseline trained rank
-  }
+  const resolvedRank = explicitSkillRank !== undefined
+    ? Number(explicitSkillRank)
+    : resolveSkillRank(operative?.skills, resolvedSkill);
+  const skillRank = resolvedRank !== undefined && Number.isFinite(resolvedRank) ? resolvedRank : 3;
 
   let miscMod = 0;
   if (Array.isArray(activeModifiers)) {
@@ -364,40 +401,54 @@ export function adjudicateActionCheck({
     });
   }
 
-  // Active story flags dynamically modify target DC (e.g. raised alarms increase security check difficulty)
-  let effectiveDC = targetDC;
-  if (storyFlags?.alarm_triggered || storyFlags?.sector_alert || storyFlags?.security_lockdown) {
+  // Active story flags dynamically modify target CR
+  const isFlagEnabled = (flag: any): boolean =>
+    Boolean(flag && typeof flag === 'object' && 'value' in flag ? flag.value : flag);
+
+  let effectiveDC = Number(targetCR ?? difficultyCr ?? targetDC ?? CANONICAL_DEFAULT_DEFENSE_CR);
+  if (
+    isFlagEnabled(storyFlags?.alarm_triggered) ||
+    isFlagEnabled(storyFlags?.sector_alert) ||
+    isFlagEnabled(storyFlags?.security_lockdown)
+  ) {
     effectiveDC += 2;
   }
 
-  const totalCheck = diceSum + attrMod + skillRank + miscMod;
-  const margin = totalCheck - effectiveDC;
+  // 3. CANONICAL 2D10 RESOLUTION (Nat 20 => +10 / 30, Nat 2 => -10)
+  const effectiveIsOpposed = isOpposed || lowerAction.includes('strike') || lowerAction.includes('attack') || lowerAction.includes('shoot') || lowerAction.includes('blade') || lowerAction.includes('melee');
+  const rollCheck = resolveTangent2d10Check({
+    diceOverride: diceOverride ?? rollOverride,
+    modifier: attrMod + skillRank + miscMod,
+    targetCR: effectiveDC,
+    isOpposed: isOpposed !== undefined ? Boolean(isOpposed) : effectiveIsOpposed
+  });
+
+  const d1 = rollCheck.d1;
+  const d2 = rollCheck.d2;
+  const diceSum = rollCheck.effectiveDiceSum;
+  const isDouble = rollCheck.isDouble;
+  const totalCheck = rollCheck.total;
+  const margin = rollCheck.margin;
 
   // Determine System Intent and Tier
   let systemIntent: SystemIntent = 'EXECUTE_SUCCESS';
   let tierLabel = 'Standard Success';
 
-  if (d1 === 10 && d2 === 10) {
+  if (rollCheck.isCrit) {
     systemIntent = 'CRITICAL_TRIUMPH';
     tierLabel = 'Critical Triumph (Natural 20)';
-  } else if (d1 === 1 && d2 === 1) {
+  } else if (rollCheck.isFumble) {
     systemIntent = 'CRITICAL_FUMBLE';
     tierLabel = 'Critical Fumble (Natural 2)';
+  } else if (!rollCheck.isSuccess) {
+    systemIntent = 'EXECUTE_FAILURE';
+    tierLabel = margin >= -4 ? 'Marginal Failure (-1 to -4 Margin)' : 'Severe Failure (<= -5 Margin)';
   } else if (margin >= 10) {
     systemIntent = 'EXECUTE_SUCCESS';
     tierLabel = 'Masterful Success (+10 Margin)';
   } else if (margin >= 5) {
     systemIntent = 'EXECUTE_SUCCESS';
     tierLabel = 'Superior Success (+5 Margin)';
-  } else if (margin >= 0) {
-    systemIntent = 'EXECUTE_SUCCESS';
-    tierLabel = 'Standard Success';
-  } else if (margin >= -4) {
-    systemIntent = 'EXECUTE_FAILURE';
-    tierLabel = 'Marginal Failure (-1 to -4 Margin)';
-  } else {
-    systemIntent = 'EXECUTE_FAILURE';
-    tierLabel = 'Severe Failure (<= -5 Margin)';
   }
 
   const diceSummary: DiceRollSummary = {
@@ -414,7 +465,7 @@ export function adjudicateActionCheck({
     targetDC: effectiveDC,
     margin,
     tierLabel,
-    formula: `2d10 (${d1}+${d2}) + ${resolvedSkill}(${skillRank}) + Attr(${attrMod}) + Mod(${miscMod}) = ${totalCheck} vs DC ${effectiveDC}`
+    formula: `2d10 (${d1}+${d2}${rollCheck.isCrit ? '+10' : rollCheck.isFumble ? '->-10' : ''}) + ${resolvedSkill}(${skillRank}) + Attr(${attrMod}) + Mod(${miscMod}) = ${totalCheck} vs CR ${effectiveDC}`
   };
 
   // 4. CALCULATE MECHANICAL OUTCOMES
@@ -422,13 +473,43 @@ export function adjudicateActionCheck({
   const sensoryCues: string[] = [];
   const forbidden: string[] = [];
 
+  const computeCombatDamage = (baseRaw: number) => {
+    const hasArmorOrToughness = targetEntity && (
+      targetEntity.armorLayers !== undefined ||
+      targetEntity.armorDr !== undefined ||
+      targetEntity.armor_dr !== undefined ||
+      targetEntity.dr !== undefined ||
+      targetEntity.staminaToughness !== undefined ||
+      targetEntity.toughness !== undefined
+    );
+    if (!hasArmorOrToughness) return baseRaw;
+    const layers = Array.isArray(targetEntity.armorLayers)
+      ? targetEntity.armorLayers
+      : [Number(targetEntity.armorDr ?? targetEntity.armor_dr ?? targetEntity.dr ?? 0)];
+    const inferredDmgType = targetEntity?.incomingDamageType || targetEntity?.damageType || (
+      lowerAction.includes('force') ? 'force'
+        : lowerAction.includes('bleed') ? 'bleed'
+        : lowerAction.includes('sonic') ? 'sonic'
+        : lowerAction.includes('psionic') || lowerAction.includes('mental') ? 'mental'
+        : lowerAction.includes('concussive') ? 'concussive'
+        : 'kinetic'
+    );
+    return calculateDamageMitigation({
+      rawDamage: baseRaw,
+      armorLayers: layers,
+      penetration: Number(operative?.penetration ?? 0),
+      damageType: String(inferredDmgType),
+      staminaToughness: Number(targetEntity.staminaToughness ?? targetEntity.toughness ?? targetEntity.stamina_dr ?? 0)
+    }).netDamage;
+  };
+
   if (systemIntent === 'CRITICAL_TRIUMPH') {
     if (isHackAction) {
       outcomes.bulkheadToggled = { id: targetEntity?.id || 'bulkhead_sec_4', state: 'unlocked' };
       outcomes.vttEventEmitted = 'stage-cyberdeck-breach';
       outcomes.flagUpdates = { alarm_suppressed: true, sector_breached: true };
     } else {
-      outcomes.damageDealt = 24; // Max strike damage
+      outcomes.damageDealt = computeCombatDamage(24);
       outcomes.conditionsApplied = ['Target Stunned', 'Armor Shredded'];
     }
     sensoryCues.push('flawless neural handshake', 'resonant harmonic chime', 'tactical momentum surge');
@@ -439,7 +520,7 @@ export function adjudicateActionCheck({
       outcomes.vttEventEmitted = 'stage-bulkhead-toggled';
       outcomes.flagUpdates = { sector_breached: true };
     } else {
-      outcomes.damageDealt = 12 + Math.max(0, margin);
+      outcomes.damageDealt = computeCombatDamage(12 + Math.max(0, margin));
     }
     sensoryCues.push('pneumatic hiss of cycling locks', 'green confirmation telemetry', 'fluid transition');
     forbidden.push('operator failure', 'operative failure', 'system lockdown', 'weapon misfire');
@@ -452,7 +533,6 @@ export function adjudicateActionCheck({
     sensoryCues.push('violent electrical back-surge', 'strobe flash of emergency red claxons', 'acrid ozone');
     forbidden.push('any measure of success', 'door opening', 'unnoticed withdrawal');
   } else {
-    // EXECUTE_FAILURE
     if (isHackAction) {
       outcomes.shieldsDelta = -3;
       if (margin <= -4) {
@@ -468,18 +548,18 @@ export function adjudicateActionCheck({
 
   let prescribedOutcome = '';
   if (systemIntent === 'CRITICAL_TRIUMPH') {
-    prescribedOutcome = `${initiatorName} achieves a decisive, masterful triumph in "${actionText}". Describe the effortless tactical execution.`;
+    prescribedOutcome = `${initiatorName} achieves a decisive, masterful triumph in "${effectiveActionText}". Describe the effortless tactical execution.`;
   } else if (systemIntent === 'EXECUTE_SUCCESS') {
-    prescribedOutcome = `${initiatorName} successfully accomplishes "${actionText}" with positive margin (+${margin}). Describe direct sensory progression.`;
+    prescribedOutcome = `${initiatorName} successfully accomplishes "${effectiveActionText}" with positive margin (+${margin}). Describe direct sensory progression.`;
   } else if (systemIntent === 'CRITICAL_FUMBLE') {
-    prescribedOutcome = `${initiatorName} catastrophically botches "${actionText}" (Double 1s). Systems backfire or defensive response overwhelms the position.`;
+    prescribedOutcome = `${initiatorName} catastrophically botches "${effectiveActionText}" (Double 1s). Systems backfire or defensive response overwhelms the position.`;
   } else {
-    prescribedOutcome = `${initiatorName} fails "${actionText}" by ${Math.abs(margin)} margin. The objective is resisted or thwarted with complications.`;
+    prescribedOutcome = `${initiatorName} fails "${effectiveActionText}" by ${Math.abs(margin)} margin. The objective is resisted or thwarted with complications.`;
   }
 
   return createStructuralMandate({
     systemIntent,
-    actionName: actionText,
+    actionName: effectiveActionText,
     initiatorName,
     targetEntity: targetEntity?.name || targetEntity?.title,
     diceSummary,
@@ -553,7 +633,7 @@ export function validateAndCommitActionRequest({
   storyFlags = {},
   activeModifiers = [],
   diceOverride = null,
-  targetDC = 12,
+  targetDC = CANONICAL_DEFAULT_DEFENSE_CR,
   onCommitDelta = null
 }: ValidateActionParams): CronicleValidationResult {
   if (!request || !request.action) {

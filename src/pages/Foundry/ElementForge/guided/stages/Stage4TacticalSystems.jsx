@@ -46,6 +46,13 @@ export default function Stage4TacticalSystems({
   const { dbData = {} } = useDBM() || {};
   const playbook = useMemo(() => getPlaybookForType(draft.type), [draft.type]);
   const fields = draft.fields || {};
+  const mcmFields = useMemo(() => ({
+    ...fields,
+    content: fields.content ?? draft.content ?? '',
+    narrativeProse: fields.narrativeProse ?? draft.content ?? '',
+    guidance: fields.guidance ?? draft.guidance ?? {},
+    customFields: fields.customFields ?? draft.customFields ?? []
+  }), [fields, draft.content, draft.guidance, draft.customFields]);
 
   const [personaSubTab, setPersonaSubTab] = useState('mcm'); // 'mcm' | 'script'
   const [bastionBanner, setBastionBanner] = useState(null);
@@ -201,8 +208,9 @@ export default function Stage4TacticalSystems({
 
           {personaSubTab === 'mcm' ? (
             <ModularCharacterAssembler
-              fields={fields}
+              fields={mcmFields}
               onFieldChange={onChangeField}
+              onBatchFieldChange={onMergeFields}
               elementTitle={draft.title}
               onOpenAimeGuidance={onOpenAimeGuidance}
             />
@@ -258,8 +266,18 @@ export default function Stage4TacticalSystems({
               Baseline Tech Level (TL 0–5)
             </label>
             <select
-              value={fields['tech-level'] ?? '3'}
-              onChange={(e) => onChangeField?.('tech-level', e.target.value)}
+              value={fields['tech-level'] ?? fields.tech_level ?? fields.techLevel ?? '3'}
+              onChange={(e) => {
+                if (onMergeFields) {
+                  onMergeFields({
+                    'tech-level': e.target.value,
+                    tech_level: e.target.value,
+                    techLevel: e.target.value
+                  });
+                } else {
+                  onChangeField?.('tech-level', e.target.value);
+                }
+              }}
               className="w-full bg-slate-950 border border-slate-800 text-cyan-200 p-2.5 rounded-xl text-xs outline-none"
             >
               {[0, 1, 2, 3, 4, 5].map((tl) => (
@@ -275,8 +293,18 @@ export default function Stage4TacticalSystems({
               Baseline Meta Level (ML 0–5)
             </label>
             <select
-              value={fields['meta-level'] ?? '3'}
-              onChange={(e) => onChangeField?.('meta-level', e.target.value)}
+              value={fields['meta-level'] ?? fields.meta_level ?? fields.metaLevel ?? '3'}
+              onChange={(e) => {
+                if (onMergeFields) {
+                  onMergeFields({
+                    'meta-level': e.target.value,
+                    meta_level: e.target.value,
+                    metaLevel: e.target.value
+                  });
+                } else {
+                  onChangeField?.('meta-level', e.target.value);
+                }
+              }}
               className="w-full bg-slate-950 border border-slate-800 text-purple-200 p-2.5 rounded-xl text-xs outline-none"
             >
               {[0, 1, 2, 3, 4, 5].map((ml) => (
@@ -318,13 +346,15 @@ export default function Stage4TacticalSystems({
                 Tech Level (0–5)
               </label>
               <select
-                value={fields['tech-level'] ?? '3'}
-                onChange={(e) =>
+                value={String(fields['tech-level'] ?? fields.techLevel ?? fields.tech_level ?? '3').replace(/^TL[\s:-]*/i, '')}
+                onChange={(e) => {
+                  const numTl = Number(e.target.value);
                   onMergeFields?.({
                     'tech-level': e.target.value,
-                    techLevel: `TL-${e.target.value}`
-                  })
-                }
+                    techLevel: numTl,
+                    tech_level: numTl
+                  });
+                }}
                 className="w-full bg-slate-950 border border-slate-800 text-cyan-200 p-2.5 rounded-xl text-xs outline-none"
               >
                 {[0, 1, 2, 3, 4, 5].map((tl) => (
@@ -340,8 +370,19 @@ export default function Stage4TacticalSystems({
                 Meta Level (0–5)
               </label>
               <select
-                value={fields['meta-level'] ?? '0'}
-                onChange={(e) => onChangeField?.('meta-level', e.target.value)}
+                value={String(fields['meta-level'] ?? fields.metaLevel ?? fields.meta_level ?? '0').replace(/^ML[\s:-]*/i, '')}
+                onChange={(e) => {
+                  const numMl = Number(e.target.value);
+                  if (onMergeFields) {
+                    onMergeFields({
+                      'meta-level': e.target.value,
+                      metaLevel: numMl,
+                      meta_level: numMl
+                    });
+                  } else {
+                    onChangeField?.('meta-level', e.target.value);
+                  }
+                }}
                 className="w-full bg-slate-950 border border-slate-800 text-purple-200 p-2.5 rounded-xl text-xs outline-none"
               >
                 {[0, 1, 2, 3, 4, 5].map((ml) => (
@@ -413,42 +454,59 @@ export default function Stage4TacticalSystems({
                 className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
               />
             </div>
-            <div>
-              <label className="block text-[10px] font-bold text-cyan-300 uppercase mb-1">
-                Range / Coverage
-              </label>
-              <input
-                type="text"
-                value={fields.range || fields.location || ''}
-                onChange={(e) => onChangeField?.('range', e.target.value)}
-                placeholder="e.g. 40m / Torso"
-                className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold text-amber-300 uppercase mb-1">
-                Armor DR / AP
-              </label>
-              <input
-                type="text"
-                value={fields.dr || fields.ap || ''}
-                onChange={(e) => onChangeField?.('dr', e.target.value)}
-                placeholder="e.g. DR 6 / AP 4"
-                className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold text-purple-300 uppercase mb-1">
-                Bio-Nodes / Weight
-              </label>
-              <input
-                type="text"
-                value={fields.nodes_consumed || fields.weight || ''}
-                onChange={(e) => onChangeField?.('nodes_consumed', e.target.value)}
-                placeholder="e.g. 2 Nodes / 1.5 kg"
-                className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
-              />
-            </div>
+            {(() => {
+              const sub = fields.propertySubcategory || draft.propertySubcategory || 'gear';
+              const isCoverageSub = ['armoring', 'augmentations', 'architecture', 'mecha'].includes(sub);
+              const isAugSub = sub === 'augmentations';
+              return (
+                <>
+                  <div>
+                    <label className="block text-[10px] font-bold text-cyan-300 uppercase mb-1">
+                      {isCoverageSub ? 'Body Location / Coverage' : 'Effective Range'}
+                    </label>
+                    <input
+                      type="text"
+                      value={isCoverageSub ? (fields.location ?? fields.range ?? '') : (fields.range ?? fields.location ?? '')}
+                      onChange={(e) => onChangeField?.(isCoverageSub ? 'location' : 'range', e.target.value)}
+                      placeholder={isCoverageSub ? 'e.g. Torso / Full-Body' : 'e.g. 40m / Medium'}
+                      className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-amber-300 uppercase mb-1">
+                      Armor DR / AP
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.dr ?? fields.ap ?? ''}
+                      onChange={(e) => {
+                        const raw = e.target.value;
+                        const apMatch = raw.match(/AP\s*[:=]?\s*(-?\d+(?:\.\d+)?)/i);
+                        if (apMatch && onMergeFields) {
+                          onMergeFields({ dr: raw, ap: Number(apMatch[1]) });
+                        } else {
+                          onChangeField?.('dr', raw);
+                        }
+                      }}
+                      placeholder="e.g. 6 (or DR 6 / AP 4)"
+                      className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-purple-300 uppercase mb-1">
+                      {isAugSub ? 'Bio-Nodes Consumed' : 'Weight (kg)'}
+                    </label>
+                    <input
+                      type="text"
+                      value={isAugSub ? (fields.nodes_consumed ?? fields.weight ?? '') : (fields.weight ?? fields.nodes_consumed ?? '')}
+                      onChange={(e) => onChangeField?.(isAugSub ? 'nodes_consumed' : 'weight', e.target.value)}
+                      placeholder={isAugSub ? 'e.g. 2' : 'e.g. 1.5'}
+                      className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
+                    />
+                  </div>
+                </>
+              );
+            })()}
           </div>
 
           <div>
@@ -651,8 +709,18 @@ export default function Stage4TacticalSystems({
               {draft.type === 'Metaphysics' ? 'Tech Level Affinity (TL 0–5)' : 'Setting Tech Level Ceiling (TL 0–5)'}
             </label>
             <select
-              value={fields['tech-level'] ?? '3'}
-              onChange={(e) => onChangeField?.('tech-level', e.target.value)}
+              value={fields['tech-level'] ?? fields.tech_level ?? fields.techLevel ?? '3'}
+              onChange={(e) => {
+                if (onMergeFields) {
+                  onMergeFields({
+                    'tech-level': e.target.value,
+                    tech_level: e.target.value,
+                    techLevel: e.target.value
+                  });
+                } else {
+                  onChangeField?.('tech-level', e.target.value);
+                }
+              }}
               className="w-full bg-slate-950 border border-slate-800 text-cyan-200 p-2.5 rounded-xl text-xs outline-none"
             >
               {[0, 1, 2, 3, 4, 5].map((tl) => (
@@ -668,13 +736,18 @@ export default function Stage4TacticalSystems({
               {draft.type === 'Metaphysics' ? 'Required Meta Level (ML 0–5)' : 'Setting Meta Level Ceiling (ML 0–5)'}
             </label>
             <select
-              value={fields.meta_level ?? fields['meta-level'] ?? '3'}
-              onChange={(e) =>
-                onMergeFields?.({
-                  'meta-level': e.target.value,
-                  meta_level: e.target.value
-                })
-              }
+              value={fields.meta_level ?? fields['meta-level'] ?? fields.metaLevel ?? '3'}
+              onChange={(e) => {
+                if (onMergeFields) {
+                  onMergeFields({
+                    'meta-level': e.target.value,
+                    meta_level: e.target.value,
+                    metaLevel: e.target.value
+                  });
+                } else {
+                  onChangeField?.('meta-level', e.target.value);
+                }
+              }}
               className="w-full bg-slate-950 border border-slate-800 text-purple-200 p-2.5 rounded-xl text-xs outline-none"
             >
               {[0, 1, 2, 3, 4, 5].map((ml) => (

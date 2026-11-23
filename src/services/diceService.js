@@ -510,7 +510,7 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
 export function rollDice(expression = '2d10', options = {}) {
   const cleanExpr = String(expression).trim();
   const is2d10 = cleanExpr.toLowerCase().startsWith('2d10') || (!cleanExpr.includes('d') && cleanExpr !== '');
-  const expandedThreat = options.expandedThreat !== undefined ? Boolean(options.expandedThreat) : true;
+  const expandedThreat = options.expandedThreat !== undefined ? Boolean(options.expandedThreat) : is2d10;
 
   // 1. Core Tangent 2d10 Check with strict clamping
   if (is2d10) {

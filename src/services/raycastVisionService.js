@@ -67,19 +67,22 @@ export function computeVisibilityPolygon(origin, walls = [], options = {}) {
   activeSegments.push({ x1: minX, y1: maxY, x2: minX, y2: minY });
 
   for (const wall of walls) {
-    if (!wall || !wall.p1 || !wall.p2) continue;
+    if (!wall) continue;
+    const p1 = wall.p1 || (wall.x1 !== undefined && wall.y1 !== undefined ? { x: wall.x1, y: wall.y1 } : null);
+    const p2 = wall.p2 || (wall.x2 !== undefined && wall.y2 !== undefined ? { x: wall.x2, y: wall.y2 } : null);
+    if (!p1 || !p2) continue;
     if (!doesWallBlockVision(wall, sensorMode)) continue;
 
     // Check if wall is within rough bounding circle
-    const d1 = Math.hypot(wall.p1.x - ox, wall.p1.y - oy);
-    const d2 = Math.hypot(wall.p2.x - ox, wall.p2.y - oy);
+    const d1 = Math.hypot(p1.x - ox, p1.y - oy);
+    const d2 = Math.hypot(p2.x - ox, p2.y - oy);
     if (d1 > maxRadius * 1.5 && d2 > maxRadius * 1.5) continue;
 
     activeSegments.push({
-      x1: wall.p1.x,
-      y1: wall.p1.y,
-      x2: wall.p2.x,
-      y2: wall.p2.y
+      x1: p1.x,
+      y1: p1.y,
+      x2: p2.x,
+      y2: p2.y
     });
   }
 
@@ -160,8 +163,12 @@ export function isPointVisible(origin, target, walls = [], sensorMode = 'standar
   if (dist === 0) return true;
 
   for (const wall of walls) {
+    if (!wall) continue;
+    const p1 = wall.p1 || (wall.x1 !== undefined && wall.y1 !== undefined ? { x: wall.x1, y: wall.y1 } : null);
+    const p2 = wall.p2 || (wall.x2 !== undefined && wall.y2 !== undefined ? { x: wall.x2, y: wall.y2 } : null);
+    if (!p1 || !p2) continue;
     if (!doesWallBlockVision(wall, sensorMode)) continue;
-    const hit = getRaySegmentIntersection(ox, oy, dx, dy, wall.p1.x, wall.p1.y, wall.p2.x, wall.p2.y);
+    const hit = getRaySegmentIntersection(ox, oy, dx, dy, p1.x, p1.y, p2.x, p2.y);
     if (hit && hit.param < 1.0) {
       return false; // Vision is occluded by this wall
     }

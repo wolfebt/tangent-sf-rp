@@ -8,14 +8,25 @@
 import * as Y from 'yjs';
 import { useEngineStore } from '../engine/state/VolatileSharder.ts';
 import { YjsProviderBridge } from '../engine/network/YjsProviderBridge.ts';
+import { FirestoreDebouncer } from '../engine/network/FirestoreDebouncer.ts';
 
 export type UserVttRole = 'architect' | 'operative';
+
+export interface VttSyncPersistenceConfig {
+  campaignId: string;
+  sessionId: string;
+  intervalMs?: number;
+  ownerId?: string;
+  memberIds?: string[];
+  firestoreInstance?: any;
+}
 
 export interface VttSyncConfig {
   role?: UserVttRole;
   personaId?: string;
   room?: any; // LiveKit Room instance if active
   channelName?: string;
+  persistence?: VttSyncPersistenceConfig;
 }
 
 export class VttMultiplayerSyncService {
@@ -24,10 +35,12 @@ export class VttMultiplayerSyncService {
   private tacticalTokensMap: Y.Map<any>;
   private broadcastChannel: BroadcastChannel | null = null;
   private yjsBridge: YjsProviderBridge | null = null;
+  private persistenceDebouncer: FirestoreDebouncer | null = null;
   private role: UserVttRole = 'architect';
   private personaId: string | null = null;
   private isInitialized = false;
   private unsubscribeMapObserver: (() => void) | null = null;
+  private docUpdateHandler: ((update: Uint8Array, origin: any) => void) | null = null;
 
   constructor() {
     this.doc = new Y.Doc({ gc: true });
@@ -81,11 +94,17 @@ export class VttMultiplayerSyncService {
     }
 
     // 3. Listen to Yjs CRDT updates to broadcast to peers
-    this.doc.on('update', (update: Uint8Array, origin: any) => {
+    this.docUpdateHandler = (update: Uint8Array, origin: any) => {
       if (origin !== 'network') {
         this.broadcastYjsUpdate(update);
       }
-    });
+    };
+    this.doc.on('update', this.docUpdateHandler);
+
+    // 4. Optional throttled Firestore CRDT persistence (only when explicitly configured)
+    if (config.persistence?.campaignId && config.persistence?.sessionId) {
+      this.attachPersistence(config.persistence);
+    }
 
     // 4. Observe tactical token map changes to update local useEngineStore
     const observer = (event: Y.YMapEvent<any>, transaction: Y.Transaction) => {
@@ -188,6 +207,16 @@ export class VttMultiplayerSyncService {
     }
   }
 
+  public broadcastFogUpdate(mapId: string, fogEnabled: boolean, fog?: any[]): void {
+    const payload = { type: 'fog_update', mapId, fogEnabled, ...(fog !== undefined ? { fog } : {}) };
+    if (this.broadcastChannel) {
+      this.broadcastChannel.postMessage(payload);
+    }
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('stage-remote-fog-update', { detail: { mapId, fogEnabled, fog } }));
+    }
+  }
+
   private handleBroadcastMessage(data: any): void {
     if (!data) return;
 
@@ -202,6 +231,33 @@ export class VttMultiplayerSyncService {
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('stage-remote-token-ghost', { detail: data }));
       }
+    } else if (data.type === 'fog_update') {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('stage-remote-fog-update', { detail: data }));
+      }
+    }
+  }
+
+  public attachPersistence(config: VttSyncPersistenceConfig): void {
+    this.detachPersistence();
+    if (!config?.campaignId || !config?.sessionId) return;
+    this.persistenceDebouncer = new FirestoreDebouncer(
+      config.campaignId,
+      config.sessionId,
+      this.doc,
+      config.intervalMs ?? 5000,
+      config.firestoreInstance,
+      {
+        ownerId: config.ownerId,
+        memberIds: config.memberIds
+      }
+    );
+  }
+
+  public detachPersistence(): void {
+    if (this.persistenceDebouncer) {
+      this.persistenceDebouncer.destroy();
+      this.persistenceDebouncer = null;
     }
   }
 
@@ -236,11 +292,17 @@ export class VttMultiplayerSyncService {
   }
 
   public destroy(): void {
+    this.detachPersistence();
+    if (this.docUpdateHandler) {
+      this.doc.off('update', this.docUpdateHandler);
+      this.docUpdateHandler = null;
+    }
     if (this.unsubscribeMapObserver) {
       this.unsubscribeMapObserver();
       this.unsubscribeMapObserver = null;
     }
     if (this.broadcastChannel) {
+      this.broadcastChannel.onmessage = null;
       this.broadcastChannel.close();
       this.broadcastChannel = null;
     }

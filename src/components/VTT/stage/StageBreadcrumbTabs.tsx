@@ -41,7 +41,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { NewMapModal } from './NewMapModal';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { 
-  getStarterMapsCollection, 
   createBlankCanvas, 
   createDerelictStarshipMap, 
   createResearchOutpostMap 
@@ -65,6 +64,7 @@ export interface StageBreadcrumbTabsProps {
 export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   currentMapId,
   onSelectMap,
+  onOpenUnderlayModal,
   is3DActive = false,
   onToggle3D,
   activeStageTab = 'map',
@@ -76,10 +76,6 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   const {
     isZenMode,
     toggleZenMode,
-    isRightPanelOpen,
-    setIsRightPanelOpen,
-    activeCockpitTab,
-    setActiveCockpitTab,
     isGridVisible,
     toggleGridVisible,
     gridSnap,
@@ -266,18 +262,6 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
     e.target.value = '';
   };
 
-  // Auto-initialize starter maps collection if no scenes exist in universe
-  useEffect(() => {
-    if (availableMaps.length === 0 && addMap) {
-      const starters = getStarterMapsCollection();
-      starters.forEach((m) => addMap(m));
-      if (starters[0]) {
-        onSelectMap(starters[0].id);
-        if (setActiveMapId) setActiveMapId(starters[0].id);
-      }
-    }
-  }, [availableMaps.length, addMap, onSelectMap, setActiveMapId]);
-
   // Listen for open-new-map-modal and preset loading events from Architect Console
   useEffect(() => {
     const handleOpenModal = () => setIsNewMapModalOpen(true);
@@ -413,6 +397,22 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                 >
                   <ImageIcon size={13} className="text-sky-400" />
                   <span>Import Battlemap Image...</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    if (onOpenUnderlayModal) {
+                      onOpenUnderlayModal();
+                    } else {
+                      VttEventBus.emit('open-underlay-modal');
+                    }
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Sliders size={13} className="text-cyan-400" />
+                  <span>Blueprint Underlay Calibration...</span>
                 </button>
                 <button
                   type="button"
@@ -838,14 +838,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           type="button"
           onClick={() => {
             AudioService.playTerminalBeep(1400, 0.03);
-            setIsRightPanelOpen(true);
-            setActiveCockpitTab('aime');
+            VttEventBus.emit('toggle-stage-aime');
           }}
-          className={`px-2.5 py-1 rounded-xl border text-[10.5px] font-mono transition-all cursor-pointer flex items-center gap-1.5 shadow-sm ${
-            isRightPanelOpen && activeCockpitTab === 'aime'
-              ? 'bg-amber-950 border-amber-500 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
-              : 'bg-slate-900/90 border-slate-800 text-amber-400 hover:bg-slate-800'
-          }`}
+          className="px-2.5 py-1 rounded-xl border text-[10.5px] font-mono transition-all cursor-pointer flex items-center gap-1.5 shadow-sm bg-slate-900/90 border-slate-800 text-amber-400 hover:bg-slate-800 hover:border-amber-500/60"
           title="Launch AIME Tactical Co-Pilot"
         >
           <Sparkles size={12} className="text-amber-400 animate-pulse" />

@@ -36,7 +36,12 @@ import AudioService from '../../../../services/audioService';
 import { rollDice } from '../../../../services/diceService';
 import { CANONICAL_PING_TYPES } from '../../../../services/mapPingService';
 import { DEFAULT_WEAPONRY } from '../../../../data/weaponryData';
-import { HIT_LOCATIONS } from './CombatResolutionModal';
+import { HIT_LOCATIONS } from '../../../../data/combatConstants';
+import {
+  resolveTangent2d10Check,
+  calculateDamageMitigation,
+  CANONICAL_DEFAULT_DEFENSE_CR
+} from '../../../../engine/rules/CanonicalCombatMath';
 import { useFolio } from '../../../../context/FolioContext';
 import { VttEventBus } from '../../../../utils/vttEventBus';
 import { TacticalPlayView } from '../../../../components/Folio/views/TacticalPlayView';
@@ -141,10 +146,13 @@ function resolveCombatSkillForWeapon(weapon, persona = {}) {
   return {
     skillKey,
     skillLabel,
+    skillName: skillLabel,
     rank,
     rankTier,
     focusBonus,
     unlockedAttacks,
+    attackCount: unlockedAttacks,
+    description: `${rankTier} Tier • ${isFullRound ? 'Full-Round Action (x1 Strike)' : `${unlockedAttacks} attack${unlockedAttacks === 1 ? '' : 's'}/round`}`,
     ladder,
     isFullRound
   };
@@ -178,9 +186,12 @@ function resolveActiveDefenseReactions(persona = {}) {
   } else if (defenseRank <= 20) {
     allowedReactions = 4;
     tierLabel = 'Master';
-  } else {
+  } else if (defenseRank <= 25) {
     allowedReactions = 5;
     tierLabel = 'Grand Master';
+  } else {
+    allowedReactions = 6;
+    tierLabel = 'Pinnacle';
   }
 
   const reactionSlots = [];
@@ -194,6 +205,7 @@ function resolveActiveDefenseReactions(persona = {}) {
 
   return {
     defenseRank,
+    defenseSkill: 'Defense',
     allowedReactions,
     tierLabel,
     reactionSlots
@@ -277,6 +289,7 @@ export const OperativeCockpitRail = ({
   const [edgeAiming, setEdgeAiming] = useState(false);
   const [edgeFlanking, setEdgeFlanking] = useState(false);
   const [edgeHighGround, setEdgeHighGround] = useState(false);
+  const [adrenalineBonus, setAdrenalineBonus] = useState(0);
   const [hasAdvantage, setHasAdvantage] = useState(false);
   const [hasDisadvantage, setHasDisadvantage] = useState(false);
   const [activeAccordion, setActiveAccordion] = useState('combat'); // 'profile' | 'movement' | 'combat' | 'abilities'
@@ -331,13 +344,13 @@ export const OperativeCockpitRail = ({
       name: 'Operator Lead',
       type: 'operative',
       health: { current: 30, max: 30 },
-      vitality: { current: 25, max: 25 },
-      structure: { current: 50, max: 50 },
+      vitality: { current: 30, max: 30 },
+      structure: { current: 60, max: 60 },
       sp: 12,
       maxSp: 12,
-      armorDr: 4,
-      staminaDr: 2,
-      defense: 12,
+      armorDr: 0,
+      staminaDr: 0,
+      defense: CANONICAL_DEFAULT_DEFENSE_CR,
       speed: 6,
       conditions: []
     };
@@ -359,42 +372,61 @@ export const OperativeCockpitRail = ({
     if (characterData && (characterData.id === activeToken.id || characterData['char-name'] === activeToken.label || !activeTokenId)) {
       return characterData;
     }
+    const activeIsSynth = Boolean(
+      activeToken.is_synthetic ||
+      activeToken.isSynthetic ||
+      activeToken.type === 'vehicle' ||
+      activeToken.type === 'synthetic' ||
+      String(activeToken.species || '').toLowerCase().includes('synthetic')
+    );
+    const resolvedMaxHp = activeToken.base_health ?? activeToken.base_hp ?? activeToken.health?.max ?? activeToken.maxHp ?? 30;
+    const resolvedCurHp = activeToken.current_health ?? activeToken.current_hp ?? activeToken.health?.current ?? activeToken.hp ?? resolvedMaxHp;
+    const resolvedMaxVit = activeToken.base_vitality ?? activeToken.vitality?.max ?? 30;
+    const resolvedCurVit = activeToken.current_vitality ?? activeToken.vitality?.current ?? resolvedMaxVit;
+    const resolvedMaxStruct = activeToken.base_structure ?? activeToken.structure?.max ?? 60;
+    const resolvedCurStruct = activeToken.current_structure ?? activeToken.structure?.current ?? resolvedMaxStruct;
     return {
       id: activeToken.id,
       'char-name': activeToken.label || activeToken.name || 'Operator',
       'char-species': activeToken.species || 'Human',
       'char-archetype': activeToken.archetype || 'Operative',
-      health: activeToken.health?.max || activeToken.maxHp || 30,
-      current_health: activeToken.health?.current ?? activeToken.hp ?? 30,
-      vitality: activeToken.vitality?.max || 25,
-      current_vitality: activeToken.vitality?.current ?? 25,
-      structure: activeToken.structure?.max || 50,
-      current_structure: activeToken.structure?.current ?? 50,
-      sp: activeToken.sp || activeToken.shield?.current || 10,
-      max_sp: activeToken.maxSp || activeToken.shield?.max || 10,
-      isSynthetic: activeToken.isSynthetic || activeToken.type === 'vehicle' || activeToken.type === 'synthetic',
+      health: resolvedMaxHp,
+      current_health: resolvedCurHp,
+      vitality: resolvedMaxVit,
+      current_vitality: resolvedCurVit,
+      structure: resolvedMaxStruct,
+      current_structure: resolvedCurStruct,
+      sp: activeToken.sp ?? activeToken.shield?.current ?? 10,
+      max_sp: activeToken.maxSp ?? activeToken.max_sp ?? activeToken.shield?.max ?? 10,
+      isSynthetic: activeIsSynth,
       attacks: activeToken.attacks || [],
       weapons: activeToken.weapons || [],
       portrait_url: activeToken.image_url || activeToken.imageUrl || activeToken.avatar
     };
   }, [activeToken, savedPersonas, characterData, activeTokenId]);
 
-  // Is unit synthetic or vehicle?
-  const isSynthetic = activeToken.isSynthetic || activeToken.type === 'synthetic' || activeToken.type === 'vehicle';
+  // Is unit synthetic or vehicle? (Reads snake_case FusedToken fields first)
+  const isSynthetic = Boolean(
+    activeToken.is_synthetic ||
+    activeToken.isSynthetic ||
+    activeToken.type === 'synthetic' ||
+    activeToken.type === 'vehicle' ||
+    String(activeToken.species || '').toLowerCase().includes('synthetic')
+  );
 
-  // Current Vitals
-  const curHealth = activeToken.health?.current ?? activeToken.hp ?? 30;
-  const maxHealth = activeToken.health?.max ?? activeToken.maxHp ?? 30;
-  const curVitality = activeToken.vitality?.current ?? 25;
-  const maxVitality = activeToken.vitality?.max ?? 25;
-  const curStructure = activeToken.structure?.current ?? 50;
-  const maxStructure = activeToken.structure?.max ?? 50;
+  // Current Vitals (aligned with snake_case FusedToken from VolatileSharder)
+  const maxHealth = activeToken.base_health ?? activeToken.base_hp ?? activeToken.health?.max ?? activeToken.maxHp ?? 30;
+  const curHealth = activeToken.current_health ?? activeToken.current_hp ?? activeToken.health?.current ?? activeToken.hp ?? maxHealth;
+  const maxVitality = activeToken.base_vitality ?? activeToken.vitality?.max ?? 30;
+  const curVitality = activeToken.current_vitality ?? activeToken.vitality?.current ?? maxVitality;
+  const maxStructure = activeToken.base_structure ?? activeToken.structure?.max ?? 60;
+  const curStructure = activeToken.current_structure ?? activeToken.structure?.current ?? maxStructure;
   const curShield = activeToken.sp ?? activeToken.shield?.current ?? 10;
-  const maxShield = activeToken.maxSp ?? activeToken.shield?.max ?? 10;
-  const armorDr = activeToken.armorDr ?? activeToken.toughness ?? 4;
-  const staminaDr = activeToken.staminaDr ?? 2;
-  const conditions = activeToken.conditions || [];
-  const stability = activeToken.stability ?? 5; // Bleedout Stability Pool (RULE-CMB-06)
+  const maxShield = activeToken.maxSp ?? activeToken.max_sp ?? activeToken.shield?.max ?? 10;
+  const armorDr = activeToken.armor_dr ?? activeToken.armorDr ?? activeToken.toughness ?? 0;
+  const staminaDr = activeToken.stamina_dr ?? activeToken.staminaDr ?? 0;
+  const conditions = activeToken.active_conditions ?? activeToken.conditions ?? [];
+  const stability = activeToken.stability_points ?? activeToken.stability ?? 5; // Bleedout Stability Pool (RULE-CMB-06)
 
   // Weapons list
   const availableWeapons = useMemo(() => {
@@ -435,8 +467,11 @@ export const OperativeCockpitRail = ({
 
   // Called Shot lookup
   const activeCalledShot = useMemo(() => {
-    if (selectedCalledShotId === 'center_mass') {
+    if (selectedCalledShotId === 'center_mass' || selectedCalledShotId === 'torso') {
       return { id: 'center_mass', label: 'Center Mass', penalty: -1, saveType: 'Fortitude', effect: 'Winded (-2 Actions)' };
+    }
+    if (selectedCalledShotId === 'optics') {
+      return { id: 'optics', label: 'Optics / Sensors', penalty: -5, saveType: 'Reason', effect: 'Blind / Sensor Jam (-4 Ranged)' };
     }
     const loc = HIT_LOCATIONS.find(h => h.id === selectedCalledShotId);
     if (loc) {
@@ -448,7 +483,7 @@ export const OperativeCockpitRail = ({
         effect: loc.traumaEffect
       };
     }
-    return { id: 'torso', label: 'Torso', penalty: -2, saveType: 'Fortitude', effect: 'Winded' };
+    return { id: 'center_mass', label: 'Torso', penalty: -1, saveType: 'Fortitude', effect: 'Winded (-2 Actions)' };
   }, [selectedCalledShotId]);
 
   // Canonical Skill & Action Resolutions (RULE-SKL-01 & RULE-SKL-02)
@@ -492,19 +527,64 @@ export const OperativeCockpitRail = ({
     }
   };
 
-  // Consumables / Abilities
-  const handleUseConsumable = (item, healAmount = 15) => {
+  // Consumables / Abilities ('heal' | 'shield' | 'adrenaline')
+  const handleUseConsumable = (item, amount = 15, effectType = 'heal') => {
     AudioService.playTerminalBeep(1100, 0.1);
+    if (effectType === 'shield') {
+      const nextShield = Math.min(maxShield, curShield + amount);
+      onUpdateToken?.(activeToken.id, {
+        sp: nextShield,
+        maxSp: maxShield,
+        shield: { ...(activeToken.shield || {}), current: nextShield, max: maxShield }
+      });
+      if (onTriggerFloatingText) {
+        onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 140, `SHIELD: ${item} (+${amount} SP)`, 'shield');
+      }
+      if (onBroadcastMessage) {
+        onBroadcastMessage(`[OPERATOR TACTICAL]: ${activeToken.label || activeToken.name || 'Operator'} recharged shields (+${amount} SP) via ${item}`);
+      }
+      return;
+    }
+
+    if (effectType === 'adrenaline') {
+      setAdrenalineBonus(amount);
+      if (onTriggerFloatingText) {
+        onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 140, `+${amount} STRIKE (ADRENALINE)`, 'buff');
+      }
+      if (onBroadcastMessage) {
+        onBroadcastMessage(`[OPERATOR TACTICAL]: ${activeToken.label || activeToken.name || 'Operator'} injected ${item} (+${amount} Strike on next attack)`);
+      }
+      return;
+    }
+
     if (isSynthetic) {
-      if (onUpdateTokenStructure) onUpdateTokenStructure(activeToken.id, Math.min(maxStructure, curStructure + healAmount), false, healAmount);
+      const healedStruct = Math.min(maxStructure, curStructure + amount);
+      if (onUpdateTokenStructure) {
+        onUpdateTokenStructure(activeToken.id, healedStruct, false, amount);
+      } else if (onUpdateToken) {
+        onUpdateToken(activeToken.id, {
+          current_structure: healedStruct,
+          current_hp: healedStruct,
+          structure: { ...(activeToken.structure || {}), current: healedStruct, max: maxStructure }
+        });
+      }
     } else {
-      if (onUpdateTokenHealth) onUpdateTokenHealth(activeToken.id, Math.min(maxHealth, curHealth + healAmount), false, healAmount);
+      const healedHp = Math.min(maxHealth, curHealth + amount);
+      if (onUpdateTokenHealth) {
+        onUpdateTokenHealth(activeToken.id, healedHp, false, amount);
+      } else if (onUpdateToken) {
+        onUpdateToken(activeToken.id, {
+          current_health: healedHp,
+          current_hp: healedHp,
+          health: { ...(activeToken.health || {}), current: healedHp, max: maxHealth }
+        });
+      }
     }
     if (onTriggerFloatingText) {
-      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 140, `USED: ${item} (+${healAmount})`, 'heal');
+      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 140, `USED: ${item} (+${amount})`, 'heal');
     }
     if (onBroadcastMessage) {
-      onBroadcastMessage(`[OPERATOR TACTICAL]: ${activeToken.label || 'Operator'} deployed ${item}`);
+      onBroadcastMessage(`[OPERATOR TACTICAL]: ${activeToken.label || activeToken.name || 'Operator'} deployed ${item}`);
     }
   };
 
@@ -518,43 +598,72 @@ export const OperativeCockpitRail = ({
     // 2. Called Shot Penalty
     const calledPenalty = activeCalledShot.penalty;
 
-    // 3. Edge Modifiers
+    // 3. Edge & Adrenaline Modifiers
     let edgeMod = 0;
     if (edgeAiming) edgeMod += 2;
     if (edgeFlanking) edgeMod += 2;
     if (edgeHighGround) edgeMod += 2;
+    if (adrenalineBonus > 0) {
+      edgeMod += adrenalineBonus;
+      setAdrenalineBonus(0);
+    }
 
     const baseMod = activeWeapon.mod || 3;
     const totalStrikeMod = baseMod + mapPenalty + calledPenalty + edgeMod + focusBonus;
 
-    // 4. Roll 2d10 using canonical BASTION dice engine
-    const rollExpr = hasAdvantage ? '2d10kh1' : hasDisadvantage ? '2d10kl1' : '2d10';
-    const diceResult = rollDice(rollExpr);
-    const d10Sum = diceResult.rolls.reduce((a, b) => a + b, 0);
-    const isCritSuccess = diceResult.rolls[0] === 10 && diceResult.rolls[1] === 10;
-    const isCritFumble = diceResult.rolls[0] === 1 && diceResult.rolls[1] === 1;
+    // 4. Roll 2d10 using canonical BASTION dice engine (+1d10 ADV/DIS keep highest/lowest 2)
+    const diceResult = rollDice('2d10', {
+      advantageDice: hasAdvantage ? 1 : hasDisadvantage ? -1 : 0,
+      expandedThreat: true
+    });
+    const keptNums = Array.isArray(diceResult.keptDice) && diceResult.keptDice.length >= 2
+      ? diceResult.keptDice.slice(0, 2).map((n) => Number(n) || 0)
+      : (diceResult.rolls || [])
+          .map((r) => (r && typeof r === 'object' ? Number(r.value ?? 0) : Number(r) || 0))
+          .slice(0, 2);
+    const d1 = keptNums[0] ?? 5;
+    const d2 = keptNums[1] ?? 5;
+    const d10Sum = d1 + d2;
 
-    const effectiveDiceScore = isCritSuccess ? (d10Sum + 10) : isCritFumble ? -10 : d10Sum;
-    let finalStrikeScore = effectiveDiceScore + totalStrikeMod;
+    // 5. Defender Target (CR 15 canonical baseline) & 2d10 Check (Defender wins ties on Opposed strikes)
+    const targetDefense = resolvedTargetToken
+      ? (resolvedTargetToken.defense_dc ?? resolvedTargetToken.defense ?? CANONICAL_DEFAULT_DEFENSE_CR)
+      : CANONICAL_DEFAULT_DEFENSE_CR;
+    const check = resolveTangent2d10Check({
+      d1,
+      d2,
+      modifier: totalStrikeMod,
+      targetCR: targetDefense,
+      isOpposed: true
+    });
+    const isCritSuccess = check.isCrit;
+    const isCritFumble = check.isFumble;
+    const finalStrikeScore = check.total;
+    const isHit = check.isSuccess;
 
-    // 5. Defender Target
-    const targetDefense = resolvedTargetToken ? (resolvedTargetToken.defense || 12) : 15;
-    // BASTION RULE-RES-01: Opposed roll, Attacker strictly exceeds Defender to hit. DEFENDER WINS TIES!
-    const isHit = isCritSuccess || (!isCritFumble && finalStrikeScore > targetDefense);
-
-    // 6. Damage Calculation (RULE-CMB-03)
+    // 6. Damage Calculation (RULE-CMB-03: 2x base weapon dice on crit, zero damage floor)
     let netDamage = 0;
     let targetShieldDmg = 0;
     let targetHpDmg = 0;
 
     if (isHit) {
-      const dmgDiceExpr = isCritSuccess ? `${activeWeapon.damage}*2` : activeWeapon.damage;
-      const dmgRoll = rollDice(dmgDiceExpr);
-      const rawDmg = Math.max(1, dmgRoll.total);
-      
-      const targetArmorDr = resolvedTargetToken?.armorDr ?? resolvedTargetToken?.toughness ?? 3;
-      const effectiveDr = Math.max(0, targetArmorDr - (activeWeapon.ap || 0));
-      netDamage = Math.max(1, rawDmg - effectiveDr);
+      const baseDmgExpr = String(activeWeapon.damage || '2d8');
+      const dmgDiceExpr = isCritSuccess
+        ? baseDmgExpr.replace(/(\d+)d(\d+)/gi, (_, count, sides) => `${Number(count) * 2}d${sides}`)
+        : baseDmgExpr;
+      const dmgRoll = rollDice(dmgDiceExpr, { expandedThreat: false });
+      const rawDmg = Math.max(0, Number(dmgRoll.finalTotal ?? dmgRoll.total ?? 0));
+
+      const targetArmorDr = resolvedTargetToken?.armor_dr ?? resolvedTargetToken?.armorDr ?? resolvedTargetToken?.toughness ?? 0;
+      const targetStaminaDr = resolvedTargetToken?.stamina_dr ?? resolvedTargetToken?.staminaDr ?? 0;
+      const mitigation = calculateDamageMitigation({
+        rawDamage: rawDmg,
+        armorLayers: [Number(targetArmorDr) || 0],
+        penetration: Number(activeWeapon.ap || 0),
+        damageType: activeWeapon.damageType || 'kinetic',
+        staminaToughness: Number(targetStaminaDr) || 0
+      });
+      netDamage = mitigation.netDamage;
 
       // Distribute to Target Shields first
       const targetCurShield = resolvedTargetToken?.sp ?? resolvedTargetToken?.shield?.current ?? 0;
@@ -571,7 +680,7 @@ export const OperativeCockpitRail = ({
       weapon: activeWeapon.name,
       targetName: resolvedTargetToken?.label || resolvedTargetToken?.name || 'Target',
       d10Sum,
-      rolls: diceResult.rolls,
+      rolls: keptNums,
       totalStrikeMod,
       finalStrikeScore,
       targetDefense,
@@ -589,7 +698,9 @@ export const OperativeCockpitRail = ({
 
     // Audio & Visual feedback
     if (isCritSuccess) {
-      AudioService.playCriticalRoll();
+      AudioService.playCriticalChime(true);
+    } else if (isCritFumble) {
+      AudioService.playCriticalChime(false);
     } else if (isHit) {
       AudioService.playCombatHit(netDamage >= 12);
     } else {
@@ -613,7 +724,7 @@ export const OperativeCockpitRail = ({
 
     // Broadcast to Adventure Log
     if (onBroadcastMessage) {
-      const logMsg = `[BASTION ARBITRATION]: ${activeToken.label} struck ${resultSummary.targetName} with ${activeWeapon.name} [Location: ${activeCalledShot.label}, MAP: ${mapObj.label}]. Roll: 2d10(${diceResult.rolls.join('+')})${totalStrikeMod >= 0 ? '+' : ''}${totalStrikeMod} = ${finalStrikeScore} vs DEF ${targetDefense}. Result: ${isHit ? `HIT (-${netDamage} Net Damage)` : 'DEFENDER REPELS'}`;
+      const logMsg = `[BASTION ARBITRATION]: ${activeToken.label} struck ${resultSummary.targetName} with ${activeWeapon.name} [Location: ${activeCalledShot.label}, MAP: ${mapObj.label}]. Roll: 2d10(${keptNums.join('+')})${totalStrikeMod >= 0 ? '+' : ''}${totalStrikeMod} = ${finalStrikeScore} vs DEF ${targetDefense}. Result: ${isHit ? `HIT (-${netDamage} Net Damage)` : 'DEFENDER REPELS'}`;
       onBroadcastMessage(logMsg);
     }
 
@@ -1295,9 +1406,10 @@ export const OperativeCockpitRail = ({
                 className="bg-slate-900 border border-slate-800 rounded p-1 text-[11px] text-purple-300 outline-none font-mono"
               >
                 <option value="center_mass">Torso: Center Mass (-1 Strike) • Fortitude vs Winded</option>
-                <option value="head">Head / Sensory (-4 Strike) • Reason vs Stunned/KO</option>
-                <option value="right_arm">Right Arm (-4 Strike) • Reflex vs Disarm</option>
-                <option value="left_arm">Left Arm (-4 Strike) • Reflex vs Disarm</option>
+                <option value="head">Head (-2 Strike) • Reason vs Stunned/KO</option>
+                <option value="optics">Optics / Sensors (-5 Strike) • Reason vs Blinded</option>
+                <option value="right_arm">Right Arm (-2 Strike) • Reflex vs Disarm</option>
+                <option value="left_arm">Left Arm (-2 Strike) • Reflex vs Disarm</option>
                 <option value="right_leg">Right Leg (-2 Strike) • Might vs Hobbled</option>
                 <option value="left_leg">Left Leg (-2 Strike) • Might vs Hobbled</option>
               </select>
@@ -1353,7 +1465,7 @@ export const OperativeCockpitRail = ({
                     : 'bg-slate-900 border-slate-800 text-slate-400'
                 }`}
               >
-                ADV (2d10kh1)
+                ADV (3d10kh2)
               </button>
               <button
                 type="button"
@@ -1367,8 +1479,18 @@ export const OperativeCockpitRail = ({
                     : 'bg-slate-900 border-slate-800 text-slate-400'
                 }`}
               >
-                DIS (2d10kl1)
+                DIS (3d10kl2)
               </button>
+              {adrenalineBonus > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setAdrenalineBonus(0)}
+                  className="px-2 py-0.5 rounded border border-purple-500 bg-purple-950/80 text-purple-200 text-[9px] font-bold cursor-pointer"
+                  title="Active Adrenaline Shot bonus (click to clear)"
+                >
+                  Adrenaline (+{adrenalineBonus})
+                </button>
+              )}
             </div>
 
             {/* Target Information */}
@@ -1379,7 +1501,7 @@ export const OperativeCockpitRail = ({
               </span>
               <span className="font-mono font-bold text-red-300 truncate max-w-[150px]">
                 {resolvedTargetToken?.label || resolvedTargetToken?.name || 'No Target Selected'}
-                {resolvedTargetToken && ` (DEF ${resolvedTargetToken.defense || 12})`}
+                {resolvedTargetToken && ` (DEF ${resolvedTargetToken.defense_dc ?? resolvedTargetToken.defense ?? CANONICAL_DEFAULT_DEFENSE_CR})`}
               </span>
             </div>
 
@@ -1420,28 +1542,28 @@ export const OperativeCockpitRail = ({
             <div className="grid grid-cols-2 gap-1.5 text-[10px] font-mono">
               <button
                 type="button"
-                onClick={() => handleUseConsumable('Med-Stim Alpha', 15)}
+                onClick={() => handleUseConsumable('Med-Stim Alpha', 15, 'heal')}
                 className="p-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-emerald-900/60 text-emerald-300 font-bold text-left cursor-pointer transition-all"
               >
                 💉 Med-Stim (+15)
               </button>
               <button
                 type="button"
-                onClick={() => handleUseConsumable('Shield Recharger', 10)}
+                onClick={() => handleUseConsumable('Shield Recharger', 10, 'shield')}
                 className="p-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-cyan-900/60 text-cyan-300 font-bold text-left cursor-pointer transition-all"
               >
                 ⚡ Shield Cell (+10)
               </button>
               <button
                 type="button"
-                onClick={() => handleUseConsumable('Nanite Patch', 25)}
+                onClick={() => handleUseConsumable('Nanite Patch', 25, 'heal')}
                 className="p-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-amber-900/60 text-amber-300 font-bold text-left cursor-pointer transition-all"
               >
                 🧬 Nanite Patch (+25)
               </button>
               <button
                 type="button"
-                onClick={() => handleUseConsumable('Adrenaline Shot', 10)}
+                onClick={() => handleUseConsumable('Adrenaline Shot', 2, 'adrenaline')}
                 className="p-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-purple-900/60 text-purple-300 font-bold text-left cursor-pointer transition-all"
               >
                 🔋 Adrenaline Shot (+2 Strike)

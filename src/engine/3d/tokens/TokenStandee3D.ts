@@ -7,6 +7,7 @@
 
 import * as THREE from 'three';
 import type { FusedToken } from '../../state/VolatileSharder';
+import { feetToWorldUnits } from '../scaleConstants.ts';
 
 export interface Token3DOptions {
   baseRadius?: number;        // in world units (default 24 = standard 5ft footprint)
@@ -31,15 +32,18 @@ export class TokenStandee3D {
     // Plinth disc base
     this.baseGeometry = new THREE.CylinderGeometry(this.baseRadius, this.baseRadius * 1.05, 4, 32);
     this.baseGeometry.translate(0, 2, 0);
+    this.baseGeometry.userData.shared = true;
 
     // Faction glowing rim ring
     this.baseRimGeometry = new THREE.RingGeometry(this.baseRadius * 0.95, this.baseRadius * 1.05, 32);
     this.baseRimGeometry.rotateX(-Math.PI / 2);
     this.baseRimGeometry.translate(0, 4.1, 0);
+    this.baseRimGeometry.userData.shared = true;
 
     // Upright rectangular card / billboard
     this.defaultStandeeGeometry = new THREE.PlaneGeometry(this.standeeHeight * 0.85, this.standeeHeight);
     this.defaultStandeeGeometry.translate(0, this.standeeHeight / 2 + 4, 0);
+    this.defaultStandeeGeometry.userData.shared = true;
   }
 
   /**
@@ -55,8 +59,8 @@ export class TokenStandee3D {
     group.name = `Token3D_${token.id}`;
 
     // World placement: X = x, Z = y (2D coordinates map to XZ plane in 3D)
-    // Elevation: elevation_ft in Tangent (5ft = 35 world units / 1 cell)
-    const elevationWorld = ((token.elevation_ft || 0) / 5) * 35;
+    // Elevation: canonical 14 world units per foot (70 units per 5ft cell)
+    const elevationWorld = feetToWorldUnits(token.elevation_ft || 0);
     group.position.set(token.x, elevationWorld, token.y);
 
     // Store metadata on userData for raycasting clicks and multi-deck slicing
@@ -147,38 +151,50 @@ export class TokenStandee3D {
         side: THREE.DoubleSide,
         color: isDowned ? 0xef4444 : 0xffffff
       });
-    } else {
-      // Procedural fallback standee texture with token initial
-      const canvas = document.createElement('canvas');
-      canvas.width = 256;
-      canvas.height = 320;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        // Dark background with border
-        ctx.fillStyle = isDowned ? '#450a0a' : (token.is_persona ? '#083344' : '#1e1b4b');
-        ctx.fillRect(0, 0, 256, 320);
+    } else if (typeof document !== 'undefined') {
+      const cacheKey = `procedural:${token.id}:${token.name || ''}:${Boolean(token.is_persona)}:${isDowned ? 'down' : 'up'}`;
+      let canvasTexture = this.tokenTextures.get(cacheKey);
+      if (!canvasTexture) {
+        // Procedural fallback standee texture with token initial
+        const canvas = document.createElement('canvas');
+        canvas.width = 256;
+        canvas.height = 320;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          // Dark background with border
+          ctx.fillStyle = isDowned ? '#450a0a' : (token.is_persona ? '#083344' : '#1e1b4b');
+          ctx.fillRect(0, 0, 256, 320);
 
-        ctx.strokeStyle = token.is_persona ? '#22d3ee' : '#a855f7';
-        ctx.lineWidth = 10;
-        ctx.strokeRect(5, 5, 246, 310);
+          ctx.strokeStyle = token.is_persona ? '#22d3ee' : '#a855f7';
+          ctx.lineWidth = 10;
+          ctx.strokeRect(5, 5, 246, 310);
 
-        // Name / Initial
-        ctx.fillStyle = '#f8fafc';
-        ctx.font = 'bold 72px monospace';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        const initial = (token.name || 'U').substring(0, 2).toUpperCase();
-        ctx.fillText(initial, 128, 140);
+          // Name / Initial
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = 'bold 72px monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          const initial = (token.name || 'U').substring(0, 2).toUpperCase();
+          ctx.fillText(initial, 128, 140);
 
-        ctx.font = 'bold 24px monospace';
-        ctx.fillStyle = '#94a3b8';
-        const nameShort = (token.name || 'Unit').substring(0, 12);
-        ctx.fillText(nameShort, 128, 240);
+          ctx.font = 'bold 24px monospace';
+          ctx.fillStyle = '#94a3b8';
+          const nameShort = (token.name || 'Unit').substring(0, 12);
+          ctx.fillText(nameShort, 128, 240);
+        }
+
+        canvasTexture = new THREE.CanvasTexture(canvas);
+        canvasTexture.userData.shared = true;
+        this.tokenTextures.set(cacheKey, canvasTexture);
       }
-
-      const canvasTexture = new THREE.CanvasTexture(canvas);
       material = new THREE.MeshStandardMaterial({
         map: canvasTexture,
+        roughness: 0.4,
+        side: THREE.DoubleSide
+      });
+    } else {
+      material = new THREE.MeshStandardMaterial({
+        color: isDowned ? 0x450a0a : (token.is_persona ? 0x083344 : 0x1e1b4b),
         roughness: 0.4,
         side: THREE.DoubleSide
       });
@@ -291,6 +307,7 @@ export class TokenStandee3D {
     const texture = this.textureLoader.load(url, () => {
       texture.needsUpdate = true;
     });
+    texture.userData.shared = true;
     this.tokenTextures.set(url, texture);
     return texture;
   }

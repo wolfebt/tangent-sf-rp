@@ -53,11 +53,11 @@ import { NodeGraphLayoutSolver, type StoryFlowNode, type StoryFlowEdge } from '.
 import { SemanticZoneMask, SemanticFlag } from '../../../../engine/executor/SemanticZoneMask';
 import { PCGExecutor } from '../../../../engine/executor/PCGExecutor';
 import { MarchingSquaresAutoTiler } from '../../../../engine/canvas/MarchingSquaresAutoTiler';
+import { UniversalVttPackager, type RawWallSegment } from '../../../../engine/compilers/UniversalVttPackager';
 import { createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../../schemas/vttWallSchema';
 import type { AssetUnit } from '../../../../schemas/assetUnitSchema';
 import coreSeedUnits from '../../../../data/seed_units/science_fantasy_core.json';
 import { generateLandmassGrid, convertGridToKonvaElements, BIOME_PALETTES, createPRNG } from '../map/landmassGenerator';
-import { TERRAIN_TEXTURE_PATTERNS } from '../map/MapTextures';
 
 export type PcgMapType = 
   | 'planetary' 
@@ -230,11 +230,28 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
   // Active Top PCG Map Mode
   const [activeMapType, setActiveMapType] = useState<PcgMapType>('planetary');
 
-  // Universal Parameters
+  // Universal Parameters (clamped [10, 80] per axis & <= 3600 total cells)
   const [seed, setSeed] = useState<string>('Terra_Nova_Sector_42');
-  const [widthCells, setWidthCells] = useState<number>(mapWidthCells || 40);
-  const [heightCells, setHeightCells] = useState<number>(mapHeightCells || 30);
+  const clampGridAxis = (val: number) => Math.min(80, Math.max(10, Math.round(val) || 10));
+  const initialW = clampGridAxis(mapWidthCells || 40);
+  const initialH = Math.min(clampGridAxis(mapHeightCells || 30), Math.max(10, Math.floor(3600 / initialW)));
+  const [widthCells, setWidthCells] = useState<number>(initialW);
+  const [heightCells, setHeightCells] = useState<number>(initialH);
   const [cellSizePx, setCellSizePx] = useState<number>(gridSize || 50);
+
+  const updateGridDims = (nextW: number, nextH: number, primary: 'w' | 'h') => {
+    let w = clampGridAxis(nextW);
+    let h = clampGridAxis(nextH);
+    if (w * h > 3600) {
+      if (primary === 'w') {
+        h = Math.max(10, Math.floor(3600 / w));
+      } else {
+        w = Math.max(10, Math.floor(3600 / h));
+      }
+    }
+    setWidthCells(w);
+    setHeightCells(h);
+  };
   const [replaceExisting, setReplaceExisting] = useState<boolean>(true);
   const [layerFlags, setLayerFlags] = useState({
     terrains: true,
@@ -1351,6 +1368,32 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
   // MASTER DEPLOY TO BATTLEMAP CANVAS
   // --------------------------------------------------------------------------
 
+  const enforcePayloadBudget = <T extends { terrains: any[]; objects: any[]; lines?: any[]; lights?: any[]; walls?: any[]; replaceExisting: boolean }>(
+    payload: T,
+    maxBytes = 850000
+  ): { payload: T; compacted: boolean } => {
+    if (JSON.stringify(payload).length <= maxBytes) {
+      return { payload, compacted: false };
+    }
+    let nextObjects = (payload.objects || []).slice(0, 200);
+    let nextTerrains = (payload.terrains || []).map(({ edgeLines: _el, textureUrl: _tx, ...rest }) => rest);
+    let candidate = { ...payload, objects: nextObjects, terrains: nextTerrains } as T;
+    if (JSON.stringify(candidate).length <= maxBytes) {
+      return { payload: candidate, compacted: true };
+    }
+    nextObjects = nextObjects.slice(0, 60);
+    candidate = { ...candidate, objects: nextObjects } as T;
+    if (JSON.stringify(candidate).length <= maxBytes) {
+      return { payload: candidate, compacted: true };
+    }
+    const stride = Math.max(2, Math.ceil(nextTerrains.length / 1800));
+    nextTerrains = nextTerrains.filter((_, idx) => idx % stride === 0);
+    return {
+      payload: { ...candidate, terrains: nextTerrains } as T,
+      compacted: true
+    };
+  };
+
   const handleDeployToCanvas = () => {
     if (activeMapType === 'planetary') {
       if (!plGridResult) return;
@@ -1363,11 +1406,15 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       });
 
       if (onCommitPcgSector) {
-        onCommitPcgSector({
+        const { payload, compacted } = enforcePayloadBudget({
           terrains,
           objects,
           replaceExisting
         });
+        if (compacted) {
+          setAiLogs(prev => [...prev, 'ℹ Planetary sector compacted prior to commit to respect Firestore document size limits.']);
+        }
+        onCommitPcgSector(payload);
       } else if (onApplyPcgTerrain) {
         // fallback
         onApplyPcgTerrain(plGridResult.grid, plPaletteKey, replaceExisting);
@@ -1383,16 +1430,13 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       const generatedLines: any[] = [];
       const generatedLights: any[] = [];
       const generatedWalls: any[] = [];
+      const rawWallSegments: RawWallSegment[] = [];
 
       const biomeTheme = activeMapType === 'caverns' 
         ? 'rock_cavern' 
         : activeMapType === 'mining' 
           ? 'dirt_subterranean' 
           : 'metalDecking';
-
-      const floorTexture = activeMapType === 'starship' || activeMapType === 'outpost' || activeMapType === 'nodegraph'
-        ? TERRAIN_TEXTURE_PATTERNS.metalDecking
-        : null;
 
       const getFloorMat = (c: number, r: number) => {
         const cell = tacticalGrid[r]?.[c];
@@ -1467,8 +1511,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                 biomeType: cell.isLiquid ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge') : biomeTheme,
                 color: cell.isLiquid 
                   ? (cell.liquidType === 'magma' ? '#ea580c' : cell.liquidType === 'acid' ? '#65a30d' : '#0284c7') 
-                  : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b'),
-                textureUrl: floorTexture
+                  : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b')
               });
             } else {
               const edgeLines = MarchingSquaresAutoTiler.getEdgeLines(x, y, cellSizePx, cellSizePx, bitmask);
@@ -1485,18 +1528,30 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                 biomeType: cell.isLiquid ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge') : biomeTheme,
                 color: cell.isLiquid 
                   ? (cell.liquidType === 'magma' ? '#ea580c' : cell.liquidType === 'acid' ? '#65a30d' : '#0284c7') 
-                  : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b'),
-                textureUrl: floorTexture
+                  : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b')
               });
             }
           }
 
-          // Doors
+          // Doors (orient leaf perpendicularly across corridor axis)
           if (cell.isDoor && layerFlags.doors) {
             const isBarricaded = Boolean(cell.isBarricaded);
             const doorName = isBarricaded 
               ? 'Barricaded Blast Door' 
               : (cell.doorType === 'airlock' ? 'Airlock Blast Door' : 'Security Bulkhead');
+
+            const floorLeft = c > 0 && Boolean(tacticalGrid[r]?.[c - 1]?.isFloor);
+            const floorRight = c < cols - 1 && Boolean(tacticalGrid[r]?.[c + 1]?.isFloor);
+            const floorUp = r > 0 && Boolean(tacticalGrid[r - 1]?.[c]?.isFloor);
+            const floorDown = r < rows - 1 && Boolean(tacticalGrid[r + 1]?.[c]?.isFloor);
+            const isVerticalDoor = (floorLeft || floorRight) && !(floorUp && floorDown);
+
+            const doorStart = isVerticalDoor
+              ? { x: x + cellSizePx / 2, y }
+              : { x, y: y + cellSizePx / 2 };
+            const doorEnd = isVerticalDoor
+              ? { x: x + cellSizePx / 2, y: y + cellSizePx }
+              : { x: x + cellSizePx, y: y + cellSizePx / 2 };
 
             // Interactive Door Portal Object
             generatedObjects.push({
@@ -1509,6 +1564,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
               height: cellSizePx,
               category: 'door',
               type: 'portal',
+              orientation: isVerticalDoor ? 'vertical' : 'horizontal',
               color: isBarricaded ? '#ef4444' : (cell.doorType === 'airlock' ? '#38bdf8' : '#f59e0b'),
               isOpen: false,
               isLocked: isBarricaded || false,
@@ -1517,12 +1573,13 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
             // Interactive VTT Wall Segment
             generatedWalls.push(createWallSegment(
-              { x, y: y + cellSizePx / 2 },
-              { x: x + cellSizePx, y: y + cellSizePx / 2 },
+              doorStart,
+              doorEnd,
               WALL_TYPES.DOOR,
               {
                 id: `pcg-door-wall-${Date.now()}-${r}-${c}`,
                 label: doorName,
+                orientation: isVerticalDoor ? 'vertical' : 'horizontal',
                 doorState: isBarricaded ? DOOR_STATES.LOCKED : DOOR_STATES.CLOSED,
                 breachHp: isBarricaded ? 80 : 40,
                 athleticsDc: isBarricaded ? 22 : 16,
@@ -1585,7 +1642,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
             });
           }
 
-          // Wall Perimeter lines
+          // Collect Wall Boundary Segments for collinear merging & VTT LoS compilation
           if (layerFlags.walls) {
             if (useMarchingSquares) {
               if (cell.isFloor && sectorBitmasks && sectorBitmasks8) {
@@ -1601,42 +1658,64 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                     sb8,
                     0.5
                   );
-                  contourSegments.forEach((seg, idx) => {
-                    generatedLines.push({
-                      id: `pcg-wall-${Date.now()}-${r}-${c}-${idx}`,
-                      points: [seg[0], seg[1], seg[2], seg[3]],
-                      stroke: activeMapType === 'starship' ? '#0284c7' : '#475569',
-                      strokeWidth: 3,
-                      closed: false
+                  contourSegments.forEach((seg) => {
+                    rawWallSegments.push({
+                      p1: [seg[0], seg[1]],
+                      p2: [seg[2], seg[3]],
+                      blocksLight: true
                     });
                   });
                 }
               }
-            } else {
-              if (!cell.isFloor) {
-                const hasFloorNeighbor = (
-                  (r > 0 && tacticalGrid[r - 1][c]?.isFloor) ||
-                  (r < rows - 1 && tacticalGrid[r + 1][c]?.isFloor) ||
-                  (c > 0 && tacticalGrid[r][c - 1]?.isFloor) ||
-                  (c < cols - 1 && tacticalGrid[r][c + 1]?.isFloor)
-                );
-                if (hasFloorNeighbor) {
-                  generatedLines.push({
-                    id: `pcg-wall-${Date.now()}-${r}-${c}`,
-                    points: [x, y, x + cellSizePx, y, x + cellSizePx, y + cellSizePx, x, y + cellSizePx, x, y],
-                    stroke: activeMapType === 'starship' ? '#0284c7' : '#475569',
-                    strokeWidth: 3,
-                    closed: true
-                  });
-                }
+            } else if (!cell.isFloor) {
+              if (r > 0 && tacticalGrid[r - 1][c]?.isFloor) {
+                rawWallSegments.push({ p1: [x, y], p2: [x + cellSizePx, y], blocksLight: true });
+              }
+              if (r < rows - 1 && tacticalGrid[r + 1][c]?.isFloor) {
+                rawWallSegments.push({ p1: [x, y + cellSizePx], p2: [x + cellSizePx, y + cellSizePx], blocksLight: true });
+              }
+              if (c > 0 && tacticalGrid[r][c - 1]?.isFloor) {
+                rawWallSegments.push({ p1: [x, y], p2: [x, y + cellSizePx], blocksLight: true });
+              }
+              if (c < cols - 1 && tacticalGrid[r][c + 1]?.isFloor) {
+                rawWallSegments.push({ p1: [x + cellSizePx, y], p2: [x + cellSizePx, y + cellSizePx], blocksLight: true });
               }
             }
           }
         }
       }
 
+      if (layerFlags.walls && rawWallSegments.length > 0) {
+        const simplifiedWallSegments = UniversalVttPackager.reduceCollinearSegments(rawWallSegments);
+        const wallStroke = activeMapType === 'starship' ? '#0284c7' : '#475569';
+        simplifiedWallSegments.forEach((seg, idx) => {
+          const p1 = {
+            x: Math.round(seg.p1[0] * 100) / 100,
+            y: Math.round(seg.p1[1] * 100) / 100
+          };
+          const p2 = {
+            x: Math.round(seg.p2[0] * 100) / 100,
+            y: Math.round(seg.p2[1] * 100) / 100
+          };
+          generatedLines.push({
+            id: `pcg-line-${Date.now()}-${idx}`,
+            points: [p1.x, p1.y, p2.x, p2.y],
+            stroke: wallStroke,
+            strokeWidth: 3,
+            closed: false
+          });
+          generatedWalls.push(
+            createWallSegment(p1, p2, WALL_TYPES.SOLID, {
+              id: `pcg-wall-${Date.now()}-${idx}`,
+              color: wallStroke,
+              blocksLight: seg.blocksLight ?? true
+            })
+          );
+        });
+      }
+
       if (onCommitPcgSector) {
-        onCommitPcgSector({
+        const { payload, compacted } = enforcePayloadBudget({
           terrains: generatedTerrains,
           objects: generatedObjects,
           lines: generatedLines,
@@ -1644,6 +1723,10 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
           walls: generatedWalls,
           replaceExisting
         });
+        if (compacted) {
+          setAiLogs(prev => [...prev, 'ℹ Tactical sector compacted prior to commit to stay within Firestore document budget.']);
+        }
+        onCommitPcgSector(payload);
       }
     }
 
@@ -1812,9 +1895,9 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                   <input
                     type="number"
                     min={10}
-                    max={200}
+                    max={80}
                     value={widthCells}
-                    onChange={e => setWidthCells(Math.max(10, parseInt(e.target.value, 10) || 10))}
+                    onChange={e => updateGridDims(parseInt(e.target.value, 10) || 10, heightCells, 'w')}
                     className="w-full bg-transparent text-cyan-300 outline-none"
                   />
                 </div>
@@ -1824,9 +1907,9 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                   <input
                     type="number"
                     min={10}
-                    max={200}
+                    max={80}
                     value={heightCells}
-                    onChange={e => setHeightCells(Math.max(10, parseInt(e.target.value, 10) || 10))}
+                    onChange={e => updateGridDims(widthCells, parseInt(e.target.value, 10) || 10, 'h')}
                     className="w-full bg-transparent text-cyan-300 outline-none"
                   />
                 </div>

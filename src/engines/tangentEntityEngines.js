@@ -2287,10 +2287,12 @@ export function applyDamageToEntity({
     bypassesAllMitigation ||
     dmgType === 'spectral' ||
     dmgType === 'phase' ||
+    dmgType === 'dimensional' ||
     dmgType === 'mental' ||
     dmgType === 'psyche' ||
     dmgType === 'psionic' ||
-    dmgType === 'sonic'
+    dmgType === 'sonic' ||
+    dmgType === 'sound'
   ) {
     domainDR = 0;
   } else if (dmgType === 'force' || dmgType === 'force_pulse' || isConcussive || dmgType === 'concussive' || dmgType === 'impact') {

@@ -18,8 +18,6 @@ const InteractiveObjectModal = ({
   scale = 1,
   position = { x: 0, y: 0 }
 }) => {
-  if (!isOpen || !objectNode) return null;
-
   const folio = useFolio() || {};
   const activeOperative = folio?.characterData || {};
   const activeOperativeName = activeOperative?.name || 'Operator Persona';
@@ -27,8 +25,8 @@ const InteractiveObjectModal = ({
   const defaultHack = activeOperative?.attributes?.INT ? Math.max(1, Math.floor((activeOperative.attributes.INT - 10) / 2)) : 3;
   const defaultStr = activeOperative?.attributes?.STR ? Math.max(1, Math.floor((activeOperative.attributes.STR - 10) / 2)) : 2;
 
-  const objType = OBJECT_TYPES[objectNode.objectType || objectNode.type] || OBJECT_TYPES.explosive_canister;
-  const currentStructure = objectNode.structure !== undefined ? objectNode.structure : (objType.maxStructure || 20);
+  const objType = OBJECT_TYPES[objectNode?.objectType || objectNode?.type] || OBJECT_TYPES.explosive_canister;
+  const currentStructure = objectNode?.structure !== undefined ? objectNode.structure : (objType.maxStructure || 20);
   const maxStructure = objType.maxStructure || 20;
   const isDestroyed = currentStructure <= 0;
 
@@ -36,6 +34,8 @@ const InteractiveObjectModal = ({
   const [hackSkillMod, setHackSkillMod] = useState(defaultHack);
   const [strMod, setStrMod] = useState(defaultStr);
   const [actionLog, setActionLog] = useState([]);
+
+  if (!isOpen || !objectNode) return null;
 
   const addLog = (msg) => {
     setActionLog(prev => [msg, ...prev.slice(0, 8)]);

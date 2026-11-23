@@ -227,7 +227,7 @@ export const snapPosition = (pos, gridSize = 20) => {
   };
 };
 
-// ── AUTO LAYOUT ENGINE ──
+// ── AUTO LAYOUT ENGINE (Cycle-Safe Topological DAG Layering + Barycenter Ordering) ──
 export const calculateAutoLayout = (
   flatNodes = [],
   allLinks = [],
@@ -235,30 +235,86 @@ export const calculateAutoLayout = (
   spacing = { col: 380, row: 280, offsetX: 80, offsetY: 80 }
 ) => {
   const newPositions = {};
+  if (!Array.isArray(flatNodes) || flatNodes.length === 0) return newPositions;
 
-  if (direction === 'vertical') {
-    // Top-to-Bottom Layout (Y depends on depth, X depends on sibling rank)
-    const depthCounts = {};
-    flatNodes.forEach(node => {
-      const d = node.depth || 0;
-      depthCounts[d] = depthCounts[d] || 0;
-      const x = spacing.offsetX + depthCounts[d] * spacing.col;
-      const y = spacing.offsetY + d * spacing.row;
-      depthCounts[d] += 1;
-      newPositions[node.id] = { x, y };
-    });
-  } else {
-    // Horizontal Left-to-Right Layout (X depends on depth, Y depends on sibling rank)
-    const depthCounts = {};
-    flatNodes.forEach(node => {
-      const d = node.depth || 0;
-      depthCounts[d] = depthCounts[d] || 0;
-      const x = spacing.offsetX + d * spacing.col;
-      const y = spacing.offsetY + depthCounts[d] * spacing.row;
-      depthCounts[d] += 1;
-      newPositions[node.id] = { x, y };
-    });
+  const nodeIds = new Set(flatNodes.map((n) => n.id));
+  const incoming = new Map();
+  const outgoing = new Map();
+  flatNodes.forEach((n) => {
+    incoming.set(n.id, []);
+    outgoing.set(n.id, []);
+  });
+
+  (Array.isArray(allLinks) ? allLinks : []).forEach((link) => {
+    if (!link?.sourceId || !link?.targetId || link.sourceId === link.targetId) return;
+    if (!nodeIds.has(link.sourceId) || !nodeIds.has(link.targetId)) return;
+    outgoing.get(link.sourceId).push(link.targetId);
+    incoming.get(link.targetId).push(link.sourceId);
+  });
+
+  // Compute acyclic longest-path topological layer (respecting base tree depth when links are empty)
+  const layerMap = new Map();
+  flatNodes.forEach((n) => layerMap.set(n.id, n.depth || 0));
+
+  if (Array.isArray(allLinks) && allLinks.length > 0) {
+    // Kahn-like / Bellman-Ford relaxation bounded by node count to handle cyclic story graphs safely
+    const maxIters = flatNodes.length;
+    for (let iter = 0; iter < maxIters; iter++) {
+      let changed = false;
+      allLinks.forEach((link) => {
+        if (!link?.sourceId || !link?.targetId || link.sourceId === link.targetId) return;
+        const srcL = layerMap.get(link.sourceId);
+        const tgtL = layerMap.get(link.targetId);
+        if (srcL !== undefined && tgtL !== undefined && srcL + 1 > tgtL && srcL + 1 < flatNodes.length + 2) {
+          layerMap.set(link.targetId, srcL + 1);
+          changed = true;
+        }
+      });
+      if (!changed) break;
+    }
   }
+
+  // Group by layer and order within each layer by predecessor barycenter to minimize crossings
+  const layers = new Map();
+  const orderIndex = new Map();
+  flatNodes.forEach((n, idx) => {
+    orderIndex.set(n.id, idx);
+    const l = layerMap.get(n.id) ?? (n.depth || 0);
+    if (!layers.has(l)) layers.set(l, []);
+    layers.get(l).push(n);
+  });
+
+  const sortedLayerKeys = Array.from(layers.keys()).sort((a, b) => a - b);
+  sortedLayerKeys.forEach((layerKey) => {
+    const group = layers.get(layerKey);
+    group.sort((a, b) => {
+      const predsA = incoming.get(a.id) || [];
+      const predsB = incoming.get(b.id) || [];
+      const baryA = predsA.length > 0
+        ? predsA.reduce((s, id) => s + (orderIndex.get(id) ?? 0), 0) / predsA.length
+        : (orderIndex.get(a.id) ?? 0);
+      const baryB = predsB.length > 0
+        ? predsB.reduce((s, id) => s + (orderIndex.get(id) ?? 0), 0) / predsB.length
+        : (orderIndex.get(b.id) ?? 0);
+      if (baryA !== baryB) return baryA - baryB;
+      return (orderIndex.get(a.id) ?? 0) - (orderIndex.get(b.id) ?? 0);
+    });
+    group.forEach((n, idx) => orderIndex.set(n.id, idx));
+
+    group.forEach((node, rankInLayer) => {
+      if (direction === 'vertical') {
+        newPositions[node.id] = {
+          x: spacing.offsetX + rankInLayer * spacing.col,
+          y: spacing.offsetY + layerKey * spacing.row
+        };
+      } else {
+        newPositions[node.id] = {
+          x: spacing.offsetX + layerKey * spacing.col,
+          y: spacing.offsetY + rankInLayer * spacing.row
+        };
+      }
+    });
+  });
 
   return newPositions;
 };

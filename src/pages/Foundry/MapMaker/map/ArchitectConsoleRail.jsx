@@ -218,7 +218,11 @@ export const ArchitectConsoleRail = ({
   // Environment apply handler
   const handleApplyEnv = (preset) => {
     AudioService.playTerminalBeep(980, 0.1);
-    if (onApplyEnvironmentPreset) onApplyEnvironmentPreset(preset.id);
+    if (onApplyEnvironmentPreset) {
+      onApplyEnvironmentPreset(preset.id);
+    } else {
+      VttEventBus.emit('apply-atmospheric-preset', { presetKey: preset.id });
+    }
     if (onBroadcastMessage) {
       onBroadcastMessage(`[ENVIRONMENT UPDATE]: ${preset.icon} ${preset.label} engaged — ${preset.desc}`);
     }

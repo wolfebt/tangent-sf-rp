@@ -13,12 +13,14 @@
  *   6. Play: Granular interactive story studio driven by Folio personas, decision matrix, and dice checks.
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, Suspense } from 'react';
+import { lazyWithRetry } from '../../../utils/lazyWithRetry';
 import { 
   ArrowRight
 } from 'lucide-react';
 import StoryWeaver from '../StoryModule/workspaces/StoryWeaver';
-import InteractiveStoryStudio from '../StoryModule/workspaces/InteractiveStoryStudio';
+
+const InteractiveStoryStudio = lazyWithRetry(() => import('../StoryModule/workspaces/InteractiveStoryStudio'));
 import BrainstormTab from './tabs/BrainstormTab';
 import ElementsTab from './tabs/ElementsTab';
 import WeaverGraphTab from './tabs/WeaverGraphTab';
@@ -33,6 +35,10 @@ export default function WeaverWorkspace({
   linkedMap,
   allAvailableMaps,
   setActiveScenarioId,
+  isSplitView = false,
+  setIsSplitView,
+  viewportSplit = 'story_stage',
+  setViewportSplit,
   handleOpenAddModal,
   handleDeleteElement,
   locationPath
@@ -81,6 +87,10 @@ export default function WeaverWorkspace({
               updateStory={updateStory}
               guidanceGems={typeof getActiveGemsText === 'function' ? getActiveGemsText() : ''}
               onSelectScenarioWorkspaceTab={onSelectTab}
+              isSplitView={isSplitView}
+              setIsSplitView={setIsSplitView}
+              viewportSplit={viewportSplit}
+              setViewportSplit={setViewportSplit}
               handleOpenAddModal={handleOpenAddModal}
               handleDeleteElement={handleDeleteElement}
               locationPath={locationPath}
@@ -108,15 +118,17 @@ export default function WeaverWorkspace({
         {/* TAB 6: INTERACTIVE PLAY (Fable / Character.ai style Interactive Story) */}
         {currentTab === 'play' && (
           <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#080c14]">
-            <InteractiveStoryStudio
-              activeNode={activeNode}
-              onSelectScenario={(id) => {
-                if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
-              }}
-              linkedMap={linkedMap}
-              allAvailableMaps={allAvailableMaps}
-              stageHandoff={renderStageHandoff()}
-            />
+            <Suspense fallback={<div className="flex-1 flex items-center justify-center text-cyan-400 font-mono text-xs">Loading Interactive Story Studio...</div>}>
+              <InteractiveStoryStudio
+                activeNode={activeNode}
+                onSelectScenario={(id) => {
+                  if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
+                }}
+                linkedMap={linkedMap}
+                allAvailableMaps={allAvailableMaps}
+                stageHandoff={renderStageHandoff()}
+              />
+            </Suspense>
           </div>
         )}
       </div>

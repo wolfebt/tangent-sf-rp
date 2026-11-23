@@ -20,18 +20,18 @@ export const StoryElementModal = ({
   scale = 1,
   position = { x: 0, y: 0 }
 }) => {
-  if (!isOpen || !element) return null;
-
   const [activeTab, setActiveTab] = useState('dossier'); // 'dossier' | 'actions' | 'reactive_config'
   const [skillBonus, setSkillBonus] = useState(3);
   const [lastCheckResult, setLastCheckResult] = useState(null);
   const [isRevealedToPlayers, setIsRevealedToPlayers] = useState(false);
 
   // Trap / Reactive settings state
-  const isTrapOrHazard = element.type === 'Hazard' || element.type === 'Trap' || mapObjectNode?.isTrap || !!mapObjectNode?.hazard;
-  const [trapDc, setTrapDc] = useState(mapObjectNode?.saveCr || element.dc || 14);
-  const [trapDamage, setTrapDamage] = useState(mapObjectNode?.damageDice || element.damage || '2d10');
+  const isTrapOrHazard = element?.type === 'Hazard' || element?.type === 'Trap' || mapObjectNode?.isTrap || !!mapObjectNode?.hazard;
+  const [trapDc, setTrapDc] = useState(mapObjectNode?.saveCr || element?.dc || 14);
+  const [trapDamage, setTrapDamage] = useState(mapObjectNode?.damageDice || element?.damage || '2d10');
   const [trapState, setTrapState] = useState(mapObjectNode?.trapState || 'armed'); // 'armed' | 'disarmed' | 'triggered'
+
+  if (!isOpen || !element) return null;
 
   const elementType = element.type || mapObjectNode?.storyElementType || 'Scene';
   const pillStyle = getTypePillStyle(elementType);

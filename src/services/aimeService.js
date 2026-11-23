@@ -1,4 +1,6 @@
 import { getGeminiApiKey, fetchGeminiContent, parseRollCommand } from './bastionService.js';
+import { auth } from '../firebase.js';
+import { hasInMemoryFirebaseIdToken } from '../utils/firebaseTokenStore.js';
 import { hydrateElementEntities } from './entityHydrator.js';
 import { queryOmnicortexRAG, formatRagContextForAIME, loadCompendiumSeedDataset } from './omnicortexVectorRag.ts';
 import { formatCronicleContextForAIME, extractNarrativeDeltas } from './cronicleService.js';
@@ -109,12 +111,36 @@ export function formatContext(context, promptQuery = '') {
   try {
     let out = '';
 
+    // Resolve either explicit context wrapper objects or bare Scenario/Element nodes (e.g. InteractiveStoryStudio activeScenario)
+    const resolvedActiveNode = context.activeNode || (
+      (context.title || context.fields || context.content || context.assetHub || context.linkedElements)
+        ? context
+        : null
+    );
+    const normalizedLinkedContext = Array.isArray(context.linkedContextElements) && context.linkedContextElements.length > 0
+      ? context.linkedContextElements.map((el) =>
+          el && typeof el === 'object'
+            ? {
+                ...el,
+                assetId: el.assetId || el.id,
+                assetTitle: el.assetTitle || el.title || el.name,
+                assetType: el.assetType || el.type || 'Element',
+                importance: el.importance || 'high'
+              }
+            : el
+        )
+      : null;
+    const resolvedAssetHub = context.assetHub
+      || normalizedLinkedContext
+      || resolvedActiveNode?.assetHub
+      || resolvedActiveNode?.linkedElements;
+
     // If activeNode or rich AIME layers are present, leverage the Super-Prompt Synthesizer
-    if (context.activeNode || context.guidance || context.assetHub) {
+    if (resolvedActiveNode || context.guidance || resolvedAssetHub) {
       const superPrompt = synthesizeSuperPrompt({
-        activeNode: context.activeNode,
+        activeNode: resolvedActiveNode,
         guidance: context.guidance || context.guidanceGems,
-        assetHub: context.assetHub || context.activeNode?.assetHub || context.activeNode?.linkedElements,
+        assetHub: resolvedAssetHub,
         catalog: context.customCatalog || context.catalog || [],
         taskPrompt: promptQuery,
         campaignName: context.projectName,
@@ -219,7 +245,7 @@ export function formatContext(context, promptQuery = '') {
 export async function generateContent({ 
   prompt, 
   context = "", 
-  model = "gemini-3.8-flash", 
+  model = "gemini-2.5-flash", 
   apiKey = "", 
   mandate = null, 
   enforceJson = false,
@@ -229,7 +255,7 @@ export async function generateContent({
   localEndpoint = null
 }) {
   const activeKey = apiKey || getGeminiApiKey();
-  const hasProxyToken = Boolean(typeof localStorage !== 'undefined' && localStorage.getItem('firebaseIdToken'));
+  const hasProxyToken = hasInMemoryFirebaseIdToken(auth);
   const formattedCtx = formatContext(context, prompt);
 
   let fullPrompt = formattedCtx 
@@ -319,20 +345,56 @@ export async function generateContent({
   return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
-const GEMINI_STREAM_MODELS = [
-  'gemini-3.8-flash',
-  'gemini-2.5-flash',
-  'gemini-2.0-flash',
-  'gemini-flash-latest',
-  'gemini-flash-lite-latest',
-  'gemini-3.6-flash',
-  'gemini-3.5-flash'
-];
+async function streamCloudGeminiWithFallback({
+  activeKey,
+  requestBody,
+  model = 'gemini-2.5-flash',
+  onChunk,
+  buildFallback
+}) {
+  const hasProxyToken = hasInMemoryFirebaseIdToken(auth);
+  if (!activeKey && !hasProxyToken) {
+    const fallbackText = buildFallback();
+    if (onChunk && fallbackText) onChunk(fallbackText);
+    return;
+  }
+
+  try {
+    let streamed = false;
+    const data = await fetchGeminiContent(activeKey, requestBody, {
+      preferredModel: model,
+      onStreamChunk: (piece) => {
+        if (piece) {
+          streamed = true;
+          if (onChunk) onChunk(piece);
+        }
+      }
+    });
+    if (!streamed) {
+      const fullText = data?.candidates?.[0]?.content?.parts?.map((p) => p?.text || '').join('') || '';
+      if (fullText && onChunk) {
+        onChunk(fullText);
+        streamed = true;
+      }
+    }
+    if (!streamed && !activeKey) {
+      const fallbackText = buildFallback();
+      if (onChunk && fallbackText) onChunk(fallbackText);
+    }
+  } catch (err) {
+    if (!activeKey && err?.message?.includes('No Gemini API key available')) {
+      const fallbackText = buildFallback();
+      if (onChunk && fallbackText) onChunk(fallbackText);
+      return;
+    }
+    throw err;
+  }
+}
 
 export async function streamContent({ 
   prompt, 
   context = "", 
-  model = "gemini-3.8-flash", 
+  model = "gemini-2.5-flash", 
   apiKey = "", 
   onChunk,
   mandate = null,
@@ -382,63 +444,7 @@ export async function streamContent({
     }
   }
 
-  // 2. Cloud Gemini Streaming Inference
-  const hasProxyToken = Boolean(typeof localStorage !== 'undefined' && localStorage.getItem('firebaseIdToken'));
-  if (!activeKey) {
-    if (hasProxyToken) {
-      try {
-        const proxyBody = {
-          systemInstruction: { parts: [{ text: AIME_SYSTEM_PROMPT }] },
-          contents: [{ role: "user", parts: [{ text: fullPrompt }] }]
-        };
-        if (enforceJson) {
-          proxyBody.generationConfig = {
-            responseMimeType: "application/json",
-            responseSchema: responseSchema || TANGENT_STORY_BEAT_JSON_SCHEMA
-          };
-        }
-        const proxyData = await fetchGeminiContent('', proxyBody);
-        const proxyText = proxyData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        if (proxyText) {
-          if (onChunk) onChunk(proxyText);
-          return;
-        }
-      } catch (proxyErr) {
-        console.warn('[AimeService] Cloud proxy fallback failed in streamContent:', proxyErr);
-      }
-    }
-
-    if (enforceJson) {
-      const fallbackObj = {
-        narrative: mandate
-          ? `[DETERMINISTIC COGNITION]: ${mandate.initiatorName} attempts "${mandate.actionName}". ${mandate.narrativeBounds?.prescribedOutcome || 'Outcome registered.'} Sensory cues: ${mandate.narrativeBounds?.requiredSensoryCues?.join(', ') || 'Tactical telemetry synced.'}`
-          : `[DETERMINISTIC COGNITION]: The action resolves under local BASTION tactical guidelines. Environmental sensors verify sector state.`,
-        gate: {
-          prompt: "What is the operator's next move?",
-          options: [
-            { id: "1", text: "Advance under cover toward the objective", skillCheck: "Kinetics / Reflex CR 12" },
-            { id: "2", text: "Slice local data conduit for tactical layout", skillCheck: "Slicing CR 13" },
-            { id: "3", text: "Hold perimeter and scan for enemy reinforcements", skillCheck: "Perception CR 11" }
-          ]
-        },
-        stageDeltas: mandate?.mechanicalOutcomes?.bulkheadToggled ? [
-          {
-            entityId: mandate.mechanicalOutcomes.bulkheadToggled.id,
-            property: "state",
-            newValue: mandate.mechanicalOutcomes.bulkheadToggled.state
-          }
-        ] : []
-      };
-      const jsonText = JSON.stringify(fallbackObj, null, 2);
-      if (onChunk) onChunk(jsonText);
-      return;
-    }
-
-    const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Synthesizing narrative for "${prompt}" under local OMNICORTEX guidelines.\n\n*(To connect live streaming AI, add your Gemini API Key in Settings).*`;
-    if (onChunk) onChunk(fallback);
-    return;
-  }
-
+  // 2. Cloud Gemini Streaming Inference via unified BASTION transport
   const requestBody = {
     systemInstruction: {
       parts: [{ text: AIME_SYSTEM_PROMPT }]
@@ -458,77 +464,41 @@ export async function streamContent({
     };
   }
 
-  const modelsToTry = [model, ...GEMINI_STREAM_MODELS.filter(m => m !== model)];
-  let lastError = null;
-
-  for (const candidateModel of modelsToTry) {
-    try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${candidateModel}:streamGenerateContent?alt=sse`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': activeKey
-        },
-        body: JSON.stringify(requestBody)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        const errMsg = errorData?.error?.message || `HTTP ${response.status}`;
-        if (response.status === 400 || response.status === 402 || response.status === 403) {
-          throw new Error(`Gemini API Key Error (${response.status}): ${errMsg}`);
-        }
-        if (response.status === 404 || errMsg.includes('not found') || errMsg.includes('no longer available')) {
-          lastError = new Error(`[${candidateModel}]: ${errMsg}`);
-          continue;
-        }
-        throw new Error(errMsg);
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const dataStr = line.replace('data: ', '').trim();
-            if (dataStr === '[DONE]') continue;
-            
-            try {
-              const parsed = JSON.parse(dataStr);
-              const textChunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (textChunk && onChunk) {
-                onChunk(textChunk);
-              }
-            } catch (e) {
-              // Ignore parse errors on partial JSON chunks
+  await streamCloudGeminiWithFallback({
+    activeKey,
+    requestBody,
+    model,
+    onChunk,
+    buildFallback: () => {
+      if (enforceJson) {
+        const fallbackObj = {
+          narrative: mandate
+            ? `[DETERMINISTIC COGNITION]: ${mandate.initiatorName} attempts "${mandate.actionName}". ${mandate.narrativeBounds?.prescribedOutcome || 'Outcome registered.'} Sensory cues: ${mandate.narrativeBounds?.requiredSensoryCues?.join(', ') || 'Tactical telemetry synced.'}`
+            : `[DETERMINISTIC COGNITION]: The action resolves under local BASTION tactical guidelines. Environmental sensors verify sector state.`,
+          gate: {
+            prompt: "What is the operator's next move?",
+            options: [
+              { id: "1", text: "Advance under cover toward the objective", skillCheck: "Kinetics / Reflex CR 12" },
+              { id: "2", text: "Slice local data conduit for tactical layout", skillCheck: "Slicing CR 13" },
+              { id: "3", text: "Hold perimeter and scan for enemy reinforcements", skillCheck: "Perception CR 11" }
+            ]
+          },
+          stageDeltas: mandate?.mechanicalOutcomes?.bulkheadToggled ? [
+            {
+              entityId: mandate.mechanicalOutcomes.bulkheadToggled.id,
+              property: "state",
+              newValue: mandate.mechanicalOutcomes.bulkheadToggled.state
             }
-          }
-        }
+          ] : []
+        };
+        return JSON.stringify(fallbackObj, null, 2);
       }
-      return; // Stream completed successfully
-    } catch (err) {
-      lastError = err;
-      if (err.message && (err.message.includes('404') || err.message.includes('not found') || err.message.includes('no longer available'))) {
-        continue;
-      }
-      throw err;
+      return `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Synthesizing narrative for "${prompt}" under local OMNICORTEX guidelines.\n\n*(To connect live streaming AI, add your Gemini API Key in Settings).*`;
     }
-  }
-
-  throw lastError || new Error('All streaming candidate models failed.');
+  });
 }
 
-export async function streamChatContent({ messages, context = "", model = "gemini-3.8-flash", apiKey = "", onChunk, tierKey = "auto", localEndpoint = null }) {
+export async function streamChatContent({ messages, context = "", model = "gemini-2.5-flash", apiKey = "", onChunk, tierKey = "auto", localEndpoint = null }) {
   const activeKey = apiKey || getGeminiApiKey();
   const lastUserMsg = messages && messages.length > 0 ? messages[messages.length - 1]?.content : '';
   const formattedCtx = formatContext(context, lastUserMsg);
@@ -559,122 +529,30 @@ export async function streamChatContent({ messages, context = "", model = "gemin
     }
   }
 
-  const hasProxyToken = Boolean(typeof localStorage !== 'undefined' && localStorage.getItem('firebaseIdToken'));
-  if (!activeKey) {
-    if (hasProxyToken) {
-      try {
-        const proxyContents = messages.map((msg, index) => {
-          let text = msg.content;
-          if (index === 0 && msg.role === 'user') {
-            const contextBlock = formattedCtx ? `[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}\n\n` : '';
-            text = `${AIME_SYSTEM_PROMPT}\n\n${contextBlock}${text}`;
-          }
-          return {
-            role: msg.role === 'user' ? 'user' : 'model',
-            parts: [{ text }]
-          };
-        });
-        const proxyData = await fetchGeminiContent('', { contents: proxyContents });
-        const proxyText = proxyData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        if (proxyText) {
-          if (onChunk) onChunk(proxyText);
-          return;
-        }
-      } catch (proxyErr) {
-        console.warn('[AimeService] Cloud proxy fallback failed in streamChatContent:', proxyErr);
-      }
-    }
-
-    const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${lastUserMsg}" with local BASTION tactical heuristics and OMNICORTEX rules knowledge.\n\n*Target Context:* ${formattedCtx ? formattedCtx.slice(0, 120) + '...' : 'General ADE Studio'}\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
-    if (onChunk) onChunk(fallback);
-    return;
-  }
-
-  const contents = messages.map((msg, index) => {
-    let text = msg.content;
-    if (index === 0 && msg.role === 'user') {
-      const contextBlock = formattedCtx ? `[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}\n\n` : '';
-      text = `${AIME_SYSTEM_PROMPT}\n\n${contextBlock}${text}`;
-    }
-    return {
-      role: msg.role === 'user' ? 'user' : 'model',
-      parts: [{ text }]
-    };
-  });
-
-  if (contents.length > 0 && contents[0].role !== 'user') {
-    const contextBlock = formattedCtx ? `[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}\n\n` : '';
-    contents.unshift({
+  const systemInstructionText = formattedCtx
+    ? `${AIME_SYSTEM_PROMPT}\n\n[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}`
+    : AIME_SYSTEM_PROMPT;
+  const normalizedContents = messages.map((msg) => ({
+    role: msg.role === 'user' ? 'user' : 'model',
+    parts: [{ text: msg.content || '' }]
+  }));
+  if (normalizedContents.length === 0 || normalizedContents[0].role !== 'user') {
+    normalizedContents.unshift({
       role: 'user',
-      parts: [{ text: `${AIME_SYSTEM_PROMPT}\n\n${contextBlock}System: Initiate conversation with ARCHITECT.` }]
+      parts: [{ text: 'System: Initiate conversation with ARCHITECT.' }]
     });
   }
 
-  const requestBody = { contents };
-  const candidateModels = [model, ...GEMINI_STREAM_MODELS.filter(m => m !== model)];
-  let lastError = null;
-
-  for (const currentModel of candidateModels) {
-    try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${currentModel}:streamGenerateContent?alt=sse`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': activeKey
-        },
-        body: JSON.stringify(requestBody)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        const errorMsg = errorData?.error?.message || `Streaming failed with status ${response.status}`;
-        if (response.status === 400 || response.status === 402 || response.status === 403) {
-          throw new Error(`Gemini API Key Error (${response.status}): ${errorMsg}`);
-        }
-        lastError = new Error(errorMsg);
-        continue;
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const dataStr = line.replace('data: ', '').trim();
-            if (dataStr === '[DONE]') continue;
-            
-            try {
-              const parsed = JSON.parse(dataStr);
-              const textChunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (textChunk && onChunk) {
-                onChunk(textChunk);
-              }
-            } catch (e) {
-              // Ignore parse errors on partial JSON chunks
-            }
-          }
-        }
-      }
-      return;
-    } catch (err) {
-      lastError = err;
-      if (err.message && err.message.includes('Gemini API Key Error')) {
-        throw err;
-      }
-    }
-  }
-
-  throw lastError || new Error('All chat streaming candidate models failed.');
+  await streamCloudGeminiWithFallback({
+    activeKey,
+    requestBody: {
+      systemInstruction: { parts: [{ text: systemInstructionText }] },
+      contents: normalizedContents
+    },
+    model,
+    onChunk,
+    buildFallback: () => `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${lastUserMsg}" with local BASTION tactical heuristics and OMNICORTEX rules knowledge.\n\n*Target Context:* ${formattedCtx ? formattedCtx.slice(0, 120) + '...' : 'General ADE Studio'}\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`
+  });
 }
 
 export default {

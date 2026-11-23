@@ -6,7 +6,7 @@
  * and Live Dihedral (D4) 90° CW North-Side Rotation & Horizontal/Vertical Flip verification.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Blocks,
   RotateCw,
@@ -121,6 +121,18 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
       : JSON.parse(JSON.stringify(SCIENCE_FANTASY_SEED_CHUNKS[0]));
   });
 
+  // Re-sync workingChunk whenever a different initialChunk is opened (e.g. marquee capture or external edit)
+  useEffect(() => {
+    if (!initialChunk) return;
+    const clone = structuredClone ? structuredClone(initialChunk) : JSON.parse(JSON.stringify(initialChunk));
+    setWorkingChunk(clone);
+    setSelectedPointId(clone.constructionPoints?.[0]?.id || null);
+    setSelectedAssetId(null);
+    setPreviewRotationDeg(0);
+    setPreviewFlipX(false);
+    setPreviewFlipY(false);
+  }, [initialChunk?.chunkId, initialChunk?.updatedAt]);
+
   const [categoryFilter, setCategoryFilter] = useState<ChunkCategory | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTool, setActiveTool] = useState<WorkbenchTool>('tile');
@@ -146,6 +158,7 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
   const [chunkSynthPrompt, setChunkSynthPrompt] = useState('');
   const [isChunkSynthLoading, setIsChunkSynthLoading] = useState(false);
   const [selectedWallType, setSelectedWallType] = useState<'solid' | 'door' | 'window' | 'one_way'>('solid');
+  const [wallEdgeMode, setWallEdgeMode] = useState<'auto' | 'north' | 'south' | 'east' | 'west'>('auto');
   const [selectedAssetPreset, setSelectedAssetPreset] = useState(ASSET_PRESETS[0]);
   const [selectedSocketType, setSelectedSocketType] = useState<(typeof SOCKET_TYPES)[number]>('bulkhead_door');
   const [selectedSocketSpan, setSelectedSocketSpan] = useState<number>(2);
@@ -365,7 +378,7 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
   };
 
   // Cell click handler on the Workbench Grid (operates on base workingChunk when transform is reset, or auto-resets preview)
-  const handleCellClick = (col: number, row: number) => {
+  const handleCellClick = (col: number, row: number, event?: React.MouseEvent) => {
     if (isPreviewTransformed) {
       showToast({
         type: 'info',
@@ -614,38 +627,141 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
     }
 
     if (activeTool === 'wall') {
-      // Toggle 1-cell wall on top/north edge of clicked cell (or outer south/east if at boundary)
-      const p1 = { x: col, y: row };
-      const p2 = { x: col + 1, y: row };
+      let edge: 'north' | 'south' | 'east' | 'west' = wallEdgeMode === 'auto' ? 'north' : wallEdgeMode;
+      if (wallEdgeMode === 'auto' && event?.currentTarget) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          const relX = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+          const relY = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+          const dists: Array<{ dir: 'north' | 'south' | 'west' | 'east'; d: number }> = [
+            { dir: 'north', d: relY },
+            { dir: 'south', d: 1 - relY },
+            { dir: 'west', d: relX },
+            { dir: 'east', d: 1 - relX }
+          ];
+          dists.sort((a, b) => a.d - b.d);
+          edge = dists[0].dir;
+        }
+      }
+
+      const p1 =
+        edge === 'north'
+          ? { x: col, y: row }
+          : edge === 'south'
+          ? { x: col, y: row + 1 }
+          : edge === 'west'
+          ? { x: col, y: row }
+          : { x: col + 1, y: row };
+      const p2 =
+        edge === 'north'
+          ? { x: col + 1, y: row }
+          : edge === 'south'
+          ? { x: col + 1, y: row + 1 }
+          : edge === 'west'
+          ? { x: col, y: row + 1 }
+          : { x: col + 1, y: row + 1 };
+
       setWorkingChunk((prev) => {
+        const W = prev.widthCells;
+        const H = prev.heightCells;
+        const boundaryCardinal: CardinalEdge | undefined =
+          (row === 0 && edge === 'north')
+            ? 'north'
+            : (row === H - 1 && edge === 'south')
+            ? 'south'
+            : (col === 0 && edge === 'west')
+            ? 'west'
+            : (col === W - 1 && edge === 'east')
+            ? 'east'
+            : undefined;
+        const makeWallPayload = (segP1: { x: number; y: number }, segP2: { x: number; y: number }, wType = selectedWallType) => ({
+          id: `w_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`,
+          p1: segP1,
+          p2: segP2,
+          type: wType,
+          doorState: wType === 'door' ? ('closed' as const) : null,
+          label: wType === 'door' ? 'Bulkhead Door' : (wType === 'window' ? 'Viewport Glass' : 'Bulkhead Wall'),
+          breachHp: wType === 'door' ? 60 : 120,
+          maxBreachHp: wType === 'door' ? 60 : 120,
+          hackDc: wType === 'door' ? 14 : null,
+          athleticsDc: 20,
+          isSecret: false,
+          cardinalEdge: boundaryCardinal
+        });
+
         const existingIdx = prev.walls.findIndex(
           (w) =>
             (w.p1.x === p1.x && w.p1.y === p1.y && w.p2.x === p2.x && w.p2.y === p2.y) ||
             (w.p1.x === p2.x && w.p1.y === p2.y && w.p2.x === p1.x && w.p2.y === p1.y)
         );
         if (existingIdx >= 0) {
+          const existingWall = prev.walls[existingIdx];
           const nextWalls = [...prev.walls];
-          nextWalls.splice(existingIdx, 1);
-          return { ...prev, walls: nextWalls };
-        }
-        return {
-          ...prev,
-          walls: [
-            ...prev.walls,
-            {
-              id: `w_${Date.now().toString(36)}`,
-              p1,
-              p2,
+          if (existingWall.type === selectedWallType) {
+            nextWalls.splice(existingIdx, 1);
+          } else {
+            nextWalls[existingIdx] = {
+              ...existingWall,
               type: selectedWallType,
               doorState: selectedWallType === 'door' ? 'closed' : null,
               label: selectedWallType === 'door' ? 'Bulkhead Door' : 'Bulkhead Wall',
               breachHp: selectedWallType === 'door' ? 60 : 120,
               maxBreachHp: selectedWallType === 'door' ? 60 : 120,
-              hackDc: selectedWallType === 'door' ? 14 : null,
-              athleticsDc: 20,
-              isSecret: false,
-              cardinalEdge: row === 0 ? 'north' : undefined
-            }
+              hackDc: selectedWallType === 'door' ? 14 : null
+            };
+          }
+          return { ...prev, walls: nextWalls };
+        }
+
+        // Split any longer collinear wall covering [p1, p2] so placing a door/window does not duplicate wall geometry
+        const isHoriz = p1.y === p2.y;
+        const sa = isHoriz ? Math.min(p1.x, p2.x) : Math.min(p1.y, p2.y);
+        const sb = isHoriz ? Math.max(p1.x, p2.x) : Math.max(p1.y, p2.y);
+        const containingIdx = prev.walls.findIndex((w) => {
+          if (isHoriz && w.p1.y === p1.y && w.p2.y === p1.y) {
+            const wa = Math.min(w.p1.x, w.p2.x);
+            const wb = Math.max(w.p1.x, w.p2.x);
+            return wa <= sa && wb >= sb;
+          }
+          if (!isHoriz && w.p1.x === p1.x && w.p2.x === p1.x) {
+            const wa = Math.min(w.p1.y, w.p2.y);
+            const wb = Math.max(w.p1.y, w.p2.y);
+            return wa <= sa && wb >= sb;
+          }
+          return false;
+        });
+
+        if (containingIdx >= 0) {
+          const parentWall = prev.walls[containingIdx];
+          const nextWalls = [...prev.walls];
+          nextWalls.splice(containingIdx, 1);
+          const wa = isHoriz ? Math.min(parentWall.p1.x, parentWall.p2.x) : Math.min(parentWall.p1.y, parentWall.p2.y);
+          const wb = isHoriz ? Math.max(parentWall.p1.x, parentWall.p2.x) : Math.max(parentWall.p1.y, parentWall.p2.y);
+          if (wa < sa) {
+            nextWalls.push({
+              ...parentWall,
+              id: `${parentWall.id}_a_${Math.random().toString(36).slice(2, 5)}`,
+              p1: isHoriz ? { x: wa, y: p1.y } : { x: p1.x, y: wa },
+              p2: isHoriz ? { x: sa, y: p1.y } : { x: p1.x, y: sa }
+            });
+          }
+          if (sb < wb) {
+            nextWalls.push({
+              ...parentWall,
+              id: `${parentWall.id}_b_${Math.random().toString(36).slice(2, 5)}`,
+              p1: isHoriz ? { x: sb, y: p1.y } : { x: p1.x, y: sb },
+              p2: isHoriz ? { x: wb, y: p1.y } : { x: p1.x, y: wb }
+            });
+          }
+          nextWalls.push(makeWallPayload(p1, p2));
+          return { ...prev, walls: nextWalls };
+        }
+
+        return {
+          ...prev,
+          walls: [
+            ...prev.walls,
+            makeWallPayload(p1, p2)
           ]
         };
       });
@@ -909,12 +1025,26 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                     min={2}
                     max={24}
                     value={workingChunk.widthCells}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const nextW = Math.max(2, Math.min(24, Number(e.target.value) || 6));
                       setWorkingChunk((prev) => ({
                         ...prev,
-                        widthCells: Math.max(2, Math.min(24, Number(e.target.value) || 6))
-                      }))
-                    }
+                        widthCells: nextW,
+                        tiles: prev.tiles.filter((t) => t.col < nextW),
+                        lights: prev.lights.filter((l) => l.col < nextW),
+                        assets: prev.assets
+                          .filter((a) => a.col < nextW)
+                          .map((a) => ({ ...a, widthCells: Math.min(a.widthCells || 1, nextW - a.col) })),
+                        constructionPoints: prev.constructionPoints.filter((cp) => (cp.col ?? 0) < nextW),
+                        walls: prev.walls
+                          .map((w) => ({
+                            ...w,
+                            p1: { x: Math.min(w.p1.x, nextW), y: w.p1.y },
+                            p2: { x: Math.min(w.p2.x, nextW), y: w.p2.y }
+                          }))
+                          .filter((w) => w.p1.x !== w.p2.x || w.p1.y !== w.p2.y)
+                      }));
+                    }}
                     className="w-full px-1.5 py-1 rounded bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-300"
                   />
                 </div>
@@ -925,12 +1055,26 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                     min={2}
                     max={24}
                     value={workingChunk.heightCells}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const nextH = Math.max(2, Math.min(24, Number(e.target.value) || 6));
                       setWorkingChunk((prev) => ({
                         ...prev,
-                        heightCells: Math.max(2, Math.min(24, Number(e.target.value) || 6))
-                      }))
-                    }
+                        heightCells: nextH,
+                        tiles: prev.tiles.filter((t) => t.row < nextH),
+                        lights: prev.lights.filter((l) => l.row < nextH),
+                        assets: prev.assets
+                          .filter((a) => a.row < nextH)
+                          .map((a) => ({ ...a, heightCells: Math.min(a.heightCells || 1, nextH - a.row) })),
+                        constructionPoints: prev.constructionPoints.filter((cp) => (cp.row ?? 0) < nextH),
+                        walls: prev.walls
+                          .map((w) => ({
+                            ...w,
+                            p1: { x: w.p1.x, y: Math.min(w.p1.y, nextH) },
+                            p2: { x: w.p2.x, y: Math.min(w.p2.y, nextH) }
+                          }))
+                          .filter((w) => w.p1.x !== w.p2.x || w.p1.y !== w.p2.y)
+                      }));
+                    }}
                     className="w-full px-1.5 py-1 rounded bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-300"
                   />
                 </div>
@@ -1021,16 +1165,35 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
               )}
 
               {activeTool === 'wall' && (
-                <select
-                  value={selectedWallType}
-                  onChange={(e) => setSelectedWallType(e.target.value as any)}
-                  className="px-2 py-1 rounded bg-slate-950 border border-slate-700 text-xs text-amber-300"
-                >
-                  <option value="solid">Solid Bulkhead Wall</option>
-                  <option value="door">Interactive Door / Airlock</option>
-                  <option value="window">Armored Viewport Window</option>
-                  <option value="one_way">One-Way Smart Partition</option>
-                </select>
+                <div className="flex items-center space-x-1.5">
+                  <select
+                    value={selectedWallType}
+                    onChange={(e) => setSelectedWallType(e.target.value as any)}
+                    className="px-2 py-1 rounded bg-slate-950 border border-slate-700 text-xs text-amber-300"
+                  >
+                    <option value="solid">Solid Bulkhead Wall</option>
+                    <option value="door">Interactive Door / Airlock</option>
+                    <option value="window">Armored Viewport Window</option>
+                    <option value="one_way">One-Way Smart Partition</option>
+                  </select>
+                  <div className="flex items-center bg-slate-950 border border-slate-700 rounded overflow-hidden text-[10px]">
+                    {(['auto', 'north', 'south', 'east', 'west'] as const).map((edgeOpt) => (
+                      <button
+                        key={edgeOpt}
+                        type="button"
+                        onClick={() => setWallEdgeMode(edgeOpt)}
+                        className={`px-1.5 py-1 uppercase font-bold cursor-pointer transition-colors ${
+                          wallEdgeMode === edgeOpt
+                            ? 'bg-amber-600 text-white'
+                            : 'text-slate-400 hover:text-slate-200'
+                        }`}
+                        title={`Place wall on ${edgeOpt} edge of clicked cell`}
+                      >
+                        {edgeOpt === 'auto' ? 'Auto' : edgeOpt[0].toUpperCase()}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               )}
 
               {activeTool === 'asset' && (
@@ -1283,7 +1446,7 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                     return (
                       <g
                         key={`cell_${c}_${r}`}
-                        onClick={() => handleCellClick(c, r)}
+                        onClick={(e) => handleCellClick(c, r, e)}
                         className="cursor-pointer group"
                       >
                         <rect

@@ -64,16 +64,21 @@ export const TrapsAndHazardsWorkbench = ({
     return reactiveObjects.find(o => o.id === selectedObjectId) || reactiveObjects[0] || null;
   }, [reactiveObjects, selectedObjectId]);
 
-  // Handle object property update
-  const handleUpdateObject = (objId, key, value) => {
-    if (!activeMap || !onUpdateMapObjects) return;
+  // Handle atomic multi-field object patch (avoids stale-closure overwrites across sequential calls)
+  const handlePatchObject = (objId, patch) => {
+    if (!activeMap || !onUpdateMapObjects || !patch) return;
     const nextObjects = mapObjects.map(o => {
       if (o.id === objId) {
-        return { ...o, [key]: value };
+        return { ...o, ...patch };
       }
       return o;
     });
     onUpdateMapObjects(activeMap.id, nextObjects);
+  };
+
+  // Handle single object property update
+  const handleUpdateObject = (objId, key, value) => {
+    handlePatchObject(objId, { [key]: value });
   };
 
   // Add new Reactive Trap to active map
@@ -299,13 +304,19 @@ export const TrapsAndHazardsWorkbench = ({
                         key={k}
                         onClick={() => {
                           AudioService.playTerminalBeep(1100, 0.02);
-                          handleUpdateObject(activeObject.id, 'trapType', k);
-                          handleUpdateObject(activeObject.id, 'label', t.name);
-                          handleUpdateObject(activeObject.id, 'saveCr', t.saveCr);
-                          handleUpdateObject(activeObject.id, 'saveType', t.saveType);
-                          handleUpdateObject(activeObject.id, 'damageDice', t.damageDice);
-                          handleUpdateObject(activeObject.id, 'baseDamage', t.baseDamage);
-                          handleUpdateObject(activeObject.id, 'appliedCondition', t.appliedCondition);
+                          handlePatchObject(activeObject.id, {
+                            name: t.name,
+                            label: t.name,
+                            trapType: k,
+                            triggerRadius: t.triggerRadiusPx,
+                            saveCr: t.saveCr,
+                            saveType: t.saveType,
+                            damageDice: t.damageDice,
+                            baseDamage: t.baseDamage,
+                            appliedCondition: t.appliedCondition,
+                            disarmDc: t.disarmDc,
+                            description: t.description
+                          });
                         }}
                         className={`p-2 rounded-xl border transition-all cursor-pointer ${
                           isCurrent

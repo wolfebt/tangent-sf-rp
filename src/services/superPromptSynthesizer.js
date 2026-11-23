@@ -20,8 +20,8 @@ export function buildStaticRulesPrefix({ campaignName = '', folioCharacter = nul
     '=== [BASTION CANONICAL STATIC RULES PREFIX — OMNICORTEX ATTUNED] ===',
     'Foundational Mechanics & Universal Constants (Canonical v6):',
     '• Dual Resolution (2d10): Checks resolve via 2d10 + Attribute + Skill Rank (Unopposed vs. Challenge Rating CR 15 baseline; Opposed 2d10 + Attack vs. 2d10 + Defense, where Defender wins ties). Axis 1 (Magnitude): Margin +5 High-Degree Success, +10 Critical Success, -5 Severe Failure, -10 Critical Failure. Axis 2 (Fate): Doubles ([2,2]–[9,9]) trigger a Boon on success or Complication on failure; Critical Triumph (Nat 20 [10,10] or expanded threat) adds +10 to the rolled dice value (e.g., 20 -> 30, 19 -> 29) and rolls 2x weapon dice; Critical Fumble (Snake Eyes [1,1] or expanded fumble) replaces the rolled dice value with a flat -10 (Base Score - 10). Strike consolidation is gated strictly behind the Precision Strike / Improved Precision Strike / Greater Precision Strike Combat Features (2x / 3x / 4x base weapon dice; no AP and no Grazing Protocol).',
-    '• Base Vitals & Toughness: Organics start at 30 VP (Vitality) / 30 HP (Health); Synthetics use 60 SP (Structure Points); 1 CP = +5 pool points. Standard damage depletes Vitality first before Health. Stamina grants Toughness DR (min 0 damage floor) rather than inflating base VP/HP; Armor Layering uses only the single highest DR domain.',
-    '• Called Shots & 33.3% Trauma: Anatomy targeting (-1 Torso, -2 Head/Arms/Legs, -3 Optics). Major Wound Trauma triggers at >= 33.3% Target Max HP in a single strike, inflicting anatomical impairment.',
+    '• Base Vitals & Toughness: Organics start at 30 VP (Vitality) / 30 HP (Health); Synthetics use 60 SP (Structure Points); 1 CP = +5 pool points. Standard damage depletes Vitality first before Health. Stamina grants Toughness DR (min 0 damage floor) rather than inflating base VP/HP; Armor Layering uses Cross-Domain Diminishing Returns (Highest Layer DR + ceil(Other Layer DR / 5) per additional cross-domain layer across Biological, Cybernetic, Metaphysical, and Wearable domains; same-domain wearables use single highest item).',
+    '• Called Shots & 33.3% Trauma: Anatomy targeting (-1 Torso, -2 Head/Arms/Legs/Vitals, -5 Optics/Sensors). Major Wound Trauma triggers at >= 33.3% Target Max HP in a single strike, inflicting anatomical impairment.',
     '• Tech & Meta Levels (TL 0–5 / ML 0–5): TL-0 Primitive/Archaic, TL-1 Industrial, TL-2 Advanced Electronic, TL-3 Interstellar/Cybernetic (Galactic baseline), TL-4 Nanotech/Hard-Light, TL-5 Progenitor/Precursor; ML 0 Null to ML 5 Cosmic.',
     '• Economatrix EUFT & Golden Rule: Base Value (Credits) = 10 * 4^(floor(CR / 5)) with Linear Micro-Modifiers (+1 CR x1.30, +2 x1.75, +3 x2.30, +4 x3.00; -1 Flaw x0.75); Purchase CR = Crafting CR = Cost CR; Auto-Buy when Item CR <= Wealth Score; Liquidity Gap = Value(Item CR) - Value(Character WS).',
     '• Tactical Stances: Guard (+2 Armor DR), Aim (+2 To-Hit), Overcharge (+6 DMG / +2 Heat/Fatigue).'
@@ -167,7 +167,7 @@ export function synthesizeSuperPrompt({
 
   // ── LAYER 3: ASSET HUB (THE 'WHO / WHAT ELSE' — CONTEXTUAL WEB) ──
   const rawHub = assetHub || activeNode?.assetHub || activeNode?.linkedElements || [];
-  const normalizedHub = normalizeLinkedAssets(rawHub, catalog);
+  const normalizedHub = normalizeLinkedAssets(rawHub, effectiveCatalog);
 
   const highAssets = normalizedHub.filter(a => a.importance === 'high');
   const typicalAssets = normalizedHub.filter(a => a.importance === 'typical');
@@ -182,7 +182,7 @@ export function synthesizeSuperPrompt({
       sections.push('--- PRIMARY FOREGROUND ANCHORS (HIGH PRIORITY) ---');
       sections.push('These assets MUST drive the core narrative conflict, actions, or dialogue:');
       for (const asset of highAssets) {
-        const item = catalog.find(e => e.id === asset.assetId);
+        const item = effectiveCatalog.find(e => e.id === asset.assetId);
         sections.push(`  ★ [${asset.assetType}] "${asset.assetTitle}"`);
         if (asset.annotation) {
           sections.push(`    Directorial Note (The "Why"): "${asset.annotation}"`);
@@ -196,7 +196,7 @@ export function synthesizeSuperPrompt({
       sections.push('--- CONTEXTUAL BACKGROUND (TYPICAL PRIORITY) ---');
       sections.push('Provide essential situational and setting consistency with these assets:');
       for (const asset of typicalAssets) {
-        const item = catalog.find(e => e.id === asset.assetId);
+        const item = effectiveCatalog.find(e => e.id === asset.assetId);
         sections.push(`  • [${asset.assetType}] "${asset.assetTitle}"`);
         if (asset.annotation) {
           sections.push(`    Directorial Note: "${asset.annotation}"`);

@@ -28,12 +28,10 @@ import { useFolio } from '../../../context/FolioContext';
 import { pullElementFromOmnicortexDBM } from '../../../utils/storyAssetAdapter.js';
 import {
   buildUnifiedAdeCatalog,
-  resolveTargetCortexCollection,
-  consolidateAdeElementToCortexPayload,
-  convertPersonaElementToFolio,
   ADE_TYPE_TO_CORTEX_COLLECTIONS,
   CORTEX_BACKED_ADE_TYPES
 } from '../../../utils/cortexAdeAssetBridge.js';
+import { persistAdeElement } from '../../../utils/adeElementPersistence.js';
 
 const EMPTY_ARRAY = [];
 const EMPTY_OBJ = {};
@@ -41,7 +39,7 @@ const PAGE_BATCH_SIZE = 48;
 
 export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSelectType, hideSidebar = false }) => {
   const navigate = useNavigate();
-  const { elementsCatalog, updateSavedElement, deleteSavedElement, saveElementToCloud, universeState, activeScenarioId } = useCampaign();
+  const { elementsCatalog, updateSavedElement, deleteSavedElement, universeState, activeScenarioId } = useCampaign();
   const storeActiveElementType = useAdeStore((state) => state.activeElementType);
   const setStoreActiveElementType = useAdeStore((state) => state.setActiveElementType);
   const activePropertySubcategory = useAdeStore((state) => state.activePropertySubcategory || 'all');
@@ -109,7 +107,6 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
           type: normalizeElementType(res.element.type)
         };
         await updateSavedElement(normalizedElem.id, normalizedElem);
-        await saveElementToCloud(normalizedElem);
         count++;
       }
     }
@@ -127,8 +124,8 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
     personaRoster = EMPTY_ARRAY,
     publicPersonas = EMPTY_ARRAY,
     publicCatalog = EMPTY_ARRAY,
-    saveToRoster,
-    loadCharacter
+    saveCurrentToRoster,
+    switchRosterCharacter
   } = useFolio() || EMPTY_OBJ;
   const liveFolioRoster = useMemo(
     () => (Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : EMPTY_ARRAY)),
@@ -187,7 +184,6 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
         }
       };
       await updateSavedElement(newElem.id, newElem);
-      await saveElementToCloud(newElem);
       count++;
     }
     showToast({ type: 'success', text: `Pinned ${count} ${activeType} element(s) from OmniCortex into Story Module!` });
@@ -206,7 +202,6 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
       const updated = pullElementFromOmnicortexDBM(el, dbData);
       if (updated) {
         await updateSavedElement(updated.id, updated);
-        await saveElementToCloud(updated);
         updatedCount++;
       }
     }
@@ -378,7 +373,6 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
       updatedAt: new Date().toISOString()
     };
     await updateSavedElement(pinnedElem.id, pinnedElem);
-    await saveElementToCloud(pinnedElem);
     showToast({
       type: 'success',
       text: `Pinned "${pinnedElem.title || pinnedElem.name}" into active Story Module!`
@@ -472,80 +466,18 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   };
 
   const handleSave = async (updatedElement) => {
-    const normalized = {
-      ...updatedElement,
-      type: normalizeElementType(updatedElement.type)
-    };
-
-    // 1. Persona Folio Character Synchronization
-    if (
-      normalized.type === 'Persona' &&
-      (normalized.isFolioPersona || normalized.personaSubcategory === 'folio' || normalized.fields?.personaSubcategory === 'folio')
-    ) {
-      if (typeof saveToRoster === 'function') {
-        const folioPayload = convertPersonaElementToFolio(normalized, normalized.personaData || {});
-        if (folioPayload) {
-          await saveToRoster(folioPayload);
-          showToast({
-            type: 'success',
-            text: `Saved "${normalized.title}" to Persona Folio Roster!`
-          });
-        }
-      }
-      if (normalized.isPinnedToModule || (elementsCatalog || []).some(e => e.id === normalized.id)) {
-        await updateSavedElement(normalized.id, normalized);
-        await saveElementToCloud(normalized);
-      }
-      setIsEditModalOpen(false);
-      setSelectedElement(null);
-      return;
-    }
-
-    // 2. OmniCortex / Codex Consolidated Asset Persistence
-    const targetCortexCollection = resolveTargetCortexCollection(normalized);
-    if (targetCortexCollection && typeof saveEntry === 'function') {
-      const consolidated = consolidateAdeElementToCortexPayload(normalized, {
-        targetCollection: targetCortexCollection
-      });
-      if (consolidated) {
-        const res = await saveEntry(consolidated.payload, consolidated.targetCollection);
-        if (res?.ok !== false) {
-          showToast({
-            type: 'success',
-            text: `Consolidated "${normalized.title}" to OmniCortex (${consolidated.targetCollection})!`
-          });
-        }
-        // Also update Story Module pin if already pinned or explicitly Story-scoped
-        const existsInModule = (elementsCatalog || []).some(
-          e => e.id === normalized.id || e.id === normalized.moduleElementId
-        );
-        if (normalized.isPinnedToModule || existsInModule) {
-          const syncedPin = {
-            ...normalized,
-            dbmCategory: consolidated.targetCollection,
-            dbmId: consolidated.payload.id,
-            dbmSyncStatus: 'synced',
-            fields: {
-              ...(normalized.fields || {}),
-              dbmRef: consolidated.payload.id,
-              dbmId: consolidated.payload.id,
-              dbmCategory: consolidated.targetCollection
-            }
-          };
-          await updateSavedElement(syncedPin.id, syncedPin);
-          await saveElementToCloud(syncedPin);
-        }
-        setIsEditModalOpen(false);
-        setSelectedElement(null);
-        return;
-      }
-    }
-
-    // 3. Campaign-Scoped Narrative Elements (Story Arc, Adventure, Encounter, Clue, Handout, Map, Story Persona, etc.)
-    await updateSavedElement(normalized.id, normalized);
-    await saveElementToCloud(normalized);
+    const res = await persistAdeElement({
+      element: updatedElement,
+      elementsCatalog,
+      updateSavedElement,
+      saveEntry,
+      saveCurrentToRoster,
+      showToast
+    });
+    if (!res) return null;
     setIsEditModalOpen(false);
     setSelectedElement(null);
+    return res;
   };
 
   const handleDeleteAsset = async (el) => {
@@ -1184,8 +1116,8 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                if (el.folioDocId && typeof loadCharacter === 'function') {
-                                  loadCharacter(el.folioDocId);
+                                if (el.folioDocId && typeof switchRosterCharacter === 'function') {
+                                  switchRosterCharacter(el.folioDocId);
                                 }
                                 navigate('/folio');
                               }}
@@ -1219,7 +1151,6 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                                 const updated = pullElementFromOmnicortexDBM(el, dbData);
                                 if (updated) {
                                   await updateSavedElement(updated.id, updated);
-                                  await saveElementToCloud(updated);
                                   showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
                                 } else {
                                   showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });
@@ -1380,8 +1311,8 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                                       type="button"
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        if (el.folioDocId && typeof loadCharacter === 'function') {
-                                          loadCharacter(el.folioDocId);
+                                        if (el.folioDocId && typeof switchRosterCharacter === 'function') {
+                                          switchRosterCharacter(el.folioDocId);
                                         }
                                         navigate('/folio');
                                       }}
@@ -1414,7 +1345,6 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                                         const updated = pullElementFromOmnicortexDBM(el, dbData);
                                         if (updated) {
                                           await updateSavedElement(updated.id, updated);
-                                          await saveElementToCloud(updated);
                                           showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
                                         } else {
                                           showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });

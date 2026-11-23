@@ -334,13 +334,19 @@ export const convertMcmToFolioPersona = (mcmInput = {}, options = {}) => {
     return tertiaryBonus;
   };
 
-  const explicitAttrs = rawRecord.attributes || fields.attributes || {};
-  const resolvePrimaryAttr = (attrKey, shortKey) => {
+  const explicitAttrs =
+    rawRecord.attributes ||
+    rawRecord.primaryAttributes ||
+    fields.attributes ||
+    fields.primaryAttributes ||
+    {};
+  const resolvePrimaryAttr = (attrKey, shortKey, extraAliases = []) => {
     const candidates = [
       rawRecord[attrKey],
       rawRecord[attrKey.replace('-', '_')],
       explicitAttrs[attrKey],
       explicitAttrs[shortKey],
+      ...extraAliases.map((k) => explicitAttrs[k] ?? rawRecord[k] ?? fields[k]),
       fields[attrKey],
       attachedPersona[attrKey]
     ];
@@ -353,12 +359,12 @@ export const convertMcmToFolioPersona = (mcmInput = {}, options = {}) => {
     return getDefaultAttr(attrKey);
   };
 
-  const attrStrength = resolvePrimaryAttr('attr-strength', 'str');
-  const attrAgility = resolvePrimaryAttr('attr-agility', 'agi');
-  const attrStamina = resolvePrimaryAttr('attr-stamina', 'sta');
-  const attrIntellect = resolvePrimaryAttr('attr-intellect', 'int');
-  const attrWisdom = resolvePrimaryAttr('attr-wisdom', 'wis');
-  const attrCharisma = resolvePrimaryAttr('attr-charisma', 'cha');
+  const attrStrength = resolvePrimaryAttr('attr-strength', 'str', ['attr-str-base']);
+  const attrAgility = resolvePrimaryAttr('attr-agility', 'agi', ['attr-agi-base']);
+  const attrStamina = resolvePrimaryAttr('attr-stamina', 'sta', ['attr-sta-base']);
+  const attrIntellect = resolvePrimaryAttr('attr-intellect', 'int', ['attr-int-base']);
+  const attrWisdom = resolvePrimaryAttr('attr-wisdom', 'wis', ['wil', 'attr-wil-base', 'attr-wis-base']);
+  const attrCharisma = resolvePrimaryAttr('attr-charisma', 'cha', ['attr-cha-base']);
 
   const resolveSubAttr = (subKey, primaryVal) => {
     const defaultSub = 2 + (primaryVal * 2);
@@ -1323,6 +1329,7 @@ export const convertFolioToPersonaElement = (folioData, options = {}) => {
     'char-weight': folioData['char-weight'] || '',
     'voice': folioData.voice || '',
     'char-style': folioData['char-style'] || folioData.clothing || '',
+    'clothing': folioData.clothing || folioData['char-style'] || '',
     'mannerisms': folioData.mannerisms || '',
 
     // Narrative: Profile: Personality
@@ -1393,9 +1400,23 @@ export const convertFolioToPersonaElement = (folioData, options = {}) => {
     'health': String(folioData.health ?? 30),
     'vitality': String(folioData.vitality ?? 30),
     'structure': String(folioData.structure ?? 60),
+    'current_health': String(folioData.current_health ?? folioData.health ?? 30),
+    'current_vitality': String(folioData.current_vitality ?? folioData.vitality ?? 30),
+    'current_structure': String(folioData.current_structure ?? folioData.structure ?? 60),
     'karma': String(folioData.karma ?? 3),
     'plot-points': String(folioData['plot-points'] ?? 0),
     'initiative-mod': String(folioData['initiative-mod'] ?? 0),
+    'earned_ap': String(folioData.earned_ap ?? 0),
+    'spent_ap': String(folioData.spent_ap ?? 0),
+    'experience_debt': String(folioData.experience_debt ?? 0),
+    'is_locked': Boolean(folioData.is_locked),
+    'folio_phase': folioData.folio_phase || 'development',
+    'is_ready_for_vtt': folioData.is_ready_for_vtt !== false,
+    'portrait': folioData.portrait || folioData.imageUrl || '',
+    'token': folioData.token || '',
+    'standee': folioData.standee || '',
+    'media': safeJsonStringify(folioData.media || {}),
+    'gallery': safeJsonStringify(folioData.gallery || []),
 
     'attr-strength': String(folioData['attr-strength'] ?? 0),
     'attr-might': String(folioData['attr-might'] ?? 2),
@@ -1500,11 +1521,42 @@ export const convertPersonaElementToFolio = (element) => {
     return isNaN(parsed) ? defaultVal : parsed;
   };
 
-  const name = fields['char-name'] || rawElement.title || attachedFolio['char-name'] || 'Unnamed Persona';
+  const parseBool = (val, defaultVal = false) => {
+    if (val === undefined || val === null || val === '') return defaultVal;
+    if (typeof val === 'boolean') return val;
+    if (typeof val === 'string') {
+      const low = val.trim().toLowerCase();
+      if (low === 'true' || low === '1' || low === 'yes') return true;
+      if (low === 'false' || low === '0' || low === 'no') return false;
+    }
+    return Boolean(val);
+  };
+
+  const pickEdited = (legacyVal, aimeVal, legacyBase = '', aimeBase = legacyBase) => {
+    const lBase = legacyBase ?? '';
+    const aBase = aimeBase ?? '';
+    const legacyChanged = legacyVal !== undefined && String(legacyVal) !== String(lBase);
+    const aimeChanged = aimeVal !== undefined && String(aimeVal) !== String(aBase);
+    if (aimeChanged && !legacyChanged) return aimeVal ?? '';
+    if (legacyChanged) return legacyVal ?? '';
+    if (legacyVal !== undefined && legacyVal !== null && legacyVal !== '') return legacyVal;
+    if (aimeVal !== undefined && aimeVal !== null && aimeVal !== '') return aimeVal;
+    return lBase;
+  };
+
+  const baseName = attachedFolio['char-name'] || '';
+  const name =
+    pickEdited(fields['char-name'], rawElement.title, baseName) ||
+    'Unnamed Persona';
+  const baseTagsStr = Array.isArray(attachedFolio.tags) ? attachedFolio.tags.join(', ') : (attachedFolio.tags || '');
+  const isImageCleared = rawElement.imageUrl === '' && Boolean(attachedFolio.imageUrl || attachedFolio.portrait);
+  const resolvedImageUrl = isImageCleared
+    ? ''
+    : (rawElement.imageUrl || fields.portrait || attachedFolio.imageUrl || attachedFolio.portrait || '');
 
   const folioResult = {
     ...attachedFolio,
-    'character-doc-id': attachedFolio['character-doc-id'] || rawElement.id || `char_${Date.now()}`,
+    'character-doc-id': attachedFolio['character-doc-id'] || rawElement.folioDocId || rawElement.id || `char_${Date.now()}`,
     isPublic: Boolean(attachedFolio.isPublic),
     authorHandle: rawElement.authorHandle || attachedFolio.authorHandle || '',
     contributors: attachedFolio.contributors || [],
@@ -1512,7 +1564,12 @@ export const convertPersonaElementToFolio = (element) => {
 
     // Identity & 5 Pillars
     'char-name': name,
-    'char-concept': fields['char-concept'] || attachedFolio['char-concept'] || '',
+    'char-concept': pickEdited(
+      fields['char-concept'],
+      fields.archetype,
+      attachedFolio['char-concept'] || '',
+      attachedFolio['char-concept'] || attachedFolio['char-archetype'] || ''
+    ),
     'char-archetype': fields['char-archetype'] || attachedFolio['char-archetype'] || '',
     'char-species': fields['char-species'] || attachedFolio['char-species'] || '',
     'char-occu': fields['char-occu'] || attachedFolio['char-occu'] || '',
@@ -1578,7 +1635,7 @@ export const convertPersonaElementToFolio = (element) => {
     earned_ap: parseNum(fields.earned_ap ?? attachedFolio.earned_ap, 0),
     spent_ap: parseNum(fields.spent_ap ?? attachedFolio.spent_ap, 0),
     experience_debt: parseNum(fields.experience_debt ?? attachedFolio.experience_debt, 0),
-    is_locked: Boolean(fields.is_locked ?? attachedFolio.is_locked ?? false),
+    is_locked: parseBool(fields.is_locked ?? attachedFolio.is_locked, false),
 
     // 12 Attributes
     'attr-strength': parseNum(fields['attr-strength'] ?? attachedFolio['attr-strength'], 0),
@@ -1595,38 +1652,43 @@ export const convertPersonaElementToFolio = (element) => {
     'attr-etiquette': parseNum(fields['attr-etiquette'] ?? attachedFolio['attr-etiquette'], 2),
 
     // Narrative & Lore (Synced with Persona Folio & AIME Layer 2 Core Traits)
-    role: fields.role || fields.roleInStory || attachedFolio.role || '',
-    summary: fields.summary || fields.oneLinePitch || attachedFolio.summary || '',
+    role: pickEdited(fields.role, fields.roleInStory, attachedFolio.role || ''),
+    summary: pickEdited(fields.summary, fields.oneLinePitch, attachedFolio.summary || ''),
     primaryConflict: fields.primaryConflict || attachedFolio.primaryConflict || '',
     nicknames: fields.nicknames || attachedFolio.nicknames || '',
     socialClass: fields.socialClass || attachedFolio.socialClass || '',
     currentResidence: fields.currentResidence || attachedFolio.currentResidence || '',
-    appearance: fields.appearance || fields.physicalDescription || attachedFolio.appearance || '',
+    appearance: pickEdited(fields.appearance, fields.physicalDescription, attachedFolio.appearance || ''),
     voice: fields.voice || attachedFolio.voice || '',
     clothing: fields.clothing || fields['char-style'] || attachedFolio.clothing || attachedFolio['char-style'] || '',
-    mannerisms: fields.mannerisms || fields.personalityMannerisms || attachedFolio.mannerisms || '',
-    positiveTraits: fields.positiveTraits || fields.strengthsFlaws || attachedFolio.positiveTraits || '',
+    mannerisms: pickEdited(fields.mannerisms, fields.personalityMannerisms, attachedFolio.mannerisms || ''),
+    positiveTraits: pickEdited(fields.positiveTraits, fields.strengthsFlaws, attachedFolio.positiveTraits || ''),
     negativeTraits: fields.negativeTraits || attachedFolio.negativeTraits || '',
     likesDislikes: fields.likesDislikes || attachedFolio.likesDislikes || '',
     hobbies: fields.hobbies || attachedFolio.hobbies || '',
     personalityType: fields.personalityType || attachedFolio.personalityType || '',
-    backstory: fields.backstory || fields.backgroundHistory || attachedFolio.backstory || '',
+    backstory: pickEdited(fields.backstory, fields.backgroundHistory, attachedFolio.backstory || ''),
     definingTrauma: fields.definingTrauma || attachedFolio.definingTrauma || '',
     greatestAccomplishment: fields.greatestAccomplishment || attachedFolio.greatestAccomplishment || '',
     childhoodEvents: fields.childhoodEvents || attachedFolio.childhoodEvents || '',
-    keyRelationships: fields.keyRelationships || fields.relationships || attachedFolio.keyRelationships || '',
+    keyRelationships: pickEdited(fields.keyRelationships, fields.relationships, attachedFolio.keyRelationships || ''),
     worldview: fields.worldview || attachedFolio.worldview || '',
     theLie: fields.theLie || attachedFolio.theLie || '',
     theTruth: fields.theTruth || attachedFolio.theTruth || '',
     deepestFear: fields.deepestFear || attachedFolio.deepestFear || '',
-    goals: fields.goals || fields.goalsMotivations || attachedFolio.goals || '',
+    goals: pickEdited(
+      fields.goals,
+      fields.goalsMotivations,
+      attachedFolio.goals || '',
+      attachedFolio['char-motive'] || attachedFolio.goals || ''
+    ),
     stakes: fields.stakes || attachedFolio.stakes || '',
     stats: fields.stats || attachedFolio.stats || '',
     plotHooks: fields.plotHooks || attachedFolio.plotHooks || '',
     romanticHistory: fields.romanticHistory || attachedFolio.romanticHistory || '',
-    tags: fields.tags || fields.keywords || attachedFolio.tags || '',
-    content: rawElement.content || fields.narrativeProse || attachedFolio.content || attachedFolio.narrativeProse || '',
-    narrativeProse: fields.narrativeProse || rawElement.content || attachedFolio.narrativeProse || attachedFolio.content || '',
+    tags: pickEdited(fields.tags, fields.keywords, baseTagsStr, attachedFolio.keywords || ''),
+    content: rawElement.content !== undefined ? rawElement.content : (fields.narrativeProse || attachedFolio.content || attachedFolio.narrativeProse || ''),
+    narrativeProse: rawElement.content !== undefined ? (fields.narrativeProse || rawElement.content) : (fields.narrativeProse || attachedFolio.narrativeProse || attachedFolio.content || ''),
 
     // Custom Fields, Scripting & AIME 3-Tier Architecture
     customFields: Array.isArray(rawElement.customFields)
@@ -1676,8 +1738,8 @@ export const convertPersonaElementToFolio = (element) => {
     other: safeJsonParse(fields.other, attachedFolio.other || []),
     notes: safeJsonParse(fields.notes, attachedFolio.notes || [{ text: '' }]),
     media: safeJsonParse(fields.media, attachedFolio.media || {}),
-    imageUrl: rawElement.imageUrl || fields.portrait || attachedFolio.imageUrl || attachedFolio.portrait || '',
-    portrait: fields.portrait || attachedFolio.portrait || rawElement.imageUrl || '',
+    imageUrl: resolvedImageUrl,
+    portrait: isImageCleared ? '' : (fields.portrait || attachedFolio.portrait || resolvedImageUrl || ''),
     token: fields.token || attachedFolio.token || '',
     standee: fields.standee || attachedFolio.standee || '',
     gallery: safeJsonParse(fields.gallery, attachedFolio.gallery || [])
@@ -1732,7 +1794,8 @@ export const sendMcmToFolioRoster = (mcmEntry, options = {}) => {
       }
       localStorage.setItem('personaRoster', JSON.stringify(roster));
       localStorage.setItem('tangent_folio_roster', JSON.stringify(roster));
-      if (options.activateInFolio !== false) {
+      const shouldActivate = options.activateInFolio ?? options.openInFolio ?? true;
+      if (shouldActivate) {
         localStorage.setItem('personaFolioData', JSON.stringify(folioPersona));
         localStorage.setItem('tangent_folio_character', JSON.stringify(folioPersona));
         localStorage.setItem('tangent_pending_folio_import', JSON.stringify({

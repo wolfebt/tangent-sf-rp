@@ -59,6 +59,8 @@ export const SizeCategory = {
   Huge: 4,
   Gargantuan: 8,
   Colossal: 16,
+  Enormous: 32,
+  Titanic: 64,
   SuperGargantuan: 128,
   MegaColossal: 256
 } as const;
@@ -147,7 +149,7 @@ export class CombatArbitrator {
   public getActionTier(skillRank: number): ActionEconomyTier {
     const clamped = Math.max(0, Math.min(30, Math.floor(skillRank)));
     const tier = ACTION_ECONOMY_TIERS.find(t => clamped >= t.rankMin && clamped <= t.rankMax);
-    return tier || ACTION_ECONOMY_TIERS[0];
+    return tier ?? ACTION_ECONOMY_TIERS[0]!;
   }
 
   /**
@@ -214,7 +216,7 @@ export class CombatArbitrator {
     defenselessBonusDamage: number;
   } {
     const margin = attackerTotal - cr;
-    const isHit = margin > 0;
+    const isHit = margin >= 0;
     const defenselessBonusDamage = (options.isTargetDefenseless && isHit) ? Math.floor(margin / 2) : 0;
     return {
       isHit,

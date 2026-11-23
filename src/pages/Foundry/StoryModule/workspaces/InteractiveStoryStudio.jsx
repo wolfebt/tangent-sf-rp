@@ -90,6 +90,7 @@ import {
 import InteractiveBookView from './InteractiveBookView';
 import LorebookDossierModal from '../panels/LorebookDossierModal';
 import EditElementModal from '../../ElementForge/EditElementModal';
+import { persistAdeElement } from '../../../../utils/adeElementPersistence';
 import { scanDynamicLorebook } from '../../../../services/lorebookScanner.ts';
 import { getTypePillStyle } from '../../ElementForge/elementSchemas';
 
@@ -126,12 +127,14 @@ export const InteractiveStoryStudio = ({
     applyVTTStatusConditions, 
     recordTrackedModification,
     updateCharacterHealth,
-    updateCharacterVitality
+    updateCharacterVitality,
+    saveCurrentToRoster
   } = folio;
 
   // DBM Database Context
   const dbm = useDBM() || {};
   const dbData = dbm.dbData || {};
+  const saveEntry = dbm.saveEntry;
 
   // ── FOUNDRY SCENARIO SELECTION ──
   const allFoundryScenarios = useMemo(() => {
@@ -178,18 +181,24 @@ export const InteractiveStoryStudio = ({
       }
     }
     // 2. Outgoing branch connections in Visual Story Graph
-    if (Array.isArray(activeScenario.branchConnections)) {
-      for (const conn of activeScenario.branchConnections) {
-        const target = allFoundryScenarios.find(s => s.id === conn.targetId);
-        if (target && !branches.some(b => b.targetScenarioId === target.id)) {
-          branches.push({
-            id: `conn_${conn.targetId}`,
-            targetScenarioId: target.id,
-            text: conn.label ? `${conn.label} ➔ ${target.title}` : `Branch to: ${target.title}`,
-            type: target.type || 'Scene',
-            readAloud: target.fields?.readAloud || target.content || ''
-          });
-        }
+    const graphConnections = [
+      ...(Array.isArray(activeScenario.branchConnections) ? activeScenario.branchConnections : []),
+      ...(Array.isArray(activeScenario.fields?.connections) ? activeScenario.fields.connections : []),
+      ...(Array.isArray(activeScenario.fields?.choices) ? activeScenario.fields.choices : [])
+    ];
+    for (const conn of graphConnections) {
+      const targetId = conn?.targetScenarioId || conn?.targetId || conn?.targetNodeId;
+      if (!targetId) continue;
+      const target = allFoundryScenarios.find(s => s.id === targetId);
+      if (target && !branches.some(b => b.targetScenarioId === target.id)) {
+        const edgeLabel = conn.label || conn.text;
+        branches.push({
+          id: `conn_${target.id}`,
+          targetScenarioId: target.id,
+          text: edgeLabel ? `${edgeLabel} ➔ ${target.title}` : `Branch to: ${target.title}`,
+          type: target.type || 'Scene',
+          readAloud: target.fields?.readAloud || target.content || ''
+        });
       }
     }
     return branches;
@@ -544,7 +553,9 @@ export const InteractiveStoryStudio = ({
       subAttrKey: skillCheckRoll ? skillCheckRoll.subAttrKey : '',
       activeModifiers,
       storyFlags,
-      diceOverride: skillCheckRoll ? [skillCheckRoll.dice1, skillCheckRoll.dice2] : null
+      diceOverride: skillCheckRoll && Number.isFinite(skillCheckRoll.d1) && Number.isFinite(skillCheckRoll.d2)
+        ? [skillCheckRoll.d1, skillCheckRoll.d2]
+        : null
     });
 
     // Audio cue based on immutable systemic intent
@@ -618,12 +629,14 @@ Guidance: ${typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci
     let lorebookPromptContext = '';
     try {
       const loreScanInput = `${chosenAction} ${recentBeatsText} ${activeScenario?.title || ''} ${activeScenario?.content || ''}`;
+      const adeState = useAdeStore.getState();
+      const lorebookCfg = adeState.lorebookConfig || { maxTokens: 1200, maxRecursionPasses: 3 };
       const loreResult = scanDynamicLorebook({
         input: loreScanInput,
         activeScenario,
         catalog: elementsCatalog || [],
-        storyFlags: useAdeStore.getState().storyFlags || {},
-        config: { maxTokens: 800, maxRecursionPasses: 2 }
+        storyFlags: adeState.storyFlags || {},
+        config: lorebookCfg
       });
       if (loreResult && loreResult.injectedEntries?.length > 0) {
         injectedLoreEntries = loreResult.injectedEntries;
@@ -633,17 +646,12 @@ Guidance: ${typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci
       console.warn('Lorebook scanning error:', loreErr);
     }
 
-    // Structural mandate prompt formatting ensures 100% subordination of the LLM
-    const mandatePromptText = formatMandateForPrompt(mandate);
-
     const prompt = `You are AIME, the Creative AI Overseer running an interactive Tangent SFF RPG tactical encounter.
 ${scenarioContext}
 ${protagonistContext}
 ${lorebookPromptContext}
 Story history so far:
 ${recentBeatsText || 'Scene commencement.'}
-
-${mandatePromptText}
 
 INSTRUCTIONS:
 1. Write exactly ONE OR TWO atmospheric paragraphs (120-180 words) depicting direct sensory consequences. Honor Tangent SFF rules (Tech Levels 0-5, kinetic shields, physical armor soak, called shots, and trauma thresholds).
@@ -655,9 +663,9 @@ FORMAT YOUR OUTPUT AS VALID JSON:
   "gate": {
     "prompt": "What is the operator's next move?",
     "options": [
-      { "id": "1", "text": "Aggressive or kinetic move...", "skill": "Kinetics / Ballistics CR 12" },
-      { "id": "2", "text": "Tactical, technical, or stealth move...", "skill": "Slicing / Stealth CR 13" },
-      { "id": "3", "text": "Diplomatic, psionic, or unconventional move...", "skill": "Perception / Psionics CR 12" }
+      { "id": "1", "text": "Aggressive or kinetic move...", "skillCheck": "Kinetics / Ballistics CR 12" },
+      { "id": "2", "text": "Tactical, technical, or stealth move...", "skillCheck": "Slicing / Stealth CR 13" },
+      { "id": "3", "text": "Diplomatic, psionic, or unconventional move...", "skillCheck": "Perception / Psionics CR 12" }
     ]
   }
 }`;
@@ -666,7 +674,13 @@ FORMAT YOUR OUTPUT AS VALID JSON:
       let accumulated = '';
       await streamContent({
         prompt,
-        context: activeScenario,
+        context: {
+          activeNode: activeScenario,
+          catalog: elementsCatalog || [],
+          storyFlags: useAdeStore.getState().storyFlags || {},
+          folioCharacter: activeOperative,
+          guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci-Fi Action'
+        },
         mandate,
         enforceJson: true,
         tierKey: selectedLodTier,
@@ -686,9 +700,9 @@ FORMAT YOUR OUTPUT AS VALID JSON:
           gate: {
             prompt: "What is your next tactical move?",
             options: [
-              { id: "1", text: "Press offensive from cover", skill: "Ballistics CR 12" },
-              { id: "2", text: "Slice terminal to cycle blast doors", skill: "Slicing CR 13" },
-              { id: "3", text: "Reposition and assess perimeter", skill: "Reflex CR 11" }
+              { id: "1", text: "Press offensive from cover", skillCheck: "Ballistics CR 12" },
+              { id: "2", text: "Slice terminal to cycle blast doors", skillCheck: "Slicing CR 13" },
+              { id: "3", text: "Reposition and assess perimeter", skillCheck: "Reflex CR 11" }
             ]
           }
         };
@@ -780,7 +794,13 @@ Respond in 2-3 concise in-character sentences.`;
 
       const response = await generateContent({
         prompt,
-        context: activeScenario,
+        context: {
+          activeNode: activeScenario,
+          catalog: elementsCatalog || [],
+          storyFlags: useAdeStore.getState().storyFlags || {},
+          folioCharacter: activeOperative,
+          guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci-Fi Action'
+        },
         tierKey: selectedLodTier
       });
 
@@ -1544,22 +1564,27 @@ Respond in 2-3 concise in-character sentences.`;
                           </span>
                         </div>
 
-                        {opt.skill && (
-                          <div className="flex items-center justify-between text-[10px] text-amber-300/90 pt-1 border-t border-slate-800/80">
-                            <span className="truncate">{opt.skill}</span>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleRollCheck(opt.skill, 12);
-                              }}
-                              className="px-1.5 py-0.2 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[9px] font-bold uppercase transition-colors shrink-0 ml-1 cursor-pointer"
-                              title="Roll Canonical 2d10 with Operator Sub-Attributes & Active Modifiers"
-                            >
-                              🎲 Roll 2d10
-                            </button>
-                          </div>
-                        )}
+                        {(opt.skillCheck || opt.skill) && (() => {
+                          const optSkill = opt.skillCheck || opt.skill;
+                          const dcMatch = String(optSkill).match(/(?:CR|DC)\s*(\d+)/i);
+                          const parsedDc = dcMatch ? parseInt(dcMatch[1], 10) : 12;
+                          return (
+                            <div className="flex items-center justify-between text-[10px] text-amber-300/90 pt-1 border-t border-slate-800/80">
+                              <span className="truncate">{optSkill}</span>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRollCheck(optSkill, parsedDc);
+                                }}
+                                className="px-1.5 py-0.2 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[9px] font-bold uppercase transition-colors shrink-0 ml-1 cursor-pointer"
+                                title="Roll Canonical 2d10 with Operator Sub-Attributes & Active Modifiers"
+                              >
+                                🎲 Roll 2d10
+                              </button>
+                            </div>
+                          );
+                        })()}
                       </button>
                     ))}
                   </div>
@@ -1818,17 +1843,22 @@ Respond in 2-3 concise in-character sentences.`;
                         className="p-2 rounded-lg bg-slate-900 hover:bg-slate-850 border border-slate-800 text-left text-[11px] text-slate-200 flex flex-col justify-between gap-1 cursor-pointer disabled:opacity-50"
                       >
                         <span className="leading-snug">{opt.text}</span>
-                        {opt.skill && (
-                          <div className="flex items-center justify-between text-[9px] text-amber-300 pt-1 border-t border-slate-800">
-                            <span className="truncate">{opt.skill}</span>
-                            <span
-                              onClick={(e) => { e.stopPropagation(); handleRollCheck(opt.skill, 12); }}
-                              className="font-bold cursor-pointer hover:underline"
-                            >
-                              🎲 2d10
-                            </span>
-                          </div>
-                        )}
+                        {(opt.skillCheck || opt.skill) && (() => {
+                          const optSkill = opt.skillCheck || opt.skill;
+                          const dcMatch = String(optSkill).match(/(?:CR|DC)\s*(\d+)/i);
+                          const parsedDc = dcMatch ? parseInt(dcMatch[1], 10) : 12;
+                          return (
+                            <div className="flex items-center justify-between text-[9px] text-amber-300 pt-1 border-t border-slate-800">
+                              <span className="truncate">{optSkill}</span>
+                              <span
+                                onClick={(e) => { e.stopPropagation(); handleRollCheck(optSkill, parsedDc); }}
+                                className="font-bold cursor-pointer hover:underline"
+                              >
+                                🎲 2d10
+                              </span>
+                            </div>
+                          );
+                        })()}
                       </button>
                     ))}
                   </div>
@@ -1972,12 +2002,18 @@ Respond in 2-3 concise in-character sentences.`;
           isOpen={!!editingElement}
           element={editingElement}
           onClose={() => setEditingElement(null)}
-          onSave={(saved) => {
-            if (typeof updateSavedElement === 'function' && saved?.id) {
-              updateSavedElement(saved.id, saved);
-              showToast(`✓ Saved "${saved.title}"`);
-            }
+          onSave={async (saved) => {
+            const res = await persistAdeElement({
+              element: saved,
+              elementsCatalog,
+              updateSavedElement,
+              saveEntry,
+              saveCurrentToRoster,
+              showToast: (payload) => showToast(typeof payload === 'string' ? payload : (payload?.text || `✓ Saved "${saved?.title || 'element'}"`))
+            });
+            if (!res) return null;
             setEditingElement(null);
+            return res;
           }}
           onDelete={(id) => {
             if (typeof deleteSavedElement === 'function' && id) {

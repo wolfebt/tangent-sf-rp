@@ -916,13 +916,15 @@ export const DashboardCatalogPanel = () => {
       </div>
 
       {/* Folder Organizer Modal */}
-      <FolderOrganizerModal
-        isOpen={isOrganizerOpen}
-        onClose={() => setIsOrganizerOpen(false)}
-        stories={storyCatalog || []}
-        personas={personaRoster || []}
-        initialFolderId={activeFolderId !== 'all' && activeFolderId !== 'unfiled' ? activeFolderId : null}
-      />
+      {isOrganizerOpen && (
+        <FolderOrganizerModal
+          isOpen={isOrganizerOpen}
+          onClose={() => setIsOrganizerOpen(false)}
+          stories={storyCatalog || []}
+          personas={personaRoster || []}
+          initialFolderId={activeFolderId !== 'all' && activeFolderId !== 'unfiled' ? activeFolderId : null}
+        />
+      )}
     </div>
   );
 };

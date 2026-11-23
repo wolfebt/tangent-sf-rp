@@ -13,21 +13,11 @@
 import { getGeminiApiKey, fetchGeminiContent } from './bastionService.js';
 
 /**
- * Attempts to fetch content from Local LLM / geminiProxy / Google Generative AI API with automatic model fallbacks
+ * Attempts to fetch content from Local LLM / geminiProxy / Google Generative AI API via BASTION transport
  */
-const GEMINI_FLASH_MODELS = [
-  'gemini-3.8-flash',
-  'gemini-2.5-flash',
-  'gemini-2.0-flash',
-  'gemini-flash-latest',
-  'gemini-flash-lite-latest',
-  'gemini-3.6-flash',
-  'gemini-3.5-flash'
-];
-
-export async function callGeminiApi(apiKey, requestBody) {
+export async function callGeminiApi(apiKey, requestBody, options = {}) {
   const resolvedKey = apiKey || getGeminiApiKey();
-  return fetchGeminiContent(resolvedKey, requestBody);
+  return fetchGeminiContent(resolvedKey, requestBody, options);
 }
 
 /**
@@ -124,6 +114,41 @@ export function cloneToWorkingCopy(element, storyName = 'story') {
 }
 
 /**
+ * Resolves a persona or location key in a CRONICLE map by exact key, sourceElementId,
+ * normalized name, or comma-separated alias.
+ */
+export function resolveCronicleEntityKey(entityMap = {}, entityRef = '') {
+  if (!entityMap || typeof entityMap !== 'object' || !entityRef) return null;
+  const refStr = String(entityRef).trim();
+  if (!refStr) return null;
+
+  if (entityMap[refStr]) return refStr;
+
+  const lower = refStr.toLowerCase();
+  const norm = lower.replace(/[^a-z0-9]/g, '');
+
+  for (const [key, entry] of Object.entries(entityMap)) {
+    if (!entry || typeof entry !== 'object') continue;
+    if (key.toLowerCase() === lower) return key;
+    if (String(entry.sourceElementId || '').trim().toLowerCase() === lower) return key;
+    const entryName = String(entry.name || entry.title || '').trim().toLowerCase();
+    if (entryName && (entryName === lower || (norm && entryName.replace(/[^a-z0-9]/g, '') === norm))) {
+      return key;
+    }
+    const rawAliases = entry.aliases || entry.fields?.aliases;
+    if (rawAliases) {
+      const aliasArr = Array.isArray(rawAliases)
+        ? rawAliases
+        : String(rawAliases).split(',').map((s) => s.trim());
+      if (aliasArr.some((a) => a && a.toLowerCase() === lower)) {
+        return key;
+      }
+    }
+  }
+  return null;
+}
+
+/**
  * Deterministic State Transition Engine: S(t+1) = E(S_t)
  * Applies a single delta event to mutate the CRONICLE state predictably.
  */
@@ -142,13 +167,15 @@ export function applyCronicleDelta(currentCronicle, delta) {
   };
 
   const { entityId, action, target, value } = delta;
+  const resolvedPersonaKey = resolveCronicleEntityKey(nextState.personas, entityId);
+  const resolvedLocationKey = resolveCronicleEntityKey(nextState.locations, entityId);
 
   switch (action) {
     // ── PERSONA STATE MUTATIONS ──
     case 'update_status': {
-      if (entityId && nextState.personas[entityId]) {
-        nextState.personas[entityId] = {
-          ...nextState.personas[entityId],
+      if (resolvedPersonaKey && nextState.personas[resolvedPersonaKey]) {
+        nextState.personas[resolvedPersonaKey] = {
+          ...nextState.personas[resolvedPersonaKey],
           current_status: String(value || target || 'active').toLowerCase()
         };
       }
@@ -156,13 +183,13 @@ export function applyCronicleDelta(currentCronicle, delta) {
     }
 
     case 'add_trait': {
-      if (entityId && nextState.personas[entityId]) {
-        const p = nextState.personas[entityId];
+      if (resolvedPersonaKey && nextState.personas[resolvedPersonaKey]) {
+        const p = nextState.personas[resolvedPersonaKey];
         const traitType = (target === 'physical' || target === 'injury') ? 'acquired_physical_traits' : 'dynamic_psychological_traits';
         const existing = p[traitType] || [];
         const traitValue = String(value || '').trim();
         if (traitValue && !existing.includes(traitValue)) {
-          nextState.personas[entityId] = {
+          nextState.personas[resolvedPersonaKey] = {
             ...p,
             [traitType]: [...existing, traitValue]
           };
@@ -172,12 +199,12 @@ export function applyCronicleDelta(currentCronicle, delta) {
     }
 
     case 'remove_trait': {
-      if (entityId && nextState.personas[entityId]) {
-        const p = nextState.personas[entityId];
+      if (resolvedPersonaKey && nextState.personas[resolvedPersonaKey]) {
+        const p = nextState.personas[resolvedPersonaKey];
         const traitType = (target === 'physical' || target === 'injury') ? 'acquired_physical_traits' : 'dynamic_psychological_traits';
         const existing = p[traitType] || [];
         const traitValue = String(value || '').trim();
-        nextState.personas[entityId] = {
+        nextState.personas[resolvedPersonaKey] = {
           ...p,
           [traitType]: existing.filter(t => t.toLowerCase() !== traitValue.toLowerCase())
         };
@@ -186,12 +213,12 @@ export function applyCronicleDelta(currentCronicle, delta) {
     }
 
     case 'add_item': {
-      if (entityId && nextState.personas[entityId]) {
-        const p = nextState.personas[entityId];
+      if (resolvedPersonaKey && nextState.personas[resolvedPersonaKey]) {
+        const p = nextState.personas[resolvedPersonaKey];
         const inv = p.active_inventory || [];
         const itemVal = String(value || target || '').trim();
         if (itemVal && !inv.includes(itemVal)) {
-          nextState.personas[entityId] = {
+          nextState.personas[resolvedPersonaKey] = {
             ...p,
             active_inventory: [...inv, itemVal]
           };
@@ -201,11 +228,11 @@ export function applyCronicleDelta(currentCronicle, delta) {
     }
 
     case 'remove_item': {
-      if (entityId && nextState.personas[entityId]) {
-        const p = nextState.personas[entityId];
+      if (resolvedPersonaKey && nextState.personas[resolvedPersonaKey]) {
+        const p = nextState.personas[resolvedPersonaKey];
         const inv = p.active_inventory || [];
         const itemVal = String(value || target || '').trim();
-        nextState.personas[entityId] = {
+        nextState.personas[resolvedPersonaKey] = {
           ...p,
           active_inventory: inv.filter(i => i.toLowerCase() !== itemVal.toLowerCase())
         };
@@ -214,21 +241,22 @@ export function applyCronicleDelta(currentCronicle, delta) {
     }
 
     case 'update_relationship': {
-      if (entityId && nextState.personas[entityId] && target) {
-        const p = nextState.personas[entityId];
+      if (resolvedPersonaKey && nextState.personas[resolvedPersonaKey] && target) {
+        const p = nextState.personas[resolvedPersonaKey];
         const currentMatrix = p.relationship_matrix || {};
-        const currentVal = Number(currentMatrix[target] ?? 0);
+        const resolvedTargetKey = resolveCronicleEntityKey(nextState.personas, target) || target;
+        const currentVal = Number(currentMatrix[resolvedTargetKey] ?? currentMatrix[target] ?? 0);
         let newVal = currentVal;
         if (typeof value === 'number') {
           newVal = Math.max(-100, Math.min(100, currentVal + value));
         } else if (typeof value === 'string' && !isNaN(Number(value))) {
           newVal = Math.max(-100, Math.min(100, currentVal + Number(value)));
         }
-        nextState.personas[entityId] = {
+        nextState.personas[resolvedPersonaKey] = {
           ...p,
           relationship_matrix: {
             ...currentMatrix,
-            [target]: newVal
+            [resolvedTargetKey]: newVal
           }
         };
       }
@@ -237,12 +265,12 @@ export function applyCronicleDelta(currentCronicle, delta) {
 
     // ── WORLD ANVIL LOCATION MUTATIONS ──
     case 'update_location_state': {
-      if (entityId && nextState.locations[entityId]) {
-        const loc = nextState.locations[entityId];
+      if (resolvedLocationKey && nextState.locations[resolvedLocationKey]) {
+        const loc = nextState.locations[resolvedLocationKey];
         const validStates = ['thriving', 'under_siege', 'ruined', 'rebuilding'];
         const stateVal = String(value || target || '').toLowerCase();
         if (validStates.includes(stateVal)) {
-          nextState.locations[entityId] = {
+          nextState.locations[resolvedLocationKey] = {
             ...loc,
             current_geospatial_state: stateVal
           };
@@ -252,12 +280,12 @@ export function applyCronicleDelta(currentCronicle, delta) {
     }
 
     case 'add_hazard': {
-      if (entityId && nextState.locations[entityId]) {
-        const loc = nextState.locations[entityId];
+      if (resolvedLocationKey && nextState.locations[resolvedLocationKey]) {
+        const loc = nextState.locations[resolvedLocationKey];
         const hazards = loc.environmental_hazards || [];
         const hazardVal = String(value || target || '').trim();
         if (hazardVal && !hazards.includes(hazardVal)) {
-          nextState.locations[entityId] = {
+          nextState.locations[resolvedLocationKey] = {
             ...loc,
             environmental_hazards: [...hazards, hazardVal]
           };
@@ -267,11 +295,11 @@ export function applyCronicleDelta(currentCronicle, delta) {
     }
 
     case 'remove_hazard': {
-      if (entityId && nextState.locations[entityId]) {
-        const loc = nextState.locations[entityId];
+      if (resolvedLocationKey && nextState.locations[resolvedLocationKey]) {
+        const loc = nextState.locations[resolvedLocationKey];
         const hazards = loc.environmental_hazards || [];
         const hazardVal = String(value || target || '').trim();
-        nextState.locations[entityId] = {
+        nextState.locations[resolvedLocationKey] = {
           ...loc,
           environmental_hazards: hazards.filter(h => h.toLowerCase() !== hazardVal.toLowerCase())
         };
@@ -280,10 +308,10 @@ export function applyCronicleDelta(currentCronicle, delta) {
     }
 
     case 'set_occupants': {
-      if (entityId && nextState.locations[entityId]) {
-        const loc = nextState.locations[entityId];
+      if (resolvedLocationKey && nextState.locations[resolvedLocationKey]) {
+        const loc = nextState.locations[resolvedLocationKey];
         const occupantList = Array.isArray(value) ? value : (Array.isArray(target) ? target : [value || target].filter(Boolean));
-        nextState.locations[entityId] = {
+        nextState.locations[resolvedLocationKey] = {
           ...loc,
           occupant_lists: occupantList
         };
@@ -463,7 +491,7 @@ export async function extractNarrativeDeltas({
   prose,
   cronicle,
   apiKey = '',
-  model = 'gemini-3.8-flash'
+  model = 'gemini-2.5-flash'
 }) {
   if (!prose || !prose.trim()) return [];
 
@@ -536,7 +564,10 @@ If no state transitions occurred, return an empty array: []`;
       }
     };
 
-    const responseText = await callGeminiApi(apiKey, requestBody);
+    const rawResponse = await callGeminiApi(apiKey, requestBody, { preferredModel: model });
+    const responseText = typeof rawResponse === 'string'
+      ? rawResponse
+      : (rawResponse?.candidates?.[0]?.content?.parts?.map(p => p?.text || '').join('') || '');
     if (!responseText) return [];
 
     const cleanJson = responseText

@@ -13,6 +13,8 @@ import {
 } from '../engine/assets/MicroTileSynthesizer.ts';
 import type { AssetCategory } from '../schemas/assetUnitSchema.ts';
 import { fetchGeminiContent, getGeminiApiKey } from './bastionService.js';
+import { auth } from '../firebase.js';
+import { hasInMemoryFirebaseIdToken } from '../utils/firebaseTokenStore.js';
 
 /**
  * Deterministic string hash to generate a reproducible seed from any user prompt.
@@ -300,7 +302,7 @@ export async function synthesizeTileRecipeFromPrompt(
   const hasLocalOrProxy =
     preferredPlatform === 'custom' ||
     preferredPlatform === 'local' ||
-    (typeof localStorage !== 'undefined' && Boolean(localStorage.getItem('firebaseIdToken')));
+    hasInMemoryFirebaseIdToken(auth);
 
   if (!apiKey && !hasLocalOrProxy) {
     return { recipe: baseline, source: 'semantic_engine' };
@@ -359,30 +361,62 @@ export async function synthesizeTileRecipeFromPrompt(
       'vehicle'
     ];
 
+    const sanitizeHexColor = (val: unknown, fallback: string): string => {
+      if (typeof val === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(val.trim())) {
+        return val.trim();
+      }
+      return fallback;
+    };
+
+    const clampFinite = (val: unknown, min: number, max: number, fallback: number): number => {
+      const n = Number(val);
+      if (!Number.isFinite(n)) return fallback;
+      return Math.min(max, Math.max(min, n));
+    };
+
+    const rawGeom = parsed.geometry && typeof parsed.geometry === 'object' ? parsed.geometry : {};
+    const rawLigne = parsed.ligneClaire && typeof parsed.ligneClaire === 'object' ? parsed.ligneClaire : {};
+    const rawVtt = parsed.vtt && typeof parsed.vtt === 'object' ? parsed.vtt : {};
+
     const merged: TileSynthesisRecipe = {
       ...baseline,
-      name: typeof parsed.name === 'string' && parsed.name.trim() ? parsed.name.trim() : baseline.name,
+      name: typeof parsed.name === 'string' && parsed.name.trim() ? parsed.name.trim().slice(0, 80) : baseline.name,
       family: validFamilies.includes(parsed.family) ? parsed.family : baseline.family,
       outputMode: validModes.includes(parsed.outputMode) ? parsed.outputMode : baseline.outputMode,
       category: validCategories.includes(parsed.category) ? parsed.category : baseline.category,
       palette: {
-        primary: parsed.palette?.primary || baseline.palette.primary,
-        secondary: parsed.palette?.secondary || baseline.palette.secondary,
-        accent: parsed.palette?.accent || baseline.palette.accent,
-        ink: parsed.palette?.ink || baseline.palette.ink,
-        glow: parsed.palette?.glow || baseline.palette.glow
+        primary: sanitizeHexColor(parsed.palette?.primary, baseline.palette.primary),
+        secondary: sanitizeHexColor(parsed.palette?.secondary, baseline.palette.secondary),
+        accent: sanitizeHexColor(parsed.palette?.accent, baseline.palette.accent),
+        ink: sanitizeHexColor(parsed.palette?.ink, baseline.palette.ink),
+        glow: sanitizeHexColor(parsed.palette?.glow, baseline.palette.glow || '#00F5D4')
       },
       geometry: {
         ...baseline.geometry,
-        ...(parsed.geometry || {})
+        scale: clampFinite(rawGeom.scale, 0.25, 8, baseline.geometry.scale),
+        subdivision: Math.round(clampFinite(rawGeom.subdivision, 1, 16, baseline.geometry.subdivision)),
+        irregularity: clampFinite(rawGeom.irregularity, 0, 1, baseline.geometry.irregularity),
+        bevelDepth: clampFinite(rawGeom.bevelDepth, 0, 1, baseline.geometry.bevelDepth),
+        gapWidth: clampFinite(rawGeom.gapWidth, 0, 16, baseline.geometry.gapWidth),
+        transparentBg: rawGeom.transparentBg !== undefined ? Boolean(rawGeom.transparentBg) : baseline.geometry.transparentBg
       },
       ligneClaire: {
         ...baseline.ligneClaire,
-        ...(parsed.ligneClaire || {})
+        inkWeight: clampFinite(rawLigne.inkWeight, 0.5, 4, baseline.ligneClaire.inkWeight),
+        crossHatchDensity: clampFinite(rawLigne.crossHatchDensity, 0, 1, baseline.ligneClaire.crossHatchDensity),
+        zenithalContrast: clampFinite(rawLigne.zenithalContrast, 0, 1, baseline.ligneClaire.zenithalContrast),
+        weathering: clampFinite(rawLigne.weathering, 0, 1, baseline.ligneClaire.weathering),
+        hazardStripes: rawLigne.hazardStripes !== undefined ? Boolean(rawLigne.hazardStripes) : baseline.ligneClaire.hazardStripes,
+        emissiveStrength: clampFinite(rawLigne.emissiveStrength, 0, 1, baseline.ligneClaire.emissiveStrength)
       },
       vtt: {
         ...baseline.vtt,
-        ...(parsed.vtt || {})
+        ...rawVtt,
+        movementCost: clampFinite(rawVtt.movementCost, 0.5, 4, baseline.vtt.movementCost),
+        slipperyFriction: clampFinite(rawVtt.slipperyFriction, 0, 2, baseline.vtt.slipperyFriction),
+        saveDc: clampFinite(rawVtt.saveDc, 5, 35, baseline.vtt.saveDc ?? 14),
+        lightRadiusBrightFt: clampFinite(rawVtt.lightRadiusBrightFt, 0, 120, baseline.vtt.lightRadiusBrightFt ?? 10),
+        lightRadiusDimFt: clampFinite(rawVtt.lightRadiusDimFt, 0, 240, baseline.vtt.lightRadiusDimFt ?? 20)
       }
     };
 

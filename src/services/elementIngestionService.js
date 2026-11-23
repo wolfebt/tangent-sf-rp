@@ -76,10 +76,10 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
   
   // 1. Extract YAML Frontmatter if present
   if (text.startsWith('---')) {
-    const endMatch = text.indexOf('\n---', 3);
-    if (endMatch !== -1) {
-      const frontmatterBlock = text.slice(3, endMatch).trim();
-      text = text.slice(endMatch + 4).trim();
+    const fmMatch = text.match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
+    if (fmMatch) {
+      const frontmatterBlock = fmMatch[1].trim();
+      text = text.slice(fmMatch[0].length).trim();
       const lines = frontmatterBlock.split('\n');
       for (const line of lines) {
         const colonIdx = line.indexOf(':');
@@ -87,7 +87,13 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
           const key = line.slice(0, colonIdx).trim();
           const rawVal = line.slice(colonIdx + 1).trim();
           let parsedVal = rawVal.replace(/^['"]|['"]$/g, '');
-          if (rawVal.startsWith('[') && rawVal.endsWith(']')) {
+          if (rawVal.startsWith('"') && rawVal.endsWith('"')) {
+            try {
+              parsedVal = JSON.parse(rawVal);
+            } catch {
+              parsedVal = rawVal.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+            }
+          } else if (rawVal.startsWith('[') && rawVal.endsWith(']')) {
             try {
               parsedVal = JSON.parse(rawVal);
             } catch (_) {
@@ -146,15 +152,16 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
       continue;
     }
 
-    // Detect bullet key-values: * **Key:** Value or - **Key:** Value
-    const bulletMatch = line.match(/^[\*\-]\s+\*\*([^*:]+):?\*\*\s*(.*)$/);
+    // Detect bullet key-values: * **Key:** Value or * **Key**: Value
+    const bulletMatch = line.match(/^[\*\-]\s+\*\*([^*:]+?):?\*\*:?\s*(.*)$/);
     if (bulletMatch) {
       const label = bulletMatch[1].trim();
       let value = bulletMatch[2].trim();
 
       // If value is empty or continuation on next line
-      if (!value && i + 1 < lines.length && !lines[i + 1].trim().startsWith('*') && !lines[i + 1].trim().startsWith('#')) {
-        value = lines[i + 1].trim();
+      const nextTrimmed = i + 1 < lines.length ? lines[i + 1].trim() : '';
+      if (!value && nextTrimmed && !nextTrimmed.startsWith('*') && !nextTrimmed.startsWith('#') && !nextTrimmed.startsWith('-')) {
+        value = nextTrimmed;
         i++;
       }
 
@@ -192,14 +199,46 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
     extractedName = fileName.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
   }
 
+  const parseJsonMeta = (val, fallback) => {
+    if (typeof val !== 'string') return val ?? fallback;
+    try {
+      return JSON.parse(val);
+    } catch {
+      return fallback;
+    }
+  };
+
+  let extractedContent = '';
+  const narrativeIdx = lines.findIndex((l) => /^###\s+\*{0,2}Narrative Prose & Lore\*{0,2}$/i.test(l.trim()));
+  if (narrativeIdx !== -1) {
+    const proseLines = [];
+    for (let j = narrativeIdx + 1; j < lines.length; j++) {
+      if (/^#{1,3}\s+/.test(lines[j].trim())) break;
+      proseLines.push(lines[j]);
+    }
+    extractedContent = proseLines.join('\n').trim();
+  }
+
   // Build full Tangent Element object
+  const resolvedDescription = extractedSummary || extractedFields.summary || extractedFields.coreIdentity || extractedFields.description || '';
+  const guidance = parseJsonMeta(metadata.guidanceJson, {});
+  const assetHub = parseJsonMeta(metadata.assetHubJson, []);
+  const customFields = parseJsonMeta(metadata.customFieldsJson, []);
+
   const element = {
     id: metadata.id || `elem_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
     name: extractedName || `Untitled ${detectedType}`,
     title: extractedName || metadata.title || `Untitled ${detectedType}`,
     type: detectedType,
-    description: extractedSummary || extractedFields.summary || extractedFields.coreIdentity || extractedFields.description || '',
+    ...(metadata.propertySubcategory ? { propertySubcategory: metadata.propertySubcategory } : {}),
+    ...(metadata.metaphysicsSubcategory ? { metaphysicsSubcategory: metadata.metaphysicsSubcategory } : {}),
+    ...(metadata.personaSubcategory ? { personaSubcategory: metadata.personaSubcategory } : {}),
+    description: resolvedDescription,
+    content: extractedContent || resolvedDescription || '',
     fields: extractedFields,
+    ...(Object.keys(guidance || {}).length > 0 ? { guidance } : {}),
+    ...(Array.isArray(assetHub) && assetHub.length > 0 ? { assetHub } : {}),
+    ...(Array.isArray(customFields) && customFields.length > 0 ? { customFields } : {}),
     sourceFile: fileName || `${detectedType.toLowerCase()}-${(extractedName || 'element').toLowerCase().replace(/\s+/g, '-')}.md`,
     ingestedAt: new Date().toISOString(),
     dbmSyncStatus: metadata.dbmSyncStatus || 'unlinked',
@@ -214,18 +253,21 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
  */
 function mapSchemaAliases(type, lowerLabel, val, fields) {
   if (lowerLabel.includes('core identity')) fields.coreIdentity = val;
-  if (lowerLabel.includes('public slogan') || lowerLabel.includes('motto')) fields.motto = val;
-  if (lowerLabel.includes('core ideology')) fields.ideology = val;
-  if (lowerLabel.includes('primary goal') || lowerLabel.includes('agenda')) fields.goals = val;
-  if (lowerLabel.includes('government type')) fields.government = val;
-  if (lowerLabel.includes('leadership structure')) fields.leadership = val;
-  if (lowerLabel.includes('laws & justice')) fields.laws = val;
-  if (lowerLabel.includes('scope of influence') || lowerLabel.includes('territory')) fields.territory = val;
-  if (lowerLabel.includes('military strength') || lowerLabel.includes('key units')) fields.military = val;
-  if (lowerLabel.includes('economic strength') || lowerLabel.includes('primary industries')) fields.resources = val;
-  if (lowerLabel.includes('social hierarchy') || lowerLabel.includes('culture & traditions')) fields.culture = val;
-  if (lowerLabel.includes('allies') || lowerLabel.includes('enemies') || lowerLabel.includes('foreign relations')) fields.relations = val;
-  if (lowerLabel.includes('founding story') || lowerLabel.includes('founders')) fields.history = val;
+
+  if (type === 'Faction') {
+    if (lowerLabel.includes('public slogan') || lowerLabel.includes('motto')) fields.motto = val;
+    if (lowerLabel.includes('core ideology')) fields.ideology = val;
+    if (lowerLabel.includes('primary goal') || lowerLabel.includes('agenda')) fields.goals = val;
+    if (lowerLabel.includes('government type')) fields.government = val;
+    if (lowerLabel.includes('leadership structure')) fields.leadership = val;
+    if (lowerLabel.includes('laws & justice')) fields.laws = val;
+    if (lowerLabel.includes('scope of influence') || lowerLabel.includes('territory')) fields.territory = val;
+    if (lowerLabel.includes('military strength') || lowerLabel.includes('key units')) fields.military = val;
+    if (lowerLabel.includes('economic strength') || lowerLabel.includes('primary industries')) fields.resources = val;
+    if (lowerLabel.includes('social hierarchy') || lowerLabel.includes('culture & traditions')) fields.culture = val;
+    if (lowerLabel.includes('allies') || lowerLabel.includes('enemies') || lowerLabel.includes('foreign relations')) fields.relations = val;
+    if (lowerLabel.includes('founding story') || lowerLabel.includes('founders')) fields.history = val;
+  }
   
   if (type === 'Persona') {
     if (lowerLabel.includes('role in story')) fields.role = val;
@@ -268,6 +310,25 @@ function mapSchemaAliases(type, lowerLabel, val, fields) {
     if (lowerLabel.includes('anatomy') || lowerLabel.includes('appearance')) fields.appearance = val;
     if (lowerLabel.includes('inherent abilities')) fields.abilities = val;
     if (lowerLabel.includes('weaknesses')) fields.weaknesses = val;
+  }
+
+  if (type === 'Property') {
+    if (lowerLabel.includes('subcategory')) fields.propertySubcategory = val;
+    if (lowerLabel.includes('function') || lowerLabel.includes('purpose')) fields.functionPurpose = val;
+    if (lowerLabel.includes('damage')) fields.damage = val;
+    if (lowerLabel.includes('range')) fields.range = val;
+    if (lowerLabel.includes('location') || lowerLabel.includes('coverage')) fields.location = val;
+    if (lowerLabel.includes('power source') || lowerLabel.includes('mechanism')) fields.mechanismPowerSource = val;
+    if (lowerLabel.includes('mechanic') || lowerLabel.includes('rule')) fields.mechanic = val;
+    if (lowerLabel.includes('rarity') || lowerLabel.includes('availability')) fields.rarity = val;
+  }
+
+  if (type === 'Metaphysics') {
+    if (lowerLabel.includes('subcategory') || lowerLabel.includes('category')) fields.metaphysicsSubcategory = val;
+    if (lowerLabel.includes('meta skill') || lowerLabel.includes('discipline')) fields.skill = val;
+    if (lowerLabel.includes('difficulty') || lowerLabel.includes('design dc')) fields.design_dc = val;
+    if (lowerLabel.includes('cost') || lowerLabel.includes('focus') || lowerLabel.includes('strain')) fields.costs = val;
+    if (lowerLabel.includes('mechanic') || lowerLabel.includes('effect')) fields.mechanic = val;
   }
 
   if (type === 'Technology') {
@@ -332,17 +393,39 @@ export function exportElementToMarkdown(element) {
     throw new Error('Invalid element provided for markdown export.');
   }
 
-  const { id, name, type, description, fields = {}, tags = [], dbmSyncStatus } = element;
+  const { id, type, description, content, fields = {}, tags = [], dbmSyncStatus, guidance, assetHub, customFields } = element;
+  const resolvedName = element.name || element.title || 'Untitled';
+  const escYaml = (v) => String(v ?? '').replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+  const formatFieldVal = (v) => {
+    if (v === undefined || v === null) return '';
+    if (typeof v === 'object') return JSON.stringify(v);
+    return String(v);
+  };
   const lines = [];
 
   // 1. YAML Frontmatter
   lines.push('---');
-  lines.push(`id: "${id}"`);
-  lines.push(`name: "${name}"`);
-  lines.push(`type: "${type}"`);
-  lines.push(`dbmSyncStatus: "${dbmSyncStatus || 'unlinked'}"`);
-  if (tags && tags.length > 0) {
-    lines.push(`tags: [${tags.map(t => `"${t}"`).join(', ')}]`);
+  lines.push(`id: "${escYaml(id)}"`);
+  lines.push(`name: "${escYaml(resolvedName)}"`);
+  lines.push(`type: "${escYaml(type)}"`);
+  lines.push(`dbmSyncStatus: "${escYaml(dbmSyncStatus || 'unlinked')}"`);
+  if (element.propertySubcategory) lines.push(`propertySubcategory: "${escYaml(element.propertySubcategory)}"`);
+  if (element.metaphysicsSubcategory) lines.push(`metaphysicsSubcategory: "${escYaml(element.metaphysicsSubcategory)}"`);
+  if (element.personaSubcategory) lines.push(`personaSubcategory: "${escYaml(element.personaSubcategory)}"`);
+  if (guidance && typeof guidance === 'object' && Object.keys(guidance).length > 0) {
+    lines.push(`guidanceJson: "${escYaml(JSON.stringify(guidance))}"`);
+  }
+  if (Array.isArray(assetHub) && assetHub.length > 0) {
+    lines.push(`assetHubJson: "${escYaml(JSON.stringify(assetHub))}"`);
+  }
+  if (Array.isArray(customFields) && customFields.length > 0) {
+    lines.push(`customFieldsJson: "${escYaml(JSON.stringify(customFields))}"`);
+  }
+  const tagList = Array.isArray(tags)
+    ? tags
+    : (typeof tags === 'string' && tags.trim() ? tags.split(',').map(t => t.trim()).filter(Boolean) : []);
+  if (tagList.length > 0) {
+    lines.push(`tags: [${tagList.map(t => `"${escYaml(t)}"`).join(', ')}]`);
   }
   lines.push(`exportedAt: "${new Date().toISOString()}"`);
   lines.push('---');
@@ -351,7 +434,7 @@ export function exportElementToMarkdown(element) {
   // 2. Canonical Title Header
   lines.push(`# **${type} Development Fields**`);
   lines.push('');
-  lines.push(`## ${name}`);
+  lines.push(`## ${resolvedName}`);
   lines.push('');
   if (description) {
     lines.push(`*${description}*`);
@@ -360,6 +443,7 @@ export function exportElementToMarkdown(element) {
 
   // 3. Render Fields grouped by Schema Tabs or Default Sections
   const schema = ELEMENT_SCHEMAS[type] || [];
+  const renderedKeys = new Set();
   if (schema.length > 0) {
     const tabs = [...new Set(schema.map(f => f.tab))];
     for (const tab of tabs) {
@@ -367,7 +451,22 @@ export function exportElementToMarkdown(element) {
       lines.push('');
       const tabFields = schema.filter(f => f.tab === tab);
       for (const field of tabFields) {
-        const val = fields[field.key] || fields[normalizeFieldKey(field.label)] || '';
+        renderedKeys.add(field.key);
+        renderedKeys.add(normalizeFieldKey(field.label));
+        const candidateKeys = [
+          field.key,
+          normalizeFieldKey(field.label),
+          ...(Array.isArray(field.aliasKeys) ? field.aliasKeys : [])
+        ];
+        let val = '';
+        for (const ck of candidateKeys) {
+          const candidate = fields[ck];
+          if (candidate !== undefined && candidate !== null && candidate !== '') {
+            val = formatFieldVal(candidate);
+            renderedKeys.add(ck);
+            break;
+          }
+        }
         lines.push(`* **${field.label}:** ${val}`);
       }
       lines.push('');
@@ -375,19 +474,25 @@ export function exportElementToMarkdown(element) {
   }
 
   // 4. Render any additional unmapped fields so ZERO data is lost
-  const schemaKeys = new Set(schema.map(s => s.key));
-  const schemaLabels = new Set(schema.map(s => normalizeFieldKey(s.label)));
-  const unmappedKeys = Object.keys(fields).filter(k => !schemaKeys.has(k) && !schemaLabels.has(k));
+  const unmappedKeys = Object.keys(fields).filter(k => !renderedKeys.has(k));
 
   if (unmappedKeys.length > 0) {
     lines.push('### **Extended & Dynamic Attributes**');
     lines.push('');
     for (const key of unmappedKeys) {
-      const val = typeof fields[key] === 'object' ? JSON.stringify(fields[key], null, 2) : fields[key];
+      const rawVal = fields[key];
+      const val = formatFieldVal(rawVal);
       // Format camelCase key into readable label
       const formattedLabel = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
       lines.push(`* **${formattedLabel}:** ${val}`);
     }
+    lines.push('');
+  }
+
+  if (content && String(content).trim()) {
+    lines.push('### **Narrative Prose & Lore**');
+    lines.push('');
+    lines.push(String(content).trim());
     lines.push('');
   }
 
@@ -409,18 +514,20 @@ export function validateElementAgainstSchema(element) {
 
   let filledCount = 0;
   const missingRequired = [];
+  const hasVal = (v) => v !== undefined && v !== null && String(v).trim().length > 0;
 
   for (const field of schema) {
-    let val = element.fields && (element.fields[field.key] || element.fields[normalizeFieldKey(field.label)]);
-    if (!val && field.aliasKeys && Array.isArray(field.aliasKeys) && element.fields) {
+    const fObj = element.fields || {};
+    let val = hasVal(fObj[field.key]) ? fObj[field.key] : fObj[normalizeFieldKey(field.label)];
+    if (!hasVal(val) && field.aliasKeys && Array.isArray(field.aliasKeys)) {
       for (const ak of field.aliasKeys) {
-        if (element.fields[ak]) {
-          val = element.fields[ak];
+        if (hasVal(fObj[ak])) {
+          val = fObj[ak];
           break;
         }
       }
     }
-    if (val && String(val).trim().length > 0) {
+    if (hasVal(val)) {
       filledCount++;
     } else if (field.required) {
       missingRequired.push(field.label);
@@ -447,7 +554,7 @@ export function downloadElementMarkdownFile(element) {
   const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  const safeName = (element.name || 'element').toLowerCase().replace(/[^a-z0-9]/gi, '-');
+  const safeName = (element.name || element.title || 'element').toLowerCase().replace(/[^a-z0-9]/gi, '-');
   link.href = url;
   link.download = `${element.type.toLowerCase()}-${safeName}.tangent-element.md`;
   document.body.appendChild(link);

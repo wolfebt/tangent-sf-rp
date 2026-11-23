@@ -11,6 +11,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { AudioService } from './audioService.js';
+import { sanitizeMapForSpectator } from '../utils/spectatorSanitizer.js';
 
 const formatExportFilename = (name, type, ext) => {
   const cleanName = (name || 'untitled')
@@ -80,47 +81,93 @@ export function buildModulePackagePayload(universeState = {}, elementsCatalog = 
  */
 export function buildSanitizedOperatorPackagePayload(universeState = {}, elementsCatalog = [], options = {}) {
   const basePayload = buildModulePackagePayload(universeState, elementsCatalog, options);
-  
-  // 1. Sanitize Scenarios
-  const sanitizedScenarios = (basePayload.scenarios || []).map(sc => {
+
+  // 1. Sanitize Scenarios recursively
+  const sanitizeScenarioNode = (sc) => {
+    if (!sc || typeof sc !== 'object') return sc;
     const fields = { ...(sc.fields || {}) };
     delete fields.secrets;
     delete fields.gmNotes;
+    delete fields.gmSecrets;
+    delete fields.gmSecretNotes;
+    delete fields.architectNotes;
+    delete fields.threats;
     delete fields.threatMatrix;
     delete fields.trapsSummary;
     delete fields.complications;
-    return {
-      ...sc,
-      fields,
-      gmNotes: undefined
-    };
-  });
+    delete fields.hiddenNotes;
 
-  // 2. Sanitize Maps (hide traps, invisible walls, and inactive enemy tokens)
-  const sanitizedMaps = (basePayload.maps || []).map(m => {
-    const visibleTokens = (m.tokens || []).filter(t => t.type === 'hero' || t.isPlayerVisible || t.visibleToPlayers);
-    const visibleObjects = (m.objects || []).filter(o => !o.isTrap && o.type !== 'hazard' && !o.secret);
-    return {
-      ...m,
-      tokens: visibleTokens,
-      objects: visibleObjects,
-      waypoints: (m.waypoints || []).filter(w => w.isPlayerVisible)
-    };
-  });
+    const copy = { ...sc, fields };
+    delete copy.gmNotes;
+    delete copy.gmSecrets;
+    delete copy.gmSecretNotes;
+    delete copy.architectNotes;
+    delete copy.secrets;
+    delete copy.hiddenNotes;
+    delete copy.threats;
 
-  // 3. Sanitize Elements (preserve public lore, handouts, portraits, remove secret stat blocks)
-  const sanitizedElements = (basePayload.elements || []).map(elem => {
-    if (elem.type === 'Handout' || elem.type === 'Clue') {
-      return elem;
+    if (Array.isArray(sc.children)) {
+      copy.children = sc.children
+        .filter((c) => c && !c.isHidden && !c.isGmOnly)
+        .map(sanitizeScenarioNode);
     }
+    return copy;
+  };
+  const sanitizedScenarios = (basePayload.scenarios || [])
+    .filter((s) => s && !s.isHidden && !s.isGmOnly)
+    .map(sanitizeScenarioNode);
+
+  // 2. Sanitize Maps (walls/secret doors, texts, terrains, fog, traps, hidden enemy tokens, waypoints)
+  const sanitizedMaps = (basePayload.maps || []).map((m) => {
+    const preFilteredTokens = (m?.tokens || []).filter(
+      (t) => t && (t.type === 'hero' || t.isPlayerVisible || t.visibleToPlayers)
+    );
+    const specSafe = sanitizeMapForSpectator({ ...m, tokens: preFilteredTokens }) || {};
+    return {
+      ...specSafe,
+      waypoints: (m?.waypoints || []).filter((w) => w && w.isPlayerVisible)
+    };
+  });
+
+  // 3. Sanitize Elements (preserve public lore & handouts, strip GM secrets/scripts/mechanics)
+  const sanitizedElements = (basePayload.elements || []).map((elem) => {
+    const cleanElem = { ...elem };
+    delete cleanElem.gmNotes;
+    delete cleanElem.gmSecrets;
+    delete cleanElem.gmSecretNotes;
+    delete cleanElem.secrets;
+    delete cleanElem.authorEmail;
+
     const fields = { ...(elem.fields || {}) };
+    delete fields.gmNotes;
+    delete fields.gmSecrets;
+    delete fields.gmSecretNotes;
+    delete fields.secrets;
     delete fields.vttScript;
+    delete fields.macroScript;
+    delete fields.quickJsMacro;
+    delete fields.script;
+    delete fields.authorEmail;
+
+    if (elem.type === 'Handout' || elem.type === 'Clue') {
+      return {
+        ...cleanElem,
+        fields
+      };
+    }
+
     delete fields.attacks;
     delete fields.stats;
     delete fields.theSecret;
     delete fields.definingTrauma;
+    delete fields['narrative-secrets'];
+    delete fields.theLie;
+    delete fields.theTruth;
+    delete fields.deepestFear;
+    delete fields.plotHooks;
+    delete fields.hiddenAgenda;
     return {
-      ...elem,
+      ...cleanElem,
       fields
     };
   });
@@ -132,11 +179,25 @@ export function buildSanitizedOperatorPackagePayload(universeState = {}, element
       ...basePayload.manifest,
       perspective: 'operator',
       isSanitizedForPlayers: true,
-      description: `${basePayload.manifest.description || ''} [Sanitized for Player/Operator Use]`
+      description: `${basePayload.manifest.description || ''} [Sanitized for Player/Operator Use]`,
+      stats: {
+        totalScenarios: sanitizedScenarios.length,
+        totalMaps: sanitizedMaps.length,
+        totalElements: sanitizedElements.length,
+        totalModifiers: 0,
+        totalTokens: sanitizedMaps.reduce((sum, m) => sum + (m.tokens?.length || 0), 0),
+        totalWaypoints: sanitizedMaps.reduce((sum, m) => sum + (m.waypoints?.length || 0), 0),
+        totalObjects: sanitizedMaps.reduce((sum, m) => sum + (m.objects?.length || 0), 0),
+        totalWalls: sanitizedMaps.reduce((sum, m) => sum + (m.walls?.length || 0), 0)
+      }
     },
     scenarios: sanitizedScenarios,
+    creativeState: {},
     maps: sanitizedMaps,
-    elements: sanitizedElements
+    elements: sanitizedElements,
+    galleryModifiers: [],
+    scripts: [],
+    cronicle: null
   };
 }
 
@@ -239,6 +300,8 @@ export function parseAndValidateModuleFile(fileContent) {
 
 /**
  * Hydrates an imported module package into CampaignContext state handlers.
+ * Restores creativeState (Guidance Gems, outline, beats, draft), cronicle memory,
+ * scenarios, maps, elements, and gallery modifiers, with optional collision remapping.
  */
 export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
   const {
@@ -249,24 +312,58 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
     addSavedElement,
     setActiveMapId,
     setActiveScenarioId,
-    setGalleryModifiers
+    setGalleryModifiers,
+    updateCreativeState,
+    updateCronicle,
+    existingMaps = [],
+    existingScenarios = [],
+    existingElements = [],
+    remapCollisions = false
   } = handlers;
 
   const results = {
     mapsImported: 0,
     scenariosImported: 0,
-    elementsImported: 0
+    elementsImported: 0,
+    creativeStateRestored: false,
+    cronicleRestored: false
   };
 
+  if (!parsedData || typeof parsedData !== 'object') {
+    return results;
+  }
+
+  const existingMapIds = new Set((existingMaps || []).map((m) => m?.id).filter(Boolean));
+  const collectScenarioIds = (nodes = [], out = new Set()) => {
+    (nodes || []).forEach((n) => {
+      if (n?.id) out.add(n.id);
+      if (Array.isArray(n?.children)) collectScenarioIds(n.children, out);
+    });
+    return out;
+  };
+  const existingScenarioIds = collectScenarioIds(existingScenarios);
+  const existingElementIds = new Set((existingElements || []).map((e) => e?.id).filter(Boolean));
+
+  const mapIdRemap = new Map();
+  const scenarioIdRemap = new Map();
+
   // 1. Ingest Maps
-  const incomingMaps = parsedData.maps || (parsedData.map ? [parsedData.map] : []);
-  incomingMaps.forEach(m => {
-    if (!m) return;
-    const newId = m.id || uuidv4();
+  const incomingMaps = Array.isArray(parsedData.maps)
+    ? parsedData.maps
+    : (parsedData.map ? [parsedData.map] : []);
+  let firstImportedMapId = null;
+
+  incomingMaps.forEach((m) => {
+    if (!m || typeof m !== 'object') return;
+    const origId = m.id || uuidv4();
+    const resolvedId = remapCollisions && existingMapIds.has(origId) ? `${origId}_${uuidv4().slice(0, 6)}` : origId;
+    mapIdRemap.set(origId, resolvedId);
+    if (!firstImportedMapId) firstImportedMapId = resolvedId;
+
     const mapWithId = {
       ...m,
-      id: newId,
-      waypoints: m.waypoints || [],
+      id: resolvedId,
+      waypoints: Array.isArray(m.waypoints) ? m.waypoints : [],
       environmental: m.environmental || {
         weatherPreset: 'clear',
         ambientLightColor: '#090d16',
@@ -280,30 +377,65 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
     }
   });
 
-  if (incomingMaps[0] && typeof setActiveMapId === 'function') {
-    setActiveMapId(incomingMaps[0].id);
+  if (firstImportedMapId && typeof setActiveMapId === 'function') {
+    setActiveMapId(firstImportedMapId);
   }
 
-  // 2. Ingest Scenarios
-  const incomingScenarios = parsedData.scenarios || [];
-  incomingScenarios.forEach(s => {
-    if (!s) return;
+  // 2. Ingest Scenarios (recursively handling nested children and remapped mapId/parentId if needed)
+  const incomingScenarios = Array.isArray(parsedData.scenarios) ? parsedData.scenarios : [];
+  let firstImportedScenarioId = null;
+
+  const preAllocateScenarioIds = (nodes = []) => {
+    nodes.forEach((s) => {
+      if (!s || typeof s !== 'object') return;
+      const origId = s.id || uuidv4();
+      const nextId = remapCollisions && existingScenarioIds.has(origId) ? `${origId}_${uuidv4().slice(0, 6)}` : origId;
+      scenarioIdRemap.set(origId, nextId);
+      if (!firstImportedScenarioId) firstImportedScenarioId = nextId;
+      if (Array.isArray(s.children)) preAllocateScenarioIds(s.children);
+    });
+  };
+  preAllocateScenarioIds(incomingScenarios);
+
+  const normalizeScenarioTree = (s) => {
+    const resolvedId = scenarioIdRemap.get(s.id) || s.id || uuidv4();
+    const remappedMapId = s.mapId && mapIdRemap.has(s.mapId) ? mapIdRemap.get(s.mapId) : s.mapId;
+    const remappedParent = s.parentId && scenarioIdRemap.has(s.parentId) ? scenarioIdRemap.get(s.parentId) : (s.parentId || null);
+    return {
+      ...s,
+      id: resolvedId,
+      ...(remappedMapId ? { mapId: remappedMapId } : {}),
+      ...(remappedParent ? { parentId: remappedParent } : {}),
+      ...(Array.isArray(s.children) ? { children: s.children.filter(Boolean).map(normalizeScenarioTree) } : {})
+    };
+  };
+
+  incomingScenarios.forEach((s) => {
+    if (!s || typeof s !== 'object') return;
+    const normalizedScenario = normalizeScenarioTree(s);
     if (typeof addStory === 'function') {
-      addStory(s, s.parentId || null);
+      addStory(normalizedScenario, normalizedScenario.parentId || null);
       results.scenariosImported++;
     }
   });
 
-  if (incomingScenarios[0] && typeof setActiveScenarioId === 'function') {
-    setActiveScenarioId(incomingScenarios[0].id);
+  if (firstImportedScenarioId && typeof setActiveScenarioId === 'function') {
+    setActiveScenarioId(firstImportedScenarioId);
   }
 
   // 3. Ingest Elements
-  const incomingElements = parsedData.elements || [];
-  incomingElements.forEach(el => {
-    if (!el) return;
+  const incomingElements = Array.isArray(parsedData.elements) ? parsedData.elements : [];
+  incomingElements.forEach((el) => {
+    if (!el || typeof el !== 'object') return;
+    const origId = el.id || `elem_${uuidv4().slice(0, 8)}`;
+    const resolvedId = remapCollisions && existingElementIds.has(origId) ? `${origId}_${uuidv4().slice(0, 6)}` : origId;
+    const nextEl = {
+      ...el,
+      id: resolvedId,
+      ...(el.mapId && mapIdRemap.has(el.mapId) ? { mapId: mapIdRemap.get(el.mapId) } : {})
+    };
     if (typeof addSavedElement === 'function') {
-      addSavedElement(el);
+      addSavedElement(nextEl);
       results.elementsImported++;
     }
   });
@@ -311,6 +443,27 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
   // 4. Ingest Gallery Modifiers
   if (Array.isArray(parsedData.galleryModifiers) && typeof setGalleryModifiers === 'function') {
     setGalleryModifiers(parsedData.galleryModifiers);
+  }
+
+  // 5. Restore Creative State (Guidance Gems, Story Outline, Beats, Draft, Lorebook config)
+  if (
+    parsedData.creativeState &&
+    typeof parsedData.creativeState === 'object' &&
+    Object.keys(parsedData.creativeState).length > 0 &&
+    typeof updateCreativeState === 'function'
+  ) {
+    updateCreativeState(parsedData.creativeState);
+    results.creativeStateRestored = true;
+  }
+
+  // 6. Restore CRONICLE Living Memory if included (null when sanitized Operator edition)
+  if (
+    parsedData.cronicle &&
+    typeof parsedData.cronicle === 'object' &&
+    typeof updateCronicle === 'function'
+  ) {
+    updateCronicle(parsedData.cronicle);
+    results.cronicleRestored = true;
   }
 
   AudioService.playCriticalChime(true);

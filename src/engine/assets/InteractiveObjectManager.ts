@@ -36,10 +36,10 @@ export class InteractiveObjectManager {
     for (const obj of objects) {
       this.objects.set(obj.id, {
         ...obj,
-        isOpen: false,
-        isLocked: false,
-        isHacked: false,
-        isDestroyed: false,
+        isOpen: obj.isOpen ?? false,
+        isLocked: obj.isLocked ?? false,
+        isHacked: (obj as any).isHacked ?? false,
+        isDestroyed: (obj as any).isDestroyed ?? false,
         bvhWallId: obj.type === 'bulkhead' ? obj.id : undefined
       });
     }

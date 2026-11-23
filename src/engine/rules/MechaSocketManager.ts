@@ -45,6 +45,7 @@ export interface HardpointSlot {
   tier: 'socket' | 'mount' | 'module';
   capacityUDU: number; // e.g., 1 Mount = 10 Sockets
   installedGearId?: string;
+  installedGearUDU?: number;
   installedWeightKg?: number;
 }
 
@@ -129,17 +130,24 @@ export class MechaSocketManager {
   } {
     let totalSocketsUsed = 0;
     let totalCapacitySockets = 0;
+    let allSlotsFit = true;
 
     for (const slot of slots) {
       const multiplier = slot.tier === 'module' ? 100 : slot.tier === 'mount' ? 10 : 1;
-      totalCapacitySockets += slot.capacityUDU * multiplier;
+      const slotCapacity = slot.capacityUDU * multiplier;
+      totalCapacitySockets += slotCapacity;
       if (slot.installedGearId) {
-        totalSocketsUsed += multiplier;
+        const usedUDU = slot.installedGearUDU !== undefined ? Math.max(0, Number(slot.installedGearUDU)) : 1;
+        const usedSockets = usedUDU * multiplier;
+        totalSocketsUsed += usedSockets;
+        if (usedUDU > slot.capacityUDU) {
+          allSlotsFit = false;
+        }
       }
     }
 
     return {
-      isValid: totalSocketsUsed <= totalCapacitySockets,
+      isValid: allSlotsFit && totalSocketsUsed <= totalCapacitySockets,
       totalSocketsUsed,
       totalCapacitySockets
     };
@@ -154,7 +162,7 @@ export class MechaSocketManager {
     mountsRequired: number;
     modulesRequired: number;
   } {
-    const rule = MECHA_GARAGING_MAP[mechaSize] || MECHA_GARAGING_MAP.Medium;
+    const rule = MECHA_GARAGING_MAP[mechaSize] ?? { mountsPerUnit: 1, modulesPerUnit: 0.1 };
     const qty = Math.max(0, count);
     return {
       size: MECHA_GARAGING_MAP[mechaSize] ? mechaSize : 'Medium',
@@ -204,7 +212,7 @@ export class MechaSocketManager {
   public dismountPassenger(vehicle: VehicleEntity, tokenId: string): boolean {
     const node = vehicle.passengerNodes.find(n => n.seatedTokenId === tokenId);
     if (!node) return false;
-    node.seatedTokenId = undefined;
+    delete node.seatedTokenId;
     return true;
   }
 

@@ -31,6 +31,7 @@ import {
   resolveBackgroundTraitPolicy,
   synthesizeCharacterWithBastion,
 } from '../../src/services/bastionCharacterEngine.js';
+import { setInMemoryFirebaseIdToken } from '../../src/utils/firebaseTokenStore.js';
 
 const MOCK_UNIVERSE = {
   id: 'camp-horizon',
@@ -252,6 +253,7 @@ test('Transport detector unblocks Local LLM and authenticated Cloud Proxy withou
   };
 
   try {
+    setInMemoryFirebaseIdToken('');
     assert.equal(hasAvailableAiTransport(''), false);
     assert.equal(hasAvailableAiTransport('AIza-test-key'), true);
 
@@ -259,9 +261,14 @@ test('Transport detector unblocks Local LLM and authenticated Cloud Proxy withou
     assert.equal(hasAvailableAiTransport(''), true);
 
     store.clear();
+    // Legacy localStorage.firebaseIdToken must NOT be trusted for Cloud Proxy auth
     store.set('firebaseIdToken', 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.mock');
+    assert.equal(hasAvailableAiTransport(''), false);
+
+    setInMemoryFirebaseIdToken('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.mock');
     assert.equal(hasAvailableAiTransport(''), true);
   } finally {
+    setInMemoryFirebaseIdToken('');
     globalThis.localStorage = prevStorage;
   }
 });

@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { WORLD_UNITS_PER_FOOT } from '../scaleConstants.ts';
 
 export interface Combatant3DData {
   id: string;
@@ -43,7 +44,7 @@ export class LoSRaycast3D {
     occluderObjects: THREE.Object3D[]
   ): LoSResult3D {
     // 1 cell = 70 world units = 5 ft -> scale factor: 70 / 5 = 14 units per ft
-    const unitsPerFt = 14;
+    const unitsPerFt = WORLD_UNITS_PER_FOOT;
 
     // Attacker eye height (Medium human ~5.5ft, Mecha ~18ft)
     const attackerEyeFt = attacker.is_mecha ? 18 : 5.5;
@@ -91,10 +92,24 @@ export class LoSRaycast3D {
 
       const intersects = this.raycaster.intersectObjects(occluderObjects, true);
       
-      // Filter out open doors and window materials if weapon is optical
+      // Filter out open doors, breached doors, windows, and ethereal barriers by traversing ancestor userData
       const solidBlocks = intersects.filter(hit => {
-        const userData = (hit.object as any).userData || (hit.object.parent as any)?.userData;
-        if (userData?.isWall && userData?.isOpen) return false;
+        let cur: THREE.Object3D | null = hit.object;
+        while (cur) {
+          const ud = (cur as any).userData;
+          if (ud && (ud.isWall || ud.wallId)) {
+            const isOpenDoor = Boolean(
+              ud.isOpen ||
+              ud.doorState === 'open' ||
+              ud.doorState === 'breached'
+            );
+            if (isOpenDoor || ud.isWindow || ud.isEthereal) {
+              return false;
+            }
+            return true;
+          }
+          cur = cur.parent;
+        }
         return true;
       });
 

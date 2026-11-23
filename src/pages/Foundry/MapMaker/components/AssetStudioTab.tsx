@@ -29,6 +29,8 @@ import { SpriteSheetCutterModal } from '../../../../components/VTT/ingestion/Spr
 import { AssetStudioModal } from '../../../../components/VTT/studio/AssetStudioModal';
 import AssetDrawingStudio from '../map/AssetDrawingStudio';
 import { TangentPackager } from '../../../../engine/assets/TangentPackager';
+import { uploadAdeImageAsset } from '../../../../services/adeMediaStorageService';
+import { auth } from '../../../../firebase';
 import coreSeedUnits from '../../../../data/seed_units/science_fantasy_core.json';
 import { 
   resolveAssetTexture, 
@@ -144,28 +146,35 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
     URL.revokeObjectURL(url);
   };
 
-  const handleDirectImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDirectImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !selectedUnit) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result as string;
-      if (dataUrl) {
-        const updated: AssetUnit = {
-          ...selectedUnit,
-          visuals: {
-            ...selectedUnit.visuals,
-            baseTexture: dataUrl,
-            thumbnail: dataUrl
-          }
-        };
-        handleSaveAsset(updated);
-        setImageErrorMap(prev => ({ ...prev, [selectedUnit.unit_id]: false }));
-        showToast({ type: 'success', text: `Uploaded custom image for "${selectedUnit.name}"` });
-      }
-    };
-    reader.readAsDataURL(file);
     e.target.value = '';
+    if (!file || !selectedUnit) return;
+    try {
+      const uploaded = await uploadAdeImageAsset(file, {
+        userId: auth?.currentUser?.uid,
+        assetCategory: 'tokens',
+        fileName: `${selectedUnit.unit_id}_${file.name}`
+      });
+      const updated: AssetUnit = {
+        ...selectedUnit,
+        visuals: {
+          ...selectedUnit.visuals,
+          baseTexture: uploaded.url,
+          thumbnail: uploaded.url
+        }
+      };
+      handleSaveAsset(updated);
+      setImageErrorMap(prev => ({ ...prev, [selectedUnit.unit_id]: false }));
+      showToast({
+        type: 'success',
+        text: uploaded.offloaded
+          ? `Uploaded & offloaded image for "${selectedUnit.name}"`
+          : `Uploaded custom image for "${selectedUnit.name}"`
+      });
+    } catch (err: any) {
+      showToast({ type: 'error', text: err?.message || 'Failed to upload custom image.' });
+    }
   };
 
   const handleApplyPreset = (dataUrl: string, presetName: string) => {
@@ -184,20 +193,29 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
     showToast({ type: 'success', text: `Applied preset "${presetName}" to "${selectedUnit.name}"` });
   };
 
-  const handleDrawingStudioSave = (dataUrl: string) => {
+  const handleDrawingStudioSave = async (dataUrl: string) => {
     if (!selectedUnit) return;
-    const updated: AssetUnit = {
-      ...selectedUnit,
-      visuals: {
-        ...selectedUnit.visuals,
-        baseTexture: dataUrl,
-        thumbnail: dataUrl
-      }
-    };
-    handleSaveAsset(updated);
-    setImageErrorMap(prev => ({ ...prev, [selectedUnit.unit_id]: false }));
-    setIsDrawingStudioOpen(false);
-    showToast({ type: 'success', text: `Saved custom texture for "${selectedUnit.name}"` });
+    try {
+      const uploaded = await uploadAdeImageAsset(dataUrl, {
+        userId: auth?.currentUser?.uid,
+        assetCategory: 'tokens',
+        fileName: `${selectedUnit.unit_id}_drawn`
+      });
+      const updated: AssetUnit = {
+        ...selectedUnit,
+        visuals: {
+          ...selectedUnit.visuals,
+          baseTexture: uploaded.url,
+          thumbnail: uploaded.url
+        }
+      };
+      handleSaveAsset(updated);
+      setImageErrorMap(prev => ({ ...prev, [selectedUnit.unit_id]: false }));
+      setIsDrawingStudioOpen(false);
+      showToast({ type: 'success', text: `Saved custom texture for "${selectedUnit.name}"` });
+    } catch (err: any) {
+      showToast({ type: 'error', text: err?.message || 'Failed to save drawn texture.' });
+    }
   };
 
   const handleSynthesizeRecipeToSelected = (recipe: TileSynthesisRecipe, dataUrl?: string) => {

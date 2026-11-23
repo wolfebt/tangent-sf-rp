@@ -51,12 +51,14 @@ export default function ScenarioPane({
     reorderRelativeScenario, 
     triggerStorySave, 
     addMap, 
+    updateMap,
     activeMapId,
     setActiveMapId, 
     elementsCatalog, 
     mapsCatalog,
     updateSavedElement,
-    deleteSavedElement
+    deleteSavedElement,
+    isStoryReadOnly = false
   } = useStory();
 
   const rawSelectScenario = onSelectScenario || setActiveScenarioId;
@@ -133,8 +135,7 @@ export default function ScenarioPane({
 
   const setIsEditElementModalOpen = (val) => setModal('editElement', val);
 
-  const rawDockTab = activeCockpitDeck || storeCockpitDeck || 'inspector';
-  const dockTab = rawDockTab === 'aime' ? 'inspector' : rawDockTab;
+  const dockTab = activeCockpitDeck || storeCockpitDeck || 'inspector';
   const setDockTab = (tab) => {
     setStoreCockpitDeck(tab);
     if (onSelectCockpitDeck) onSelectCockpitDeck(tab);
@@ -156,9 +157,18 @@ export default function ScenarioPane({
     return [...catalog, ...projectMaps];
   }, [mapsCatalog, universeState?.maps]);
 
-  // Bootstrap starter maps if both universeState.maps and mapsCatalog are empty
+  const seededStoryIdsRef = useRef(new Set());
+
+  // Bootstrap starter maps once per empty story (unless read-only)
   useEffect(() => {
-    if (universeState && (!universeState.maps || universeState.maps.length === 0) && (!mapsCatalog || mapsCatalog.length === 0)) {
+    if (isStoryReadOnly || !universeState?.id) return;
+    if (Array.isArray(universeState.maps) && universeState.maps.length > 0) {
+      seededStoryIdsRef.current.add(universeState.id);
+      return;
+    }
+    if (seededStoryIdsRef.current.has(universeState.id)) return;
+    if ((!universeState.maps || universeState.maps.length === 0) && (!mapsCatalog || mapsCatalog.length === 0)) {
+      seededStoryIdsRef.current.add(universeState.id);
       const starters = getStarterMapsCollection();
       setUniverseState(prev => ({
         ...prev,
@@ -168,7 +178,7 @@ export default function ScenarioPane({
         setActiveMapId(starters[0].id);
       }
     }
-  }, [universeState, mapsCatalog, setUniverseState, setActiveMapId, activeMapId]);
+  }, [universeState, mapsCatalog, isStoryReadOnly, setUniverseState, setActiveMapId, activeMapId]);
 
   // Locate active node
   let activeNode = null;
@@ -219,17 +229,22 @@ export default function ScenarioPane({
   const {
     waypointPromptData,
     setWaypointPromptData,
-    executeWaypointTrigger
+    executeWaypointTrigger,
+    handleConfirmWaypointBeat,
+    handleToggleAutoTrigger
   } = useWaypointEngine({
     activeMap: linkedMap,
-    updateMap: (mapId, updates) => {
-      if (universeState?.maps?.some(m => m.id === mapId)) {
-        setUniverseState(prev => ({
-          ...prev,
-          maps: (prev.maps || []).map(m => m.id === mapId ? { ...m, ...updates } : m)
-        }));
-      }
-    },
+    updateMap: typeof updateMap === 'function'
+      ? updateMap
+      : (mapId, updates) => {
+          if (isStoryReadOnly) return;
+          if (universeState?.maps?.some(m => m.id === mapId)) {
+            setUniverseState(prev => ({
+              ...prev,
+              maps: (prev.maps || []).map(m => m.id === mapId ? { ...m, ...updates } : m)
+            }));
+          }
+        },
     activeScenario: activeNode,
     flatScenarios,
     setActiveScenarioId,
@@ -450,6 +465,8 @@ export default function ScenarioPane({
         onSwitchView={onSwitchView}
         waypointPromptData={waypointPromptData}
         executeWaypointTrigger={executeWaypointTrigger}
+        handleConfirmWaypointBeat={handleConfirmWaypointBeat}
+        handleToggleAutoTrigger={handleToggleAutoTrigger}
         setWaypointPromptData={setWaypointPromptData}
       />
 

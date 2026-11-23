@@ -128,6 +128,7 @@ export const useWaypointEngine = ({
 
   // Spatial Proximity Collision Watcher
   useEffect(() => {
+    if (studioMode !== 'live_session') return;
     if (!activeMap?.waypoints || activeMap.waypoints.length === 0 || !liveTokens || liveTokens.length === 0) return;
 
     const waypoints = activeMap.waypoints;

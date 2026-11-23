@@ -8,7 +8,7 @@
  * - Blueprint underlays and atmospheric weather states
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { 
   useEngineStore, 
   type StaticEntity, 
@@ -59,16 +59,23 @@ export function useMapIngestion({
   setSelectedTokenId,
   setTargetTokenId,
   setUnderlayConfig,
-  setAtmosphericWeather,
+  setAtmosphericWeather: _setAtmosphericWeather,
 }: UseMapIngestionOptions): void {
+  const lastMapIdRef = useRef<string | null>(null);
+  const lastMapTokenCoordsRef = useRef<Map<string, { x: number; y: number }>>(new Map());
+
   useEffect(() => {
     const store = useEngineStore.getState();
 
     if (currentMap) {
-      setCombatLog(prev => [
-        `[MAP SYNC] Synchronized with Campaign Map: "${currentMap.title || currentMap.name || 'Tactical Sector'}" [${currentMap.type || 'Sector'}].`,
-        ...prev.slice(0, 8)
-      ]);
+      const isMapSwitch = currentMap.id !== lastMapIdRef.current;
+
+      if (isMapSwitch) {
+        setCombatLog(prev => [
+          `[MAP SYNC] Synchronized with Campaign Map: "${currentMap.title || currentMap.name || 'Tactical Sector'}" [${currentMap.type || 'Sector'}].`,
+          ...prev.slice(0, 8)
+        ]);
+      }
 
       // Sync Grid Type from Map (defaulting to hex if undefined or 'hex')
       const targetGridType = (currentMap.gridType === 'square' || currentMap.gridMode === 'square')
@@ -82,9 +89,20 @@ export function useMapIngestion({
           id: w.id || `wall-${Math.random()}`,
           p1: w.p1 || { x: w.x1 || 0, y: w.y1 || 0 },
           p2: w.p2 || { x: w.x2 || 100, y: w.y2 || 100 },
-          isDynamic: Boolean(w.isDoor || w.wallType?.includes('door') || w.wallType?.includes('bulkhead')),
-          isOpen: w.doorState === 'open',
-          isTransparent: Boolean(w.isTransparent || w.wallType?.includes('window') || w.wallType?.includes('glass'))
+          isDynamic: Boolean(
+            w.isDynamic ||
+            w.isDoor ||
+            w.type === 'door' ||
+            w.wallType?.includes('door') ||
+            w.wallType?.includes('bulkhead')
+          ),
+          isOpen: Boolean(
+            w.isOpen ||
+            w.doorState === 'open' ||
+            w.doorState === 'breached' ||
+            (w.breachHp !== undefined && Number(w.breachHp) <= 0)
+          ),
+          isTransparent: Boolean(w.isTransparent || w.type === 'window' || w.wallType?.includes('window') || w.wallType?.includes('glass'))
         }));
         bvhBuilderRef.current.build(bvhWalls);
         setLocalWalls(bvhWalls);
@@ -93,14 +111,15 @@ export function useMapIngestion({
         setLocalWalls([]);
       }
 
-      // 2. Ingest Interactive Map Objects into local state
+      // 2. Ingest Interactive Map Objects preserving full trap/lock/mechanical metadata
       if (Array.isArray(currentMap.objects) && currentMap.objects.length > 0) {
         const sceneObjects: SceneInteractiveObject[] = currentMap.objects.map((obj: any) => ({
+          ...obj,
           id: obj.id,
           name: obj.name || obj.label || obj.type || 'Object',
           type: (obj.type || 'terminal') as any,
-          x: obj.x || 100,
-          y: obj.y || 100,
+          x: obj.x ?? 100,
+          y: obj.y ?? 100,
           storyElementId: obj.storyElementId || obj.id
         }));
         interactiveObjMgrRef.current.loadObjects(sceneObjects);
@@ -110,49 +129,88 @@ export function useMapIngestion({
         setLocalObjects([]);
       }
 
-      // 3. Ingest Map Tokens
-      if (Array.isArray(currentMap.tokens) && currentMap.tokens.length > 0) {
-        const staticBatch: StaticEntity[] = currentMap.tokens.map((t: any) => ({
+      // 3. Ingest Map Tokens (purge stale tokens on map switch; preserve live ephemeral vitals on same-map edits)
+      const mapTokens = Array.isArray(currentMap.tokens) ? currentMap.tokens : [];
+      if (isMapSwitch) {
+        store.clearAllEntities();
+        lastMapTokenCoordsRef.current.clear();
+        lastMapIdRef.current = currentMap.id;
+      }
+
+      if (mapTokens.length > 0) {
+        const staticBatch: StaticEntity[] = mapTokens.map((t: any) => ({
           ...t,
           id: t.id,
           unit_id: t.unit_id || t.id,
           source_persona_id: t.source_persona_id || t.character_doc_id || t.id,
           character_doc_id: t.character_doc_id || t.source_persona_id || t.id,
           name: t.name || t.label || 'Operator',
-          base_hp: t.base_hp || t.hp_max || t.hp?.max || 35,
-          base_health: t.base_health || t.hp_max || t.base_hp || 35,
-          base_vitality: t.base_vitality || t.vit_max || 35,
-          base_structure: t.base_structure || t.struct_max || 70,
+          base_hp: t.base_hp || t.hp_max || t.hp?.max || 30,
+          base_health: t.base_health || t.hp_max || t.base_hp || 30,
+          base_vitality: t.base_vitality || t.vit_max || 30,
+          base_structure: t.base_structure || t.struct_max || 60,
           tech_level: t.tech_level || 3,
-          armor_dr: t.armor_dr ?? t.dr ?? 6,
-          stamina_dr: t.stamina_dr ?? t.toughness ?? 2,
-          defense_dc: t.defense_dc ?? t.defense ?? 12,
+          armor_dr: t.armor_dr ?? t.dr ?? 0,
+          stamina_dr: t.stamina_dr ?? t.toughness ?? 0,
+          defense_dc: t.defense_dc ?? t.defense ?? 15,
           attack_bonus: t.attack_bonus ?? 3,
-          actions_per_round: t.actions_per_round ?? t.actionPoints ?? 3,
+          actions_per_round: t.actions_per_round ?? t.actionPoints ?? 1,
           size_modifier: t.size_modifier || 0,
           speed_ft: t.speed_ft || 30,
           species: t.species || 'Human',
           archetype: t.archetype || 'Operator',
           is_persona: t.is_persona !== false
         }));
-        store.loadStaticEntitiesBatch(staticBatch);
-        currentMap.tokens.forEach((t: any) => {
-          store.updatePosition(t.id, t.x || 140, t.y || 140);
-        });
 
-        if (currentMap.tokens[0]?.id) {
-          setSelectedTokenId(currentMap.tokens[0].id);
+        if (!isMapSwitch) {
+          const mapTokenIds = new Set(mapTokens.map((t: any) => t.id));
+          Object.keys(store.staticData).forEach((existingId) => {
+            if (!mapTokenIds.has(existingId) && !existingId.startsWith('comp_tok_')) {
+              store.removeEntity(existingId);
+              lastMapTokenCoordsRef.current.delete(existingId);
+            }
+          });
         }
-        if (currentMap.tokens[1]?.id) {
-          setTargetTokenId(currentMap.tokens[1].id);
+
+        store.loadStaticEntitiesBatch(staticBatch);
+
+        const nextCoordMap = new Map<string, { x: number; y: number }>();
+        mapTokens.forEach((t: any) => {
+          const tx = t.x ?? 140;
+          const ty = t.y ?? 140;
+          nextCoordMap.set(t.id, { x: tx, y: ty });
+          const prevCoords = lastMapTokenCoordsRef.current.get(t.id);
+          const hasEphemeral = Boolean(useEngineStore.getState().ephemeralData[t.id]);
+          if (isMapSwitch || !hasEphemeral || !prevCoords || prevCoords.x !== tx || prevCoords.y !== ty) {
+            store.updatePosition(t.id, tx, ty);
+          }
+        });
+        lastMapTokenCoordsRef.current = nextCoordMap;
+
+        if (isMapSwitch) {
+          if (mapTokens[0]?.id) {
+            setSelectedTokenId(mapTokens[0].id);
+            const postStore = useEngineStore.getState();
+            postStore.clearSelection();
+            postStore.setSelection(mapTokens[0].id, true);
+          }
+          if (mapTokens[1]?.id) {
+            setTargetTokenId(mapTokens[1].id);
+          } else {
+            setTargetTokenId(null);
+          }
         }
       } else {
-        store.clearAllEntities();
+        if (!isMapSwitch) {
+          store.clearAllEntities();
+        }
+        lastMapTokenCoordsRef.current.clear();
         setSelectedTokenId(null);
         setTargetTokenId(null);
       }
 
-      // 4. Ingest Dynamic Lights into LightSourceManager & local state
+      // 4. Ingest Dynamic Lights into LightSourceManager & local state (always purge prior map lights)
+      lightSourceMgrRef.current.clearLights();
       if (Array.isArray(currentMap.lights) && currentMap.lights.length > 0) {
         currentMap.lights.forEach((l: any) => lightSourceMgrRef.current.addLight(l));
         setLocalLights(currentMap.lights);
@@ -166,25 +224,20 @@ export function useMapIngestion({
       } else {
         setUnderlayConfig(null);
       }
-
-      // 6. Ingest Global Atmospheric Weather
-      if (currentMap.atmosphericWeather) {
-        setAtmosphericWeather(currentMap.atmosphericWeather);
-      } else {
-        setAtmosphericWeather('clear');
-      }
     } else {
       // Blank canvas state when no map is loaded
+      lastMapIdRef.current = null;
+      lastMapTokenCoordsRef.current.clear();
       bvhBuilderRef.current.build([]);
       setLocalWalls([]);
       interactiveObjMgrRef.current.loadObjects([]);
       setLocalObjects([]);
       store.clearAllEntities();
+      lightSourceMgrRef.current.clearLights();
       setSelectedTokenId(null);
       setTargetTokenId(null);
       setLocalLights([]);
       setUnderlayConfig(null);
-      setAtmosphericWeather('clear');
       useUILayoutStore.getState().setGridType(GridType.HexFlatTop);
     }
   }, [
@@ -199,6 +252,6 @@ export function useMapIngestion({
     setSelectedTokenId,
     setTargetTokenId,
     setUnderlayConfig,
-    setAtmosphericWeather
+    _setAtmosphericWeather
   ]);
 }

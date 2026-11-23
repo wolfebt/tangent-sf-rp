@@ -13,7 +13,9 @@ export class RendererContext {
   private canvasRef: HTMLCanvasElement | null = null;
   private isInitialized: boolean = false;
   private isDestroyed: boolean = false;
+  private isRebuilding: boolean = false;
   private initPromise: Promise<void> | null = null;
+  private resizeObserver: ResizeObserver | null = null;
 
   constructor() {
     // Instantiate the PixiJS v8 Application shell
@@ -57,6 +59,24 @@ export class RendererContext {
     }
   }
 
+  private setupResizeObserver(canvas: HTMLCanvasElement): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+    const target = canvas?.parentElement;
+    if (!target || typeof ResizeObserver === 'undefined') return;
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.isDestroyed || !this.isInitialized || !this.app?.renderer) return;
+      try {
+        (this.app as any).resize?.();
+      } catch {
+        // Ignored during teardown
+      }
+    });
+    this.resizeObserver.observe(target);
+  }
+
   /**
    * Mounts the Stage renderer to the provided canvas element.
    * @param canvas The target HTMLCanvasElement injected via React
@@ -64,6 +84,7 @@ export class RendererContext {
   public async initialize(canvas: HTMLCanvasElement): Promise<void> {
     if (this.isDestroyed) return;
     this.canvasRef = canvas;
+    const resizeTarget = canvas?.parentElement || (typeof window !== 'undefined' ? window : undefined);
 
     this.initPromise = (async () => {
       // Clean up any stale PixiJS canvas cache or unconfigured WebGPU context before booting
@@ -72,8 +93,8 @@ export class RendererContext {
       try {
         // Boot the engine with PixiJS v8 preferring WebGPU
         await this.app.init({
-          canvas: this.canvasRef || undefined,
-          resizeTo: typeof window !== 'undefined' ? window : undefined,
+          ...(this.canvasRef ? { canvas: this.canvasRef } : {}),
+          ...(resizeTarget ? { resizeTo: resizeTarget } : {}),
           preference: 'webgpu',
           antialias: false, // Disabled for crisp tactical grid sharpness and maximum compute performance
           resolution: typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1,
@@ -86,6 +107,7 @@ export class RendererContext {
         }
 
         this.isInitialized = true;
+        this.setupResizeObserver(canvas);
 
         // Verify which renderer backend booted
         if (this.app.renderer?.name?.toLowerCase().includes('webgpu')) {
@@ -105,8 +127,8 @@ export class RendererContext {
           RendererContext.cleanupCanvas(canvas);
           this.app = new Application();
           await this.app.init({
-            canvas: this.canvasRef || undefined,
-            resizeTo: typeof window !== 'undefined' ? window : undefined,
+            ...(this.canvasRef ? { canvas: this.canvasRef } : {}),
+            ...(resizeTarget ? { resizeTo: resizeTarget } : {}),
             preference: 'webgl',
             antialias: false,
             resolution: typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1,
@@ -120,6 +142,7 @@ export class RendererContext {
 
           this.isInitialized = true;
           this.isWebGPU = false;
+          this.setupResizeObserver(canvas);
           console.log(`[RendererContext] Stage running on fallback renderer: ${this.app.renderer?.name}`);
         } catch (fallbackError) {
           console.error('[RendererContext] Catastrophic Stage initialization failure:', fallbackError);
@@ -148,20 +171,30 @@ export class RendererContext {
   }
 
   private async rebuildContext() {
+    if (this.isRebuilding || this.isDestroyed || !this.canvasRef) return;
+    this.isRebuilding = true;
     console.log('[RendererContext] Rebuilding graphics context for the Stage...');
-    if (this.canvasRef && !this.isDestroyed) {
+    const rebuildRun = (async () => {
       try {
         this.cleanup();
         this.app = new Application();
-        await this.initialize(this.canvasRef);
-        
-        if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('stage-renderer-rebuilt'));
+        await this.initialize(this.canvasRef!);
+
+        if (!this.isDestroyed && this.isInitialized && typeof window !== 'undefined') {
+          window.dispatchEvent(
+            new CustomEvent('stage-renderer-rebuilt', {
+              detail: { rendererContext: this, isWebGPU: this.isWebGPU }
+            })
+          );
         }
       } catch (err) {
         console.error('[RendererContext] Failed to rebuild context:', err);
+      } finally {
+        this.isRebuilding = false;
       }
-    }
+    })();
+    this.initPromise = rebuildRun;
+    await rebuildRun;
   }
 
   public getApp(): Application {
@@ -181,6 +214,10 @@ export class RendererContext {
   }
 
   private cleanup(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
     if (this.app && (this.isInitialized || (this.app as any).renderer)) {
       try {
         if (typeof (this.app as any)._cancelResize !== 'function') {

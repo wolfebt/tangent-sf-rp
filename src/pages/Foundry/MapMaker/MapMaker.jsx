@@ -1,6 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback, Suspense } from 'react';
+import { lazyWithRetry } from '../../../utils/lazyWithRetry';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Stage, Layer, Rect, Circle, Text as KonvaText, Line, RegularPolygon, Image as KonvaImage, Group } from 'react-konva';
+import { Stage, Layer, Rect, Circle, Text as KonvaText, Line, RegularPolygon, Image as KonvaImage, Group, Shape } from 'react-konva';
+import { drawSquareGridOnCanvas, drawHexGridOnCanvas } from './map/gridGeometry';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
@@ -20,7 +22,6 @@ import { toggleDoorState, damageWallSegment, createWallSegment, WALL_TYPES, DOOR
 import SpatialAudio from '../../../services/spatialAudioService';
 import MapToolbar from './map/MapToolbar';
 import ArchitectConsoleRail from './map/ArchitectConsoleRail';
-import MapToolsPanel from './map/MapToolsPanel';
 import MapLayersPanel from './map/MapLayersPanel';
 import MapMetadataPanel from './map/MapMetadataPanel';
 import MapKeyPanel from './map/MapKeyPanel';
@@ -32,7 +33,7 @@ import { DBMItemModal } from '../../../components/DBM/DBMItemModal';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { useFolio } from '../../../context/FolioContext';
 import { AudioService } from '../../../services/audioService';
-import MapMaker3DPreviewModal from './components/MapMaker3DPreviewModal';
+const MapMaker3DPreviewModal = lazyWithRetry(() => import('./components/MapMaker3DPreviewModal'));
 
 import { useMapHistory } from './hooks/useMapHistory';
 import { useMapCanvasEvents } from './hooks/useMapCanvasEvents';
@@ -50,9 +51,10 @@ import { MapMakerTabBar } from './components/MapMakerTabBar';
 import { AssetStudioTab } from './components/AssetStudioTab';
 import { PcgAiStudioTab } from './components/PcgAiStudioTab';
 import { VttExportTab } from './components/VttExportTab';
+import { MapGraphicsCompiler } from '../../../engine/compilers/MapGraphicsCompiler';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { ChunkStudioModal } from './components/ChunkStudioModal';
+const ChunkStudioModal = lazyWithRetry(() => import('./components/ChunkStudioModal'));
 import { ChunkGhostPreviewOverlay } from './map/ChunkGhostPreviewOverlay';
 import { PlacedChunkInspectorBar } from './map/PlacedChunkInspectorBar';
 import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../../data/seed_chunks/science_fantasy_chunks';
@@ -214,10 +216,6 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
 const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, onSwitchView }) => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-
-  if (isMobile) {
-    return <MobileTacticalBlocker operation="map" onBack={onBackToStory} />;
-  }
 
   const containerRef = useRef(null);
   const stageRef = useRef(null);
@@ -836,7 +834,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     });
   };
   const { undoStack, redoStack, recordHistory, handleUndo, handleRedo } = useMapHistory({
-    currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId
+    currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId,
+    enabled: activeStudioTab === 'canvas'
   });
 
   const {
@@ -981,10 +980,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   // Update Spatial Audio listener coordinate whenever active token moves
   useEffect(() => {
+    if (isMobile) return;
     if (activeVisionToken) {
       SpatialAudio.setListenerPosition(activeVisionToken.x, activeVisionToken.y, gridSize);
     }
-  }, [activeVisionToken?.x, activeVisionToken?.y, gridSize]);
+  }, [isMobile, activeVisionToken?.x, activeVisionToken?.y, gridSize]);
 
   // Door toggle and breach helpers
   const handleToggleDoor = (wallId) => {
@@ -1272,9 +1272,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   // Keyboard Shortcuts Hotkeys Manager Listener Element
   useEffect(() => {
+    if (isMobile || activeStudioTab !== 'canvas') return;
     const handleKeyDown = (e) => {
       const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
-      if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) {
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) {
         return;
       }
 
@@ -1396,7 +1397,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
     const handleKeyUp = (e) => {
       const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
-      if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
       if (e.key === ' ' && window.__prevMapTool) {
         e.preventDefault();
         setActiveTool(window.__prevMapTool);
@@ -1404,13 +1405,22 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       }
     };
 
+    const handleWindowBlur = () => {
+      if (window.__prevMapTool) {
+        setActiveTool(window.__prevMapTool);
+        window.__prevMapTool = null;
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('blur', handleWindowBlur);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('blur', handleWindowBlur);
     };
-  }, [activeMapId, gridMode, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts, activeTool, zoomBy, panBy, recordHistory, updateMap, isShortcutsModalOpen, isVttDrawerOpen, isUvttModalOpen, rulerWaypoints, clearRuler, selectedChunkInstance]);
+  }, [isMobile, activeStudioTab, activeMapId, gridMode, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts, activeTool, zoomBy, panBy, recordHistory, updateMap, isShortcutsModalOpen, isVttDrawerOpen, isUvttModalOpen, rulerWaypoints, clearRuler, selectedChunkInstance]);
 
   const handleCommitPcgSector = ({
     terrains: generatedTerrains = [],
@@ -1433,6 +1443,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         objects: generatedObjects,
         texts: [],
         fog: [],
+        fogEnabled: false,
+        gridSize: gridSize || 50,
         lights: generatedLights,
         walls: generatedWalls,
         layers: DEFAULT_LAYERS
@@ -1514,7 +1526,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   };
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (isMobile || !containerRef.current) return;
     const handleResize = () => {
       if (containerRef.current) {
         setStageSize({
@@ -1532,7 +1544,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       ro.disconnect();
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isMobile, activeStudioTab]);
 
   useEffect(() => {
     if (universeState.maps.length > 0 && !activeMapId) {
@@ -1555,17 +1567,94 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     if (selectedId === id) setSelectedId(null);
   };
 
+  useEffect(() => {
+    setFogEnabled(Boolean(currentMap?.fogEnabled));
+  }, [currentMap?.id, currentMap?.fogEnabled]);
+
+  const handleSetFogEnabled = useCallback((nextOrUpdater) => {
+    setFogEnabled(prev => {
+      const resolved = typeof nextOrUpdater === 'function' ? nextOrUpdater(prev) : Boolean(nextOrUpdater);
+      if (activeMapId) {
+        updateMap(activeMapId, { fogEnabled: resolved });
+      }
+      return resolved;
+    });
+  }, [activeMapId, updateMap]);
+
+  const handleApplyEnvironmentPreset = useCallback((rawPreset) => {
+    const presetId = typeof rawPreset === 'string' ? rawPreset : rawPreset?.id;
+    if (!presetId) return;
+    if (activeMapId) {
+      recordHistory('Apply Environment Preset');
+      updateMap(activeMapId, { environment: presetId });
+    }
+    VttEventBus.emit('apply-atmospheric-preset', presetId);
+    showToast({ type: 'info', text: `ENVIRONMENT: ${presetId.toUpperCase()}` });
+  }, [activeMapId, recordHistory, updateMap]);
+
+  const handleBatchTokenAction = useCallback((action) => {
+    if (!activeMapId || !currentMap) return;
+    const list = currentMap.tokens || [];
+    if (list.length === 0) {
+      showToast({ type: 'info', text: `No tokens on map for ${action}.` });
+      return;
+    }
+    recordHistory(`Batch Token Action: ${action}`);
+    let nextTokens = list;
+    if (action === 'reveal_all') {
+      nextTokens = list.map(t => ({ ...t, hidden: false, isHidden: false }));
+    } else if (action === 'stealth_all') {
+      nextTokens = list.map(t =>
+        t.type === 'hero' || t.isPlayer
+          ? t
+          : { ...t, hidden: true, isHidden: true }
+      );
+    } else if (action === 'heal_party') {
+      nextTokens = list.map(t => {
+        const maxVit = t.base_vitality ?? t.maxVitality ?? t.base_health ?? t.maxHp ?? 30;
+        const maxStruct = t.base_structure ?? t.maxStructure ?? 10;
+        const maxHp = t.base_health ?? t.baseHp ?? t.maxHp ?? maxVit;
+        return {
+          ...t,
+          hp: maxHp,
+          current_health: maxHp,
+          current_hp: maxHp,
+          current_vitality: maxVit,
+          current_structure: maxStruct,
+          conditions: [],
+          active_conditions: []
+        };
+      });
+    }
+    updateMap(activeMapId, { tokens: nextTokens });
+    showToast({ type: 'success', text: `BATCH ACTION: ${action.toUpperCase()}` });
+  }, [activeMapId, currentMap, recordHistory, updateMap]);
+
   const handleClearMap = () => {
     recordHistory();
     updateMap(activeMapId, { lines: [], terrains: [], walls: [], objects: [], lights: [], texts: [], fog: [] });
   };
 
   const handleExportPNG = () => {
-    if (!stageRef.current || !currentMap) return;
+    if (!currentMap) return;
     setSelectedId(null);
     setTimeout(() => {
       try {
-        const dataURL = stageRef.current.toDataURL({ pixelRatio: 2 });
+        let dataURL = '';
+        if (stageRef.current) {
+          dataURL = stageRef.current.toDataURL({ pixelRatio: 2 });
+        } else {
+          const gridSz = currentMap.gridSize || 50;
+          const widthCells = currentMap.gridWidth || Math.max(1, Math.round((currentMap.width || 1500) / gridSz));
+          const heightCells = currentMap.gridHeight || Math.max(1, Math.round((currentMap.height || 1000) / gridSz));
+          dataURL = MapGraphicsCompiler.compileToDataUrl({
+            widthCells,
+            heightCells,
+            pixelsPerGrid: gridSz,
+            terrains: currentMap.terrains || [],
+            underlays: currentMap.underlays || []
+          }, 'image/png', 1);
+        }
         const link = document.createElement('a');
         link.download = formatExportFilename(currentMap.title || 'map', 'map', 'png');
         link.href = dataURL;
@@ -1639,108 +1728,28 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   };
 
   const renderGrid = () => {
-    if (gridMode === 'none') return null;
+    if (gridMode !== 'square' && gridMode !== 'hex') return null;
 
-    if (gridMode === 'square') {
-      const gSize = Math.max(15, gridSize || 50);
-      const margin = gSize * 2;
-      const startX = (-position.x - margin) / scale;
-      const endX = (stageSize.width - position.x + margin) / scale;
-      const startY = (-position.y - margin) / scale;
-      const endY = (stageSize.height - position.y + margin) / scale;
-
-      const minCol = Math.floor(startX / gSize);
-      const maxCol = Math.ceil(endX / gSize);
-      const minRow = Math.floor(startY / gSize);
-      const maxRow = Math.ceil(endY / gSize);
-
-      const clampedMinCol = Math.max(minCol, -300);
-      const clampedMaxCol = Math.min(maxCol, 300);
-      const clampedMinRow = Math.max(minRow, -300);
-      const clampedMaxRow = Math.min(maxRow, 300);
-
-      const gridLines = [];
-      const minY = clampedMinRow * gSize;
-      const maxY = clampedMaxRow * gSize;
-      const minX = clampedMinCol * gSize;
-      const maxX = clampedMaxCol * gSize;
-
-      for (let c = clampedMinCol; c <= clampedMaxCol; c++) {
-        const x = c * gSize;
-        const isMajor = Math.abs(c) % 5 === 0;
-        gridLines.push(
-          <Line 
-            key={`v-${c}`} 
-            points={[x, minY, x, maxY]} 
-            stroke={isMajor ? "rgba(34, 211, 238, 0.35)" : "rgba(255, 255, 255, 0.18)"} 
-            strokeWidth={isMajor ? 1.5 : 1} 
-            strokeScaleEnabled={false}
-          />
-        );
-      }
-      for (let r = clampedMinRow; r <= clampedMaxRow; r++) {
-        const y = r * gSize;
-        const isMajor = Math.abs(r) % 5 === 0;
-        gridLines.push(
-          <Line 
-            key={`h-${r}`} 
-            points={[minX, y, maxX, y]} 
-            stroke={isMajor ? "rgba(34, 211, 238, 0.35)" : "rgba(255, 255, 255, 0.18)"} 
-            strokeWidth={isMajor ? 1.5 : 1} 
-            strokeScaleEnabled={false}
-          />
-        );
-      }
-      return gridLines;
-    }
-
-    if (gridMode === 'hex') {
-      const hexRadius = Math.max(15, gridSize || 50);
-      const hexWidth = Math.sqrt(3) * hexRadius;
-      const rowHeight = hexRadius * 1.5;
-
-      const marginX = hexWidth * 2;
-      const marginY = hexRadius * 3;
-      const startX = (-position.x - marginX) / scale;
-      const endX = (stageSize.width - position.x + marginX) / scale;
-      const startY = (-position.y - marginY) / scale;
-      const endY = (stageSize.height - position.y + marginY) / scale;
-
-      const minCol = Math.floor(startX / hexWidth) - 1;
-      const maxCol = Math.ceil(endX / hexWidth) + 1;
-      const minRow = Math.floor(startY / rowHeight) - 1;
-      const maxRow = Math.ceil(endY / rowHeight) + 1;
-
-      // Bound visible range to avoid extreme loops if scaled out massively
-      const clampedMinCol = Math.max(minCol, -200);
-      const clampedMaxCol = Math.min(maxCol, 200);
-      const clampedMinRow = Math.max(minRow, -200);
-      const clampedMaxRow = Math.min(maxRow, 200);
-
-      const hexes = [];
-      for (let r = clampedMinRow; r <= clampedMaxRow; r++) {
-        const isOddRow = (((r % 2) + 2) % 2) === 1;
-        const rowOffsetX = isOddRow ? (hexWidth / 2) : 0;
-        const y = r * rowHeight;
-        for (let c = clampedMinCol; c <= clampedMaxCol; c++) {
-          const x = c * hexWidth + rowOffsetX;
-          hexes.push(
-            <RegularPolygon 
-              key={`hex-${r}-${c}`} 
-              x={x} 
-              y={y} 
-              sides={6} 
-              radius={hexRadius} 
-              stroke="rgba(34, 211, 238, 0.25)" 
-              strokeWidth={1} 
-              strokeScaleEnabled={false}
-            />
-          );
-        }
-      }
-      return hexes;
-    }
-    return null;
+    return (
+      <Shape
+        listening={false}
+        perfectDrawEnabled={false}
+        sceneFunc={(ctx) => {
+          const viewport = {
+            x: position.x,
+            y: position.y,
+            width: stageSize.width,
+            height: stageSize.height,
+            scale
+          };
+          if (gridMode === 'square') {
+            drawSquareGridOnCanvas(ctx, viewport, gridSize, { scale });
+          } else {
+            drawHexGridOnCanvas(ctx, viewport, gridSize, { scale });
+          }
+        }}
+      />
+    );
   };
 
   const createNewMap = (e) => {
@@ -1765,8 +1774,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     return l ? l.locked : false;
   };
 
+  if (isMobile) {
+    return <MobileTacticalBlocker operation="map" onBack={onBackToStory} />;
+  }
+
   return (
-    <div className="h-full w-full bg-gray-950 flex flex-col" ref={containerRef}>
+    <div className="h-full w-full bg-gray-950 flex flex-col">
 
       {/* Canvas Keyboard Shortcuts Manager Legend Modal Element */}
       {isShortcutsModalOpen && (
@@ -1955,12 +1968,16 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         onToggle3DPreview={() => setIs3DPreviewOpen(prev => !prev)}
       />
 
-      <MapMaker3DPreviewModal
-        isOpen={is3DPreviewOpen}
-        onClose={() => setIs3DPreviewOpen(false)}
-        currentMap={currentMap}
-        tokens={tokens}
-      />
+      {is3DPreviewOpen && (
+        <Suspense fallback={null}>
+          <MapMaker3DPreviewModal
+            isOpen={is3DPreviewOpen}
+            onClose={() => setIs3DPreviewOpen(false)}
+            currentMap={currentMap}
+            tokens={tokens}
+          />
+        </Suspense>
+      )}
 
       <StoryFoundryGuideModal
         isOpen={isGuideOpen}
@@ -2228,7 +2245,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
               const nextObjs = objects.map(o => o.id === objId ? { ...o, ...updates } : o);
               updateMap(activeMapId, { objects: nextObjs });
             }}
-            onTriggerFloatingText={(x, y, msg) => showToast(msg)}
+            onTriggerFloatingText={(x, y, msg) => showToast({ type: 'info', text: String(msg) })}
             scale={scale}
             position={position}
           />
@@ -2677,7 +2694,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                 <Layer id="layer_fog">
                   {fogEnabled && (
                     <Group>
-                      <Rect x={0} y={0} width={4000} height={3000} fill="rgba(0, 0, 0, 0.75)" listening={false} />
+                      <Rect
+                        x={0}
+                        y={0}
+                        width={Math.max(4000, (currentMap?.gridWidth || 40) * (currentMap?.gridSize || gridSize || 50))}
+                        height={Math.max(3000, (currentMap?.gridHeight || 30) * (currentMap?.gridSize || gridSize || 50))}
+                        fill="rgba(0, 0, 0, 0.75)"
+                        listening={false}
+                      />
                       {/* Dynamic Line-of-Sight Cutout */}
                       {visibilityPolygon && (
                         <Line
@@ -2739,7 +2763,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             textSize={textSize}
             setTextSize={setTextSize}
             fogEnabled={fogEnabled}
-            setFogEnabled={setFogEnabled}
+            setFogEnabled={handleSetFogEnabled}
             currentMapScale={currentMap?.type || 'Planetary'}
             customAssets={universeState.customAssets || { terrains: [], objects: [] }}
             selectedLightColor={selectedLightColor}
@@ -2755,12 +2779,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             newLayerNameInput={newLayerNameInput}
             setNewLayerNameInput={setNewLayerNameInput}
             onAddCustomLayer={addCustomLayer}
-            onApplyEnvironmentPreset={(envId) => {
-              showToast({ type: 'info', text: `ENVIRONMENT: ${envId.toUpperCase()}` });
-            }}
-            onBatchTokenAction={(action) => {
-              showToast({ type: 'info', text: `BATCH ACTION: ${action.toUpperCase()}` });
-            }}
+            onApplyEnvironmentPreset={handleApplyEnvironmentPreset}
+            onBatchTokenAction={handleBatchTokenAction}
             onBroadcastMessage={(msg) => {
               showToast({ type: 'info', text: msg });
             }}
@@ -2799,39 +2819,41 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
       {/* Tab: Chunk Forge Studio & Construction Point Workbench */}
       {activeStudioTab === 'chunks' && (
-        <ChunkStudioModal
-          isEmbeddedTab={true}
-          initialChunk={chunkStudioInitialBlueprint || selectedChunk}
-          customChunks={universeState?.customAssets?.chunks || []}
-          onSaveChunk={(savedChunk) => {
-            const exists = (universeState?.customAssets?.chunks || []).some(
-              c => c.chunkId === savedChunk.chunkId
-            );
-            if (exists && updateCustomChunk) {
-              updateCustomChunk(savedChunk.chunkId, savedChunk);
-            } else if (addCustomChunk) {
-              addCustomChunk(savedChunk);
-            }
-            setSelectedChunk(savedChunk);
-          }}
-          onDeleteChunk={(chunkId) => {
-            if (deleteCustomChunk) deleteCustomChunk(chunkId);
-          }}
-          onSelectChunkToStamp={(chunk, initialTransform) => {
-            setSelectedChunk(chunk);
-            if (initialTransform) {
-              setChunkRotationDeg(initialTransform.rotationDeg || 0);
-              setChunkFlipX(Boolean(initialTransform.flipX));
-              setChunkFlipY(Boolean(initialTransform.flipY));
-            }
-            setActiveTool('chunk');
-            setActiveStudioTab('canvas');
-            showToast({
-              type: 'info',
-              text: `Ready to stamp "${chunk.name}" on canvas! Hover & click to place (R: rotate 90° CW, X/Y: flip).`
-            });
-          }}
-        />
+        <Suspense fallback={null}>
+          <ChunkStudioModal
+            isEmbeddedTab={true}
+            initialChunk={chunkStudioInitialBlueprint || selectedChunk}
+            customChunks={universeState?.customAssets?.chunks || []}
+            onSaveChunk={(savedChunk) => {
+              const exists = (universeState?.customAssets?.chunks || []).some(
+                c => c.chunkId === savedChunk.chunkId
+              );
+              if (exists && updateCustomChunk) {
+                updateCustomChunk(savedChunk.chunkId, savedChunk);
+              } else if (addCustomChunk) {
+                addCustomChunk(savedChunk);
+              }
+              setSelectedChunk(savedChunk);
+            }}
+            onDeleteChunk={(chunkId) => {
+              if (deleteCustomChunk) deleteCustomChunk(chunkId);
+            }}
+            onSelectChunkToStamp={(chunk, initialTransform) => {
+              setSelectedChunk(chunk);
+              if (initialTransform) {
+                setChunkRotationDeg(initialTransform.rotationDeg || 0);
+                setChunkFlipX(Boolean(initialTransform.flipX));
+                setChunkFlipY(Boolean(initialTransform.flipY));
+              }
+              setActiveTool('chunk');
+              setActiveStudioTab('canvas');
+              showToast({
+                type: 'info',
+                text: `Ready to stamp "${chunk.name}" on canvas! Hover & click to place (R: rotate 90° CW, X/Y: flip).`
+              });
+            }}
+          />
+        </Suspense>
       )}
 
       {/* Tab: PCG & AI Co-Pilot */}
@@ -2890,14 +2912,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         measurementUnit={measurementUnit}
         onChangeMeasurementUnit={setMeasurementUnit}
         fogEnabled={fogEnabled}
-        onToggleFog={() => setFogEnabled(prev => !prev)}
+        onToggleFog={() => handleSetFogEnabled(prev => !prev)}
         onDropPing={(pingType) => handleDropTacticalPing(pingType)}
-        onApplyEnvironmentPreset={(envId) => {
-          showToast({ type: 'info', text: `ENVIRONMENT: ${envId.toUpperCase()}` });
-        }}
-        onBatchTokenAction={(action) => {
-          showToast({ type: 'info', text: `BATCH ACTION: ${action.toUpperCase()}` });
-        }}
+        onApplyEnvironmentPreset={handleApplyEnvironmentPreset}
+        onBatchTokenAction={handleBatchTokenAction}
       />
 
       <UnifiedRelationalSelectorModal

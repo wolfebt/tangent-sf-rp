@@ -108,4 +108,72 @@ describe('useMapHistory Hook — Undo/Redo Stack & Keyboard Shortcuts', () => {
     expect(result.current.redoStack).toHaveLength(0);
     expect(updateMap).toHaveBeenCalledTimes(4);
   });
+
+  it('clears undo/redo stacks on activeMapId switch and ignores Ctrl+Z inside form inputs', () => {
+    const updateMap = vi.fn();
+    const props = createProps({ updateMap });
+    const { result, rerender } = renderHook((p) => useMapHistory(p), { initialProps: props });
+
+    act(() => {
+      result.current.recordHistory('Place Bulkhead');
+    });
+    expect(result.current.undoStack).toHaveLength(1);
+
+    // Ctrl+Z dispatched on an <input> must be ignored
+    const input = document.createElement('input');
+    document.body.appendChild(input);
+    act(() => {
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ctrlKey: true, bubbles: true }));
+    });
+    expect(updateMap).not.toHaveBeenCalled();
+    expect(result.current.undoStack).toHaveLength(1);
+    document.body.removeChild(input);
+
+    // Switching activeMapId clears both stacks and resets description
+    rerender({ ...props, activeMapId: 'sector-beta', currentMap: { id: 'sector-beta', name: 'Sector Beta' } });
+    expect(result.current.undoStack).toHaveLength(0);
+    expect(result.current.redoStack).toHaveLength(0);
+    expect(result.current.lastActionDescription).toBe('Initial Sector State');
+  });
+
+  it('strips description & timestamp metadata from undo/redo updateMap patches and gates keyboard shortcuts on enabled', () => {
+    const updateMap = vi.fn();
+    const props = createProps({ updateMap, enabled: false });
+    const { result, rerender } = renderHook((p) => useMapHistory(p), { initialProps: props });
+
+    act(() => {
+      result.current.recordHistory('Transient Description');
+    });
+
+    // When enabled: false, window Ctrl+Z must be ignored
+    act(() => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ctrlKey: true }));
+    });
+    expect(updateMap).not.toHaveBeenCalled();
+
+    // Direct handleUndo works and omits snapshot metadata keys
+    act(() => {
+      result.current.handleUndo();
+    });
+    expect(updateMap).toHaveBeenCalledTimes(1);
+    const undoPatch = updateMap.mock.calls[0][1];
+    expect(undoPatch).not.toHaveProperty('description');
+    expect(undoPatch).not.toHaveProperty('timestamp');
+
+    // Direct handleRedo also omits snapshot metadata keys
+    act(() => {
+      result.current.handleRedo();
+    });
+    expect(updateMap).toHaveBeenCalledTimes(2);
+    const redoPatch = updateMap.mock.calls[1][1];
+    expect(redoPatch).not.toHaveProperty('description');
+    expect(redoPatch).not.toHaveProperty('timestamp');
+
+    // Re-enabling enabled: true restores Ctrl+Z / Ctrl+Y window listeners
+    rerender({ ...props, enabled: true });
+    act(() => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ctrlKey: true }));
+    });
+    expect(updateMap).toHaveBeenCalledTimes(3);
+  });
 });

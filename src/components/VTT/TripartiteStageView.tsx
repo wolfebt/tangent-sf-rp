@@ -9,7 +9,7 @@
  * - Right Navigation Rail: Architect Console (Wall Builder, Biomes, Object Stamps, Dynamic Lights, Compositor Layers).
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { 
   Crosshair, 
@@ -35,10 +35,22 @@ const OperativeCockpit = OperativeCockpitRail as unknown as React.ComponentType<
 const ArchitectConsole = ArchitectConsoleRail as unknown as React.ComponentType<any>;
 import type { StageViewProps } from './StageView';
 import { useCampaign } from '../../context/CampaignContext';
-import { useEngineStore, selectAllFusedTokens } from '../../engine/index';
+import { useFolio } from '../../context/FolioContext';
+import { useEngineStore, selectAllFusedTokens, type StaticEntity } from '../../engine/index';
 import { useUILayoutStore, type UserVttRole } from './store/uiLayoutStore';
 import { AudioService } from '../../services/audioService';
 import { VttEventBus } from '../../utils/vttEventBus';
+
+const LazyAIMEChatBox = React.lazy(() =>
+  import('../../pages/Foundry/AIME/AIMEChatBox').then((m) => ({
+    default: (m.default || m) as React.ComponentType<any>
+  }))
+);
+const LazyTacticalPlayModal = React.lazy(() =>
+  import('../Folio/modals/TacticalPlayModal').then((m) => ({
+    default: ((m as any).TacticalPlayModal || m.default) as React.ComponentType<any>
+  }))
+);
 import { MobileTacticalBlocker } from '../StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useWaypointEngine } from '../../pages/Foundry/hooks/useWaypointEngine';
@@ -56,10 +68,6 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   ...props
 }) => {
   const isMobile = useIsMobile();
-
-  if (isMobile) {
-    return <MobileTacticalBlocker operation="vtt" onBack={props.onSwitchToWeaver} />;
-  }
 
   const [searchParams] = useSearchParams();
   const scenarioIdParam = props.scenarioId || searchParams.get('scenarioId') || undefined;
@@ -109,7 +117,10 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   const [tokenLabelInput, setTokenLabelInput] = useState('Tactical Operator');
   const [isModuleIngestionOpen, setIsModuleIngestionOpen] = useState(false);
   const [isStageSettingsOpen, setIsStageSettingsOpen] = useState(false);
+  const [isStageAimeOpen, setIsStageAimeOpen] = useState(false);
+  const [tacticalPlayCharacter, setTacticalPlayCharacter] = useState<any | null>(null);
   const [activeStageTab, setActiveStageTab] = useState<'map' | 'tree' | 'architect'>('map');
+  const hasBootstrappedStartersRef = useRef(false);
 
   const handleSelectStageTab = (tab: 'map' | 'tree' | 'architect') => {
     setActiveStageTab(tab);
@@ -132,11 +143,12 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
 
   // Ensure clean, uncluttered Stage on initial mount (default to Map tab with rails closed)
   useEffect(() => {
+    if (isMobile) return;
     setActiveStageTab('map');
     setLeftCollapsed(true);
     setRightCollapsed(true);
     VttEventBus.emit('toggle-stage-design-mode', { active: false });
-  }, []);
+  }, [isMobile]);
 
   // Check URL query parameters for ?options=true to auto-open settings
   useEffect(() => {
@@ -168,21 +180,108 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     updateMap,
     addMap,
     activeScenarioId: contextActiveScenarioId,
-    setActiveScenarioId
+    setActiveScenarioId,
+    getActiveGemsText
   } = useCampaign() as any;
+  const { personaRoster = [], roster = [] } = (useFolio() as any) || {};
   const availableMaps = universeState?.maps || [];
   const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0];
+  const currentMapRef = useRef<any>(currentMap);
+  currentMapRef.current = currentMap;
+  const updateMapRef = useRef<any>(updateMap);
+  updateMapRef.current = updateMap;
+  const folioRosterRef = useRef<any[]>(personaRoster.length ? personaRoster : roster);
+  folioRosterRef.current = personaRoster.length ? personaRoster : roster;
+  const universeCharsRef = useRef<any[]>(universeState?.characters || []);
+  universeCharsRef.current = universeState?.characters || [];
 
-  // Auto-bootstrap starter maps collection if universe is empty
+  // Auto-bootstrap starter maps collection exactly once if universe is empty
   useEffect(() => {
-    if (availableMaps.length === 0 && addMap) {
+    if (isMobile) return;
+    if (availableMaps.length > 0) {
+      hasBootstrappedStartersRef.current = true;
+      return;
+    }
+    if (availableMaps.length === 0 && addMap && !hasBootstrappedStartersRef.current) {
+      hasBootstrappedStartersRef.current = true;
       const starters = getStarterMapsCollection();
       starters.forEach((m) => addMap(m));
       if (starters[0]) {
         if (setActiveMapId) setActiveMapId(starters[0].id);
       }
     }
-  }, [availableMaps.length, addMap, setActiveMapId]);
+  }, [isMobile, availableMaps.length, addMap, setActiveMapId]);
+
+  // Listen for Stage AIME toggle, Tactical Play Modal & Bestiary vtt-spawn-entity (works in both 2D & 3D)
+  useEffect(() => {
+    const offAime = VttEventBus.on('toggle-stage-aime', () => {
+      setIsStageAimeOpen(prev => !prev);
+    });
+
+    const offTacticalPlay = VttEventBus.on('open-tactical-play-modal', (payload) => {
+      const rawToken = payload?.token || selectAllFusedTokens(useEngineStore.getState()).find((t: any) => t.is_selected) || null;
+      if (!rawToken) return;
+      const matchId = rawToken.character_doc_id || rawToken.source_persona_id || rawToken.id;
+      const allPersonas = [...(folioRosterRef.current || []), ...(universeCharsRef.current || [])];
+      const matched = allPersonas.find(
+        (c: any) =>
+          c &&
+          ((c['character-doc-id'] && c['character-doc-id'] === matchId) ||
+            (c.id && c.id === matchId))
+      );
+      setTacticalPlayCharacter(matched || rawToken);
+    });
+
+    const offSpawnEntity = VttEventBus.on('vtt-spawn-entity', (payload) => {
+      if (!payload?.name) return;
+      const map = currentMapRef.current;
+      const x = typeof payload.x === 'number' ? payload.x : Math.round(((map?.width || 1200) / 2) + (Math.random() - 0.5) * 120);
+      const y = typeof payload.y === 'number' ? payload.y : Math.round(((map?.height || 800) / 2) + (Math.random() - 0.5) * 120);
+      const tokenId = `tok_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      const maxHp = Number(payload.hp) || 30;
+      const newToken: StaticEntity = {
+        ...payload,
+        id: tokenId,
+        unit_id: payload.unit_id || tokenId,
+        name: payload.name,
+        base_hp: maxHp,
+        base_health: maxHp,
+        base_vitality: payload.vitality ?? maxHp,
+        base_structure: payload.structure ?? maxHp * 2,
+        is_synthetic: Boolean(payload.is_synthetic),
+        tech_level: payload.tech_level ?? 3,
+        armor_dr: payload.armorDr ?? payload.armor_dr ?? 4,
+        defense_dc: payload.defense ?? payload.defense_dc ?? 12,
+        attack_bonus: payload.attack_bonus ?? 3,
+        actions_per_round: payload.actions_per_round ?? 2,
+        size_modifier: payload.size_modifier ?? 0,
+        speed_ft: payload.speed_ft ?? 30,
+        species: payload.species || 'Entity',
+        archetype: payload.archetype || 'Adversary',
+        is_persona: Boolean(payload.isPersona)
+      };
+
+      const eng = useEngineStore.getState();
+      eng.loadStaticEntity(newToken);
+      eng.updatePosition(tokenId, x, y);
+      eng.clearSelection();
+      eng.setSelection(tokenId, true);
+      setSelectedTokenId(tokenId);
+
+      if (map?.id && updateMapRef.current) {
+        updateMapRef.current(map.id, {
+          tokens: [...(map.tokens || []), { ...newToken, x, y, ...(payload.storyElementId ? { storyElementId: payload.storyElementId } : {}) }]
+        });
+      }
+      AudioService.playCriticalChime(true);
+    });
+
+    return () => {
+      offAime();
+      offTacticalPlay();
+      offSpawnEntity();
+    };
+  }, [setSelectedTokenId]);
 
   useEffect(() => {
     if (scenarioIdParam && setActiveLeftTab) {
@@ -294,6 +393,10 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     return tokens.find((t) => t.id === targetTokenId) || null;
   }, [tokens, targetTokenId]);
 
+  if (isMobile) {
+    return <MobileTacticalBlocker operation="vtt" onBack={props.onSwitchToWeaver} />;
+  }
+
   // Handle layer toggles
   const handleToggleLayerVisibility = (layerId: string) => {
     if (!currentMap || !updateMap) return;
@@ -390,13 +493,13 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
               onSelectTargetToken={(id: string) => setTargetTokenId(id)}
               vttRole={userRole}
               onUpdateTokenHealth={(id: string, hp: number) => {
-                useEngineStore.getState().healHealth(id, hp);
+                useEngineStore.getState().setHealth(id, hp);
               }}
               onUpdateTokenVitality={(id: string, vit: number) => {
-                useEngineStore.getState().healVitality(id, vit);
+                useEngineStore.getState().setVitality(id, vit);
               }}
               onUpdateTokenStructure={(id: string, struct: number) => {
-                useEngineStore.getState().healHealth(id, struct);
+                useEngineStore.getState().setStructure(id, struct);
               }}
               objects={currentMap?.objects || []}
               currentMap={currentMap}
@@ -406,7 +509,15 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                   updateMap(currentMap.id, { tokens: nextTokens });
                 }
                 if (updates.current_hp !== undefined) {
-                  useEngineStore.getState().healHealth(id, updates.current_hp);
+                  useEngineStore.getState().setHealth(id, updates.current_hp);
+                } else if (updates.current_health !== undefined) {
+                  useEngineStore.getState().setHealth(id, updates.current_health);
+                }
+                if (updates.current_vitality !== undefined) {
+                  useEngineStore.getState().setVitality(id, updates.current_vitality);
+                }
+                if (updates.current_structure !== undefined) {
+                  useEngineStore.getState().setStructure(id, updates.current_structure);
                 }
               }}
               onUpdateObject={(id: string, updates: any) => {
@@ -545,6 +656,12 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             onToggleLayerVisibility={handleToggleLayerVisibility}
             onToggleLayerLock={handleToggleLayerLock}
             customAssets={universeState?.customAssets || { terrains: [], objects: [] }}
+            onApplyEnvironmentPreset={(presetOrId: any) => {
+              const presetKey = typeof presetOrId === 'string' ? presetOrId : presetOrId?.id;
+              if (presetKey) {
+                VttEventBus.emit('apply-atmospheric-preset', { presetKey });
+              }
+            }}
             onOpenLandmassGenerator={() => VttEventBus.emit('open-pcg-modal')}
             onOpenPcgStudio={() => VttEventBus.emit('open-pcg-modal')}
             onOpenAssetStudio={() => VttEventBus.emit('open-asset-studio')}
@@ -688,6 +805,34 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         }}
         onDeployElement={handleDeployElementFromDrawer}
       />
+
+      {/* Floating Stage AIME Co-Pilot Chat */}
+      {isStageAimeOpen && (
+        <div className="relative z-[180]">
+          <Suspense fallback={null}>
+            <LazyAIMEChatBox
+              onClose={() => setIsStageAimeOpen(false)}
+              activeNode={flatScenarios.find((s: any) => s.id === effectiveScenarioId) || null}
+              cronicle={universeState?.cronicle || null}
+              contextData={{
+                projectName: universeState?.projectName || 'Tangent Stage',
+                guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : ''
+              }}
+            />
+          </Suspense>
+        </div>
+      )}
+
+      {/* Tactical Play Modal launched from Token Contextual Pill / Cockpit */}
+      {tacticalPlayCharacter && (
+        <Suspense fallback={null}>
+          <LazyTacticalPlayModal
+            isOpen={Boolean(tacticalPlayCharacter)}
+            onClose={() => setTacticalPlayCharacter(null)}
+            character={tacticalPlayCharacter}
+          />
+        </Suspense>
+      )}
 
     </div>
   );

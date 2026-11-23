@@ -61,6 +61,35 @@ test('Stage 6.3: QuickJSSandbox Secure Execution and Isolation', async () => {
   await assert.rejects(async () => {
     await sandbox.execute('nonExistentFunction()');
   });
+
+  // 4. Security Isolation: Block constructor/string-concat escapes, global access, and infinite recursion
+  await assert.rejects(
+    async () => {
+      await sandbox.execute("({})['con'+'structor']['con'+'structor']('return process')()");
+    },
+    /Macro Execution Error|Security Violation|disallowed/i
+  );
+
+  await assert.rejects(
+    async () => {
+      await sandbox.execute('function f(){ return f(); } f();');
+    },
+    /Macro Execution Error/i
+  );
+
+  await assert.rejects(
+    async () => {
+      await sandbox.execute('for (let i = 0; i < Math.min(1, 2); ) {}');
+    },
+    /Watchdog Terminated/i
+  );
+
+  await assert.rejects(
+    async () => {
+      await sandbox.execute('1 + 1', { window: {} });
+    },
+    /Security Violation/i
+  );
 });
 
 test('Stage 6.4: EssenceTracker Cantrip Thresholds and Entropy Degradation', () => {

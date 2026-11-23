@@ -5,6 +5,8 @@
  * with CSS Paged Media standards (@page, counters, two-column spreads, orphan control).
  */
 
+import DOMPurify from 'dompurify';
+
 export interface ScenarioExportNode {
   id: string;
   title: string;
@@ -25,6 +27,47 @@ export interface CompileOptions {
   pageSize?: 'letter' | 'a4';
 }
 
+function escapeHtml(val: unknown): string {
+  return String(val ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeCssString(val: unknown): string {
+  return String(val ?? '')
+    .replace(/[\x00-\x1f\x7f]/g, ' ')
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/</g, '\\3c ')
+    .replace(/>/g, '\\3e ');
+}
+
+function sanitizeRichHtml(rawHtml: unknown): string {
+  const str = String(rawHtml ?? '');
+  if (!str) return '';
+  if (typeof window !== 'undefined' && typeof DOMPurify?.sanitize === 'function') {
+    return DOMPurify.sanitize(str);
+  }
+  // Hardened Node/SSR fallback: iteratively strip dangerous tags, event handlers, and active URIs
+  let clean = str;
+  let prev = '';
+  const pairedDangerous = /<(script|style|iframe|object|embed|svg|form|base|link|meta)\b[^>]*>[\s\S]*?<\/\1>/gi;
+  const unclosedOrVoidDangerous = /<\/?(script|style|iframe|object|embed|svg|form|base|link|meta|img)\b[^>]*>/gi;
+  while (clean !== prev) {
+    prev = clean;
+    clean = clean
+      .replace(pairedDangerous, '')
+      .replace(unclosedOrVoidDangerous, '')
+      .replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+      .replace(/(?:javascript|vbscript)\s*:/gi, '')
+      .replace(/data\s*:\s*text\/html/gi, '');
+  }
+  return clean;
+}
+
 export class PagedPdfCompilerService {
   /**
    * Compiles an array of scenario nodes into print-ready Paged.js HTML.
@@ -33,9 +76,11 @@ export class PagedPdfCompilerService {
     nodes: ScenarioExportNode[],
     options: CompileOptions = {}
   ): { html: string; pageCountEstimate: number } {
-    const title = options.adventureTitle || 'Tangent SF RP Adventure Module';
-    const author = options.authorName || 'Architect';
-    const pageSize = options.pageSize || 'letter';
+    const rawTitle = options.adventureTitle || 'Tangent SF RP Adventure Module';
+    const rawAuthor = options.authorName || 'Architect';
+    const title = escapeHtml(rawTitle);
+    const author = escapeHtml(rawAuthor);
+    const pageSize = options.pageSize === 'a4' ? 'a4' : 'letter';
 
     const pagedStyles = `
       <style>
@@ -43,7 +88,7 @@ export class PagedPdfCompilerService {
           size: ${pageSize};
           margin: 18mm 15mm 20mm 15mm;
           @bottom-left {
-            content: "${title}";
+            content: "${escapeCssString(rawTitle)}";
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 8pt;
             color: #64748b;
@@ -133,24 +178,29 @@ export class PagedPdfCompilerService {
       </div>
     `;
 
-    for (const node of nodes) {
-      bodyHtml += `
+    const renderNodeHtml = (node: ScenarioExportNode, depth: number = 2): string => {
+      const headingTag = `h${Math.min(6, Math.max(2, depth))}`;
+      const childrenHtml = Array.isArray(node.children) && node.children.length > 0
+        ? node.children.map(child => renderNodeHtml(child, depth + 1)).join('')
+        : '';
+
+      return `
         <div class="scenario-section">
-          <h2>${node.title}</h2>
+          <${headingTag}>${escapeHtml(node.title)}</${headingTag}>
           <div class="two-columns">
-            ${node.summary ? `<p><strong>Overview:</strong> ${node.summary}</p>` : ''}
+            ${node.summary ? `<p><strong>Overview:</strong> ${escapeHtml(node.summary)}</p>` : ''}
             
             ${node.fields?.readAloud ? `
               <div class="sensory-box">
-                "${node.fields.readAloud}"
+                "${escapeHtml(node.fields.readAloud)}"
               </div>
             ` : ''}
 
-            ${node.content ? `<div>${node.content}</div>` : ''}
+            ${node.content ? `<div>${sanitizeRichHtml(node.content)}</div>` : ''}
 
             ${node.fields?.bulletPoints && node.fields.bulletPoints.length > 0 ? `
               <ul class="bullet-list">
-                ${node.fields.bulletPoints.map(b => `<li>${b}</li>`).join('')}
+                ${node.fields.bulletPoints.map(b => `<li>${escapeHtml(b)}</li>`).join('')}
               </ul>
             ` : ''}
 
@@ -158,15 +208,20 @@ export class PagedPdfCompilerService {
               <div class="threat-matrix">
                 ${node.fields.threats.map(t => `
                   <div class="threat-card">
-                    <div class="threat-title"><span>${t.name}</span> <span>[${t.tier}]</span></div>
-                    <div>HP: ${t.hp} &bull; DR: ${t.dr} &bull; Attack: ${t.attack}</div>
+                    <div class="threat-title"><span>${escapeHtml(t.name)}</span> <span>[${escapeHtml(t.tier)}]</span></div>
+                    <div>HP: ${escapeHtml(t.hp)} &bull; DR: ${escapeHtml(t.dr)} &bull; Attack: ${escapeHtml(t.attack)}</div>
                   </div>
                 `).join('')}
               </div>
             ` : ''}
           </div>
+          ${childrenHtml}
         </div>
       `;
+    };
+
+    for (const node of nodes || []) {
+      bodyHtml += renderNodeHtml(node, 2);
     }
 
     const fullHtml = `<!DOCTYPE html>

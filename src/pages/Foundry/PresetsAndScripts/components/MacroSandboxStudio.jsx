@@ -142,11 +142,11 @@ export const MacroSandboxStudio = ({
                 placeholder="Macro Name..."
               />
               <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-slate-900 border border-slate-800 text-fuchsia-300">
-                QuickJS Wasm
+                Isolated JS Sandbox
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              Secure WebAssembly execution sandbox with 500ms watchdog protection.
+              Null-origin isolated sandbox with 500ms watchdog protection.
             </p>
           </div>
         </div>

@@ -16,6 +16,8 @@ import 'react-quill-new/dist/quill.snow.css';
 import { useStory } from '../../../../context/CampaignContext';
 import { useAuth } from '../../../../context/AuthContext';
 import { useFolio } from '../../../../context/FolioContext';
+import { useDBM } from '../../../../context/DBMContext';
+import { persistAdeElement } from '../../../../utils/adeElementPersistence';
 import { AudioService } from '../../../../services/audioService';
 import ChatParser from '../../../../components/UI/ChatParser';
 import { generateContent, streamContent } from '../../../../services/aimeService';
@@ -106,7 +108,8 @@ export default function StoryWeaver({
     addStory,
     setActiveScenarioId,
     cronicle,
-    stageCronicleDeltas
+    stageCronicleDeltas,
+    isStoryReadOnly = false
   } = useStory();
 
   const { currentUser, userHandle } = useAuth();
@@ -218,11 +221,14 @@ export default function StoryWeaver({
     const quill = quillRef.current?.getEditor();
     if (quill) {
       const range = quill.getSelection(true);
-      const index = range ? range.index : quill.getLength() - 1;
-      quill.insertText(index, linkText);
+      const index = range ? range.index : Math.max(0, quill.getLength() - 1);
+      quill.insertText(index, linkText, 'user');
       quill.setSelection(index + linkText.length);
+      if (quill.root?.innerHTML !== undefined) {
+        handleContentChange(quill.root.innerHTML, null, 'user');
+      }
     } else {
-      handleContentChange((content || '') + ` ${linkText}`);
+      handleContentChange((content || '') + ` ${linkText}`, null, 'user');
     }
     showToast(`✓ Inserted [[${elementTitle}]] into Canvas`);
     AudioService.playTerminalBeep(1200, 0.02);
@@ -242,12 +248,18 @@ export default function StoryWeaver({
     setEditingWikiElement(newElem);
   };
 
-  const handleSaveWikiElement = (saved) => {
-    if (typeof updateSavedElement === 'function' && saved?.id) {
-      updateSavedElement(saved.id, saved);
-      showToast(`✓ Saved "${saved.title}"`);
-    }
+  const handleSaveWikiElement = async (saved) => {
+    const res = await persistAdeElement({
+      element: saved,
+      elementsCatalog,
+      updateSavedElement,
+      saveEntry,
+      saveCurrentToRoster,
+      showToast: (payload) => showToast(typeof payload === 'string' ? payload : (payload?.text || `✓ Saved "${saved?.title || 'element'}"`))
+    });
+    if (!res) return null;
     setEditingWikiElement(null);
+    return res;
   };
 
   const handleDeleteWikiElement = (id) => {
@@ -276,11 +288,14 @@ export default function StoryWeaver({
           const wikiTag = `[[${elem.title}]] `;
           const quill = quillRef.current?.getEditor();
           if (quill) {
-            const range = quill.getSelection() || { index: quill.getLength() - 1 };
-            quill.insertText(range.index, wikiTag);
+            const range = quill.getSelection() || { index: Math.max(0, quill.getLength() - 1) };
+            quill.insertText(range.index, wikiTag, 'user');
             quill.setSelection(range.index + wikiTag.length);
+            if (quill.root?.innerHTML !== undefined) {
+              handleContentChange(quill.root.innerHTML, null, 'user');
+            }
           } else {
-            handleContentChange((content || '') + ` ${wikiTag}`);
+            handleContentChange((content || '') + ` ${wikiTag}`, null, 'user');
           }
           setRecentlyDroppedElement(elem);
           showToast(`✓ Inserted [[${elem.title}]] into Story Canvas`);
@@ -300,11 +315,14 @@ export default function StoryWeaver({
           const link = `[[Chapter: ${sc.title}]] `;
           const quill = quillRef.current?.getEditor();
           if (quill) {
-            const range = quill.getSelection() || { index: quill.getLength() - 1 };
-            quill.insertText(range.index, link);
+            const range = quill.getSelection() || { index: Math.max(0, quill.getLength() - 1) };
+            quill.insertText(range.index, link, 'user');
             quill.setSelection(range.index + link.length);
+            if (quill.root?.innerHTML !== undefined) {
+              handleContentChange(quill.root.innerHTML, null, 'user');
+            }
           } else {
-            handleContentChange((content || '') + ` ${link}`);
+            handleContentChange((content || '') + ` ${link}`, null, 'user');
           }
           showToast(`✓ Linked [[Chapter: ${sc.title}]] into Canvas`);
           AudioService.playTerminalBeep(1200, 0.03);
@@ -328,11 +346,14 @@ export default function StoryWeaver({
             const wikiTag = `[[${parsed.title}]] `;
             const quill = quillRef.current?.getEditor();
             if (quill) {
-              const range = quill.getSelection() || { index: quill.getLength() - 1 };
-              quill.insertText(range.index, wikiTag);
+              const range = quill.getSelection() || { index: Math.max(0, quill.getLength() - 1) };
+              quill.insertText(range.index, wikiTag, 'user');
               quill.setSelection(range.index + wikiTag.length);
+              if (quill.root?.innerHTML !== undefined) {
+                handleContentChange(quill.root.innerHTML, null, 'user');
+              }
             } else {
-              handleContentChange((content || '') + ` ${wikiTag}`);
+              handleContentChange((content || '') + ` ${wikiTag}`, null, 'user');
             }
             setRecentlyDroppedElement(parsed);
             showToast(`✓ Imported & inserted [[${parsed.title}]] into Canvas`);
@@ -349,11 +370,14 @@ export default function StoryWeaver({
     if (plainText && plainText.startsWith('[[') && plainText.endsWith(']]')) {
       const quill = quillRef.current?.getEditor();
       if (quill) {
-        const range = quill.getSelection() || { index: quill.getLength() - 1 };
-        quill.insertText(range.index, `${plainText} `);
+        const range = quill.getSelection() || { index: Math.max(0, quill.getLength() - 1) };
+        quill.insertText(range.index, `${plainText} `, 'user');
         quill.setSelection(range.index + plainText.length + 1);
+        if (quill.root?.innerHTML !== undefined) {
+          handleContentChange(quill.root.innerHTML, null, 'user');
+        }
       } else {
-        handleContentChange((content || '') + ` ${plainText} `);
+        handleContentChange((content || '') + ` ${plainText} `, null, 'user');
       }
       showToast(`✓ Inserted ${plainText}`);
     }
@@ -368,10 +392,13 @@ export default function StoryWeaver({
 
     const quill = quillRef.current?.getEditor();
     if (quill) {
-      const range = quill.getSelection() || { index: quill.getLength() - 1 };
-      quill.clipboard.dangerouslyPasteHTML(range.index, formattedHtml);
+      const range = quill.getSelection() || { index: Math.max(0, quill.getLength() - 1) };
+      quill.clipboard.dangerouslyPasteHTML(range.index, formattedHtml, 'user');
+      if (quill.root?.innerHTML !== undefined) {
+        handleContentChange(quill.root.innerHTML, null, 'user');
+      }
     } else {
-      handleContentChange((content || '') + formattedHtml);
+      handleContentChange((content || '') + formattedHtml, null, 'user');
     }
     showToast(`✓ Embedded content for "${elem.title}" into Manuscript`);
     AudioService.playTerminalBeep(1100, 0.02);
@@ -425,32 +452,95 @@ export default function StoryWeaver({
 
     editorEl.addEventListener('click', handleEditorClick);
     return () => editorEl.removeEventListener('click', handleEditorClick);
-  }, [elementsCatalog]);
+  }, [elementsCatalog, weaverTab, activeNode?.id]);
 
   useEffect(() => {
     const unsub = crdtCollabService.onCollabStatusChange(setCollabStatus);
     return unsub;
   }, []);
 
+  const lastLocalContentRef = useRef('');
+  const updateStoryRef = useRef(updateStory);
+  updateStoryRef.current = updateStory;
+  const isStoryReadOnlyRef = useRef(isStoryReadOnly);
+  isStoryReadOnlyRef.current = isStoryReadOnly;
+  const contentSaveTimerRef = useRef(null);
+  const pendingContentSaveRef = useRef(null);
+
+  const flushPendingContentSave = () => {
+    if (contentSaveTimerRef.current) {
+      clearTimeout(contentSaveTimerRef.current);
+      contentSaveTimerRef.current = null;
+    }
+    const pending = pendingContentSaveRef.current;
+    if (pending) {
+      pendingContentSaveRef.current = null;
+      if (typeof updateStoryRef.current === 'function') {
+        updateStoryRef.current(pending.nodeId, { content: pending.content });
+      }
+    }
+  };
+
   // Sync content when activeNode changes and subscribe to CRDT shared text
   useEffect(() => {
     if (activeNode?.id) {
+      const targetNodeId = activeNode.id;
       const initialText = activeNode.content || '';
-      const { currentContent } = crdtCollabService.syncScenarioProse(activeNode.id, initialText);
-      setContent(currentContent || initialText);
+      const { currentContent } = crdtCollabService.syncScenarioProse(targetNodeId, initialText);
+      const nextInitial = currentContent || initialText;
+      lastLocalContentRef.current = nextInitial;
+      setContent(nextInitial);
       setActivePov(activeNode.fields?.pov || '');
       setOutline(activeNode.fields?.storyOutline || universeState?.creativeState?.storyOutline || '');
       setSceneBeats(activeNode.fields?.sceneBeats || universeState?.creativeState?.sceneBeats || '');
 
-      const unsubProse = crdtCollabService.subscribeToScenarioProse(activeNode.id, (newText, event, transaction) => {
+      const unsubProse = crdtCollabService.subscribeToScenarioProse(targetNodeId, (newText, _event, transaction) => {
         if (transaction?.origin !== 'local') {
+          lastLocalContentRef.current = newText;
           setContent(newText);
+          if (!isStoryReadOnlyRef.current && typeof updateStoryRef.current === 'function') {
+            pendingContentSaveRef.current = { nodeId: targetNodeId, content: newText };
+            if (contentSaveTimerRef.current) {
+              clearTimeout(contentSaveTimerRef.current);
+            }
+            contentSaveTimerRef.current = setTimeout(() => {
+              flushPendingContentSave();
+            }, 250);
+          }
         }
       });
 
-      return unsubProse;
+      return () => {
+        flushPendingContentSave();
+        if (typeof unsubProse === 'function') {
+          unsubProse();
+        }
+      };
+    } else {
+      lastLocalContentRef.current = '';
+      setContent('');
+      setActivePov('');
+      setOutline('');
+      setSceneBeats('');
     }
+    return () => {
+      flushPendingContentSave();
+    };
   }, [activeNode?.id]);
+
+  // Propagate external node content updates (e.g. @Mention injections from ScenarioOutlinerTree / Dock)
+  useEffect(() => {
+    if (
+      activeNode?.id &&
+      activeNode.content !== undefined &&
+      activeNode.content !== lastLocalContentRef.current &&
+      pendingContentSaveRef.current?.nodeId !== activeNode.id
+    ) {
+      lastLocalContentRef.current = activeNode.content;
+      setContent(activeNode.content);
+      crdtCollabService.updateScenarioProse(activeNode.id, activeNode.content, 'local');
+    }
+  }, [activeNode?.id, activeNode?.content]);
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -458,7 +548,8 @@ export default function StoryWeaver({
   };
 
   // Folio Operatives & Story Personas for POV Context Injection
-  const { roster = [], characterData } = useFolio();
+  const { roster = [], characterData, saveCurrentToRoster } = useFolio() || {};
+  const { saveEntry } = useDBM() || {};
 
   const povOptions = useMemo(() => {
     const list = [
@@ -511,11 +602,21 @@ export default function StoryWeaver({
 
   const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
 
-  const handleContentChange = (val) => {
+  const handleContentChange = (val, _delta, source) => {
+    if (isStoryReadOnly) return;
+    if (source && source !== 'user') return;
+    lastLocalContentRef.current = val;
     setContent(val);
     if (activeNode?.id) {
-      crdtCollabService.updateScenarioProse(activeNode.id, val, 'local');
-      updateStory(activeNode.id, { content: val });
+      const targetNodeId = activeNode.id;
+      crdtCollabService.updateScenarioProse(targetNodeId, val, 'local');
+      pendingContentSaveRef.current = { nodeId: targetNodeId, content: val };
+      if (contentSaveTimerRef.current) {
+        clearTimeout(contentSaveTimerRef.current);
+      }
+      contentSaveTimerRef.current = setTimeout(() => {
+        flushPendingContentSave();
+      }, 250);
     }
   };
 
@@ -724,17 +825,19 @@ Format each beat on its own line:
     const nodeTypeLabel = isStringPayload ? 'Node' : (nodeData?.nodeType || 'Node');
     const formattedBeat = isStringPayload
       ? `\n\n${nodeData}`
-      : `\n\n### [${String(nodeTypeLabel).toUpperCase()}] ${nodeData.title || 'Untitled Node'}\n` +
-        `• Intent: ${nodeData.intent || ''}\n` +
-        (nodeData.objective ? `• Objective: ${nodeData.objective}\n` : '') +
-        (nodeData.opposingForce ? `• Opposing Force: ${nodeData.opposingForce}\n` : '') +
-        `• Mechanical DC: ${nodeData.targetDC ?? 12}\n` +
-        `• Atmosphere: ${nodeData.weatherPreset || 'Standard'}\n` +
-        `• Narrative Sensory Layer:\n${nodeData.sensoryFlavor || ''}\n`;
+      : (nodeData?.assembledDraft && String(nodeData.assembledDraft).trim()
+          ? `\n\n${String(nodeData.assembledDraft).trim()}\n`
+          : `\n\n### [${String(nodeTypeLabel).toUpperCase()}] ${nodeData.title || 'Untitled Node'}\n` +
+            `• Intent: ${nodeData.intent || ''}\n` +
+            (nodeData.objective ? `• Objective: ${nodeData.objective}\n` : '') +
+            (nodeData.opposingForce ? `• Opposing Force: ${nodeData.opposingForce}\n` : '') +
+            `• Mechanical DC: ${nodeData.targetDC ?? 12}\n` +
+            `• Atmosphere: ${nodeData.weatherPreset || 'Standard'}\n` +
+            `• Narrative Sensory Layer:\n${nodeData.sensoryFlavor || ''}\n`);
 
     const updatedBeats = (sceneBeats ? sceneBeats.trim() : '') + formattedBeat;
     setSceneBeats(updatedBeats);
-    if (activeNode?.id) {
+    if (activeNode?.id && typeof updateStory === 'function') {
       updateStory(activeNode.id, {
         fields: { ...(activeNode.fields || {}), sceneBeats: updatedBeats }
       });
@@ -763,9 +866,18 @@ Provide rich atmospheric hooks, faction entanglements, and high-stakes choices f
     try {
       const result = await generateContent({ prompt, context: activeNode });
       if (result) {
-        setOutline(prev => `${prev ? prev + '\n\n' : ''}### Brainstormed Premises\n${result}`);
+        const nextOutline = `${outline ? outline + '\n\n' : ''}### Brainstormed Premises\n${result}`;
+        setOutline(nextOutline);
+        if (activeNode?.id && typeof updateStory === 'function') {
+          updateStory(activeNode.id, {
+            fields: { ...(activeNode.fields || {}), storyOutline: nextOutline }
+          });
+        }
         showToast('✓ Premises synthesized into outline');
       }
+    } catch (err) {
+      console.warn('Premise brainstorm failed:', err);
+      showToast('Failed to brainstorm premises');
     } finally {
       setIsBrainstorming(false);
     }
@@ -1509,6 +1621,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
               ref={quillRef}
               theme="snow"
               value={content}
+              readOnly={isStoryReadOnly}
               onChange={handleContentChange}
               modules={quillModules}
               className="h-full flex flex-col"
@@ -1572,7 +1685,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleOpenIdeationModal('Crisis')}
+                    onClick={() => handleOpenIdeationModal('Tactical Crisis')}
                     className="px-3 py-1.5 bg-purple-900/80 hover:bg-purple-800 border border-purple-500/50 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
                     title="Human-guided Crisis / Beat ideation"
                   >

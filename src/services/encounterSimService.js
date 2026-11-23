@@ -3,75 +3,137 @@
  * Runs 500 rapid combat iterations between party and adversaries to forecast win probability, rounds, and casualties.
  */
 
+import {
+  resolveTangent2d10Check,
+  calculateDamageMitigation,
+  CANONICAL_DEFAULT_DEFENSE_CR,
+  CANONICAL_CRIT_DAMAGE_MULTIPLIER
+} from '../engine/rules/CanonicalCombatMath.ts';
+
 /**
  * Runs a single combat simulation until one side is completely eliminated or round limit reached.
  */
 const simulateSingleCombatEncounter = (heroes = [], enemies = [], maxRounds = 12) => {
+  const numOr = (val, fallback) => {
+    const parsed = parseInt(val, 10);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  };
+
+  const resolveHp = (unit, defaultHp) => {
+    if (unit?.health?.current !== undefined) return numOr(unit.health.current, defaultHp);
+    if (unit?.hp?.current !== undefined) return numOr(unit.hp.current, defaultHp);
+    if (typeof unit?.hp === 'number') return unit.hp;
+    if (typeof unit?.health === 'number') return unit.health;
+    return defaultHp;
+  };
+
+  const buildCombatant = (unit, defaultLabel, defaultHp, defaultAtk, defaultDmg, defaultArmor) => {
+    const hasVitality = unit?.vitality !== undefined && unit?.vitality !== null;
+    const vitVal = hasVitality ? numOr(unit.vitality?.current ?? unit.vitality, defaultHp) : 0;
+    const armorLayers = Array.isArray(unit?.armorLayers) && unit.armorLayers.length > 0
+      ? unit.armorLayers
+      : [Math.max(0, numOr(unit?.armorDr ?? unit?.dr, defaultArmor))];
+
+    const isSynthetic = Boolean(unit?.isSynthetic || unit?.is_synthetic || unit?.structure !== undefined);
+    const defaultStructure = unit?.structure?.current !== undefined
+      ? numOr(unit.structure.current, 60)
+      : (typeof unit?.structure === 'number' ? unit.structure : (isSynthetic ? 60 : null));
+
+    return {
+      id: unit.id,
+      label: unit.label || defaultLabel,
+      hp: resolveHp(unit, defaultHp),
+      hasVitalityPool: hasVitality,
+      vitality: vitVal,
+      structure: defaultStructure,
+      isSynthetic,
+      defense: Math.max(8, numOr(unit?.defense, CANONICAL_DEFAULT_DEFENSE_CR)),
+      attackMod: Math.max(0, numOr(unit?.attackMod ?? unit?.skills?.Ballistic ?? unit?.skills?.Gunner ?? unit?.skills?.Melee, defaultAtk)),
+      damageDice: unit?.damageDice || '2d8+3',
+      avgDamage: unit?.avgDamage ?? defaultDmg,
+      penetration: Math.max(0, numOr(unit?.penetration, 0)),
+      damageType: unit?.damageType || 'kinetic',
+      armorLayers,
+      toughness: Math.max(0, numOr(unit?.toughness ?? unit?.stamina, 1)),
+      isDead: false
+    };
+  };
+
   // Deep clone combatants
-  let party = heroes.map(h => ({
-    id: h.id,
-    label: h.label || 'Hero',
-    hp: h.health?.current !== undefined ? h.health.current : (h.hp?.current || 30),
-    vitality: h.vitality?.current !== undefined ? h.vitality.current : 30,
-    structure: h.structure?.current !== undefined ? h.structure.current : null,
-    isSynthetic: Boolean(h.isSynthetic || h.structure),
-    defense: Math.max(8, parseInt(h.defense || 12, 10)),
-    attackMod: Math.max(0, parseInt(h.attackMod || h.skills?.Gunner || h.skills?.Melee || 4, 10)),
-    damageDice: h.damageDice || '2d8+3',
-    avgDamage: h.avgDamage || 11,
-    armorDr: Math.max(0, parseInt(h.armorDr || h.dr || 2, 10)),
-    toughness: Math.max(0, parseInt(h.toughness || h.stamina || 1, 10)),
-    isDead: false
-  }));
+  const party = heroes.map(h => buildCombatant(h, 'Hero', 30, 4, 11, 2));
+  const hostiles = enemies.map(e =>
+    buildCombatant(
+      e,
+      'Enemy',
+      30,
+      e?.tier ? e.tier * 2 + 1 : 3,
+      e?.tier ? e.tier * 3 + 4 : 8,
+      1
+    )
+  );
 
-  let hostiles = enemies.map(e => ({
-    id: e.id,
-    label: e.label || 'Enemy',
-    hp: e.health?.current !== undefined ? e.health.current : (e.hp?.current || 25),
-    vitality: e.vitality?.current !== undefined ? e.vitality.current : 25,
-    structure: e.structure?.current !== undefined ? e.structure.current : null,
-    isSynthetic: Boolean(e.isSynthetic || e.structure),
-    defense: Math.max(8, parseInt(e.defense || 11, 10)),
-    attackMod: Math.max(0, parseInt(e.attackMod || e.tier ? (e.tier * 2 + 1) : 3, 10)),
-    avgDamage: e.avgDamage || (e.tier ? (e.tier * 3 + 4) : 8),
-    armorDr: Math.max(0, parseInt(e.armorDr || e.dr || 1, 10)),
-    toughness: Math.max(0, parseInt(e.toughness || e.stamina || 1, 10)),
-    isDead: false
-  }));
-
-  let round = 1;
+  let roundsCompleted = 0;
   let casualties = 0;
 
-  while (round <= maxRounds) {
+  while (roundsCompleted < maxRounds) {
     const activeHeroes = party.filter(h => !h.isDead && (h.isSynthetic ? h.structure > 0 : h.hp > 0));
     const activeEnemies = hostiles.filter(e => !e.isDead && (e.isSynthetic ? e.structure > 0 : e.hp > 0));
 
     if (activeHeroes.length === 0 || activeEnemies.length === 0) break;
+    roundsCompleted++;
+
+    const applyStrike = (attacker, target, countCasualtyOnDeath) => {
+      const check = resolveTangent2d10Check({
+        modifier: attacker.attackMod,
+        targetCR: target.defense,
+        isOpposed: true
+      });
+      if (!check.isSuccess) return;
+
+      let rawDmg = Math.max(1, attacker.avgDamage + (Math.floor(Math.random() * 5) - 2));
+      if (check.isCrit) {
+        rawDmg *= CANONICAL_CRIT_DAMAGE_MULTIPLIER;
+      }
+
+      const mitigation = calculateDamageMitigation({
+        rawDamage: rawDmg,
+        armorLayers: target.armorLayers,
+        penetration: attacker.penetration,
+        damageType: attacker.damageType,
+        staminaToughness: target.toughness
+      });
+      const finalDmg = mitigation.netDamage;
+
+      if (target.isSynthetic) {
+        target.structure = Math.max(0, target.structure - finalDmg);
+        if (target.structure <= 0) {
+          target.isDead = true;
+          if (countCasualtyOnDeath) casualties++;
+        }
+      } else if (target.hasVitalityPool && !check.isCrit && finalDmg > 0) {
+        const vitAbsorb = Math.min(target.vitality, finalDmg);
+        target.vitality = Math.max(0, target.vitality - vitAbsorb);
+        const spill = finalDmg - vitAbsorb;
+        target.hp = Math.max(0, target.hp - spill);
+        if (target.hp <= 0) {
+          target.isDead = true;
+          if (countCasualtyOnDeath) casualties++;
+        }
+      } else {
+        target.hp = Math.max(0, target.hp - finalDmg);
+        if (target.hp <= 0) {
+          target.isDead = true;
+          if (countCasualtyOnDeath) casualties++;
+        }
+      }
+    };
 
     // 1. Party turn: Each active hero attacks a random enemy
     for (const hero of activeHeroes) {
       const livingEnemies = hostiles.filter(e => !e.isDead && (e.isSynthetic ? e.structure > 0 : e.hp > 0));
       if (livingEnemies.length === 0) break;
       const target = livingEnemies[Math.floor(Math.random() * livingEnemies.length)];
-
-      // 2d10 Roll
-      const d1 = Math.floor(Math.random() * 10) + 1;
-      const d2 = Math.floor(Math.random() * 10) + 1;
-      const rollTotal = (d1 === 10 && d2 === 10) ? 30 : (d1 === 1 && d2 === 1) ? -10 : (d1 + d2);
-      const attackTotal = rollTotal + hero.attackMod;
-
-      if (attackTotal >= target.defense) {
-        const rawDmg = Math.max(1, hero.avgDamage + (Math.floor(Math.random() * 5) - 2));
-        const finalDmg = Math.max(1, rawDmg - (target.armorDr + target.toughness));
-
-        if (target.isSynthetic) {
-          target.structure = Math.max(0, target.structure - finalDmg);
-          if (target.structure <= 0) target.isDead = true;
-        } else {
-          target.hp = Math.max(0, target.hp - finalDmg);
-          if (target.hp <= 0) target.isDead = true;
-        }
-      }
+      applyStrike(hero, target, false);
     }
 
     // 2. Enemy turn: Each active enemy attacks a random hero
@@ -80,33 +142,8 @@ const simulateSingleCombatEncounter = (heroes = [], enemies = [], maxRounds = 12
       const livingHeroes = party.filter(h => !h.isDead && (h.isSynthetic ? h.structure > 0 : h.hp > 0));
       if (livingHeroes.length === 0) break;
       const target = livingHeroes[Math.floor(Math.random() * livingHeroes.length)];
-
-      const d1 = Math.floor(Math.random() * 10) + 1;
-      const d2 = Math.floor(Math.random() * 10) + 1;
-      const rollTotal = (d1 === 10 && d2 === 10) ? 30 : (d1 === 1 && d2 === 1) ? -10 : (d1 + d2);
-      const attackTotal = rollTotal + enemy.attackMod;
-
-      if (attackTotal >= target.defense) {
-        const rawDmg = Math.max(1, enemy.avgDamage + (Math.floor(Math.random() * 5) - 2));
-        const finalDmg = Math.max(1, rawDmg - (target.armorDr + target.toughness));
-
-        if (target.isSynthetic) {
-          target.structure = Math.max(0, target.structure - finalDmg);
-          if (target.structure <= 0) {
-            target.isDead = true;
-            casualties++;
-          }
-        } else {
-          target.hp = Math.max(0, target.hp - finalDmg);
-          if (target.hp <= 0) {
-            target.isDead = true;
-            casualties++;
-          }
-        }
-      }
+      applyStrike(enemy, target, true);
     }
-
-    round++;
   }
 
   const finalActiveHeroes = party.filter(h => !h.isDead && (h.isSynthetic ? h.structure > 0 : h.hp > 0));
@@ -116,7 +153,7 @@ const simulateSingleCombatEncounter = (heroes = [], enemies = [], maxRounds = 12
 
   return {
     partyWon,
-    rounds: Math.min(maxRounds, round),
+    rounds: Math.max(1, Math.min(maxRounds, roundsCompleted)),
     casualties,
     partyRemainingHp: party.reduce((sum, h) => sum + (h.isSynthetic ? (h.structure || 0) : h.hp), 0),
     enemiesRemainingHp: hostiles.reduce((sum, e) => sum + (e.isSynthetic ? (e.structure || 0) : e.hp), 0)

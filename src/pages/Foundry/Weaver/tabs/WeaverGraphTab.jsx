@@ -5,7 +5,8 @@
  * story prose [[wiki]] mentions, and relational fields) without dumping unconnected catalog items onto the canvas.
  */
 
-import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useCallback, Suspense } from 'react';
+import { lazyWithRetry } from '../../../../utils/lazyWithRetry';
 import {
   Network,
   GitBranch,
@@ -32,7 +33,7 @@ import { useStory } from '../../../../context/CampaignContext';
 import { getTypePillStyle } from '../../ElementForge/elementSchemas';
 import { useAdeStore } from '../../store/adeStore';
 import { AudioService } from '../../../../services/audioService';
-import VisualStoryGraph from '../../StoryModule/workspaces/VisualStoryGraph';
+const VisualStoryGraph = lazyWithRetry(() => import('../../StoryModule/workspaces/VisualStoryGraph'));
 import { v4 as uuidv4 } from 'uuid';
 import {
   CARD_WIDTH,
@@ -751,28 +752,30 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
       {/* ── MODE 2: SCENARIO FLOWCHART WORKSPACE ── */}
       {graphMode === 'flowchart' ? (
         <div className="flex-1 flex overflow-hidden relative min-h-0">
-          <VisualStoryGraph
-            embedded={true}
-            activeScenarioId={activeNode?.id}
-            onSelectScenario={(id) => {
-              if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
-            }}
-            onOpenInWeaver={(node) => {
-              if (typeof setActiveScenarioId === 'function' && node?.id) {
-                setActiveScenarioId(node.id);
-              }
-              if (typeof onSelectTab === 'function') {
-                onSelectTab('write');
-              }
-            }}
-            onSwitchView={(targetView) => {
-              if (targetView === 'interactive' && typeof onSelectTab === 'function') {
-                onSelectTab('play');
-              } else if (typeof onSwitchView === 'function') {
-                onSwitchView(targetView);
-              }
-            }}
-          />
+          <Suspense fallback={<div className="flex-1 flex items-center justify-center text-cyan-400 font-mono text-xs">Loading Scenario Flowchart...</div>}>
+            <VisualStoryGraph
+              embedded={true}
+              activeScenarioId={activeNode?.id}
+              onSelectScenario={(id) => {
+                if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
+              }}
+              onOpenInWeaver={(node) => {
+                if (typeof setActiveScenarioId === 'function' && node?.id) {
+                  setActiveScenarioId(node.id);
+                }
+                if (typeof onSelectTab === 'function') {
+                  onSelectTab('write');
+                }
+              }}
+              onSwitchView={(targetView) => {
+                if (targetView === 'interactive' && typeof onSelectTab === 'function') {
+                  onSelectTab('play');
+                } else if (typeof onSwitchView === 'function') {
+                  onSwitchView(targetView);
+                }
+              }}
+            />
+          </Suspense>
         </div>
       ) : (
         /* ── MODE 1: INTELLIGENT ASSET INTERCONNECTION NETWORK ── */

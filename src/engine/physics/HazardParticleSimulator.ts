@@ -7,7 +7,6 @@
 
 import { Container, Graphics } from 'pixi.js';
 import { WGSLComputeContext } from '../vision/WGSLComputeContext';
-import { ELEMENTAL_FLUID_WGSL } from './shaders/elemental_fluid.wgsl';
 
 export type HazardType = 'plasma_fire' | 'corrosive_gas' | 'void_mist' | 'smoke';
 
@@ -53,6 +52,8 @@ export class HazardParticleSimulator {
   private maxParticles: number = 300;
   private isDynamicLightingEnabled: boolean = true;
   private ambientDarknessAlpha: number = 0.65;
+  private simulationMode: 'cpu' | 'webgpu' = 'cpu';
+  private isDestroyed: boolean = false;
 
   constructor(fxContainer: Container, lightContainer: Container) {
     this.fxContainer = fxContainer;
@@ -67,27 +68,25 @@ export class HazardParticleSimulator {
     this.computeContext = new WGSLComputeContext();
   }
 
-  public initializeCompute(gpuDevice: any) {
-    if (gpuDevice) {
-      try {
-        this.computeContext.initialize(gpuDevice);
-        this.computeContext.getOrCreatePipeline('elemental_fluid', ELEMENTAL_FLUID_WGSL);
-        this.isWebGPU = true;
-        console.log('[HazardSimulator] WebGPU compute pipeline active for environmental hazards.');
-      } catch (e) {
-        console.warn('[HazardSimulator] WebGPU compute initialization error, using high-speed CPU fallback:', e);
-        this.isWebGPU = false;
-      }
-    }
+  public initializeCompute(_gpuDevice?: any) {
+    if (this.isDestroyed) return;
+    // Particle advection & Pixi Graphics rendering currently execute deterministically on CPU;
+    // keep WebGPU flag honest until a GPU readback/indirect render path is active.
+    this.simulationMode = 'cpu';
+    this.isWebGPU = false;
   }
 
   public getIsWebGPU(): boolean {
     return this.isWebGPU;
   }
 
+  public getSimulationMode(): 'cpu' | 'webgpu' {
+    return this.simulationMode;
+  }
+
   public setDynamicLighting(enabled: boolean) {
     this.isDynamicLightingEnabled = enabled;
-    if (!enabled) {
+    if (!enabled && !this.isDestroyed && !this.lightingGraphics.destroyed) {
       this.lightingGraphics.clear();
     }
   }
@@ -101,6 +100,7 @@ export class HazardParticleSimulator {
   }
 
   public addHazardField(hazard: HazardField) {
+    if (this.isDestroyed) return;
     this.activeHazards.push(hazard);
     this.spawnParticlesForHazard(hazard, 25);
   }
@@ -108,8 +108,12 @@ export class HazardParticleSimulator {
   public clearHazards() {
     this.activeHazards = [];
     this.particles = [];
-    this.particleGraphics.clear();
-    this.lightingGraphics.clear();
+    if (!this.particleGraphics.destroyed) {
+      this.particleGraphics.clear();
+    }
+    if (!this.lightingGraphics.destroyed) {
+      this.lightingGraphics.clear();
+    }
   }
 
   public getActiveHazards(): HazardField[] {
@@ -228,8 +232,15 @@ export class HazardParticleSimulator {
   }
 
   public destroy() {
+    if (this.isDestroyed) return;
+    this.isDestroyed = true;
     this.clearHazards();
-    this.particleGraphics.destroy();
-    this.lightingGraphics.destroy();
+    this.computeContext.clearCache();
+    if (!this.particleGraphics.destroyed) {
+      this.particleGraphics.destroy();
+    }
+    if (!this.lightingGraphics.destroyed) {
+      this.lightingGraphics.destroy();
+    }
   }
 }

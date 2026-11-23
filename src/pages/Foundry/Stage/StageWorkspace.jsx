@@ -48,10 +48,6 @@ export default function StageWorkspace({
 }) {
   const isMobile = useIsMobile();
 
-  if (isMobile) {
-    return <MobileTacticalBlocker operation="stage" onBack={() => onSwitchView?.('scenarios')} />;
-  }
-
   const { 
     activeStageTab, 
     setActiveStageTab, 
@@ -60,19 +56,25 @@ export default function StageWorkspace({
   } = useStageStore();
 
   useEffect(() => {
+    if (isMobile) return;
     if (initialTab && initialTab !== activeStageTab) {
       setActiveStageTab(initialTab);
     }
-  }, [initialTab]);
+  }, [isMobile, initialTab]);
 
   useEffect(() => {
+    if (isMobile) return;
     if (boundMapId && !stageManifest.mapId) {
       updateStageManifest({ mapId: boundMapId });
     }
     if (boundStoryId && !stageManifest.storyId) {
       updateStageManifest({ storyId: boundStoryId, scenarioIds: [boundStoryId] });
     }
-  }, [boundMapId, boundStoryId]);
+  }, [isMobile, boundMapId, boundStoryId]);
+
+  if (isMobile) {
+    return <MobileTacticalBlocker operation="stage" onBack={() => onSwitchView?.('scenarios')} />;
+  }
 
   const tabs = [
     { id: 'setup', label: 'Setup & Binding', icon: Compass, color: 'text-purple-400' },

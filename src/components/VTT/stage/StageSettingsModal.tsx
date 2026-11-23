@@ -28,6 +28,7 @@ import { GridType } from '../../../engine/math/CoordinateEngine';
 import { AudioService } from '../../../services/audioService';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { showToast } from '../../../context/ToastContext';
+import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { VttEventBus } from '../../../utils/vttEventBus';
 
 export interface StageSettingsModalProps {
@@ -49,7 +50,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
 }) => {
   const navigate = useNavigate();
   const confirm = useConfirm();
-  const { universeState, updateMap, setActiveMapId } = useCampaign();
+  const { universeState, updateMap, setActiveMapId, publishSpectatorMap } = useCampaign();
   const { personaRoster, roster } = (useFolio() as any) || {};
 
   const {
@@ -72,6 +73,15 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
     return typeof window !== 'undefined' ? parseFloat(localStorage.getItem('tangent_audio_volume') || '0.35') : 0.35;
   });
 
+  const availableMaps = universeState?.maps || [];
+  const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0];
+  const currentMapId = currentMap?.id || activeMapId || 'tactical-zone';
+
+  // Sync Fog-of-War switch with active map setting
+  useEffect(() => {
+    setFogOfWarEnabled(currentMap?.fogEnabled !== undefined ? Boolean(currentMap.fogEnabled) : true);
+  }, [currentMap?.id, currentMap?.fogEnabled]);
+
   // Close on Escape key
   useEffect(() => {
     if (!isOpen) return;
@@ -84,10 +94,6 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
 
   if (!isOpen) return null;
 
-  const availableMaps = universeState?.maps || [];
-  const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0];
-  const currentMapId = currentMap?.id || activeMapId || 'tactical-zone';
-
   const allOperatives: any[] = personaRoster || roster || [];
   const deployedTokenIds = new Set((currentMap?.tokens || []).map((t: any) => t.personaId || t.docId || t.id));
 
@@ -97,6 +103,9 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
 
   const handleCopySpectatorLink = async () => {
     AudioService.playTerminalBeep(1200, 0.03);
+    if (publishSpectatorMap && currentMapId) {
+      publishSpectatorMap(currentMapId);
+    }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       try {
         await navigator.clipboard.writeText(spectatorUrl);
@@ -436,7 +445,12 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
                 <div className="flex gap-2 pt-2">
                   <button
                     type="button"
-                    onClick={() => window.open(spectatorUrl, '_blank')}
+                    onClick={() => {
+                      if (publishSpectatorMap && currentMapId) {
+                        publishSpectatorMap(currentMapId);
+                      }
+                      window.open(spectatorUrl, '_blank');
+                    }}
                     className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold uppercase rounded-lg border border-slate-700 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <ExternalLink size={13} /> Preview Spectator View (New Tab)
@@ -603,7 +617,14 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
                       type="button"
                       onClick={() => {
                         AudioService.playTerminalBeep(900, 0.04);
-                        setFogOfWarEnabled(!fogOfWarEnabled);
+                        const nextFog = !fogOfWarEnabled;
+                        setFogOfWarEnabled(nextFog);
+                        if (currentMap?.id && updateMap) {
+                          updateMap(currentMap.id, { fogEnabled: nextFog });
+                        }
+                        if (currentMap?.id) {
+                          getVttMultiplayerSync().broadcastFogUpdate(currentMap.id, nextFog, currentMap.fog);
+                        }
                       }}
                       className={`px-3 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
                         fogOfWarEnabled ? 'bg-purple-600 text-white' : 'bg-slate-800 text-slate-400'

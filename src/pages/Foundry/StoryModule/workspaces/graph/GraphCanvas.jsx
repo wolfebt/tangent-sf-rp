@@ -38,7 +38,6 @@ export const GraphCanvas = ({
   onCanvasMouseDown,
   onCanvasMouseMove,
   onCanvasMouseUp,
-  onWheel,
   onOpenWeaver,
   onOpenPlay,
   onPanStage,
@@ -57,7 +56,6 @@ export const GraphCanvas = ({
       onMouseDown={onCanvasMouseDown}
       onMouseMove={onCanvasMouseMove}
       onMouseUp={onCanvasMouseUp}
-      onWheel={onWheel}
       className="flex-1 w-full h-full overflow-hidden relative cursor-grab active:cursor-grabbing bg-[#070a12] select-none"
       style={{
         backgroundImage: `radial-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px)`,

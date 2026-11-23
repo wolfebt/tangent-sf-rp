@@ -1,11 +1,51 @@
+import DOMPurify from 'dompurify';
 import { formatExportFilename } from '../../../context/CampaignContext';
 import { ELEMENT_SCHEMAS } from '../ElementForge/elementSchemas';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { showToast } from '../../../context/ToastContext';
 import { showConfirm } from '../../../context/ConfirmContext';
 
+const escapeHtml = (val) => {
+  return String(val ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+};
+
+const formatFieldValue = (val) => {
+  if (val === undefined || val === null) return '';
+  if (typeof val === 'string') return val.trim();
+  if (typeof val === 'number' || typeof val === 'boolean') return String(val);
+  if (Array.isArray(val)) {
+    return val
+      .map(item => (item && typeof item === 'object' ? (item.title || item.name || item.label || JSON.stringify(item)) : String(item ?? '')))
+      .filter(Boolean)
+      .join(', ');
+  }
+  if (typeof val === 'object') {
+    return JSON.stringify(val);
+  }
+  return String(val).trim();
+};
+
+const sanitizeImageUrl = (url) => {
+  const clean = String(url ?? '').trim();
+  if (!clean) return '';
+  if (
+    /^https?:\/\//i.test(clean) ||
+    /^\/(?!\/)/.test(clean) ||
+    /^data:image\/(png|jpeg|jpg|webp|gif);base64,[A-Za-z0-9+/=\s]+$/i.test(clean)
+  ) {
+    return escapeHtml(clean);
+  }
+  return '';
+};
+
 // Helper to get breadcrumb location path for an element
 export const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
+  if (!Array.isArray(nodes)) return null;
   for (let n of nodes) {
     const newPath = [...currentPath, n.title || 'Untitled'];
     if (n.id === targetId) return newPath;
@@ -20,22 +60,32 @@ export const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
 // Helper to convert HTML string to Markdown text
 export const htmlToMarkdown = (htmlStr) => {
   if (!htmlStr) return '';
-  return htmlStr
-    .replace(/<h1>(.*?)<\/h1>/gi, '# $1\n\n')
-    .replace(/<h2>(.*?)<\/h2>/gi, '## $1\n\n')
-    .replace(/<h3>(.*?)<\/h3>/gi, '### $1\n\n')
-    .replace(/<p>(.*?)<\/p>/gi, '$1\n\n')
-    .replace(/<ul>(.*?)<\/ul>/gi, (m, p1) => p1.replace(/<li>(.*?)<\/li>/gi, '- $1\n') + '\n')
-    .replace(/<ol>(.*?)<\/ol>/gi, (m, p1) => {
+  return String(htmlStr)
+    .replace(/<h1[^>]*>([\s\S]*?)<\/h1>/gi, '# $1\n\n')
+    .replace(/<h2[^>]*>([\s\S]*?)<\/h2>/gi, '## $1\n\n')
+    .replace(/<h3[^>]*>([\s\S]*?)<\/h3>/gi, '### $1\n\n')
+    .replace(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/gi, (_m, q) => `> ${q.replace(/<[^>]+>/g, '').trim()}\n\n`)
+    .replace(/<p[^>]*>([\s\S]*?)<\/p>/gi, '$1\n\n')
+    .replace(/<ul[^>]*>([\s\S]*?)<\/ul>/gi, (_m, p1) =>
+      p1.replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, (_li, item) => `- ${item.replace(/<[^>]+>/g, '').trim()}\n`) + '\n'
+    )
+    .replace(/<ol[^>]*>([\s\S]*?)<\/ol>/gi, (_m, p1) => {
       let idx = 1;
-      return p1.replace(/<li>(.*?)<\/li>/gi, () => `${idx++}. $1\n`) + '\n';
+      return (
+        p1.replace(/<li[^>]*>([\s\S]*?)<\/li>/gi, (_li, item) => `${idx++}. ${item.replace(/<[^>]+>/g, '').trim()}\n`) +
+        '\n'
+      );
     })
-    .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
-    .replace(/<b>(.*?)<\/b>/gi, '**$1**')
-    .replace(/<em>(.*?)<\/em>/gi, '*$1*')
-    .replace(/<i>(.*?)<\/i>/gi, '*$1*')
+    .replace(/<(strong|b)[^>]*>([\s\S]*?)<\/\1>/gi, '**$2**')
+    .replace(/<(em|i)[^>]*>([\s\S]*?)<\/\1>/gi, '*$2*')
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 };
@@ -43,7 +93,7 @@ export const htmlToMarkdown = (htmlStr) => {
 // Export Element as JSON
 export const exportElementJSON = (targetNode, universeState) => {
   if (!targetNode) return;
-  const linkedMapObj = targetNode.mapId ? universeState.maps.find(m => m.id === targetNode.mapId) : null;
+  const linkedMapObj = targetNode.mapId ? universeState?.maps?.find(m => m.id === targetNode.mapId) : null;
 
   const exportPayload = {
     type: "TangentStoryElement",
@@ -79,16 +129,17 @@ export const exportElementMarkdown = (targetNode, universeState) => {
       let fieldsMd = '';
       if (schema && node.fields) {
         schema.forEach(fieldDef => {
-          const val = node.fields[fieldDef.key];
-          if (val && val.trim()) {
-            fieldsMd += `- **${fieldDef.label}:** ${val.trim()}\n`;
+          const valStr = formatFieldValue(node.fields[fieldDef.key]);
+          if (valStr) {
+            fieldsMd += `- **${fieldDef.label}:** ${valStr}\n`;
           }
         });
       }
       if (node.customFields && Array.isArray(node.customFields)) {
         node.customFields.forEach(cf => {
-          if (cf.label && cf.value && cf.value.trim()) {
-            fieldsMd += `- **${cf.label}:** ${cf.value.trim()}\n`;
+          const valStr = formatFieldValue(cf?.value);
+          if (cf?.label && valStr) {
+            fieldsMd += `- **${cf.label}:** ${valStr}\n`;
           }
         });
       }
@@ -108,7 +159,7 @@ export const exportElementMarkdown = (targetNode, universeState) => {
     return md;
   };
 
-  const fullMD = `# TANGENT SFF RPG — Story Module: ${universeState.projectName || 'Campaign'}\n\n` + buildNodeMD(targetNode, 2);
+  const fullMD = `# TANGENT SFF RPG — Story Module: ${universeState?.projectName || 'Campaign'}\n\n` + buildNodeMD(targetNode, 2);
 
   const blob = new Blob([fullMD], { type: "text/markdown;charset=utf-8" });
   const url = URL.createObjectURL(blob);
@@ -126,21 +177,22 @@ export const isHalfPageElement = (type) => HALF_PAGE_ELEMENT_TYPES.includes(type
 // Export Element as Printable PDF
 export const exportElementPDF = (targetNode, universeState) => {
   if (!targetNode) return;
-  const locationPath = getBreadcrumbPath(universeState.scenarios, targetNode.id);
+  const locationPath = getBreadcrumbPath(universeState?.scenarios || [], targetNode.id);
 
   const buildNodeHTML = (node, depth = 2) => {
     const headingTag = `h${Math.min(depth, 6)}`;
     let html = `<div style="margin-bottom: 24px; page-break-inside: avoid;">`;
     html += `<${headingTag} style="color: #0284c7; border-bottom: 2px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 8px;">`;
-    html += `<span style="font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; margin-right: 8px;">${node.type || 'Element'}</span>`;
-    html += `${node.title || 'Untitled'}</${headingTag}>`;
+    html += `<span style="font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; margin-right: 8px;">${escapeHtml(node.type || 'Element')}</span>`;
+    html += `${escapeHtml(node.title || 'Untitled')}</${headingTag}>`;
 
-    if (node.imageUrl) {
+    const safeImgSrc = sanitizeImageUrl(node.imageUrl);
+    if (safeImgSrc) {
       const isHalfPage = isHalfPageElement(node.type);
       const imgStyle = isHalfPage
         ? 'width: 80%; max-width: 80%; height: auto; object-fit: contain; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); margin: 12px 0; display: block;'
         : 'width: 40%; max-width: 40%; height: auto; object-fit: contain; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin: 12px 0; display: block;';
-      html += `<div style="margin-bottom: 12px;"><img src="${node.imageUrl}" alt="${node.title || 'Element Image'}" style="${imgStyle}" /></div>`;
+      html += `<div style="margin-bottom: 12px;"><img src="${safeImgSrc}" alt="${escapeHtml(node.title || 'Element Image')}" style="${imgStyle}" /></div>`;
     }
 
     const schema = ELEMENT_SCHEMAS[node.type];
@@ -149,22 +201,23 @@ export const exportElementPDF = (targetNode, universeState) => {
       let hasFields = false;
       if (schema && node.fields) {
         schema.forEach(fieldDef => {
-          const val = node.fields[fieldDef.key];
-          if (val && val.trim()) {
+          const valStr = formatFieldValue(node.fields[fieldDef.key]);
+          if (valStr) {
             hasFields = true;
             fieldsHTML += `<div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 4px;">`;
-            fieldsHTML += `<strong style="color: #0369a1; display: block; font-size: 10px; text-transform: uppercase;">${fieldDef.label}</strong>`;
-            fieldsHTML += `<span style="color: #0f172a;">${val.trim()}</span></div>`;
+            fieldsHTML += `<strong style="color: #0369a1; display: block; font-size: 10px; text-transform: uppercase;">${escapeHtml(fieldDef.label)}</strong>`;
+            fieldsHTML += `<span style="color: #0f172a;">${escapeHtml(valStr)}</span></div>`;
           }
         });
       }
       if (node.customFields && Array.isArray(node.customFields)) {
         node.customFields.forEach(cf => {
-          if (cf.label && cf.value && cf.value.trim()) {
+          const valStr = formatFieldValue(cf?.value);
+          if (cf?.label && valStr) {
             hasFields = true;
             fieldsHTML += `<div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 4px;">`;
-            fieldsHTML += `<strong style="color: #0369a1; display: block; font-size: 10px; text-transform: uppercase;">${cf.label}</strong>`;
-            fieldsHTML += `<span style="color: #0f172a;">${cf.value.trim()}</span></div>`;
+            fieldsHTML += `<strong style="color: #0369a1; display: block; font-size: 10px; text-transform: uppercase;">${escapeHtml(cf.label)}</strong>`;
+            fieldsHTML += `<span style="color: #0f172a;">${escapeHtml(valStr)}</span></div>`;
           }
         });
       }
@@ -173,7 +226,10 @@ export const exportElementPDF = (targetNode, universeState) => {
     }
 
     if (node.content) {
-      html += `<div style="font-family: inherit; font-size: 14px; line-height: 1.6; color: #334155;">${node.content}</div>`;
+      const safeContent = typeof window !== 'undefined' && typeof DOMPurify?.sanitize === 'function'
+        ? DOMPurify.sanitize(String(node.content))
+        : escapeHtml(node.content);
+      html += `<div style="font-family: inherit; font-size: 14px; line-height: 1.6; color: #334155;">${safeContent}</div>`;
     }
     if (node.children && node.children.length > 0) {
       node.children.forEach(child => {
@@ -185,11 +241,11 @@ export const exportElementPDF = (targetNode, universeState) => {
   };
 
   const creatorInfo = extractCreatorInfo(targetNode || universeState);
-  const fullHTML = `
+  const buildFullHtml = (includeAutoPrintScript) => `
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Tangent SFF RPG - ${targetNode.title}</title>
+        <title>Tangent SFF RPG - ${escapeHtml(targetNode.title || 'Untitled')}</title>
         <style>
           body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; padding: 40px; color: #0f172a; background: #fff; }
           .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-bottom: 24px; gap: 16px; }
@@ -206,25 +262,23 @@ export const exportElementPDF = (targetNode, universeState) => {
         <div class="header">
           <div>
             <div class="subtitle">Tangent Science Fantasy Roleplay — Story Module</div>
-            <div class="title">${targetNode.title}</div>
-            <div class="path">Location Path: ${locationPath ? locationPath.join(' ❯ ') : 'Root'}</div>
+            <div class="title">${escapeHtml(targetNode.title || 'Untitled')}</div>
+            <div class="path">Location Path: ${locationPath ? locationPath.map(escapeHtml).join(' ❯ ') : 'Root'}</div>
           </div>
           <div class="creator-box">
-            <div>🏷️ CREATOR: ${creatorInfo.creatorTag}</div>
-            ${creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 ? `<div style="font-size: 9px; color: #475569; margin-top: 3px;">CONTRIB: ${creatorInfo.contributorTags.join(', ')}</div>` : ''}
+            <div>🏷️ CREATOR: ${escapeHtml(creatorInfo.creatorTag)}</div>
+            ${creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 ? `<div style="font-size: 9px; color: #475569; margin-top: 3px;">CONTRIB: ${creatorInfo.contributorTags.map(escapeHtml).join(', ')}</div>` : ''}
           </div>
         </div>
         ${buildNodeHTML(targetNode)}
-        <script>
-          window.onload = function() { window.print(); };
-        </script>
+        ${includeAutoPrintScript ? `<script>window.onload = function() { window.print(); };</script>` : ''}
       </body>
     </html>
   `;
 
   const printWindow = typeof window !== 'undefined' ? window.open('', '_blank') : null;
   if (printWindow && printWindow.document) {
-    printWindow.document.write(fullHTML);
+    printWindow.document.write(buildFullHtml(true));
     printWindow.document.close();
   } else if (typeof document !== 'undefined') {
     // Popup was blocked or unavailable: Fallback to seamless hidden iframe printing
@@ -240,7 +294,7 @@ export const exportElementPDF = (targetNode, universeState) => {
     const doc = iframe.contentWindow?.document;
     if (doc) {
       doc.open();
-      doc.write(fullHTML);
+      doc.write(buildFullHtml(false));
       doc.close();
       iframe.contentWindow?.focus();
       iframe.contentWindow?.print();

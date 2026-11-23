@@ -18,6 +18,8 @@ import {
 import EditElementModal from './EditElementModal';
 import { getTypePillStyle } from './elementSchemas';
 import { STORAGE_KEYS } from '../../../constants/storageKeys';
+import { persistAdeElement } from '../../../utils/adeElementPersistence.js';
+import { showToast } from '../../../context/ToastContext';
 
 export const ElementSelectorModal = ({ 
   isOpen, 
@@ -29,8 +31,8 @@ export const ElementSelectorModal = ({
 }) => {
   const { elementsCatalog } = useCampaign();
   const storyContext = useStory();
-  const { dbData } = useDBM() || { dbData: {} };
-  const { personaRoster = [], publicCatalog = [] } = useFolio() || {};
+  const { dbData, saveEntry } = useDBM() || { dbData: {} };
+  const { personaRoster = [], publicCatalog = [], saveCurrentToRoster } = useFolio() || {};
   const [searchTerm, setSearchTerm] = useState('');
 
   // Unified catalog composing Story Elements + Persona Folio Roster + Omnicortex MCM & Codex
@@ -63,7 +65,14 @@ export const ElementSelectorModal = ({
 
   const [activeTypeFilter, setActiveTypeFilter] = useState(targetType && targetType !== 'Custom' ? targetType : null);
   const [sortOption, setSortOption] = useState('az'); // 'az' | 'za' | 'type'
-  const [isBuildingNew, setIsBuildingNew] = useState(false);
+  const [draftNewElement, setDraftNewElement] = useState(null);
+
+  const handleStartBuildNew = () => {
+    setDraftNewElement({
+      id: `elem_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      type: targetType || 'Custom'
+    });
+  };
 
   const [viewMode, setViewMode] = useState(() => {
     try {
@@ -143,18 +152,25 @@ export const ElementSelectorModal = ({
   };
 
   const handleSaveCreatedElement = async (newElement) => {
-    if (storyContext?.saveElementToCloud) {
-      try {
-        await storyContext.saveElementToCloud(newElement);
-      } catch (err) {
-        console.warn('Cloud save warning for element:', err);
-      }
-    }
+    const ensured = {
+      ...newElement,
+      id: newElement?.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
+    };
+    const res = await persistAdeElement({
+      element: ensured,
+      elementsCatalog: storyContext?.elementsCatalog || elementsCatalog || [],
+      updateSavedElement: storyContext?.updateSavedElement,
+      saveEntry,
+      saveCurrentToRoster,
+      showToast
+    });
+    if (!res) return null;
     if (onSelect) {
-      onSelect(isMulti ? [newElement] : newElement);
+      onSelect(isMulti ? [res] : res);
     }
-    setIsBuildingNew(false);
+    setDraftNewElement(null);
     onClose();
+    return res;
   };
 
   if (!isOpen) return null;
@@ -183,7 +199,7 @@ export const ElementSelectorModal = ({
             <div className="flex items-center gap-2.5">
               <button
                 type="button"
-                onClick={() => setIsBuildingNew(true)}
+                onClick={handleStartBuildNew}
                 className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.35)] cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5" />
@@ -310,7 +326,7 @@ export const ElementSelectorModal = ({
 
                 <button
                   type="button"
-                  onClick={() => setIsBuildingNew(true)}
+                  onClick={handleStartBuildNew}
                   className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_15px_rgba(245,158,11,0.35)] cursor-pointer"
                 >
                   <Sparkles className="w-4 h-4" />
@@ -437,12 +453,13 @@ export const ElementSelectorModal = ({
       </div>
 
       {/* Embedded Build / Edit Element Modal */}
-      {isBuildingNew && (
+      {draftNewElement && (
         <EditElementModal
-          isOpen={isBuildingNew}
-          onClose={() => setIsBuildingNew(false)}
-          element={{ type: targetType || 'Custom' }}
+          isOpen={true}
+          onClose={() => setDraftNewElement(null)}
+          element={draftNewElement}
           onSave={handleSaveCreatedElement}
+          zIndexClass="z-[260]"
         />
       )}
     </>

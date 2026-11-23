@@ -7,6 +7,7 @@
  */
 
 import { AudioService } from './audioService.js';
+import { calculateAttributeCheckBase } from '../constants/attributes.js';
 
 export const TRAP_TYPES = {
   proximity_plasma_mine: {
@@ -174,11 +175,34 @@ export function evaluateTrapTriggers(movedToken, objectsOnMap = [], allTokens = 
     const dist = calculateDistance({ x: tokenX, y: tokenY }, { x: objX, y: objY });
 
     if (dist <= triggerRadius) {
-      // Automatic Reflex / Fortitude saving throw simulation
+      // Automatic canonical Tangent saving throw (Reflex / Fortitude / Tech): Base = 2 + (Primary * 2)
       const d1 = Math.floor(Math.random() * 10) + 1;
       const d2 = Math.floor(Math.random() * 10) + 1;
-      const reflexBonus = movedToken.agility ? Math.floor((movedToken.agility - 10) / 2) : 2;
-      const totalSaveRoll = d1 + d2 + reflexBonus;
+      const pickFinite = (...candidates) => {
+        for (const c of candidates) {
+          if (c !== undefined && c !== null && c !== '') {
+            const n = Number(c);
+            if (Number.isFinite(n)) return n;
+          }
+        }
+        return undefined;
+      };
+      const saveFamily = String(obj.saveType || trapConfig.saveType || 'Reflex').toLowerCase();
+      let saveBonus;
+      if (saveFamily.includes('fort') || saveFamily.includes('sta')) {
+        const explicitFort = pickFinite(movedToken.fortitude, movedToken['attr-fortitude']);
+        const stam = pickFinite(movedToken.stamina, movedToken.attributes?.sta, movedToken.attributes?.stamina, movedToken['attr-stamina']) ?? 0;
+        saveBonus = explicitFort !== undefined ? explicitFort : calculateAttributeCheckBase(stam);
+      } else if (saveFamily.includes('tech') || saveFamily.includes('slic') || saveFamily.includes('reason') || saveFamily.includes('logic') || saveFamily.includes('int')) {
+        const explicitReason = pickFinite(movedToken.reason, movedToken.logic, movedToken['attr-reason'], movedToken['attr-logic']);
+        const intel = pickFinite(movedToken.intellect, movedToken.attributes?.int, movedToken.attributes?.intellect, movedToken['attr-intellect']) ?? 0;
+        saveBonus = explicitReason !== undefined ? explicitReason : calculateAttributeCheckBase(intel);
+      } else {
+        const explicitReflex = pickFinite(movedToken.reflex, movedToken['attr-reflex']);
+        const agi = pickFinite(movedToken.agility, movedToken.attributes?.agi, movedToken.attributes?.agility, movedToken['attr-agility']) ?? 0;
+        saveBonus = explicitReflex !== undefined ? explicitReflex : calculateAttributeCheckBase(agi);
+      }
+      const totalSaveRoll = d1 + d2 + saveBonus;
       const saveCr = obj.saveCr || trapConfig.saveCr || 14;
       const isSaveSuccess = totalSaveRoll >= saveCr;
 
@@ -330,9 +354,10 @@ export function evaluateSentryVision(sentryToken, heroTokens = []) {
 
     if (dist <= visionRange) {
       const angleToHero = Math.atan2(hy - sy, hx - sx) * (180 / Math.PI);
-      const diff = Math.abs((facingAngleDeg - angleToHero + 180) % 360 - 180);
+      const normalizedDiff = ((((facingAngleDeg - angleToHero) % 360) + 540) % 360) - 180;
+      const diff = Math.abs(normalizedDiff);
 
-      if (diff <= visionFovDeg / 2) {
+      if (dist === 0 || diff <= visionFovDeg / 2) {
         return {
           detectedHero: hero,
           distance: Math.round(dist),

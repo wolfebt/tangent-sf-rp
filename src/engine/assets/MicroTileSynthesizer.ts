@@ -1325,16 +1325,40 @@ function evaluateAutoTileMask4Bit(
  * Used both as a lightweight vector representation and as a universal fallback
  * in headless/Node environments without HTMLCanvasElement.
  */
+function sanitizeSvgColor(val: unknown, fallback: string): string {
+  const s = String(val ?? '').trim();
+  if (/^#[0-9a-fA-F]{3,8}$/.test(s)) return s;
+  if (/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(?:\s*,\s*(?:0|1|0?\.\d+))?\s*\)$/i.test(s)) return s;
+  if (s === 'none') return 'none';
+  return fallback;
+}
+
+function clampFinite(val: unknown, fallback: number, min: number, max: number): number {
+  const n = Number(val);
+  return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : fallback;
+}
+
 export function synthesizeTileSvgDataUrl(
   recipe: TileSynthesisRecipe,
   bitmask4Bit?: number
 ): string {
-  const size = recipe.resolution || 128;
-  const rng = createSeededRandom(recipe.seed);
-  const { primary, secondary, accent, ink, glow } = recipe.palette;
-  const { scale, subdivision, irregularity, gapWidth, transparentBg } = recipe.geometry;
-  const { inkWeight, crossHatchDensity, hazardStripes, emissiveStrength, weathering } =
-    recipe.ligneClaire;
+  const size = clampFinite(recipe.resolution, 128, 16, 1024);
+  const rng = createSeededRandom(clampFinite(recipe.seed, 1000, 0, 2147483647));
+  const primary = sanitizeSvgColor(recipe.palette?.primary, '#1e293b');
+  const secondary = sanitizeSvgColor(recipe.palette?.secondary, '#334155');
+  const accent = sanitizeSvgColor(recipe.palette?.accent, '#38bdf8');
+  const ink = sanitizeSvgColor(recipe.palette?.ink, '#090d16');
+  const glow = recipe.palette?.glow ? sanitizeSvgColor(recipe.palette.glow, '#38bdf8') : '';
+  const scale = clampFinite(recipe.geometry?.scale, 2, 1, 8);
+  const subdivision = clampFinite(recipe.geometry?.subdivision, 2, 0, 8);
+  const irregularity = clampFinite(recipe.geometry?.irregularity, 0.2, 0, 1);
+  const gapWidth = clampFinite(recipe.geometry?.gapWidth, 2, 0, 16);
+  const transparentBg = Boolean(recipe.geometry?.transparentBg);
+  const inkWeight = clampFinite(recipe.ligneClaire?.inkWeight, 1.5, 0.25, 8);
+  const crossHatchDensity = clampFinite(recipe.ligneClaire?.crossHatchDensity, 0.2, 0, 1);
+  const hazardStripes = Boolean(recipe.ligneClaire?.hazardStripes);
+  const emissiveStrength = clampFinite(recipe.ligneClaire?.emissiveStrength, 0, 0, 1);
+  const weathering = clampFinite(recipe.ligneClaire?.weathering, 0.2, 0, 1);
 
   const isDecal = recipe.outputMode === 'decal_overlay' || recipe.family === 'tactical_decal_prop';
   const useTransparent = Boolean(
@@ -1491,12 +1515,12 @@ export function synthesizeTileSvgDataUrl(
  * ink outlines, cross-hatching shadows, and emissive glow (`image/png`).
  * In headless/Node test environments, automatically returns the deterministic SVG Data URL.
  */
-export function synthesizeTileDataUrl(
+function renderTileToCanvas(
   recipe: TileSynthesisRecipe,
   bitmask4Bit?: number
-): string {
+): HTMLCanvasElement | null {
   if (typeof document === 'undefined') {
-    return synthesizeTileSvgDataUrl(recipe, bitmask4Bit);
+    return null;
   }
 
   const canvas = document.createElement('canvas');
@@ -1505,7 +1529,7 @@ export function synthesizeTileDataUrl(
   canvas.height = size;
   const ctx = canvas.getContext('2d');
   if (!ctx || typeof ctx.getImageData !== 'function') {
-    return synthesizeTileSvgDataUrl(recipe, bitmask4Bit);
+    return null;
   }
 
   const imgData = ctx.createImageData(size, size);
@@ -1719,6 +1743,17 @@ export function synthesizeTileDataUrl(
   }
 
   ctx.putImageData(imgData, 0, 0);
+  return canvas;
+}
+
+export function synthesizeTileDataUrl(
+  recipe: TileSynthesisRecipe,
+  bitmask4Bit?: number
+): string {
+  const canvas = renderTileToCanvas(recipe, bitmask4Bit);
+  if (!canvas) {
+    return synthesizeTileSvgDataUrl(recipe, bitmask4Bit);
+  }
   return canvas.toDataURL('image/png');
 }
 
@@ -1749,8 +1784,17 @@ export function synthesizeAutoTileAtlas4Bit(
   recipe: TileSynthesisRecipe,
   cellPx: 64 | 128 = 64
 ): { atlasDataUrl: string; variants: string[] } {
-  const variants = generateAutoTileVariants4Bit(recipe, cellPx);
+  const variants: string[] = [];
+  const subRecipe: TileSynthesisRecipe = {
+    ...recipe,
+    resolution: cellPx,
+    outputMode: 'marching_squares_4bit'
+  };
+
   if (typeof document === 'undefined') {
+    for (let mask = 0; mask < 16; mask++) {
+      variants.push(synthesizeTileSvgDataUrl(subRecipe, mask));
+    }
     return { atlasDataUrl: variants[15], variants };
   }
 
@@ -1758,25 +1802,28 @@ export function synthesizeAutoTileAtlas4Bit(
   const atlasCanvas = document.createElement('canvas');
   atlasCanvas.width = atlasSize;
   atlasCanvas.height = atlasSize;
-  const ctx = atlasCanvas.getContext('2d');
-  if (!ctx) {
+  const atlasCtx = atlasCanvas.getContext('2d');
+
+  for (let mask = 0; mask < 16; mask++) {
+    const tileCanvas = renderTileToCanvas(subRecipe, mask);
+    if (tileCanvas) {
+      if (atlasCtx) {
+        const col = mask % 4;
+        const row = Math.floor(mask / 4);
+        atlasCtx.drawImage(tileCanvas, col * cellPx, row * cellPx, cellPx, cellPx);
+      }
+      variants.push(tileCanvas.toDataURL('image/png'));
+    } else {
+      variants.push(synthesizeTileSvgDataUrl(subRecipe, mask));
+    }
+  }
+
+  if (!atlasCtx) {
     return { atlasDataUrl: variants[15], variants };
   }
 
-  // Render each of the 16 masks into its 4x4 grid slot synchronously via pixel synthesis
-  for (let mask = 0; mask < 16; mask++) {
-    const subRecipe: TileSynthesisRecipe = {
-      ...recipe,
-      resolution: cellPx,
-      outputMode: 'marching_squares_4bit'
-    };
-    const subUrl = synthesizeTileDataUrl(subRecipe, mask);
-    variants[mask] = subUrl;
-  }
-
-  // Also draw a subtle grid frame on the composite preview if needed, or return full center tile if async image decoding isn't desired
   return {
-    atlasDataUrl: variants[15],
+    atlasDataUrl: atlasCanvas.toDataURL('image/png'),
     variants
   };
 }

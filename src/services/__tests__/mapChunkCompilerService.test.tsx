@@ -268,12 +268,16 @@ describe('D4 Dihedral Transformation Matrix (90° CW Rotation & H/V Flips)', () 
 
   it('transforms tile grid coordinates and 4-bit cardinal bitmasks across 90° CW rotation and H/V flips', () => {
     // At 90° CW on 4x6: (col=0, row=0) -> (col' = 6 - 1 - 0 = 5, row' = 0)
-    // And bitmask N=1 rotates 90° CW to E=4
+    // And canonical bitmask N=1 rotates 90° CW to E=2 (N=1, E=2, S=4, W=8)
     const rot90 = transformChunkBlueprint(sampleAsymmetricChunk, 90, false, false);
     const topLeftTile90 = rot90.tiles[0];
     expect(topLeftTile90.col).toBe(5);
     expect(topLeftTile90.row).toBe(0);
-    expect(topLeftTile90.bitmask4Bit).toBe(4);
+    expect(topLeftTile90.bitmask4Bit).toBe(2);
+
+    // Horizontal flip (flipX=true, rotation=0) on rotated East bit (E=2) -> West bit (W=8)
+    const flippedHFromRot = transformChunkBlueprint(rot90, 0, true, false);
+    expect(flippedHFromRot.tiles[0].bitmask4Bit).toBe(8);
 
     // Horizontal flip (flipX=true, rotation=0) on 4x6: (col=0, row=0) -> (col'=3, row'=0)
     const flippedH = transformChunkBlueprint(sampleAsymmetricChunk, 0, true, false);
@@ -281,11 +285,11 @@ describe('D4 Dihedral Transformation Matrix (90° CW Rotation & H/V Flips)', () 
     expect(flippedH.tiles[0].row).toBe(0);
 
     // Vertical flip (flipY=true, rotation=0) on 4x6: (col=0, row=0) -> (col'=0, row'=5)
-    // And bitmask N=1 flips vertically to S=8
+    // And bitmask N=1 flips vertically to S=4
     const flippedV = transformChunkBlueprint(sampleAsymmetricChunk, 0, false, true);
     expect(flippedV.tiles[0].col).toBe(0);
     expect(flippedV.tiles[0].row).toBe(5);
-    expect(flippedV.tiles[0].bitmask4Bit).toBe(8);
+    expect(flippedV.tiles[0].bitmask4Bit).toBe(4);
   });
 
   it('keeps multi-cell assets intact (2x3 -> 3x2 on 90° CW) and honors keepUpright', () => {
@@ -377,9 +381,13 @@ describe('Dynamic Property Adjustments & Map Compilation', () => {
       expect(door.hackDc).toBeGreaterThanOrEqual(20);
     }
 
-    // Biome theme override applies chitin_hive palette to non-liquid floor tiles
+    // Biome theme override applies chitin_hive palette to non-liquid floor tiles and canonical layer_* IDs
     const nonLiquidTiles = compiledEmergency.terrains.filter((t) => !t.isLiquid);
     expect(nonLiquidTiles[0].material).toBe('chitin_hive');
+    expect(nonLiquidTiles[0].layerId).toBe('layer_terrain');
+    expect(compiledEmergency.walls[0]?.layerId).toBe('layer_walls');
+    expect(compiledEmergency.objects[0]?.layerId).toBe('layer_objects');
+    expect(compiledEmergency.lights[0]?.layerId).toBe('layer_lights');
   });
 
   it('supports unpowered state by turning off chunk lights and unlocking unpowered doors', () => {

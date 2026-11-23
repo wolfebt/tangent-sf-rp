@@ -9,7 +9,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { getTypePillStyle, AIME_CORE_MODULES } from '../elementSchemas';
+import { getTypePillStyle, ELEMENT_TYPES, normalizeElementType } from '../elementSchemas';
 import { normalizeLinkedAssets } from './assetHubUtils.js';
 import { 
   Network, 
@@ -81,7 +81,7 @@ export default function AssetHubDeck({
     return availableElements.filter(el => {
       if (el.id === currentElementId) return false;
       if (linkedIds.has(el.id)) return false;
-      if (typeFilter !== 'all' && el.type !== typeFilter) return false;
+      if (typeFilter !== 'all' && normalizeElementType(el.type) !== typeFilter) return false;
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchesTitle = (el.title || el.name || '').toLowerCase().includes(q);
@@ -209,13 +209,11 @@ export default function AssetHubDeck({
                   className="bg-slate-900 border border-slate-700 text-slate-300 text-xs p-2 rounded-lg outline-none cursor-pointer"
                 >
                   <option value="all">All Types</option>
-                  {AIME_CORE_MODULES.map(m => (
-                    <option key={m.type} value={m.canonicalType}>
-                      {m.icon} {m.type}
+                  {ELEMENT_TYPES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
                     </option>
                   ))}
-                  <option value="Faction">Faction</option>
-                  <option value="Item">Item</option>
                 </select>
               </div>
 

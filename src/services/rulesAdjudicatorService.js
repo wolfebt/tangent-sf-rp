@@ -3,6 +3,8 @@
  * Computes canonical tactical modifiers including range brackets, cover, elevation, flanking, and lighting obscurement.
  */
 
+import { CANONICAL_SIZE_TABLE } from '../engine/rules/CanonicalCombatMath.ts';
+
 export const RANGE_BRACKETS = [
   { id: 'point_blank', label: 'Point Blank (Within Reach)', icon: '🎯', attackMod: 5, unopposedCR: 10, unopposedDC: 10, description: '+5 Strike bonus, damage dice rolled with Advantage (Ballistic/Energy), CR 10 unopposed.' },
   { id: 'short', label: 'Short Range (Base Range)', icon: '📏', attackMod: 0, unopposedCR: 15, unopposedDC: 15, description: 'Standard effective range for the weapon. CR 15 unopposed.' },
@@ -11,25 +13,21 @@ export const RANGE_BRACKETS = [
   { id: 'extreme', label: 'Extreme Range (Up to 10x Base)', icon: '🌌', attackMod: -15, unopposedCR: 30, unopposedDC: 30, description: '-15 Attack penalty. CR 30 unopposed.' }
 ];
 
-export const SIZE_MODIFIERS = [
-  { id: 'miniscule', label: 'Miniscule (< 1in)', modifier: -32, baseCR: 47 },
-  { id: 'fine', label: 'Fine (< 6in)', modifier: -16, baseCR: 31 },
-  { id: 'diminutive', label: 'Diminutive (< 1ft)', modifier: -8, baseCR: 23 },
-  { id: 'tiny', label: 'Tiny (< 2ft)', modifier: -4, baseCR: 19 },
-  { id: 'small', label: 'Small (< 4ft)', modifier: -2, baseCR: 17 },
-  { id: 'medium', label: 'Medium (Base < 8ft)', modifier: 0, baseCR: 15 },
-  { id: 'large', label: 'Large (< 16ft)', modifier: 2, baseCR: 20 },
-  { id: 'huge', label: 'Huge (< 32ft)', modifier: 4, baseCR: 25 },
-  { id: 'gargantuan', label: 'Gargantuan (< 64ft)', modifier: 8, baseCR: 30 },
-  { id: 'colossal', label: 'Colossal (< 128ft)', modifier: 16, baseCR: 40 },
-  { id: 'super_gargantuan', label: 'SuperGargantuan (Behemoth)', modifier: 128, baseCR: 60 },
-  { id: 'mega_colossal', label: 'MegaColossal (Titan)', modifier: 256, baseCR: 80 }
-];
+export const SIZE_MODIFIERS = CANONICAL_SIZE_TABLE.map((entry) => ({
+  id: entry.id,
+  label: entry.label,
+  modifier: entry.modifier,
+  strikeMod: entry.strikeMod,
+  defenseMod: entry.defenseMod,
+  scaleMultiplier: entry.scaleMultiplier,
+  baseCR: entry.baseCR,
+  rawBaseCR: entry.rawBaseCR
+}));
 
 export const COVER_TYPES = [
   { id: 'none', label: 'No Cover / Open Ground', icon: '⚪', defenseMod: 0, description: 'Target is in the open with no ballistic obstruction.' },
-  { id: 'partial', label: 'Partial Cover (Waist-High)', icon: '🛡️', defenseMod: 2, description: '+2 Defense DC against incoming ranged fire.' },
-  { id: 'heavy', label: 'Heavy Cover (Bulkhead/Pillar)', icon: '🏰', defenseMod: 4, description: '+4 Defense DC against incoming ranged fire.' },
+  { id: 'partial', label: 'Partial Cover (Waist-High)', icon: '🛡️', defenseMod: 2, description: '+2 Defense CR against incoming ranged fire.' },
+  { id: 'heavy', label: 'Heavy Cover (Bulkhead/Pillar)', icon: '🏰', defenseMod: 4, description: '+4 Defense CR against incoming ranged fire.' },
   { id: 'total', label: 'Total Cover (Sealed Door)', icon: '🚫', defenseMod: 99, description: 'Target cannot be directly targeted by linear projectiles.' }
 ];
 
@@ -49,12 +47,27 @@ export const computeTacticalAttackModifiers = ({
   isTargetProne = false,
   isTargetStunned = false,
   isAimed = false,
+  attackerSizeId = 'medium',
+  targetSizeId = 'medium',
   customMod = 0,
   activeModifiers = []
 } = {}) => {
   let netAttackMod = customMod;
   let netDefenseMod = 0;
   const breakdown = [];
+
+  if (attackerSizeId !== targetSizeId) {
+    const atkIdx = SIZE_MODIFIERS.findIndex(s => s.id === attackerSizeId);
+    const tgtIdx = SIZE_MODIFIERS.findIndex(s => s.id === targetSizeId);
+    if (atkIdx !== -1 && tgtIdx !== -1) {
+      const stepDiff = tgtIdx - atkIdx;
+      const sizeDelta = stepDiff === 0 ? 0 : Math.sign(stepDiff) * (2 ** Math.abs(stepDiff));
+      if (sizeDelta !== 0) {
+        netAttackMod += sizeDelta;
+        breakdown.push(`Scale Differential [${SIZE_MODIFIERS[atkIdx].id} vs ${SIZE_MODIFIERS[tgtIdx].id}]: ${sizeDelta > 0 ? `+${sizeDelta}` : sizeDelta} ATK`);
+      }
+    }
+  }
 
   // 1. Range Bracket
   const range = RANGE_BRACKETS.find(r => r.id === rangeBracketId) || RANGE_BRACKETS[1];

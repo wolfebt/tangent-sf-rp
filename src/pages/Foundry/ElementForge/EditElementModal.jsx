@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -16,6 +17,10 @@ import { attachCreatorTag } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { showToast } from '../../../context/ToastContext';
 import { useStory } from '../../../context/CampaignContext';
+import { useDBM } from '../../../context/DBMContext';
+import { useFolio } from '../../../context/FolioContext';
+import { useAuth } from '../../../context/AuthContext';
+import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
@@ -54,6 +59,8 @@ import {
   ChevronRight,
   ExternalLink
 } from 'lucide-react';
+
+const LazyElementSelectorModal = React.lazy(() => import('./ElementSelectorModal'));
 
 const AutoExpandingElementTextarea = ({ value, onChange, placeholder, className }) => {
   const textareaRef = useRef(null);
@@ -94,7 +101,8 @@ const EditElementModal = ({
   onDelete,
   initialMode,
   initialSeedTab = 'spark',
-  activeScenario = null
+  activeScenario = null,
+  zIndexClass = 'z-[200]'
 }) => {
   const navigate = useNavigate();
   const {
@@ -106,6 +114,16 @@ const EditElementModal = ({
     updateStory,
     addGalleryModifier
   } = useStory();
+  const { dbData = {} } = useDBM() || {};
+  const {
+    roster: folioRoster = [],
+    personaRoster = [],
+    publicPersonas = [],
+    publicCatalog = [],
+    saveCurrentToRoster,
+    switchRosterCharacter
+  } = useFolio() || {};
+  const { currentUser } = useAuth() || {};
 
   const [editorMode, setEditorMode] = useState('guided'); // 'guided' | 'sheet'
   const [activeStageId, setActiveStageId] = useState('spark');
@@ -133,6 +151,7 @@ const EditElementModal = ({
   const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
   const [isAimeGuidanceOpen, setIsAimeGuidanceOpen] = useState(false);
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
+  const [relationalSelectorState, setRelationalSelectorState] = useState(null);
   const fileMenuRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -184,9 +203,11 @@ const EditElementModal = ({
       (content || '') !== (element.content || '') ||
       (imageUrl || '') !== (element.imageUrl || '') ||
       JSON.stringify(fields || {}) !== JSON.stringify(element.fields || {}) ||
-      JSON.stringify(customFields || []) !== JSON.stringify(element.customFields || [])
+      JSON.stringify(customFields || []) !== JSON.stringify(element.customFields || []) ||
+      JSON.stringify(guidance || {}) !== JSON.stringify(element.guidance || {}) ||
+      JSON.stringify(assetHub || []) !== JSON.stringify(element.assetHub || element.linkedElements || [])
     );
-  }, [element, title, type, content, imageUrl, fields, customFields]);
+  }, [element, title, type, content, imageUrl, fields, customFields, guidance, assetHub]);
 
   const { handleRequestClose, handleBackdropClick } = useDirtyModalClose({
     isOpen,
@@ -225,6 +246,17 @@ const EditElementModal = ({
     });
   }, [universeState?.maps, mapsCatalog]);
 
+  const unifiedAssetCatalog = useMemo(() => {
+    const effectiveRoster = Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : personaRoster;
+    const effectivePublic = Array.isArray(publicPersonas) && publicPersonas.length > 0 ? publicPersonas : publicCatalog;
+    return buildUnifiedAdeCatalog({
+      elementsCatalog: elementsCatalog || [],
+      dbData: dbData || {},
+      folioRoster: effectiveRoster || [],
+      publicPersonas: effectivePublic || []
+    });
+  }, [elementsCatalog, dbData, folioRoster, personaRoster, publicPersonas, publicCatalog]);
+
   if (!isOpen || !element) return null;
 
   const allTabs = ['AIME 3-Tier Architecture', 'Narrative Prose & Lore', 'Custom Fields'];
@@ -250,21 +282,35 @@ const EditElementModal = ({
   };
 
   const handleDuplicateElement = () => {
+    const deepClone = (val, fallback) => {
+      try {
+        return JSON.parse(JSON.stringify(val ?? fallback));
+      } catch {
+        return fallback;
+      }
+    };
     const cloned = {
       ...element,
-      id: uuidv4(),
+      id: `elem_${Date.now()}_${uuidv4().slice(0, 6)}`,
       title: `${title || element.title || 'Untitled'} (Copy)`,
       type,
-      fields: { ...fields },
+      fields: deepClone(fields, {}),
       content,
-      customFields: [...customFields],
-      guidance: { ...guidance },
-      assetHub: [...assetHub],
-      dbmSyncStatus,
+      customFields: deepClone(customFields, []),
+      guidance: deepClone(guidance, {}),
+      assetHub: deepClone(assetHub, []),
+      dbmSyncStatus: 'local_only',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
-    const withCreator = attachCreatorTag(cloned, localStorage.getItem('userHandle'));
+    delete cloned.dbmRef;
+    delete cloned.isPinnedToModule;
+    delete cloned.moduleElementId;
+    if (cloned.fields) {
+      delete cloned.fields.dbmRef;
+      delete cloned.fields.dbmId;
+    }
+    const withCreator = attachCreatorTag(cloned, localStorage.getItem('userHandle'), currentUser);
     if (onSave) {
       onSave(withCreator);
     }
@@ -323,6 +369,13 @@ const EditElementModal = ({
   };
 
   const handleFieldChange = (key, val) => {
+    if (key === 'content' || key === 'narrativeProse') {
+      setContent(String(val ?? ''));
+    } else if (key === 'guidance' && val && typeof val === 'object') {
+      setGuidance(val);
+    } else if (key === 'customFields' && Array.isArray(val)) {
+      setCustomFields(val);
+    }
     setFields((prev) => {
       const next = { ...prev, [key]: val };
       if (prev.dbmRef && key !== 'dbmRef' && key !== 'dbmCategory' && dbmSyncStatus === 'synced') {
@@ -333,7 +386,23 @@ const EditElementModal = ({
   };
 
   const handleMergeFields = (patch = {}) => {
-    setFields((prev) => ({ ...prev, ...patch }));
+    if (!patch || typeof patch !== 'object') return;
+    if (patch.content !== undefined || patch.narrativeProse !== undefined) {
+      setContent(String(patch.content ?? patch.narrativeProse ?? ''));
+    }
+    if (patch.guidance && typeof patch.guidance === 'object') {
+      setGuidance(patch.guidance);
+    }
+    if (Array.isArray(patch.customFields)) {
+      setCustomFields(patch.customFields);
+    }
+    setFields((prev) => {
+      const next = { ...prev, ...patch };
+      if (prev.dbmRef && dbmSyncStatus === 'synced') {
+        setDbmSyncStatus('local_override');
+      }
+      return next;
+    });
   };
 
   const handleCustomFieldChange = (id, key, val) => {
@@ -372,7 +441,7 @@ const EditElementModal = ({
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     if (e?.preventDefault) e.preventDefault();
     if (!title.trim()) {
       showToast({ type: 'warning', text: 'Element title is required (Stage 1).' });
@@ -385,8 +454,10 @@ const EditElementModal = ({
       .filter((f) => f.label && f.label !== '')
       .map((f) => ({ id: f.id || uuidv4(), label: f.label, value: f.value || '' }));
 
+    const resolvedId = element?.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
     const rawUpdatedElement = {
       ...element,
+      id: resolvedId,
       type,
       ...(type === 'Property'
         ? { propertySubcategory: fields.propertySubcategory || element.propertySubcategory || 'gear' }
@@ -408,19 +479,23 @@ const EditElementModal = ({
       linkedElements: (assetHub || []).map((a) => a.assetId || a),
       updatedAt: new Date().toISOString()
     };
-    const updatedElement = attachCreatorTag(rawUpdatedElement, localStorage.getItem('userHandle'));
+    const updatedElement = attachCreatorTag(rawUpdatedElement, localStorage.getItem('userHandle'), currentUser);
 
-    onSave(updatedElement);
+    const savedResult = typeof onSave === 'function' ? await onSave(updatedElement) : updatedElement;
+    if (savedResult === false || savedResult === null) {
+      return;
+    }
+    const finalElement = savedResult?.id ? savedResult : updatedElement;
 
     // Optional Post-Save Bridge 1: Derive Situational Modifier into Story Gallery
     if (registerModifierOnSave && typeof addGalleryModifier === 'function') {
       let derivedMod = null;
       if (type === 'Persona') {
-        derivedMod = ModifierService.createModifierFromPerson(updatedElement);
+        derivedMod = ModifierService.createModifierFromPerson(finalElement);
       } else if (type === 'Item' || type === 'Property') {
-        derivedMod = ModifierService.createModifierFromItem(updatedElement);
+        derivedMod = ModifierService.createModifierFromItem(finalElement);
       } else if (type === 'Setting') {
-        derivedMod = ModifierService.createModifierFromLocation(updatedElement);
+        derivedMod = ModifierService.createModifierFromLocation(finalElement);
       }
       if (derivedMod) {
         addGalleryModifier(derivedMod);
@@ -435,48 +510,36 @@ const EditElementModal = ({
     if (
       linkToActiveScenario &&
       activeScenario?.id &&
-      typeof updateStory === 'function' &&
-      Array.isArray(universeState?.scenarios)
+      typeof updateStory === 'function'
     ) {
-      const attachToNode = (nodes) =>
-        nodes.map((node) => {
-          if (node.id === activeScenario.id) {
-            const existingHub = Array.isArray(node.assetHub) ? node.assetHub : [];
-            const alreadyInHub = existingHub.some(
-              (a) => (typeof a === 'string' ? a : a.assetId) === updatedElement.id
-            );
-            const nextHub = alreadyInHub
-              ? existingHub
-              : [
-                  ...existingHub,
-                  {
-                    assetId: updatedElement.id,
-                    assetTitle: updatedElement.title,
-                    assetType: updatedElement.type,
-                    importance: 'high',
-                    annotation: 'Linked from Guided Element Forge'
-                  }
-                ];
-            const existingIds = Array.isArray(node.linkedElements) ? node.linkedElements : [];
-            const nextIds = existingIds.includes(updatedElement.id)
-              ? existingIds
-              : [...existingIds, updatedElement.id];
-            return {
-              ...node,
-              assetHub: nextHub,
-              linkedElements: nextIds
-            };
-          }
-          if (Array.isArray(node.children) && node.children.length > 0) {
-            return { ...node, children: attachToNode(node.children) };
-          }
-          return node;
-        });
+      const existingHub = Array.isArray(activeScenario.assetHub) ? activeScenario.assetHub : [];
+      const alreadyInHub = existingHub.some(
+        (a) => (typeof a === 'string' ? a : a.assetId) === finalElement.id
+      );
+      const nextHub = alreadyInHub
+        ? existingHub
+        : [
+            ...existingHub,
+            {
+              assetId: finalElement.id,
+              assetTitle: finalElement.title,
+              assetType: finalElement.type,
+              importance: 'high',
+              annotation: 'Linked from Guided Element Forge'
+            }
+          ];
+      const existingIds = Array.isArray(activeScenario.linkedElements) ? activeScenario.linkedElements : [];
+      const nextIds = existingIds.includes(finalElement.id)
+        ? existingIds
+        : [...existingIds, finalElement.id];
 
-      updateStory({ scenarios: attachToNode(universeState.scenarios) });
+      updateStory(activeScenario.id, {
+        assetHub: nextHub,
+        linkedElements: nextIds
+      });
       showToast({
-        type: 'success',
-        text: `Linked "${updatedElement.title}" to scenario "${activeScenario.title || activeScenario.name}"!`
+        type: 'info',
+        text: `Linked "${finalElement.title}" to scenario "${activeScenario.title || activeScenario.name}"!`
       });
     }
 
@@ -561,10 +624,10 @@ const EditElementModal = ({
     triggerCount: parseChipKeywords(fields.primaryTriggers).length
   };
 
-  return (
+  const modalNode = (
     <div
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-4 sm:pt-8 pb-6 overflow-y-auto select-none font-sans text-slate-200"
+      className={`fixed inset-0 ${zIndexClass} flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-4 sm:pt-8 pb-6 overflow-y-auto select-none font-sans text-slate-200`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -616,7 +679,8 @@ const EditElementModal = ({
                           const folioData = convertPersonaElementToFolio(currentElementSnapshot);
                           const sent = sendMcmToFolioRoster(folioData, {
                             lockForVtt: true,
-                            openInFolio: false
+                            openInFolio: false,
+                            activateInFolio: false
                           });
                           showToast({
                             type: 'success',
@@ -631,7 +695,7 @@ const EditElementModal = ({
                     )}
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={async () => {
                         const currentElementSnapshot = {
                           ...element,
                           title: title || element.title || 'Unnamed Persona',
@@ -644,10 +708,18 @@ const EditElementModal = ({
                           assetHub
                         };
                         const folioData = convertPersonaElementToFolio(currentElementSnapshot);
-                        sendMcmToFolioRoster(folioData, {
-                          lockForVtt: false,
-                          openInFolio: true
-                        });
+                        if (element.isFolioPersona && typeof saveCurrentToRoster === 'function') {
+                          const savedChar = await saveCurrentToRoster(folioData);
+                          const targetDocId = savedChar?.['character-doc-id'] || folioData?.['character-doc-id'];
+                          if (targetDocId && typeof switchRosterCharacter === 'function') {
+                            switchRosterCharacter(targetDocId);
+                          }
+                        } else {
+                          sendMcmToFolioRoster(folioData, {
+                            lockForVtt: false,
+                            openInFolio: true
+                          });
+                        }
                         onClose();
                         navigate('/folio');
                       }}
@@ -968,7 +1040,7 @@ const EditElementModal = ({
                 onMergeFields={handleMergeFields}
                 assetHub={assetHub}
                 onChangeAssetHub={setAssetHub}
-                elementsCatalog={elementsCatalog || []}
+                elementsCatalog={unifiedAssetCatalog}
                 imageUrl={imageUrl}
                 onUploadImageClick={() => fileInputRef.current?.click()}
                 onSetImageUrl={setImageUrl}
@@ -1158,14 +1230,25 @@ const EditElementModal = ({
               {currentTab === 'AIME 3-Tier Architecture' && (
                 <AimeThreeTierStack
                   elementType={type}
+                  elementTitle={title}
                   fields={fields}
                   onChangeField={handleFieldChange}
+                  onMergeFields={handleMergeFields}
+                  content={content}
+                  customFields={customFields}
                   guidance={guidance}
                   onChangeGuidance={setGuidance}
                   assetHub={assetHub}
                   onChangeAssetHub={setAssetHub}
-                  availableElements={elementsCatalog || []}
+                  availableElements={unifiedAssetCatalog}
                   currentElementId={element?.id}
+                  onOpenRelationalSelector={(fieldDef) =>
+                    setRelationalSelectorState({
+                      key: fieldDef.key,
+                      label: fieldDef.label,
+                      dbSource: fieldDef.dbSource || 'species'
+                    })
+                  }
                   onOpenAimeGuidance={() => setIsAimeGuidanceOpen(true)}
                 />
               )}
@@ -1395,8 +1478,27 @@ const EditElementModal = ({
           }}
         />
       )}
+      {relationalSelectorState && (
+        <React.Suspense fallback={null}>
+          <LazyElementSelectorModal
+            isOpen={Boolean(relationalSelectorState)}
+            onClose={() => setRelationalSelectorState(null)}
+            sourceType={relationalSelectorState.dbSource}
+            fieldLabel={relationalSelectorState.label}
+            isMulti={false}
+            onSelect={(selected) => {
+              const chosen = Array.isArray(selected) ? selected[0] : selected;
+              const label = typeof chosen === 'string' ? chosen : (chosen?.title || chosen?.name || '');
+              handleFieldChange(relationalSelectorState.key, label);
+              setRelationalSelectorState(null);
+            }}
+          />
+        </React.Suspense>
+      )}
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalNode, document.body) : modalNode;
 };
 
 export default EditElementModal;

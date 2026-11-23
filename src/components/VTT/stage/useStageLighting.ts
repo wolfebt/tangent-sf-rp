@@ -4,13 +4,16 @@
  * particle hazard synchronizer, and Pixi light source overlays.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Graphics, Container } from 'pixi.js';
 import { 
   type SceneLightSource,
   type AtmosphericWeatherType, 
-  ATMOSPHERIC_PRESETS 
+  isKnownAtmosphericPreset,
+  normalizeAtmosphericPresetKey,
+  resolveAtmosphericPreset
 } from '../../../engine/vision/LightSourceManager';
+import { clearPixiContainer } from '../utils/pixiCleanup';
 import { HazardParticleSimulator, type HazardField } from '../../../engine/physics/HazardParticleSimulator.ts';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { AudioService } from '../../../services/audioService';
@@ -18,6 +21,7 @@ import { AudioService } from '../../../services/audioService';
 export interface UseStageLightingProps {
   currentMap: any;
   isCanvasReady: boolean;
+  canvasGeneration?: number;
   atmosphereOverlayRef: React.MutableRefObject<Container | null>;
   lightingContainerRef: React.MutableRefObject<Container | null>;
   hazardSimulatorRef: React.MutableRefObject<HazardParticleSimulator | null>;
@@ -29,6 +33,7 @@ export interface UseStageLightingProps {
 export function useStageLighting({
   currentMap,
   isCanvasReady,
+  canvasGeneration = isCanvasReady ? 1 : 0,
   atmosphereOverlayRef,
   lightingContainerRef,
   hazardSimulatorRef,
@@ -40,10 +45,17 @@ export function useStageLighting({
   const [localLights, setLocalLights] = useState<SceneLightSource[]>([]);
   const [hazardCount, setHazardCount] = useState<number>(0);
 
+  const currentMapRef = useRef(currentMap);
+  const updateMapRef = useRef(updateMap);
+  currentMapRef.current = currentMap;
+  updateMapRef.current = updateMap;
+
   // Synchronize local lights with currentMap lights
   useEffect(() => {
     if (currentMap?.lights && Array.isArray(currentMap.lights)) {
       setLocalLights(currentMap.lights);
+    } else {
+      setLocalLights([]);
     }
   }, [currentMap?.id, currentMap?.lights]);
 
@@ -52,7 +64,7 @@ export function useStageLighting({
     if (!isCanvasReady) return;
     const container = lightingContainerRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
     localLights.forEach(light => {
       const lightNode = new Container();
@@ -81,16 +93,16 @@ export function useStageLighting({
       lightNode.addChild(g);
       container.addChild(lightNode);
     });
-  }, [isCanvasReady, localLights, lightingContainerRef]);
+  }, [isCanvasReady, canvasGeneration, localLights, lightingContainerRef]);
 
   // Render Atmospheric Weather Tint Overlay
   useEffect(() => {
     if (!isCanvasReady) return;
     const container = atmosphereOverlayRef.current;
     if (!container) return;
-    container.removeChildren();
+    clearPixiContainer(container);
 
-    const preset = ATMOSPHERIC_PRESETS[atmosphericWeather] || ATMOSPHERIC_PRESETS.clear;
+    const preset = resolveAtmosphericPreset(atmosphericWeather);
     if (preset.tintAlpha <= 0 && preset.fogDensity <= 0) return;
 
     const g = new Graphics();
@@ -100,22 +112,47 @@ export function useStageLighting({
     g.fill({ color: preset.tintHex, alpha: preset.tintAlpha });
 
     container.addChild(g);
-  }, [isCanvasReady, atmosphericWeather, atmosphereOverlayRef]);
+  }, [isCanvasReady, canvasGeneration, atmosphericWeather, atmosphereOverlayRef]);
 
   // Synchronize environmental atmospheric weather preset from currentMap
   useEffect(() => {
-    const mapPreset = currentMap?.environmental?.weatherPreset || currentMap?.atmosphericWeather;
-    if (mapPreset && mapPreset !== atmosphericWeather && ATMOSPHERIC_PRESETS[mapPreset as AtmosphericWeatherType]) {
-      setAtmosphericWeather(mapPreset as AtmosphericWeatherType);
+    const mapPreset =
+      currentMap?.atmosphericPresetId ||
+      currentMap?.weather?.presetId ||
+      currentMap?.environmental?.weatherPreset ||
+      currentMap?.atmosphericWeather ||
+      currentMap?.lightingMode;
+    if (mapPreset && isKnownAtmosphericPreset(mapPreset)) {
+      setAtmosphericWeather(normalizeAtmosphericPresetKey(mapPreset));
+    } else {
+      setAtmosphericWeather('clear');
     }
-  }, [currentMap?.environmental?.weatherPreset, currentMap?.atmosphericWeather, atmosphericWeather]);
+  }, [
+    currentMap?.id,
+    currentMap?.atmosphericPresetId,
+    currentMap?.weather?.presetId,
+    currentMap?.environmental?.weatherPreset,
+    currentMap?.atmosphericWeather,
+    currentMap?.lightingMode
+  ]);
 
-  // Event bus subscription for atmospheric preset
+  // Event bus subscription for atmospheric preset & quick lighting mode
   useEffect(() => {
-    const unsubPreset = VttEventBus.on('apply-atmospheric-preset', (payload) => {
-      if (payload?.presetKey && ATMOSPHERIC_PRESETS[payload.presetKey as AtmosphericWeatherType]) {
-        setAtmosphericWeather(payload.presetKey as AtmosphericWeatherType);
+    const applyPresetOrMode = (rawKey?: string) => {
+      if (!rawKey || !isKnownAtmosphericPreset(rawKey)) return;
+      const normalized = normalizeAtmosphericPresetKey(rawKey);
+      setAtmosphericWeather(normalized);
+      if (currentMapRef.current?.id && updateMapRef.current) {
+        updateMapRef.current(currentMapRef.current.id, { atmosphericWeather: normalized });
       }
+    };
+
+    const unsubPreset = VttEventBus.on('apply-atmospheric-preset', (payload) => {
+      applyPresetOrMode(payload?.presetKey);
+    });
+
+    const unsubLightMode = VttEventBus.on('change-lighting-mode', (payload) => {
+      applyPresetOrMode(payload?.mode);
     });
 
     const unsubHazard = VttEventBus.on('spawn-environmental-hazard', (payload) => {
@@ -140,15 +177,18 @@ export function useStageLighting({
 
     return () => {
       unsubPreset();
+      unsubLightMode();
       unsubHazard();
       unsubClearHazards();
     };
   }, [hazardSimulatorRef]);
 
-  // Synchronize dynamic particle hazard physics with weather
+  // Synchronize dynamic particle hazard physics & ambient darkness with weather
   useEffect(() => {
     if (!hazardSimulatorRef.current) return;
     const sim = hazardSimulatorRef.current;
+    const preset = resolveAtmosphericPreset(atmosphericWeather);
+    sim.setAmbientDarkness(Math.max(0, Math.min(0.85, 1 - preset.ambientIntensity)));
     sim.clearHazards();
 
     if (atmosphericWeather === 'toxic_smog') {
@@ -162,7 +202,7 @@ export function useStageLighting({
       sim.addHazardField({ id: 'ambient-sand-1', type: 'smoke', x: 600, y: 450, radius: 260, intensity: 0.85 });
     }
     setHazardCount(sim.getActiveHazards().length);
-  }, [atmosphericWeather, hazardSimulatorRef]);
+  }, [isCanvasReady, canvasGeneration, atmosphericWeather, hazardSimulatorRef]);
 
   // Dynamic Lighting toggle handler
   const handleToggleDynamicLighting = () => {
@@ -173,12 +213,6 @@ export function useStageLighting({
   useEffect(() => {
     hazardSimulatorRef.current?.setDynamicLighting(isDynamicLightingEnabled);
   }, [isDynamicLightingEnabled, hazardSimulatorRef]);
-
-  useEffect(() => {
-    if (currentMap?.id && updateMap && currentMap?.atmosphericWeather !== atmosphericWeather) {
-      updateMap(currentMap.id, { atmosphericWeather });
-    }
-  }, [atmosphericWeather, currentMap?.id, currentMap?.atmosphericWeather, updateMap]);
 
   return {
     atmosphericWeather,

@@ -5,8 +5,8 @@
  * outputting normalized WallSegments directly ingestible by BVHBuilder and WGSL compute kernels.
  */
 
-import { VertexAIGateway } from './VertexAIGateway';
-import type { WallSegment } from '../vision/BVHBuilder';
+import { VertexAIGateway } from './VertexAIGateway.ts';
+import type { WallSegment } from '../vision/BVHBuilder.ts';
 
 export interface AutoWallRequest {
   imageUrl?: string;
@@ -42,8 +42,8 @@ export class BattlemapWallingProcessor {
 
     const prompt = `
 Analyze this architectural top-down tabletop battlemap (${imageWidth}x${imageHeight} px).
-Detect all perimeter walls, interior structural boundaries, and door portals.
-Output a JSON array of normalized 2D vector coordinates [x1, y1, x2, y2] and wall types ("solid" or "door").
+Detect all perimeter walls, interior structural boundaries, windows, and door portals.
+Output a JSON array of normalized 2D vector coordinates [x1, y1, x2, y2] and wall types ("solid", "door", or "window").
 `;
 
     const schema = {
@@ -67,8 +67,30 @@ Output a JSON array of normalized 2D vector coordinates [x1, y1, x2, y2] and wal
       required: ['detectedWalls']
     };
 
+    const userParts: Array<Record<string, any>> = [{ text: prompt.trim() }];
+    if (typeof request.imageUrl === 'string' && request.imageUrl.trim()) {
+      const dataUriMatch = request.imageUrl.trim().match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/i);
+      if (dataUriMatch) {
+        const [, mimeType, base64Data] = dataUriMatch;
+        // Stay comfortably below functions/index.js MAX_PROXY_BODY_BYTES (512 KB) when serialized
+        if (base64Data.length <= 360000) {
+          userParts.push({
+            inlineData: {
+              mimeType,
+              data: base64Data
+            }
+          });
+        } else {
+          userParts[0].text += `\nNote: Image payload exceeds inline proxy budget (${base64Data.length} chars); infer geometric wall layout from dimensions (${imageWidth}x${imageHeight}).`;
+        }
+      } else {
+        userParts[0].text += `\nReference Battlemap URL: ${request.imageUrl.trim()}`;
+      }
+    }
+
     const aiResponse = await VertexAIGateway.generateContent(prompt, {
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
+      contents: [{ role: 'user', parts: userParts }],
       responseMimeType: 'application/json',
       responseSchema: schema
     });
@@ -76,13 +98,19 @@ Output a JSON array of normalized 2D vector coordinates [x1, y1, x2, y2] and wal
     let detectedWalls: DetectedWall[] = [];
 
     if (aiResponse.data && Array.isArray(aiResponse.data.detectedWalls) && aiResponse.data.detectedWalls.length > 0) {
-      detectedWalls = aiResponse.data.detectedWalls.map((w: any) => ({
-        p1: [w.x1 * imageWidth, w.y1 * imageHeight],
-        p2: [w.x2 * imageWidth, w.y2 * imageHeight],
-        wallType: w.type === 'door' ? 'door' : 'solid',
-        blocksLight: w.type !== 'window',
-        blocksMovement: w.type !== 'door'
-      }));
+      detectedWalls = aiResponse.data.detectedWalls.map((w: any) => {
+        const wallType: DetectedWall['wallType'] =
+          w.type === 'door' || w.type === 'window' || w.type === 'curtain' || w.type === 'ethereal'
+            ? w.type
+            : 'solid';
+        return {
+          p1: [Number(w.x1) * imageWidth, Number(w.y1) * imageHeight],
+          p2: [Number(w.x2) * imageWidth, Number(w.y2) * imageHeight],
+          wallType,
+          blocksLight: wallType === 'solid' || wallType === 'curtain',
+          blocksMovement: wallType !== 'door'
+        };
+      });
     } else {
       // Deterministic geometric bounding walls fallback
       const margin = gridSize;

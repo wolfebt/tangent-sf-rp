@@ -63,12 +63,24 @@ export class Grid3DOverlay {
     this.group.visible = visible;
   }
 
-  public rebuildGrid() {
-    if (this.gridMesh) {
-      this.group.remove(this.gridMesh);
-      if ((this.gridMesh as any).geometry) (this.gridMesh as any).geometry.dispose();
-      this.gridMesh = null;
+  private disposeGridMesh() {
+    if (!this.gridMesh) return;
+    this.group.remove(this.gridMesh);
+    const meshAny = this.gridMesh as any;
+    if (meshAny.geometry && typeof meshAny.geometry.dispose === 'function') {
+      meshAny.geometry.dispose();
     }
+    if (meshAny.material) {
+      const mats = Array.isArray(meshAny.material) ? meshAny.material : [meshAny.material];
+      for (const m of mats) {
+        if (m && typeof m.dispose === 'function') m.dispose();
+      }
+    }
+    this.gridMesh = null;
+  }
+
+  public rebuildGrid() {
+    this.disposeGridMesh();
 
     if (this.gridType === GridType.Square) {
       this.gridMesh = this.createSquareGrid();
@@ -218,10 +230,7 @@ export class Grid3DOverlay {
   }
 
   public dispose() {
-    if (this.gridMesh) {
-      if ((this.gridMesh as any).geometry) (this.gridMesh as any).geometry.dispose();
-      if ((this.gridMesh as any).material) (this.gridMesh as any).material.dispose();
-    }
+    this.disposeGridMesh();
     this.group.clear();
   }
 }

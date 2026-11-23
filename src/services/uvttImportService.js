@@ -16,21 +16,26 @@ import { createWallSegment, WALL_TYPES } from '../schemas/vttWallSchema.js';
 export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sector') {
   const data = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
 
-  const pixelsPerGrid = data.resolution?.pixels_per_grid || 70;
-  const gridWidth = data.resolution?.map_size?.x || 30;
-  const gridHeight = data.resolution?.map_size?.y || 20;
+  const rawPpg = Number(data.resolution?.pixels_per_grid);
+  const rawGridW = Number(data.resolution?.map_size?.x);
+  const rawGridH = Number(data.resolution?.map_size?.y);
+  const pixelsPerGrid = Number.isFinite(rawPpg) ? Math.min(512, Math.max(16, rawPpg)) : 70;
+  const gridWidth = Number.isFinite(rawGridW) ? Math.min(500, Math.max(1, rawGridW)) : 30;
+  const gridHeight = Number.isFinite(rawGridH) ? Math.min(500, Math.max(1, rawGridH)) : 20;
 
   const totalWidth = gridWidth * pixelsPerGrid;
   const totalHeight = gridHeight * pixelsPerGrid;
 
-  // Format base64 image if present
+  // Format base64 raster image if present (strictly reject active SVG/HTML data URIs)
   let imageUrl = null;
-  if (data.image) {
-    if (data.image.startsWith('data:')) {
-      imageUrl = data.image;
-    } else {
-      // Default to webp/png base64 prefix
-      imageUrl = `data:image/png;base64,${data.image}`;
+  if (typeof data.image === 'string' && data.image.trim()) {
+    const rawImg = data.image.trim();
+    if (/^data:/i.test(rawImg)) {
+      if (/^data:image\/(png|jpeg|jpg|webp|gif);base64,[A-Za-z0-9+/=\s]+$/i.test(rawImg)) {
+        imageUrl = rawImg;
+      }
+    } else if (/^[A-Za-z0-9+/=\s]+$/.test(rawImg)) {
+      imageUrl = `data:image/png;base64,${rawImg}`;
     }
   }
 
@@ -49,7 +54,7 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
           y: Math.round((p1Raw.y !== undefined ? p1Raw.y : p1Raw[1]) * pixelsPerGrid)
         };
         const p2 = {
-          x: Math.round((p2Raw.x !== undefined ? p2Raw.x : p2Raw[1]) * pixelsPerGrid),
+          x: Math.round((p2Raw.x !== undefined ? p2Raw.x : p2Raw[0]) * pixelsPerGrid),
           y: Math.round((p2Raw.y !== undefined ? p2Raw.y : p2Raw[1]) * pixelsPerGrid)
         };
 
@@ -72,7 +77,7 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
         y: Math.round((p1Raw.y !== undefined ? p1Raw.y : p1Raw[1]) * pixelsPerGrid)
       };
       const p2 = {
-        x: Math.round((p2Raw.x !== undefined ? p2Raw.x : p2Raw[1]) * pixelsPerGrid),
+        x: Math.round((p2Raw.x !== undefined ? p2Raw.x : p2Raw[0]) * pixelsPerGrid),
         y: Math.round((p2Raw.y !== undefined ? p2Raw.y : p2Raw[1]) * pixelsPerGrid)
       };
 

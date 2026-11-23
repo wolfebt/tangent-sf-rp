@@ -83,15 +83,19 @@ const BANNER_ICON_COMPONENTS = {
 export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab = 'identity' }) => {
   const navigate = useNavigate();
   const { currentUser, refreshUserHandle, userRole, isAdmin, isGM, hasAdminClaim, hasCloudAdminAccess, isAuthorizedEmail, triggerBootSplash, confirmLogout } = useAuth() || {};
+  const isDevAdminOverride = Boolean(
+    import.meta.env?.DEV &&
+    typeof window !== 'undefined' &&
+    localStorage.getItem('omnicortex_admin_override') === 'true'
+  );
   const canManageMarquee = Boolean(
-    isAdmin || 
-    isGM || 
-    userRole === 'Admin' || 
-    userRole === 'GM' || 
-    userRole === 'Architect' || 
+    isAdmin ||
+    isGM ||
+    userRole === 'Admin' ||
+    userRole === 'GM' ||
+    userRole === 'Architect' ||
     hasCloudAdminAccess ||
-    !currentUser || 
-    (typeof window !== 'undefined' && localStorage.getItem('omnicortex_admin_override') !== 'false')
+    isDevAdminOverride
   );
   const confirm = useConfirm();
   const { showSuccessToast, showWarningToast, showErrorToast } = useToast() || {};

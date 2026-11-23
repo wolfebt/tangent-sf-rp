@@ -3,6 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/
 import { getFirestore, initializeFirestore, setLogLevel, disableNetwork } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAnalytics, isSupported } from "firebase/analytics";
+import { setInMemoryFirebaseIdToken } from "./utils/firebaseTokenStore.js";
 
 // Validate that all required Firebase env vars are present at startup.
 // Vite replaces import.meta.env values at build time — missing vars become undefined.
@@ -119,6 +120,7 @@ export const loginWithGoogle = async () => {
 
 export const logout = async () => {
   try {
+    setInMemoryFirebaseIdToken('');
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem('firebaseIdToken');
     }

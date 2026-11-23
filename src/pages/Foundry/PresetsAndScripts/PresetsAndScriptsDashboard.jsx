@@ -17,6 +17,7 @@ import { useStory } from '../../../context/CampaignContext';
 import { AudioService } from '../../../services/audioService';
 import { stepNpcPatrols } from '../../../services/reactiveVttService';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { useEngineStore } from '../../../engine/index';
 import { aggregateModuleAssets } from './utils/assetAggregator';
 
 // Modular Child Components
@@ -40,6 +41,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
     universeState = {},
     updateMap,
     updateStory,
+    updateUniverseMetadata,
     galleryModifiers = [],
     addGalleryModifier,
     updateGalleryModifier,
@@ -146,10 +148,10 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
       updated = [macro, ...customMacros];
     }
     setCustomMacros(updated);
-    if (updateStory && universeState?.id) {
-      updateStory(universeState.id, { scripts: updated });
+    if (typeof updateUniverseMetadata === 'function') {
+      updateUniverseMetadata({ scripts: updated });
     }
-  }, [customMacros, updateStory, universeState?.id]);
+  }, [customMacros, updateUniverseMetadata]);
 
   // Attach QuickJS Macro to specific module asset
   const handleAttachMacroToAsset = useCallback(async (asset, macroCode) => {
@@ -186,7 +188,6 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
   }, [allMaps, updateMap]);
 
   // In-Situ Step Simulation Turn: advances NPC patrols across the active map on the Stage
-  // Satisfies user decision 2: "in situ"!
   const handleStepSimulationTurn = useCallback(() => {
     const activeMap = allMaps.find(m => m.id === selectedMapId) || allMaps[0];
     if (!activeMap || !activeMap.tokens?.length) {
@@ -199,11 +200,33 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
       updateMap(activeMap.id, { tokens: updatedTokens });
     }
 
-    // Trigger in-situ alert signal on VTT Stage
-    VttEventBus.emit('story-waypoint-tripped', {
-      waypoint: { name: 'Simulation Advance' },
-      action: 'ADVANCE_SCENARIO'
+    // Reflect stepped patrol coordinates immediately in live Stage engineStore if loaded
+    const eng = useEngineStore.getState();
+    updatedTokens.forEach((tok) => {
+      if (eng.ephemeralData?.[tok.id]) {
+        eng.updatePosition(tok.id, tok.x, tok.y);
+      }
     });
+
+    // Only emit story-waypoint-tripped when a stepped unit genuinely crosses a real untriggered waypoint
+    const waypoints = activeMap.waypoints || [];
+    updatedTokens.forEach((tok) => {
+      waypoints.forEach((wp) => {
+        if (wp.isTriggered) return;
+        const radius = wp.radius || 60;
+        if (Math.hypot((tok.x || 0) - (wp.x || 0), (tok.y || 0) - (wp.y || 0)) <= radius) {
+          VttEventBus.emit('story-waypoint-tripped', {
+            waypoint: wp,
+            token: tok,
+            action: wp.triggerAction || 'REVEAL_BEAT',
+            targetScenarioId: wp.targetScenarioId,
+            beat: wp.readAloudText
+          });
+        }
+      });
+    });
+
+    AudioService.playTerminalBeep(1200, 0.04);
   }, [allMaps, selectedMapId, updateMap]);
 
   return (

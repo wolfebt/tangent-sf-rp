@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AudioService } from '../../../../services/audioService';
 import { generateContent } from '../../../../services/aimeService';
 import { 
@@ -69,9 +69,19 @@ export const NpcScriptBuilder = ({
   const [vipTarget, setVipTarget] = useState(fields.vipTarget || '');
   const [rivalTarget, setRivalTarget] = useState(fields.rivalTarget || '');
   const [isSynthesizingScript, setIsSynthesizingScript] = useState(false);
+  const didMountRef = useRef(false);
 
-  // Serialize script state whenever any parameter changes
+  // Serialize script state whenever user modifies parameters after mount
   useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+
+    onFieldChange?.('relationsStance', relationsStance);
+    onFieldChange?.('vipTarget', vipTarget);
+    onFieldChange?.('rivalTarget', rivalTarget);
+
     if (!isEnabled) {
       onFieldChange?.('vttScriptActive', 'false');
       return;
@@ -95,9 +105,6 @@ export const NpcScriptBuilder = ({
 
     onFieldChange?.('vttScriptActive', 'true');
     onFieldChange?.('vttScript', JSON.stringify(scriptObject, null, 2));
-    onFieldChange?.('relationsStance', relationsStance);
-    onFieldChange?.('vipTarget', vipTarget);
-    onFieldChange?.('rivalTarget', rivalTarget);
   }, [
     isEnabled,
     routineType,

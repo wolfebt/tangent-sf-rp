@@ -3,6 +3,44 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // =========================================================================
+    // ASSUMED DATA MODEL
+    // =========================================================================
+    //
+    // - Omnicortex DBM Reference Collections (archetypes..world_design) &
+    //   system_settings/{settingId}: Public read, Admin/GM write.
+    // - users/{userId}: Public-safe operator roster/presence profile; blocks
+    //   geminiApiKey/otherAiApiKey writes and restricts privileged fields
+    //   (role, isAdmin, admin) to admins; schema-validated on create & update.
+    // - users/{userId}/private_settings/{docId}: Strictly owner-only PII/settings;
+    //   blocks geminiApiKey/otherAiApiKey writes; schema-validated on create & update.
+    // - game_groups/{groupId}: Authenticated squad roster; private reads restricted
+    //   to members/coArchitects/creator/admin; updates partitioned by role (creator,
+    //   coArchitect, member self-service/leave, or public-only self-join).
+    // - group_invites/{inviteId}: Scoped read/write to toUserId, fromUserId, admin;
+    //   create bound to fromUserId == uid, group authorization, status == 'pending';
+    //   strict state transitions and immutable IDs on update.
+    // - lft_personas/{lftId}: Authenticated LFT listings; owner-scoped writes with
+    //   cross-field poisoning prevention and schema validation.
+    // - users/{userId}/personas/{personaId}, /{path=**}/personas/{personaId},
+    //   /personas/{personaId}, /Campaigns/{campaignId}/personas/{personaId}:
+    //   Owner-only or Campaign-GM shared read/write; recursive wildcard write disabled
+    //   to prevent cross-user overwrite; strict schema validation.
+    // - characters/{charId}: Scoped ownership or Campaign-GM shared access with
+    //   cross-field poisoning prevention, immutable owner fields, and schema checks.
+    // - user_stories, story_elements, story_maps: Public read only if isPublic == true;
+    //   private read/write scoped to owner/creator/author or admin with schema validation.
+    // - spectator_maps/{mapId}: Sanitized public get-by-ID projection; list restricted
+    //   to author/creator/campaign-GM/admin; parent story_map anti-hijack check and
+    //   strict schema validation via isValidSpectatorMap().
+    // - channels/{channelId} & messages/{messageId}: Authenticated reads/writes only;
+    //   writes/deletes restricted to channel/group members, owner, or admins; group_chan_*
+    //   linked to verified game_groups; strict DM membership and message schema validation.
+    // - Campaigns/{campaignId} & Sessions/{sessionId}: Authenticated reads/writes
+    //   restricted to campaign owner, invited GMs (gmIds), or session participants
+    //   (memberIds); explicit ownerId required on create, immutable ownerId, and
+    //   strict schema validation via isValidCampaign() & isValidCampaignSession().
+    //
+    // =========================================================================
     // HELPER FUNCTIONS
     // =========================================================================
     function isAuthenticated() {
@@ -11,14 +49,68 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() && (
-        request.auth.token.admin == true || 
-        request.auth.token.role == 'GM' ||
-        request.auth.token.email == 'btw.284@gmail.com'
+        ('admin' in request.auth.token && request.auth.token.admin == true) ||
+        ('role' in request.auth.token && request.auth.token.role == 'GM') ||
+        ('email_verified' in request.auth.token && 'email' in request.auth.token && request.auth.token.email_verified == true && request.auth.token.email == 'btw.284@gmail.com')
       );
     }
 
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidOptionalString(data, field, minLen, maxLen) {
+      return !(field in data) || (data[field] is string && data[field].size() >= minLen && data[field].size() <= maxLen);
+    }
+
+    function isValidOptionalNullableString(data, field, maxLen) {
+      return !(field in data) || data[field] == null || (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    function isValidOptionalDateField(data, field) {
+      return !(field in data) || data[field] == null || data[field] is timestamp || (data[field] is string && data[field].size() <= 100);
+    }
+
+    function isCampaignGmOrOwner(campaignId) {
+      return campaignId is string
+        && campaignId.size() > 0
+        && exists(/databases/$(database)/documents/Campaigns/$(campaignId))
+        && (
+          get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.get('ownerId', '') == request.auth.uid
+          || (
+            'gmIds' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data
+            && get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.gmIds is list
+            && request.auth.uid in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.gmIds
+          )
+        );
+    }
+
+    function isGroupManager(groupId) {
+      return groupId is string
+        && groupId.size() > 0
+        && exists(/databases/$(database)/documents/game_groups/$(groupId))
+        && (
+          get(/databases/$(database)/documents/game_groups/$(groupId)).data.get('creatorId', '') == request.auth.uid
+          || (
+            'coArchitects' in get(/databases/$(database)/documents/game_groups/$(groupId)).data
+            && get(/databases/$(database)/documents/game_groups/$(groupId)).data.coArchitects is list
+            && request.auth.uid in get(/databases/$(database)/documents/game_groups/$(groupId)).data.coArchitects
+          )
+        );
+    }
+
+    function isCampaignGmForResource(data) {
+      return (
+        'campaignId' in data
+        && data.campaignId is string
+        && data.campaignId.size() > 0
+        && isCampaignGmOrOwner(data.campaignId)
+      ) || (
+        'groupId' in data
+        && data.groupId is string
+        && data.groupId.size() > 0
+        && isGroupManager(data.groupId)
+      );
     }
 
     // =========================================================================
@@ -119,60 +211,369 @@ service cloud.firestore {
     // =========================================================================
     // 3. USER PROFILES & USER SETTINGS
     // =========================================================================
+    function isValidUserProfile(data) {
+      return isValidOptionalNullableString(data, 'uid', 128)
+        && isValidOptionalNullableString(data, 'displayName', 128)
+        && isValidOptionalNullableString(data, 'userHandle', 128)
+        && isValidOptionalNullableString(data, 'status', 64)
+        && isValidOptionalNullableString(data, 'presenceState', 64)
+        && isValidOptionalNullableString(data, 'statusMessage', 300)
+        && isValidOptionalNullableString(data, 'photoURL', 2048)
+        && (!('isTempHandle' in data) || data.isTempHandle is bool)
+        && (!('handleSet' in data) || data.handleSet is bool)
+        && isValidOptionalNullableString(data, 'activeSquadId', 128)
+        && isValidOptionalDateField(data, 'lastSeen')
+        && isValidOptionalDateField(data, 'lastSeenLocal')
+        && isValidOptionalDateField(data, 'createdAt')
+        && isValidOptionalDateField(data, 'updatedAt')
+        && (!('activity' in data) || data.activity == null || (data.activity is string && data.activity.size() <= 300) || (data.activity is map && data.activity.keys().size() <= 20))
+        && (!('currentPersona' in data) || data.currentPersona == null || (data.currentPersona is map && data.currentPersona.keys().size() <= 30))
+        && (!('personas' in data) || data.personas == null || (data.personas is list && data.personas.size() <= 100))
+        && (!('deletedPersonaIds' in data) || data.deletedPersonaIds == null || (data.deletedPersonaIds is list && data.deletedPersonaIds.size() <= 500));
+    }
+
+    function isValidPrivateSettings(data) {
+      return data.keys().hasOnly([
+          'email', 'emailOptIn', 'emailOptInUpdatedAt', 'userContactInfo',
+          'aiPlatform', 'customEndpoint', 'updatedAt', 'createdAt'
+        ])
+        && isValidOptionalNullableString(data, 'email', 320)
+        && (!('emailOptIn' in data) || data.emailOptIn is bool)
+        && isValidOptionalDateField(data, 'emailOptInUpdatedAt')
+        && isValidOptionalNullableString(data, 'userContactInfo', 500)
+        && isValidOptionalNullableString(data, 'aiPlatform', 64)
+        && isValidOptionalNullableString(data, 'customEndpoint', 512)
+        && isValidOptionalDateField(data, 'updatedAt')
+        && isValidOptionalDateField(data, 'createdAt');
+    }
+
     match /users/{userId} {
       allow read: if isAuthenticated();
       allow create: if (isOwner(userId) || isAdmin())
                     && !('geminiApiKey' in request.resource.data)
-                    && !('otherAiApiKey' in request.resource.data);
+                    && !('otherAiApiKey' in request.resource.data)
+                    && (isAdmin() || (
+                      !request.resource.data.keys().hasAny(['role', 'isAdmin', 'admin'])
+                      && request.resource.data.keys().hasOnly([
+                        'uid', 'displayName', 'userHandle', 'status', 'presenceState',
+                        'statusMessage', 'photoURL', 'isTempHandle', 'handleSet',
+                        'activeSquadId', 'lastSeen', 'lastSeenLocal', 'createdAt',
+                        'updatedAt', 'activity', 'currentPersona', 'personas',
+                        'deletedPersonaIds'
+                      ])
+                      && (!('uid' in request.resource.data) || request.resource.data.uid == userId)
+                    ))
+                    && isValidUserProfile(request.resource.data);
       allow update: if (isOwner(userId) || isAdmin())
                     && (
                       !request.resource.data.diff(resource.data).affectedKeys().hasAny(['geminiApiKey', 'otherAiApiKey'])
                       || (!('geminiApiKey' in request.resource.data) && !('otherAiApiKey' in request.resource.data))
-                    );
+                    )
+                    && (isAdmin() || (
+                      !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'isAdmin', 'admin'])
+                      && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                        'uid', 'displayName', 'userHandle', 'status', 'presenceState',
+                        'statusMessage', 'photoURL', 'isTempHandle', 'handleSet',
+                        'activeSquadId', 'lastSeen', 'lastSeenLocal', 'createdAt',
+                        'updatedAt', 'activity', 'currentPersona', 'personas',
+                        'deletedPersonaIds'
+                      ])
+                      && (!('uid' in resource.data) || ('uid' in request.resource.data && request.resource.data.uid == resource.data.uid))
+                      && (!('uid' in request.resource.data) || request.resource.data.uid == userId)
+                    ))
+                    && isValidUserProfile(request.resource.data);
       allow delete: if isOwner(userId) || isAdmin();
 
       match /private_settings/{docId} {
         allow read, delete: if isOwner(userId);
         allow create: if isOwner(userId)
                       && !('geminiApiKey' in request.resource.data)
-                      && !('otherAiApiKey' in request.resource.data);
+                      && !('otherAiApiKey' in request.resource.data)
+                      && isValidPrivateSettings(request.resource.data);
         allow update: if isOwner(userId)
                       && (
                         !request.resource.data.diff(resource.data).affectedKeys().hasAny(['geminiApiKey', 'otherAiApiKey'])
                         || (!('geminiApiKey' in request.resource.data) && !('otherAiApiKey' in request.resource.data))
-                      );
+                      )
+                      && isValidPrivateSettings(request.resource.data);
       }
     }
 
     // =========================================================================
     // 4. GAME GROUPS & SQUAD ROSTERS
     // =========================================================================
+    function isValidGameGroup(data) {
+      return data.keys().hasOnly([
+          'id', 'name', 'description', 'gameSystem', 'campaignId', 'campaignTitle',
+          'inviteCode', 'creatorId', 'creatorHandle', 'createdAt', 'updatedAt',
+          'maxMembers', 'isPublic', 'status', 'channelId', 'members',
+          'coArchitects', 'memberDetails', 'lfp', 'leaderId', 'architectId',
+          'coArchitectId'
+        ])
+        && isValidOptionalString(data, 'id', 1, 128)
+        && ('creatorId' in data && data.creatorId is string && data.creatorId.size() > 0 && data.creatorId.size() <= 128)
+        && (!('name' in data) || (data.name is string && data.name.size() > 0 && data.name.size() <= 200))
+        && isValidOptionalNullableString(data, 'description', 4000)
+        && isValidOptionalNullableString(data, 'gameSystem', 128)
+        && isValidOptionalNullableString(data, 'campaignId', 128)
+        && isValidOptionalNullableString(data, 'campaignTitle', 300)
+        && isValidOptionalNullableString(data, 'inviteCode', 32)
+        && isValidOptionalNullableString(data, 'creatorHandle', 128)
+        && isValidOptionalDateField(data, 'createdAt')
+        && isValidOptionalDateField(data, 'updatedAt')
+        && (!('isPublic' in data) || data.isPublic is bool)
+        && isValidOptionalNullableString(data, 'status', 64)
+        && isValidOptionalNullableString(data, 'channelId', 128)
+        && (!('maxMembers' in data) || (data.maxMembers is number && data.maxMembers >= 1 && data.maxMembers <= 100))
+        && (!('members' in data) || (data.members is list && data.members.size() <= 100))
+        && (!('coArchitects' in data) || data.coArchitects == null || (data.coArchitects is list && data.coArchitects.size() <= 50))
+        && (!('memberDetails' in data) || (data.memberDetails is map && data.memberDetails.keys().size() <= 100))
+        && (!('lfp' in data) || data.lfp == null || (
+          data.lfp is map
+          && data.lfp.keys().hasOnly(['active', 'neededRoles', 'pitch', 'openSlots', 'updatedAt'])
+          && (!('active' in data.lfp) || data.lfp.active is bool)
+          && (!('neededRoles' in data.lfp) || (data.lfp.neededRoles is list && data.lfp.neededRoles.size() <= 20))
+          && isValidOptionalNullableString(data.lfp, 'pitch', 1000)
+          && (!('openSlots' in data.lfp) || (data.lfp.openSlots is number && data.lfp.openSlots >= 0 && data.lfp.openSlots <= 100))
+          && isValidOptionalDateField(data.lfp, 'updatedAt')
+        ))
+        && isValidOptionalNullableString(data, 'leaderId', 128)
+        && isValidOptionalNullableString(data, 'architectId', 128)
+        && isValidOptionalNullableString(data, 'coArchitectId', 128);
+    }
+
+    function isGroupCreator(data) {
+      return 'creatorId' in data && data.creatorId == request.auth.uid;
+    }
+
+    function isGroupCoArchitect(data) {
+      return 'coArchitects' in data && data.coArchitects is list && request.auth.uid in data.coArchitects;
+    }
+
+    function isGroupMember(data) {
+      return 'members' in data && data.members is list && request.auth.uid in data.members;
+    }
+
+    function isValidSelfMemberRole() {
+      return !('memberDetails' in request.resource.data)
+        || !(request.auth.uid in request.resource.data.memberDetails)
+        || !(request.resource.data.memberDetails[request.auth.uid] is map)
+        || !('role' in request.resource.data.memberDetails[request.auth.uid])
+        || request.resource.data.memberDetails[request.auth.uid].role == 'Operator'
+        || (
+          'memberDetails' in resource.data
+          && resource.data.memberDetails is map
+          && request.auth.uid in resource.data.memberDetails
+          && resource.data.memberDetails[request.auth.uid] is map
+          && request.resource.data.memberDetails[request.auth.uid].role == resource.data.memberDetails[request.auth.uid].get('role', 'Operator')
+        );
+    }
+
+    function isValidGroupMemberSelfUpdate(groupId) {
+      return (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberDetails', 'updatedAt'])
+        && 'memberDetails' in request.resource.data
+        && request.resource.data.memberDetails is map
+        && (
+          ('memberDetails' in resource.data && resource.data.memberDetails is map
+            && request.resource.data.memberDetails.diff(resource.data.memberDetails).affectedKeys().hasOnly([request.auth.uid]))
+          || ((!('memberDetails' in resource.data) || !(resource.data.memberDetails is map))
+            && request.resource.data.memberDetails.keys().hasOnly([request.auth.uid]))
+        )
+        && isValidSelfMemberRole()
+      ) || (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'memberDetails', 'updatedAt'])
+        && 'members' in resource.data
+        && resource.data.members is list
+        && 'members' in request.resource.data
+        && request.resource.data.members is list
+        && !(request.auth.uid in request.resource.data.members)
+        && resource.data.members.hasAll(request.resource.data.members)
+        && request.resource.data.members.size() == resource.data.members.size() - 1
+        && (
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny(['memberDetails'])
+          || (
+            'memberDetails' in resource.data
+            && resource.data.memberDetails is map
+            && 'memberDetails' in request.resource.data
+            && request.resource.data.memberDetails is map
+            && !(request.auth.uid in request.resource.data.memberDetails)
+            && resource.data.memberDetails.diff(request.resource.data.memberDetails).affectedKeys().hasOnly([request.auth.uid])
+          )
+        )
+      ) || (
+        resource.data.get('channelId', null) == null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['channelId', 'updatedAt'])
+        && request.resource.data.get('channelId', '') == 'group_chan_' + groupId
+      );
+    }
+
+    function isValidGroupSelfJoin() {
+      return 'isPublic' in resource.data
+        && resource.data.isPublic == true
+        && !isGroupMember(resource.data)
+        && !isGroupCreator(resource.data)
+        && !isGroupCoArchitect(resource.data)
+        && request.resource.data.get('creatorId', '') == resource.data.get('creatorId', '')
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'memberDetails', 'updatedAt'])
+        && 'members' in request.resource.data
+        && request.resource.data.members is list
+        && request.auth.uid in request.resource.data.members
+        && (
+          ('members' in resource.data && resource.data.members is list
+            && request.resource.data.members.hasAll(resource.data.members)
+            && request.resource.data.members.size() == resource.data.members.size() + 1)
+          || ((!('members' in resource.data) || !(resource.data.members is list))
+            && request.resource.data.members == [request.auth.uid])
+        )
+        && (!('maxMembers' in resource.data) || !(resource.data.maxMembers is number) || request.resource.data.members.size() <= resource.data.maxMembers)
+        && (
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny(['memberDetails'])
+          || (
+            'memberDetails' in request.resource.data
+            && request.resource.data.memberDetails is map
+            && (
+              ('memberDetails' in resource.data && resource.data.memberDetails is map
+                && request.resource.data.memberDetails.diff(resource.data.memberDetails).affectedKeys().hasOnly([request.auth.uid]))
+              || ((!('memberDetails' in resource.data) || !(resource.data.memberDetails is map))
+                && request.resource.data.memberDetails.keys().hasOnly([request.auth.uid]))
+            )
+            && isValidSelfMemberRole()
+          )
+        );
+    }
+
     match /game_groups/{groupId} {
-      allow read: if isAuthenticated() || resource.data.isPublic == true;
-      allow create: if isAuthenticated();
-      allow update: if isAuthenticated() && (
-        request.resource.data.creatorId == resource.data.creatorId
-        || resource.data.creatorId == request.auth.uid
-        || isAdmin()
-      ) && (
-        resource.data.creatorId == request.auth.uid 
-        || (resource.data.coArchitects != null && request.auth.uid in resource.data.coArchitects)
-        || (resource.data.members != null && request.auth.uid in resource.data.members)
-        || (request.resource.data.members != null && request.auth.uid in request.resource.data.members && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'memberDetails', 'updatedAt', 'channelId']))
+      allow read: if isAuthenticated() && (
+        resource.data.isPublic == true
+        || isGroupCreator(resource.data)
+        || isGroupCoArchitect(resource.data)
+        || isGroupMember(resource.data)
         || isAdmin()
       );
-      allow delete: if isAuthenticated() && (resource.data.creatorId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated()
+                    && isValidGameGroup(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        request.resource.data.creatorId == request.auth.uid
+                        && (!('members' in request.resource.data) || (
+                          request.resource.data.members.size() <= 1
+                          && (request.resource.data.members.size() == 0 || request.auth.uid in request.resource.data.members)
+                        ))
+                        && (!('coArchitects' in request.resource.data) || request.resource.data.coArchitects == null || request.resource.data.coArchitects.size() == 0)
+                      )
+                    );
+      allow update: if isAuthenticated()
+                    && isValidGameGroup(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        isGroupCreator(resource.data)
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['id'])
+                      )
+                      || (
+                        isGroupCoArchitect(resource.data)
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['creatorId', 'id'])
+                        && (
+                          !('members' in resource.data)
+                          || !(resource.data.creatorId in resource.data.members)
+                          || ('members' in request.resource.data && resource.data.creatorId in request.resource.data.members)
+                        )
+                      )
+                      || (
+                        isGroupMember(resource.data)
+                        && isValidGroupMemberSelfUpdate(groupId)
+                      )
+                      || isValidGroupSelfJoin()
+                    );
+      allow delete: if isAuthenticated() && (resource.data.get('creatorId', '') == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
     // 5. GROUP & SQUAD INVITATIONS
     // =========================================================================
+    function isValidGroupInvite(data) {
+      return data.keys().hasOnly([
+          'id', 'groupId', 'groupName', 'channelId', 'fromUserId',
+          'fromUserHandle', 'toUserId', 'toUserHandle', 'status',
+          'createdAt', 'respondedAt', 'revokedAt', 'groupMetadata'
+        ])
+        && isValidOptionalString(data, 'id', 1, 128)
+        && 'fromUserId' in data && data.fromUserId is string && data.fromUserId.size() > 0 && data.fromUserId.size() <= 128
+        && 'toUserId' in data && data.toUserId is string && data.toUserId.size() > 0 && data.toUserId.size() <= 128
+        && 'groupId' in data && data.groupId is string && data.groupId.size() > 0 && data.groupId.size() <= 128
+        && 'status' in data && data.status in ['pending', 'accepted', 'declined', 'revoked']
+        && isValidOptionalNullableString(data, 'groupName', 200)
+        && isValidOptionalNullableString(data, 'channelId', 128)
+        && isValidOptionalNullableString(data, 'fromUserHandle', 128)
+        && isValidOptionalNullableString(data, 'toUserHandle', 128)
+        && isValidOptionalDateField(data, 'createdAt')
+        && isValidOptionalDateField(data, 'respondedAt')
+        && isValidOptionalDateField(data, 'revokedAt')
+        && (!('groupMetadata' in data) || data.groupMetadata == null || (data.groupMetadata is map && data.groupMetadata.keys().size() <= 20));
+    }
+
+    function canSendInviteForGroup(groupId) {
+      return !exists(/databases/$(database)/documents/game_groups/$(groupId))
+        || (
+          get(/databases/$(database)/documents/game_groups/$(groupId)).data.get('creatorId', '') == request.auth.uid
+          || (
+            'coArchitects' in get(/databases/$(database)/documents/game_groups/$(groupId)).data
+            && get(/databases/$(database)/documents/game_groups/$(groupId)).data.coArchitects is list
+            && request.auth.uid in get(/databases/$(database)/documents/game_groups/$(groupId)).data.coArchitects
+          )
+          || (
+            'members' in get(/databases/$(database)/documents/game_groups/$(groupId)).data
+            && get(/databases/$(database)/documents/game_groups/$(groupId)).data.members is list
+            && request.auth.uid in get(/databases/$(database)/documents/game_groups/$(groupId)).data.members
+          )
+        );
+    }
+
     match /group_invites/{inviteId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated();
-      allow update, delete: if isAuthenticated() && (
-        resource.data.toUserId == request.auth.uid 
-        || resource.data.fromUserId == request.auth.uid 
+      allow read: if isAuthenticated() && (
+        resource.data.toUserId == request.auth.uid
+        || resource.data.fromUserId == request.auth.uid
+        || isAdmin()
+      );
+      allow create: if isAuthenticated()
+                    && isValidGroupInvite(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        request.resource.data.fromUserId == request.auth.uid
+                        && request.resource.data.status == 'pending'
+                        && canSendInviteForGroup(request.resource.data.groupId)
+                      )
+                    );
+      allow update: if isAuthenticated()
+                    && isValidGroupInvite(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        resource.data.status == 'pending'
+                        && request.resource.data.fromUserId == resource.data.fromUserId
+                        && request.resource.data.toUserId == resource.data.toUserId
+                        && request.resource.data.groupId == resource.data.groupId
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['id', 'channelId', 'createdAt', 'groupMetadata'])
+                        && (
+                          (
+                            resource.data.toUserId == request.auth.uid
+                            && request.resource.data.status in ['accepted', 'declined']
+                            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'respondedAt'])
+                          )
+                          || (
+                            resource.data.fromUserId == request.auth.uid
+                            && request.resource.data.status == 'revoked'
+                            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'revokedAt'])
+                          )
+                        )
+                      )
+                    );
+      allow delete: if isAuthenticated() && (
+        resource.data.toUserId == request.auth.uid
+        || resource.data.fromUserId == request.auth.uid
         || isAdmin()
       );
     }
@@ -180,21 +581,57 @@ service cloud.firestore {
     // =========================================================================
     // 6. LOOKING FOR TEAM (LFT) PERSONAS
     // =========================================================================
+    function isValidLftPersona(data) {
+      return data.keys().hasOnly([
+          'id', 'personaId', 'name', 'species', 'concept', 'avatar',
+          'health', 'vitality', 'operatorUid', 'operatorHandle', 'userId',
+          'preferredRoles', 'pitch', 'active', 'updatedAt', 'createdAt'
+        ])
+        && ('operatorUid' in data || 'userId' in data)
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalString(data, 'personaId', 1, 128)
+        && isValidOptionalNullableString(data, 'name', 200)
+        && isValidOptionalNullableString(data, 'species', 128)
+        && isValidOptionalNullableString(data, 'concept', 200)
+        && isValidOptionalNullableString(data, 'avatar', 2048)
+        && (!('health' in data) || data.health is number)
+        && (!('vitality' in data) || data.vitality is number)
+        && isValidOptionalString(data, 'operatorUid', 1, 128)
+        && isValidOptionalString(data, 'userId', 1, 128)
+        && isValidOptionalNullableString(data, 'operatorHandle', 128)
+        && (!('preferredRoles' in data) || (data.preferredRoles is list && data.preferredRoles.size() <= 20))
+        && isValidOptionalNullableString(data, 'pitch', 2000)
+        && (!('active' in data) || data.active is bool)
+        && isValidOptionalDateField(data, 'updatedAt')
+        && isValidOptionalDateField(data, 'createdAt');
+    }
+
     match /lft_personas/{lftId} {
       allow read: if isAuthenticated();
-      allow create: if isAuthenticated() && (
-        request.resource.data.userId == request.auth.uid
-        || request.resource.data.operatorUid == request.auth.uid
-        || isAdmin()
-      );
-      allow update: if isAuthenticated() && (
-        (resource.data.operatorUid == request.auth.uid && request.resource.data.operatorUid == request.auth.uid)
-        || (resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid)
-        || isAdmin()
-      );
+      allow create: if isAuthenticated()
+                    && isValidLftPersona(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        (request.resource.data.get('userId', '') == request.auth.uid || request.resource.data.get('operatorUid', '') == request.auth.uid)
+                        && (!('userId' in request.resource.data) || request.resource.data.userId == request.auth.uid)
+                        && (!('operatorUid' in request.resource.data) || request.resource.data.operatorUid == request.auth.uid)
+                      )
+                    );
+      allow update: if isAuthenticated()
+                    && isValidLftPersona(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        (resource.data.get('operatorUid', '') == request.auth.uid || resource.data.get('userId', '') == request.auth.uid)
+                        && request.resource.data.get('operatorUid', '') == resource.data.get('operatorUid', '')
+                        && request.resource.data.get('userId', '') == resource.data.get('userId', '')
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['id', 'personaId'])
+                      )
+                    );
       allow delete: if isAuthenticated() && (
-        resource.data.userId == request.auth.uid
-        || resource.data.operatorUid == request.auth.uid
+        resource.data.get('userId', '') == request.auth.uid
+        || resource.data.get('operatorUid', '') == request.auth.uid
         || isAdmin()
       );
     }
@@ -202,48 +639,469 @@ service cloud.firestore {
     // =========================================================================
     // 7. PERSONA FOLIO DATA & CHARACTERS
     // =========================================================================
+    function isOwnerFieldValidOnCreate(data, field) {
+      return !(field in data) || data[field] in [request.auth.uid, 'local'];
+    }
+
+    function hasNoCrossFieldOwnershipPoisoning(data) {
+      return isOwnerFieldValidOnCreate(data, 'userId')
+        && isOwnerFieldValidOnCreate(data, 'ownerId')
+        && isOwnerFieldValidOnCreate(data, 'ownerUid')
+        && isOwnerFieldValidOnCreate(data, 'authorUid')
+        && isOwnerFieldValidOnCreate(data, 'creatorId');
+    }
+
+    function isOwnerFieldImmutableOnUpdate(field) {
+      return (
+        !(field in resource.data)
+        && (!(field in request.resource.data) || request.resource.data[field] == request.auth.uid)
+      ) || (
+        (field in resource.data)
+        && (field in request.resource.data)
+        && (
+          request.resource.data[field] == resource.data[field]
+          || (resource.data[field] == 'local' && request.resource.data[field] == request.auth.uid)
+        )
+      );
+    }
+
+    function areOwnerFieldsUnchangedOnUpdate() {
+      return isOwnerFieldImmutableOnUpdate('userId')
+        && isOwnerFieldImmutableOnUpdate('ownerId')
+        && isOwnerFieldImmutableOnUpdate('ownerUid')
+        && isOwnerFieldImmutableOnUpdate('authorUid')
+        && isOwnerFieldImmutableOnUpdate('creatorId');
+    }
+
+    function isValidPersona(data) {
+      return data is map
+        && data.keys().size() <= 150
+        && !data.keys().hasAny(['role', 'isAdmin', 'admin', 'geminiApiKey', 'otherAiApiKey'])
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalString(data, 'character-doc-id', 1, 128)
+        && isValidOptionalString(data, 'ownerUid', 1, 128)
+        && isValidOptionalString(data, 'ownerId', 1, 128)
+        && isValidOptionalString(data, 'userId', 1, 128)
+        && isValidOptionalNullableString(data, 'name', 200)
+        && isValidOptionalNullableString(data, 'char-name', 200)
+        && isValidOptionalNullableString(data, 'campaignId', 128)
+        && isValidOptionalNullableString(data, 'groupId', 128)
+        && (!('isPublic' in data) || data.isPublic is bool)
+        && (!('is_locked' in data) || data.is_locked is bool)
+        && (!('is_ready_for_vtt' in data) || data.is_ready_for_vtt is bool)
+        && isValidOptionalDateField(data, 'updatedAt')
+        && isValidOptionalDateField(data, 'createdAt');
+    }
+
+    function isPersonaOwner(data) {
+      return data.get('ownerUid', '') == request.auth.uid
+        || data.get('ownerId', '') == request.auth.uid
+        || data.get('userId', '') == request.auth.uid;
+    }
+
     match /users/{userId}/personas/{personaId} {
       allow read: if isOwner(userId) || resource.data.isPublic == true || isAdmin();
       allow write: if isOwner(userId) || isAdmin();
     }
 
+    // CollectionGroup read-only projection for public/shared personas; writes disabled
+    // to prevent cross-user overwrite through recursive wildcard overlap.
     match /{path=**}/personas/{personaId} {
-      allow read: if resource.data.isPublic == true 
-                  || (isAuthenticated() && (request.auth.uid == resource.data.ownerUid || isAdmin()));
-      allow write: if isAuthenticated() && (request.auth.uid == resource.data.ownerUid || isAdmin());
+      allow read: if resource.data.isPublic == true
+                  || (isAuthenticated() && (
+                    request.auth.uid == resource.data.get('ownerUid', '')
+                    || request.auth.uid == resource.data.get('ownerId', '')
+                    || request.auth.uid == resource.data.get('userId', '')
+                    || isCampaignGmForResource(resource.data)
+                    || isAdmin()
+                  ));
+      allow write: if false;
+    }
+
+    function isStrictPersonaOwnerFieldsOnCreate(data) {
+      return (!('userId' in data) || data.userId == request.auth.uid)
+        && (!('ownerId' in data) || data.ownerId == request.auth.uid)
+        && (!('ownerUid' in data) || data.ownerUid == request.auth.uid)
+        && (!('authorUid' in data) || data.authorUid == request.auth.uid)
+        && (!('creatorId' in data) || data.creatorId == request.auth.uid);
+    }
+
+    match /personas/{personaId} {
+      allow read: if isAuthenticated() && (
+        isPersonaOwner(resource.data)
+        || isCampaignGmForResource(resource.data)
+        || resource.data.isPublic == true
+        || isAdmin()
+      );
+      allow create: if isAuthenticated()
+                    && isValidPersona(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        isPersonaOwner(request.resource.data)
+                        && isStrictPersonaOwnerFieldsOnCreate(request.resource.data)
+                      )
+                    );
+      allow update: if isAuthenticated()
+                    && isValidPersona(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        (isPersonaOwner(resource.data) || isCampaignGmForResource(resource.data))
+                        && areOwnerFieldsUnchangedOnUpdate()
+                        && (
+                          isPersonaOwner(resource.data)
+                          || !request.resource.data.diff(resource.data).affectedKeys().hasAny(['campaignId', 'groupId', 'isPublic'])
+                        )
+                      )
+                    );
+      allow delete: if isAuthenticated() && (
+        isPersonaOwner(resource.data)
+        || isAdmin()
+      );
+    }
+
+    match /Campaigns/{campaignId}/personas/{personaId} {
+      allow read: if isAuthenticated() && (
+        isAdmin()
+        || (isParentCampaignAuthorized(campaignId) && (
+          isPersonaOwner(resource.data)
+          || isCampaignGmOrOwner(campaignId)
+        ))
+      );
+      allow create: if isAuthenticated()
+                    && isValidPersona(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        isParentCampaignAuthorized(campaignId)
+                        && isPersonaOwner(request.resource.data)
+                        && isStrictPersonaOwnerFieldsOnCreate(request.resource.data)
+                        && (!('campaignId' in request.resource.data) || request.resource.data.campaignId == campaignId)
+                      )
+                    );
+      allow update: if isAuthenticated()
+                    && isValidPersona(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        isParentCampaignAuthorized(campaignId)
+                        && (isPersonaOwner(resource.data) || isCampaignGmOrOwner(campaignId))
+                        && areOwnerFieldsUnchangedOnUpdate()
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['campaignId'])
+                      )
+                    );
+      allow delete: if isAuthenticated() && (
+        isAdmin()
+        || (isParentCampaignAuthorized(campaignId) && (isPersonaOwner(resource.data) || isCampaignGmOrOwner(campaignId)))
+      );
+    }
+
+    function isValidCharacter(data) {
+      return data is map
+        && data.keys().size() <= 150
+        && !data.keys().hasAny(['role', 'isAdmin', 'admin', 'geminiApiKey', 'otherAiApiKey'])
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalString(data, 'userId', 1, 128)
+        && isValidOptionalString(data, 'ownerId', 1, 128)
+        && isValidOptionalNullableString(data, 'name', 200)
+        && isValidOptionalNullableString(data, 'char-name', 200)
+        && isValidOptionalNullableString(data, 'campaignId', 128)
+        && isValidOptionalNullableString(data, 'groupId', 128)
+        && (!('isPublic' in data) || data.isPublic is bool)
+        && isValidOptionalDateField(data, 'updatedAt')
+        && isValidOptionalDateField(data, 'createdAt');
     }
 
     match /characters/{charId} {
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.ownerId == request.auth.uid || resource.data.isPublic == true || isAdmin());
-      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.ownerId == request.auth.uid);
-      allow update, delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.ownerId == request.auth.uid || isAdmin());
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid
+        || resource.data.ownerId == request.auth.uid
+        || isCampaignGmForResource(resource.data)
+        || resource.data.isPublic == true
+        || isAdmin()
+      );
+      allow create: if isAuthenticated()
+                    && isValidCharacter(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        (request.resource.data.get('userId', '') == request.auth.uid || request.resource.data.get('ownerId', '') == request.auth.uid)
+                        && hasNoCrossFieldOwnershipPoisoning(request.resource.data)
+                      )
+                    );
+      allow update: if isAuthenticated()
+                    && isValidCharacter(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        (resource.data.get('userId', '') == request.auth.uid || resource.data.get('ownerId', '') == request.auth.uid || isCampaignGmForResource(resource.data))
+                        && areOwnerFieldsUnchangedOnUpdate()
+                      )
+                    );
+      allow delete: if isAuthenticated() && (resource.data.get('userId', '') == request.auth.uid || resource.data.get('ownerId', '') == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
     // 8. STORY FOUNDRY: USER STORIES & CAMPAIGNS
     // =========================================================================
+    function isValidUserStory(data) {
+      return data is map
+        && data.keys().size() <= 80
+        && !data.keys().hasAny(['role', 'isAdmin', 'admin', 'geminiApiKey', 'otherAiApiKey'])
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalNullableString(data, 'projectName', 300)
+        && isValidOptionalNullableString(data, 'title', 300)
+        && isValidOptionalNullableString(data, 'name', 300)
+        && isValidOptionalNullableString(data, 'description', 10000)
+        && isValidOptionalNullableString(data, 'type', 64)
+        && isValidOptionalNullableString(data, 'ownerId', 128)
+        && isValidOptionalNullableString(data, 'creatorId', 128)
+        && isValidOptionalNullableString(data, 'creatorHandle', 128)
+        && (!('isPublic' in data) || data.isPublic is bool)
+        && (!('scenarios' in data) || (data.scenarios is list && data.scenarios.size() <= 1000))
+        && (!('maps' in data) || (data.maps is list && data.maps.size() <= 500))
+        && (!('galleryModifiers' in data) || (data.galleryModifiers is list && data.galleryModifiers.size() <= 500))
+        && isValidOptionalDateField(data, 'updatedAt')
+        && isValidOptionalDateField(data, 'createdAt');
+    }
+
     match /user_stories/{storyId} {
-      allow read: if isAuthenticated() || resource.data.isPublic == true;
-      allow create: if isAuthenticated() && (request.resource.data.ownerId == request.auth.uid || request.resource.data.creatorId == request.auth.uid);
-      allow update, delete: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin());
+      allow read: if resource.data.isPublic == true || (isAuthenticated() && (resource.data.ownerId == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin()));
+      allow create: if isAuthenticated()
+                    && (
+                      isAdmin()
+                      || (
+                        (request.resource.data.get('ownerId', '') == request.auth.uid || request.resource.data.get('creatorId', '') == request.auth.uid)
+                        && hasNoCrossFieldOwnershipPoisoning(request.resource.data)
+                      )
+                    )
+                    && isValidUserStory(request.resource.data);
+      allow update: if isAuthenticated()
+                    && (
+                      isAdmin()
+                      || (
+                        (resource.data.get('ownerId', '') == request.auth.uid || resource.data.get('creatorId', '') == request.auth.uid)
+                        && areOwnerFieldsUnchangedOnUpdate()
+                      )
+                    )
+                    && isValidUserStory(request.resource.data);
+      allow delete: if isAuthenticated() && (resource.data.get('ownerId', '') == request.auth.uid || resource.data.get('creatorId', '') == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
     // 9. STORY FOUNDRY: INDEPENDENT SCENARIO ELEMENTS
     // =========================================================================
+    function isValidStoryElement(data) {
+      return data is map
+        && data.keys().size() <= 80
+        && !data.keys().hasAny(['role', 'isAdmin', 'admin', 'geminiApiKey', 'otherAiApiKey'])
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalNullableString(data, 'title', 300)
+        && isValidOptionalNullableString(data, 'name', 300)
+        && isValidOptionalNullableString(data, 'type', 64)
+        && isValidOptionalNullableString(data, 'description', 20000)
+        && isValidOptionalNullableString(data, 'content', 100000)
+        && isValidOptionalNullableString(data, 'notes', 50000)
+        && isValidOptionalNullableString(data, 'gmNotes', 50000)
+        && isValidOptionalNullableString(data, 'imageUrl', 2048)
+        && isValidOptionalNullableString(data, 'storyId', 128)
+        && isValidOptionalNullableString(data, 'authorUid', 128)
+        && isValidOptionalNullableString(data, 'creatorId', 128)
+        && isValidOptionalNullableString(data, 'authorHandle', 128)
+        && (!('isPublic' in data) || data.isPublic is bool)
+        && (!('tags' in data) || (data.tags is list && data.tags.size() <= 100))
+        && (!('children' in data) || (data.children is list && data.children.size() <= 500))
+        && (!('fields' in data) || data.fields == null || data.fields is map)
+        && isValidOptionalDateField(data, 'updatedAt')
+        && isValidOptionalDateField(data, 'createdAt');
+    }
+
     match /story_elements/{elementId} {
-      allow read: if isAuthenticated() || resource.data.isPublic == true;
-      allow create: if isAuthenticated() && (request.resource.data.authorUid == request.auth.uid || request.resource.data.creatorId == request.auth.uid);
-      allow update, delete: if isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin());
+      allow read: if resource.data.isPublic == true || (isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin()));
+      allow create: if isAuthenticated()
+                    && (
+                      isAdmin()
+                      || (
+                        (request.resource.data.get('authorUid', '') == request.auth.uid || request.resource.data.get('creatorId', '') == request.auth.uid)
+                        && hasNoCrossFieldOwnershipPoisoning(request.resource.data)
+                      )
+                    )
+                    && isValidStoryElement(request.resource.data);
+      allow update: if isAuthenticated()
+                    && (
+                      isAdmin()
+                      || (
+                        (resource.data.get('authorUid', '') == request.auth.uid || resource.data.get('creatorId', '') == request.auth.uid)
+                        && areOwnerFieldsUnchangedOnUpdate()
+                      )
+                    )
+                    && isValidStoryElement(request.resource.data);
+      allow delete: if isAuthenticated() && (resource.data.get('authorUid', '') == request.auth.uid || resource.data.get('creatorId', '') == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
     // 10. STORY FOUNDRY: TACTICAL MAPS
     // =========================================================================
+    function isValidStoryMap(data) {
+      return data is map
+        && data.keys().size() <= 80
+        && !data.keys().hasAny(['role', 'isAdmin', 'admin', 'geminiApiKey', 'otherAiApiKey'])
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalNullableString(data, 'title', 300)
+        && isValidOptionalNullableString(data, 'name', 300)
+        && isValidOptionalNullableString(data, 'type', 64)
+        && isValidOptionalNullableString(data, 'storyId', 128)
+        && isValidOptionalNullableString(data, 'campaignId', 128)
+        && isValidOptionalNullableString(data, 'groupId', 128)
+        && isValidOptionalNullableString(data, 'authorUid', 128)
+        && isValidOptionalNullableString(data, 'creatorId', 128)
+        && isValidOptionalNullableString(data, 'authorHandle', 128)
+        && (!('width' in data) || (data.width is number && data.width > 0 && data.width <= 100000))
+        && (!('height' in data) || (data.height is number && data.height > 0 && data.height <= 100000))
+        && isValidOptionalNullableString(data, 'gridMode', 32)
+        && (!('fogEnabled' in data) || data.fogEnabled is bool)
+        && (!('isSpectatorLive' in data) || data.isSpectatorLive is bool)
+        && (!('isPublic' in data) || data.isPublic is bool)
+        && (!('lines' in data) || (data.lines is list && data.lines.size() <= 10000))
+        && (!('layers' in data) || (data.layers is list && data.layers.size() <= 100))
+        && (!('tokens' in data) || (data.tokens is list && data.tokens.size() <= 2000))
+        && (!('objects' in data) || (data.objects is list && data.objects.size() <= 10000))
+        && (!('texts' in data) || (data.texts is list && data.texts.size() <= 2000))
+        && (!('terrains' in data) || (data.terrains is list && data.terrains.size() <= 10000))
+        && (!('fog' in data) || (data.fog is list && data.fog.size() <= 10000))
+        && (!('walls' in data) || (data.walls is list && data.walls.size() <= 10000))
+        && isValidOptionalDateField(data, 'updatedAt')
+        && isValidOptionalDateField(data, 'createdAt');
+    }
+
+    function isStoryMapAuthorized(data) {
+      return data.get('authorUid', '') == request.auth.uid
+        || data.get('creatorId', '') == request.auth.uid
+        || isCampaignGmForResource(data)
+        || isAdmin();
+    }
+
     match /story_maps/{mapId} {
-      allow read: if isAuthenticated() || resource.data.isPublic == true;
-      allow create: if isAuthenticated() && (request.resource.data.authorUid == request.auth.uid || request.resource.data.creatorId == request.auth.uid);
-      allow update, delete: if isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin());
+      allow read: if resource.data.isPublic == true || (isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin()));
+      allow create: if isAuthenticated()
+                    && (
+                      isAdmin()
+                      || (
+                        (request.resource.data.get('authorUid', '') == request.auth.uid || request.resource.data.get('creatorId', '') == request.auth.uid)
+                        && hasNoCrossFieldOwnershipPoisoning(request.resource.data)
+                      )
+                    )
+                    && isValidStoryMap(request.resource.data);
+      allow update: if isAuthenticated()
+                    && (
+                      isAdmin()
+                      || (
+                        (resource.data.get('authorUid', '') == request.auth.uid || resource.data.get('creatorId', '') == request.auth.uid || isCampaignGmForResource(resource.data))
+                        && areOwnerFieldsUnchangedOnUpdate()
+                      )
+                    )
+                    && isValidStoryMap(request.resource.data);
+      allow delete: if isAuthenticated() && (resource.data.get('authorUid', '') == request.auth.uid || resource.data.get('creatorId', '') == request.auth.uid || isAdmin());
+    }
+
+    // =========================================================================
+    // 10b. STORY FOUNDRY: SANITIZED SPECTATOR PROJECTION MAPS
+    // =========================================================================
+    // Assumed Data Model (Collection: spectator_maps/{mapId}):
+    //   Sanitized public projection generated by sanitizeMapForSpectator().
+    //   Strictly excludes PII (email/authorEmail) and GM secrets (gmNotes,
+    //   secrets, gmSecretNotes, lockDc, trapState).
+    //   Fields: id, title, name, type, width, height, gridMode, fogEnabled,
+    //   lines, layers, tokens, objects, texts, terrains, fog, walls,
+    //   isSpectatorLive, updatedAt, campaignId, groupId, authorUid (immutable),
+    //   creatorId (immutable).
+    function isValidSpectatorMap(data) {
+      return data.keys().hasOnly([
+          'id', 'title', 'name', 'type', 'width', 'height', 'gridMode',
+          'fogEnabled', 'lines', 'layers', 'tokens', 'objects', 'texts',
+          'terrains', 'fog', 'walls', 'isSpectatorLive', 'updatedAt',
+          'campaignId', 'groupId', 'authorUid', 'creatorId'
+        ])
+        && ('authorUid' in data || 'creatorId' in data)
+        && ('title' in data || 'name' in data)
+        && (!('id' in data) || (data.id is string && data.id.size() > 0 && data.id.size() <= 128))
+        && (!('title' in data) || (data.title is string && data.title.size() > 0 && data.title.size() <= 300))
+        && (!('name' in data) || (data.name is string && data.name.size() > 0 && data.name.size() <= 300))
+        && (!('type' in data) || (data.type is string && data.type.size() > 0 && data.type.size() <= 64))
+        && (!('width' in data) || (data.width is number && data.width > 0 && data.width <= 100000))
+        && (!('height' in data) || (data.height is number && data.height > 0 && data.height <= 100000))
+        && (!('gridMode' in data) || (data.gridMode is string && data.gridMode.size() > 0 && data.gridMode.size() <= 32))
+        && (!('fogEnabled' in data) || data.fogEnabled is bool)
+        && (!('lines' in data) || (data.lines is list && data.lines.size() <= 10000))
+        && (!('layers' in data) || (data.layers is list && data.layers.size() <= 100))
+        && (!('tokens' in data) || (data.tokens is list && data.tokens.size() <= 2000))
+        && (!('objects' in data) || (data.objects is list && data.objects.size() <= 10000))
+        && (!('texts' in data) || (data.texts is list && data.texts.size() <= 2000))
+        && (!('terrains' in data) || (data.terrains is list && data.terrains.size() <= 10000))
+        && (!('fog' in data) || (data.fog is list && data.fog.size() <= 10000))
+        && (!('walls' in data) || (data.walls is list && data.walls.size() <= 10000))
+        && (!('isSpectatorLive' in data) || data.isSpectatorLive is bool)
+        && (!('updatedAt' in data) || ((data.updatedAt is string && data.updatedAt.size() > 0 && data.updatedAt.size() <= 100) || data.updatedAt is timestamp))
+        && isValidOptionalNullableString(data, 'campaignId', 128)
+        && isValidOptionalNullableString(data, 'groupId', 128)
+        && (!('authorUid' in data) || (data.authorUid is string && data.authorUid.size() > 0 && data.authorUid.size() <= 128))
+        && (!('creatorId' in data) || (data.creatorId is string && data.creatorId.size() > 0 && data.creatorId.size() <= 128));
+    }
+
+    function canWriteSpectatorForParentStoryMap(mapId) {
+      return !exists(/databases/$(database)/documents/story_maps/$(mapId))
+        || isStoryMapAuthorized(get(/databases/$(database)/documents/story_maps/$(mapId)).data);
+    }
+
+    match /spectator_maps/{mapId} {
+      allow get: if true;
+      allow list: if isAuthenticated() && (
+        resource.data.get('authorUid', '') == request.auth.uid
+        || resource.data.get('creatorId', '') == request.auth.uid
+        || isCampaignGmForResource(resource.data)
+        || isAdmin()
+      );
+      allow create: if isAuthenticated()
+                    && isValidSpectatorMap(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        (
+                          request.resource.data.get('authorUid', '') == request.auth.uid
+                          || request.resource.data.get('creatorId', '') == request.auth.uid
+                          || isCampaignGmForResource(request.resource.data)
+                        )
+                        && (!('id' in request.resource.data) || request.resource.data.id == mapId)
+                        && request.resource.data.get('authorUid', request.auth.uid) in [request.auth.uid, 'local']
+                        && request.resource.data.get('creatorId', request.auth.uid) in [request.auth.uid, 'local']
+                        && canWriteSpectatorForParentStoryMap(mapId)
+                      )
+                    );
+      allow update: if isAuthenticated()
+                    && isValidSpectatorMap(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        (
+                          resource.data.get('authorUid', '') == request.auth.uid
+                          || resource.data.get('creatorId', '') == request.auth.uid
+                          || isCampaignGmForResource(resource.data)
+                        )
+                        && canWriteSpectatorForParentStoryMap(mapId)
+                        && (!('id' in resource.data) || request.resource.data.get('id', '') == resource.data.id)
+                        && (request.resource.data.get('authorUid', '') == resource.data.get('authorUid', '') || (resource.data.get('authorUid', '') in ['', 'local'] && request.resource.data.get('authorUid', '') == request.auth.uid))
+                        && (request.resource.data.get('creatorId', '') == resource.data.get('creatorId', '') || (resource.data.get('creatorId', '') in ['', 'local'] && request.resource.data.get('creatorId', '') == request.auth.uid))
+                        && request.resource.data.get('campaignId', null) == resource.data.get('campaignId', null)
+                        && request.resource.data.get('groupId', null) == resource.data.get('groupId', null)
+                      )
+                    );
+      allow delete: if isAuthenticated() && (
+        resource.data.get('authorUid', '') == request.auth.uid
+        || resource.data.get('creatorId', '') == request.auth.uid
+        || isCampaignGmForResource(resource.data)
+        || isAdmin()
+      );
     }
 
     // =========================================================================
@@ -257,92 +1115,407 @@ service cloud.firestore {
     // =========================================================================
     // 12. COMMLINK RELAY: CHANNELS & MESSAGES
     // =========================================================================
+    function isDefaultPublicChannelId(channelId) {
+      return channelId in ['public_general', 'public_lfg', 'public_codex', 'public_cantina'];
+    }
+
+    function isChannelPublic(channelId, data) {
+      return ('isPublic' in data && data.isPublic == true)
+        || ('type' in data && data.type == 'public')
+        || channelId.matches('public_.*');
+    }
+
+    function isChannelCreator(data) {
+      return data.get('createdById', '') == request.auth.uid
+        || data.get('createdBy', '') == request.auth.uid;
+    }
+
+    function isChannelMember(data) {
+      return 'members' in data
+        && data.members is list
+        && request.auth.uid in data.members;
+    }
+
+    function isMemberOfGroupDoc(groupId) {
+      return groupId is string
+        && groupId.size() > 0
+        && exists(/databases/$(database)/documents/game_groups/$(groupId))
+        && (
+          get(/databases/$(database)/documents/game_groups/$(groupId)).data.get('creatorId', '') == request.auth.uid
+          || (
+            'coArchitects' in get(/databases/$(database)/documents/game_groups/$(groupId)).data
+            && get(/databases/$(database)/documents/game_groups/$(groupId)).data.coArchitects is list
+            && request.auth.uid in get(/databases/$(database)/documents/game_groups/$(groupId)).data.coArchitects
+          )
+          || (
+            'members' in get(/databases/$(database)/documents/game_groups/$(groupId)).data
+            && get(/databases/$(database)/documents/game_groups/$(groupId)).data.members is list
+            && request.auth.uid in get(/databases/$(database)/documents/game_groups/$(groupId)).data.members
+          )
+        );
+    }
+
+    function isManagerOfGroupDoc(groupId) {
+      return groupId is string
+        && groupId.size() > 0
+        && isGroupManager(groupId);
+    }
+
+    function isMemberOfCorrespondingGroup(channelId, data) {
+      return channelId.matches('group_chan_.*') && (
+        (('groupId' in data && data.groupId is string && data.groupId.size() > 0) && isMemberOfGroupDoc(data.groupId))
+        || (!('groupId' in data) && isMemberOfGroupDoc(channelId.replace('^group_chan_', '')))
+      );
+    }
+
+    function isManagerOfCorrespondingGroup(channelId, data) {
+      return channelId.matches('group_chan_.*') && (
+        (('groupId' in data && data.groupId is string && data.groupId.size() > 0) && isManagerOfGroupDoc(data.groupId))
+        || (!('groupId' in data) && isManagerOfGroupDoc(channelId.replace('^group_chan_', '')))
+      );
+    }
+
+    function canAccessChannel(channelId) {
+      return isAuthenticated() && (
+        isDefaultPublicChannelId(channelId)
+        || (exists(/databases/$(database)/documents/channels/$(channelId)) && (
+             isChannelPublic(channelId, get(/databases/$(database)/documents/channels/$(channelId)).data)
+             || isChannelMember(get(/databases/$(database)/documents/channels/$(channelId)).data)
+             || isChannelCreator(get(/databases/$(database)/documents/channels/$(channelId)).data)
+             || isMemberOfCorrespondingGroup(channelId, get(/databases/$(database)/documents/channels/$(channelId)).data)
+           ))
+      );
+    }
+
+    function isValidChannel(data) {
+      return data.keys().hasOnly([
+          'id', 'name', 'displayName', 'topic', 'type', 'addressingMode',
+          'recipientType', 'isPublic', 'isReadOnly', 'groupId', 'groupName',
+          'personaId', 'personaName', 'targetPersona', 'targetPlayer',
+          'createdBy', 'createdById', 'createdAt', 'updatedAt', 'lastActivity',
+          'members', 'memberDetails', 'characterMembers', 'lastMessage',
+          'typingUsers', 'architectBlocks'
+        ])
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalNullableString(data, 'name', 128)
+        && isValidOptionalNullableString(data, 'displayName', 200)
+        && isValidOptionalNullableString(data, 'topic', 1000)
+        && isValidOptionalNullableString(data, 'type', 64)
+        && isValidOptionalNullableString(data, 'addressingMode', 64)
+        && isValidOptionalNullableString(data, 'recipientType', 64)
+        && (!('isPublic' in data) || data.isPublic is bool)
+        && (!('isReadOnly' in data) || data.isReadOnly is bool)
+        && isValidOptionalNullableString(data, 'groupId', 128)
+        && isValidOptionalNullableString(data, 'groupName', 200)
+        && isValidOptionalNullableString(data, 'personaId', 128)
+        && isValidOptionalNullableString(data, 'personaName', 200)
+        && (!('targetPersona' in data) || data.targetPersona == null || (data.targetPersona is map && data.targetPersona.keys().size() <= 20))
+        && (!('targetPlayer' in data) || data.targetPlayer == null || (data.targetPlayer is map && data.targetPlayer.keys().size() <= 20))
+        && isValidOptionalNullableString(data, 'createdBy', 128)
+        && isValidOptionalNullableString(data, 'createdById', 128)
+        && isValidOptionalDateField(data, 'createdAt')
+        && isValidOptionalDateField(data, 'updatedAt')
+        && isValidOptionalDateField(data, 'lastActivity')
+        && (!('members' in data) || (data.members is list && data.members.size() <= 200))
+        && (!('memberDetails' in data) || (data.memberDetails is map && data.memberDetails.keys().size() <= 200))
+        && (!('characterMembers' in data) || (data.characterMembers is list && data.characterMembers.size() <= 200))
+        && (!('lastMessage' in data) || data.lastMessage == null || (
+          data.lastMessage is map
+          && data.lastMessage.keys().size() <= 15
+          && isValidOptionalNullableString(data.lastMessage, 'text', 1000)
+          && isValidOptionalNullableString(data.lastMessage, 'senderHandle', 128)
+          && isValidOptionalNullableString(data.lastMessage, 'senderId', 128)
+          && isValidOptionalNullableString(data.lastMessage, 'senderUid', 128)
+          && isValidOptionalDateField(data.lastMessage, 'timestamp')
+        ))
+        && (!('typingUsers' in data) || (data.typingUsers is map && data.typingUsers.keys().size() <= 100))
+        && (!('architectBlocks' in data) || (data.architectBlocks is list && data.architectBlocks.size() <= 200));
+    }
+
+    function isOwnTypingUpdate() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['typingUsers', 'updatedAt'])
+        && 'typingUsers' in request.resource.data
+        && request.resource.data.typingUsers is map
+        && (
+          ('typingUsers' in resource.data && resource.data.typingUsers is map
+            && request.resource.data.typingUsers.diff(resource.data.typingUsers).affectedKeys().hasOnly([request.auth.uid]))
+          || ((!('typingUsers' in resource.data) || !(resource.data.typingUsers is map))
+            && request.resource.data.typingUsers.keys().hasOnly([request.auth.uid]))
+        );
+    }
+
+    function isSelfLeaveChannelUpdate() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'updatedAt'])
+        && 'members' in resource.data
+        && resource.data.members is list
+        && 'members' in request.resource.data
+        && request.resource.data.members is list
+        && !(request.auth.uid in request.resource.data.members)
+        && resource.data.members.hasAll(request.resource.data.members)
+        && request.resource.data.members.size() == resource.data.members.size() - 1;
+    }
+
+    function isValidChannelMessage(data) {
+      return data.keys().hasOnly([
+          'id', 'channelId', 'text', 'type', 'senderId', 'senderUid',
+          'senderHandle', 'senderMode', 'senderAvatar', 'personaId',
+          'personaName', 'actionType', 'summary', 'details', 'metadata',
+          'docketBlock', 'inviteId', 'groupId', 'groupName', 'groupMetadata',
+          'inviteStatus', 'isReadOnlyLog', 'reactions', 'createdAt',
+          'createdLocalAt', 'updatedAt'
+        ])
+        && 'senderId' in data && data.senderId is string && data.senderId.size() > 0 && data.senderId.size() <= 128
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalString(data, 'channelId', 1, 128)
+        && isValidOptionalNullableString(data, 'text', 20000)
+        && isValidOptionalNullableString(data, 'type', 64)
+        && isValidOptionalNullableString(data, 'senderUid', 128)
+        && isValidOptionalNullableString(data, 'senderHandle', 128)
+        && isValidOptionalNullableString(data, 'senderMode', 32)
+        && isValidOptionalNullableString(data, 'senderAvatar', 2048)
+        && isValidOptionalNullableString(data, 'personaId', 128)
+        && isValidOptionalNullableString(data, 'personaName', 200)
+        && isValidOptionalNullableString(data, 'actionType', 64)
+        && isValidOptionalNullableString(data, 'summary', 1000)
+        && (!('details' in data) || data.details == null || (data.details is string && data.details.size() <= 10000) || (data.details is map && data.details.keys().size() <= 30))
+        && (!('metadata' in data) || data.metadata == null || (data.metadata is map && data.metadata.keys().size() <= 40))
+        && (!('docketBlock' in data) || data.docketBlock == null || (data.docketBlock is map && data.docketBlock.keys().size() <= 30))
+        && isValidOptionalNullableString(data, 'inviteId', 128)
+        && isValidOptionalNullableString(data, 'groupId', 128)
+        && isValidOptionalNullableString(data, 'groupName', 200)
+        && (!('groupMetadata' in data) || data.groupMetadata == null || (data.groupMetadata is map && data.groupMetadata.keys().size() <= 20))
+        && (!('inviteStatus' in data) || data.inviteStatus in ['pending', 'accepted', 'declined', 'revoked'])
+        && (!('isReadOnlyLog' in data) || data.isReadOnlyLog is bool)
+        && (!('reactions' in data) || data.reactions == null || (data.reactions is map && data.reactions.keys().size() <= 50))
+        && isValidOptionalDateField(data, 'createdAt')
+        && isValidOptionalDateField(data, 'createdLocalAt')
+        && isValidOptionalDateField(data, 'updatedAt');
+    }
+
+    function isNonDestructiveMemberChannelUpdate() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastMessage', 'updatedAt', 'lastActivity'])
+        || (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['architectBlocks', 'updatedAt'])
+          && 'architectBlocks' in request.resource.data
+          && request.resource.data.architectBlocks is list
+          && (
+            !('architectBlocks' in resource.data)
+            || !(resource.data.architectBlocks is list)
+            || request.resource.data.architectBlocks.size() >= resource.data.architectBlocks.size()
+          )
+        );
+    }
+
     match /channels/{channelId} {
-      // Allow read if channel is public or user is in members or is admin
-      allow read: if resource.data.isPublic == true 
-                  || resource.data.type == 'public'
-                  || channelId.matches('public_.*')
-                  || (isAuthenticated() && (
-                       (resource.data.members != null && request.auth.uid in resource.data.members)
-                       || resource.data.createdById == request.auth.uid
-                       || resource.data.get('createdBy', '') == request.auth.uid
-                       || isAdmin()
-                     ));
-      allow create: if isAuthenticated() || isAdmin();
+      // Allow read only to authenticated users when channel is public, user is a
+      // channel/group member, creator, or admin.
+      allow get: if isAuthenticated() && (
+        (
+          resource == null
+          && isDefaultPublicChannelId(channelId)
+        )
+        || (
+          resource != null
+          && (
+            resource.data.isPublic == true
+            || resource.data.type == 'public'
+            || isChannelMember(resource.data)
+            || isChannelCreator(resource.data)
+            || isMemberOfCorrespondingGroup(channelId, resource.data)
+            || isAdmin()
+          )
+        )
+      );
+      allow list: if isAuthenticated() && (
+        resource.data.isPublic == true
+        || resource.data.type == 'public'
+        || isChannelMember(resource.data)
+        || isChannelCreator(resource.data)
+        || isMemberOfCorrespondingGroup(channelId, resource.data)
+        || isAdmin()
+      );
+      allow create: if isAuthenticated()
+                    && isValidChannel(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        !channelId.matches('public_.*')
+                        && request.resource.data.get('createdById', '') == request.auth.uid
+                        && (!('createdBy' in request.resource.data) || request.resource.data.createdBy == request.auth.uid)
+                        && (
+                          !channelId.matches('group_chan_.*')
+                          || (
+                            request.resource.data.get('isPublic', false) == false
+                            && isMemberOfGroupDoc(request.resource.data.get('groupId', channelId.replace('^group_chan_', '')))
+                            && (!('groupId' in request.resource.data) || isMemberOfGroupDoc(request.resource.data.groupId))
+                          )
+                        )
+                        && (
+                          !channelId.matches('dm_.*')
+                          || (
+                            request.resource.data.get('isPublic', false) == false
+                            && request.resource.data.get('type', '') == 'direct'
+                            && 'members' in request.resource.data
+                            && request.resource.data.members is list
+                            && request.auth.uid in request.resource.data.members
+                            && request.resource.data.members.size() >= 1
+                            && request.resource.data.members.size() <= 2
+                          )
+                        )
+                      )
+                    );
       allow update: if isAuthenticated()
+                    && isValidChannel(request.resource.data)
                     && (
-                      request.resource.data.get('createdBy', '') == resource.data.get('createdBy', '')
-                      || resource.data.get('createdBy', '') == request.auth.uid
-                      || isAdmin()
-                    )
-                    && (
-                      request.resource.data.get('createdById', '') == resource.data.get('createdById', '')
-                      || resource.data.get('createdById', '') == request.auth.uid
-                      || isAdmin()
-                    )
-                    && (
-                      !channelId.matches('dm_.*')
-                      || request.auth.uid in resource.data.get('members', [])
-                      || isAdmin()
-                    )
-                    && (
-                       resource.data.isPublic == true
-                       || resource.data.type == 'public'
-                       || channelId.matches('public_.*')
-                       || resource.data.createdById == request.auth.uid 
-                       || resource.data.get('createdBy', '') == request.auth.uid
-                       || (resource.data.members != null && request.auth.uid in resource.data.members)
-                       || (channelId.matches('group_chan_.*') && request.resource.data.members != null && request.auth.uid in request.resource.data.members)
-                       || isAdmin()
-                     );
+                      isAdmin()
+                      || (
+                        (!('id' in resource.data) || request.resource.data.get('id', '') == resource.data.id)
+                        && (
+                          request.resource.data.get('createdBy', '') == resource.data.get('createdBy', '')
+                          || resource.data.get('createdBy', '') == request.auth.uid
+                        )
+                        && (
+                          request.resource.data.get('createdById', '') == resource.data.get('createdById', '')
+                          || resource.data.get('createdById', '') == request.auth.uid
+                        )
+                        && (
+                          // DM channels: existing DM members only; immutable membership & privacy
+                          (
+                            channelId.matches('dm_.*')
+                            && isChannelMember(resource.data)
+                            && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['isPublic', 'type', 'groupId', 'members'])
+                            && (
+                              request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastMessage', 'updatedAt', 'lastActivity'])
+                              || isOwnTypingUpdate()
+                            )
+                          )
+                          // Group channels: group creator/coArchitect or channel creator can manage;
+                          // group/channel members may post metadata, toggle typing/docket ACKs, or sync self-membership
+                          || (
+                            channelId.matches('group_chan_.*')
+                            && !channelId.matches('dm_.*')
+                            && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['isPublic', 'type', 'groupId'])
+                            && (
+                              isChannelCreator(resource.data)
+                              || isManagerOfCorrespondingGroup(channelId, resource.data)
+                              || (
+                                (isChannelMember(resource.data) || isMemberOfCorrespondingGroup(channelId, resource.data))
+                                && (
+                                  isNonDestructiveMemberChannelUpdate()
+                                  || isOwnTypingUpdate()
+                                  || (
+                                    isMemberOfCorrespondingGroup(channelId, resource.data)
+                                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'characterMembers', 'updatedAt'])
+                                    && 'members' in request.resource.data
+                                    && request.resource.data.members is list
+                                    && request.auth.uid in request.resource.data.members
+                                    && request.resource.data.members.hasAll(resource.data.get('members', []))
+                                  )
+                                )
+                              )
+                            )
+                          )
+                          // Non-DM, non-group custom/public/persona_log channels
+                          || (
+                            !channelId.matches('dm_.*')
+                            && !channelId.matches('group_chan_.*')
+                            && (
+                              (
+                                isChannelCreator(resource.data)
+                                && !channelId.matches('public_.*')
+                                && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['type', 'groupId'])
+                              )
+                              || (
+                                isChannelPublic(channelId, resource.data)
+                                && (
+                                  request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastMessage', 'updatedAt', 'lastActivity'])
+                                  || isOwnTypingUpdate()
+                                )
+                              )
+                              || (
+                                !isChannelPublic(channelId, resource.data)
+                                && isChannelMember(resource.data)
+                                && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['isPublic', 'type', 'groupId'])
+                                && (
+                                  isNonDestructiveMemberChannelUpdate()
+                                  || isOwnTypingUpdate()
+                                  || isSelfLeaveChannelUpdate()
+                                )
+                              )
+                            )
+                          )
+                        )
+                      )
+                    );
       allow delete: if isAuthenticated() && (
-                       !channelId.matches('public_.*') 
+                       !channelId.matches('public_.*')
                        && (
                          resource.data.createdById == request.auth.uid
                          || resource.data.get('createdBy', '') == request.auth.uid
+                         || isManagerOfCorrespondingGroup(channelId, resource.data)
                          || isAdmin()
                        )
                      );
 
       // Subcollection: Channel Messages
       match /messages/{messageId} {
-        allow read: if channelId.matches('public_.*')
-                    || (exists(/databases/$(database)/documents/channels/$(channelId)) && (
-                         get(/databases/$(database)/documents/channels/$(channelId)).data.isPublic == true
-                         || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
-                       ))
-                    || (isAuthenticated() && exists(/databases/$(database)/documents/channels/$(channelId)) && (
-                         ('members' in get(/databases/$(database)/documents/channels/$(channelId)).data && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members)
-                         || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
-                         || get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdBy', '') == request.auth.uid
-                         || isAdmin()
-                       ));
-        allow create: if isAuthenticated() && (
-                         request.resource.data.senderId == request.auth.uid
-                         || request.resource.data.senderId == 'system'
+        allow read: if isAuthenticated() && (canAccessChannel(channelId) || isAdmin());
+        allow create: if isAuthenticated()
+                      && isValidChannelMessage(request.resource.data)
+                      && (
+                         (
+                           request.resource.data.senderId == request.auth.uid
+                           && (!('senderUid' in request.resource.data) || request.resource.data.senderUid == null || request.resource.data.senderUid == request.auth.uid)
+                         )
                          || isAdmin()
                        ) && (
-                         channelId.matches('public_.*')
+                         isDefaultPublicChannelId(channelId)
                          || (exists(/databases/$(database)/documents/channels/$(channelId)) && (
-                              get(/databases/$(database)/documents/channels/$(channelId)).data.isPublic == true
-                              || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
-                              || ('members' in get(/databases/$(database)/documents/channels/$(channelId)).data && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members)
-                              || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
+                              get(/databases/$(database)/documents/channels/$(channelId)).data.get('isPublic', false) == true
+                              || get(/databases/$(database)/documents/channels/$(channelId)).data.get('type', '') == 'public'
+                              || ('members' in get(/databases/$(database)/documents/channels/$(channelId)).data && get(/databases/$(database)/documents/channels/$(channelId)).data.members is list && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members)
+                              || get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdById', '') == request.auth.uid
                               || get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdBy', '') == request.auth.uid
+                              || isMemberOfCorrespondingGroup(channelId, get(/databases/$(database)/documents/channels/$(channelId)).data)
                             ))
                          || isAdmin()
+                       )
+                       && (
+                         isAdmin()
+                         || !exists(/databases/$(database)/documents/channels/$(channelId))
+                         || get(/databases/$(database)/documents/channels/$(channelId)).data.get('isReadOnly', false) != true
+                         || request.resource.data.get('isReadOnlyLog', false) == true
                        );
-        allow update: if isAuthenticated() && (
-                         resource.data.senderId == request.auth.uid
-                         || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'updatedAt', 'inviteStatus'])
-                         || isAdmin()
+        allow update: if isAuthenticated()
+                      && isValidChannelMessage(request.resource.data)
+                      && (
+                         isAdmin()
+                         || (
+                           !request.resource.data.diff(resource.data).affectedKeys().hasAny(['senderId', 'senderUid', 'createdAt', 'channelId', 'type'])
+                           && (
+                             resource.data.get('senderId', '') == request.auth.uid
+                             || (
+                               canAccessChannel(channelId)
+                               && (
+                                 request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'updatedAt'])
+                                 || (
+                                   channelId.matches('dm_.*')
+                                   && resource.data.get('type', '') == 'squad_invite'
+                                   && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['inviteStatus', 'updatedAt'])
+                                   && request.resource.data.get('inviteStatus', '') in ['pending', 'accepted', 'declined', 'revoked']
+                                 )
+                               )
+                             )
+                           )
+                         )
                        );
         allow delete: if isAuthenticated() && (
-                         resource.data.senderId == request.auth.uid
+                         resource.data.get('senderId', '') == request.auth.uid
                          || resource.data.get('senderUid', '') == request.auth.uid
                          || (exists(/databases/$(database)/documents/channels/$(channelId)) && (
                               get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdBy', '') == request.auth.uid
                               || get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdById', '') == request.auth.uid
+                              || isManagerOfCorrespondingGroup(channelId, get(/databases/$(database)/documents/channels/$(channelId)).data)
                             ))
                          || isAdmin()
                        );
@@ -352,76 +1525,141 @@ service cloud.firestore {
     // =========================================================================
     // 13. CAMPAIGN SESSIONS (CRDT STATE DEBOUNCER)
     // =========================================================================
+    function isValidCampaign(data) {
+      return data.keys().hasOnly([
+          'id', 'title', 'name', 'description', 'ownerId', 'creatorId',
+          'gmIds', 'memberIds', 'status', 'isPublic', 'groupId', 'storyId',
+          'system', 'createdAt', 'updatedAt', 'metadata', 'settings'
+        ])
+        && 'ownerId' in data && data.ownerId is string && data.ownerId.size() > 0 && data.ownerId.size() <= 128
+        && isValidOptionalString(data, 'id', 1, 128)
+        && isValidOptionalNullableString(data, 'title', 300)
+        && isValidOptionalNullableString(data, 'name', 300)
+        && isValidOptionalNullableString(data, 'description', 10000)
+        && isValidOptionalString(data, 'creatorId', 1, 128)
+        && (!('gmIds' in data) || (data.gmIds is list && data.gmIds.size() <= 50))
+        && (!('memberIds' in data) || (data.memberIds is list && data.memberIds.size() <= 100))
+        && isValidOptionalNullableString(data, 'status', 64)
+        && (!('isPublic' in data) || data.isPublic is bool)
+        && isValidOptionalNullableString(data, 'groupId', 128)
+        && isValidOptionalNullableString(data, 'storyId', 128)
+        && isValidOptionalNullableString(data, 'system', 128)
+        && isValidOptionalDateField(data, 'createdAt')
+        && isValidOptionalDateField(data, 'updatedAt')
+        && (!('metadata' in data) || data.metadata == null || (data.metadata is map && data.metadata.keys().size() <= 50))
+        && (!('settings' in data) || data.settings == null || (data.settings is map && data.settings.keys().size() <= 50));
+    }
+
+    function isCampaignInvitedGm(data) {
+      return 'gmIds' in data
+        && data.gmIds is list
+        && request.auth.uid in data.gmIds;
+    }
+
     function isValidCampaignSession(data) {
       return data.keys().hasAll(['crdt_blob', 'last_updated'])
         && data.keys().hasOnly([
-          'crdt_blob', 'last_updated', 'ownerId', 'creatorId', 'memberIds',
-          'campaignId', 'sessionId', 'createdAt', 'updatedAt', 'title', 'status'
+          'crdt_blob', 'last_updated', 'ownerId', 'creatorId', 'gmIds',
+          'memberIds', 'campaignId', 'sessionId', 'createdAt', 'updatedAt',
+          'title', 'status'
         ])
         && data.crdt_blob is string
         && data.crdt_blob.size() <= 1000000
         && ((data.last_updated is string && data.last_updated.size() <= 100) || data.last_updated is timestamp)
-        && (!('ownerId' in data) || (data.ownerId is string && data.ownerId.size() <= 128))
-        && (!('creatorId' in data) || (data.creatorId is string && data.creatorId.size() <= 128))
-        && (!('memberIds' in data) || (data.memberIds is list && data.memberIds.size() <= 100));
+        && (!('ownerId' in data) || (data.ownerId is string && data.ownerId.size() > 0 && data.ownerId.size() <= 128))
+        && (!('creatorId' in data) || (data.creatorId is string && data.creatorId.size() > 0 && data.creatorId.size() <= 128))
+        && (!('gmIds' in data) || (data.gmIds is list && data.gmIds.size() <= 50))
+        && (!('memberIds' in data) || (data.memberIds is list && data.memberIds.size() <= 100))
+        && (!('campaignId' in data) || (data.campaignId is string && data.campaignId.size() <= 128))
+        && (!('sessionId' in data) || (data.sessionId is string && data.sessionId.size() <= 128))
+        && (!('title' in data) || (data.title is string && data.title.size() <= 300))
+        && (!('status' in data) || (data.status is string && data.status.size() <= 64))
+        && (!('createdAt' in data) || ((data.createdAt is string && data.createdAt.size() <= 100) || data.createdAt is timestamp))
+        && (!('updatedAt' in data) || ((data.updatedAt is string && data.updatedAt.size() <= 100) || data.updatedAt is timestamp));
     }
 
     function isParentCampaignAuthorized(campaignId) {
-      return !exists(/databases/$(database)/documents/Campaigns/$(campaignId))
-        || (
-          !('ownerId' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data)
-          && !('memberIds' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data)
-        )
-        || get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.get('ownerId', '') == request.auth.uid
-        || (
-          'memberIds' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data
-          && get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.memberIds is list
-          && request.auth.uid in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.memberIds
-        )
-        || isAdmin();
-    }
-
-    function isSessionDocAuthorized() {
-      return (
-          !('ownerId' in resource.data)
-          && !('memberIds' in resource.data)
-        )
-        || resource.data.get('ownerId', '') == request.auth.uid
-        || (
-          'memberIds' in resource.data
-          && resource.data.memberIds is list
-          && request.auth.uid in resource.data.memberIds
-        )
-        || isAdmin();
+      return exists(/databases/$(database)/documents/Campaigns/$(campaignId))
+        && (
+          get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.get('ownerId', '') == request.auth.uid
+          || (
+            'gmIds' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data
+            && get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.gmIds is list
+            && request.auth.uid in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.gmIds
+          )
+          || (
+            'memberIds' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data
+            && get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.memberIds is list
+            && request.auth.uid in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.memberIds
+          )
+          || isAdmin()
+        );
     }
 
     match /Campaigns/{campaignId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated() && (
+      allow read: if isAuthenticated() && (
         isAdmin()
-        || (
-          request.resource.data.get('ownerId', request.auth.uid) == request.auth.uid
-          && (!('memberIds' in request.resource.data) || (request.resource.data.memberIds is list && request.resource.data.memberIds.size() <= 100))
-        )
+        || resource.data.get('ownerId', '') == request.auth.uid
+        || isCampaignInvitedGm(resource.data)
+        || ('memberIds' in resource.data && resource.data.memberIds is list && request.auth.uid in resource.data.memberIds)
       );
-      allow update: if isAuthenticated() && (
-        isAdmin()
-        || (
-          resource.data.get('ownerId', '') == request.auth.uid
-          && request.resource.data.get('ownerId', '') == resource.data.get('ownerId', '')
-          && (!('memberIds' in request.resource.data) || (request.resource.data.memberIds is list && request.resource.data.memberIds.size() <= 100))
-        )
-      );
+      allow create: if isAuthenticated()
+                    && isValidCampaign(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        'ownerId' in request.resource.data
+                        && request.resource.data.ownerId == request.auth.uid
+                        && (!('creatorId' in request.resource.data) || request.resource.data.creatorId == request.auth.uid)
+                      )
+                    );
+      allow update: if isAuthenticated()
+                    && isValidCampaign(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        resource.data.get('ownerId', '') == request.auth.uid
+                        && 'ownerId' in request.resource.data
+                        && request.resource.data.ownerId == resource.data.ownerId
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['creatorId', 'id'])
+                      )
+                      || (
+                        isCampaignInvitedGm(resource.data)
+                        && 'ownerId' in request.resource.data
+                        && request.resource.data.ownerId == resource.data.ownerId
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['creatorId', 'id', 'gmIds'])
+                      )
+                    );
       allow delete: if isAdmin() || (isAuthenticated() && resource.data.get('ownerId', '') == request.auth.uid);
     }
 
     match /Campaigns/{campaignId}/Sessions/{sessionId} {
-      allow read: if isAuthenticated();
+      function isSessionDocAuthorized() {
+        return resource.data.get('ownerId', '') == request.auth.uid
+          || (
+            'gmIds' in resource.data
+            && resource.data.gmIds is list
+            && request.auth.uid in resource.data.gmIds
+          )
+          || (
+            'memberIds' in resource.data
+            && resource.data.memberIds is list
+            && request.auth.uid in resource.data.memberIds
+          )
+          || isCampaignGmOrOwner(campaignId)
+          || isAdmin();
+      }
+
+      allow read: if isAuthenticated() && (isAdmin() || (isSessionDocAuthorized() && isParentCampaignAuthorized(campaignId)));
       allow create: if isAuthenticated() && (
         isAdmin()
         || (
           isValidCampaignSession(request.resource.data)
-          && request.resource.data.get('ownerId', request.auth.uid) == request.auth.uid
+          && 'ownerId' in request.resource.data
+          && request.resource.data.ownerId == request.auth.uid
+          && (!('creatorId' in request.resource.data) || request.resource.data.creatorId == request.auth.uid)
+          && (!('campaignId' in request.resource.data) || request.resource.data.campaignId == campaignId)
+          && (!('sessionId' in request.resource.data) || request.resource.data.sessionId == sessionId)
           && isParentCampaignAuthorized(campaignId)
         )
       );
@@ -431,17 +1669,18 @@ service cloud.firestore {
           isValidCampaignSession(request.resource.data)
           && isSessionDocAuthorized()
           && isParentCampaignAuthorized(campaignId)
+          && 'ownerId' in resource.data
+          && 'ownerId' in request.resource.data
+          && request.resource.data.ownerId == resource.data.ownerId
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['creatorId', 'campaignId', 'sessionId', 'createdAt'])
           && (
-            request.resource.data.get('ownerId', '') == resource.data.get('ownerId', '')
-            || (resource.data.get('ownerId', '') == '' && request.resource.data.get('ownerId', '') == request.auth.uid)
-          )
-          && (
-            request.resource.data.get('memberIds', []) == resource.data.get('memberIds', [])
-            || resource.data.get('ownerId', '') == request.auth.uid
+            resource.data.get('ownerId', '') == request.auth.uid
+            || isCampaignGmOrOwner(campaignId)
+            || !request.resource.data.diff(resource.data).affectedKeys().hasAny(['memberIds', 'gmIds'])
           )
         )
       );
-      allow delete: if isAdmin() || (isAuthenticated() && resource.data.get('ownerId', '') == request.auth.uid);
+      allow delete: if isAdmin() || (isAuthenticated() && isParentCampaignAuthorized(campaignId) && (resource.data.get('ownerId', '') == request.auth.uid || isCampaignGmOrOwner(campaignId)));
     }
 
     // =========================================================================

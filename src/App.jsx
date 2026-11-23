@@ -15,10 +15,11 @@ import { GlobalSideRail } from './components/Layout/GlobalSideRail';
 import { MobileBottomNav } from './components/Layout/MobileBottomNav';
 import { DiceRollerDock } from './components/UI/DiceRollerDock';
 import { CommLinkDock } from './components/UI/CommLinkDock';
-import BastionDrawer from './components/Folio/BastionDrawer';
 import { ErrorBoundary } from './components/UI/ErrorBoundary';
 import { RingedPlanetLogo } from './components/UI/RingedPlanetLogo';
 import { lazyWithRetry } from './utils/lazyWithRetry';
+
+const BastionDrawer = lazyWithRetry(() => import('./components/Folio/BastionDrawer'));
 
 // Lazy Loaded Top-Level Routes for Optimal Bundle Performance (Resilient to Deployment Chunk Changes)
 const Dashboard = lazyWithRetry(() => import('./pages/Home'));
@@ -227,10 +228,14 @@ export function App() {
                       {/* Persistent Overlay Docks & Command Palette */}
                       <DiceRollerDock />
 
-                      <BastionDrawer
-                        isOpen={isBastionOpen}
-                        onClose={() => setIsBastionOpen(false)}
-                      />
+                      {isBastionOpen && (
+                        <Suspense fallback={null}>
+                          <BastionDrawer
+                            isOpen={isBastionOpen}
+                            onClose={() => setIsBastionOpen(false)}
+                          />
+                        </Suspense>
+                      )}
 
                       <CommLinkDock
                         isOpen={isCommsDockOpen}

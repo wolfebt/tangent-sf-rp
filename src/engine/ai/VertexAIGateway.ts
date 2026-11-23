@@ -17,9 +17,11 @@ import {
   getGeminiApiKey,
   fetchGeminiContent
 } from '../../services/bastionService.js';
+import { auth } from '../../firebase.js';
+import { getFreshFirebaseIdToken } from '../../utils/firebaseTokenStore.js';
 
 export interface AIRequestOptions {
-  model?: 'gemini-1.5-pro' | 'gemini-1.5-flash' | 'gemini-2.0-flash' | 'gemini-2.5-flash' | 'gemini-2.5-flash-lite';
+  model?: 'gemini-2.5-flash' | 'gemini-2.5-flash-lite' | 'gemini-2.5-pro' | 'gemini-2.0-flash' | 'gemini-1.5-pro' | 'gemini-1.5-flash';
   temperature?: number;
   maxOutputTokens?: number;
   responseMimeType?: 'text/plain' | 'application/json';
@@ -29,6 +31,7 @@ export interface AIRequestOptions {
   grammar?: string;
   tierKey?: LodTierKey;
   localEndpoint?: string;
+  skipLocalInference?: boolean;
   tools?: Array<Record<string, any>>;
   stream?: boolean;
   onStreamChunk?: (chunkText: string, accumulatedText: string) => void;
@@ -80,6 +83,65 @@ class VertexAIGatewayService {
     return true;
   }
 
+  private normalizeModelName(model?: string): string {
+    const raw = (model || 'gemini-2.5-flash').trim();
+    if (raw === 'gemini-1.5-flash') return 'gemini-2.5-flash';
+    if (raw === 'gemini-1.5-pro') return 'gemini-2.5-pro';
+    return raw;
+  }
+
+  private tryParseJsonPayload(text: string, responseMimeType?: string): any {
+    if (!text) return text;
+    if (responseMimeType !== 'application/json') return text;
+    const stripped = text
+      .replace(/```(?:json)?\s*/gi, '')
+      .replace(/```/g, '')
+      .trim();
+    try {
+      return JSON.parse(stripped);
+    } catch {
+      const objMatch = stripped.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
+      if (objMatch) {
+        try {
+          return JSON.parse(objMatch[0]);
+        } catch {
+          return text;
+        }
+      }
+      return text;
+    }
+  }
+
+  private buildLocalPromptAndCheckMedia(prompt: string, options: AIRequestOptions): { hasMedia: boolean; localPrompt: string } {
+    let hasMedia = false;
+    const serializedContents: string[] = [];
+    if (Array.isArray(options.contents)) {
+      for (const msg of options.contents) {
+        const parts = Array.isArray(msg?.parts) ? msg.parts : [];
+        const textSegments: string[] = [];
+        for (const p of parts) {
+          if (p?.inlineData || p?.fileData) {
+            hasMedia = true;
+          }
+          if (typeof p?.text === 'string' && p.text.trim()) {
+            textSegments.push(p.text.trim());
+          }
+        }
+        if (textSegments.length > 0) {
+          const roleLabel = msg?.role ? String(msg.role).toUpperCase() : 'USER';
+          serializedContents.push(`${roleLabel}: ${textSegments.join('\n')}`);
+        }
+      }
+    }
+
+    const baseContent = serializedContents.length > 0 ? serializedContents.join('\n\n') : prompt;
+    const localPrompt = options.systemInstruction
+      ? `${options.systemInstruction}\n\n${baseContent}`
+      : baseContent;
+
+    return { hasMedia, localPrompt };
+  }
+
   /**
    * Dispatches a structured prompt to Gemini via Cloud Function proxy (geminiProxy).
    */
@@ -88,6 +150,7 @@ class VertexAIGatewayService {
     options: AIRequestOptions = {}
   ): Promise<AIGatewayResponse<T>> {
     const startTime = performance.now();
+    const resolvedModel = this.normalizeModelName(options.model);
 
     if (!this.checkRateLimit()) {
       return {
@@ -106,11 +169,7 @@ class VertexAIGatewayService {
     }
     let resolvedAuthToken = this.authToken;
     if (!resolvedAuthToken) {
-      try {
-        if (typeof localStorage !== 'undefined') {
-          resolvedAuthToken = localStorage.getItem('firebaseIdToken');
-        }
-      } catch {}
+      resolvedAuthToken = await getFreshFirebaseIdToken(auth, false);
     }
     if (resolvedAuthToken) {
       headers['Authorization'] = `Bearer ${resolvedAuthToken}`;
@@ -136,7 +195,15 @@ class VertexAIGatewayService {
         }
       } catch {}
 
-      if (isLocalEnabled) {
+      const { hasMedia, localPrompt } = this.buildLocalPromptAndCheckMedia(prompt, options);
+
+      // Local text LLMs cannot inspect multimodal inlineData blobs or run Gemini function declarations natively
+      if (
+        !options.skipLocalInference &&
+        isLocalEnabled &&
+        !hasMedia &&
+        (!Array.isArray(options.tools) || options.tools.length === 0)
+      ) {
         const tierConfig = resolveIntelligenceTier({
           actionText: prompt,
           userOverride: options.tierKey || 'auto'
@@ -144,21 +211,14 @@ class VertexAIGatewayService {
         const localRes = await callAutomatedInferencePipeline({
           llamaEndpoint: configuredLocalEndpoint || 'http://localhost:8080',
           ollamaEndpoint: 'http://localhost:11434',
-          prompt,
+          prompt: localPrompt,
           grammar: options.grammar,
           tier: tierConfig,
-          enforceJson: options.responseMimeType === 'application/json'
+          enforceJson: options.responseMimeType === 'application/json',
+          onChunk: options.onStreamChunk ? (piece) => options.onStreamChunk?.(piece, piece) : undefined
         });
         if (localRes && localRes.text) {
-          let parsedLocal: any = localRes.text;
-          if (options.responseMimeType === 'application/json') {
-            try {
-              const clean = localRes.text.replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
-              parsedLocal = JSON.parse(clean);
-            } catch {
-              parsedLocal = localRes.text;
-            }
-          }
+          const parsedLocal = this.tryParseJsonPayload(localRes.text, options.responseMimeType);
           return {
             success: true,
             data: parsedLocal,
@@ -182,24 +242,39 @@ class VertexAIGatewayService {
         generationConfig.responseSchema = options.responseSchema;
       }
 
-      const response = await fetch(this.endpointUrl, {
+      const proxyPayload = JSON.stringify({
+        prompt,
+        contents: options.contents,
+        systemInstruction: options.systemInstruction
+          ? { parts: [{ text: options.systemInstruction }] }
+          : undefined,
+        model: resolvedModel,
+        temperature: options.temperature ?? 0.7,
+        maxOutputTokens: options.maxOutputTokens ?? 2048,
+        responseMimeType: options.responseMimeType || 'text/plain',
+        responseSchema: options.responseSchema,
+        generationConfig,
+        tools: options.tools
+      });
+
+      let response = await fetch(this.endpointUrl, {
         method: 'POST',
         headers,
-        body: JSON.stringify({
-          prompt,
-          contents: options.contents,
-          systemInstruction: options.systemInstruction
-            ? { parts: [{ text: options.systemInstruction }] }
-            : undefined,
-          model: options.model || 'gemini-2.5-flash',
-          temperature: options.temperature ?? 0.7,
-          maxOutputTokens: options.maxOutputTokens ?? 2048,
-          responseMimeType: options.responseMimeType || 'text/plain',
-          responseSchema: options.responseSchema,
-          generationConfig,
-          tools: options.tools
-        })
+        body: proxyPayload
       });
+
+      if (response.status === 401 && !this.authToken) {
+        const refreshed = await getFreshFirebaseIdToken(auth, true);
+        if (refreshed && refreshed !== resolvedAuthToken) {
+          resolvedAuthToken = refreshed;
+          headers['Authorization'] = `Bearer ${refreshed}`;
+          response = await fetch(this.endpointUrl, {
+            method: 'POST',
+            headers,
+            body: proxyPayload
+          });
+        }
+      }
 
       if (!response.ok) {
         if (response.status === 401 || response.status === 403) {
@@ -219,22 +294,18 @@ class VertexAIGatewayService {
         }));
       let parsedData = json.data;
       if (!parsedData && candidateText) {
-        if (options.responseMimeType === 'application/json') {
-          try {
-            const clean = candidateText.replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
-            parsedData = JSON.parse(clean);
-          } catch {
-            parsedData = candidateText;
-          }
-        } else {
-          parsedData = candidateText;
-        }
+        parsedData = this.tryParseJsonPayload(candidateText, options.responseMimeType);
+      }
+
+      const finalProxyText = json.text || candidateText || (typeof parsedData === 'string' ? parsedData : (parsedData ? JSON.stringify(parsedData) : ''));
+      if (options.onStreamChunk && finalProxyText) {
+        options.onStreamChunk(finalProxyText, finalProxyText);
       }
 
       return {
         success: true,
         data: parsedData,
-        text: json.text || candidateText || (typeof parsedData === 'string' ? parsedData : (parsedData ? JSON.stringify(parsedData) : '')),
+        text: finalProxyText,
         toolCalls: rawToolCalls.length > 0 ? rawToolCalls : undefined,
         isSimulated: false,
         provider: 'cloud_proxy',
@@ -266,6 +337,7 @@ class VertexAIGatewayService {
             reqBody.tools = options.tools;
           }
           const directJson = await fetchGeminiContent(clientApiKey, reqBody, {
+            preferredModel: resolvedModel,
             onStreamChunk: options.onStreamChunk
           });
           const directParts = directJson?.candidates?.[0]?.content?.parts || [];
@@ -276,15 +348,7 @@ class VertexAIGatewayService {
               name: p.functionCall.name,
               args: p.functionCall.args || {}
             }));
-          let parsedData: any = candidateText;
-          if (options.responseMimeType === 'application/json' && candidateText) {
-            try {
-              const clean = candidateText.replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
-              parsedData = JSON.parse(clean);
-            } catch {
-              parsedData = candidateText;
-            }
-          }
+          const parsedData = this.tryParseJsonPayload(candidateText, options.responseMimeType);
           return {
             success: true,
             data: parsedData,
@@ -386,24 +450,100 @@ class VertexAIGatewayService {
     // deterministically invoke the matching tool so Stage 7 agents always ground their response.
     if (executedCalls.length === 0 && response.isSimulated && typeof toolExecutor === 'function') {
       const allowedNames = new Set(toolDeclarations.map((d) => d.name));
+      const parseNum = (rx: RegExp, fallback: number): number => {
+        const m = lowerPrompt.match(rx);
+        return m && Number.isFinite(Number(m[1])) ? Number(m[1]) : fallback;
+      };
+
       if (
         allowedNames.has('evaluate_economatrix_acquisition') &&
         (lowerPrompt.includes('economatrix') || lowerPrompt.includes('purchase cr') || lowerPrompt.includes('purchase dc') || lowerPrompt.includes('cost cr') || lowerPrompt.includes('cost dc'))
       ) {
+        const itemCr = parseNum(/\bcr\s*(\d+)\b/, parseNum(/\b(\d+)\s*cr\b/, 15));
+        const wealthScore = parseNum(/\b(?:ws|wealth(?:\s*score)?)\s*(\d+)\b/, 12);
         const res = await toolExecutor({
           name: 'evaluate_economatrix_acquisition',
-          args: { itemCr: 15, itemCostDc: 15, wealthScore: 12 }
+          args: { itemCr, itemCostDc: itemCr, wealthScore }
         });
-        executedCalls.push({ name: 'evaluate_economatrix_acquisition', args: { itemCr: 15, wealthScore: 12 }, result: res });
+        executedCalls.push({ name: 'evaluate_economatrix_acquisition', args: { itemCr, wealthScore }, result: res });
       } else if (
         allowedNames.has('resolve_called_shot') &&
         (lowerPrompt.includes('called shot') || lowerPrompt.includes('headshot'))
       ) {
+        const targetLocation = lowerPrompt.includes('optic') || lowerPrompt.includes('sensor')
+          ? 'optics'
+          : lowerPrompt.includes('leg')
+            ? 'legs'
+            : lowerPrompt.includes('arm')
+              ? 'arms'
+              : lowerPrompt.includes('torso')
+                ? 'torso'
+                : 'head';
+        const incomingDamage = parseNum(/\b(\d+)\s*(?:dmg|damage)\b/, 18);
+        const armorDr = parseNum(/\b(?:dr|armor)\s*(\d+)\b/, 4);
+        const penetration = parseNum(/\b(?:ap|pen|penetration)\s*(\d+)\b/, 0);
+        const staminaToughness = parseNum(/\b(?:stamina|toughness)\s*(\d+)\b/, 0);
+        const targetMaxHp = parseNum(/\b(?:max\s*hp|max\s*health|hp)\s*(\d+)\b/, lowerPrompt.includes('synthetic') ? 60 : 30);
+        const damageType = lowerPrompt.includes('force')
+          ? 'force'
+          : lowerPrompt.includes('bleed')
+            ? 'bleed'
+            : lowerPrompt.includes('spectral') || lowerPrompt.includes('phase')
+              ? 'spectral'
+              : lowerPrompt.includes('sonic')
+                ? 'sonic'
+                : lowerPrompt.includes('concussive')
+                  ? 'concussive'
+                  : 'kinetic';
+        const args = {
+          targetLocation,
+          incomingDamage,
+          armorDr,
+          penetration,
+          staminaToughness,
+          targetMaxHp,
+          damageType,
+          isSynthetic: lowerPrompt.includes('synthetic')
+        };
         const res = await toolExecutor({
           name: 'resolve_called_shot',
-          args: { targetLocation: 'head', incomingDamage: 18, armorDr: 4 }
+          args
         });
-        executedCalls.push({ name: 'resolve_called_shot', args: { targetLocation: 'head', incomingDamage: 18, armorDr: 4 }, result: res });
+        executedCalls.push({ name: 'resolve_called_shot', args, result: res });
+      } else if (
+        allowedNames.has('calculate_combat_odds') &&
+        (lowerPrompt.includes('odds') || lowerPrompt.includes('hit probability') || lowerPrompt.includes('2d10 vs'))
+      ) {
+        const attackBonus = parseNum(/(?:bonus|attack)\s*\+?(-?\d+)\b/, 5);
+        const targetCR = parseNum(/\b(?:cr|defense)\s*(\d+)\b/, 15);
+        const res = await toolExecutor({
+          name: 'calculate_combat_odds',
+          args: { attackBonus, targetCR }
+        });
+        executedCalls.push({ name: 'calculate_combat_odds', args: { attackBonus, targetCR }, result: res });
+      } else if (
+        allowedNames.has('calculate_armor_mitigation') &&
+        (lowerPrompt.includes('armor mitigation') || lowerPrompt.includes('mitigation') || lowerPrompt.includes('penetration'))
+      ) {
+        const rawDamage = parseNum(/\b(\d+)\s*(?:dmg|damage)\b/, 20);
+        const penetration = parseNum(/\b(?:ap|pen|penetration)\s*(\d+)\b/, 0);
+        const armorDr = parseNum(/\b(?:dr|armor)\s*(\d+)\b/, 4);
+        const staminaToughness = parseNum(/\b(?:stamina|toughness)\s*(\d+)\b/, 0);
+        const damageType = lowerPrompt.includes('force')
+          ? 'force'
+          : lowerPrompt.includes('bleed')
+            ? 'bleed'
+            : lowerPrompt.includes('spectral')
+              ? 'spectral'
+              : lowerPrompt.includes('sonic')
+                ? 'sonic'
+                : 'kinetic';
+        const args = { rawDamage, armorLayers: [armorDr], penetration, staminaToughness, damageType };
+        const res = await toolExecutor({
+          name: 'calculate_armor_mitigation',
+          args
+        });
+        executedCalls.push({ name: 'calculate_armor_mitigation', args, result: res });
       } else if (
         allowedNames.has('query_bastion_for_statblock') &&
         (lowerPrompt.includes('statblock') || lowerPrompt.includes('150 cp') || lowerPrompt.includes('150 bp'))
@@ -449,32 +589,37 @@ class VertexAIGatewayService {
         attributes: { strength: 3, agility: 4, stamina: 3, intellect: 2, wisdom: 3, charisma: 3 },
         stats: { strength: 3, agility: 4, stamina: 3, intellect: 2, wisdom: 3, charisma: 3 },
         skills: {
-          Firearms: 5,
+          Ballistic: 5,
           Athletics: 5,
           Alertness: 4,
           Electronics: 4,
           Stealth: 4,
-          Computers: 4,
+          Computers: 5,
           Demolitions: 4,
           Piloting: 4,
           Survival: 4,
           Melee: 5,
           Engineering: 4,
           Tactics: 4,
-          Medicine: 4,
-          Security: 5
+          Medicine: 4
         },
         vitals: { health: 30, vitality: 30, structure: 60 },
         totalCp: 150,
         totalBp: 150,
         isValid: true
       };
-    } else if (prompt.includes('SEALED MECHANICAL MANDATE') || prompt.includes('SYSTEM INTENT')) {
-      const cuesMatch = prompt.match(/Required Sensory Cues:\s*([^\n]+)/i);
-      const outcomeMatch = prompt.match(/Prescribed Outcome:\s*([^\n]+)/i);
+    } else if (
+      prompt.includes('SYSTEM STRUCTURAL MANDATE') ||
+      prompt.includes('SEALED MECHANICAL MANDATE') ||
+      /•\s*System Intent:/i.test(prompt) ||
+      prompt.includes('SYSTEM INTENT')
+    ) {
+      const cuesMatch = prompt.match(/(?:Required|Mandatory)\s+Sensory\s+Cues(?:\s+to\s+Depict)?:\s*([^\n]+)/i);
+      const outcomeMatch = prompt.match(/Prescribed(?:\s+Narrative)?\s+Outcome:\s*([^\n]+)/i);
+      const intentMatch = prompt.match(/System Intent:\s*([A-Z_]+)/i);
       const cues = cuesMatch ? cuesMatch[1].trim() : 'ozone discharge and cycling bulkhead locks';
       const outcome = outcomeMatch ? outcomeMatch[1].trim() : 'The operator executes the maneuver within canonical parameters.';
-      fallbackData = `[AIME MANDATED BEAT]: ${outcome} Sensory telemetry registers ${cues}.`;
+      fallbackData = `[AIME MANDATED BEAT${intentMatch ? ` (${intentMatch[1]})` : ''}]: ${outcome} Sensory telemetry registers ${cues}.`;
     } else {
       fallbackData = `[AIME SIMULATED TELEMETRY]: Analyzing situation. Atmospheric sensors detect low-pressure venting and magnetic resonance. Proceed with standard caution.`;
     }

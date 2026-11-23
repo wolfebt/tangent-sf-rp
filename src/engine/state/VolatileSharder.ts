@@ -108,7 +108,12 @@ export interface EngineState {
   healHealth: (id: string, amount: number) => void;
   healVitality: (id: string, amount: number) => void;
   healStructure: (id: string, amount: number) => void;
+  setHealth: (id: string, value: number) => void;
+  setVitality: (id: string, value: number) => void;
+  setStructure: (id: string, value: number) => void;
   setStabilityPoints: (id: string, points: number) => void;
+  stabilizeEntity: (id: string) => void;
+  addCondition: (id: string, condition: string) => void;
   toggleCondition: (id: string, condition: string) => void;
   toggleHidden: (id: string) => void;
   setElevation: (id: string, elevation: number) => void;
@@ -170,7 +175,7 @@ export const useEngineStore = create<EngineState>()(
             current_hp: isSynth ? baseStructure : baseHealth,
             current_health: baseHealth,
             current_vitality: baseVitality,
-            current_structure: isSynth ? baseStructure : undefined,
+            ...(isSynth ? { current_structure: baseStructure } : {}),
             stability_points: staScore + 5,
             active_conditions: [],
             is_selected: false,
@@ -217,7 +222,7 @@ export const useEngineStore = create<EngineState>()(
               current_hp: isSynth ? baseStructure : baseHealth,
               current_health: baseHealth,
               current_vitality: baseVitality,
-              current_structure: isSynth ? baseStructure : undefined,
+              ...(isSynth ? { current_structure: baseStructure } : {}),
               stability_points: staScore + 5,
               active_conditions: [],
               is_selected: false,
@@ -230,10 +235,11 @@ export const useEngineStore = create<EngineState>()(
       }),
 
       updatePosition: (id, x, y, z = 0) => set((draft) => {
-        if (draft.ephemeralData[id]) {
-          draft.ephemeralData[id].x = x;
-          draft.ephemeralData[id].y = y;
-          draft.ephemeralData[id].z = z;
+        const eph = draft.ephemeralData[id];
+        if (eph) {
+          eph.x = x;
+          eph.y = y;
+          eph.z = z;
         }
 
         // If updated entity is a registered vehicle, translate childed passengers synchronously
@@ -248,9 +254,10 @@ export const useEngineStore = create<EngineState>()(
             const socketMgr = new MechaSocketManager();
             const positions = socketMgr.translateVehicle(veh, deltaCols, deltaRows, cellSizePx);
             for (const p of positions) {
-              if (draft.ephemeralData[p.tokenId]) {
-                draft.ephemeralData[p.tokenId].x = p.x;
-                draft.ephemeralData[p.tokenId].y = p.y;
+              const pEph = draft.ephemeralData[p.tokenId];
+              if (pEph) {
+                pEph.x = p.x;
+                pEph.y = p.y;
               }
             }
           }
@@ -270,7 +277,7 @@ export const useEngineStore = create<EngineState>()(
         if (stat.is_synthetic) {
           // Synthetics only have Structure and do NOT suffer non-lethal damage
           if (!isLethal) return;
-          const currentStruct = eph.current_structure ?? eph.current_hp ?? 30;
+          const currentStruct = eph.current_structure ?? eph.current_hp ?? 60;
           const nextStruct = Math.max(0, currentStruct - amount);
           eph.current_structure = nextStruct;
           eph.current_hp = nextStruct;
@@ -324,8 +331,8 @@ export const useEngineStore = create<EngineState>()(
         const stat = draft.staticData[id];
         if (!eph || !stat) return;
         if (stat.is_synthetic) {
-          const maxStruct = stat.base_structure ?? stat.base_hp ?? 45;
-          const current = eph.current_structure ?? eph.current_hp ?? 45;
+          const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
+          const current = eph.current_structure ?? eph.current_hp ?? 60;
           const next = Math.min(maxStruct, current + amount);
           eph.current_structure = next;
           eph.current_hp = next;
@@ -348,9 +355,84 @@ export const useEngineStore = create<EngineState>()(
         const eph = draft.ephemeralData[id];
         const stat = draft.staticData[id];
         if (!eph || !stat) return;
-        const maxStruct = stat.base_structure ?? stat.base_hp ?? 45;
-        const current = eph.current_structure ?? eph.current_hp ?? 45;
+        const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
+        const current = eph.current_structure ?? eph.current_hp ?? 60;
         const next = Math.min(maxStruct, current + amount);
+        eph.current_structure = next;
+        eph.current_hp = next;
+      }),
+
+      stabilizeEntity: (id) => set((draft) => {
+        const eph = draft.ephemeralData[id];
+        const stat = draft.staticData[id];
+        if (!eph || !stat) return;
+        if (stat.is_synthetic) {
+          const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
+          const current = eph.current_structure ?? eph.current_hp ?? 0;
+          const next = Math.min(maxStruct, Math.max(1, current));
+          eph.current_structure = next;
+          eph.current_hp = next;
+        } else {
+          const maxHp = stat.base_health ?? stat.base_hp ?? 30;
+          const current = eph.current_health ?? eph.current_hp ?? 0;
+          const next = Math.min(maxHp, Math.max(1, current));
+          eph.current_health = next;
+          eph.current_hp = next;
+        }
+        eph.active_conditions = (eph.active_conditions || []).filter(
+          (c) =>
+            c !== 'status_bleeding_out' &&
+            c !== 'status_incapacitated' &&
+            c !== 'status_unconscious'
+        );
+        if (!eph.active_conditions.includes('status_stabilized')) {
+          eph.active_conditions.push('status_stabilized');
+        }
+      }),
+
+      setHealth: (id, value) => set((draft) => {
+        const eph = draft.ephemeralData[id];
+        const stat = draft.staticData[id];
+        if (!eph || !stat) return;
+        if (stat.is_synthetic) {
+          const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
+          const next = Math.max(0, Math.min(maxStruct, Number(value) || 0));
+          eph.current_structure = next;
+          eph.current_hp = next;
+          return;
+        }
+        const maxHp = stat.base_health ?? stat.base_hp ?? 30;
+        const next = Math.max(0, Math.min(maxHp, Number(value) || 0));
+        eph.current_health = next;
+        eph.current_hp = next;
+        if (next <= 0) {
+          if (!eph.active_conditions.includes('status_incapacitated')) {
+            eph.active_conditions.push('status_incapacitated');
+          }
+          if (!eph.active_conditions.includes('status_bleeding_out')) {
+            eph.active_conditions.push('status_bleeding_out');
+          }
+        } else {
+          eph.active_conditions = eph.active_conditions.filter(
+            c => c !== 'status_incapacitated' && c !== 'status_bleeding_out'
+          );
+        }
+      }),
+
+      setVitality: (id, value) => set((draft) => {
+        const eph = draft.ephemeralData[id];
+        const stat = draft.staticData[id];
+        if (!eph || !stat || stat.is_synthetic) return;
+        const maxVit = stat.base_vitality ?? 30;
+        eph.current_vitality = Math.max(0, Math.min(maxVit, Number(value) || 0));
+      }),
+
+      setStructure: (id, value) => set((draft) => {
+        const eph = draft.ephemeralData[id];
+        const stat = draft.staticData[id];
+        if (!eph || !stat || !stat.is_synthetic) return;
+        const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
+        const next = Math.max(0, Math.min(maxStruct, Number(value) || 0));
         eph.current_structure = next;
         eph.current_hp = next;
       }),
@@ -360,8 +442,8 @@ export const useEngineStore = create<EngineState>()(
         const stat = draft.staticData[id];
         if (!eph || !stat) return;
         if (stat.is_synthetic) {
-          const maxStruct = stat.base_structure ?? stat.base_hp ?? 45;
-          const current = eph.current_structure ?? eph.current_hp ?? 45;
+          const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
+          const current = eph.current_structure ?? eph.current_hp ?? 60;
           const next = Math.min(maxStruct, current + amount);
           eph.current_structure = next;
           eph.current_hp = next;
@@ -385,6 +467,11 @@ export const useEngineStore = create<EngineState>()(
             const curVit = eph.current_vitality ?? 30;
             eph.current_vitality = Math.min(maxVit, curVit + amount);
           }
+          if ((eph.current_health ?? 0) > 0) {
+            eph.active_conditions = eph.active_conditions.filter(
+              c => c !== 'status_incapacitated' && c !== 'status_bleeding_out'
+            );
+          }
         }
       }),
 
@@ -396,6 +483,13 @@ export const useEngineStore = create<EngineState>()(
               draft.ephemeralData[id].active_conditions.push('status_dead');
             }
           }
+        }
+      }),
+
+      addCondition: (id, condition) => set((draft) => {
+        const token = draft.ephemeralData[id];
+        if (token && !token.active_conditions.includes(condition)) {
+          token.active_conditions.push(condition);
         }
       }),
 
@@ -430,21 +524,26 @@ export const useEngineStore = create<EngineState>()(
 
       clearSelection: () => set((draft) => {
         for (const key of Object.keys(draft.ephemeralData)) {
-          draft.ephemeralData[key].is_selected = false;
+          const eph = draft.ephemeralData[key];
+          if (eph) {
+            eph.is_selected = false;
+          }
         }
       }),
 
       removeEntity: (id) => set((draft) => {
         delete draft.staticData[id];
         delete draft.ephemeralData[id];
+        tokenCache.delete(id);
 
         // Clean up vehicle if id was a vehicle
         const veh = draft.vehicles[id];
         if (veh) {
           for (const node of veh.passengerNodes) {
-            if (node.seatedTokenId && draft.ephemeralData[node.seatedTokenId]) {
-              draft.ephemeralData[node.seatedTokenId].parent_vehicle_id = undefined;
-              draft.ephemeralData[node.seatedTokenId].vehicle_node_id = undefined;
+            const passengerEph = node.seatedTokenId ? draft.ephemeralData[node.seatedTokenId] : undefined;
+            if (passengerEph) {
+              delete passengerEph.parent_vehicle_id;
+              delete passengerEph.vehicle_node_id;
             }
           }
           delete draft.vehicles[id];
@@ -453,9 +552,10 @@ export const useEngineStore = create<EngineState>()(
         // If id was a seated passenger in any vehicle, unseat it
         for (const vId of Object.keys(draft.vehicles)) {
           const v = draft.vehicles[vId];
+          if (!v) continue;
           for (const node of v.passengerNodes) {
             if (node.seatedTokenId === id) {
-              node.seatedTokenId = undefined;
+              delete node.seatedTokenId;
             }
           }
         }
@@ -465,15 +565,17 @@ export const useEngineStore = create<EngineState>()(
         draft.staticData = {};
         draft.ephemeralData = {};
         draft.vehicles = {};
+        tokenCache.clear();
       }),
 
       // --- VEHICLE & PASSENGER ACTIONS ---
       registerVehicle: (vehicle) => set((draft) => {
         draft.vehicles[vehicle.id] = vehicle;
         for (const node of vehicle.passengerNodes) {
-          if (node.seatedTokenId && draft.ephemeralData[node.seatedTokenId]) {
-            draft.ephemeralData[node.seatedTokenId].parent_vehicle_id = vehicle.id;
-            draft.ephemeralData[node.seatedTokenId].vehicle_node_id = node.id;
+          const passengerEph = node.seatedTokenId ? draft.ephemeralData[node.seatedTokenId] : undefined;
+          if (passengerEph) {
+            passengerEph.parent_vehicle_id = vehicle.id;
+            passengerEph.vehicle_node_id = node.id;
           }
         }
       }),
@@ -482,9 +584,10 @@ export const useEngineStore = create<EngineState>()(
         const veh = draft.vehicles[vehicleId];
         if (veh) {
           for (const node of veh.passengerNodes) {
-            if (node.seatedTokenId && draft.ephemeralData[node.seatedTokenId]) {
-              draft.ephemeralData[node.seatedTokenId].parent_vehicle_id = undefined;
-              draft.ephemeralData[node.seatedTokenId].vehicle_node_id = undefined;
+            const passengerEph = node.seatedTokenId ? draft.ephemeralData[node.seatedTokenId] : undefined;
+            if (passengerEph) {
+              delete passengerEph.parent_vehicle_id;
+              delete passengerEph.vehicle_node_id;
             }
           }
           delete draft.vehicles[vehicleId];
@@ -498,14 +601,15 @@ export const useEngineStore = create<EngineState>()(
           if (!veh) return;
           const socketMgr = new MechaSocketManager();
           success = socketMgr.mountPassenger(veh, nodeId, tokenId);
-          if (success && draft.ephemeralData[tokenId]) {
-            draft.ephemeralData[tokenId].parent_vehicle_id = vehicleId;
-            draft.ephemeralData[tokenId].vehicle_node_id = nodeId;
+          const tokenEph = draft.ephemeralData[tokenId];
+          if (success && tokenEph) {
+            tokenEph.parent_vehicle_id = vehicleId;
+            tokenEph.vehicle_node_id = nodeId;
             const positions = socketMgr.calculatePassengerPositions(veh, cellSizePx);
             const pPos = positions.find(p => p.tokenId === tokenId);
             if (pPos) {
-              draft.ephemeralData[tokenId].x = pPos.x;
-              draft.ephemeralData[tokenId].y = pPos.y;
+              tokenEph.x = pPos.x;
+              tokenEph.y = pPos.y;
             }
           }
         });
@@ -519,9 +623,10 @@ export const useEngineStore = create<EngineState>()(
           if (!veh) return;
           const socketMgr = new MechaSocketManager();
           success = socketMgr.dismountPassenger(veh, tokenId);
-          if (success && draft.ephemeralData[tokenId]) {
-            draft.ephemeralData[tokenId].parent_vehicle_id = undefined;
-            draft.ephemeralData[tokenId].vehicle_node_id = undefined;
+          const tokenEph = draft.ephemeralData[tokenId];
+          if (success && tokenEph) {
+            delete tokenEph.parent_vehicle_id;
+            delete tokenEph.vehicle_node_id;
           }
         });
         return success;
@@ -535,14 +640,16 @@ export const useEngineStore = create<EngineState>()(
           const socketMgr = new MechaSocketManager();
           positions = socketMgr.translateVehicle(veh, deltaCols, deltaRows, cellSizePx);
           for (const p of positions) {
-            if (draft.ephemeralData[p.tokenId]) {
-              draft.ephemeralData[p.tokenId].x = p.x;
-              draft.ephemeralData[p.tokenId].y = p.y;
+            const pEph = draft.ephemeralData[p.tokenId];
+            if (pEph) {
+              pEph.x = p.x;
+              pEph.y = p.y;
             }
           }
-          if (draft.ephemeralData[vehicleId]) {
-            draft.ephemeralData[vehicleId].x = veh.col * cellSizePx + (veh.gridFootprint[0] * cellSizePx) / 2;
-            draft.ephemeralData[vehicleId].y = veh.row * cellSizePx + (veh.gridFootprint[1] * cellSizePx) / 2;
+          const vehEph = draft.ephemeralData[vehicleId];
+          if (vehEph) {
+            vehEph.x = veh.col * cellSizePx + (veh.gridFootprint[0] * cellSizePx) / 2;
+            vehEph.y = veh.row * cellSizePx + (veh.gridFootprint[1] * cellSizePx) / 2;
           }
         });
         return positions;

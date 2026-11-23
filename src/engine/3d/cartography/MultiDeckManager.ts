@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { WORLD_UNITS_PER_FOOT } from '../scaleConstants.ts';
 
 export interface DeckLevel {
   id: string;
@@ -72,7 +73,7 @@ export class MultiDeckManager {
 
     const activeDeck = this.getActiveDeck();
     // 1 cell = 70 units = 5 ft -> 14 units per ft
-    const unitsPerFt = 14;
+    const unitsPerFt = WORLD_UNITS_PER_FOOT;
     const maxVisibleAltitudeUnits = (activeDeck.elevationFt + activeDeck.ceilingHeightFt + 2) * unitsPerFt;
 
     scene.traverse(obj => {

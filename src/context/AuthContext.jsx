@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, onIdTokenChanged } from 'firebase/auth';
 import { doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, loginWithGoogle, logout } from '../firebase';
 import { SystemBootSplash } from '../components/UI/SystemBootSplash';
@@ -7,6 +7,7 @@ import { TerranNetAuthModal } from '../components/UI/TerranNetAuthModal';
 import { OperatorHandlePromptModal } from '../components/UI/OperatorHandlePromptModal';
 import { generateTempHandle, isTemporaryHandle, getEffectiveUserHandle } from '../utils/personaValidationUtils';
 import { useConfirm } from './ConfirmContext';
+import { setInMemoryFirebaseIdToken } from '../utils/firebaseTokenStore';
 
 const AuthContext = globalThis.__TANGENT_AUTH_CONTEXT__ || (globalThis.__TANGENT_AUTH_CONTEXT__ = createContext({}));
 
@@ -31,8 +32,10 @@ export const AuthProvider = ({ children }) => {
   });
   const [customClaims, setCustomClaims] = useState({});
   const [hasAdminClaim, setHasAdminClaim] = useState(false);
-  // Default to true so Key Developer has complete master access by default at this stage
-  const [adminOverride, setAdminOverride] = useState(localStorage.getItem('omnicortex_admin_override') !== 'false');
+  // Default to false so standard users operate with non-privileged access unless explicitly granted
+  const [adminOverride, setAdminOverride] = useState(
+    Boolean(import.meta.env?.DEV) && localStorage.getItem('omnicortex_admin_override') === 'true'
+  );
 
   const openAuthModal = useCallback(() => setIsAuthModalOpen(true), []);
   const closeAuthModal = useCallback(() => setIsAuthModalOpen(false), []);
@@ -45,6 +48,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const toggleAdminOverride = useCallback(() => {
+    if (!import.meta.env?.DEV) {
+      setAdminOverride(false);
+      return;
+    }
     setAdminOverride(prev => {
       const nextState = !prev;
       localStorage.setItem('omnicortex_admin_override', nextState ? 'true' : 'false');
@@ -73,11 +80,15 @@ export const AuthProvider = ({ children }) => {
         privateUnsub = null;
       }
 
+      try {
+        localStorage.removeItem('firebaseIdToken');
+      } catch {}
+
       if (user) {
         try {
           const tokenResult = await user.getIdTokenResult();
           if (tokenResult?.token) {
-            localStorage.setItem('firebaseIdToken', tokenResult.token);
+            setInMemoryFirebaseIdToken(tokenResult.token);
           }
           const claims = tokenResult.claims || {};
           setCustomClaims(claims);
@@ -172,6 +183,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         setCustomClaims({});
         setHasAdminClaim(false);
+        setInMemoryFirebaseIdToken('');
         try {
           localStorage.removeItem('firebaseIdToken');
         } catch {}
@@ -181,13 +193,32 @@ export const AuthProvider = ({ children }) => {
 
     const handleStorageChange = () => {
       refreshUserHandle();
-      setAdminOverride(localStorage.getItem('omnicortex_admin_override') !== 'false');
+      setAdminOverride(Boolean(import.meta.env?.DEV) && localStorage.getItem('omnicortex_admin_override') === 'true');
     };
     window.addEventListener('storage', handleStorageChange);
+
+    const unsubscribeToken = onIdTokenChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const freshToken = await user.getIdToken();
+          if (freshToken) {
+            setInMemoryFirebaseIdToken(freshToken);
+          }
+        } catch (err) {
+          console.warn('Failed to refresh Firebase ID token:', err);
+        }
+      } else {
+        setInMemoryFirebaseIdToken('');
+        try {
+          localStorage.removeItem('firebaseIdToken');
+        } catch {}
+      }
+    });
 
     return () => {
       clearTimeout(watchdogTimer);
       unsubscribe();
+      unsubscribeToken();
       if (userUnsub) userUnsub();
       if (privateUnsub) privateUnsub();
       window.removeEventListener('storage', handleStorageChange);
@@ -205,13 +236,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const isAuthorizedEmail = Boolean(currentUser?.email && currentUser.email.toLowerCase() === 'btw.284@gmail.com');
+  const allowDevAdminOverride = Boolean(import.meta.env?.DEV);
+  const effectiveAdminOverride = allowDevAdminOverride && adminOverride;
+  const isAuthorizedEmail = Boolean(
+    currentUser?.emailVerified === true &&
+    currentUser?.email &&
+    currentUser.email.toLowerCase() === 'btw.284@gmail.com'
+  );
   const hasCloudAdminAccess = hasAdminClaim || isAuthorizedEmail;
-  const isAdmin = hasAdminClaim || adminOverride || isAuthorizedEmail;
+  const isAdmin = hasAdminClaim || effectiveAdminOverride || isAuthorizedEmail;
   const isGM = isAdmin || customClaims.role === 'GM';
   const userRole = (hasAdminClaim || isAuthorizedEmail)
     ? (customClaims.role || 'Architect')
-    : (adminOverride ? 'Architect' : 'Operator');
+    : (effectiveAdminOverride ? 'Architect' : 'Operator');
 
   // Always use handles for operators, never expose email
   const displayIdentity = userHandle ? `@${userHandle}` : `@${getEffectiveUserHandle(currentUser)}`;

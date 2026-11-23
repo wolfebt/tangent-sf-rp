@@ -21,6 +21,7 @@ export class Stage3DRendererContext {
   private isInitialized = false;
   private resizeObserver: ResizeObserver | null = null;
   private renderCallbacks: Array<(delta: number, elapsed: number) => void> = [];
+  private resizeCallbacks: Array<(width: number, height: number) => void> = [];
   private clock: THREE.Clock = new THREE.Clock();
   private handleContextLost: ((e: Event) => void) | null = null;
   private handleContextRestored: (() => void) | null = null;
@@ -97,6 +98,23 @@ export class Stage3DRendererContext {
   public resize(width: number, height: number) {
     if (!this.renderer || width <= 0 || height <= 0) return;
     this.renderer.setSize(width, height, false);
+    for (let i = 0; i < this.resizeCallbacks.length; i++) {
+      try {
+        this.resizeCallbacks[i](width, height);
+      } catch (err) {
+        console.warn('[Stage3DRendererContext] Resize callback error:', err);
+      }
+    }
+  }
+
+  /**
+   * Register a resize callback to keep camera aspect ratios synchronized with container size.
+   */
+  public onResize(callback: (width: number, height: number) => void): () => void {
+    this.resizeCallbacks.push(callback);
+    return () => {
+      this.resizeCallbacks = this.resizeCallbacks.filter(cb => cb !== callback);
+    };
   }
 
   /**
@@ -159,6 +177,7 @@ export class Stage3DRendererContext {
   public destroy() {
     this.stopLoop();
     this.renderCallbacks = [];
+    this.resizeCallbacks = [];
     if (this.canvas) {
       if (this.handleContextLost) {
         this.canvas.removeEventListener('webglcontextlost', this.handleContextLost);

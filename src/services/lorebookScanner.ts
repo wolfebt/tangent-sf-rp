@@ -99,6 +99,17 @@ export function compileTriggerRegex(
       .replace(/\{\{user\}\}/gi, escapedUser)
       .replace(/\{\{char\}\}/gi, escapedChar);
 
+    if (trimmed.length > 240) {
+      console.warn(`[LorebookScanner] Pattern exceeds max length (240 chars): "${trimmed.slice(0, 40)}..."`);
+      return null;
+    }
+
+    // Reject catastrophic nested quantifiers (e.g. (a+)+, (.*)*, ([a-z]+)+) to prevent ReDoS
+    if (/(\([^)]*[+*{][^)]*\)|\[[^\]]*[+*][^\]]*\])[+*{?]/.test(trimmed)) {
+      console.warn(`[LorebookScanner] Rejected potentially unsafe nested quantifier regex: "${trimmed}"`);
+      return null;
+    }
+
     if (trimmed.startsWith('/') && trimmed.lastIndexOf('/') > 0) {
       const lastSlash = trimmed.lastIndexOf('/');
       const body = trimmed.slice(1, lastSlash);
@@ -227,7 +238,7 @@ export function evaluateSelectiveBooleanLogic({
 export function testKeywordTriggers(triggerListStr: string = '', textToScan: string = ''): string | null {
   const list = normalizeTriggers(triggerListStr);
   const matches = testKeywordList(list, textToScan);
-  return matches.length > 0 ? matches[0] : null;
+  return matches[0] ?? null;
 }
 
 
@@ -323,11 +334,20 @@ function matchCandidateAgainstText(
     return evalResult.triggerLabel;
   }
 
-  // 4. Exact Title / Designation Match (default primary match under OR logic)
-  if (triggerLogic === 'OR' && elem.title && elem.title.length >= 3) {
-    const titleRegex = new RegExp(`\\b${elem.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
-    if (titleRegex.test(textToScan)) {
-      return `Title: "${elem.title}"`;
+  // 4. Exact Title / Alias / Designation Match (default primary match under OR logic)
+  if (triggerLogic === 'OR') {
+    if (elem.title && elem.title.length >= 3) {
+      const titleRegex = new RegExp(`\\b${elem.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      if (titleRegex.test(textToScan)) {
+        return `Title: "${elem.title}"`;
+      }
+    }
+    const aliasList = normalizeTriggers(elem.aliases || elem.fields?.aliases || elem.fields?.alias);
+    if (aliasList.length > 0) {
+      const aliasMatches = testKeywordList(aliasList, textToScan);
+      if (aliasMatches.length > 0) {
+        return `Alias: "${aliasMatches[0]}"`;
+      }
     }
   }
 

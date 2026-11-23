@@ -264,8 +264,9 @@ export function getAssetVisualFallback(unit?: Partial<AssetUnit> | null): string
   if (!unit) return CORE_ASSET_SVGS.industrialMetalDeck;
 
   // 1. Direct seed ID match
-  if (unit.unit_id && SEED_TEXTURE_MAP[unit.unit_id]) {
-    return SEED_TEXTURE_MAP[unit.unit_id];
+  const directSeed = unit.unit_id ? SEED_TEXTURE_MAP[unit.unit_id] : undefined;
+  if (directSeed) {
+    return directSeed;
   }
 
   const query = `${unit.name || ''} ${unit.unit_id || ''} ${unit.tags?.join(' ') || ''} ${unit.tree_path?.join(' ') || ''}`.toLowerCase();
@@ -321,6 +322,41 @@ export function getAssetVisualFallback(unit?: Partial<AssetUnit> | null): string
   }
 }
 
+function isSafeVisualDataUri(uri: string): boolean {
+  if (/^data:image\/(png|jpeg|jpg|webp|gif);base64,[A-Za-z0-9+/=\s]+$/i.test(uri)) {
+    return true;
+  }
+  if (/^data:image\/svg\+xml/i.test(uri)) {
+    let decoded = uri;
+    try {
+      decoded = decodeURIComponent(uri);
+    } catch {}
+    if (/^data:image\/svg\+xml;base64,/i.test(uri)) {
+      try {
+        const b64 = uri.split(',')[1] || '';
+        const maybeBuffer = typeof globalThis !== 'undefined' ? (globalThis as any).Buffer : undefined;
+        if (typeof atob === 'function') decoded += `\n${atob(b64)}`;
+        else if (maybeBuffer?.from) decoded += `\n${maybeBuffer.from(b64, 'base64').toString('utf8')}`;
+      } catch {}
+    }
+    if (
+      /<script|<\/script|\bon[a-z]+\s*=|javascript\s*:|vbscript\s*:|data\s*:|<foreignObject|<iframe|<object|<embed|xlink:href\s*=\s*['"]?\s*(?:javascript|data)/i.test(
+        decoded
+      )
+    ) {
+      return false;
+    }
+    return true;
+  }
+  return false;
+}
+
+function isSafeVisualUrl(url: string): boolean {
+  if (!url) return false;
+  if (/^data:/i.test(url)) return isSafeVisualDataUri(url);
+  return /^https?:\/\//i.test(url) || /^\/(?!\/)/.test(url);
+}
+
 /**
  * Resolves a reliable image URL for an asset. If the declared baseTexture is missing
  * or known to be a placeholder/broken, returns the safe SVG fallback.
@@ -331,17 +367,27 @@ export function resolveAssetTexture(unit?: Partial<AssetUnit> | null): string {
   const base = unit.visuals?.baseTexture?.trim();
   const thumb = unit.visuals?.thumbnail?.trim();
 
-  // If already an inline data URI (SVG, PNG, etc.), trust it
-  if (base && base.startsWith('data:')) return base;
-  if (thumb && thumb.startsWith('data:')) return thumb;
+  // If already a safe inline raster or vetted SVG data URI, return it
+  if (base && /^data:/i.test(base) && isSafeVisualDataUri(base)) return base;
+  if (thumb && /^data:/i.test(thumb) && isSafeVisualDataUri(thumb)) return thumb;
 
   // If pointing to non-existent /assets/ seed path, substitute canonical SVG
-  if (unit.unit_id && SEED_TEXTURE_MAP[unit.unit_id]) {
-    return SEED_TEXTURE_MAP[unit.unit_id];
+  const seedFallback = unit.unit_id ? SEED_TEXTURE_MAP[unit.unit_id] : undefined;
+  if (seedFallback) {
+    return seedFallback;
   }
 
-  // If a valid non-empty string that isn't a known broken seed path
-  if (base && !base.startsWith('/assets/textures/') && !base.startsWith('/assets/props/') && !base.startsWith('/assets/walls/') && !base.startsWith('/assets/hazards/') && !base.startsWith('/assets/vehicles/') && !base.startsWith('/assets/tokens/')) {
+  // If a safe non-empty URL that isn't a known broken seed path
+  if (
+    base &&
+    isSafeVisualUrl(base) &&
+    !base.startsWith('/assets/textures/') &&
+    !base.startsWith('/assets/props/') &&
+    !base.startsWith('/assets/walls/') &&
+    !base.startsWith('/assets/hazards/') &&
+    !base.startsWith('/assets/vehicles/') &&
+    !base.startsWith('/assets/tokens/')
+  ) {
     return base;
   }
 

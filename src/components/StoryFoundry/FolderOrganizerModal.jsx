@@ -67,8 +67,6 @@ export const FolderOrganizerModal = ({
     return () => window.removeEventListener(FOLDERS_UPDATE_EVENT, handleUpdate);
   }, []);
 
-  if (!isOpen) return null;
-
   const handleStartCreate = () => {
     AudioService.playTerminalBeep(900, 0.02);
     setFolderNameInput('');
@@ -180,6 +178,8 @@ export const FolderOrganizerModal = ({
     // Apply custom manual sorting for this view
     return sortContentItems(items, 'custom', selectedFolderId, 'id');
   }, [allItems, selectedFolderId]);
+
+  if (!isOpen) return null;
 
   const handleMove = (itemId, direction) => {
     AudioService.playTerminalBeep(1100, 0.02);

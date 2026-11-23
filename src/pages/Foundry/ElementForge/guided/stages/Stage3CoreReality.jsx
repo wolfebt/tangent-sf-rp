@@ -7,6 +7,7 @@
 
 import React, { useState, useMemo } from 'react';
 import ReactQuill from 'react-quill-new';
+import DOMPurify from 'dompurify';
 import {
   Wand2,
   Check,
@@ -292,6 +293,31 @@ export default function Stage3CoreReality({
                     placeholder={f.placeholder || `Enter ${f.label}...`}
                     className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2.5 rounded-xl text-xs outline-none transition-colors leading-relaxed"
                   />
+                ) : f.type === 'select' ? (
+                  <select
+                    value={val}
+                    onChange={(e) => onChangeField?.(f.key, e.target.value)}
+                    className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2.5 rounded-xl text-xs outline-none transition-colors cursor-pointer"
+                  >
+                    <option value="">{f.placeholder || `Select ${f.label}...`}</option>
+                    {(Array.isArray(f.options) ? f.options : []).map((opt) => {
+                      const optVal = typeof opt === 'object' ? (opt.value ?? opt.label) : opt;
+                      const optLabel = typeof opt === 'object' ? (opt.label ?? opt.value) : opt;
+                      return (
+                        <option key={String(optVal)} value={optVal}>
+                          {optLabel}
+                        </option>
+                      );
+                    })}
+                  </select>
+                ) : f.type === 'number' ? (
+                  <input
+                    type="number"
+                    value={val}
+                    onChange={(e) => onChangeField?.(f.key, e.target.value)}
+                    placeholder={f.placeholder || `Enter ${f.label}...`}
+                    className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2.5 rounded-xl text-xs outline-none transition-colors"
+                  />
                 ) : (
                   <input
                     type="text"
@@ -396,6 +422,10 @@ export default function Stage3CoreReality({
                     </button>
                   </div>
                 </div>
+                <div
+                  className="max-h-56 overflow-y-auto rounded-lg bg-slate-950/80 border border-purple-500/30 p-3 text-slate-200 font-sans leading-relaxed whitespace-pre-wrap"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(pendingProseDiff) }}
+                />
               </div>
             )}
 

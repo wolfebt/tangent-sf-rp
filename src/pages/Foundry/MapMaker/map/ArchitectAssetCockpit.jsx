@@ -282,11 +282,10 @@ export const ArchitectAssetCockpit = ({
     return mapTokens[0] || null;
   }, [activeAssetId, mapTokens, mapObjects, storyElements, folioPersonas, omnicortexItems]);
 
-  // Handlers for Token Updates
-  const handleTokenPropertyChange = (field, value) => {
-    if (!selectedAsset || selectedAsset._sourceType !== 'token') return;
+  // Batched Token Updates (avoids stale-closure overwrite when setting multiple properties)
+  const handleTokenPropertiesChange = (updates) => {
+    if (!selectedAsset || (selectedAsset._sourceType !== 'token' && selectedAsset._sourceType !== 'persona')) return;
     const tokenId = selectedAsset.id;
-    const updates = { [field]: value };
 
     if (onUpdateToken) {
       onUpdateToken(tokenId, updates);
@@ -295,38 +294,49 @@ export const ArchitectAssetCockpit = ({
       updateMap(currentMap.id, { tokens: next });
     }
 
-    // Also update EngineStore if available
+    // Sync supported vitals into EngineStore directly
     try {
       const state = useEngineStore.getState();
-      if (state?.updateToken) {
-        state.updateToken(tokenId, updates);
-      }
+      const nextHp = updates.current_hp ?? updates.current_health;
+      if (nextHp !== undefined && state?.setHealth) state.setHealth(tokenId, nextHp);
+      if (updates.current_vitality !== undefined && state?.setVitality) state.setVitality(tokenId, updates.current_vitality);
+      if (updates.current_structure !== undefined && state?.setStructure) state.setStructure(tokenId, updates.current_structure);
     } catch {
-      // Ignored if engine store doesn't support
+      // Ignored if engine store doesn't contain token
     }
     AudioService.playTerminalBeep(980, 0.02);
   };
 
+  const handleTokenPropertyChange = (field, value) => {
+    handleTokenPropertiesChange({ [field]: value });
+  };
+
   const handleStepTokenStat = (field, delta, min = 0, max = 999) => {
     if (!selectedAsset || selectedAsset._sourceType !== 'token') return;
-    const cur = parseInt(selectedAsset[field] ?? (selectedAsset.health?.current ?? 30), 10);
+    const cur = parseInt(
+      selectedAsset[field] ?? selectedAsset.current_health ?? selectedAsset.current_hp ?? selectedAsset.health?.current ?? 30,
+      10
+    );
     const nextVal = Math.max(min, Math.min(cur + delta, max));
-    handleTokenPropertyChange(field, nextVal);
+    if (field === 'current_hp' || field === 'current_health') {
+      handleTokenPropertiesChange({ current_hp: nextVal, current_health: nextVal });
+    } else {
+      handleTokenPropertiesChange({ [field]: nextVal });
+    }
   };
 
   const handleToggleCondition = (condId) => {
     if (!selectedAsset || selectedAsset._sourceType !== 'token') return;
-    const current = selectedAsset.conditions || [];
+    const current = selectedAsset.active_conditions || selectedAsset.conditions || [];
     const exists = current.includes(condId);
     const next = exists ? current.filter(c => c !== condId) : [...current, condId];
-    handleTokenPropertyChange('conditions', next);
+    handleTokenPropertiesChange({ active_conditions: next, conditions: next });
   };
 
-  // Handlers for Object Updates
-  const handleObjectPropertyChange = (field, value) => {
+  // Batched Object Updates
+  const handleObjectPropertiesChange = (updates) => {
     if (!selectedAsset || selectedAsset._sourceType !== 'object') return;
     const objId = selectedAsset.id;
-    const updates = { [field]: value };
 
     if (onUpdateObject) {
       onUpdateObject(objId, updates);
@@ -334,7 +344,11 @@ export const ArchitectAssetCockpit = ({
       const next = (currentMap.objects || []).map(o => o.id === objId ? { ...o, ...updates } : o);
       updateMap(currentMap.id, { objects: next });
     }
-    AudioService.playTerminalBeep(1020, 0.02);
+    AudioService.playTerminalBeep(980, 0.02);
+  };
+
+  const handleObjectPropertyChange = (field, value) => {
+    handleObjectPropertiesChange({ [field]: value });
   };
 
   // Handlers for Deploying Library Assets to the Map
@@ -765,12 +779,10 @@ export const ArchitectAssetCockpit = ({
                       value={selectedAsset._displayName || selectedAsset.name || selectedAsset.label || ''}
                       onChange={(e) => {
                         const val = e.target.value;
-                        if (selectedAsset._sourceType === 'token') {
-                          handleTokenPropertyChange('name', val);
-                          handleTokenPropertyChange('label', val);
+                        if (selectedAsset._sourceType === 'token' || selectedAsset._sourceType === 'persona') {
+                          handleTokenPropertiesChange({ name: val, label: val });
                         } else if (selectedAsset._sourceType === 'object') {
-                          handleObjectPropertyChange('name', val);
-                          handleObjectPropertyChange('label', val);
+                          handleObjectPropertiesChange({ name: val, label: val });
                         }
                       }}
                       className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1 text-xs font-mono text-slate-100 focus:outline-none focus:border-cyan-500/60"
@@ -795,9 +807,15 @@ export const ArchitectAssetCockpit = ({
                         <button
                           type="button"
                           onClick={() => {
-                            handleTokenPropertyChange('current_hp', selectedAsset.base_hp || selectedAsset.health?.max || 30);
-                            handleTokenPropertyChange('current_vitality', selectedAsset.base_vitality || selectedAsset.vitality?.max || 25);
-                            handleTokenPropertyChange('current_structure', selectedAsset.base_structure || selectedAsset.structure?.max || 50);
+                            const maxHp = selectedAsset.base_health || selectedAsset.base_hp || selectedAsset.health?.max || 30;
+                            const maxVit = selectedAsset.base_vitality || selectedAsset.vitality?.max || 25;
+                            const maxStruct = selectedAsset.base_structure || selectedAsset.structure?.max || 50;
+                            handleTokenPropertiesChange({
+                              current_hp: maxHp,
+                              current_health: maxHp,
+                              current_vitality: maxVit,
+                              current_structure: maxStruct
+                            });
                             AudioService.playCriticalChime(true);
                           }}
                           className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-900 cursor-pointer"
@@ -1059,7 +1077,8 @@ export const ArchitectAssetCockpit = ({
                     </span>
                     <div className="flex flex-wrap gap-1">
                       {CONDITION_LIST.map(cond => {
-                        const hasCond = (selectedAsset.conditions || []).includes(cond.id);
+                        const activeConds = selectedAsset.active_conditions || selectedAsset.conditions || [];
+                        const hasCond = activeConds.includes(cond.id);
                         return (
                           <button
                             key={cond.id}
