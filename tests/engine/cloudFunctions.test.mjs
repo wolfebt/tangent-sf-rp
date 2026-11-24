@@ -49,6 +49,12 @@ Module._load = function (request, parent, isMain) {
       }
     };
   }
+  if (request === 'firebase-functions/v2/https') {
+    return {
+      onRequest: (optsOrHandler, maybeHandler) =>
+        typeof optsOrHandler === 'function' ? optsOrHandler : maybeHandler
+    };
+  }
   return originalLoad.apply(this, arguments);
 };
 

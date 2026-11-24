@@ -1,8 +1,20 @@
 const functions = require('firebase-functions');
+const { onRequest } = require('firebase-functions/v2/https');
 const admin = require('firebase-admin');
 const crypto = require('crypto');
 
 admin.initializeApp();
+
+function getLegacyConfig() {
+  try {
+    if (functions && typeof functions.config === 'function') {
+      return functions.config() || {};
+    }
+  } catch {
+    // Cloud Functions v2 uses process.env / .env rather than legacy functions.config()
+  }
+  return {};
+}
 
 /**
  * Base64URL helper
@@ -76,7 +88,7 @@ function applyCorsHeaders(req, res, methods = 'POST, OPTIONS', headers = 'Conten
  * Cloud Function: getLiveKitToken
  * Securely signs LiveKit JWT tokens server-side for authenticated users only.
  */
-exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
+exports.getLiveKitToken = onRequest({ region: 'us-central1', invoker: 'public' }, async (req, res) => {
   applyCorsHeaders(req, res, 'POST, OPTIONS', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
@@ -162,8 +174,8 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
       }
     }
 
-    apiKey = process.env.LIVEKIT_API_KEY || functions.config().livekit?.api_key || '';
-    apiSecret = process.env.LIVEKIT_API_SECRET || functions.config().livekit?.api_secret || '';
+    apiKey = process.env.LIVEKIT_API_KEY || getLegacyConfig().livekit?.api_key || '';
+    apiSecret = process.env.LIVEKIT_API_SECRET || getLegacyConfig().livekit?.api_secret || '';
 
     if (!apiKey || !apiSecret) {
       return res.status(500).json({ error: 'Server configuration error: LiveKit credentials missing.' });
@@ -307,7 +319,7 @@ function redactSecret(text, secret) {
  * Secure gateway for Google Gemini GenAI calls (dedicated to automated reporting).
  * Requires authenticated caller.
  */
-exports.geminiProxy = functions.https.onRequest(async (req, res) => {
+exports.geminiProxy = onRequest({ region: 'us-central1', invoker: 'public' }, async (req, res) => {
   applyCorsHeaders(req, res, 'POST, OPTIONS', 'Content-Type, Authorization, X-Firebase-AppCheck');
 
   if (req.method === 'OPTIONS') {
@@ -345,7 +357,7 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
 
   let geminiKey = '';
   try {
-    geminiKey = process.env.GEMINI_API_KEY || functions.config().gemini?.key || '';
+    geminiKey = process.env.GEMINI_API_KEY || getLegacyConfig().gemini?.key || '';
     if (!geminiKey) {
       return res.status(500).json({ error: 'Server configuration error: Gemini API key missing.' });
     }
@@ -450,7 +462,7 @@ const ALLOWED_IMAGE_ASPECT_RATIOS = new Set(['1:1', '16:9', '9:16', '4:3', '3:4'
  * Securely proxies authenticated concept art / token generation requests to Imagen 3
  * and Gemini image models without exposing server API keys to browser clients.
  */
-exports.geminiImageProxy = functions.https.onRequest(async (req, res) => {
+exports.geminiImageProxy = onRequest({ region: 'us-central1', invoker: 'public' }, async (req, res) => {
   applyCorsHeaders(req, res, 'POST, OPTIONS', 'Content-Type, Authorization, X-Firebase-AppCheck');
 
   if (req.method === 'OPTIONS') {
@@ -486,7 +498,7 @@ exports.geminiImageProxy = functions.https.onRequest(async (req, res) => {
 
   let geminiKey = '';
   try {
-    geminiKey = process.env.GEMINI_API_KEY || functions.config().gemini?.key || '';
+    geminiKey = process.env.GEMINI_API_KEY || getLegacyConfig().gemini?.key || '';
     if (!geminiKey) {
       return res.status(500).json({ error: 'Server configuration error: Gemini API key missing.' });
     }
