@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { ChunkToolDrawerContent } from '../ChunkToolDrawerContent';
 import { VttEventBus } from '../../../../../utils/vttEventBus';
+import { PENCIL_COLORS, PENCIL_WIDTHS, TEXT_COLORS } from '../MapConstants';
 
 export function ArchitectToolOptionsPanels({
   activeTool = 'select',
@@ -36,9 +37,25 @@ export function ArchitectToolOptionsPanels({
   searchQuery = '',
   setSearchQuery,
   filteredObjects = [],
+  pencilColor = '#ef4444',
+  setPencilColor,
+  pencilWidth = 5,
+  setPencilWidth,
+  textLabelInput = 'Sector Alpha',
+  setTextLabelInput,
+  textColor = '#ffffff',
+  setTextColor,
+  textSize = 24,
+  setTextSize,
+  tokenType = 'standard',
+  setTokenType,
   tokenLabelInput = 'Unit',
   setTokenLabelInput,
   onOpenOmnicortexLink,
+  rulerSelectedPace = 'walk',
+  setRulerSelectedPace,
+  measurementUnit = 'meters',
+  setMeasurementUnit,
   fogEnabled = false,
   setFogEnabled,
   onOpenAssetManager,
@@ -351,9 +368,29 @@ export function ArchitectToolOptionsPanels({
       return (
         <div className="flex flex-col gap-2">
           <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-wider">Token Stamp Tool:</span>
+          <div className="grid grid-cols-2 gap-1.5">
+            {[
+              { id: 'standard', label: 'Standard' },
+              { id: 'link', label: 'Portal Link' }
+            ].map((mode) => (
+              <button
+                key={mode.id}
+                type="button"
+                onClick={() => setTokenType?.(mode.id)}
+                className={`py-1 px-2 rounded border text-[10px] font-bold uppercase cursor-pointer transition-colors ${
+                  tokenType === mode.id
+                    ? 'bg-cyan-950 border-cyan-400 text-cyan-200'
+                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-white'
+                }`}
+              >
+                {mode.label}
+              </button>
+            ))}
+          </div>
           <label className="text-[10px] text-slate-400 font-bold uppercase">Token Label:</label>
           <input
             type="text"
+            aria-label="Token label"
             value={tokenLabelInput}
             onChange={e => setTokenLabelInput?.(e.target.value)}
             className="bg-[#0d1117] border border-slate-800 text-white p-1.5 rounded text-xs outline-none focus:border-cyan-400"
@@ -368,7 +405,152 @@ export function ArchitectToolOptionsPanels({
               <span>Link Omnicortex Statblock</span>
             </button>
           )}
-          <span className="text-[10px] text-slate-400 italic">Click on map canvas to place new token.</span>
+          <span className="text-[10px] text-slate-400 italic">Click on map canvas to place new {tokenType === 'link' ? 'portal link' : 'standard'} token.</span>
+        </div>
+      );
+
+    case 'pencil':
+      return (
+        <div className="flex flex-col gap-2">
+          <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-wider">Freehand Pencil:</span>
+          <div className="flex flex-wrap gap-1.5 items-center">
+            {PENCIL_COLORS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                aria-label={`Pencil color ${c}`}
+                onClick={() => setPencilColor?.(c)}
+                className={`w-5 h-5 rounded-full border cursor-pointer ${pencilColor === c ? 'border-white ring-2 ring-cyan-400' : 'border-slate-700'}`}
+                style={{ backgroundColor: c }}
+              />
+            ))}
+            <input
+              type="color"
+              aria-label="Pencil color"
+              value={pencilColor}
+              onChange={(e) => setPencilColor?.(e.target.value)}
+              className="w-6 h-6 bg-slate-900 border border-slate-700 rounded cursor-pointer"
+            />
+          </div>
+          <label className="text-[10px] text-slate-400 font-bold uppercase">Stroke Width: {pencilWidth}px</label>
+          <div className="flex gap-1">
+            {PENCIL_WIDTHS.map((w) => (
+              <button
+                key={w}
+                type="button"
+                onClick={() => setPencilWidth?.(w)}
+                className={`flex-1 py-1 rounded border text-[10px] font-bold cursor-pointer ${
+                  pencilWidth === w ? 'bg-cyan-950 border-cyan-400 text-cyan-200' : 'bg-slate-900 border-slate-700 text-slate-400'
+                }`}
+              >
+                {w}px
+              </button>
+            ))}
+          </div>
+          <input
+            type="range"
+            aria-label="Pencil width"
+            min="1"
+            max="60"
+            value={pencilWidth}
+            onChange={(e) => setPencilWidth?.(Number(e.target.value))}
+            className="w-full accent-cyan-400"
+          />
+        </div>
+      );
+
+    case 'text':
+      return (
+        <div className="flex flex-col gap-2">
+          <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-wider">Map Text Label:</span>
+          <input
+            type="text"
+            aria-label="Map text label"
+            value={textLabelInput}
+            onChange={(e) => setTextLabelInput?.(e.target.value)}
+            placeholder="Label text..."
+            className="bg-[#0d1117] border border-slate-800 text-white p-1.5 rounded text-xs outline-none focus:border-cyan-400"
+          />
+          <div className="flex flex-wrap gap-1.5 items-center">
+            {TEXT_COLORS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                aria-label={`Text color ${c}`}
+                onClick={() => setTextColor?.(c)}
+                className={`w-5 h-5 rounded-full border cursor-pointer ${textColor === c ? 'border-white ring-2 ring-cyan-400' : 'border-slate-700'}`}
+                style={{ backgroundColor: c }}
+              />
+            ))}
+            <input
+              type="color"
+              aria-label="Text color"
+              value={textColor}
+              onChange={(e) => setTextColor?.(e.target.value)}
+              className="w-6 h-6 bg-slate-900 border border-slate-700 rounded cursor-pointer"
+            />
+          </div>
+          <label className="text-[10px] text-slate-400 font-bold uppercase">Font Size: {textSize}px</label>
+          <input
+            type="range"
+            aria-label="Text size"
+            min="12"
+            max="64"
+            step="2"
+            value={textSize}
+            onChange={(e) => setTextSize?.(Number(e.target.value))}
+            className="w-full accent-cyan-400"
+          />
+        </div>
+      );
+
+    case 'ruler':
+      return (
+        <div className="flex flex-col gap-2">
+          <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-wider">Locomotion Ruler:</span>
+          <label className="text-[10px] text-slate-400 font-bold uppercase">Reference Pace:</label>
+          <div className="grid grid-cols-2 gap-1.5">
+            {[
+              { id: 'walk', label: 'Walk' },
+              { id: 'jog', label: 'Jog' },
+              { id: 'run', label: 'Run' },
+              { id: 'sprint', label: 'Sprint' }
+            ].map((pace) => (
+              <button
+                key={pace.id}
+                type="button"
+                onClick={() => setRulerSelectedPace?.(pace.id)}
+                className={`py-1 px-2 rounded border text-[10px] font-bold uppercase cursor-pointer ${
+                  rulerSelectedPace === pace.id
+                    ? 'bg-cyan-950 border-cyan-400 text-cyan-200'
+                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-white'
+                }`}
+              >
+                {pace.label}
+              </button>
+            ))}
+          </div>
+          <label className="text-[10px] text-slate-400 font-bold uppercase">Measurement Unit:</label>
+          <div className="grid grid-cols-3 gap-1">
+            {[
+              { id: 'meters', label: 'Meters (m)' },
+              { id: 'feet', label: 'Feet (ft)' },
+              { id: 'squares', label: 'Squares' }
+            ].map((u) => (
+              <button
+                key={u.id}
+                type="button"
+                onClick={() => setMeasurementUnit?.(u.id)}
+                className={`py-1 px-1.5 rounded border text-[10px] font-bold cursor-pointer ${
+                  measurementUnit === u.id
+                    ? 'bg-amber-950 border-amber-400 text-amber-200'
+                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-white'
+                }`}
+              >
+                {u.label}
+              </button>
+            ))}
+          </div>
         </div>
       );
 
@@ -396,6 +578,14 @@ export function ArchitectToolOptionsPanels({
         <div className="flex flex-col gap-2">
           <span className="text-[10px] uppercase text-red-400 font-bold tracking-wider">Eraser Active</span>
           <span className="text-[11px] text-slate-400 italic">Click any object, token, line, or text label to delete it instantly.</span>
+        </div>
+      );
+
+    case 'pan':
+      return (
+        <div className="flex flex-col gap-2">
+          <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-wider">Viewport Pan (H)</span>
+          <span className="text-[11px] text-slate-400 italic">Left-click drag anywhere on the canvas to pan. Hold Space from any tool to temporarily pan, or scroll to zoom.</span>
         </div>
       );
 

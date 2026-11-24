@@ -10,6 +10,7 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { GridType, GridScaleTier } from '../../../engine/math/CoordinateEngine.ts';
 import type { CompiledVttPackage } from '../../../types/vttPackage.ts';
+import type { VttEventMap } from '../../../utils/vttEventBus.ts';
 
 export type CatalogCategory = 
   | 'story' 
@@ -44,12 +45,15 @@ export type SensorModeId =
 
 export type ArchitectToolId =
   | 'select'
+  | 'pan'
   | 'wall'
+  | 'curved_wall'
   | 'terrain'
   | 'fill'
   | 'light'
   | 'pencil'
   | 'text'
+  | 'fog'
   | 'eraser'
   | 'object'
   | 'hazard'
@@ -57,6 +61,7 @@ export type ArchitectToolId =
   | 'ruler'
   | 'aoe'
   | 'waypoint'
+  | 'region'
   | 'chunk';
 
 export interface VttLayoutPreferences {
@@ -135,10 +140,30 @@ export interface UILayoutState extends VttLayoutPreferences {
   selectedLightAnimation: string;
   pencilColor: string;
   pencilWidth: number;
+  textLabelInput: string;
+  textColor: string;
+  textSize: number;
   rulerAvailableAp: number;
   rulerSelectedPace: 'walk' | 'jog' | 'run' | 'sprint';
+  measurementUnit: 'meters' | 'feet' | 'squares';
+  tokenType: 'standard' | 'link';
   activeLeftTab: 'cockpit' | 'catalog' | 'scenario';
   isLeftWideMode: boolean;
+
+  // Persistent Stage Chat / Roll Feed
+  stageChatCards: Array<VttEventMap['stage-chat-card']>;
+  unreadChatCardCount: number;
+
+  // Persistent Turn / Initiative Tracker State
+  roundNumber: number;
+  currentTurnIndex: number;
+  initiativeScores: Record<string, number>;
+  isTurnTrackerOpen: boolean;
+
+  // Shared Design Mode / Tool State
+  isDesignModeActive: boolean;
+  tokenLabelInput: string;
+  selectedRegionType: string;
 
   // Split View & 3D / Theater Mode
   isSplitOpen: boolean;
@@ -200,10 +225,31 @@ export interface UILayoutState extends VttLayoutPreferences {
   setSelectedLightAnimation: (anim: string) => void;
   setPencilColor: (color: string) => void;
   setPencilWidth: (width: number) => void;
+  setTextLabelInput: (label: string) => void;
+  setTextColor: (color: string) => void;
+  setTextSize: (size: number) => void;
   setRulerAvailableAp: (ap: number) => void;
+  setMeasurementUnit: (unit: 'meters' | 'feet' | 'squares') => void;
+  setTokenType: (type: 'standard' | 'link') => void;
   setActiveLeftTab: (tab: 'cockpit' | 'catalog' | 'scenario') => void;
   lastCompiledPackage: CompiledVttPackage | null;
   setLastCompiledPackage: (pkg: CompiledVttPackage | null) => void;
+
+  // Persistent Stage Chat / Roll Feed Actions
+  pushStageChatCard: (card: VttEventMap['stage-chat-card'], incrementUnread?: boolean) => void;
+  clearStageChatCards: () => void;
+  resetUnreadChatCards: () => void;
+
+  // Persistent Turn / Initiative Tracker Actions
+  setTurnState: (partial: { roundNumber?: number; currentTurnIndex?: number; initiativeScores?: Record<string, number> }) => void;
+  setTurnTrackerOpen: (open: boolean) => void;
+  toggleTurnTracker: () => void;
+  resetTurnState: () => void;
+
+  // Shared Design Mode / Tool Actions
+  setIsDesignModeActive: (active: boolean) => void;
+  setTokenLabelInput: (label: string) => void;
+  setSelectedRegionType: (type: string) => void;
 
   resetLayout: () => void;
 }
@@ -264,10 +310,24 @@ export const useUILayoutStore = create<UILayoutState>()(
       selectedLightAnimation: 'flicker',
       pencilColor: '#22d3ee',
       pencilWidth: 4,
+      textLabelInput: 'Sector Alpha',
+      textColor: '#ffffff',
+      textSize: 24,
       rulerAvailableAp: 4,
       rulerSelectedPace: 'walk',
+      measurementUnit: 'meters',
+      tokenType: 'standard',
       activeLeftTab: 'cockpit',
       isLeftWideMode: false,
+      stageChatCards: [],
+      unreadChatCardCount: 0,
+      roundNumber: 1,
+      currentTurnIndex: 0,
+      initiativeScores: {},
+      isTurnTrackerOpen: false,
+      isDesignModeActive: false,
+      tokenLabelInput: 'Tactical Operator',
+      selectedRegionType: 'roof_zone',
       isSplitOpen: false,
       activeSplitTab: 'folio',
       is3DActive: false,
@@ -317,6 +377,49 @@ export const useUILayoutStore = create<UILayoutState>()(
         draft.lastCompiledPackage = pkg;
       }),
 
+      pushStageChatCard: (card, incrementUnread = false) => set((draft) => {
+        if (!card || !card.id) return;
+        if (draft.stageChatCards.some((c) => c.id === card.id)) return;
+        draft.stageChatCards = [card, ...draft.stageChatCards].slice(0, 50);
+        if (incrementUnread) {
+          draft.unreadChatCardCount += 1;
+        }
+      }),
+      clearStageChatCards: () => set((draft) => {
+        draft.stageChatCards = [];
+        draft.unreadChatCardCount = 0;
+      }),
+      resetUnreadChatCards: () => set((draft) => {
+        draft.unreadChatCardCount = 0;
+      }),
+
+      setTurnState: (partial) => set((draft) => {
+        if (typeof partial.roundNumber === 'number') draft.roundNumber = partial.roundNumber;
+        if (typeof partial.currentTurnIndex === 'number') draft.currentTurnIndex = partial.currentTurnIndex;
+        if (partial.initiativeScores !== undefined) draft.initiativeScores = partial.initiativeScores;
+      }),
+      setTurnTrackerOpen: (open) => set((draft) => {
+        draft.isTurnTrackerOpen = Boolean(open);
+      }),
+      toggleTurnTracker: () => set((draft) => {
+        draft.isTurnTrackerOpen = !draft.isTurnTrackerOpen;
+      }),
+      resetTurnState: () => set((draft) => {
+        draft.roundNumber = 1;
+        draft.currentTurnIndex = 0;
+        draft.initiativeScores = {};
+      }),
+
+      setIsDesignModeActive: (active) => set((draft) => {
+        draft.isDesignModeActive = Boolean(active);
+      }),
+      setTokenLabelInput: (label) => set((draft) => {
+        draft.tokenLabelInput = label;
+      }),
+      setSelectedRegionType: (type) => set((draft) => {
+        draft.selectedRegionType = type;
+      }),
+
       // Cartography Tool Actions
       setActiveArchitectTool: (tool) => set((draft) => {
         draft.activeArchitectTool = tool;
@@ -357,8 +460,23 @@ export const useUILayoutStore = create<UILayoutState>()(
       setPencilWidth: (width) => set((draft) => {
         draft.pencilWidth = width;
       }),
+      setTextLabelInput: (label) => set((draft) => {
+        draft.textLabelInput = label;
+      }),
+      setTextColor: (color) => set((draft) => {
+        draft.textColor = color;
+      }),
+      setTextSize: (size) => set((draft) => {
+        draft.textSize = size;
+      }),
       setRulerAvailableAp: (ap) => set((draft) => {
         draft.rulerAvailableAp = ap;
+      }),
+      setMeasurementUnit: (unit) => set((draft) => {
+        draft.measurementUnit = unit;
+      }),
+      setTokenType: (type) => set((draft) => {
+        draft.tokenType = type;
       }),
       setActiveLeftTab: (tab) => set((draft) => {
         draft.activeLeftTab = tab;

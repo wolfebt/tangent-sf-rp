@@ -293,6 +293,32 @@ export default function AnchorsTab() {
                 </div>
               </div>
 
+              {kind === 'region' && (
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase">Dimensions (W &times; H px)</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      min={16}
+                      value={posW}
+                      onChange={(e) => setPosW(e.target.value)}
+                      className="w-1/2 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-100"
+                      placeholder="Width (px)"
+                      aria-label="Region Width (px)"
+                    />
+                    <input
+                      type="number"
+                      min={16}
+                      value={posH}
+                      onChange={(e) => setPosH(e.target.value)}
+                      className="w-1/2 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-100"
+                      placeholder="Height (px)"
+                      aria-label="Region Height (px)"
+                    />
+                  </div>
+                </div>
+              )}
+
               {/* Elements Binding */}
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Bound World Elements</label>

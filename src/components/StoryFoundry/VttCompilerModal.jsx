@@ -9,7 +9,7 @@ import { useUILayoutStore } from '../VTT/store/uiLayoutStore';
 import { AimeGuidanceButton } from './AimeGuidanceButton';
 import { AimeGuidanceFlyout } from './AimeGuidanceFlyout';
 import { 
-  Cpu, Play, Download, CheckCircle, AlertTriangle, 
+  Cpu, Play, Download, CheckCircle, AlertTriangle, XCircle,
   X, RefreshCw, Shield, Swords, Flame, MapPin, Eye, Sparkles, Sliders 
 } from 'lucide-react';
 
@@ -55,6 +55,14 @@ export const VttCompilerModal = ({
       setCompiledResult(result);
     } catch (err) {
       console.error('VTT Compilation Error:', err);
+      setCompiledResult({
+        package: null,
+        diagnostics: {
+          isValid: false,
+          errors: [err?.message || 'Compilation failed unexpectedly.'],
+          warnings: []
+        }
+      });
     } finally {
       setIsCompiling(false);
     }
@@ -65,6 +73,21 @@ export const VttCompilerModal = ({
       runCompilation();
     }
   }, [isOpen, activeScenario, activeMap]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onEsc = (e) => {
+      if (e.key !== 'Escape') return;
+      e.preventDefault();
+      if (isAimeAuditOpen) {
+        setIsAimeAuditOpen(false);
+      } else {
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, [isOpen, isAimeAuditOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -114,7 +137,12 @@ export const VttCompilerModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[220] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-sans">
+    <div
+      className="fixed inset-0 z-[220] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-sans"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+    >
       <div className="bg-[#0b0f19] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_45px_rgba(6,182,212,0.35)] w-full max-w-3xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] flex flex-col text-slate-200 animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
         
         {/* Header */}
@@ -217,6 +245,21 @@ export const VttCompilerModal = ({
               {activeScenario?.summary || activeScenario?.fields?.summary || 'Tactical mission prepped directly from authored scenarios, modular characters, and live Omnicortex compendium records.'}
             </p>
           </div>
+
+          {/* Blocking Errors */}
+          {Array.isArray(diagnostics?.errors) && diagnostics.errors.length > 0 && (
+            <div className="p-3 bg-rose-950/60 border border-rose-500/60 rounded-xl space-y-1.5 text-rose-200 text-[11px]">
+              <div className="flex items-center gap-1.5 font-bold uppercase text-rose-300">
+                <XCircle size={13} className="text-rose-400" />
+                <span>Compiler Blocking Errors ({diagnostics.errors.length})</span>
+              </div>
+              <ul className="list-disc pl-5 space-y-0.5 text-rose-100 text-[10px]">
+                {diagnostics.errors.map((errMsg, idx) => (
+                  <li key={idx}>{errMsg}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Warnings & Diagnostics */}
           {diagnostics.warnings.length > 0 && (

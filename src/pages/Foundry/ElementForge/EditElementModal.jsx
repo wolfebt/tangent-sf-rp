@@ -1631,8 +1631,14 @@ const EditElementModal = ({
             onApplyGuidance={(suggestion) => {
               if (!content) {
                 setContent(suggestion);
+                showToast?.({ type: 'success', text: 'Applied AIME guidance to narrative body.' });
               } else if (!fields.summary) {
                 handleFieldChange('summary', suggestion.slice(0, 200));
+                showToast?.({ type: 'success', text: 'Applied AIME guidance to summary.' });
+              } else {
+                const base = String(content).trimEnd();
+                setContent(`${base}\n\n---\n### AIME Guidance\n${suggestion}`);
+                showToast?.({ type: 'success', text: 'Appended AIME guidance to narrative body.' });
               }
             }}
           />

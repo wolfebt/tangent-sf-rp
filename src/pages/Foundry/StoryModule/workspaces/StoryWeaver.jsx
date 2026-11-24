@@ -115,9 +115,15 @@ function registerAdeQuillBlots() {
       StatblockBlot.tagName = 'DIV';
       StatblockBlot.className = 'ade-statblock-card';
 
+      class WaypointBlot extends Block {}
+      WaypointBlot.blotName = 'ade-waypoint';
+      WaypointBlot.tagName = 'DIV';
+      WaypointBlot.className = 'ade-waypoint';
+
       Quill.register(ReadAloudBlot, true);
       Quill.register(GmSecretBlot, true);
       Quill.register(StatblockBlot, true);
+      Quill.register(WaypointBlot, true);
     }
     if (Inline) {
       class SkillCheckBlot extends Inline {
@@ -141,6 +147,30 @@ function registerAdeQuillBlots() {
       SkillCheckBlot.tagName = 'SPAN';
       SkillCheckBlot.className = 'ade-skill-check';
       Quill.register(SkillCheckBlot, true);
+
+      class EntityChipBlot extends Inline {
+        static create(value) {
+          const node = super.create(value);
+          if (value && typeof value === 'object') {
+            if (value.entityId) node.setAttribute('data-entity-id', String(value.entityId));
+            if (value.entityType) node.setAttribute('data-entity-type', String(value.entityType));
+            if (value.entityTitle) node.setAttribute('data-entity-title', String(value.entityTitle));
+          }
+          return node;
+        }
+        static formats(node) {
+          if (!node?.getAttribute) return true;
+          return {
+            entityId: node.getAttribute('data-entity-id') || undefined,
+            entityType: node.getAttribute('data-entity-type') || undefined,
+            entityTitle: node.getAttribute('data-entity-title') || undefined
+          };
+        }
+      }
+      EntityChipBlot.blotName = 'tangent-entity-chip';
+      EntityChipBlot.tagName = 'SPAN';
+      EntityChipBlot.className = 'tangent-entity-chip';
+      Quill.register(EntityChipBlot, true);
     }
     if (BlockEmbed) {
       class SceneDividerBlot extends BlockEmbed {}
@@ -246,6 +276,7 @@ export default function StoryWeaver({
 
   // Manuscript / Prose State
   const quillRef = useRef(null);
+  const slashTriggerIndexRef = useRef(null);
   const [content, setContent] = useState(activeNode?.content || '');
   const [activePov, setActivePov] = useState(activeNode?.fields?.pov || '');
   const [copied, setCopied] = useState(false);
@@ -715,10 +746,36 @@ export default function StoryWeaver({
 
   const handleInsertSlashBlock = (blockHtml) => {
     if (isStoryReadOnly || !blockHtml) return;
-    let nextHtml = String(content || '');
-    // Replace trailing "/" line trigger if invoked by typing /
-    nextHtml = nextHtml.replace(/<p>\s*\/\s*<\/p>\s*$/i, '');
-    const updated = `${nextHtml}${blockHtml}`;
+    const quill = quillRef.current?.getEditor?.();
+    if (quill && quill.clipboard && typeof quill.clipboard.dangerouslyPasteHTML === 'function') {
+      const sel = typeof quill.getSelection === 'function' ? quill.getSelection() : null;
+      let insertIdx =
+        typeof slashTriggerIndexRef.current === 'number'
+          ? slashTriggerIndexRef.current
+          : sel?.index ?? Math.max(0, (quill.getLength?.() || 1) - 1);
+
+      if (typeof slashTriggerIndexRef.current === 'number' && typeof quill.getText === 'function') {
+        const triggerText = quill.getText(slashTriggerIndexRef.current, 1);
+        if (triggerText === '/' && typeof quill.deleteText === 'function') {
+          quill.deleteText(slashTriggerIndexRef.current, 1, 'user');
+          insertIdx = slashTriggerIndexRef.current;
+        }
+      }
+      slashTriggerIndexRef.current = null;
+      quill.clipboard.dangerouslyPasteHTML(insertIdx, blockHtml, 'user');
+      if (quill.root?.innerHTML !== undefined) {
+        handleContentChange(quill.root.innerHTML, null, 'user');
+      }
+      AudioService.playTerminalBeep(1260, 0.03);
+      return;
+    }
+
+    slashTriggerIndexRef.current = null;
+    const rawHtml = String(content || '');
+    const slashMatch = /<p>\s*\/\s*(?:<br\s*\/?>)?\s*<\/p>/i;
+    const updated = slashMatch.test(rawHtml)
+      ? rawHtml.replace(slashMatch, blockHtml)
+      : `${rawHtml}${blockHtml}`;
     handleContentChange(updated, null, 'user');
     AudioService.playTerminalBeep(1260, 0.03);
   };
@@ -747,7 +804,24 @@ export default function StoryWeaver({
     lastUserInputAtRef.current = Date.now();
     lastLocalContentRef.current = val;
     setContent(val);
-    if (typeof val === 'string' && /<p>\s*\/\s*<\/p>\s*$/i.test(val)) {
+    const quill = quillRef.current?.getEditor?.();
+    let matchedCursorSlash = false;
+    if (quill && typeof quill.getSelection === 'function' && typeof quill.getLine === 'function') {
+      const sel = quill.getSelection();
+      if (sel && typeof sel.index === 'number') {
+        const lineInfo = quill.getLine(sel.index);
+        const lineBlot = Array.isArray(lineInfo) ? lineInfo[0] : null;
+        const offsetInLine = Array.isArray(lineInfo) ? lineInfo[1] : 0;
+        const lineText = (lineBlot?.domNode?.textContent || '').trim();
+        if (lineText === '/') {
+          slashTriggerIndexRef.current = Math.max(0, sel.index - offsetInLine);
+          setIsSlashMenuOpen(true);
+          matchedCursorSlash = true;
+        }
+      }
+    }
+    if (!matchedCursorSlash && typeof val === 'string' && /<p>\s*\/\s*(?:<br\s*\/?>)?\s*<\/p>/i.test(val)) {
+      slashTriggerIndexRef.current = null;
       setIsSlashMenuOpen(true);
     }
     if (activeNode?.id) {
@@ -1182,7 +1256,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
     showToast('✓ New encounter map created and linked');
   };
 
-  const quillModules = {
+  const quillModules = useMemo(() => ({
     toolbar: [
       [{ 'header': [1, 2, 3, false] }],
       ['bold', 'italic', 'underline', 'strike'],
@@ -1190,7 +1264,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
       [{ 'color': [] }, { 'background': [] }],
       ['clean']
     ]
-  };
+  }), []);
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] font-mono select-none">

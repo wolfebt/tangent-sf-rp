@@ -80,6 +80,8 @@ export default function EnvironmentTab() {
     updateEnvironment({ ambientAudio });
     if (ambientAudio === 'none') {
       proAudioMixerService.stopBus('ambient', true);
+      proAudioMixerService.stopBus('music', true);
+      proAudioMixerService.stopBus('sfx', true);
     } else if (ambientAudio === 'cyber_drone') {
       void proAudioMixerService.playCue('ambient', 'bridge_hum', true);
     } else if (ambientAudio === 'rain_industrial') {

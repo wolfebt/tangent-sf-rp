@@ -66,6 +66,18 @@ export const SelectivePrintModal = ({
     }
   }, [isOpen, defaultOperatorSafeMode]);
 
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onEsc = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const toggleSection = (key) => {
@@ -123,7 +135,9 @@ export const SelectivePrintModal = ({
     authorName: author,
     includeCoverPage: selectedSections.cover,
     includeToc,
-    includeGmSecrets: !operatorSafeMode
+    includeGmSecrets: !operatorSafeMode,
+    includeProps: selectedSections.props,
+    includeOsrSpread: selectedSections.osrSpread
   });
 
   const handleDownloadEpub = () => {
@@ -189,8 +203,14 @@ export const SelectivePrintModal = ({
   const waypoints = operatorSafeMode ? rawWaypoints.filter((w) => w && w.isPlayerVisible) : rawWaypoints;
 
   const modalContent = (
-    <div id="ade-print-portal-root" className="fixed inset-0 z-[230] bg-black/90 backdrop-blur-md flex items-start justify-center p-2 sm:p-5 pt-6 pb-8 overflow-y-auto font-sans select-none">
-      <div className="bg-[#0b0f19] border border-cyan-500/60 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] w-full max-w-5xl max-h-[92vh] overflow-hidden flex flex-col text-slate-200">
+    <div
+      id="ade-print-portal-root"
+      className="fixed inset-0 z-[230] bg-black/90 backdrop-blur-md flex items-start justify-center p-2 sm:p-5 pt-6 pb-8 overflow-y-auto font-sans select-none"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+    >
+      <div className="ade-print-shell bg-[#0b0f19] border border-cyan-500/60 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] w-full max-w-5xl max-h-[92vh] overflow-hidden flex flex-col text-slate-200">
         
         {/* ── TOP CONTROL HEADER ── */}
         <div className="px-5 py-3 bg-gradient-to-r from-cyan-950/90 via-slate-900 to-purple-950/80 border-b border-cyan-500/40 flex items-center justify-between no-print flex-wrap gap-2">
@@ -399,7 +419,7 @@ export const SelectivePrintModal = ({
         </div>
 
         {/* ── PRINT PREVIEW CANVAS ── */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-10 bg-slate-950/90 scrollbar-thin">
+        <div className="ade-print-scroll flex-1 overflow-y-auto p-4 md:p-10 bg-slate-950/90 scrollbar-thin">
           <div
             id="ade-selective-printable-document"
             className={`mx-auto bg-white text-black p-6 md:p-12 shadow-2xl rounded-sm max-w-4xl min-h-[800px] select-text ${
@@ -471,6 +491,27 @@ export const SelectivePrintModal = ({
               </div>
             )}
 
+            {/* 4.5 TACTICAL SPREAD SUMMARY (OSR Reference Layout) */}
+            {selectedSections.osrSpread && (
+              <div className="mb-6 pb-6 border-b border-slate-300 space-y-2">
+                <h3 className="font-bold font-sans uppercase tracking-wider text-xs border-b border-black pb-1 text-slate-900">
+                  Tactical Encounter Spread
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-mono bg-slate-50 border border-slate-300 rounded p-2.5">
+                  <div><span className="text-slate-500 block text-[9px] uppercase">Scene</span><strong>{activeScenario?.title || title}</strong></div>
+                  <div><span className="text-slate-500 block text-[9px] uppercase">Linked Sector</span><strong>{activeTargetMap?.title || 'Theater / No Grid'}</strong></div>
+                  <div><span className="text-slate-500 block text-[9px] uppercase">Combatants</span><strong>{personas.length + tokensOnMap.length}</strong></div>
+                  <div><span className="text-slate-500 block text-[9px] uppercase">Interactables</span><strong>{selectedSections.props ? propsOnMap.length : 0}</strong></div>
+                </div>
+                {!operatorSafeMode && activeScenario?.fields?.gmSecrets && (
+                  <div className="text-[11px] text-slate-800 bg-rose-50 border border-rose-300 rounded p-2">
+                    <strong className="uppercase text-[10px] text-rose-900">GM Secret Hook: </strong>
+                    <span>{String(activeScenario.fields.gmSecrets).replace(/<[^>]+>/g, ' ')}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* 5. TACTICAL MAP KEY & FLOOR PLAN TABLE */}
             {selectedSections.mapKeys && activeTargetMap && (
               <div className="mb-6 pb-6 border-b border-slate-300 space-y-3">
@@ -482,26 +523,28 @@ export const SelectivePrintModal = ({
                   <span>Dimensions: <strong>{activeTargetMap.width || 2800} × {activeTargetMap.height || 2100} px</strong></span>
                   <span>Environment: <strong>{activeTargetMap.environmental?.weatherPreset || 'Clear Industrial'}</strong></span>
                 </div>
-                <div className="border border-slate-400 rounded overflow-hidden text-[10.5px]">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-slate-150 border-b border-slate-300 font-mono font-bold">
-                        <th className="p-1.5 border-r border-slate-300">Feature</th>
-                        <th className="p-1.5 border-r border-slate-300">Type</th>
-                        <th className="p-1.5">Tactical Properties &amp; Interaction DC</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {(propsOnMap || []).slice(0, 8).map((obj, i) => (
-                        <tr key={obj.id || i} className="border-b border-slate-200">
-                          <td className="p-1.5 border-r border-slate-200 font-bold">{obj.name || obj.label || `Object ${i+1}`}</td>
-                          <td className="p-1.5 border-r border-slate-200">{obj.type}</td>
-                          <td className="p-1.5">Structure: {obj.structure || 20} • Hack DC: {obj.hackDc || 13}</td>
+                {selectedSections.props && (
+                  <div className="border border-slate-400 rounded overflow-hidden text-[10.5px]">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="bg-slate-150 border-b border-slate-300 font-mono font-bold">
+                          <th className="p-1.5 border-r border-slate-300">Feature</th>
+                          <th className="p-1.5 border-r border-slate-300">Type</th>
+                          <th className="p-1.5">Tactical Properties &amp; Interaction DC</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {(propsOnMap || []).slice(0, 8).map((obj, i) => (
+                          <tr key={obj.id || i} className="border-b border-slate-200">
+                            <td className="p-1.5 border-r border-slate-200 font-bold">{obj.name || obj.label || `Object ${i+1}`}</td>
+                            <td className="p-1.5 border-r border-slate-200">{obj.type}</td>
+                            <td className="p-1.5">Structure: {obj.structure || 20} • Hack DC: {obj.hackDc || 13}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             )}
 
@@ -609,7 +652,7 @@ export const SelectivePrintModal = ({
             )}
 
             {/* ARCHITECT COMPENDIUM REFERENCE CARDS VIEW WHEN CARDS LAYOUT IS ACTIVE */}
-            {printLayout === 'cards' && (propsOnMap.length > 0 || scenarios.length > 0) && (
+            {printLayout === 'cards' && ((selectedSections.props && propsOnMap.length > 0) || scenarios.length > 0) && (
               <div className="mb-6 pb-6 border-b border-slate-300 space-y-3">
                 <h3 className="font-bold font-sans uppercase tracking-wider text-xs border-b border-black pb-1 text-slate-900">
                   Compendium Reference Cut-Out Cards
@@ -668,6 +711,16 @@ export const SelectivePrintModal = ({
               padding: 0 !important;
               background: white !important;
               overflow: visible !important;
+            }
+            .ade-print-shell,
+            .ade-print-scroll {
+              max-height: none !important;
+              height: auto !important;
+              overflow: visible !important;
+              display: block !important;
+              border: none !important;
+              box-shadow: none !important;
+              background: white !important;
             }
             #ade-selective-printable-document {
               position: static !important;

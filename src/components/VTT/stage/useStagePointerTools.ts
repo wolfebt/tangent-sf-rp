@@ -13,6 +13,8 @@ import {
   type SceneLightSource
 } from '../../../engine/vision/LightSourceManager';
 import { BIOME_OPTIONS, type PaletteItem } from '../ArchitectDesignPalette';
+import { MASTER_TERRAINS } from '../../../pages/Foundry/MapMaker/map/MapConstants.js';
+import { createSceneRegion, type SceneRegionTriggerType } from '../../../engine/cartography/SceneRegionManager';
 import { AudioService } from '../../../services/audioService';
 import { evaluateTrapTriggers } from '../../../services/reactiveVttService';
 import { compileChunkToMapElements } from '../../../services/mapChunkCompilerService';
@@ -97,10 +99,39 @@ export interface UseStagePointerToolsParams {
   selectedLightAnimation: LightAnimationType;
   selectedStamp: PaletteItem | null;
   storeObjectType: any;
+  storeTerrain?: any;
+  storeTokenLabel?: string;
+  selectedRegionType?: string;
   recordHistory: (action?: string) => void;
   setCombatLog: React.Dispatch<React.SetStateAction<string[]>>;
   deployArchitectItem: (item: PaletteItem, targetX: number, targetY: number) => void;
 }
+
+const resolveSelectedBiome = (selectedTerrainId: string, storeTerrain?: any) => {
+  if (storeTerrain && typeof storeTerrain === 'object' && (storeTerrain.color || storeTerrain.label || storeTerrain.name)) {
+    return {
+      id: storeTerrain.id || selectedTerrainId || 'terrain',
+      label: storeTerrain.label || storeTerrain.name || 'Terrain',
+      color: storeTerrain.color || '#14532d'
+    };
+  }
+  const preset = BIOME_OPTIONS.find((b) => b.id === selectedTerrainId);
+  if (preset) return preset;
+  const masterList = (Object.values(MASTER_TERRAINS || {}) as any[]).flat();
+  const masterMatch = masterList.find((t: any) => t && t.id === selectedTerrainId);
+  if (masterMatch) {
+    return {
+      id: masterMatch.id,
+      label: masterMatch.label || masterMatch.name || 'Terrain',
+      color: masterMatch.color || '#14532d'
+    };
+  }
+  return {
+    id: selectedTerrainId || 'terrain',
+    label: 'Terrain',
+    color: '#14532d'
+  };
+};
 
 /**
  * Coordinates mouse pointer, pan, marquee selection, freehand/wall drawing, AoE, fog brush, token movement, and drag-and-drop tools on the Stage canvas.
@@ -182,6 +213,9 @@ export const useStagePointerTools = ({
   selectedLightAnimation,
   selectedStamp,
   storeObjectType,
+  storeTerrain,
+  storeTokenLabel,
+  selectedRegionType,
   recordHistory,
   setCombatLog,
   deployArchitectItem
@@ -317,7 +351,7 @@ export const useStagePointerTools = ({
     }
 
     if (isDrawingToolActive && isDesignModeActive) {
-      if (activeDesignTool === 'wall' && wallDrawStart) {
+      if ((activeDesignTool === 'wall' || activeDesignTool === 'curved_wall') && wallDrawStart) {
         let snapped = gridSnap ? coordEngineRef.current.snapPixelToGrid(worldPos) : worldPos;
         if (e.shiftKey) {
           snapped = snapPointToAngle(wallDrawStart, snapped, 15);
@@ -352,7 +386,11 @@ export const useStagePointerTools = ({
       const snapped = gridSnap ? engine.snapPixelToGrid(worldPos) : worldPos;
 
       if (isDesignModeActive) {
-        if (activeDesignTool === 'select') {
+        if (activeDesignTool === 'pan') {
+          setIsDraggingPan(true);
+          setDragStartPos({ x: e.clientX, y: e.clientY });
+          return;
+        } else if (activeDesignTool === 'select') {
           // Check if user clicked an interactive object, token, wall, or light
           const hitObj = localObjects.find(o => Math.hypot(o.x - worldPos.x, o.y - worldPos.y) <= 30);
           const hitToken = tokens.find(t => Math.hypot(t.x - worldPos.x, t.y - worldPos.y) <= 30);
@@ -382,8 +420,8 @@ export const useStagePointerTools = ({
             setMarqueeCurrent(worldPos);
           }
           return;
-        } else if (activeDesignTool === 'wall') {
-          recordHistory('Draw Wall');
+        } else if (activeDesignTool === 'wall' || activeDesignTool === 'curved_wall') {
+          recordHistory(activeDesignTool === 'curved_wall' ? 'Draw Curved Wall' : 'Draw Wall');
           setIsDrawingToolActive(true);
 
           // Magnetic endpoint snap
@@ -402,7 +440,7 @@ export const useStagePointerTools = ({
         } else if (activeDesignTool === 'fill') {
           // Room Flooring Fill Bucket
           recordHistory('Fill Room Floor');
-          const biome = BIOME_OPTIONS.find(b => b.id === selectedTerrainId);
+          const biome = resolveSelectedBiome(selectedTerrainId, storeTerrain);
           // Detect surrounding walls within 400px
           const nearbyWalls = localWalls.filter(w =>
             Math.min(Math.hypot(w.p1.x - snapped.x, w.p1.y - snapped.y), Math.hypot(w.p2.x - snapped.x, w.p2.y - snapped.y)) <= 400
@@ -535,59 +573,75 @@ export const useStagePointerTools = ({
             ]);
           }
           return;
-        } else if (activeDesignTool === 'object' || activeDesignTool === 'hazard' || activeDesignTool === 'token') {
-          let itemToDeploy = selectedStamp;
-          if (!itemToDeploy && storeObjectType) {
-            const propObj = (typeof storeObjectType === 'object' ? storeObjectType : {}) as any;
-            itemToDeploy = {
-              id: propObj.id || `obj-${Date.now()}`,
-              category: propObj.category || 'Objects',
-              label: propObj.label || propObj.name || 'Prop',
-              desc: propObj.desc || 'Tactical Sector Asset',
-              type: propObj.category === 'Hazards' ? 'hazard' : 'object',
-              subType: propObj.category || 'terminal',
-              icon: Box,
-              color: propObj.color || '#22d3ee',
-              defaultProps: {
-                name: propObj.label || propObj.name || 'Prop',
-                color: propObj.color,
-                radius: propObj.radius,
-                width: propObj.width,
-                height: propObj.height,
-                shape: propObj.shape,
-                imageUrl: propObj.imageUrl
-              }
-            };
+        } else if (activeDesignTool === 'region') {
+          const rawType = String(selectedRegionType || 'roof_zone');
+          const normalizedType: SceneRegionTriggerType =
+            rawType === 'audio_zone'
+              ? 'audio_cue'
+              : rawType === 'roof_zone' ||
+                  rawType === 'hazard' ||
+                  rawType === 'teleport_deck' ||
+                  rawType === 'switch_map' ||
+                  rawType === 'story_flag' ||
+                  rawType === 'audio_cue'
+                ? (rawType as SceneRegionTriggerType)
+                : 'roof_zone';
+          const region = createSceneRegion({
+            name: `${normalizedType.replace('_', ' ').toUpperCase()} Zone`,
+            triggerType: normalizedType,
+            bounds: {
+              x: Math.round(snapped.x - 90),
+              y: Math.round(snapped.y - 90),
+              width: 180,
+              height: 180
+            },
+            payload: {},
+            autoTrigger: true
+          });
+          if (currentMap && updateMap) {
+            recordHistory('Place Scene Region');
+            updateMap(currentMap.id, {
+              regions: [...(currentMap.regions || []), region]
+            });
           }
-
-          if (itemToDeploy) {
-            deployArchitectItem(itemToDeploy, snapped.x, snapped.y);
-            return;
-          } else if (activeDesignTool === 'token') {
-            const newTokId = `token-${Date.now()}`;
-            const staticToken = {
-              id: newTokId,
-              name: textLabelInput || 'Tactical Unit',
-              base_hp: 30,
-              base_vitality: 30,
-              base_health: 30,
-              tech_level: 3,
-              armor_dr: 6,
-              stamina_dr: 2,
-              speed_ft: 30,
-              size_modifier: 0,
-              is_persona: false
-            };
-            useEngineStore.getState().loadStaticEntity(staticToken);
-            useEngineStore.getState().updatePosition(newTokId, snapped.x, snapped.y);
-            if (currentMap && updateMap) {
-              updateMap(currentMap.id, {
-                tokens: [...(currentMap.tokens || []), { ...staticToken, x: snapped.x, y: snapped.y }]
-              });
-            }
-            AudioService.playCriticalChime(true);
-            return;
-          } else if ((activeDesignTool as string) === 'chunk' && armedChunkRef.current?.chunk && currentMap && updateMap) {
+          AudioService.playTerminalBeep(1300, 0.04);
+          setCombatLog(prev => [
+            `[REGION] Stamped ${region.triggerType.toUpperCase()} trigger volume (180x180) at (${Math.round(snapped.x)}, ${Math.round(snapped.y)}).`,
+            ...prev.slice(0, 8)
+          ]);
+          return;
+        } else if (activeDesignTool === 'token') {
+          recordHistory('Deploy Token');
+          const newTokId = `token-${Date.now()}`;
+          const tokenName = storeTokenLabel?.trim() || textLabelInput || 'Tactical Unit';
+          const staticToken = {
+            id: newTokId,
+            name: tokenName,
+            base_hp: 30,
+            base_vitality: 30,
+            base_health: 30,
+            tech_level: 3,
+            armor_dr: 6,
+            stamina_dr: 2,
+            speed_ft: 30,
+            size_modifier: 0,
+            is_persona: false
+          };
+          useEngineStore.getState().loadStaticEntity(staticToken);
+          useEngineStore.getState().updatePosition(newTokId, snapped.x, snapped.y);
+          if (currentMap && updateMap) {
+            updateMap(currentMap.id, {
+              tokens: [...(currentMap.tokens || []), { ...staticToken, x: snapped.x, y: snapped.y }]
+            });
+          }
+          AudioService.playCriticalChime(true);
+          setCombatLog(prev => [
+            `[TOKEN] Deployed "${tokenName}" at (${Math.round(snapped.x)}, ${Math.round(snapped.y)}).`,
+            ...prev.slice(0, 8)
+          ]);
+          return;
+        } else if (activeDesignTool === 'chunk') {
+          if (armedChunkRef.current?.chunk && currentMap && updateMap) {
             recordHistory('Stamp Prefab Chunk');
             const gSize = Number(currentMap.gridSize || 50);
             const compiled = compileChunkToMapElements(armedChunkRef.current.chunk, {
@@ -621,6 +675,35 @@ export const useStagePointerTools = ({
               `[CHUNK] Deployed "${armedChunkRef.current.chunk.name || 'Prefab Chunk'}" onto Stage.`,
               ...prev.slice(0, 8)
             ]);
+          }
+          return;
+        } else if (activeDesignTool === 'object' || activeDesignTool === 'hazard') {
+          let itemToDeploy = selectedStamp;
+          if (!itemToDeploy && storeObjectType) {
+            const propObj = (typeof storeObjectType === 'object' ? storeObjectType : {}) as any;
+            itemToDeploy = {
+              id: propObj.id || `obj-${Date.now()}`,
+              category: propObj.category || 'Objects',
+              label: propObj.label || propObj.name || 'Prop',
+              desc: propObj.desc || 'Tactical Sector Asset',
+              type: propObj.category === 'Hazards' ? 'hazard' : 'object',
+              subType: propObj.category || 'terminal',
+              icon: Box,
+              color: propObj.color || '#22d3ee',
+              defaultProps: {
+                name: propObj.label || propObj.name || 'Prop',
+                color: propObj.color,
+                radius: propObj.radius,
+                width: propObj.width,
+                height: propObj.height,
+                shape: propObj.shape,
+                imageUrl: propObj.imageUrl
+              }
+            };
+          }
+
+          if (itemToDeploy) {
+            deployArchitectItem(itemToDeploy, snapped.x, snapped.y);
             return;
           } else {
             const defaultProp: PaletteItem = {
@@ -699,8 +782,8 @@ export const useStagePointerTools = ({
     if (isDrawingToolActive && isDesignModeActive) {
       setIsDrawingToolActive(false);
 
-      if (activeDesignTool === 'wall' && wallDrawStart && wallDrawCurrent) {
-        if (wallConstructionMode === 'room') {
+      if ((activeDesignTool === 'wall' || activeDesignTool === 'curved_wall') && wallDrawStart && wallDrawCurrent) {
+        if (wallConstructionMode === 'room' && activeDesignTool === 'wall') {
           const roomWidth = wallDrawCurrent.x - wallDrawStart.x;
           const roomHeight = wallDrawCurrent.y - wallDrawStart.y;
           if (Math.abs(roomWidth) >= 30 && Math.abs(roomHeight) >= 30) {
@@ -725,7 +808,7 @@ export const useStagePointerTools = ({
             ]);
           }
         } else {
-          // Single or Chain segment
+          // Single, Chain, or Curved Bezier segment
           const dist = Math.hypot(wallDrawCurrent.x - wallDrawStart.x, wallDrawCurrent.y - wallDrawStart.y);
           if (dist >= 15) {
             const newWallId = `wall-${Date.now()}`;
@@ -745,19 +828,32 @@ export const useStagePointerTools = ({
             (newWall as any).isDoor = isDoor;
             (newWall as any).lockDc = doorLockDc;
 
-            bvhBuilderRef.current.addWall(newWall);
+            if (activeDesignTool === 'curved_wall') {
+              const dx = wallDrawCurrent.x - wallDrawStart.x;
+              const dy = wallDrawCurrent.y - wallDrawStart.y;
+              (newWall as any).bezierControl = {
+                x: Math.round((wallDrawStart.x + wallDrawCurrent.x) / 2 - dy * 0.28),
+                y: Math.round((wallDrawStart.y + wallDrawCurrent.y) / 2 + dx * 0.28)
+              };
+            }
+
             const updatedWalls = [...localWalls, newWall];
+            if (activeDesignTool === 'curved_wall') {
+              bvhBuilderRef.current.build(expandWallsForGeometry(updatedWalls) as any);
+            } else {
+              bvhBuilderRef.current.addWall(newWall);
+            }
             setLocalWalls(updatedWalls);
             if (currentMap && updateMap) {
               updateMap(currentMap.id, { walls: updatedWalls });
             }
             AudioService.playTerminalBeep(1350, 0.04);
             setCombatLog(prev => [
-              `[WALL DRAW] Created ${selectedWallType.toUpperCase()} segment from (${Math.round(wallDrawStart.x)}, ${Math.round(wallDrawStart.y)}) to (${Math.round(wallDrawCurrent.x)}, ${Math.round(wallDrawCurrent.y)}).`,
+              `[${activeDesignTool === 'curved_wall' ? 'CURVED WALL' : 'WALL DRAW'}] Created ${selectedWallType.toUpperCase()} segment from (${Math.round(wallDrawStart.x)}, ${Math.round(wallDrawStart.y)}) to (${Math.round(wallDrawCurrent.x)}, ${Math.round(wallDrawCurrent.y)}).`,
               ...prev.slice(0, 8)
             ]);
 
-            if (wallConstructionMode === 'chain') {
+            if (wallConstructionMode === 'chain' && activeDesignTool === 'wall') {
               // Keep chain active with previous endpoint as next start point
               setWallChainPoints(prev => [...prev, wallDrawCurrent]);
               setWallDrawStart(wallDrawCurrent);
@@ -769,7 +865,7 @@ export const useStagePointerTools = ({
         setWallDrawStart(null);
         setWallDrawCurrent(null);
       } else if (activeDesignTool === 'terrain' && currentStrokePoints.length >= 4) {
-        const biome = BIOME_OPTIONS.find(b => b.id === selectedTerrainId);
+        const biome = resolveSelectedBiome(selectedTerrainId, storeTerrain);
         const newTerrain = {
           id: uuidv4(),
           points: currentStrokePoints,

@@ -1624,8 +1624,19 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   }, [characterData, updateField]);
 
   const applyVTTStatusConditions = useCallback((conditions) => {
-    updateField('active_conditions', Array.isArray(conditions) ? conditions : []);
-  }, [updateField]);
+    if (Array.isArray(conditions)) {
+      const cleaned = Array.from(
+        new Set(conditions.map((c) => String(c || '').trim()).filter(Boolean))
+      );
+      updateField('active_conditions', cleaned);
+      return;
+    }
+    if (typeof conditions === 'string' && conditions.trim()) {
+      const existing = Array.isArray(characterData?.active_conditions) ? characterData.active_conditions : [];
+      const merged = Array.from(new Set([...existing, conditions.trim()]));
+      updateField('active_conditions', merged);
+    }
+  }, [updateField, characterData?.active_conditions]);
 
   const value = useMemo(() => ({
     characterData,

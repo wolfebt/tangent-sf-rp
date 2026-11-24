@@ -56,12 +56,16 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
   // Global Keyboard Shortcuts: [ to toggle left, ] to toggle right, F for Zen Mode
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore keystrokes when typing inside inputs, textareas, or contentEditable elements
+      // Ignore keystrokes when typing inside inputs, textareas, selects, or contentEditable elements
       const target = e.target as HTMLElement;
       if (
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.isContentEditable
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable ||
+          target.getAttribute?.('contenteditable') === 'true' ||
+          Boolean(target.closest?.('[contenteditable="true"]')))
       ) {
         return;
       }
@@ -75,7 +79,13 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
       } else if (e.key === ']' && !e.ctrlKey && !e.altKey && !e.metaKey) {
         e.preventDefault();
         toggleRightCollapse();
-      } else if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.altKey && !e.metaKey) {
+      } else if (
+        (e.key === 'f' || e.key === 'F') &&
+        !e.ctrlKey &&
+        !e.altKey &&
+        !e.metaKey &&
+        !useUILayoutStore.getState().isDesignModeActive
+      ) {
         e.preventDefault();
         toggleZenMode();
       }

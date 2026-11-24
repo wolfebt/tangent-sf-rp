@@ -26,7 +26,7 @@ import {
   Trash2 
 } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
-import { getTypePillStyle, ELEMENT_TYPES } from '../ElementForge/elementSchemas';
+import { getTypePillStyle, ELEMENT_TYPES, normalizeElementType } from '../ElementForge/elementSchemas';
 import { useStory } from '../../../context/CampaignContext';
 import { showToast } from '../../../context/ToastContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
@@ -375,13 +375,13 @@ export const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId, onImp
 /// ── CANONICAL WIKI CATEGORIES ──
 const WIKI_CATEGORIES = [
   { id: 'Persona', label: 'Personas & NPCs', icon: '👤', types: ['Persona'] },
-  { id: 'Location', label: 'Locations & Worlds', icon: '🏰', types: ['Location', 'Setting', 'World'] },
-  { id: 'Faction', label: 'Factions & Orgs', icon: '⚔️', types: ['Faction'] },
-  { id: 'Item', label: 'Items & Artifacts', icon: '🔮', types: ['Item'] },
-  { id: 'Lore', label: 'Lore & Philosophy', icon: '📜', types: ['Lore', 'Philosophy', 'Clue', 'Handout'] },
-  { id: 'Tech', label: 'Technology & Cyber', icon: '🚀', types: ['Tech', 'Technology'] },
   { id: 'Species', label: 'Species & Xenology', icon: '🌿', types: ['Species'] },
-  { id: 'Custom', label: 'Custom Elements', icon: '🧩', types: ['Custom', 'Scene', 'Encounter', 'Adventure', 'Story Arc'] }
+  { id: 'Faction', label: 'Factions & Orgs', icon: '⚔️', types: ['Faction'] },
+  { id: 'Property', label: 'Property & Tech', icon: '🚀', types: ['Property'] },
+  { id: 'Metaphysics', label: 'Metaphysics & Psionics', icon: '✨', types: ['Metaphysics'] },
+  { id: 'Setting', label: 'Settings, Worlds & Maps', icon: '🏰', types: ['Setting', 'World', 'Map', 'Universe'] },
+  { id: 'Lore', label: 'Philosophy, Clues & Handouts', icon: '📜', types: ['Philosophy', 'Clue', 'Handout'] },
+  { id: 'Custom', label: 'Scenes, Arcs & Custom', icon: '🧩', types: ['Custom', 'Scene', 'Story Arc', 'Adventure', 'Encounter'] }
 ];
 
 // ── ZONE 1: DUAL-MODE OUTLINER RAIL (Left Column: Scenarios & World Elements) ──
@@ -880,7 +880,7 @@ export const ScenarioOutlinerRail = ({
         {/* Flat List Filter Pills */}
         {outlinerTab === 'elements' && elementsViewMode === 'flat_list' && (
           <div className="flex gap-1 overflow-x-auto scrollbar-none pb-0.5">
-            {['All', 'Persona', 'Faction', 'Location', 'Item', 'Lore', 'Clue', 'Tech', 'Species'].map(t => (
+            {['All', ...ELEMENT_TYPES].map(t => (
               <button
                 key={t}
                 type="button"
@@ -947,9 +947,10 @@ export const ScenarioOutlinerRail = ({
           ) : elementsViewMode === 'wiki_tree' ? (
             /* WIKI CATEGORIES TREE VIEW */
             WIKI_CATEGORIES.map(cat => {
-              const catElements = filteredOutlinerElements.filter(elem => 
-                cat.types.some(t => t.toLowerCase() === (elem.type || 'Custom').toLowerCase())
-              );
+              const catElements = filteredOutlinerElements.filter(elem => {
+                const canonicalType = normalizeElementType(elem.type || 'Custom');
+                return cat.types.some(t => t.toLowerCase() === canonicalType.toLowerCase());
+              });
 
               if (catElements.length === 0 && searchFilter) return null;
 

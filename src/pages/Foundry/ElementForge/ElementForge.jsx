@@ -32,6 +32,7 @@ import {
   CORTEX_BACKED_ADE_TYPES
 } from '../../../utils/cortexAdeAssetBridge.js';
 import { persistAdeElement } from '../../../utils/adeElementPersistence.js';
+import { buildArtistConceptPatch } from '../../../services/artistHubFramework';
 
 const EMPTY_ARRAY = [];
 const EMPTY_OBJ = {};
@@ -1439,6 +1440,61 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
         <ArtistHubModal
           isOpen={isArtistHubOpen}
           onClose={() => setIsArtistHubOpen(false)}
+          onApplyAsset={async (asset) => {
+            if (selectedElement?.id) {
+              const updated = {
+                ...selectedElement,
+                ...buildArtistConceptPatch(selectedElement, asset)
+              };
+              await updateSavedElement?.(selectedElement.id, updated);
+              showToast?.({
+                type: 'success',
+                text: `Applied Artist Hub concept to "${selectedElement.title || activeType}".`
+              });
+              return;
+            }
+            const seedSubcategory =
+              activeType === 'Property'
+                ? (activePropertySubcategory !== 'all' ? activePropertySubcategory : 'gear')
+                : undefined;
+            const seedPersonaTrack =
+              activeType === 'Persona'
+                ? (activePersonaSource !== 'all' ? activePersonaSource : 'story')
+                : undefined;
+            const seedMetaphysicsSub =
+              activeType === 'Metaphysics'
+                ? (activeMetaphysicsSubcategory !== 'all' ? activeMetaphysicsSubcategory : 'invocations')
+                : undefined;
+            const newId = `elem_${Date.now()}`;
+            const title =
+              asset?.sections?.subject?.trim()?.slice(0, 60) ||
+              searchTerm?.trim() ||
+              `${activeType} Concept`;
+            const baseElem = {
+              id: newId,
+              title,
+              type: activeType,
+              ...(seedSubcategory ? { propertySubcategory: seedSubcategory } : {}),
+              ...(seedPersonaTrack ? { personaSubcategory: seedPersonaTrack } : {}),
+              ...(seedMetaphysicsSub ? { metaphysicsSubcategory: seedMetaphysicsSub } : {}),
+              content: asset?.prompt || '',
+              fields: {
+                ...(seedSubcategory ? { propertySubcategory: seedSubcategory, itemCategory: seedSubcategory } : {}),
+                ...(seedPersonaTrack ? { personaSubcategory: seedPersonaTrack } : {}),
+                ...(seedMetaphysicsSub ? { metaphysicsSubcategory: seedMetaphysicsSub } : {})
+              },
+              createdAt: new Date().toISOString()
+            };
+            const nextElem = {
+              ...baseElem,
+              ...buildArtistConceptPatch(baseElem, asset, { fillContent: true })
+            };
+            await updateSavedElement?.(newId, nextElem);
+            showToast?.({
+              type: 'success',
+              text: `Saved Artist Hub concept "${title}" to ${activeType} Forge.`
+            });
+          }}
           initialPrompt={searchTerm ? `${searchTerm}` : ''}
           elementContext={{ type: activeType }}
         />

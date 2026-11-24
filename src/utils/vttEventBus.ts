@@ -59,9 +59,13 @@ export interface VttEventMap {
   'arm-stage-tool': { tool: string };
   'spawn-environmental-hazard': { type: 'plasma_fire' | 'corrosive_gas' | 'void_mist' | 'smoke'; x?: number; y?: number; radius?: number };
   'clear-environmental-hazards': void;
-  'apply-atmospheric-preset': { presetKey: string };
+  'apply-atmospheric-preset': { presetKey: string; tint?: string; fogDensity?: number };
   'change-lighting-mode': { mode: string };
   'toggle-stage-aime': void;
+  'toggle-stage-audio-mixer': { open?: boolean } | void;
+  'toggle-stage-handout-push': { open?: boolean } | void;
+  'request-tactical-ping': { type?: string };
+  'toggle-stage-fog': { enabled: boolean };
   'token-defeated': { token?: any; entityId?: string; name?: string; type?: string; status?: string; excessDamage?: number; killer?: string; [key: string]: any };
   'stage-bulkhead-toggled': { bulkheadId?: string; objectId?: string; isOpen?: boolean; operativeId?: string; storyElementId?: string; [key: string]: any };
   'stage-hazard-toggled': { hazardId?: string; objectId?: string; isActive?: boolean; hazardType?: string; [key: string]: any };

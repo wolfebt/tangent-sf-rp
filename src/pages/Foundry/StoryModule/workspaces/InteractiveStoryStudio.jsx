@@ -128,6 +128,7 @@ export const InteractiveStoryStudio = ({
     recordTrackedModification,
     updateCharacterHealth,
     updateCharacterVitality,
+    updateCharacterStructure,
     saveCurrentToRoster
   } = folio;
 
@@ -325,7 +326,17 @@ export const InteractiveStoryStudio = ({
     const match = allDatabasePersonas.find(p => p.id === selectedOperativeId);
     if (match) {
       if (partyMode === 'solo') {
-        setOperatives([match]);
+        setOperatives(prev => {
+          if (
+            prev.length === 1 &&
+            prev[0]?.id === match.id &&
+            prev[0]?.name === match.name &&
+            JSON.stringify(prev[0]?.vitals) === JSON.stringify(match.vitals)
+          ) {
+            return prev;
+          }
+          return [match];
+        });
       } else {
         // In group mode, ensure selected is in operatives array
         setOperatives(prev => {
@@ -378,13 +389,30 @@ export const InteractiveStoryStudio = ({
       return { ...op, vitals: nextVitals };
     }));
 
-    // If folio hero, sync health/vitality back
+    // If folio hero, sync health/vitality/structure back safely
     if (activeOperative?.sourceType === 'folio' && opId === activeOperative?.id) {
-      if (typeof updateCharacterHealth === 'function' && nextVitals.health !== undefined) {
+      if (
+        typeof updateCharacterHealth === 'function' &&
+        Number.isFinite(nextVitals.health) &&
+        nextVitals.health !== activeOperative.vitals?.health
+      ) {
         updateCharacterHealth(opId, nextVitals.health);
       }
-      if (typeof updateCharacterVitality === 'function' && nextVitals.strain !== undefined) {
-        updateCharacterVitality(opId, nextVitals.strain);
+      if (
+        !activeOperative.isSynthetic &&
+        typeof updateCharacterVitality === 'function' &&
+        Number.isFinite(nextVitals.vitality) &&
+        nextVitals.vitality !== activeOperative.vitals?.vitality
+      ) {
+        updateCharacterVitality(opId, nextVitals.vitality);
+      }
+      if (
+        activeOperative.isSynthetic &&
+        typeof updateCharacterStructure === 'function' &&
+        Number.isFinite(nextVitals.structure) &&
+        nextVitals.structure !== activeOperative.vitals?.structure
+      ) {
+        updateCharacterStructure(opId, nextVitals.structure);
       }
     }
 
@@ -393,7 +421,7 @@ export const InteractiveStoryStudio = ({
       tokenId: opId,
       vitals: nextVitals
     });
-  }, [activeOperative, updateCharacterHealth, updateCharacterVitality]);
+  }, [activeOperative, updateCharacterHealth, updateCharacterVitality, updateCharacterStructure]);
 
   // ── SESSION MANAGEMENT & PERSISTENCE ──
   const [currentSessionId, setCurrentSessionId] = useState(() => `ips_${Date.now()}`);
@@ -579,10 +607,22 @@ export const InteractiveStoryStudio = ({
       });
     }
 
-    if (mandate.mechanicalOutcomes?.conditionsApplied && typeof applyVTTStatusConditions === 'function') {
-      mandate.mechanicalOutcomes.conditionsApplied.forEach(cond => {
-        applyVTTStatusConditions(cond);
-      });
+    if (
+      activeOperative?.sourceType === 'folio' &&
+      Array.isArray(mandate.mechanicalOutcomes?.conditionsApplied) &&
+      mandate.mechanicalOutcomes.conditionsApplied.length > 0 &&
+      typeof applyVTTStatusConditions === 'function'
+    ) {
+      const existingConditions = Array.isArray(characterData?.active_conditions)
+        ? characterData.active_conditions
+        : [];
+      const mergedConditions = Array.from(
+        new Set([
+          ...existingConditions,
+          ...mandate.mechanicalOutcomes.conditionsApplied.filter(Boolean)
+        ])
+      );
+      applyVTTStatusConditions(mergedConditions);
     }
 
     if (mandate.mechanicalOutcomes?.flagUpdates) {
@@ -1842,6 +1882,29 @@ Respond in 2-3 concise in-character sentences.`;
                   </div>
                 )}
 
+                {/* Roll Check Telemetry Pill in Split Mode */}
+                {skillCheckRoll && (
+                  <div className="flex items-center justify-between gap-2 pb-1">
+                    <span
+                      className={`text-[10px] px-2 py-0.5 rounded font-mono border flex items-center gap-1.5 ${
+                        skillCheckRoll.isSuccess
+                          ? 'bg-emerald-950 text-emerald-300 border-emerald-500/50 shadow-sm'
+                          : 'bg-rose-950 text-rose-300 border-rose-500/50'
+                      }`}
+                    >
+                      <span>{skillCheckRoll.formula} ➔ {skillCheckRoll.tierLabel}</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setSkillCheckRoll(null)}
+                      aria-label="Clear roll result"
+                      className="text-[10px] text-slate-400 hover:text-white px-1 cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  </div>
+                )}
+
                 {/* 3 AI Options in Split Mode */}
                 {activeBeat?.gate?.options && (
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
@@ -1910,6 +1973,19 @@ Respond in 2-3 concise in-character sentences.`;
                     <div className="flex gap-1.5">
                       <input
                         type="text"
+                        value={epistemicTargetName}
+                        onChange={e => setEpistemicTargetName(e.target.value)}
+                        placeholder={
+                          epistemicTargetType === 'npc'
+                            ? 'Target NPC...'
+                            : epistemicTargetType === 'terminal'
+                              ? 'Terminal ID...'
+                              : 'Clue Object...'
+                        }
+                        className="w-1/3 bg-slate-950 border border-slate-700 text-slate-200 text-[11px] px-2 py-1 rounded outline-none focus:border-amber-400"
+                      />
+                      <input
+                        type="text"
                         value={epistemicQuery}
                         onChange={e => setEpistemicQuery(e.target.value)}
                         onKeyDown={e => { if (e.key === 'Enter') handleExecuteEpistemicInterrogation(); }}
@@ -1925,6 +2001,22 @@ Respond in 2-3 concise in-character sentences.`;
                         {isEpistemicSubmitting ? <Loader2 size={11} className="animate-spin" /> : 'Inquire'}
                       </button>
                     </div>
+                    {epistemicFeed.length > 0 && (
+                      <div className="max-h-32 overflow-y-auto space-y-1.5 pt-1.5 border-t border-slate-800 text-[10px] scrollbar-thin">
+                        {epistemicFeed.slice(0, 3).map(entry => (
+                          <div key={entry.id} className="p-2 rounded bg-slate-950/80 border border-slate-800 space-y-0.5">
+                            <div className="flex items-center justify-between text-[9.5px]">
+                              <span className="font-bold text-amber-300">Target: {entry.target}</span>
+                              <span className={`px-1 py-0.2 rounded font-mono ${entry.isSuccess ? 'bg-emerald-950 text-emerald-300' : 'bg-rose-950 text-rose-300'}`}>
+                                {entry.systemIntent}
+                              </span>
+                            </div>
+                            <div className="text-slate-400 italic">"{entry.query}"</div>
+                            <div className="text-slate-200">{entry.answer}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 

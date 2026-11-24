@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, texts, walls = [], lights = [], fog, mapLayers, updateMap, activeMapId, enabled = true }) => {
+export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, texts, walls = [], lights = [], regions = [], fog, mapLayers, updateMap, activeMapId, enabled = true }) => {
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
   const [lastActionDescription, setLastActionDescription] = useState('Initial Sector State');
@@ -25,6 +25,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
       texts: texts || [],
       walls: walls || [],
       lights: lights || [],
+      regions: regions || [],
       fog: fog || [],
       chunkInstances: currentMap?.chunkInstances || [],
       layers: mapLayers,
@@ -34,7 +35,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
     setUndoStack(prev => [...prev.slice(-50), snapshot]);
     setRedoStack([]);
     setLastActionDescription(actionDescription);
-  }, [currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers]);
+  }, [currentMap, lines, tokens, terrains, objects, texts, walls, lights, regions, fog, mapLayers]);
 
   const handleUndo = useCallback(() => {
     if (undoStack.length === 0 || !currentMap) return;
@@ -47,6 +48,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
       texts: texts || [], 
       walls: walls || [], 
       lights: lights || [], 
+      regions: regions || [], 
       fog: fog || [], 
       chunkInstances: currentMap?.chunkInstances || [],
       layers: mapLayers,
@@ -59,7 +61,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
     setLastActionDescription(previousState.description || 'Undo');
     const { description: _desc, timestamp: _ts, ...mapPatch } = previousState;
     updateMap(activeMapId, mapPatch);
-  }, [undoStack, currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId, lastActionDescription]);
+  }, [undoStack, currentMap, lines, tokens, terrains, objects, texts, walls, lights, regions, fog, mapLayers, updateMap, activeMapId, lastActionDescription]);
 
   const handleRedo = useCallback(() => {
     if (redoStack.length === 0 || !currentMap) return;
@@ -72,6 +74,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
       texts: texts || [], 
       walls: walls || [], 
       lights: lights || [], 
+      regions: regions || [], 
       fog: fog || [], 
       chunkInstances: currentMap?.chunkInstances || [],
       layers: mapLayers,
@@ -84,7 +87,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
     setLastActionDescription(nextState.description || 'Redo');
     const { description: _desc, timestamp: _ts, ...mapPatch } = nextState;
     updateMap(activeMapId, mapPatch);
-  }, [redoStack, currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId, lastActionDescription]);
+  }, [redoStack, currentMap, lines, tokens, terrains, objects, texts, walls, lights, regions, fog, mapLayers, updateMap, activeMapId, lastActionDescription]);
 
   useEffect(() => {
     if (!enabled) return;

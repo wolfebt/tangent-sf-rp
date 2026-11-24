@@ -5,7 +5,7 @@
  * directly to the module's tactical maps with real-time VTT synchronization.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   CloudRain, 
   Volume2, 
@@ -43,9 +43,21 @@ export const AtmosphericsWorkbench = ({
     setCustomFog(preset.fogDensity);
   };
 
+  useEffect(() => {
+    return () => {
+      AudioService.stopAmbientDrone();
+    };
+  }, []);
+
   const handleToggleAudio = () => {
+    const nextPlaying = !isAudioPlaying;
     AudioService.playTerminalBeep(isAudioPlaying ? 500 : 1100, 0.05);
-    setIsAudioPlaying(!isAudioPlaying);
+    if (nextPlaying) {
+      AudioService.startAmbientDrone();
+    } else {
+      AudioService.stopAmbientDrone();
+    }
+    setIsAudioPlaying(nextPlaying);
   };
 
   const handleApplyToMap = () => {
@@ -65,7 +77,11 @@ export const AtmosphericsWorkbench = ({
     onApplyAtmosphereToMap(targetMap.id, atmosphereConfig);
 
     // Emit live VTT signal for active stage canvas
-    VttEventBus.emit('apply-atmospheric-preset', { presetKey: activePreset.id });
+    VttEventBus.emit('apply-atmospheric-preset', {
+      presetKey: activePreset.id,
+      tint: customTint,
+      fogDensity: customFog
+    });
 
     setAppliedMapSuccess(true);
     setTimeout(() => setAppliedMapSuccess(false), 2000);

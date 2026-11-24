@@ -93,6 +93,7 @@ export interface MapMakerSceneData {
   computeWallPreviewPoints: (s: Point2D, e: Point2D, isCurved: boolean) => number[];
   selectedWallType: string;
   paintRoofLayer: boolean;
+  measurementUnit?: string;
   isLayerVisible: (layerId: string) => boolean;
   isLayerLocked: (layerId: string) => boolean;
 }
@@ -749,30 +750,6 @@ export function renderWallsLayer(
 
     container.addChild(group);
   }
-
-  // Live drawing preview for straight/curved wall
-  if (
-    (scene.activeTool === 'wall' || scene.activeTool === 'curved_wall') &&
-    scene.wallStartPoint &&
-    scene.wallPreviewEnd
-  ) {
-    const previewPts = scene.computeWallPreviewPoints(
-      scene.wallStartPoint,
-      scene.wallPreviewEnd,
-      scene.activeTool === 'curved_wall'
-    );
-    const previewHex =
-      scene.selectedWallType === 'door'
-        ? 0xf59e0b
-        : scene.selectedWallType === 'window'
-        ? 0x38bdf8
-        : scene.selectedWallType === 'ethereal'
-        ? 0xc084fc
-        : 0x22d3ee;
-    const prevG = new Graphics();
-    drawStyledPolyline(prevG, previewPts, 5, previewHex, 0.9, [6, 4]);
-    container.addChild(prevG);
-  }
 }
 
 function typeIsWindow(t: unknown): boolean {
@@ -1203,6 +1180,30 @@ export function renderForegroundOverlayLayer(
   clearPixiContainer(container);
   const zoomScale = Math.max(0.2, scene.viewport.scale);
 
+  // 0. Live drawing preview for straight/curved wall (isolated in fgLayer for zero world-rebuild drag lag)
+  if (
+    (scene.activeTool === 'wall' || scene.activeTool === 'curved_wall') &&
+    scene.wallStartPoint &&
+    scene.wallPreviewEnd
+  ) {
+    const previewPts = scene.computeWallPreviewPoints(
+      scene.wallStartPoint,
+      scene.wallPreviewEnd,
+      scene.activeTool === 'curved_wall'
+    );
+    const previewHex =
+      scene.selectedWallType === 'door'
+        ? 0xf59e0b
+        : scene.selectedWallType === 'window'
+        ? 0x38bdf8
+        : scene.selectedWallType === 'ethereal'
+        ? 0xc084fc
+        : 0x22d3ee;
+    const prevG = new Graphics();
+    drawStyledPolyline(prevG, previewPts, 5, previewHex, 0.9, [6, 4]);
+    container.addChild(prevG);
+  }
+
   // 1. Shift+Drag Chunk Capture Marquee
   if (scene.chunkCaptureMarquee) {
     const mq = scene.chunkCaptureMarquee;
@@ -1323,7 +1324,12 @@ export function renderForegroundOverlayLayer(
   }
 
   // 3. Waypoint Locomotion Ruler Overlay
-  const stats = computeRulerPaceStats(scene.rulerWaypoints, scene.rulerPointer, scene.gridSize);
+  const stats = computeRulerPaceStats(
+    scene.rulerWaypoints,
+    scene.rulerPointer,
+    scene.gridSize,
+    scene.measurementUnit || 'meters'
+  );
   if (stats) {
     const rg = new Graphics();
     drawStyledPolyline(rg, stats.flatPoints, 3 / zoomScale, stats.pathHex, 1, [8 / zoomScale, 4 / zoomScale]);
@@ -1340,7 +1346,7 @@ export function renderForegroundOverlayLayer(
     container.addChild(rg);
 
     const distTxt = makeTextNode(
-      `📏 ${Math.round(stats.totalDistanceMeters * 3.28)} ft (${Math.round(stats.totalDistanceMeters * 10) / 10}m)`,
+      `📏 ${stats.formattedDistance}`,
       11 / zoomScale,
       '#f8fafc',
       { bold: true }

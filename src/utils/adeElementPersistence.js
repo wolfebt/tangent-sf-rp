@@ -46,6 +46,7 @@ export async function persistAdeElement({
       normalized.personaSubcategory === 'folio' ||
       normalized.fields?.personaSubcategory === 'folio')
   ) {
+    let savedFolioDocId = null;
     if (typeof saveCurrentToRoster === 'function') {
       const folioPayload = convertPersonaElementToFolio(normalized, normalized.personaData || {});
       if (folioPayload) {
@@ -57,6 +58,13 @@ export async function persistAdeElement({
           });
           return null;
         }
+        const savedObj = typeof rosterRes === 'object' && rosterRes !== null ? rosterRes : null;
+        savedFolioDocId =
+          savedObj?.['character-doc-id'] ||
+          savedObj?.id ||
+          folioPayload?.['character-doc-id'] ||
+          folioPayload?.id ||
+          null;
         showToast?.({
           type: 'success',
           text: `Saved "${normalized.title || 'Persona'}" to Persona Folio Roster!`
@@ -72,8 +80,22 @@ export async function persistAdeElement({
           id: targetModuleId
         });
       }
+      return {
+        ...normalized,
+        id: targetModuleId
+      };
     }
-    return normalized;
+    const canonicalFolioId = savedFolioDocId
+      ? (String(savedFolioDocId).startsWith('folio_persona_')
+        ? String(savedFolioDocId)
+        : `folio_persona_${savedFolioDocId}`)
+      : normalized.id;
+    return {
+      ...normalized,
+      id: canonicalFolioId,
+      isFolioPersona: true,
+      ...(savedFolioDocId ? { folioDocId: savedFolioDocId } : {})
+    };
   }
 
   // 2. OmniCortex / Codex Consolidated Asset Persistence
@@ -144,11 +166,20 @@ export async function persistAdeElement({
         }
         return syncedPin;
       }
+      const canonicalCortexId = `cortex_${consolidated.targetCollection}_${consolidated.payload.id}`;
       return {
         ...normalized,
+        id: canonicalCortexId,
+        isCortexAsset: true,
         dbmCategory: consolidated.targetCollection,
         dbmId: consolidated.payload.id,
-        dbmSyncStatus: 'synced'
+        dbmSyncStatus: 'synced',
+        fields: {
+          ...(normalized.fields || {}),
+          dbmRef: consolidated.payload.id,
+          dbmId: consolidated.payload.id,
+          dbmCategory: consolidated.targetCollection
+        }
       };
     }
   }

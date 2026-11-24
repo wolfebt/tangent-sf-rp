@@ -92,7 +92,10 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
   const isCompendium = location.pathname.startsWith('/compendium') || location.pathname.startsWith('/rules');
   const isCodex = location.pathname.startsWith('/codex');
   const isCortex = isDBM || isCodex;
-  const isSpectator = location.pathname.startsWith('/spectator');
+  const isSpectator =
+    location.pathname.startsWith('/spectator') ||
+    location.pathname.startsWith('/foundry/view/') ||
+    location.pathname.startsWith('/foundry/spectator/');
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
   const isFoundry = location.pathname.startsWith('/foundry') || 
                     location.pathname.startsWith('/story-foundry') || 
@@ -401,8 +404,11 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1400, 0.03);
-              useAdeStore.getState().setModal('floatingAime', true);
-              window.dispatchEvent(new CustomEvent('toggle-aime-copilot'));
+              const nextOpen = !useAdeStore.getState().modals?.floatingAime;
+              useAdeStore.getState().setModal('floatingAime', nextOpen);
+              if (nextOpen) {
+                window.dispatchEvent(new CustomEvent('close-bastion-drawer'));
+              }
             }}
             className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-xl bg-amber-950/40 hover:bg-amber-950/80 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-amber-100 text-xs font-mono font-bold tracking-wider transition-all cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.2)] active:scale-95 shrink-0"
             title="Launch AIME Narrative Co-Pilot AI Assistant"

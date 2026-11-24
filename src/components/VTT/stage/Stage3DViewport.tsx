@@ -121,6 +121,18 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
 
     // Handle shift key tracking for 3D elevation drag
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable ||
+          target.getAttribute?.('contenteditable') === 'true' ||
+          Boolean(target.closest?.('[contenteditable="true"]')))
+      ) {
+        return;
+      }
       if (e.key === 'Shift') isShiftPressedRef.current = true;
       if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.altKey) {
         // Toggle camera mode with C

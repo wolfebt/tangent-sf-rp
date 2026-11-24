@@ -179,6 +179,18 @@ export const FolderOrganizerModal = ({
     return sortContentItems(items, 'custom', selectedFolderId, 'id');
   }, [allItems, selectedFolderId]);
 
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onEsc = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const handleMove = (itemId, direction) => {
@@ -205,7 +217,12 @@ export const FolderOrganizerModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
+    <div
+      className="fixed inset-0 z-[300] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+    >
       <div className="bg-[#0f141c] border-2 border-cyan-400/80 rounded-2xl w-full max-w-5xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[88vh] h-[92vh] sm:h-[88vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden">
         
         {/* Header */}
@@ -396,7 +413,7 @@ export const FolderOrganizerModal = ({
                           {count}
                         </span>
                         
-                        <div className="opacity-0 group-hover:opacity-100 flex items-center transition-opacity ml-1">
+                        <div className="opacity-100 sm:opacity-70 sm:group-hover:opacity-100 group-focus-within:opacity-100 flex items-center transition-opacity ml-1">
                           <button
                             onClick={(e) => handleStartEdit(f, e)}
                             className="p-1 hover:text-cyan-300 text-slate-400 transition-colors"

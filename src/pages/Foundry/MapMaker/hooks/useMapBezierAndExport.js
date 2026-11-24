@@ -63,7 +63,9 @@ export function useMapBezierAndExport({
             pixelsPerGrid: gridSz,
             sourceGridSize: gridSz,
             terrains: currentMap.terrains || [],
-            underlays: currentMap.underlays || [],
+            underlays: (Array.isArray(currentMap?.underlays) && currentMap.underlays.length > 0)
+              ? currentMap.underlays
+              : (currentMap?.underlay ? [currentMap.underlay] : []),
             objects: currentMap.objects || [],
             tokens: currentMap.tokens || [],
             texts: currentMap.texts || [],
@@ -96,7 +98,9 @@ export function useMapBezierAndExport({
       sourceGridSize: gridSz,
       enableWallShadows: currentMap.enableWallShadows !== false,
       terrains: currentMap.terrains || [],
-      underlays: currentMap.underlays || [],
+      underlays: (Array.isArray(currentMap?.underlays) && currentMap.underlays.length > 0)
+        ? currentMap.underlays
+        : (currentMap?.underlay ? [currentMap.underlay] : []),
       objects: currentMap.objects || [],
       tokens: currentMap.tokens || [],
       texts: currentMap.texts || [],

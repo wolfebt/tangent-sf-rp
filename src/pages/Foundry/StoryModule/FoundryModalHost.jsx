@@ -14,6 +14,7 @@ const SelectivePrintModal = lazyWithRetry(() => import('../../../components/Stor
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { UserSettingsModal } from '../../../components/UserSettingsModal';
 import AIMEChatBox from '../AIME/AIMEChatBox';
+import { formatAimeProseToHtml } from '../AIME/aimeTextUtils';
 import EditElementModal from '../ElementForge/EditElementModal';
 import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
 import VttCompilerModal from '../../../components/StoryFoundry/VttCompilerModal';
@@ -22,6 +23,7 @@ import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal'
 import CommandPaletteModal from './CommandPaletteModal';
 import { generateScratchbookMarkdown } from './scratchbookService';
 import { persistAdeElement } from '../../../utils/adeElementPersistence';
+import { buildArtistConceptPatch } from '../../../services/artistHubFramework';
 import { hydrateModuleIntoCampaign } from '../../../services/modulePackageService';
 import { useAdeStore } from '../store/adeStore';
 
@@ -82,13 +84,43 @@ export default function FoundryModalHost({
     return () => window.removeEventListener('keydown', handleGlobalKey);
   }, [isCommandPaletteOpen, setModal]);
 
+  React.useEffect(() => {
+    const handleCloseFloatingAime = () => setModal?.('floatingAime', false);
+    window.addEventListener('close-floating-aime', handleCloseFloatingAime);
+    return () => window.removeEventListener('close-floating-aime', handleCloseFloatingAime);
+  }, [setModal]);
+
+  React.useEffect(() => {
+    if (isFloatingAimeOpen) {
+      window.dispatchEvent(new CustomEvent('close-bastion-drawer'));
+    }
+  }, [isFloatingAimeOpen]);
+
+  const handleInsertFloatingAimeText = (rawText) => {
+    if (isStoryReadOnly) {
+      showToast?.({ type: 'warning', text: 'Read-only mode active: unlock editing to insert prose.' });
+      return;
+    }
+    if (!activeNode?.id || typeof updateStory !== 'function') {
+      showToast?.({ type: 'warning', text: 'Select a scenario node before inserting prose.' });
+      return;
+    }
+    const htmlChunk = formatAimeProseToHtml(rawText);
+    if (!htmlChunk) return;
+    const nextContent = `${activeNode.content || ''}${htmlChunk}`;
+    updateStory(activeNode.id, { content: nextContent });
+    showToast?.({ type: 'success', text: `Inserted AIME prose into "${activeNode.title || 'Scenario'}"` });
+  };
+
   return (
     <>
       {isFloatingAimeOpen && (
         <AIMEChatBox
           onClose={() => setModal('floatingAime', false)}
           activeNode={activeNode}
+          onInsertText={handleInsertFloatingAimeText}
           contextData={{
+            universeState,
             projectName: universeState?.projectName || 'Tangent Universe',
             activeNode: activeNode
               ? {
@@ -201,6 +233,34 @@ export default function FoundryModalHost({
         <ArtistHubModal
           isOpen={isArtistHubOpen}
           onClose={() => setModal('artistHub', false)}
+          onApplyAsset={(asset) => {
+            if (editingModalElement?.id) {
+              updateSavedElement?.(editingModalElement.id, {
+                ...editingModalElement,
+                ...buildArtistConceptPatch(editingModalElement, asset)
+              });
+              showToast?.({
+                type: 'success',
+                text: `Applied Artist Hub concept to "${editingModalElement.title || 'element'}".`
+              });
+              return;
+            }
+            if (activeNode?.id) {
+              updateStory?.(activeNode.id, buildArtistConceptPatch(activeNode, asset, { fillContent: true }));
+              showToast?.({
+                type: 'success',
+                text: `Applied Artist Hub concept to "${activeNode.title || 'story node'}".`
+              });
+              return;
+            }
+            if (asset?.prompt) {
+              navigator?.clipboard?.writeText?.(asset.prompt)?.catch?.(() => {});
+            }
+            showToast?.({
+              type: 'info',
+              text: 'Artist Hub concept copied to clipboard (select a story node or element to attach directly).'
+            });
+          }}
           initialPrompt={
             editingModalElement?.title
               ? `${editingModalElement.title} (${editingModalElement.type || 'Element'})`

@@ -6,6 +6,9 @@ export interface UseStageHotkeysProps {
   selectedAssetIds: string[];
   gridSnap: boolean;
   isDesignModeActive: boolean;
+  isArchitectRole?: boolean;
+  selectedTokenId?: string | null;
+  onClearTokenSelection?: () => void;
   wallConstructionMode: 'single' | 'chain' | 'room';
   wallChainPoints: { x: number; y: number }[];
   setWallChainPoints: (points: { x: number; y: number }[]) => void;
@@ -32,6 +35,9 @@ export const useStageHotkeys = ({
   selectedAssetIds,
   gridSnap,
   isDesignModeActive,
+  isArchitectRole = true,
+  selectedTokenId = null,
+  onClearTokenSelection,
   wallConstructionMode,
   wallChainPoints,
   setWallChainPoints,
@@ -50,27 +56,35 @@ export const useStageHotkeys = ({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore if user is typing in an input field
-      const target = e.target as HTMLElement;
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable ||
+          target.getAttribute?.('contenteditable') === 'true' ||
+          Boolean(target.closest?.('[contenteditable="true"]')))
+      ) {
         return;
       }
 
-      // 1. Delete Selected Assets (Delete / Backspace)
-      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedAssetIds.length > 0) {
+      // 1. Delete Selected Assets (Delete / Backspace) — Architect Only
+      if (isArchitectRole && (e.key === 'Delete' || e.key === 'Backspace') && selectedAssetIds.length > 0) {
         e.preventDefault();
         handleBatchDelete();
         return;
       }
 
-      // 2. Duplicate Selected Assets (Ctrl+D / Cmd+D)
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd' && selectedAssetIds.length > 0) {
+      // 2. Duplicate Selected Assets (Ctrl+D / Cmd+D) — Architect Only
+      if (isArchitectRole && (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd' && selectedAssetIds.length > 0) {
         e.preventDefault();
         handleBatchDuplicate();
         return;
       }
 
-      // 3. Arrow Keys Nudge Selected Assets
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key) && selectedAssetIds.length > 0) {
+      // 3. Arrow Keys Nudge Selected Assets — Architect Only
+      if (isArchitectRole && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key) && selectedAssetIds.length > 0) {
         e.preventDefault();
         const step = e.shiftKey ? (gridSnap ? 70 : 20) : (gridSnap ? 10 : 2);
         const dx = e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0;
@@ -79,15 +93,20 @@ export const useStageHotkeys = ({
         return;
       }
 
-      // 4. Escape to Clear Selection
-      if (e.key === 'Escape' && selectedAssetIds.length > 0) {
+      // 4. Escape to Clear Asset & Token Selection
+      if (e.key === 'Escape' && (selectedAssetIds.length > 0 || selectedTokenId)) {
         e.preventDefault();
-        handleDeselectAll();
+        if (selectedAssetIds.length > 0) {
+          handleDeselectAll();
+        }
+        if (selectedTokenId) {
+          onClearTokenSelection?.();
+        }
         return;
       }
 
-      // 5. Finalize Wall Chain (Enter or Escape)
-      if ((e.key === 'Enter' || e.key === 'Escape') && wallConstructionMode === 'chain' && wallChainPoints.length > 0) {
+      // 5. Finalize Wall Chain (Enter or Escape) — Architect Only
+      if (isArchitectRole && (e.key === 'Enter' || e.key === 'Escape') && wallConstructionMode === 'chain' && wallChainPoints.length > 0) {
         e.preventDefault();
         setWallChainPoints([]);
         setWallDrawStart(null);
@@ -101,11 +120,13 @@ export const useStageHotkeys = ({
       // 6. Tool Shortcuts (M, G, V, W, T, P, L, F, E)
       if (!e.ctrlKey && !e.metaKey && !e.altKey) {
         if (e.key.toLowerCase() === 'm') {
-          handleToggleDesignMode();
+          if (isArchitectRole) {
+            handleToggleDesignMode();
+          }
         } else if (e.key.toLowerCase() === 'g') {
           toggleGridSnap();
           AudioService.playTerminalBeep(1000, 0.02);
-        } else if (isDesignModeActive) {
+        } else if (isArchitectRole && isDesignModeActive) {
           if (e.key.toLowerCase() === 'v') setActiveDesignTool('select');
           else if (e.key.toLowerCase() === 'w') setActiveDesignTool('wall');
           else if (e.key.toLowerCase() === 't') setActiveDesignTool('terrain');
@@ -123,6 +144,9 @@ export const useStageHotkeys = ({
     selectedAssetIds, 
     gridSnap, 
     isDesignModeActive, 
+    isArchitectRole,
+    selectedTokenId,
+    onClearTokenSelection,
     wallConstructionMode, 
     wallChainPoints, 
     handleBatchDelete, 

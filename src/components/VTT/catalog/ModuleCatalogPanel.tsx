@@ -21,10 +21,12 @@ import { CatalogOutliner } from './CatalogOutliner';
 export interface ModuleCatalogPanelProps {
   onSelectMap?: (mapId: string) => void;
   onSpawnActor?: (actorId: string) => void;
+  isArchitectRole?: boolean;
 }
 
 export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
-  onSelectMap
+  onSelectMap,
+  isArchitectRole = true
 }) => {
   const { universeState, elementsCatalog } = useCampaign();
   const folio = (useFolio() || {}) as any;
@@ -96,6 +98,7 @@ export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
           searchQuery={searchQuery}
           activeFilterTag={activeFilterTag}
           onSelectMap={onSelectMap}
+          isArchitectRole={isArchitectRole}
         />
       </div>
     </div>

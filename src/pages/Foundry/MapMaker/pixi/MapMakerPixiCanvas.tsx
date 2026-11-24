@@ -5,7 +5,7 @@
  * scene graph + LayerCompositor, with automatic Canvas2D fallback in headless/jsdom tests.
  */
 
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { Container } from 'pixi.js';
 import { RendererContext } from '../../../../engine/canvas/RendererContext.ts';
 import { LayerCompositor, ZLayer } from '../../../../engine/canvas/LayerCompositor.ts';
@@ -75,6 +75,7 @@ export interface MapMakerPixiCanvasProps {
   computeWallPreviewPoints: (s: Point2D, e: Point2D, isCurved: boolean) => number[];
   selectedWallType: string;
   paintRoofLayer: boolean;
+  measurementUnit?: string;
   isLayerVisible: (layerId: string) => boolean;
   isLayerLocked: (layerId: string) => boolean;
   onWheel: (payload: MapMakerPointerPayload) => void;
@@ -130,6 +131,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     computeWallPreviewPoints,
     selectedWallType,
     paintRoofLayer,
+    measurementUnit = 'meters',
     isLayerVisible,
     isLayerLocked,
     onWheel,
@@ -385,107 +387,83 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     };
   }, [useCanvas2DFallback]);
 
-  // 4. Synchronize PixiJS scene layers (or Canvas2D fallback)
-  useEffect(() => {
-    const sceneData = {
-      viewport: { x: position.x, y: position.y, width, height, scale },
-      currentMap,
-      gridMode,
-      gridSize,
-      terrains,
-      lines,
-      objects,
-      walls,
-      lights,
-      texts,
-      tokens,
-      regions,
-      fog,
-      fogEnabled,
-      visibilityPolygon,
-      activePings,
-      rulerWaypoints,
-      rulerPointer,
-      chunkGhostPreviewData,
-      chunkCaptureMarquee,
-      activeTool,
-      selectedId,
-      wallStartPoint,
-      wallPreviewEnd,
-      computeWallPreviewPoints,
-      selectedWallType,
-      paintRoofLayer,
-      isLayerVisible,
-      isLayerLocked
-    };
-
-    if (useCanvas2DFallback) {
-      const cvs = fallbackCanvasRef.current;
-      if (cvs) {
-        renderMapMakerFallback2D(cvs, {
-          ...sceneData,
-          width,
-          height,
-          scale,
-          position,
-          onImageLoaded: () => setTextureRevision((r) => r + 1)
-        });
+  const layerCallbacks = useMemo<LayerRenderCallbacks>(() => ({
+    claimPointer: () => {
+      claimedPointerRef.current = true;
+    },
+    startItemDrag: (payload) => {
+      activeItemDragRef.current = {
+        ...payload,
+        lastWorldX: payload.startX,
+        lastWorldY: payload.startY,
+        hasMoved: false
+      };
+    },
+    onSelect: (id) => latestCallbacksRef.current.onSelect(id),
+    onSelectToken: (id) => latestCallbacksRef.current.onSelectToken(id),
+    onErase: (id) => latestCallbacksRef.current.onErase(id),
+    onToggleDoor: (wallId) => latestCallbacksRef.current.onToggleDoor(wallId),
+    onObjectDoubleClick: (obj) => latestCallbacksRef.current.onObjectDoubleClick(obj),
+    onTokenDoubleClick: (token) => latestCallbacksRef.current.onTokenDoubleClick(token),
+    checkDoubleClick: (key: string) => {
+      const now = Date.now();
+      if (lastClickRef.current.id === key && now - lastClickRef.current.time < 320) {
+        lastClickRef.current = { id: '', time: 0 };
+        return true;
       }
-      return;
-    }
+      lastClickRef.current = { id: key, time: now };
+      return false;
+    },
+    onTextureReady: () => setTextureRevision((r) => r + 1)
+  }), []);
 
-    if (!isPixiReady) return;
-    const compositor = compositorRef.current;
-    const subs = subContainersRef.current;
-    if (!compositor || !subs) return;
+  const buildSceneData = (viewportScale: number, viewportX: number, viewportY: number) => ({
+    viewport: { x: viewportX, y: viewportY, width, height, scale: viewportScale },
+    currentMap,
+    gridMode,
+    gridSize,
+    terrains,
+    lines,
+    objects,
+    walls,
+    lights,
+    texts,
+    tokens,
+    regions,
+    fog,
+    fogEnabled,
+    visibilityPolygon,
+    activePings,
+    rulerWaypoints,
+    rulerPointer,
+    chunkGhostPreviewData,
+    chunkCaptureMarquee,
+    activeTool,
+    selectedId,
+    wallStartPoint,
+    wallPreviewEnd,
+    computeWallPreviewPoints,
+    selectedWallType,
+    paintRoofLayer,
+    measurementUnit,
+    isLayerVisible,
+    isLayerLocked
+  });
 
-    const callbacks: LayerRenderCallbacks = {
-      claimPointer: () => {
-        claimedPointerRef.current = true;
-      },
-      startItemDrag: (payload) => {
-        activeItemDragRef.current = {
-          ...payload,
-          lastWorldX: payload.startX,
-          lastWorldY: payload.startY,
-          hasMoved: false
-        };
-      },
-      onSelect: (id) => latestCallbacksRef.current.onSelect(id),
-      onSelectToken: (id) => latestCallbacksRef.current.onSelectToken(id),
-      onErase: (id) => latestCallbacksRef.current.onErase(id),
-      onToggleDoor: (wallId) => latestCallbacksRef.current.onToggleDoor(wallId),
-      onObjectDoubleClick: (obj) => latestCallbacksRef.current.onObjectDoubleClick(obj),
-      onTokenDoubleClick: (token) => latestCallbacksRef.current.onTokenDoubleClick(token),
-      checkDoubleClick: (key: string) => {
-        const now = Date.now();
-        if (lastClickRef.current.id === key && now - lastClickRef.current.time < 320) {
-          lastClickRef.current = { id: '', time: 0 };
-          return true;
-        }
-        lastClickRef.current = { id: key, time: now };
-        return false;
-      },
-      onTextureReady: () => setTextureRevision((r) => r + 1)
-    };
-
-    const bgLayer = compositor.getLayer(ZLayer.BackgroundMap);
-    const debrisLayer = compositor.getLayer(ZLayer.UnderlayDebris);
-    const roofLayer = compositor.getLayer(ZLayer.RoofCanopy);
-    const fogLayer = compositor.getLayer(ZLayer.FogOfWar);
-    const fgLayer = compositor.getLayer(ZLayer.ForegroundUI);
-
-    if (bgLayer) renderBackgroundAndGridLayer(bgLayer, sceneData, callbacks);
-    if (debrisLayer) renderTerrainAndLinesLayer(debrisLayer, sceneData, callbacks);
-    renderObjectsLayer(subs.objects, sceneData, callbacks);
-    renderWallsLayer(subs.walls, sceneData, callbacks);
-    renderLightsLayer(subs.lights, sceneData, callbacks);
-    renderEntitiesLayer(subs.entities, sceneData, callbacks);
-    if (roofLayer) renderRoofLayer(roofLayer, sceneData, callbacks);
-    if (fogLayer) renderFogLayer(fogLayer, sceneData, callbacks);
-    if (fgLayer) renderForegroundOverlayLayer(fgLayer, sceneData);
+  // 4a. Headless/Canvas2D fallback render loop (only when WebGL/WebGPU is unavailable)
+  useEffect(() => {
+    if (!useCanvas2DFallback) return;
+    const cvs = fallbackCanvasRef.current;
+    if (!cvs) return;
+    renderMapMakerFallback2D(cvs, {
+      ...buildSceneData(scale, position.x, position.y),
+      width,
+      height,
+      scale,
+      position,
+      onImageLoaded: () => setTextureRevision((r) => r + 1)
+    });
   }, [
-    isPixiReady,
     useCanvas2DFallback,
     textureRevision,
     width,
@@ -519,8 +497,109 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     computeWallPreviewPoints,
     selectedWallType,
     paintRoofLayer,
+    measurementUnit,
     isLayerVisible,
     isLayerLocked
+  ]);
+
+  // 4b. PixiJS Background & Grid Layer (camera-culled without rebuilding world assets)
+  useEffect(() => {
+    if (useCanvas2DFallback || !isPixiReady) return;
+    const compositor = compositorRef.current;
+    if (!compositor) return;
+    const bgLayer = compositor.getLayer(ZLayer.BackgroundMap);
+    if (!bgLayer) return;
+    renderBackgroundAndGridLayer(bgLayer, buildSceneData(scale, position.x, position.y), layerCallbacks);
+  }, [
+    isPixiReady,
+    useCanvas2DFallback,
+    textureRevision,
+    width,
+    height,
+    scale,
+    position.x,
+    position.y,
+    currentMap,
+    gridMode,
+    gridSize,
+    isLayerVisible,
+    layerCallbacks
+  ]);
+
+  // 4c. PixiJS World Scene Layers (isolated from pan/zoom & cursor overlay ticks)
+  useEffect(() => {
+    if (useCanvas2DFallback || !isPixiReady) return;
+    const compositor = compositorRef.current;
+    const subs = subContainersRef.current;
+    if (!compositor || !subs) return;
+
+    const cam = latestCameraRef.current;
+    const sceneData = buildSceneData(cam.scale, cam.position.x, cam.position.y);
+    const debrisLayer = compositor.getLayer(ZLayer.UnderlayDebris);
+    const roofLayer = compositor.getLayer(ZLayer.RoofCanopy);
+    const fogLayer = compositor.getLayer(ZLayer.FogOfWar);
+
+    if (debrisLayer) renderTerrainAndLinesLayer(debrisLayer, sceneData, layerCallbacks);
+    renderObjectsLayer(subs.objects, sceneData, layerCallbacks);
+    renderWallsLayer(subs.walls, sceneData, layerCallbacks);
+    renderLightsLayer(subs.lights, sceneData, layerCallbacks);
+    renderEntitiesLayer(subs.entities, sceneData, layerCallbacks);
+    if (roofLayer) renderRoofLayer(roofLayer, sceneData, layerCallbacks);
+    if (fogLayer) renderFogLayer(fogLayer, sceneData, layerCallbacks);
+  }, [
+    isPixiReady,
+    useCanvas2DFallback,
+    textureRevision,
+    currentMap,
+    terrains,
+    lines,
+    objects,
+    walls,
+    lights,
+    texts,
+    tokens,
+    regions,
+    fog,
+    fogEnabled,
+    visibilityPolygon,
+    activeTool,
+    selectedId,
+    selectedWallType,
+    paintRoofLayer,
+    isLayerVisible,
+    isLayerLocked,
+    layerCallbacks
+  ]);
+
+  // 4d. PixiJS Foreground UI Overlay (cursor previews: ruler, pings, chunk ghost, live wall)
+  useEffect(() => {
+    if (useCanvas2DFallback || !isPixiReady) return;
+    const compositor = compositorRef.current;
+    if (!compositor) return;
+    const fgLayer = compositor.getLayer(ZLayer.ForegroundUI);
+    if (!fgLayer) return;
+    renderForegroundOverlayLayer(fgLayer, buildSceneData(scale, position.x, position.y));
+  }, [
+    isPixiReady,
+    useCanvas2DFallback,
+    textureRevision,
+    width,
+    height,
+    scale,
+    position.x,
+    position.y,
+    gridSize,
+    activeTool,
+    wallStartPoint,
+    wallPreviewEnd,
+    computeWallPreviewPoints,
+    selectedWallType,
+    rulerWaypoints,
+    rulerPointer,
+    measurementUnit,
+    activePings,
+    chunkGhostPreviewData,
+    chunkCaptureMarquee
   ]);
 
   const buildPointerPayload = (

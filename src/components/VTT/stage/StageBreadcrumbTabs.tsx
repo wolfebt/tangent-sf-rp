@@ -34,7 +34,9 @@ import {
   Send,
   Search,
   MessageSquare,
-  Terminal
+  Terminal,
+  Clock,
+  Settings
 } from 'lucide-react';
 import { useAdeStore } from '../../../pages/Foundry/store/adeStore';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
@@ -70,6 +72,10 @@ export interface StageBreadcrumbTabsProps {
   isArchitectRole?: boolean;
   isRollFeedOpen?: boolean;
   onToggleRollFeed?: () => void;
+  unreadRollCount?: number;
+  isTurnTrackerOpen?: boolean;
+  onToggleTurnTracker?: () => void;
+  roundNumber?: number;
   onOpenMacroQuickRun?: () => void;
 }
 
@@ -77,6 +83,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   currentMapId,
   onSelectMap,
   onOpenUnderlayModal,
+  onOpenStageOptions,
   is3DActive = false,
   onToggle3D,
   activeStageTab = 'map',
@@ -87,6 +94,10 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   isArchitectRole = true,
   isRollFeedOpen = false,
   onToggleRollFeed,
+  unreadRollCount = 0,
+  isTurnTrackerOpen = false,
+  onToggleTurnTracker,
+  roundNumber = 1,
   onOpenMacroQuickRun
 }) => {
   const { universeState, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
@@ -334,8 +345,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           </button>
         )}
 
-        {/* SINGLE FILE PULLDOWN */}
-        <div className="relative shrink-0 z-20" ref={projectMenuRef}>
+        {/* SINGLE FILE PULLDOWN (Architect Only) */}
+        {isArchitectRole && (
+          <div className="relative shrink-0 z-20" ref={projectMenuRef}>
           <button
             type="button"
             onClick={() => {
@@ -545,7 +557,8 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
               )}
             </div>
           )}
-        </div>
+          </div>
+        )}
 
         {/* Hidden file inputs */}
         <input
@@ -593,17 +606,19 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
             <div className="absolute left-0 mt-1.5 w-60 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-2xl text-xs font-mono max-h-64 overflow-y-auto divide-y divide-slate-800">
               <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between">
                 <span>Sectors / Maps ({availableMaps.length})</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsMapListOpen(false);
-                    setIsNewMapModalOpen(true);
-                  }}
-                  className="text-cyan-400 hover:text-cyan-300 flex items-center gap-0.5 cursor-pointer"
-                >
-                  <Plus size={10} />
-                  <span>New</span>
-                </button>
+                {isArchitectRole && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMapListOpen(false);
+                      setIsNewMapModalOpen(true);
+                    }}
+                    className="text-cyan-400 hover:text-cyan-300 flex items-center gap-0.5 cursor-pointer"
+                  >
+                    <Plus size={10} />
+                    <span>New</span>
+                  </button>
+                )}
               </div>
               {availableMaps.map((m: any) => {
                 const isSelected = m.id === currentMapId;
@@ -624,7 +639,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                     <span className="truncate flex-1">{m.name || m.title || 'Untitled Map'}</span>
                     <div className="flex items-center gap-1.5 shrink-0">
                       {isSelected && <span className="text-[10px] text-cyan-400">ACTIVE</span>}
-                      {availableMaps.length > 1 && (
+                      {isArchitectRole && availableMaps.length > 1 && (
                         <button
                           type="button"
                           onClick={(e) => handleDeleteSpecificMap(m, e)}
@@ -717,7 +732,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                 ? 'bg-slate-900 border-cyan-500/50 text-cyan-300 shadow-sm'
                 : 'bg-slate-900/90 border-slate-800 text-slate-400 hover:text-slate-200'
             }`}
-            title="Configure Coordinate Grid & Scale Tier (Hotkey: G)"
+            title="Configure Coordinate Grid & Scale Tier (Snap Hotkey: G)"
           >
             <Grid size={11} className="text-cyan-400" />
             <span className="hidden sm:inline">GRID</span>
@@ -734,7 +749,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
             <div className="absolute right-0 mt-1.5 w-60 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl p-3 z-50 backdrop-blur-2xl text-xs font-mono space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
               <div className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex justify-between items-center border-b border-slate-800 pb-1.5">
                 <span>Coordinate Grid & Scale</span>
-                <span className="text-slate-500 text-[9px]">Shortcut: [G]</span>
+                <span className="text-slate-500 text-[9px]">Snap: [G]</span>
               </div>
 
               {/* Grid Visibility & Snap Toggles */}
@@ -783,7 +798,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                     onClick={() => {
                       AudioService.playTerminalBeep(1100, 0.02);
                       setGridType(GridType.Square);
-                      if (currentMapId && updateMap) {
+                      if (isArchitectRole && currentMapId && updateMap) {
                         updateMap(currentMapId, { gridType: 'square', gridMode: 'square' });
                       }
                     }}
@@ -800,7 +815,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                     onClick={() => {
                       AudioService.playTerminalBeep(1100, 0.02);
                       setGridType(GridType.HexFlatTop);
-                      if (currentMapId && updateMap) {
+                      if (isArchitectRole && currentMapId && updateMap) {
                         updateMap(currentMapId, { gridType: 'hex', gridMode: 'hex' });
                       }
                     }}
@@ -874,10 +889,28 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           <span>THEATER</span>
         </button>
 
+        {onToggleTurnTracker && (
+          <button
+            type="button"
+            onClick={onToggleTurnTracker}
+            aria-label="Toggle Turn Tracker"
+            className={`px-2 py-1 rounded-lg border text-[10.5px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
+              isTurnTrackerOpen
+                ? 'bg-cyan-950/80 border-cyan-400 text-cyan-200'
+                : 'bg-slate-900/90 border-slate-800 text-cyan-300 hover:text-white hover:bg-slate-800'
+            }`}
+            title="Toggle Stage Turn & Initiative Tracker"
+          >
+            <Clock size={12} />
+            <span className="hidden lg:inline">Turns (R{roundNumber})</span>
+          </button>
+        )}
+
         {onToggleRollFeed && (
           <button
             type="button"
             onClick={onToggleRollFeed}
+            aria-label="Toggle Roll Feed"
             className={`px-2 py-1 rounded-lg border text-[10.5px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
               isRollFeedOpen
                 ? 'bg-emerald-950/80 border-emerald-400 text-emerald-200'
@@ -887,6 +920,11 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           >
             <MessageSquare size={12} />
             <span className="hidden lg:inline">Roll Feed</span>
+            {unreadRollCount > 0 && (
+              <span className="px-1 py-0.2 rounded-full bg-emerald-500 text-slate-950 text-[9px] font-black leading-none">
+                {unreadRollCount}
+              </span>
+            )}
           </button>
         )}
 
@@ -948,6 +986,18 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           <Sparkles size={12} className="text-amber-400 animate-pulse" />
           <span className="font-bold">AIME</span>
         </button>
+
+        {isArchitectRole && onOpenStageOptions && (
+          <button
+            type="button"
+            onClick={onOpenStageOptions}
+            aria-label="Stage Settings"
+            className="p-1.5 rounded-lg border bg-slate-900/90 border-slate-800 text-slate-300 hover:text-cyan-300 hover:bg-slate-800 cursor-pointer"
+            title="Open Stage Settings & Operations Console"
+          >
+            <Settings size={12} />
+          </button>
+        )}
 
         {/* Zen Mode Toggle */}
         <button

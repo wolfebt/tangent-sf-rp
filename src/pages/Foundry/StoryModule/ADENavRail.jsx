@@ -923,7 +923,7 @@ export const ADENavRail = ({
         {/* Bottom Section: Outliner Toggle & Guide */}
         <div className="w-full flex flex-col items-center gap-1 pt-1.5 border-t border-slate-800/80 shrink-0">
           {/* Outliner Tree Toggle */}
-          {onToggleTreeExpanded && (
+          {activeView === 'scenarios' && onToggleTreeExpanded && (
             <button
               type="button"
               onClick={() => {
@@ -935,13 +935,13 @@ export const ADENavRail = ({
                 onToggleTreeExpanded();
               }}
               className={`w-full h-8 sm:h-8.5 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 ${
-                isHovered ? 'px-2 justify-start' : 'px-1 justify-center'
+                isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
               } ${
                 isTreeExpanded
                   ? 'bg-cyan-950/40 border-cyan-500/30 text-cyan-300'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 border-transparent'
               }`}
-              title={isHovered ? undefined : (isTreeExpanded ? 'Collapse Scenario Outliner ([)' : 'Expand Scenario Outliner ([)')}
+              title={isExpanded ? undefined : (isTreeExpanded ? 'Collapse Scenario Outliner ([)' : 'Expand Scenario Outliner ([)')}
             >
               <div className="w-7 h-7 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-center shrink-0">
                 {isTreeExpanded ? (
@@ -952,7 +952,7 @@ export const ADENavRail = ({
               </div>
               <div
                 className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
-                  isPinned || isHovered ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
+                  isExpanded ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
                 }`}
               >
                 <span className="font-mono text-[10px] font-bold uppercase tracking-wider truncate leading-tight text-cyan-300">
@@ -978,16 +978,16 @@ export const ADENavRail = ({
                 onOpenGuide();
               }}
               className={`w-full h-8 sm:h-8.5 rounded-xl flex items-center transition-all cursor-pointer border border-transparent hover:border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 shrink-0 ${
-                isHovered ? 'px-2 justify-start' : 'px-1 justify-center'
+                isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
               }`}
-              title={isHovered ? undefined : "ADE User Guide & Manual"}
+              title={isExpanded ? undefined : "ADE User Guide & Manual"}
             >
               <div className="w-7 h-7 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-center shrink-0">
                 <Compass size={14} className="text-slate-400" />
               </div>
               <div
                 className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
-                  isPinned || isHovered ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
+                  isExpanded ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
                 }`}
               >
                 <span className="font-mono text-[10px] font-bold uppercase tracking-wider truncate leading-tight text-slate-300">
@@ -1015,12 +1015,9 @@ export const ADENavRail = ({
           >
             <div className="font-bold flex items-center gap-1.5">
               <span
-                className="w-1.5 h-1.5 rounded-full inline-block"
-                style={{
-                  backgroundColor: hoveredItem.theme?.bar
-                    ? hoveredItem.theme.bar.split(' ')[0].replace('bg-', '')
-                    : '#22d3ee'
-                }}
+                className={`w-1.5 h-1.5 rounded-full inline-block ${
+                  hoveredItem.theme?.bar ? hoveredItem.theme.bar.split(' ')[0] : 'bg-cyan-400'
+                }`}
               />
               <span>{hoveredItem.item.sublabel || hoveredItem.item.label}</span>
             </div>

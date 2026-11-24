@@ -128,6 +128,7 @@ export function useStageMultiplayerBridge({
       if (typeof v.current_structure === 'number') store.setStructure(tokId, v.current_structure);
       if (typeof v.current_health === 'number') store.setHealth(tokId, v.current_health);
       if (typeof v.current_vitality === 'number') store.setVitality(tokId, v.current_vitality);
+      if (typeof v.is_hidden === 'boolean') store.setHidden(tokId, v.is_hidden);
     });
     const turnState = doc.getMap('turn_state').get('current') as any;
     if (turnState) callbacksRef.current.onRemoteTurnUpdate?.(turnState);

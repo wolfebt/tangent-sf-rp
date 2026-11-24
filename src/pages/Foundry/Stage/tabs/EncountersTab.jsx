@@ -38,6 +38,7 @@ export default function EncountersTab() {
     if (!encName.trim()) return;
     addEncounter({
       id: `enc-${Date.now()}`,
+      label: encName.trim(),
       name: encName.trim(),
       anchorId: selectedAnchorId || stageManifest.anchors?.[0]?.id || '',
       tokenElementIds: selectedElementId ? [selectedElementId] : [],
@@ -143,7 +144,7 @@ export default function EncountersTab() {
                 >
                   <div className="min-w-0">
                     <div className="text-xs font-bold text-slate-200 truncate flex items-center gap-1.5">
-                      <span>{enc.name}</span>
+                      <span>{enc.label || enc.name}</span>
                       <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-amber-300">
                         {(enc.tokenElementIds || []).length} units
                       </span>

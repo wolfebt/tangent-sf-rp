@@ -6,7 +6,7 @@
  * and direct Tactical Map Pairing (existing or fresh paired grid).
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { 
   Plus, 
@@ -129,7 +129,17 @@ export const CreateScenarioModal = ({
   defaultParentId = null,
   onScenarioCreated
 }) => {
-  const { universeState, addStory, availableMaps, addMap, setActiveMapId } = useStory();
+  const { universeState, addStory, mapsCatalog = [], addMap, setActiveMapId } = useStory();
+
+  const existingMaps = useMemo(() => {
+    const merged = [...(universeState?.maps || []), ...(mapsCatalog || [])];
+    const seen = new Set();
+    return merged.filter((m) => {
+      if (!m?.id || seen.has(m.id)) return false;
+      seen.add(m.id);
+      return true;
+    });
+  }, [universeState?.maps, mapsCatalog]);
 
   const [title, setTitle] = useState('');
   const [type, setType] = useState('Scene');
@@ -138,6 +148,17 @@ export const CreateScenarioModal = ({
   const [mapOption, setMapOption] = useState('new_blank'); // 'none' | 'new_blank' | 'new_starship' | 'new_outpost' | 'existing'
   const [selectedExistingMapId, setSelectedExistingMapId] = useState('');
   const [sceneBeats, setSceneBeats] = useState('');
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setTitle('');
+    setType('Scene');
+    setParentId(defaultParentId || '');
+    setSelectedTemplate('blank');
+    setMapOption('new_blank');
+    setSelectedExistingMapId('');
+    setSceneBeats('');
+  }, [isOpen, defaultParentId]);
 
   // Flatten scenarios tree for parent selector
   const flatScenarioOptions = [];
@@ -520,7 +541,7 @@ export const CreateScenarioModal = ({
                   className="w-full px-3 py-2 bg-slate-950 border border-cyan-500/50 rounded-xl text-cyan-200 text-xs focus:outline-none focus:border-cyan-400"
                 >
                   <option value="">-- Choose Existing Tactical Map --</option>
-                  {(availableMaps || []).map((m) => (
+                  {existingMaps.map((m) => (
                     <option key={m.id} value={m.id}>
                       {m.title || 'Untitled Map'} ({m.tokens?.length || 0} tokens, {m.walls?.length || 0} walls)
                     </option>

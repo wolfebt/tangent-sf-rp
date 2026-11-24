@@ -18,8 +18,7 @@ import { FrustumChunkManager } from '../../engine/canvas/FrustumChunkManager.ts'
 import {
   CoordinateEngine,
   GridType,
-  GridScaleTier,
-  GRID_SCALE_CONFIGS
+  GridScaleTier
 } from '../../engine/math/CoordinateEngine.ts';
 import {
   useEngineStore,
@@ -30,11 +29,8 @@ import {
 import { InteractiveObjectManager } from '../../engine/assets/InteractiveObjectManager.ts';
 import type { SceneInteractiveObject } from '../../engine/assets/FoundryIngestion.ts';
 import { BVHBuilder, type WallSegment } from '../../engine/vision/BVHBuilder.ts';
-import { DashboardOverlay } from '../../engine/ui/DashboardOverlay.tsx';
 import { useCampaign } from '../../context/CampaignContext';
-import { 
-  ArchitectDesignPalette
-} from './ArchitectDesignPalette';
+import { showToast } from '../../context/ToastContext';
 import { useUILayoutStore } from './store/uiLayoutStore';
 import { deployCompiledPackage } from '../../utils/deployVttPackage';
 import { VttEventBus } from '../../utils/vttEventBus';
@@ -73,11 +69,8 @@ import { useStageUnderlayAndGrid } from './stage/useStageUnderlayAndGrid';
 import { useStageActionsAndSummons } from './stage/useStageActionsAndSummons';
 import { useStageTokensRenderer } from './stage/useStageTokensRenderer';
 import { useStagePointerTools } from './stage/useStagePointerTools';
-import { StageAudioMixerDrawer } from './stage/StageAudioMixerDrawer';
-import { HandoutBroadcastOverlay } from './stage/HandoutBroadcastOverlay';
 import { StageTopHudBar } from './stage/StageTopHudBar';
 import { StageTokenLayer } from './stage/StageTokenLayer';
-import { StageTacticalConsole } from './cockpit/StageTacticalConsole';
 import { useMultiplayerCursors } from './hooks/useMultiplayerCursors';
 
 export interface StageViewProps {
@@ -192,7 +185,6 @@ export const StageView: React.FC<StageViewProps> = ({
     toggleMultiplayerSim,
     isZenMode,
     rulerSelectedPace: storeRulerPace,
-    setRulerSelectedPace: setStoreRulerPace,
     selectedTokenId: storeSelectedTokenId,
     setSelectedTokenId: setStoreSelectedTokenId,
     targetTokenId: storeTargetTokenId,
@@ -235,41 +227,23 @@ export const StageView: React.FC<StageViewProps> = ({
     marqueeCurrent,
     setMarqueeCurrent,
     wallConstructionMode,
-    setWallConstructionMode,
     wallChainPoints,
     setWallChainPoints,
     selectedWallType,
-    setSelectedWallType,
     doorLockDc,
-    setDoorLockDc,
     selectedTerrainId,
-    setSelectedTerrainId,
     terrainBrushWidth,
-    setTerrainBrushWidth,
     terrainRenderMode,
-    setTerrainRenderMode,
     pencilColor,
-    setPencilColor,
     pencilWidth,
-    setPencilWidth,
     textLabelInput,
-    setTextLabelInput,
     textColor,
-    setTextColor,
     textSize,
-    setTextSize,
-    rulerAvailableAp,
-    setRulerAvailableAp,
     selectedLightColor,
-    setSelectedLightColor,
     selectedLightRadius,
-    setSelectedLightRadius,
     selectedLightAnimation,
-    setSelectedLightAnimation,
     randomizeRotation,
-    setRandomizeRotation,
     randomizeScale,
-    setRandomizeScale,
     isDrawingToolActive,
     setIsDrawingToolActive,
     wallDrawStart,
@@ -277,19 +251,19 @@ export const StageView: React.FC<StageViewProps> = ({
     wallDrawCurrent,
     setWallDrawCurrent,
     currentStrokePoints,
-    setCurrentStrokePoints
+    setCurrentStrokePoints,
+    storeTerrain,
+    storeTokenLabel,
+    selectedRegionType
   } = useDesignModeController();
 
   const [isSimulationPaused, setIsSimulationPaused] = useState<boolean>(false);
-  const [isTacticalConsoleCollapsed, setIsTacticalConsoleCollapsed] = useState<boolean>(false);
   const [localWalls, setLocalWalls] = useState<WallSegment[]>([]);
   const [localObjects, setLocalObjects] = useState<SceneInteractiveObject[]>([]);
   const [isAoEMode, setIsAoEMode] = useState<boolean>(false);
   const [isFogEnabled, setIsFogEnabled] = useState<boolean>(false);
   const [fogBrushMode, setFogBrushMode] = useState<'none' | 'reveal' | 'hide'>('none');
   const [fogBoxStart, setFogBoxStart] = useState<{ x: number; y: number } | null>(null);
-  const [isAudioMixerOpen, setIsAudioMixerOpen] = useState<boolean>(false);
-  const [isHandoutPushOpen, setIsHandoutPushOpen] = useState<boolean>(false);
   const armedChunkRef = useRef<any>(null);
 
   useEffect(() => {
@@ -308,9 +282,7 @@ export const StageView: React.FC<StageViewProps> = ({
     setAtmosphericWeather,
     localLights,
     setLocalLights,
-    hazardCount,
-    setHazardCount,
-    handleToggleDynamicLighting
+    setHazardCount
   } = useStageLighting({
     currentMap,
     isCanvasReady,
@@ -406,12 +378,109 @@ export const StageView: React.FC<StageViewProps> = ({
     setIsAssetStudioOpen(true);
   };
 
+  /**
+   * Persists an ingested or edited VTT AssetUnit into CampaignContext,
+   * localStorage unit/custom-asset catalogs, and notifies open outliners.
+   */
+  const persistVttAssetUnit = (asset: any) => {
+    if (!asset) return null;
+    const assetId = asset.unit_id || asset.id || `asset-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    const persistedUnit = {
+      ...asset,
+      unit_id: assetId,
+      provenance: {
+        ...(asset.provenance || {}),
+        source: 'custom_upload',
+        updatedAt: new Date().toISOString()
+      }
+    };
+    const texUrl =
+      persistedUnit.visuals?.baseTexture ||
+      persistedUnit.visuals?.thumbnail ||
+      persistedUnit.visuals?.spriteSheetUrl ||
+      persistedUnit.url ||
+      persistedUnit.imageUrl ||
+      '';
+    const mapScale = currentMap?.scale || currentMap?.type || 'Encounter';
+    const gSize = currentMap?.gridSize || 50;
+
+    if (persistedUnit.category === 'terrain_brush') {
+      const existing = (universeState?.customAssets?.terrains || []).some((t: any) => t.id === persistedUnit.unit_id);
+      const terrainAsset = {
+        id: persistedUnit.unit_id,
+        label: persistedUnit.name,
+        name: persistedUnit.name,
+        scale: mapScale,
+        textureUrl: texUrl,
+        color: '#06b6d4',
+        assetUnit: persistedUnit
+      };
+      if (existing) updateCustomTerrain?.(persistedUnit.unit_id, terrainAsset);
+      else addCustomTerrain?.(terrainAsset);
+    } else {
+      const existing = (universeState?.customAssets?.objects || []).some((o: any) => o.id === persistedUnit.unit_id);
+      const objAsset = {
+        id: persistedUnit.unit_id,
+        label: persistedUnit.name,
+        name: persistedUnit.name,
+        scale: mapScale,
+        category: persistedUnit.category || 'Custom',
+        imageUrl: texUrl,
+        width: (persistedUnit.dimensions?.[0] || 1) * gSize,
+        height: (persistedUnit.dimensions?.[1] || 1) * gSize,
+        assetUnit: persistedUnit
+      };
+      if (existing) updateCustomObject?.(persistedUnit.unit_id, objAsset);
+      else addCustomObject?.(objAsset);
+    }
+
+    try {
+      const rawUnits = localStorage.getItem('tangent_custom_asset_units');
+      const parsedUnits = rawUnits ? JSON.parse(rawUnits) : [];
+      const unitList = Array.isArray(parsedUnits) ? parsedUnits : [];
+      const unitIdx = unitList.findIndex((u: any) => u.unit_id === persistedUnit.unit_id);
+      const nextUnits = unitIdx >= 0
+        ? unitList.map((u: any, i: number) => (i === unitIdx ? persistedUnit : u))
+        : [...unitList, persistedUnit];
+      localStorage.setItem('tangent_custom_asset_units', JSON.stringify(nextUnits));
+    } catch {
+      // Ignore storage quota errors
+    }
+
+    try {
+      const rawCustom = localStorage.getItem('tangent_vtt_custom_assets');
+      const parsedCustom = rawCustom ? JSON.parse(rawCustom) : [];
+      const customList = Array.isArray(parsedCustom) ? parsedCustom : [];
+      const catalogEntry = {
+        id: persistedUnit.unit_id,
+        name: persistedUnit.name || 'Custom Asset',
+        url: texUrl,
+        date: new Date().toLocaleDateString()
+      };
+      const existingIdx = customList.findIndex((item: any) => item.id === persistedUnit.unit_id);
+      const nextCustom = existingIdx >= 0
+        ? customList.map((item: any, i: number) => (i === existingIdx ? catalogEntry : item))
+        : [catalogEntry, ...customList];
+      localStorage.setItem('tangent_vtt_custom_assets', JSON.stringify(nextCustom));
+    } catch {
+      // Ignore storage quota errors
+    }
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('tangent-vtt-assets-updated'));
+    }
+    return persistedUnit;
+  };
+
   const handleAssetIngested = (asset: any) => {
+    const persisted = persistVttAssetUnit(asset);
+    const label = persisted?.name || asset?.name || 'Custom Asset';
     setCombatLog(prev => [
-      `[ASSET FORGE] Ingested "${asset.name}" (${asset.category}) to ${asset.tree_path}.`,
+      `[ASSET FORGE] Ingested "${label}" (${asset?.category || 'Custom'}) to ${asset?.tree_path || 'VTT Library'}.`,
       ...prev.slice(0, 8)
     ]);
     AudioService.playTerminalBeep(1400, 0.04);
+    showToast(`Ingested "${label}" into VTT Custom Assets`, 'success');
   };
 
   // Tactical Radar Pings
@@ -492,7 +561,6 @@ export const StageView: React.FC<StageViewProps> = ({
     setIsDraggingPan,
     dragStartPos,
     setDragStartPos,
-    activeTab,
     setActiveTab
   } = useStageTools({
     setActiveDesignTool: (t) => setActiveDesignTool(t),
@@ -510,29 +578,14 @@ export const StageView: React.FC<StageViewProps> = ({
 
   // Combat Resolution, Damage Pipeline & Turn Tracker Hook
   const {
-    combatLog,
     setCombatLog,
-    targetedLimb,
-    setTargetedLimb,
-    attackWeapon,
-    setAttackWeapon,
-    attackMapStep,
-    setAttackMapStep,
     activeStance,
     setActiveStance,
-    customDiceExpr,
-    setCustomDiceExpr,
-    roundNumber,
     setRoundNumber,
-    currentTurnIndex,
     setCurrentTurnIndex,
-    initiativeScores,
     setInitiativeScores,
     combatArbRef,
-    handleExecuteCombatStrike,
-    handleRollCustomDice,
-    handleNextTurn,
-    handleRollAllInitiative
+    handleExecuteCombatStrike
   } = useCombatController({
     selectedToken,
     targetToken,
@@ -761,9 +814,6 @@ export const StageView: React.FC<StageViewProps> = ({
     deployArchitectItem,
     handleToggleDesignMode,
     handleObjectClick,
-    handleSpawnHazard,
-    handleClearHazards,
-    handleToggleMultiplayerSim,
     handleDropTacticalPing,
     handleCommitLandmass,
     handleImportCompleteUvtt,
@@ -820,6 +870,27 @@ export const StageView: React.FC<StageViewProps> = ({
     handleExecuteCombatStrike
   });
 
+  // Subscribe to EventBus tactical ping & Architect Fog toggle requests (used by docked rails)
+  useEffect(() => {
+    const offPing = VttEventBus.on('request-tactical-ping', (payload) => {
+      handleDropTacticalPing(payload?.type || 'target');
+    });
+    const offFog = VttEventBus.on('toggle-stage-fog', (payload) => {
+      if (!effectiveIsArchitectRole) return;
+      const next = typeof payload?.enabled === 'boolean' ? payload.enabled : !isFogEnabled;
+      setIsFogEnabled(next);
+      if (!next) setFogBrushMode('none');
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { fogEnabled: next });
+      }
+      AudioService.playTerminalBeep(next ? 1150 : 750, 0.03);
+    });
+    return () => {
+      offPing();
+      offFog();
+    };
+  }, [effectiveIsArchitectRole, handleDropTacticalPing, isFogEnabled, currentMap, updateMap]);
+
   // ── Extracted Interactive Objects, Spatial Waypoints & Token Layer Renderer Hook ──
   useStageTokensRenderer({
     isCanvasReady,
@@ -843,7 +914,8 @@ export const StageView: React.FC<StageViewProps> = ({
     setRadialMenuState,
     isVisionEnabled,
     torchRadiusFt,
-    handleObjectClick
+    handleObjectClick,
+    isArchitectRole: effectiveIsArchitectRole
   });
 
   // ── Extracted Pointer, Drawing, AoE, Fog Brush, Movement & Drag/Drop Tools Hook ──
@@ -931,6 +1003,9 @@ export const StageView: React.FC<StageViewProps> = ({
     selectedLightAnimation,
     selectedStamp,
     storeObjectType,
+    storeTerrain,
+    storeTokenLabel,
+    selectedRegionType,
     recordHistory,
     setCombatLog,
     deployArchitectItem
@@ -970,6 +1045,13 @@ export const StageView: React.FC<StageViewProps> = ({
     selectedAssetIds,
     gridSnap,
     isDesignModeActive,
+    isArchitectRole: effectiveIsArchitectRole,
+    selectedTokenId,
+    onClearTokenSelection: () => {
+      setSelectedTokenId(null);
+      setStoreSelectedTokenId(null);
+      useEngineStore.getState().clearSelection();
+    },
     wallConstructionMode,
     wallChainPoints,
     setWallChainPoints,
@@ -985,8 +1067,6 @@ export const StageView: React.FC<StageViewProps> = ({
     toggleGridSnap,
     setActiveDesignTool
   });
-
-  const currentScaleConfig = GRID_SCALE_CONFIGS[scaleTier];
 
   return (
     <div 
@@ -1021,24 +1101,17 @@ export const StageView: React.FC<StageViewProps> = ({
           onDrop={handleCanvasDrop}
           onContextMenu={(e) => e.preventDefault()}
           className={`w-full h-full block ${
-            isDesignModeActive 
-              ? (activeDesignTool === 'eraser' ? 'cursor-not-allowed' : 'cursor-crosshair') 
-              : isMoveModeActive 
-                ? 'cursor-crosshair' 
-                : isDraggingPan 
-                  ? 'cursor-grabbing' 
-                  : 'cursor-default'
+            isDraggingPan
+              ? 'cursor-grabbing'
+              : activeDesignTool === 'pan'
+                ? 'cursor-grab'
+                : isDesignModeActive
+                  ? (activeDesignTool === 'eraser' ? 'cursor-not-allowed' : 'cursor-crosshair')
+                  : isMoveModeActive
+                    ? 'cursor-crosshair'
+                    : 'cursor-default'
           }`}
         />
-
-        {/* Empty Sector Mat Ready Hint Badge (Hidden when embedded in Tripartite Stage) */}
-        {!isEmbeddedInTripartite && tokens.length === 0 && localWalls.length === 0 && !currentMap?.background_url && (
-          <div className="absolute top-3 left-3 z-20 pointer-events-none bg-slate-950/85 border border-cyan-500/40 rounded-xl px-3.5 py-2 text-xs font-mono text-cyan-300 backdrop-blur-md flex items-center gap-2.5 shadow-[0_0_20px_rgba(0,0,0,0.8)]">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span>{(currentMap?.title || currentMap?.name || 'Tactical Sector').toUpperCase()} // CANVAS READY • Select props, walls, or tokens to deploy</span>
-          </div>
-        )}
-
 
         {/* ── Pro Stage Tactical Toolbar & Resolve AoE Chip ── */}
         <StageTopHudBar
@@ -1080,8 +1153,12 @@ export const StageView: React.FC<StageViewProps> = ({
           isArchitectRole={effectiveIsArchitectRole}
           onRevealAllFog={revealAllFog}
           onResetFog={resetFog}
-          onOpenAudioMixer={() => setIsAudioMixerOpen(true)}
-          onOpenHandoutPush={() => setIsHandoutPushOpen(true)}
+          onOpenAudioMixer={() => {
+            VttEventBus.emit('toggle-stage-audio-mixer');
+          }}
+          onOpenHandoutPush={() => {
+            VttEventBus.emit('toggle-stage-handout-push');
+          }}
           aoeOrigin={aoeOrigin}
           hasCommittedTemplate={hasCommittedTemplate}
           activeAoEPreset={activeAoEPreset as any}
@@ -1092,7 +1169,9 @@ export const StageView: React.FC<StageViewProps> = ({
 
         {/* ── Tripartite Armed Placement Floating HUD Pill ── */}
         {isEmbeddedInTripartite && isDesignModeActive && activeDesignTool !== 'select' && (
-          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[115] bg-slate-950/90 border border-cyan-500/60 rounded-full px-4 py-1.5 shadow-[0_0_20px_rgba(6,182,212,0.3)] backdrop-blur-md flex items-center gap-3 pointer-events-auto">
+          <div
+            className={`absolute ${selectedTokenId ? 'bottom-20' : 'bottom-5'} left-1/2 -translate-x-1/2 z-[115] bg-slate-950/90 border border-cyan-500/60 rounded-full px-4 py-1.5 shadow-[0_0_20px_rgba(6,182,212,0.3)] backdrop-blur-md flex items-center gap-3 pointer-events-auto transition-all`}
+          >
             <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             <span className="font-mono text-xs font-semibold text-cyan-200">
               ARMED: <strong className="text-white uppercase">{selectedStamp?.label || (storeObjectType as any)?.label || activeDesignTool}</strong>
@@ -1115,88 +1194,6 @@ export const StageView: React.FC<StageViewProps> = ({
           </div>
         )}
 
-        {/* ── Glass-Cockpit HUD React Overlay ── */}
-        <DashboardOverlay
-          campaignName={`THE STAGE | ${campaignId.toUpperCase()} | ${currentScaleConfig.displayLabel}`}
-          selectedTokenId={selectedTokenId}
-          onSelectTokenId={(id: string) => {
-            setSelectedTokenId(id);
-            setStoreSelectedTokenId(id);
-            const eng = useEngineStore.getState();
-            eng.clearSelection();
-            eng.setSelection(id, true);
-          }}
-          isMoveModeActive={isMoveModeActive}
-          onInitiateMove={() => {
-            setIsMoveModeActive(prev => !prev);
-            AudioService.playTerminalBeep(1100, 0.03);
-          }}
-          onInitiateAttack={() => {
-            setActiveTab('combat');
-            AudioService.playTerminalBeep(1300, 0.03);
-          }}
-          onInitiateScan={() => {
-            AudioService.playTerminalBeep(1250, 0.04);
-            setCombatLog(prev => [
-              `[SENSOR SCAN] Sensor cone detected ${tokens.length} active signatures within ${torchRadiusFt}ft LoS.`,
-              ...prev.slice(0, 8)
-            ]);
-          }}
-          onToggleGuard={() => {
-            setActiveStance(prev => prev === 'guard' ? 'normal' : 'guard');
-            AudioService.playTerminalBeep(900, 0.03);
-          }}
-          activeStance={activeStance}
-          effectiveSpeedFt={effectiveSpeedFt}
-          isDynamicLightingEnabled={isDynamicLightingEnabled}
-          onToggleDynamicLighting={handleToggleDynamicLighting}
-          onSpawnHazard={handleSpawnHazard}
-          onClearHazards={handleClearHazards}
-          hazardCount={hazardCount}
-          isMultiplayerSimActive={isMultiplayerSimActive}
-          onToggleMultiplayerSim={handleToggleMultiplayerSim}
-          isDesignModeActive={isDesignModeActive}
-          isZenMode={isZenMode}
-          isEmbeddedInTripartite={isEmbeddedInTripartite}
-        />
-
-        {/* ── RIGHT DOCKABLE TACTICAL COMMAND CONSOLE (Play Mode Only - Standalone Only) ── */}
-        <StageTacticalConsole
-          isEmbeddedInTripartite={isEmbeddedInTripartite}
-          isDesignModeActive={isDesignModeActive}
-          isZenMode={isZenMode}
-          isTacticalConsoleCollapsed={isTacticalConsoleCollapsed}
-          setIsTacticalConsoleCollapsed={setIsTacticalConsoleCollapsed}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          selectedToken={selectedToken}
-          targetToken={targetToken}
-          attackWeapon={attackWeapon}
-          setAttackWeapon={setAttackWeapon}
-          attackMapStep={attackMapStep}
-          setAttackMapStep={setAttackMapStep}
-          targetedLimb={targetedLimb}
-          setTargetedLimb={setTargetedLimb}
-          handleExecuteCombatStrike={handleExecuteCombatStrike}
-          setIsHeroDrawerOpen={setIsHeroDrawerOpen}
-          setIsOmnicortexDrawerOpen={setIsOmnicortexDrawerOpen}
-          roundNumber={roundNumber}
-          handleRollAllInitiative={handleRollAllInitiative}
-          tokens={tokens}
-          setSelectedTokenId={setSelectedTokenId}
-          currentTurnIndex={currentTurnIndex}
-          initiativeScores={initiativeScores}
-          handleNextTurn={handleNextTurn}
-          localObjects={localObjects}
-          handleObjectClick={handleObjectClick}
-          customDiceExpr={customDiceExpr}
-          setCustomDiceExpr={setCustomDiceExpr}
-          handleRollCustomDice={handleRollCustomDice}
-          combatLog={combatLog}
-          onOpenHandoutPush={() => setIsHandoutPushOpen(true)}
-          userRole={effectiveRole}
-        />
-
         {/* ── Contextual Token Radial Action Wheel ── */}
         <StageTokenLayer
           radialMenuState={radialMenuState}
@@ -1208,85 +1205,6 @@ export const StageView: React.FC<StageViewProps> = ({
           isPointBlankTarget={isPointBlankTarget}
           onSelectAction={handleRadialSelectAction}
         />
-
-        {/* ── IN-SITU ARCHITECT DESIGN STUDIO & ASSET PALETTE ── */}
-        <ArchitectDesignPalette
-            isOpen={!isEmbeddedInTripartite && isDesignModeActive && !isZenMode}
-            onClose={() => handleToggleDesignMode()}
-            activeTool={activeDesignTool}
-            setActiveTool={setActiveDesignTool}
-            selectedStamp={selectedStamp}
-            onSelectStamp={setSelectedStamp}
-            gridSnap={gridSnap}
-            onToggleGridSnap={() => toggleGridSnap()}
-            activeMapTitle={currentMap?.title || currentMap?.name || 'Tactical Sector'}
-            wallsCount={localWalls.length}
-            objectsCount={localObjects.length}
-            hazardsCount={hazardCount}
-            terrainsCount={(currentMap?.terrains || []).length}
-            linesCount={(currentMap?.lines || []).length}
-            textsCount={(currentMap?.texts || []).length}
-            lightsCount={localLights.length}
-            selectedWallType={selectedWallType}
-            setSelectedWallType={setSelectedWallType}
-            doorLockDc={doorLockDc}
-            setDoorLockDc={setDoorLockDc}
-            wallConstructionMode={wallConstructionMode}
-            setWallConstructionMode={setWallConstructionMode}
-            selectedAssetIds={selectedAssetIds}
-            onBatchDelete={handleBatchDelete}
-            onBatchDuplicate={handleBatchDuplicate}
-            onBatchNudge={handleBatchNudge}
-            onDeselectAll={handleDeselectAll}
-            randomizeRotation={randomizeRotation}
-            setRandomizeRotation={setRandomizeRotation}
-            randomizeScale={randomizeScale}
-            setRandomizeScale={setRandomizeScale}
-            atmosphericWeather={atmosphericWeather}
-            setAtmosphericWeather={(w) => {
-              setAtmosphericWeather(w);
-              if (currentMap && updateMap) {
-                updateMap(currentMap.id, { atmosphericWeather: w });
-              }
-            }}
-            selectedLightColor={selectedLightColor}
-            setSelectedLightColor={setSelectedLightColor}
-            selectedLightRadius={selectedLightRadius}
-            setSelectedLightRadius={setSelectedLightRadius}
-            selectedLightAnimation={selectedLightAnimation}
-            setSelectedLightAnimation={setSelectedLightAnimation}
-            selectedTerrainId={selectedTerrainId}
-            setSelectedTerrainId={setSelectedTerrainId}
-            terrainBrushWidth={terrainBrushWidth}
-            setTerrainBrushWidth={setTerrainBrushWidth}
-            terrainRenderMode={terrainRenderMode}
-            setTerrainRenderMode={setTerrainRenderMode}
-            pencilColor={pencilColor}
-            setPencilColor={setPencilColor}
-            pencilWidth={pencilWidth}
-            setPencilWidth={setPencilWidth}
-            textLabelInput={textLabelInput}
-            setTextLabelInput={setTextLabelInput}
-            textColor={textColor}
-            setTextColor={setTextColor}
-            textSize={textSize}
-            setTextSize={setTextSize}
-            rulerAvailableAp={rulerAvailableAp}
-            setRulerAvailableAp={setRulerAvailableAp}
-            rulerSelectedPace={storeRulerPace}
-            setRulerSelectedPace={setStoreRulerPace}
-            onOpenLandmassModal={() => setIsLandmassModalOpen(true)}
-            onOpenUvttModal={() => setIsUvttModalOpen(true)}
-            onOpenAssetManager={() => setIsAssetManagerOpen(true)}
-            onOpenHeroDrawer={() => setIsHeroDrawerOpen(true)}
-            onOpenOmnicortexDrawer={() => setIsOmnicortexDrawerOpen(true)}
-            onOpenHazmatModal={() => setIsHazmatModalOpen(true)}
-            onOpenLayersPanel={() => setIsLayersPanelOpen(true)}
-            onOpenUnderlayModal={() => setIsUnderlayModalOpen(true)}
-            onOpenAssetStudio={handleOpenAssetStudio}
-            onOpenAssetIngestion={() => setIsAssetIngestionOpen(true)}
-            onOpenSpriteSheetCutter={() => setIsSpriteSheetCutterOpen(true)}
-          />
       </div>
 
       {/* ── MODALS & DRAWERS INTEGRATION ── */}
@@ -1348,60 +1266,7 @@ export const StageView: React.FC<StageViewProps> = ({
         onSaveStudioAsset={(updated) => {
           setSelectedStudioAsset(updated);
           if (!updated) return;
-          const persistedUnit = {
-            ...updated,
-            provenance: {
-              ...(updated.provenance || {}),
-              source: 'custom_upload',
-              updatedAt: new Date().toISOString()
-            }
-          };
-          const texUrl = persistedUnit.visuals?.baseTexture || persistedUnit.visuals?.thumbnail || '';
-          const mapScale = currentMap?.scale || currentMap?.type || 'Encounter';
-          const gSize = currentMap?.gridSize || 50;
-
-          if (persistedUnit.category === 'terrain_brush') {
-            const existing = (universeState?.customAssets?.terrains || []).some((t: any) => t.id === persistedUnit.unit_id);
-            const terrainAsset = {
-              id: persistedUnit.unit_id,
-              label: persistedUnit.name,
-              name: persistedUnit.name,
-              scale: mapScale,
-              textureUrl: texUrl,
-              color: '#06b6d4',
-              assetUnit: persistedUnit
-            };
-            if (existing) updateCustomTerrain?.(persistedUnit.unit_id, terrainAsset);
-            else addCustomTerrain?.(terrainAsset);
-          } else {
-            const existing = (universeState?.customAssets?.objects || []).some((o: any) => o.id === persistedUnit.unit_id);
-            const objAsset = {
-              id: persistedUnit.unit_id,
-              label: persistedUnit.name,
-              name: persistedUnit.name,
-              scale: mapScale,
-              category: persistedUnit.category || 'Custom',
-              imageUrl: texUrl,
-              width: (persistedUnit.dimensions?.[0] || 1) * gSize,
-              height: (persistedUnit.dimensions?.[1] || 1) * gSize,
-              assetUnit: persistedUnit
-            };
-            if (existing) updateCustomObject?.(persistedUnit.unit_id, objAsset);
-            else addCustomObject?.(objAsset);
-          }
-
-          try {
-            const raw = localStorage.getItem('tangent_custom_asset_units');
-            const parsed = raw ? JSON.parse(raw) : [];
-            const list = Array.isArray(parsed) ? parsed : [];
-            const idx = list.findIndex((u: any) => u.unit_id === persistedUnit.unit_id);
-            const nextList = idx >= 0
-              ? list.map((u: any, i: number) => (i === idx ? persistedUnit : u))
-              : [...list, persistedUnit];
-            localStorage.setItem('tangent_custom_asset_units', JSON.stringify(nextList));
-          } catch {
-            // Ignore storage quota errors
-          }
+          persistVttAssetUnit(updated);
 
           setCombatLog(prev => [
             `[ASSET FORGE] Saved & persisted "${updated.name}" to campaign asset library.`,
@@ -1414,21 +1279,6 @@ export const StageView: React.FC<StageViewProps> = ({
         isSpriteSheetCutterOpen={isSpriteSheetCutterOpen}
         setIsSpriteSheetCutterOpen={setIsSpriteSheetCutterOpen}
       />
-
-      {!isEmbeddedInTripartite && (
-        <>
-          <StageAudioMixerDrawer
-            isOpen={isAudioMixerOpen}
-            onClose={() => setIsAudioMixerOpen(false)}
-            isArchitect={effectiveIsArchitectRole}
-          />
-          <HandoutBroadcastOverlay
-            isPushModalOpen={isHandoutPushOpen}
-            onClosePushModal={() => setIsHandoutPushOpen(false)}
-            isArchitect={effectiveIsArchitectRole}
-          />
-        </>
-      )}
     </div>
   );
 };

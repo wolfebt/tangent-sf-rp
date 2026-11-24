@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ELEMENT_SCHEMAS, getTypePillStyle, getElementFileExtension } from '../ElementForge/elementSchemas';
+import { ELEMENT_SCHEMAS, ELEMENT_TYPES, getTypePillStyle, getElementFileExtension } from '../ElementForge/elementSchemas';
 import { isHalfPageElement } from './exportUtils';
 import { showToast } from '../../../context/ToastContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
@@ -19,6 +19,9 @@ import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanc
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { downloadAimeAssetFile } from '../../../services/aimeAssetFileService';
 import { AudioService } from '../../../services/audioService';
+import { useStory } from '../../../context/CampaignContext';
+import { useAdeStore } from '../store/adeStore';
+import { formatAimeProseToHtml } from '../AIME/aimeTextUtils';
 import AIMEChatBox from '../AIME/AIMEChatBox';
 import ChatParser from '../../../components/UI/ChatParser';
 import { 
@@ -390,8 +393,14 @@ export const ElementFieldsEditor = ({ activeNode, updateStory, elementsCatalog =
           onApplyGuidance={(sug) => {
             if (!activeNode.content) {
               updateStory(activeNode.id, { content: sug });
+              showToast?.({ type: 'success', text: 'Applied AIME guidance to scene content.' });
             } else if (!fields.summary) {
               handleChange('summary', sug.slice(0, 180));
+              showToast?.({ type: 'success', text: 'Applied AIME guidance to scene summary.' });
+            } else {
+              const base = String(activeNode.content).trimEnd();
+              updateStory(activeNode.id, { content: `${base}\n\n---\n### AIME Guidance\n${sug}` });
+              showToast?.({ type: 'success', text: 'Appended AIME guidance to scene content.' });
             }
           }}
         />
@@ -429,8 +438,25 @@ export const ScenarioCockpitDockPanel = ({
   onSwitchView,
   universeState
 }) => {
+  const { isStoryReadOnly = false } = useStory();
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const fileMenuRef = useRef(null);
+
+  const handleInsertAimeText = (rawText) => {
+    if (isStoryReadOnly) {
+      showToast?.({ type: 'warning', text: 'Read-only mode active: unlock editing to insert prose.' });
+      return;
+    }
+    if (!activeNode?.id || typeof updateStory !== 'function') {
+      showToast?.({ type: 'warning', text: 'Select a scenario node before inserting prose.' });
+      return;
+    }
+    const htmlChunk = formatAimeProseToHtml(rawText);
+    if (!htmlChunk) return;
+    const nextContent = `${activeNode.content || ''}${htmlChunk}`;
+    updateStory(activeNode.id, { content: nextContent });
+    showToast?.({ type: 'success', text: `Inserted AIME prose into "${activeNode.title || 'Scenario'}"` });
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -656,12 +682,14 @@ export const ScenarioCockpitDockPanel = ({
                     <button
                       onClick={() => {
                         setActiveMapId(linkedMap.id);
-                        setScenarioWorkspaceTab('weaver');
+                        setScenarioWorkspaceTab('write');
+                        useAdeStore.getState().setIsSplitView(true);
+                        useAdeStore.getState().setViewportSplit('side_by_side');
                       }}
                       className="w-full p-2.5 bg-gradient-to-r from-cyan-950 to-blue-950 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/60 text-cyan-200 text-xs font-bold rounded-xl uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
-                      title="Open tactical map and events in Story Weaver"
+                      title="Open Story Weaver beside the live Tactical Stage"
                     >
-                      <span>🌟</span> Open in Story Weaver
+                      <span>🗺️</span> Open Split Stage
                     </button>
                   </div>
 
@@ -775,7 +803,7 @@ export const ScenarioCockpitDockPanel = ({
 
               {/* Filter Pills */}
               <div className="flex gap-1 overflow-x-auto scrollbar-none pb-0.5">
-                {['Persona', 'Faction', 'Item', 'Location', 'Lore', 'All'].map(t => (
+                {['All', ...ELEMENT_TYPES].map(t => (
                   <button
                     key={t}
                     type="button"
@@ -922,9 +950,13 @@ export const ScenarioCockpitDockPanel = ({
         {dockTab === 'aime' && (
           <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0d14]">
             <AIMEChatBox
+              embedded={true}
               onClose={() => setDockTab('inspector')}
               activeNode={activeNode}
+              cronicle={universeState?.cronicle}
+              onInsertText={handleInsertAimeText}
               contextData={{
+                universeState,
                 projectName: universeState?.projectName || 'Tangent Universe',
                 activeNode: activeNode ? {
                   id: activeNode.id,
@@ -1020,6 +1052,30 @@ export const ScenarioCockpitDockPanel = ({
           <Box size={16} className={dockTab === 'elements' ? 'text-purple-300' : 'text-slate-400 group-hover:text-purple-300'} />
           <span className="text-[9px] font-bold tracking-tight uppercase leading-none font-mono">
             World
+          </span>
+        </button>
+
+        {/* TAB 4: AIME Co-Author */}
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1100, 0.02);
+            setDockTab('aime');
+          }}
+          className={`w-11 py-2 px-1 rounded-xl flex flex-col items-center justify-center gap-1 transition-all group relative cursor-pointer ${
+            dockTab === 'aime'
+              ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/80 shadow-[0_0_12px_rgba(16,185,129,0.25)]'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
+          }`}
+          title="AIME Co-Author"
+          aria-label="AIME Co-Author"
+        >
+          {dockTab === 'aime' && (
+            <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-emerald-400 rounded-l shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+          )}
+          <Sparkles size={16} className={dockTab === 'aime' ? 'text-emerald-300' : 'text-slate-400 group-hover:text-emerald-300'} />
+          <span className="text-[9px] font-bold tracking-tight uppercase leading-none font-mono">
+            AIME
           </span>
         </button>
       </div>

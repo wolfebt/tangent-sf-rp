@@ -74,6 +74,30 @@ test.describe('Tangent SF RP — ADE Convergence (Pair Author, MapMaker, Stage V
     await expect(page.getByRole('button', { name: /^Fog$/i })).toBeVisible({ timeout: 5000 });
     await expect(page.getByRole('button', { name: /^Audio$/i })).toBeVisible({ timeout: 5000 });
 
+    // Wave 1: Turn Order drawer (Architect GM controls)
+    await page.getByRole('button', { name: 'Toggle Turn Tracker' }).click();
+    await expect(page.getByRole('dialog', { name: 'Stage Turn Tracker' })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('button', { name: /Roll Init/i })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('button', { name: /Next Turn/i })).toBeVisible({ timeout: 5000 });
+    await page.getByRole('button', { name: 'Close Turn Tracker' }).click();
+
+    // Wave 1: Persistent Roll Feed & plain-text narration across close/reopen
+    await page.getByRole('button', { name: 'Toggle Roll Feed' }).click();
+    await expect(page.getByRole('dialog', { name: 'Stage Roll Feed' })).toBeVisible({ timeout: 5000 });
+    const feedInput = page.getByPlaceholder(/2d10 \+ 4, 1d6\+2, or chat message/i);
+    await feedInput.fill('Squad sector secured');
+    await page.getByRole('dialog', { name: 'Stage Roll Feed' }).getByRole('button', { name: /^Send$/i }).click();
+    await expect(page.getByText('Squad sector secured')).toBeVisible({ timeout: 5000 });
+    await page.getByRole('button', { name: 'Close Roll Feed' }).click();
+    await page.getByRole('button', { name: 'Toggle Roll Feed' }).click();
+    await expect(page.getByText('Squad sector secured')).toBeVisible({ timeout: 5000 });
+    await page.getByRole('button', { name: 'Close Roll Feed' }).click();
+
+    // Wave 1: Consolidated Stage Settings modal reachable from top bar
+    await page.getByRole('button', { name: 'Stage Settings' }).click();
+    await expect(page.getByText(/VTT Stage Settings & Operations/i)).toBeVisible({ timeout: 5000 });
+    await page.getByTitle('Close Settings (Esc)').click();
+
     expect(filterBenignErrors(pageErrors)).toHaveLength(0);
   });
 
@@ -107,6 +131,23 @@ test.describe('Tangent SF RP — ADE Convergence (Pair Author, MapMaker, Stage V
       await expect(page.getByRole('button', { name: /^AoE$/i })).toHaveCount(0);
       await expect(page.getByRole('button', { name: /^Fog$/i })).toHaveCount(0);
       await expect(page.getByRole('button', { name: /^Audio$/i })).toHaveCount(0);
+
+      // Wave 1: Operative isolation on breadcrumb & left rail controls
+      await expect(page.getByRole('button', { name: /^FILE$/i })).toHaveCount(0);
+      await expect(page.getByRole('button', { name: /^\+\s*New$/i })).toHaveCount(0);
+      await expect(page.getByRole('button', { name: 'Stage Settings' })).toHaveCount(0);
+      await expect(page.getByRole('button', { name: /^SCENARIO$/i })).toHaveCount(0);
+
+      // Wave 1: Player-usable Roll Feed & Turn Tracker remain accessible without GM buttons
+      await page.getByRole('button', { name: 'Toggle Turn Tracker' }).click();
+      await expect(page.getByRole('dialog', { name: 'Stage Turn Tracker' })).toBeVisible({ timeout: 5000 });
+      await expect(page.getByRole('button', { name: /Roll Init/i })).toHaveCount(0);
+      await expect(page.getByRole('button', { name: /Next Turn/i })).toHaveCount(0);
+      await page.getByRole('button', { name: 'Close Turn Tracker' }).click();
+
+      await page.getByRole('button', { name: 'Toggle Roll Feed' }).click();
+      await expect(page.getByRole('dialog', { name: 'Stage Roll Feed' })).toBeVisible({ timeout: 5000 });
+      await page.getByRole('button', { name: 'Close Roll Feed' }).click();
     }
 
     expect(filterBenignErrors(pageErrors)).toHaveLength(0);

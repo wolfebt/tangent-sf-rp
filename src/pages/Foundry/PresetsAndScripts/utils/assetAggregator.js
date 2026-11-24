@@ -238,11 +238,19 @@ export function aggregateModuleAssets({
     }
   });
 
-  // 6. MODULE QUICKJS MACROS
-  const moduleMacros = [
+  // 6. MODULE QUICKJS MACROS (deduplicated by macro.id || macro.name; customMacros overrides saved duplicates)
+  const macroMap = new Map();
+  [
     ...(universeState?.scripts || []),
     ...customMacros
-  ];
+  ].forEach(macro => {
+    if (!macro) return;
+    const dedupKey = macro.id || macro.name;
+    if (dedupKey) {
+      macroMap.set(dedupKey, macro);
+    }
+  });
+  const moduleMacros = Array.from(macroMap.values());
   moduleMacros.forEach(macro => {
     assets.push({
       id: macro.id || `macro-${macro.name}`,

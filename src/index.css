@@ -808,4 +808,176 @@ html, body {
   min-width: 0;
 }
 
+/* 6. Dark-mode StoryWeaver Quill editor & semantic ADE blocks */
+.quill-dark-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: #090d16;
+  color: #e2e8f0;
+}
+
+.quill-dark-wrapper .quill {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.quill-dark-wrapper .ql-toolbar.ql-snow {
+  background-color: #0d1320;
+  border: none;
+  border-bottom: 1px solid #1e293b;
+  padding: 6px 10px;
+}
+
+.quill-dark-wrapper .ql-container.ql-snow {
+  background-color: #090d16;
+  border: none;
+  color: #e2e8f0;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.92rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.quill-dark-wrapper .ql-snow .ql-stroke {
+  stroke: #94a3b8;
+}
+
+.quill-dark-wrapper .ql-snow .ql-fill,
+.quill-dark-wrapper .ql-snow .ql-stroke.ql-fill {
+  fill: #94a3b8;
+}
+
+.quill-dark-wrapper .ql-snow .ql-picker,
+.quill-dark-wrapper .ql-snow .ql-picker-label {
+  color: #cbd5e1;
+}
+
+.quill-dark-wrapper .ql-snow .ql-picker-options {
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+}
+
+.quill-dark-wrapper .ql-snow button:hover .ql-stroke,
+.quill-dark-wrapper .ql-snow button.ql-active .ql-stroke,
+.quill-dark-wrapper .ql-snow .ql-picker-label:hover .ql-stroke,
+.quill-dark-wrapper .ql-snow .ql-picker-label.ql-active .ql-stroke {
+  stroke: #22d3ee;
+}
+
+.quill-dark-wrapper .ql-snow button:hover .ql-fill,
+.quill-dark-wrapper .ql-snow button.ql-active .ql-fill,
+.quill-dark-wrapper .ql-snow button:hover,
+.quill-dark-wrapper .ql-snow button.ql-active,
+.quill-dark-wrapper .ql-snow .ql-picker-item:hover,
+.quill-dark-wrapper .ql-snow .ql-picker-item.ql-selected {
+  color: #22d3ee;
+}
+
+.quill-dark-wrapper .ql-snow .ql-tooltip {
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65);
+}
+
+.quill-dark-wrapper .ql-snow .ql-tooltip input[type="text"] {
+  background-color: #020617;
+  border: 1px solid #475569;
+  color: #f8fafc;
+}
+
+.quill-dark-wrapper .ql-editor {
+  color: #e2e8f0;
+  line-height: 1.7;
+  padding: 16px 20px;
+}
+
+.quill-dark-wrapper .ql-editor.ql-blank::before {
+  color: #64748b;
+  font-style: italic;
+}
+
+/* ADE Semantic Blots (StoryWeaver + exports preview) */
+.quill-dark-wrapper .ql-editor .ade-read-aloud,
+.ql-editor .ade-read-aloud {
+  border-left: 3px solid #22d3ee;
+  background-color: rgba(8, 51, 68, 0.45);
+  color: #cffafe;
+  padding: 8px 12px;
+  margin: 10px 0;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+}
+
+.quill-dark-wrapper .ql-editor .ade-gm-secret,
+.ql-editor .ade-gm-secret {
+  border: 1px dashed rgba(244, 63, 94, 0.55);
+  background-color: rgba(76, 5, 25, 0.35);
+  color: #fecdd3;
+  padding: 8px 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+}
+
+.quill-dark-wrapper .ql-editor .ade-statblock-card,
+.quill-dark-wrapper .ql-editor .ade-statblock,
+.ql-editor .ade-statblock-card,
+.ql-editor .ade-statblock {
+  border: 1px solid rgba(99, 102, 241, 0.45);
+  background-color: rgba(15, 23, 42, 0.85);
+  color: #c7d2fe;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+  padding: 8px 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+}
+
+.quill-dark-wrapper .ql-editor .ade-skill-check,
+.ql-editor .ade-skill-check {
+  display: inline-block;
+  background-color: rgba(120, 53, 15, 0.55);
+  border: 1px solid rgba(245, 158, 11, 0.55);
+  color: #fde68a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 700;
+  font-size: 0.85em;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.quill-dark-wrapper .ql-editor .ade-waypoint,
+.ql-editor .ade-waypoint {
+  border-left: 3px solid #10b981;
+  background-color: rgba(6, 78, 59, 0.35);
+  color: #d1fae5;
+  padding: 8px 12px;
+  margin: 10px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.quill-dark-wrapper .ql-editor .ade-scene-divider,
+.quill-dark-wrapper .ql-editor .ade-divider,
+.ql-editor .ade-scene-divider,
+.ql-editor .ade-divider {
+  border: none;
+  border-top: 1px solid rgba(34, 211, 238, 0.35);
+  margin: 16px 0;
+}
+
+.quill-dark-wrapper .ql-editor .tangent-entity-chip,
+.ql-editor .tangent-entity-chip {
+  display: inline-block;
+  background-color: rgba(8, 51, 68, 0.7);
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  color: #67e8f9;
+  padding: 0 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 

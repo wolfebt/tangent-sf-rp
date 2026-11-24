@@ -44,6 +44,7 @@ export default function ToolbarQuickActions({
   cloudSyncStatus = 'offline'
 }) {
   const navigate = useNavigate();
+  const isFloatingAimeOpen = useAdeStore((s) => Boolean(s.modals?.floatingAime));
 
   const handleToggleStudioMode = () => {
     const nextMode = studioMode === 'live_session' ? 'development' : 'live_session';
@@ -234,11 +235,19 @@ export default function ToolbarQuickActions({
         type="button"
         onClick={() => {
           AudioService.playTerminalBeep(1400, 0.03);
-          if (onSelectCockpitDeck) onSelectCockpitDeck('aime');
-          if (onToggleRightDock) onToggleRightDock(true);
+          if (activeView === 'scenarios') {
+            if (onSelectCockpitDeck) onSelectCockpitDeck('aime');
+            if (onToggleRightDock) onToggleRightDock(true);
+          } else {
+            const nextOpen = !isFloatingAimeOpen;
+            useAdeStore.getState().setModal('floatingAime', nextOpen);
+            if (nextOpen && typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('close-bastion-drawer'));
+            }
+          }
         }}
         className={`px-2.5 sm:px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 sm:gap-1.5 cursor-pointer border ${
-          isRightDockOpen && activeCockpitDeck === 'aime'
+          (activeView === 'scenarios' ? isRightDockOpen && activeCockpitDeck === 'aime' : isFloatingAimeOpen)
             ? 'bg-amber-950 text-amber-200 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]'
             : 'bg-slate-900/90 text-amber-400 hover:text-amber-200 border-amber-500/50 hover:border-amber-400'
         }`}
@@ -314,8 +323,8 @@ export default function ToolbarQuickActions({
         </button>
       </div>
 
-      {/* Master Right Cockpit Dock Toggle */}
-      {onToggleRightDock && (
+      {/* Master Right Cockpit Dock Toggle (Scenario views only) */}
+      {activeView === 'scenarios' && onToggleRightDock && (
         <button
           type="button"
           onClick={onToggleRightDock}

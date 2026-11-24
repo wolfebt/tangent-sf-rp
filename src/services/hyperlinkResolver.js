@@ -101,7 +101,7 @@ export const SECTION_REGISTRY = {
     key: 'catalog',
     aliases: ['catalog', 'elements', 'element forge', 'assets', 'entities'],
     label: 'Elements Catalog',
-    url: '/foundry/catalog',
+    url: '/foundry/elements',
     badge: 'PLATFORM SECTION',
     description: 'Reusable story elements, factions, locations, NPCs, items, and narrative hooks.',
     tags: ['Catalog', 'Forge', 'Assets'],

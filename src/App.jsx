@@ -132,11 +132,13 @@ export function App() {
       }
     };
     const handleOpenBastion = () => setIsBastionOpen(true);
+    const handleCloseBastion = () => setIsBastionOpen(false);
 
     window.addEventListener('toggle-comms-dock', handleCustomToggleComms);
     window.addEventListener('toggle-folio-bastion', handleToggleBastion);
     window.addEventListener('toggle-bastion-drawer', handleToggleBastion);
     window.addEventListener('open-bastion-drawer', handleOpenBastion);
+    window.addEventListener('close-bastion-drawer', handleCloseBastion);
     window.addEventListener('keydown', handleGlobalKeys);
     return () => {
       window.removeEventListener('keydown', handleGlobalKeys);
@@ -144,8 +146,15 @@ export function App() {
       window.removeEventListener('toggle-folio-bastion', handleToggleBastion);
       window.removeEventListener('toggle-bastion-drawer', handleToggleBastion);
       window.removeEventListener('open-bastion-drawer', handleOpenBastion);
+      window.removeEventListener('close-bastion-drawer', handleCloseBastion);
     };
   }, []);
+
+  useEffect(() => {
+    if (isBastionOpen) {
+      window.dispatchEvent(new CustomEvent('close-floating-aime'));
+    }
+  }, [isBastionOpen]);
 
   return (
     <Router>

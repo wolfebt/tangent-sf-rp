@@ -66,8 +66,9 @@ async function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerReques
 
   const imageUrls: string[] = [];
   for (const u of payload.underlays || []) {
-    if (u?.imageUrl) imageUrls.push(u.imageUrl);
-    if (u?.dataUrl) imageUrls.push(u.dataUrl);
+    if (!u || u.visible === false || u.mediaType === 'video') continue;
+    const uSrc = u.url || u.imageUrl || u.dataUrl;
+    if (uSrc) imageUrls.push(uSrc);
   }
   for (const t of payload.terrains || []) {
     if (t?.imageUrl) imageUrls.push(t.imageUrl);
@@ -112,18 +113,21 @@ async function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerReques
 
   // 2.5 Underlays
   for (const u of payload.underlays || []) {
-    const src = u?.imageUrl || u?.dataUrl;
+    if (!u || u.visible === false || u.mediaType === 'video') continue;
+    const src = u.url || u.imageUrl || u.dataUrl;
     const bmp = src ? bitmaps.get(src) : undefined;
-    const ux = Number(u?.offsetX ?? u?.x ?? 0);
-    const uy = Number(u?.offsetY ?? u?.y ?? 0);
-    const uScale = Number(u?.scale || 1);
-    const uw = Number(u?.width || width / coordScale) * uScale;
-    const uh = Number(u?.height || height / coordScale) * uScale;
+    const ux = Number(u.offsetX ?? u.x ?? 0);
+    const uy = Number(u.offsetY ?? u.y ?? 0);
+    const uScale = Number(u.scale || 1);
+    const bmpW = bmp && 'width' in bmp && bmp.width ? bmp.width : width / coordScale;
+    const bmpH = bmp && 'height' in bmp && bmp.height ? bmp.height : height / coordScale;
+    const uw = Number(u.width || bmpW) * uScale;
+    const uh = Number(u.height || bmpH) * uScale;
     ctx.save();
-    ctx.globalAlpha = Number(u?.opacity ?? 0.55);
+    ctx.globalAlpha = Number(u.opacity ?? 0.55);
     if (bmp) {
       ctx.drawImage(bmp, ux, uy, uw, uh);
-    } else if (u?.color) {
+    } else if (u.color) {
       ctx.fillStyle = u.color;
       ctx.fillRect(ux, uy, uw, uh);
     }
@@ -205,10 +209,10 @@ async function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerReques
     const objImg = obj.imageUrl ? bitmaps.get(obj.imageUrl) : undefined;
     ctx.save();
     if (objImg) {
-      ctx.drawImage(objImg, ox, oy, ow, oh);
+      ctx.drawImage(objImg, ox - ow / 2, oy - oh / 2, ow, oh);
     } else {
       ctx.fillStyle = obj.color || '#38bdf8';
-      ctx.fillRect(ox, oy, ow, oh);
+      ctx.fillRect(ox - ow / 2, oy - oh / 2, ow, oh);
     }
     ctx.restore();
   }

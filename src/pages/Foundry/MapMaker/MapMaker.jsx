@@ -703,7 +703,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     });
   };
   const { undoStack, redoStack, recordHistory, handleUndo, handleRedo } = useMapHistory({
-    currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId,
+    currentMap, lines, tokens, terrains, objects, texts, walls, lights, regions, fog, mapLayers, updateMap, activeMapId,
     enabled: activeStudioTab === 'canvas'
   });
 
@@ -2118,7 +2118,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
           onContextMenu={(e) => {
             e.preventDefault();
           }}
-          className={`flex-1 h-full min-w-0 relative ${activeTool === 'select' ? 'cursor-grab active:cursor-grabbing' : (activeTool === 'eraser' ? 'cursor-pointer' : 'cursor-crosshair')}`}
+          className={`flex-1 h-full min-w-0 relative ${activeTool === 'select' || activeTool === 'pan' ? 'cursor-grab active:cursor-grabbing' : (activeTool === 'eraser' ? 'cursor-pointer' : 'cursor-crosshair')}`}
         >
 
           {/* Map Key Panel (Docked safely inside Canvas area to avoid overlapping rails) */}
@@ -2178,7 +2178,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                   max={120}
                   step={5}
                   value={gridSize}
-                  onChange={(e) => setGridSize(Number(e.target.value))}
+                  onChange={(e) => {
+                    const nextSize = Number(e.target.value);
+                    setGridSize(nextSize);
+                    if (activeMapId) updateMap?.(activeMapId, { gridSize: nextSize });
+                  }}
                   className="w-14 h-1 accent-amber-400 bg-slate-800 rounded cursor-pointer"
                   title={`Grid Size: ${gridSize}px`}
                 />
@@ -2330,6 +2334,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                 computeWallPreviewPoints={computeWallPreviewPoints}
                 selectedWallType={selectedWallType}
                 paintRoofLayer={paintRoofLayer}
+                measurementUnit={measurementUnit}
                 isLayerVisible={isLayerVisible}
                 isLayerLocked={isLayerLocked}
                 onWheel={handleWheel}
@@ -2352,6 +2357,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                   updateMap(activeMapId, { walls: nextWalls });
                 }}
                 onUpdateObject={(newAttrs) => {
+                  recordHistory('Move Object');
                   const nextObjects = produce(objects, (draft) => {
                     const index = draft.findIndex((o) => o.id === newAttrs.id);
                     if (index !== -1) draft[index] = newAttrs;
@@ -2359,6 +2365,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                   updateMap(activeMapId, { objects: nextObjects });
                 }}
                 onUpdateToken={(newAttrs) => {
+                  recordHistory('Move Token');
                   const nextTokens = produce(tokens, (draft) => {
                     const index = draft.findIndex((t) => t.id === newAttrs.id);
                     if (index !== -1) draft[index] = newAttrs;
@@ -2366,6 +2373,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                   updateMap(activeMapId, { tokens: nextTokens });
                 }}
                 onUpdateLight={(lightId, lx, ly) => {
+                  recordHistory('Move Light');
                   const nextLights = produce(lights, (draft) => {
                     const idx = draft.findIndex((item) => item.id === lightId);
                     if (idx !== -1) {
@@ -2376,6 +2384,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                   updateMap(activeMapId, { lights: nextLights });
                 }}
                 onUpdateText={(newAttrs) => {
+                  recordHistory('Move Text');
                   const nextTexts = produce(texts, (draft) => {
                     const index = draft.findIndex((t) => t.id === newAttrs.id);
                     if (index !== -1) draft[index] = newAttrs;
@@ -2383,6 +2392,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                   updateMap(activeMapId, { texts: nextTexts });
                 }}
                 onUpdateRegion={(regionId, bounds) => {
+                  recordHistory('Move Region');
                   const nextRegions = regions.map((r) => (r.id === regionId ? { ...r, bounds } : r));
                   updateMap(activeMapId, { regions: nextRegions });
                 }}
@@ -2436,6 +2446,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             onTogglePaintRoofLayer={() => setPaintRoofLayer((prev) => !prev)}
             rulerSelectedPace={rulerSelectedPace}
             setRulerSelectedPace={setRulerSelectedPace}
+            measurementUnit={measurementUnit}
+            setMeasurementUnit={setMeasurementUnit}
             activeSensorMode={activeSensorMode}
             setActiveSensorMode={setActiveSensorMode}
             pencilColor={pencilColor}
@@ -2598,9 +2610,15 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         gridSnap={gridSnap}
         onToggleGridSnap={() => setGridSnap(prev => !prev)}
         gridSize={gridSize}
-        onChangeGridSize={setGridSize}
+        onChangeGridSize={(nextSize) => {
+          setGridSize(nextSize);
+          if (activeMapId) updateMap?.(activeMapId, { gridSize: nextSize });
+        }}
         gridMode={gridMode}
-        onChangeGridMode={setGridMode}
+        onChangeGridMode={(nextMode) => {
+          setGridMode(nextMode);
+          if (activeMapId) updateMap?.(activeMapId, { gridMode: nextMode });
+        }}
         measurementUnit={measurementUnit}
         onChangeMeasurementUnit={setMeasurementUnit}
         fogEnabled={fogEnabled}

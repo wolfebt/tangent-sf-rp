@@ -5,7 +5,7 @@
  * pre-built macro templates, live console telemetry, and module asset binding.
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Play, 
   Trash2, 
@@ -45,6 +45,15 @@ export const MacroSandboxStudio = ({
   const [macroName, setMacroName] = useState(
     selectedAsset?.type === 'Macro' ? selectedAsset.title : 'Custom Sector Routine'
   );
+
+  useEffect(() => {
+    if (selectedAsset?.scriptData?.code) {
+      setActiveCode(selectedAsset.scriptData.code);
+    }
+    if (selectedAsset?.type === 'Macro' && selectedAsset?.title) {
+      setMacroName(selectedAsset.title);
+    }
+  }, [selectedAsset?.id, selectedAsset?.type, selectedAsset?.title, selectedAsset?.scriptData?.code]);
   const [macroCategory, setMacroCategory] = useState('Game Logic');
   const [executionLogs, setExecutionLogs] = useState([]);
   const [isRunning, setIsRunning] = useState(false);

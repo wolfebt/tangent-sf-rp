@@ -55,13 +55,23 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
     const wis = Number(entry['attr-wisdom']) || 1;
     const cha = Number(entry['attr-charisma']) || 1;
 
+    const pickNum = (fallback, ...vals) => {
+      for (const v of vals) {
+        if (v !== undefined && v !== null && v !== '') {
+          const n = Number(v);
+          if (Number.isFinite(n)) return n;
+        }
+      }
+      return fallback;
+    };
+
     const isSynth = Boolean(entry.is_synthetic || entry.isSynthetic || String(entry['char-species'] || '').toLowerCase().includes('synthetic'));
-    const hp = Number(entry['current-health']) || Number(entry['health']) || 30;
-    const maxHp = Number(entry['max-health']) || Number(entry['health']) || 30;
-    const vitality = isSynth ? 0 : (Number(entry['current-vitality']) ?? Number(entry['vitality']) ?? 30);
-    const maxVitality = isSynth ? 0 : (Number(entry['max-vitality']) ?? Number(entry['vitality']) ?? 30);
-    const structure = isSynth ? (Number(entry['current-structure']) ?? Number(entry['structure']) ?? 60) : 0;
-    const maxStructure = isSynth ? (Number(entry['max-structure']) ?? Number(entry['structure']) ?? 60) : 0;
+    const hp = pickNum(30, entry.current_health, entry['current-health'], entry.current_hp, entry.health);
+    const maxHp = pickNum(30, entry['max-health'], entry.max_health, entry.base_health, entry.health);
+    const vitality = isSynth ? 0 : pickNum(30, entry.current_vitality, entry['current-vitality'], entry.vitality);
+    const maxVitality = isSynth ? 0 : pickNum(30, entry['max-vitality'], entry.max_vitality, entry.base_vitality, entry.vitality);
+    const structure = isSynth ? pickNum(60, entry.current_structure, entry['current-structure'], entry.structure) : 0;
+    const maxStructure = isSynth ? pickNum(60, entry['max-structure'], entry.max_structure, entry.base_structure, entry.structure) : 0;
     const shields = Number(entry['current-shields']) || 15;
     const maxShields = Number(entry['max-shields']) || 15;
     const strain = Number(entry['current-strain']) || 0;

@@ -80,6 +80,9 @@ export interface UseDesignModeControllerReturn {
   setWallDrawCurrent: React.Dispatch<React.SetStateAction<{ x: number; y: number } | null>>;
   currentStrokePoints: number[];
   setCurrentStrokePoints: React.Dispatch<React.SetStateAction<number[]>>;
+  storeTerrain: any;
+  storeTokenLabel: string;
+  selectedRegionType: string;
 }
 
 export function useDesignModeController(): UseDesignModeControllerReturn {
@@ -95,7 +98,12 @@ export function useDesignModeController(): UseDesignModeControllerReturn {
   const storeLightAnimation = useUILayoutStore(s => s.selectedLightAnimation);
   const storePencilColor = useUILayoutStore(s => s.pencilColor);
   const storePencilWidth = useUILayoutStore(s => s.pencilWidth);
+  const storeTextLabel = useUILayoutStore(s => s.textLabelInput);
+  const storeTextColor = useUILayoutStore(s => s.textColor);
+  const storeTextSize = useUILayoutStore(s => s.textSize);
   const storeRulerAp = useUILayoutStore(s => s.rulerAvailableAp);
+  const storeTokenLabel = useUILayoutStore(s => s.tokenLabelInput);
+  const storeRegionType = useUILayoutStore(s => s.selectedRegionType);
 
   // In-Situ Architect Design Mode & Tool States
   const [isDesignModeActive, setIsDesignModeActive] = useState<boolean>(false);
@@ -159,8 +167,19 @@ export function useDesignModeController(): UseDesignModeControllerReturn {
   }, [storeDoorLockDc]);
 
   useEffect(() => {
-    if (storeTerrain) setSelectedTerrainId(storeTerrain);
+    const terrainId = typeof storeTerrain === 'string' ? storeTerrain : (storeTerrain as any)?.id;
+    if (terrainId) setSelectedTerrainId(terrainId);
   }, [storeTerrain]);
+
+  useEffect(() => {
+    useUILayoutStore.getState().setIsDesignModeActive(isDesignModeActive);
+  }, [isDesignModeActive]);
+
+  useEffect(() => {
+    return () => {
+      useUILayoutStore.getState().setIsDesignModeActive(false);
+    };
+  }, []);
 
   useEffect(() => {
     if (storeTerrainBrushWidth !== undefined) setTerrainBrushWidth(storeTerrainBrushWidth);
@@ -185,6 +204,18 @@ export function useDesignModeController(): UseDesignModeControllerReturn {
   useEffect(() => {
     if (storePencilWidth !== undefined) setPencilWidth(storePencilWidth);
   }, [storePencilWidth]);
+
+  useEffect(() => {
+    if (storeTextLabel !== undefined) setTextLabelInput(storeTextLabel);
+  }, [storeTextLabel]);
+
+  useEffect(() => {
+    if (storeTextColor) setTextColor(storeTextColor);
+  }, [storeTextColor]);
+
+  useEffect(() => {
+    if (storeTextSize !== undefined) setTextSize(storeTextSize);
+  }, [storeTextSize]);
 
   useEffect(() => {
     if (storeObjectType && typeof storeObjectType === 'object') {
@@ -275,6 +306,9 @@ export function useDesignModeController(): UseDesignModeControllerReturn {
     wallDrawCurrent,
     setWallDrawCurrent,
     currentStrokePoints,
-    setCurrentStrokePoints
+    setCurrentStrokePoints,
+    storeTerrain,
+    storeTokenLabel,
+    selectedRegionType: storeRegionType
   };
 }

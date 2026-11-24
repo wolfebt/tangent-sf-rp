@@ -1,43 +1,33 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  Cpu, 
-  Key, 
-  Sparkles, 
-  CheckCircle2, 
-  ExternalLink, 
-  Eye, 
-  EyeOff, 
+import {
+  X,
+  Cpu,
+  Key,
+  CheckCircle2,
+  AlertCircle,
+  ExternalLink,
+  Eye,
+  EyeOff,
   ShieldCheck,
   Zap,
   Globe
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
+import { auth } from '../../firebase';
+import { getFreshFirebaseIdToken } from '../../utils/firebaseTokenStore';
 
 const AI_PLATFORMS = [
-  { 
-    id: 'gemini', 
-    name: 'Google Gemini 2.5 / Flash', 
-    badge: 'System Native', 
-    description: 'Ultra-fast multimodal reasoning tuned for Tangent lore, rules and mechanics.' 
+  {
+    id: 'gemini',
+    name: 'Google Gemini 2.5 / Flash',
+    badge: 'System Native',
+    description: 'Ultra-fast multimodal reasoning tuned for Tangent lore, rules and mechanics.'
   },
-  { 
-    id: 'openai', 
-    name: 'OpenAI GPT-4o / ChatGPT', 
-    badge: 'Custom Key', 
-    description: 'High-capability generative reasoning for complex NPC interactions and dialogue.' 
-  },
-  { 
-    id: 'anthropic', 
-    name: 'Anthropic Claude 3.5 Sonnet', 
-    badge: 'Custom Key', 
-    description: 'Deep prose and expansive scenario weaving with rich narrative nuance.' 
-  },
-  { 
-    id: 'custom', 
-    name: 'Custom AI Endpoint (Ollama / Local)', 
-    badge: 'Self-Hosted', 
-    description: 'Direct REST endpoint to local LLMs or custom private inference servers.' 
+  {
+    id: 'custom',
+    name: 'Custom AI Endpoint (Ollama / Local)',
+    badge: 'Self-Hosted',
+    description: 'Direct REST endpoint to local LLMs or OpenAI-compatible inference servers.'
   }
 ];
 
@@ -55,28 +45,151 @@ export const AiConfigDrawer = ({
   onSave
 }) => {
   const [showGeminiKey, setShowGeminiKey] = useState(false);
-  const [showOtherKey, setShowOtherKey] = useState(false);
   const [isTestingLink, setIsTestingLink] = useState(false);
   const [testResult, setTestResult] = useState(null);
 
   if (!isOpen) return null;
 
-  const handleTestConnection = () => {
+  const isLegacyUnsupportedPlatform = aiPlatform === 'openai' || aiPlatform === 'anthropic';
+  const effectivePlatform = isLegacyUnsupportedPlatform ? 'gemini' : (aiPlatform || 'gemini');
+
+  const handleTestConnection = async () => {
     setIsTestingLink(true);
     setTestResult(null);
     AudioService.playTerminalBeep(950, 0.04);
 
-    setTimeout(() => {
-      setIsTestingLink(false);
-      const isCustomKey = aiPlatform === 'gemini' ? !!geminiApiKey.trim() : !!otherAiApiKey.trim();
-      setTestResult({
-        success: true,
-        message: isCustomKey 
-          ? `Neural link operational: ${AI_PLATFORMS.find(p => p.id === aiPlatform)?.name} validated.`
-          : 'Neural link operational: System Default Key online.'
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    try {
+      if (effectivePlatform === 'custom') {
+        const base = (customEndpoint || '').trim().replace(/\/+$/, '');
+        if (!base) {
+          setTestResult({
+            success: false,
+            message: 'Enter a Custom AI Endpoint URL (e.g. http://localhost:11434/v1) before testing.'
+          });
+          AudioService.playTerminalBeep(420, 0.08);
+          return;
+        }
+
+        const tagsUrl = `${base}/api/tags`;
+        const modelsUrl = base.endsWith('/v1') ? `${base}/models` : `${base}/v1/models`;
+        let probeUrl = tagsUrl;
+        let res = null;
+        let lastError = null;
+
+        try {
+          res = await fetch(tagsUrl, { method: 'GET', signal: controller.signal });
+        } catch (err) {
+          lastError = err;
+        }
+
+        if (!res || !res.ok) {
+          probeUrl = modelsUrl;
+          try {
+            res = await fetch(modelsUrl, { method: 'GET', signal: controller.signal });
+          } catch (err) {
+            lastError = err;
+          }
+        }
+
+        if (res?.ok) {
+          setTestResult({
+            success: true,
+            message: `Custom endpoint reachable (${probeUrl} — HTTP ${res.status}).`
+          });
+          AudioService.playCriticalChime(true);
+        } else {
+          const reason = res
+            ? `HTTP ${res.status} ${res.statusText || 'Error'}`.trim()
+            : lastError?.name === 'AbortError'
+              ? 'Connection timed out after 8s'
+              : (lastError?.message || 'Endpoint unreachable');
+          setTestResult({
+            success: false,
+            message: `Custom endpoint probe failed: ${reason}.`
+          });
+          AudioService.playTerminalBeep(420, 0.08);
+        }
+        return;
+      }
+
+      const trimmedGeminiKey = (geminiApiKey || '').trim();
+      if (trimmedGeminiKey) {
+        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash', {
+          method: 'GET',
+          headers: { 'x-goog-api-key': trimmedGeminiKey },
+          signal: controller.signal
+        });
+
+        if (res.ok) {
+          setTestResult({
+            success: true,
+            message: `Google Gemini API key verified (HTTP ${res.status}).`
+          });
+          AudioService.playCriticalChime(true);
+        } else {
+          setTestResult({
+            success: false,
+            message: `Gemini API key probe failed (HTTP ${res.status}). Verify key validity and quota.`
+          });
+          AudioService.playTerminalBeep(420, 0.08);
+        }
+        return;
+      }
+
+      const token = await getFreshFirebaseIdToken(auth, false);
+      if (!token) {
+        setTestResult({
+          success: false,
+          message: 'Sign in with a Tangent account or enter a personal Gemini API key to verify neural proxy access.'
+        });
+        AudioService.playTerminalBeep(420, 0.08);
+        return;
+      }
+
+      const proxyUrl = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_PROXY_URL) || '/geminiProxy';
+      const proxyRes = await fetch(proxyUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          model: 'gemini-2.5-flash',
+          contents: [{ role: 'user', parts: [{ text: 'ping' }] }],
+          generationConfig: { maxOutputTokens: 4 }
+        }),
+        signal: controller.signal
       });
-      AudioService.playCriticalChime(true);
-    }, 600);
+
+      if (proxyRes.ok) {
+        setTestResult({
+          success: true,
+          message: `Tangent secured Gemini proxy online (HTTP ${proxyRes.status}).`
+        });
+        AudioService.playCriticalChime(true);
+      } else {
+        setTestResult({
+          success: false,
+          message: `Gemini proxy probe failed (HTTP ${proxyRes.status}).`
+        });
+        AudioService.playTerminalBeep(420, 0.08);
+      }
+    } catch (err) {
+      const errMsg = err?.name === 'AbortError'
+        ? 'Neural connection test timed out after 8s.'
+        : (err?.message || 'Unable to reach neural endpoint.');
+      setTestResult({
+        success: false,
+        message: `Connection failed: ${errMsg}`
+      });
+      AudioService.playTerminalBeep(420, 0.08);
+    } finally {
+      clearTimeout(timeoutId);
+      setIsTestingLink(false);
+    }
   };
 
   const handleCommit = (e) => {
@@ -145,14 +258,24 @@ export const AiConfigDrawer = ({
               <div>
                 <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">STATUS</div>
                 <div className="font-mono text-xs font-bold text-white">
-                  {aiPlatform === 'gemini' && !geminiApiKey ? 'System Secured Key (Active)' : 'Custom Neural Engine Active'}
+                  {effectivePlatform === 'gemini' && !geminiApiKey
+                    ? 'System Secured Key (Active)'
+                    : effectivePlatform === 'custom'
+                      ? 'Custom Local / Private Endpoint'
+                      : 'Personal Gemini Key Active'}
                 </div>
               </div>
             </div>
             <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 uppercase">
-              {aiPlatform}
+              {effectivePlatform}
             </span>
           </div>
+
+          {isLegacyUnsupportedPlatform && (
+            <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-200 text-[11px] font-mono leading-relaxed">
+              Direct <span className="font-bold uppercase">{aiPlatform}</span> inference is not wired in runtime; traffic routes through Google Gemini unless you select Custom Local Endpoint.
+            </div>
+          )}
 
           {/* Platform Selector Cards */}
           <div className="space-y-2">
@@ -161,13 +284,14 @@ export const AiConfigDrawer = ({
             </label>
             <div className="grid grid-cols-1 gap-2">
               {AI_PLATFORMS.map((platform) => {
-                const isSelected = aiPlatform === platform.id;
+                const isSelected = effectivePlatform === platform.id;
                 return (
                   <div
                     key={platform.id}
                     onClick={() => {
                       AudioService.playTerminalBeep(1100, 0.02);
                       setAiPlatform(platform.id);
+                      setTestResult(null);
                     }}
                     className={`p-3 rounded-xl border cursor-pointer transition-all ${
                       isSelected
@@ -239,39 +363,8 @@ export const AiConfigDrawer = ({
             </p>
           </div>
 
-          {/* Secondary / Custom Key Input */}
-          {(aiPlatform !== 'gemini') && (
-            <div className="space-y-1.5 pt-2 border-t border-slate-800 animate-fadeIn">
-              <div className="flex items-center justify-between">
-                <label className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Key size={13} />
-                  <span>{aiPlatform === 'openai' ? 'OpenAI' : aiPlatform === 'anthropic' ? 'Anthropic' : 'Custom'} API Key</span>
-                </label>
-              </div>
-
-              <div className="relative">
-                <input
-                  type={showOtherKey ? "text" : "password"}
-                  value={otherAiApiKey}
-                  onChange={(e) => setOtherAiApiKey(e.target.value)}
-                  placeholder={`Enter ${aiPlatform.toUpperCase()} API key...`}
-                  className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 text-white p-2.5 pr-10 rounded-xl text-xs font-mono outline-none transition-colors"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowOtherKey(!showOtherKey)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 cursor-pointer"
-                  title={showOtherKey ? "Hide key" : "Show key"}
-                  aria-label={showOtherKey ? "Hide key" : "Show key"}
-                >
-                  {showOtherKey ? <EyeOff size={14} /> : <Eye size={14} />}
-                </button>
-              </div>
-            </div>
-          )}
-
           {/* Custom Endpoint URL if custom platform selected */}
-          {aiPlatform === 'custom' && (
+          {effectivePlatform === 'custom' && (
             <div className="space-y-1.5 pt-2 animate-fadeIn">
               <label className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                 <Globe size={13} />
@@ -303,8 +396,19 @@ export const AiConfigDrawer = ({
             </button>
 
             {testResult && (
-              <div className="p-2.5 rounded-xl bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 text-[11px] font-mono flex items-center gap-2">
-                <CheckCircle2 size={15} className="text-emerald-400 shrink-0" />
+              <div
+                role="status"
+                className={`p-2.5 rounded-xl border text-[11px] font-mono flex items-center gap-2 ${
+                  testResult.success
+                    ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300'
+                    : 'bg-rose-950/60 border-rose-500/50 text-rose-300'
+                }`}
+              >
+                {testResult.success ? (
+                  <CheckCircle2 size={15} className="text-emerald-400 shrink-0" />
+                ) : (
+                  <AlertCircle size={15} className="text-rose-400 shrink-0" />
+                )}
                 <span>{testResult.message}</span>
               </div>
             )}

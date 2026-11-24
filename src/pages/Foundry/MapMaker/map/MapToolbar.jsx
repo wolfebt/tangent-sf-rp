@@ -4,6 +4,7 @@ import { useCampaign } from '../../../../context/CampaignContext';
 import { useAuth } from '../../../../context/AuthContext';
 import { extractCreatorInfo } from '../../../../utils/creatorUtils';
 import { ArtistHubModal } from '../../../../components/StoryFoundry/ArtistHubModal';
+import { showToast } from '../../../../context/ToastContext';
 import { 
   Tv, Palette, Copy, Check, ExternalLink, X, Compass, Shield,
   Globe, FolderOpen, Save, Download, Camera, Sparkles, Upload,
@@ -58,7 +59,7 @@ const MapToolbar = ({
   is3DPreviewOpen,
   onToggle3DPreview
 }) => {
-  const { universeState, activeMapId, setActiveMapId, updateMap, publishSpectatorMap } = useCampaign();
+  const { universeState, activeMapId, setActiveMapId, updateMap, publishSpectatorMap, addCustomObject } = useCampaign();
 
   // Dropdown states & refs
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
@@ -378,6 +379,7 @@ const MapToolbar = ({
                   onClick={(e) => {
                     e.stopPropagation();
                     setGridMode(mode.id);
+                    if (activeMapId) updateMap?.(activeMapId, { gridMode: mode.id });
                     setIsGridMenuOpen(false);
                   }}
                   className={`w-full px-3 py-1.5 text-xs text-left font-bold flex items-center justify-between transition-colors uppercase tracking-wider ${
@@ -415,9 +417,6 @@ const MapToolbar = ({
                 Toggle Workspace Overlays
               </div>
               {[
-                { id: 'tools', label: 'Design Palette', active: showToolsPanel, toggle: () => setShowToolsPanel(prev => !prev), icon: '🛠️' },
-                { id: 'settings', label: 'Tool Options', active: showSettingsPanel, toggle: () => setShowSettingsPanel(prev => !prev), icon: '⚙️' },
-                { id: 'layers', label: 'Compositor Layers', active: showLayersPanel, toggle: () => setShowLayersPanel(prev => !prev), icon: '🥞' },
                 { id: 'key', label: 'Map Key & Index', active: showKeyPanel, toggle: () => setShowKeyPanel?.(prev => !prev), icon: '🗺️' },
                 { id: 'metadata', label: 'Scale Properties', active: showMetadataPanel, toggle: () => setShowMetadataPanel?.(prev => !prev), icon: '🌐' }
               ].map((item) => (
@@ -638,6 +637,45 @@ const MapToolbar = ({
         <ArtistHubModal
           isOpen={isArtistHubOpen}
           onClose={() => setIsArtistHubOpen(false)}
+          onApplyAsset={(asset) => {
+            const img = asset?.url || asset?.imageUrl || '';
+            const promptText = String(asset?.prompt || '').trim();
+            if (img) {
+              const conceptTitle = currentMap?.title
+                ? `${currentMap.title} Concept`
+                : 'Artist Hub Concept';
+              addCustomObject?.({
+                id: `art-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+                label: conceptTitle,
+                name: conceptTitle,
+                scale: currentMap?.scale || currentMap?.type || 'Encounter',
+                category: 'Concept Art',
+                imageUrl: img,
+                width: (currentMap?.gridSize || 50) * 2,
+                height: (currentMap?.gridSize || 50) * 2
+              });
+            }
+            if (currentMap?.id) {
+              updateMap?.(currentMap.id, {
+                ...(img ? { conceptArtUrl: img } : {}),
+                artistConcept: {
+                  prompt: promptText,
+                  style: asset?.style || asset?.styleId || '',
+                  template: asset?.template || asset?.templateId || '',
+                  updatedAt: new Date().toISOString()
+                }
+              });
+            }
+            if (promptText) {
+              navigator?.clipboard?.writeText?.(promptText)?.catch?.(() => {});
+            }
+            showToast({
+              type: 'success',
+              text: img
+                ? (currentMap ? `Applied concept art to "${currentMap.title}" & Custom Objects.` : 'Added concept art to Custom Objects.')
+                : (currentMap ? `Saved visual brief to "${currentMap.title}" & copied prompt.` : 'Artist Hub concept prompt copied to clipboard.')
+            });
+          }}
           initialPrompt={currentMap?.title ? `Tactical sector concept for ${currentMap.title}` : ''}
           initialTemplate="interior"
         />

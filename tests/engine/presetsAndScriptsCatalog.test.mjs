@@ -208,3 +208,44 @@ test('reactiveVttService: stepNpcPatrols advances token waypoints in-situ', () =
   assert.ok(updated.length === 1);
   assert.ok(updated[0].x > 100, 'Token moved along waypoint vector in-situ');
 });
+
+test('aggregateModuleAssets: Deduplicates macros shared across universeState.scripts and customMacros', () => {
+  const universeState = {
+    scenarios: [],
+    scripts: [
+      {
+        id: 'macro-shared',
+        name: 'Airlock Purge',
+        category: 'Automation',
+        code: 'return { version: 1 };'
+      },
+      {
+        id: 'macro-saved-only',
+        name: 'Saved Routine',
+        category: 'Automation',
+        code: 'return { ok: true };'
+      }
+    ]
+  };
+  const customMacros = [
+    {
+      id: 'macro-shared',
+      name: 'Airlock Purge v2',
+      category: 'Automation',
+      code: 'return { version: 2 };'
+    }
+  ];
+
+  const assets = aggregateModuleAssets({
+    elementsCatalog: [],
+    mapsCatalog: [],
+    universeState,
+    customMacros
+  });
+
+  const matchingShared = assets.filter((a) => a.rawId === 'macro-shared');
+  assert.equal(matchingShared.length, 1, 'Duplicate macro ID across scripts and customMacros is deduplicated');
+  assert.equal(matchingShared[0].title, 'Airlock Purge v2', 'customMacros override takes precedence over stale saved entry');
+  assert.equal(matchingShared[0].scriptData.code, 'return { version: 2 };');
+  assert.ok(assets.some((a) => a.rawId === 'macro-saved-only'), 'Retains unique macros from universeState.scripts');
+});

@@ -566,10 +566,27 @@ export default function CronicleDeckModal({
     return filtered.length > 0 ? filtered.join('\n') : `No Scratchbook entries matching "${docSearchQuery.trim()}".`;
   }, [isOpen, compiledScratchbookMarkdown, docSearchQuery]);
 
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onEsc = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[220] flex items-start sm:items-center justify-center p-2 sm:p-4 pt-8 sm:pt-14 pb-8 overflow-y-auto bg-black/85 backdrop-blur-md font-sans select-none animate-in fade-in duration-150">
+    <div
+      className="fixed inset-0 z-[220] flex items-start sm:items-center justify-center p-2 sm:p-4 pt-8 sm:pt-14 pb-8 overflow-y-auto bg-black/85 backdrop-blur-md font-sans select-none animate-in fade-in duration-150"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+    >
       <div className="bg-[#0b0f19] border-2 border-cyan-400/80 w-full max-w-7xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[92vh] h-[92vh] rounded-2xl shadow-[0_0_60px_rgba(6,182,212,0.35)] flex flex-col overflow-hidden text-slate-200">
         
         {/* ── TOP HEADER BAR ── */}

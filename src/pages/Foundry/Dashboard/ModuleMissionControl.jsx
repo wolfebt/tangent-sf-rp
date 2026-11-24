@@ -112,7 +112,9 @@ export default function ModuleMissionControl({
     updateSavedElement,
     setActiveMapId,
     setActiveScenarioId,
-    setGalleryModifiers
+    setGalleryModifiers,
+    updateCreativeState,
+    updateCronicle
   } = useCampaign();
 
   // ADE Store
@@ -178,7 +180,12 @@ export default function ModuleMissionControl({
   
   // Telemetry computation
   const scenariosWithMaps = scenarios.filter(s => s.mapId || (s.fields && s.fields.mapId)).length;
-  const scenariosWithBeats = scenarios.filter(s => (s.beats && s.beats.length > 0) || (s.fields && s.fields.beats)).length;
+  const scenariosWithBeats = scenarios.filter(
+    s =>
+      (Array.isArray(s.beats) && s.beats.length > 0) ||
+      Boolean(s.fields?.sceneBeats?.trim?.()) ||
+      Boolean(s.fields?.beats)
+  ).length;
   const elementsCount = elementsCatalog?.length || 0;
   const scriptedNpcsCount = (elementsCatalog || []).filter(
     e => e.fields?.vttScript || e.fields?.vttScriptActive === 'true'
@@ -308,6 +315,18 @@ export default function ModuleMissionControl({
     }
   };
 
+  useEffect(() => {
+    if (!isNewStoryModalOpen) return undefined;
+    const onEsc = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setIsNewStoryModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, [isNewStoryModalOpen]);
+
   // Clear universe
   const handleClearStoryElements = async () => {
     setIsFileMenuOpen(false);
@@ -422,7 +441,12 @@ export default function ModuleMissionControl({
           },
           setActiveMapId: setActiveMapId || (() => {}),
           setActiveScenarioId: setActiveScenarioId || (() => {}),
-          setGalleryModifiers: setGalleryModifiers || (() => {})
+          setGalleryModifiers: setGalleryModifiers || (() => {}),
+          updateCreativeState,
+          updateCronicle,
+          existingMaps: universeState?.maps || [],
+          existingScenarios: universeState?.scenarios || [],
+          existingElements: elementsCatalog || []
         });
 
         toast?.showSuccess?.(`Module Hydrated: ${results.scenariosImported} scenarios, ${results.mapsImported} maps, ${results.elementsImported} assets.`);
@@ -519,45 +543,6 @@ export default function ModuleMissionControl({
 
             {/* Direct Action Controls */}
             <div className="flex items-center gap-2 flex-wrap shrink-0">
-              {/* Module Switcher Dropdown */}
-              <div className="flex items-center gap-1.5 bg-slate-950/90 border border-slate-700 hover:border-cyan-500/60 rounded-xl px-2.5 py-1.5 shadow-sm transition-colors">
-                <BookOpen size={13} className="text-cyan-400 shrink-0" />
-                <select
-                  value={universeState?.id || ''}
-                  onChange={(e) => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    if (e.target.value) {
-                      openStory(e.target.value);
-                      toast?.showSuccess?.(`Switched to module: ${storyCatalog.find(s => s.id === e.target.value)?.projectName || 'Module'}`);
-                    }
-                  }}
-                  className="bg-transparent text-xs font-mono text-slate-100 focus:outline-none cursor-pointer max-w-[150px] sm:max-w-[200px] truncate font-bold"
-                  title="Select an Existing Story Module from Roster"
-                >
-                  {storyCatalog && storyCatalog.length > 0 ? (
-                    storyCatalog.map((s) => (
-                      <option key={s.id} value={s.id} className="bg-slate-900 text-slate-100">
-                        {s.projectName || s.title || 'Untitled Story'}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="" className="bg-slate-900 text-slate-400">
-                      Default Universe
-                    </option>
-                  )}
-                </select>
-                {universeState?.id && (
-                  <button
-                    type="button"
-                    onClick={handleDeleteActiveStory}
-                    className="p-1 text-slate-500 hover:text-rose-400 hover:bg-rose-950/50 rounded transition-colors cursor-pointer shrink-0"
-                    title={`Delete active module "${universeState?.projectName || 'Untitled Story'}"`}
-                  >
-                    <Trash2 size={12} />
-                  </button>
-                )}
-              </div>
-
               {/* Create New Module Button */}
               <button
                 type="button"
@@ -1010,28 +995,8 @@ export default function ModuleMissionControl({
                 {/* Section 1: Diagnostics & Perspective */}
                 <div className="py-1.5">
                   <div className="px-3.5 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider">
-                    Diagnostics & Perspective
+                    Perspective Mode
                   </div>
-
-                  {/* Module Health Badge Action */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      AudioService.playTerminalBeep(1100, 0.05);
-                      setIsToolsMenuOpen(false);
-                      onOpenCompiler?.();
-                    }}
-                    className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800/80 flex items-center justify-between gap-2 transition-colors cursor-pointer"
-                    title={`Module Health: ${effectiveHealth.score}%\n${[...effectiveHealth.issues, ...effectiveHealth.warnings].join('\n') || 'All systems nominal'}`}
-                  >
-                    <div className="flex items-center gap-2 text-slate-200">
-                      <Activity size={13} className="text-cyan-400 shrink-0" />
-                      <span>Module Health Check</span>
-                    </div>
-                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${effectiveHealth.color}`}>
-                      {effectiveHealth.score}% HEALTH
-                    </span>
-                  </button>
 
                   {/* Dual Perspective Mode Toggle: ARCHITECT vs OPERATOR */}
                   <button
@@ -1139,32 +1104,18 @@ export default function ModuleMissionControl({
                     <span>Cronicle Living Memory &amp; Notes</span>
                   </button>
 
-                  {/* Print Spread */}
+                  {/* Catalog & Folder Organizer */}
                   <button
                     type="button"
                     onClick={() => {
                       setIsToolsMenuOpen(false);
-                      onOpenPrintModal?.();
+                      navigate('/foundry/catalog');
                     }}
                     className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
-                    title="Selective Print & Publishing Studio"
+                    title="Browse ADE Content Catalog & Custom Folders"
                   >
-                    <Printer size={13} className="text-cyan-400 shrink-0" />
-                    <span>Print & Publish Studio</span>
-                  </button>
-
-                  {/* ADE User Guide */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsToolsMenuOpen(false);
-                      onOpenGuide?.();
-                    }}
-                    className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
-                    title="ADE Master User Guide & Manual"
-                  >
-                    <Compass size={13} className="text-amber-400 shrink-0" />
-                    <span>ADE User Guide & Manual</span>
+                    <FolderOpen size={13} className="text-amber-400 shrink-0" />
+                    <span>Browse Catalog &amp; Folders</span>
                   </button>
                 </div>
               </div>
@@ -1365,7 +1316,12 @@ export default function ModuleMissionControl({
 
       {/* ── CREATE NEW STORY MODULE MODAL ── */}
       {isNewStoryModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsNewStoryModalOpen(false);
+          }}
+        >
           <div className="bg-slate-900 border border-cyan-500/40 rounded-2xl max-w-md w-full p-5 shadow-2xl font-mono text-slate-100 flex flex-col gap-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">

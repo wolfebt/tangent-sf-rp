@@ -5,7 +5,7 @@
  * hackable terminals, and bulkheads across the module's tactical maps with real-time persistence.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   ShieldAlert, 
   Plus, 
@@ -59,6 +59,12 @@ export const TrapsAndHazardsWorkbench = ({
   const [selectedObjectId, setSelectedObjectId] = useState(
     selectedAsset?.catalogCategory === 'props_traps' ? selectedAsset.rawId : reactiveObjects[0]?.id || ''
   );
+
+  useEffect(() => {
+    if (selectedAsset?.catalogCategory === 'props_traps' && selectedAsset?.rawId) {
+      setSelectedObjectId(selectedAsset.rawId);
+    }
+  }, [selectedAsset?.catalogCategory, selectedAsset?.rawId]);
 
   const activeObject = useMemo(() => {
     return reactiveObjects.find(o => o.id === selectedObjectId) || reactiveObjects[0] || null;

@@ -19,6 +19,7 @@ import {
   parseAndEnrichBastionTurnPayload,
   composeBastionSystemPrompt,
   sendBastionChatMessage,
+  summarizeUniverseForBastion,
 } from '../../src/services/bastionService.js';
 import { CANONICAL_WHISPER_CARDS } from '../../src/services/bastionWhisperService.js';
 import { AimeAgent } from '../../src/engine/ai/AimeAgent.ts';
@@ -231,5 +232,44 @@ describe('Phase 3 Locked BASTION Persona, Halt Invariant, Follow-Up/Gems & CRISP
     assert.ok(!manifestMd.includes('-5 XP Debt'));
     assert.match(gmGuidelinesMd, /Modern Minimalist Voice/);
     assert.match(gmGuidelinesMd, /ALWAYS HALT AND INFORM THE USER IMMEDIATELY/);
+  });
+
+  it('8. summarizeUniverseForBastion & composeBastionSystemPrompt compact universeState and strip Operator secrets', () => {
+    const hugeBase64 = 'data:image/png;base64,' + 'A'.repeat(4000);
+    const bloatedUniverse = {
+      id: 'story_wave4',
+      projectName: 'Orbital Heist',
+      activeScenarioId: 'sc_pub',
+      scenarios: [
+        {
+          id: 'sc_pub',
+          title: 'Public Airlock',
+          type: 'Scene',
+          content: '<p>Public docking bay.</p><div class="ade-gm-secret" data-gm-secret="true">TOP_SECRET_AMBUSH_CODE</div>',
+          children: [
+            { id: 'sc_child', title: 'Hidden Basement', type: 'Scene', isHidden: true, content: '<p>Secret vault</p>' }
+          ]
+        },
+        { id: 'sc_gm', title: 'GM Only Trapdoor', type: 'Encounter', isGmOnly: true, content: '<p>Laser trap</p>' }
+      ],
+      maps: [{ id: 'm1', title: 'Docking Bay', imageUrl: hugeBase64, tokens: [{ id: 't1', name: 'Spy' }] }]
+    };
+
+    const operatorSummary = summarizeUniverseForBastion(bloatedUniverse, true);
+    assert.equal(operatorSummary.projectName, 'Orbital Heist');
+    assert.equal(operatorSummary.scenarioCount, 1);
+    assert.deepEqual(operatorSummary.scenarioTitles, ['Public Airlock']);
+    assert.deepEqual(operatorSummary.mapTitles, ['Docking Bay']);
+    assert.ok(!operatorSummary.activeNodeSummary.includes('TOP_SECRET_AMBUSH_CODE'));
+
+    const promptStr = composeBastionSystemPrompt({
+      prompt: 'Review current scene.',
+      role: BASTION_ROLES.OPERATOR,
+      contextData: { universeState: bloatedUniverse, gmSecrets: 'SECRET_KEY_123' }
+    });
+    assert.ok(!promptStr.includes(hugeBase64), 'Prompt must compact away base64/raw map payloads');
+    assert.ok(!promptStr.includes('TOP_SECRET_AMBUSH_CODE'), 'Operator prompt must strip nested ade-gm-secret blocks');
+    assert.ok(!promptStr.includes('GM Only Trapdoor'), 'Operator prompt must filter isGmOnly/isHidden scenarios');
+    assert.ok(!promptStr.includes('SECRET_KEY_123'), 'Operator prompt must keep stripping top-level gmSecrets');
   });
 });

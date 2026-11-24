@@ -36,6 +36,7 @@ export interface UseStageTokensRendererParams {
   isVisionEnabled: boolean;
   torchRadiusFt: number;
   handleObjectClick: (obj: SceneInteractiveObject) => void;
+  isArchitectRole?: boolean;
 }
 
 /**
@@ -63,7 +64,8 @@ export const useStageTokensRenderer = ({
   setRadialMenuState,
   isVisionEnabled,
   torchRadiusFt,
-  handleObjectClick
+  handleObjectClick,
+  isArchitectRole = true
 }: UseStageTokensRendererParams) => {
   // Render Interactive Objects on the Stage
   useEffect(() => {
@@ -118,6 +120,7 @@ export const useStageTokensRenderer = ({
     const container = waypointsContainerRef.current;
     if (!container) return;
     clearPixiContainer(container);
+    if (!isArchitectRole) return;
 
     const waypoints = currentMap?.waypoints || [];
     if (waypoints.length === 0) return;
@@ -265,7 +268,7 @@ export const useStageTokensRenderer = ({
 
       container.addChild(wpGroup);
     });
-  }, [isCanvasReady, canvasGeneration, currentMap?.waypoints, updateMap]);
+  }, [isCanvasReady, canvasGeneration, currentMap?.waypoints, updateMap, isArchitectRole]);
 
   // Render Tokens on the Stage with Action Pips & Mortality Indicators
   useEffect(() => {
@@ -286,11 +289,15 @@ export const useStageTokensRenderer = ({
     });
 
     tokens.forEach(token => {
+      if (token.is_hidden && !isArchitectRole) return;
       const container = new Container();
       container.x = token.x;
       container.y = token.y;
       container.eventMode = 'static';
       container.cursor = 'pointer';
+      if (token.is_hidden) {
+        container.alpha = 0.45;
+      }
 
       const g = new Graphics();
       const isSelected = token.id === selectedTokenId;
@@ -402,7 +409,8 @@ export const useStageTokensRenderer = ({
         ? `${token.current_structure ?? 60} SP`
         : `${token.current_vitality ?? 30} VP | ${token.current_health ?? token.current_hp ?? 30} HP`;
       const seatSuffix = token.vehicle_node_id ? ` [${token.vehicle_node_id.replace('node-', '').toUpperCase()}]` : '';
-      const label = new Text({ text: `${token.name}${seatSuffix} (${vitHealthText})`, style });
+      const hiddenSuffix = token.is_hidden ? ' [HIDDEN]' : '';
+      const label = new Text({ text: `${token.name}${seatSuffix}${hiddenSuffix} (${vitHealthText})`, style });
       label.anchor.set(0.5, -1.8);
       container.addChild(label);
 
@@ -442,5 +450,5 @@ export const useStageTokensRenderer = ({
 
       tokenLayer.addChild(container);
     });
-  }, [isCanvasReady, canvasGeneration, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt]);
+  }, [isCanvasReady, canvasGeneration, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt, isArchitectRole]);
 };

@@ -266,16 +266,15 @@ export const OperativeCockpitRail = ({
   onDuplicateToken,
   onDuplicateObject,
   onDeployAsset,
-  onOpenTacticalModal
+  onOpenTacticalModal,
+  embedded = false
 }) => {
   // Role & Cockpit Master Mode ('architect_cockpit' vs 'operative_cockpit')
   const isArchitectRole = vttRole === 'architect' || vttRole === 'gm' || vttRole === 'co_architect';
   const [railMode, setRailMode] = useState(isArchitectRole ? 'architect_cockpit' : 'operative_cockpit');
 
   React.useEffect(() => {
-    if (isArchitectRole) {
-      setRailMode('architect_cockpit');
-    }
+    setRailMode(isArchitectRole ? 'architect_cockpit' : 'operative_cockpit');
   }, [isArchitectRole]);
 
   // Tactical Movement Stance
@@ -739,7 +738,7 @@ export const OperativeCockpitRail = ({
       className={`h-full flex z-20 select-none font-sans relative shrink-0 ${
         isResizing ? '' : 'transition-[width] duration-150'
       }`}
-      style={{ width: isCollapsed ? '48px' : `${railWidth}px` }}
+      style={embedded ? { width: '100%' } : { width: isCollapsed ? '48px' : `${railWidth}px` }}
       aria-label="Operator Cockpit Tactical Rail"
     >
       {/* 48px Vertical Icon Strip */}
@@ -748,22 +747,24 @@ export const OperativeCockpitRail = ({
         aria-label="Operator Rail Nav"
       >
         {/* Architect Asset Cockpit & Library Icon */}
-        <button
-          type="button"
-          onClick={() => {
-            if (isCollapsed) onToggleCollapse?.();
-            setRailMode('architect_cockpit');
-            AudioService.playTerminalBeep(1100, 0.02);
-          }}
-          className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            railMode === 'architect_cockpit' && !isCollapsed
-              ? 'bg-amber-950 text-amber-300 border border-amber-500/70 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
-              : 'text-slate-400 hover:text-amber-300 hover:bg-slate-900'
-          }`}
-          title="Architect Stage Asset Cockpit (Library & Inspector)"
-        >
-          <FolderTree size={18} />
-        </button>
+        {isArchitectRole && (
+          <button
+            type="button"
+            onClick={() => {
+              if (isCollapsed) onToggleCollapse?.();
+              setRailMode('architect_cockpit');
+              AudioService.playTerminalBeep(1100, 0.02);
+            }}
+            className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
+              railMode === 'architect_cockpit' && !isCollapsed
+                ? 'bg-amber-950 text-amber-300 border border-amber-500/70 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
+                : 'text-slate-400 hover:text-amber-300 hover:bg-slate-900'
+            }`}
+            title="Architect Stage Asset Cockpit (Library & Inspector)"
+          >
+            <FolderTree size={18} />
+          </button>
+        )}
 
         {/* Unit Status Icon */}
         <button
@@ -878,33 +879,35 @@ export const OperativeCockpitRail = ({
         </div>
 
         {/* Pin / Expand Toggle */}
-        <div className="flex flex-col items-center gap-1.5 shrink-0 pt-2 border-t border-slate-800 w-full px-1">
-          <button
-            type="button"
-            onClick={onTogglePin}
-            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
-              isPinned
-                ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)] font-bold'
-                : 'text-slate-500 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-            title={isPinned ? 'Unpin Left Rail' : 'Pin Left Rail Open (Dual-Wielding)'}
-          >
-            {isPinned ? <Pin size={15} /> : <PinOff size={15} />}
-          </button>
+        {!embedded && (
+          <div className="flex flex-col items-center gap-1.5 shrink-0 pt-2 border-t border-slate-800 w-full px-1">
+            <button
+              type="button"
+              onClick={onTogglePin}
+              className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
+                isPinned
+                  ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)] font-bold'
+                  : 'text-slate-500 hover:text-slate-200 hover:bg-slate-900'
+              }`}
+              title={isPinned ? 'Unpin Left Rail' : 'Pin Left Rail Open (Dual-Wielding)'}
+            >
+              {isPinned ? <Pin size={15} /> : <PinOff size={15} />}
+            </button>
 
-          <button
-            type="button"
-            onClick={onToggleCollapse}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer border ${
-              isCollapsed
-                ? 'bg-cyan-500 text-black border-cyan-300 shadow-[0_0_16px_rgba(6,182,212,0.8)] animate-pulse'
-                : 'bg-cyan-950/80 border-cyan-500/60 text-cyan-300 hover:bg-cyan-500 hover:text-black'
-            }`}
-            title={isCollapsed ? 'Expand Operator Cockpit' : 'Collapse Operator Cockpit'}
-          >
-            {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={18} />}
-          </button>
-        </div>
+            <button
+              type="button"
+              onClick={onToggleCollapse}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer border ${
+                isCollapsed
+                  ? 'bg-cyan-500 text-black border-cyan-300 shadow-[0_0_16px_rgba(6,182,212,0.8)] animate-pulse'
+                  : 'bg-cyan-950/80 border-cyan-500/60 text-cyan-300 hover:bg-cyan-500 hover:text-black'
+              }`}
+              title={isCollapsed ? 'Expand Operator Cockpit' : 'Collapse Operator Cockpit'}
+            >
+              {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={18} />}
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* Expanded Operative Cockpit Drawer */}
@@ -1333,8 +1336,9 @@ export const OperativeCockpitRail = ({
                 className="bg-slate-900 border border-slate-800 rounded px-1.5 py-0.5 text-[10px] text-cyan-300 outline-none font-mono"
               >
                 <option value="standard_optical">Optical / Visible</option>
-                <option value="thermal_ir">Thermal IR</option>
-                <option value="cyber_radar">Cyber Radar</option>
+                <option value="night_vision">Night / Low-Light</option>
+                <option value="thermal_infrared">Thermal IR</option>
+                <option value="cyber_motion_radar">Cyber Radar</option>
                 <option value="meta_attunement">Meta Influx</option>
               </select>
             </div>
@@ -1577,7 +1581,7 @@ export const OperativeCockpitRail = ({
       </div>
 
     {/* Draggable Adjustment Slider Splitter (Right Edge of Left Rail) */}
-    {!isCollapsed && (
+    {!isCollapsed && !embedded && (
       <div
         onMouseDown={handleStartResize}
         className="w-2 hover:w-2.5 -mr-1 h-full cursor-col-resize z-40 relative group flex items-center justify-center transition-all select-none hover:bg-cyan-500/20 active:bg-cyan-500/40 shrink-0"

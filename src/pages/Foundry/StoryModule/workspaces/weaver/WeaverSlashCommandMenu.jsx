@@ -24,7 +24,7 @@ export const WEAVER_BLOCK_TEMPLATES = [
     icon: BookOpen,
     color: 'text-amber-300',
     buildHtml: () =>
-      '<blockquote class="ade-read-aloud"><p>Atmospheric sensory narration to read aloud to Operatives...</p></blockquote><p><br/></p>'
+      '<blockquote class="ade-read-aloud">Atmospheric sensory narration to read aloud to Operatives...</blockquote><p><br/></p>'
   },
   {
     id: 'gm_secret',
@@ -33,7 +33,7 @@ export const WEAVER_BLOCK_TEMPLATES = [
     icon: Lock,
     color: 'text-rose-300',
     buildHtml: () =>
-      '<div class="ade-gm-secret" data-gm-secret="true"><p><strong>GM SECRET:</strong> Hidden motive, ambush trigger, or secret access override code.</p></div><p><br/></p>'
+      '<div class="ade-gm-secret" data-gm-secret="true"><strong>GM SECRET:</strong> Hidden motive, ambush trigger, or secret access override code.</div><p><br/></p>'
   },
   {
     id: 'statblock',
@@ -47,9 +47,9 @@ export const WEAVER_BLOCK_TEMPLATES = [
         const hp = escHtml(elem.fields?.health || elem.fields?.structure || 30);
         const dr = escHtml(elem.fields?.dr || elem.fields?.armor_dr || 4);
         const atk = escHtml(elem.fields?.attack || '+5 (2d10)');
-        return `<div class="ade-statblock-card"><p><strong>${escHtml(elem.title || 'Combatant')}</strong> [${escHtml(elem.type || 'Persona')}] &bull; Vit ${vit} / HP ${hp} &bull; DR ${dr} &bull; ATK ${atk}</p></div><p><br/></p>`;
+        return `<div class="ade-statblock-card"><strong>${escHtml(elem.title || 'Combatant')}</strong> [${escHtml(elem.type || 'Persona')}] &bull; Vit ${vit} / HP ${hp} &bull; DR ${dr} &bull; ATK ${atk}</div><p><br/></p>`;
       }
-      return '<div class="ade-statblock-card"><p><strong>Security Drone MK-IV</strong> [Synthetic Threat] &bull; 60 SP &bull; DR 6 &bull; ATK +6 Plasma Carbine (2d8)</p></div><p><br/></p>';
+      return '<div class="ade-statblock-card"><strong>Security Drone MK-IV</strong> [Synthetic Threat] &bull; 60 SP &bull; DR 6 &bull; ATK +6 Plasma Carbine (2d8)</div><p><br/></p>';
     }
   },
   {
@@ -68,7 +68,7 @@ export const WEAVER_BLOCK_TEMPLATES = [
     icon: MapPin,
     color: 'text-purple-300',
     buildHtml: () =>
-      '<p><strong>[MAP WAYPOINT: Sector Check-In]</strong> — Trigger beat when Operatives breach airlock.</p>'
+      '<div class="ade-waypoint"><strong>[MAP WAYPOINT: Sector Check-In]</strong> — Trigger beat when Operatives breach airlock.</div><p><br/></p>'
   },
   {
     id: 'scene_divider',

@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import DraggablePanel from '../MapMaker/map/DraggablePanel';
 import { streamChatContent, parseRollCommand, formatCronicleContextForAIME } from '../../../services/aimeService';
 import { useStory } from '../../../context/CampaignContext';
@@ -11,7 +13,7 @@ const QUICK_ACTIONS = [
   { label: '🪐 Omnicortex Lore', prompt: 'Synthesize Omnicortex lore: How does this connect to galactic factions, alien species, and history in the Tangent Universe?' }
 ];
 
-export default function AIMEChatBox({ onClose, contextData, activeNode: propActiveNode, cronicle: propCronicle }) {
+export default function AIMEChatBox({ onClose, contextData, activeNode: propActiveNode, cronicle: propCronicle, embedded = false, onInsertText }) {
   const storyContext = useStory();
   const universeState = storyContext?.universeState || {};
   const activeScenarioId = storyContext?.activeScenarioId;
@@ -102,7 +104,8 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
     };
   }, [contextData, projectName, activeNode, guidanceGemsText, universeState, storyContext?.elementsCatalog, activeCronicle]);
 
-  const AIME_CHAT_STORAGE_KEY = 'tangent_aime_chat_history_v1';
+  const projectScopeId = contextData?.universeState?.id || universeState?.id || 'default';
+  const storageKey = `tangent_aime_chat_history_v1_${projectScopeId}`;
   const defaultGreeting = [
     {
       role: 'model',
@@ -110,29 +113,39 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
     }
   ];
 
-  const [messages, setMessages] = useState(() => {
+  const loadScopedMessages = (key) => {
     try {
-      const saved = localStorage.getItem(AIME_CHAT_STORAGE_KEY);
+      const saved = localStorage.getItem(key);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       }
     } catch (e) {}
     return defaultGreeting;
-  });
+  };
+
+  const loadedKeyRef = useRef(storageKey);
+  const [messages, setMessages] = useState(() => loadScopedMessages(storageKey));
   const [inputValue, setInputValue] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [copiedConversation, setCopiedConversation] = useState(false);
   const [copiedBlockIdx, setCopiedBlockIdx] = useState(null);
+  const [insertedBlockIdx, setInsertedBlockIdx] = useState(null);
   const [expandedBlocks, setExpandedBlocks] = useState({});
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    if (loadedKeyRef.current !== storageKey) {
+      loadedKeyRef.current = storageKey;
+      setMessages(loadScopedMessages(storageKey));
+      setExpandedBlocks({});
+      return;
+    }
     try {
-      localStorage.setItem(AIME_CHAT_STORAGE_KEY, JSON.stringify(messages));
+      localStorage.setItem(storageKey, JSON.stringify(messages));
     } catch (e) {}
-  }, [messages]);
+  }, [messages, storageKey]);
 
   // Auto-scroll to bottom of chat
   useEffect(() => {
@@ -205,11 +218,25 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
     if (textToSend.startsWith('/roll')) {
       const rollResult = parseRollCommand(textToSend);
       if (rollResult.success) {
+        const effectiveDisplay =
+          rollResult.effectiveTotal !== undefined && rollResult.effectiveTotal !== rollResult.total
+            ? `${rollResult.effectiveTotal} (Natural Total: ${rollResult.total})`
+            : `${rollResult.total}`;
+        const dicePoolLabel =
+          rollResult.advantageState !== 'normal' && Array.isArray(rollResult.allDice)
+            ? `3d10 [${rollResult.allDice.join(', ')}] → Kept [${(rollResult.rolls || []).join(', ')}]`
+            : `Rolls: [${(rollResult.rolls || []).join(', ')}]`;
         const rollReply = {
           role: 'model',
           isRoll: true,
           promptText: textToSend,
-          content: `🎲 **DICE ROLL [${rollResult.expr}]**: Total = **${rollResult.total}** (Rolls: [${rollResult.rolls.join(', ')}] ${rollResult.mod !== 0 ? `Mod: ${rollResult.mod}` : ''})\n\n*(BASTION Tactical Dice Resolution Engine)*`
+          content:
+            `🎲 **DICE ROLL [${rollResult.expr}]**: Effective Total = **${effectiveDisplay}** (${dicePoolLabel}${
+              rollResult.mod !== 0 ? `, Mod: ${rollResult.mod >= 0 ? `+${rollResult.mod}` : rollResult.mod}` : ''
+            })` +
+            `${rollResult.outcomeText ? `\n• ${rollResult.outcomeText}` : ''}` +
+            `${rollResult.degreeDetails ? `\n• ${rollResult.degreeDetails}` : ''}` +
+            `\n\n*(BASTION Tactical Dice Resolution Engine)*`
         };
         setMessages(prev => {
           if (replaceAtIdx !== null && prev[replaceAtIdx]) {
@@ -221,6 +248,22 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
         });
         return;
       }
+
+      const rollErrorReply = {
+        role: 'model',
+        isRoll: true,
+        promptText: textToSend,
+        content: `⚠️ **Roll syntax error**: ${rollResult.error || 'Invalid roll expression'}`
+      };
+      setMessages(prev => {
+        if (replaceAtIdx !== null && prev[replaceAtIdx]) {
+          const updated = [...prev];
+          updated[replaceAtIdx] = rollErrorReply;
+          return updated;
+        }
+        return [...prev, { role: 'user', content: textToSend }, rollErrorReply];
+      });
+      return;
     }
 
     const isExpandRequest = /^expand\b/i.test(textToSend);
@@ -357,48 +400,63 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
       setMessages(resetMsgs);
       setExpandedBlocks({});
       try {
-        localStorage.removeItem(AIME_CHAT_STORAGE_KEY);
+        localStorage.removeItem(storageKey);
       } catch (e) {}
     }
+  };
+
+  const handleInsertBlock = (blockContent, idx) => {
+    if (typeof onInsertText !== 'function' || !blockContent) return;
+    onInsertText(blockContent);
+    setInsertedBlockIdx(idx);
+    setTimeout(() => {
+      setInsertedBlockIdx((prev) => (prev === idx ? null : prev));
+    }, 2000);
   };
 
   const renderInnerContent = () => (
     <>
       {/* Header Bar */}
-      <div className={`drag-handle flex justify-between items-center px-3.5 py-2.5 bg-slate-950 border-b border-cyan-900/60 select-none shrink-0 ${!isDocked ? 'cursor-move' : ''}`}>
+      <div className={`drag-handle flex justify-between items-center px-3.5 py-2.5 bg-slate-950 border-b border-cyan-900/60 select-none shrink-0 ${!embedded && !isDocked ? 'cursor-move' : ''}`}>
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
           <h3 className="text-cyan-300 font-bold text-xs uppercase tracking-widest flex items-center gap-1.5">
             <span>✨</span> AI ASSISTANT
           </h3>
-          <span className="text-[9px] bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 px-1.5 py-0.2 rounded font-mono hidden sm:inline">
-            {isDocked ? 'Docked Right' : 'Floating'}
-          </span>
+          {!embedded && (
+            <span className="text-[9px] bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 px-1.5 py-0.2 rounded font-mono hidden sm:inline">
+              {isDocked ? 'Docked Right' : 'Floating'}
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-1">
-          {/* Dock / Undock Toggle Button */}
-          <button
-            type="button"
-            data-no-drag="true"
-            onClick={toggleDock}
-            className="text-slate-400 hover:text-cyan-300 px-2 py-0.5 text-[11px] font-mono transition-colors rounded hover:bg-slate-800 border border-slate-700/60 flex items-center gap-1"
-            title={isDocked ? "Undock into a movable floating window" : "Dock to right sidebar drawer"}
-          >
-            <span>{isDocked ? '↗ Undock' : '📌 Dock Right'}</span>
-          </button>
+          {!embedded && (
+            <>
+              {/* Dock / Undock Toggle Button */}
+              <button
+                type="button"
+                data-no-drag="true"
+                onClick={toggleDock}
+                className="text-slate-400 hover:text-cyan-300 px-2 py-0.5 text-[11px] font-mono transition-colors rounded hover:bg-slate-800 border border-slate-700/60 flex items-center gap-1"
+                title={isDocked ? "Undock into a movable floating window" : "Dock to right sidebar drawer"}
+              >
+                <span>{isDocked ? '↗ Undock' : '📌 Dock Right'}</span>
+              </button>
 
-          {/* Minimize toggle (only available when floating) */}
-          {!isDocked && (
-            <button 
-              type="button"
-              data-no-drag="true"
-              onClick={() => setIsMinimized(prev => !prev)} 
-              className="text-slate-400 hover:text-cyan-300 p-1 text-xs font-mono transition-colors rounded hover:bg-slate-800"
-              title={isMinimized ? "Expand Chat" : "Minimize Chat"}
-            >
-              {isMinimized ? '◻' : '—'}
-            </button>
+              {/* Minimize toggle (only available when floating) */}
+              {!isDocked && (
+                <button 
+                  type="button"
+                  data-no-drag="true"
+                  onClick={() => setIsMinimized(prev => !prev)} 
+                  className="text-slate-400 hover:text-cyan-300 p-1 text-xs font-mono transition-colors rounded hover:bg-slate-800"
+                  title={isMinimized ? "Expand Chat" : "Minimize Chat"}
+                >
+                  {isMinimized ? '◻' : '—'}
+                </button>
+              )}
+            </>
           )}
 
           {/* Copy Conversation & Clear history buttons */}
@@ -483,15 +541,21 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
                     {isUser ? 'ARCHITECT' : 'AIME System'}
                   </span>
                   <div 
-                    className={`p-3 rounded-lg shadow-sm whitespace-pre-wrap leading-relaxed ${
+                    className={`p-3 rounded-lg shadow-sm leading-relaxed ${
                       isUser 
-                        ? 'bg-cyan-950 text-cyan-100 border border-cyan-500/50 rounded-tr-none font-sans'
+                        ? 'whitespace-pre-wrap bg-cyan-950 text-cyan-100 border border-cyan-500/50 rounded-tr-none font-sans'
                         : msg.isRoll
-                        ? 'bg-amber-950/70 text-amber-200 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.2)] font-mono'
+                        ? 'whitespace-pre-wrap bg-amber-950/70 text-amber-200 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.2)] font-mono'
                         : 'bg-slate-900/90 text-slate-200 border border-slate-800 rounded-tl-none font-sans'
                     }`}
                   >
-                    <div>{displayText}</div>
+                    {isUser || msg.isRoll ? (
+                      <div>{displayText}</div>
+                    ) : (
+                      <div className="space-y-1.5 text-slate-200 [&_strong]:text-cyan-200 [&_code]:bg-slate-950 [&_code]:px-1 [&_code]:rounded [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_blockquote]:border-l-2 [&_blockquote]:border-cyan-500/50 [&_blockquote]:pl-2.5 [&_blockquote]:italic">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayText}</ReactMarkdown>
+                      </div>
+                    )}
 
                     {/* Expandable Bullet Topics */}
                     {expandablePoints.length > 0 && (
@@ -514,9 +578,9 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
                       </div>
                     )}
 
-                    {/* Output Block Actions: Copy, Retry, and Expand/Summarize Toggle */}
+                    {/* Output Block Actions: Expand/Summarize, Insert into Story, Copy, Retry */}
                     {!isUser && (
-                      <div className="mt-2 pt-1.5 border-t border-slate-800/70 flex items-center justify-end gap-1.5 text-[10px] font-mono">
+                      <div className="mt-2 pt-1.5 border-t border-slate-800/70 flex flex-wrap items-center justify-end gap-1.5 text-[10px] font-mono">
                         {(isTruncated || (msg.content && msg.content.length > 450)) && (
                           <button
                             type="button"
@@ -525,6 +589,21 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
                             title={isBlockExpanded ? 'Collapse back to concise summary' : 'Expand full output text'}
                           >
                             {isBlockExpanded ? '▴ Summarize' : '▾ Expand Full Text'}
+                          </button>
+                        )}
+                        {typeof onInsertText === 'function' && idx > 0 && !msg.isRoll && Boolean(msg.content?.trim()) && (
+                          <button
+                            type="button"
+                            disabled={isGenerating}
+                            onClick={() => handleInsertBlock(msg.content, idx)}
+                            className={`px-2 py-0.5 rounded border transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50 ${
+                              insertedBlockIdx === idx
+                                ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-300'
+                                : 'bg-cyan-950/70 hover:bg-cyan-900/80 border-cyan-500/60 text-cyan-200'
+                            }`}
+                            title="Insert this prose block into the active scenario"
+                          >
+                            <span>{insertedBlockIdx === idx ? '✓ Inserted' : '↳ Insert into Story'}</span>
                           </button>
                         )}
                         <button
@@ -606,6 +685,14 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
       )}
     </>
   );
+
+  if (embedded) {
+    return (
+      <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-[#0d1117]/95 font-sans">
+        {renderInnerContent()}
+      </div>
+    );
+  }
 
   if (isDocked) {
     return (

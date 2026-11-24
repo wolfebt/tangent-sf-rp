@@ -117,7 +117,7 @@ export default function ADETopToolbar({
         targetMapId={activeNode?.mapId || activeMapId}
         universeState={universeState}
         activeNode={activeNode}
-        pendingCronicleCount={cronicle?.history?.length || 0}
+        pendingCronicleCount={cronicle?.pendingDeltas?.length || 0}
         isCronicleOpen={isCronicleOpen}
         onToggleCronicle={onToggleCronicle}
         isPrintModalOpen={isPrintModalOpen}

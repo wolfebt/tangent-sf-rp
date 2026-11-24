@@ -65,14 +65,18 @@ import { useUILayoutStore } from './store/uiLayoutStore';
 
 export type ArchitectDesignTool = 
   | 'select' 
+  | 'pan'
   | 'wall' 
+  | 'curved_wall'
   | 'terrain' 
   | 'fill'
   | 'pencil' 
   | 'waypoint'
+  | 'region'
   | 'object' 
   | 'token' 
   | 'text' 
+  | 'fog'
   | 'hazard' 
   | 'light'
   | 'chunk'

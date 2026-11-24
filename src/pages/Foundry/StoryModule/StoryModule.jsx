@@ -22,6 +22,7 @@ import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useDBM } from '../../../context/DBMContext';
 import { useFolio } from '../../../context/FolioContext';
+import { useBastion } from '../../../context/BastionContext';
 import { showToast } from '../../../context/ToastContext';
 import { exportElementMarkdown, exportElementPDF } from './exportUtils';
 import { useAdeStore } from '../store/adeStore';
@@ -61,6 +62,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   const { currentUser, userHandle } = useAuth();
   const { saveEntry } = useDBM() || {};
   const { saveCurrentToRoster } = useFolio() || {};
+  const { registerSurfaceContext, unregisterSurfaceContext } = useBastion() || {};
   const isMobile = useIsMobile();
 
   // Centralized ADE Store State & Actions via a single useShallow subscription
@@ -366,6 +368,31 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     window.addEventListener('export-scenario-markdown', handleExportMdEvent);
     return () => window.removeEventListener('export-scenario-markdown', handleExportMdEvent);
   }, [activeNode, universeState]);
+
+  // Register Foundry ADE workspace context with BASTION so Alt+B rules/canon queries know the active scenario
+  useEffect(() => {
+    if (typeof registerSurfaceContext !== 'function') return undefined;
+    registerSurfaceContext('foundry-workspace', {
+      surfaceType: 'foundry',
+      activeView,
+      activeScenarioId: activeNode?.id || null,
+      activeNode: activeNode
+        ? { id: activeNode.id, title: activeNode.title, type: activeNode.type }
+        : null,
+      projectName: universeState?.projectName || '',
+      updateScenario: updateStory
+    });
+    return () => unregisterSurfaceContext?.('foundry-workspace');
+  }, [
+    registerSurfaceContext,
+    unregisterSurfaceContext,
+    activeView,
+    activeNode?.id,
+    activeNode?.title,
+    activeNode?.type,
+    universeState?.projectName,
+    updateStory
+  ]);
 
   return (
     <div className="flex flex-col h-full w-full tangent-grid-bg text-slate-100 overflow-hidden font-sans relative select-none">

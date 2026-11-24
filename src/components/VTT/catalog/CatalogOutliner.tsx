@@ -5,7 +5,7 @@
  * providing search filtering, visibility toggles, and drag-and-drop handles.
  */
 
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { 
   Map, 
   BookOpen, 
@@ -44,12 +44,14 @@ export interface CatalogOutlinerProps {
   searchQuery: string;
   activeFilterTag: string | null;
   onSelectMap?: (mapId: string) => void;
+  isArchitectRole?: boolean;
 }
 
 export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   searchQuery,
   activeFilterTag,
-  onSelectMap
+  onSelectMap,
+  isArchitectRole = true
 }) => {
   const confirm = useConfirm();
   const { activeCategory } = useUILayoutStore();
@@ -57,6 +59,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     universeState, 
     activeMapId, 
     setActiveMapId, 
+    addMap,
     updateMap, 
     deleteMap,
     deleteSavedMap,
@@ -111,9 +114,31 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     }
   });
 
+  useEffect(() => {
+    const refreshCustomAssets = () => {
+      try {
+        const stored = localStorage.getItem('tangent_vtt_custom_assets');
+        const parsed = stored ? JSON.parse(stored) : [];
+        if (Array.isArray(parsed)) setCustomAssets(parsed);
+      } catch {
+        // Ignore malformed localStorage entries
+      }
+    };
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'tangent_vtt_custom_assets' || e.key === null) refreshCustomAssets();
+    };
+    window.addEventListener('tangent-vtt-assets-updated', refreshCustomAssets);
+    window.addEventListener('storage', handleStorage);
+    return () => {
+      window.removeEventListener('tangent-vtt-assets-updated', refreshCustomAssets);
+      window.removeEventListener('storage', handleStorage);
+    };
+  }, []);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isArchitectRole) return;
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
@@ -146,6 +171,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   };
 
   const handleDeleteAsset = (assetId: string) => {
+    if (!isArchitectRole) return;
     setCustomAssets(prev => {
       const next = prev.filter(a => a.id !== assetId);
       try {
@@ -157,6 +183,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   };
 
   const handleSetMapBackground = (assetUrl: string, assetName: string) => {
+    if (!isArchitectRole) return;
     const currentMap = maps.find((m: any) => m.id === activeMapId);
     if (currentMap && updateMap) {
       updateMap(currentMap.id, {
@@ -168,6 +195,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   };
 
   const handleDeleteMap = async (map: any) => {
+    if (!isArchitectRole) return;
     const ok = await confirm({
       title: 'Delete Tactical Map',
       message: `Are you sure you want to permanently delete "${map.name || map.title || 'Untitled Map'}"?`,
@@ -182,6 +210,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   };
 
   const handleDeleteAdeElement = async (elem: any) => {
+    if (!isArchitectRole) return;
     const ok = await confirm({
       title: `Delete ${elem.type || 'Element'}`,
       message: `Are you sure you want to permanently delete "${elem.title || elem.name || 'Untitled'}"?`,
@@ -198,6 +227,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   };
 
   const handleDeleteScenario = async (sc: any) => {
+    if (!isArchitectRole) return;
     const ok = await confirm({
       title: 'Delete Scenario',
       message: `Are you sure you want to permanently delete "${sc.title || 'Untitled Scenario'}"?`,
@@ -239,6 +269,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
   // Spawn Token onto Stage with full VTT Unit components & unique instance ID
   const handleDeployToken = (entity: any) => {
+    if (!isArchitectRole) return;
     const vttUnit = (buildVttUnitFromPersona(entity.rawPersona || entity, {
       uniqueInstance: true,
       position: { x: 350, y: 350 }
@@ -347,19 +378,21 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
       {/* Quick ADE Module & Elements Ingestion Header Bar */}
       <div className="flex items-center justify-between pb-1.5 px-1 border-b border-slate-800/80">
         <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">OMNICORTEX & ADE REPO</span>
-        <button
-          type="button"
-          onClick={() => setIsAdeImportModalOpen(true)}
-          className="px-2 py-0.5 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-300 font-mono text-[9px] font-bold transition-all cursor-pointer flex items-center gap-1 shadow-xs"
-          title="Import Adventure Modules and Worldbuilding Elements directly from ADE Story Foundry"
-        >
-          <FolderOpen size={10} />
-          <span>Import from ADE</span>
-        </button>
+        {isArchitectRole && (
+          <button
+            type="button"
+            onClick={() => setIsAdeImportModalOpen(true)}
+            className="px-2 py-0.5 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-300 font-mono text-[9px] font-bold transition-all cursor-pointer flex items-center gap-1 shadow-xs"
+            title="Import Adventure Modules and Worldbuilding Elements directly from ADE Story Foundry"
+          >
+            <FolderOpen size={10} />
+            <span>Import from ADE</span>
+          </button>
+        )}
       </div>
 
       {/* ADE Import Modal */}
-      {isAdeImportModalOpen && (
+      {isArchitectRole && isAdeImportModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="w-full max-w-lg bg-[#0e131b] border border-purple-500/60 rounded-2xl p-4 shadow-2xl flex flex-col gap-3 font-mono max-h-[85vh]">
             <div className="flex items-center justify-between border-b border-slate-800 pb-2">
@@ -395,10 +428,10 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                     <button
                       type="button"
                       onClick={() => {
-                        if (mod.maps && mod.maps.length > 0 && updateMap) {
+                        if (mod.maps && mod.maps.length > 0 && addMap) {
                           mod.maps.forEach((m: any) => {
                             if (!maps.some((existing: any) => existing.id === m.id)) {
-                              maps.push(m);
+                              addMap(m);
                             }
                           });
                         }
@@ -494,7 +527,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
             </div>
           ) : (
             maps
-              .filter((m: any) => matchesSearch(m.name || m.title || '', 'map', m))
+              .filter((m: any) => (isArchitectRole || m.isVisibleToPlayers !== false) && matchesSearch(m.name || m.title || '', 'map', m))
               .map((map: any, idx: number) => {
                 const isSelected = map.id === activeMapId;
                 const tokenCount = (map.tokens || []).length;
@@ -505,27 +538,35 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                     key={map.id || idx}
                     id={map.id}
                     title={map.name || map.title || `Sector ${idx + 1}`}
-                    subtitle={`${tokenCount} tokens &bull; ${wallCount} walls &bull; ${map.gridType || 'sq'}`}
+                    subtitle={`${tokenCount} tokens • ${wallCount} walls • ${map.gridType || 'sq'}`}
                     badge={isSelected ? 'ACTIVE' : undefined}
                     icon={<Map size={14} />}
                     iconColor={isSelected ? 'text-cyan-400' : 'text-slate-400'}
                     isSelected={isSelected}
-                    dragPayload={{
-                      type: 'scene_switch',
-                      mapId: map.id,
-                      name: map.name || map.title
-                    }}
+                    dragPayload={
+                      isArchitectRole
+                        ? {
+                            type: 'scene_switch',
+                            mapId: map.id,
+                            name: map.name || map.title
+                          }
+                        : undefined
+                    }
                     onClick={() => {
                       if (onSelectMap) onSelectMap(map.id);
                       if (setActiveMapId) setActiveMapId(map.id);
                     }}
-                    onToggleVisibility={() => {
-                      if (updateMap) {
-                        updateMap(map.id, { isVisibleToPlayers: !map.isVisibleToPlayers });
-                      }
-                    }}
+                    {...(isArchitectRole
+                      ? {
+                          onToggleVisibility: () => {
+                            if (updateMap) {
+                              updateMap(map.id, { isVisibleToPlayers: !map.isVisibleToPlayers });
+                            }
+                          },
+                          onDelete: () => handleDeleteMap(map)
+                        }
+                      : {})}
                     isVisibleToPlayers={map.isVisibleToPlayers !== false}
-                    onDelete={() => handleDeleteMap(map)}
                   />
                 );
               })
@@ -558,24 +599,28 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                   subtitle={sc.type || 'Scenario Act'}
                   icon={<BookOpen size={14} />}
                   iconColor="text-purple-400"
-                  dragPayload={{
-                    type: 'scenario',
-                    id: sc.id,
-                    title: sc.title
-                  }}
+                  dragPayload={
+                    isArchitectRole
+                      ? {
+                          type: 'scenario',
+                          id: sc.id,
+                          title: sc.title
+                        }
+                      : undefined
+                  }
                   isVisibleToPlayers={true}
-                  onDelete={() => handleDeleteScenario(sc)}
+                  {...(isArchitectRole ? { onDelete: () => handleDeleteScenario(sc) } : {})}
                 />
               ))
           )}
 
-          {storyCards.filter((card: any) => matchesSearch(card.title || '', 'clue', card)).length > 0 && (
+          {storyCards.filter((card: any) => (isArchitectRole || card.revealed !== false) && matchesSearch(card.title || '', 'clue', card)).length > 0 && (
             <div className="pt-2 space-y-1">
               <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 px-1">
                 Narrative Beats & Cards ({storyCards.length})
               </div>
               {storyCards
-                .filter((card: any) => matchesSearch(card.title || '', 'clue', card))
+                .filter((card: any) => (isArchitectRole || card.revealed !== false) && matchesSearch(card.title || '', 'clue', card))
                 .map((card: any, idx: number) => (
                 <CatalogNodeItem
                   key={card.id || idx}
@@ -636,37 +681,45 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                       badge={p.is_mcm_persona ? 'MCM FOLIO' : 'FOLIO HERO'}
                       icon={<Users size={14} />}
                       iconColor="text-emerald-400"
-                      dragPayload={{
-                        type: 'hero',
-                        id: pId,
-                        name: pName,
-                        vitality: vit,
-                        health: hp,
-                        structure: struct,
-                        dr,
-                        species: pSpecies,
-                        archetype: pArchetype,
-                        imageUrl: img,
-                        image: img,
-                        icon,
-                        isPersona: true,
-                        rawPersona: p
-                      }}
-                      onSpawn={() => handleDeployToken({
-                        id: pId,
-                        name: pName,
-                        vitality: vit,
-                        health: hp,
-                        structure: struct,
-                        dr,
-                        species: pSpecies,
-                        archetype: pArchetype,
-                        imageUrl: img,
-                        image: img,
-                        icon,
-                        isPersona: true,
-                        rawPersona: p
-                      })}
+                      dragPayload={
+                        isArchitectRole
+                          ? {
+                              type: 'hero',
+                              id: pId,
+                              name: pName,
+                              vitality: vit,
+                              health: hp,
+                              structure: struct,
+                              dr,
+                              species: pSpecies,
+                              archetype: pArchetype,
+                              imageUrl: img,
+                              image: img,
+                              icon,
+                              isPersona: true,
+                              rawPersona: p
+                            }
+                          : undefined
+                      }
+                      {...(isArchitectRole
+                        ? {
+                            onSpawn: () => handleDeployToken({
+                              id: pId,
+                              name: pName,
+                              vitality: vit,
+                              health: hp,
+                              structure: struct,
+                              dr,
+                              species: pSpecies,
+                              archetype: pArchetype,
+                              imageUrl: img,
+                              image: img,
+                              icon,
+                              isPersona: true,
+                              rawPersona: p
+                            })
+                          }
+                        : {})}
                       isVisibleToPlayers={true}
                     />
                   );
@@ -695,35 +748,43 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                       badge="MCM UNIT"
                       icon={<Users size={14} />}
                       iconColor="text-purple-400"
-                      dragPayload={{
-                        type: 'hero',
-                        id: pId,
-                        name: pName,
-                        vitality: vit,
-                        health: hp,
-                        dr,
-                        species: pSpecies,
-                        archetype: pRole,
-                        imageUrl: img,
-                        image: img,
-                        icon,
-                        isPersona: true,
-                        rawPersona: p
-                      }}
-                      onSpawn={() => handleDeployToken({
-                        id: pId,
-                        name: pName,
-                        vitality: vit,
-                        health: hp,
-                        dr,
-                        species: pSpecies,
-                        archetype: pRole,
-                        imageUrl: img,
-                        image: img,
-                        icon,
-                        isPersona: true,
-                        rawPersona: p
-                      })}
+                      dragPayload={
+                        isArchitectRole
+                          ? {
+                              type: 'hero',
+                              id: pId,
+                              name: pName,
+                              vitality: vit,
+                              health: hp,
+                              dr,
+                              species: pSpecies,
+                              archetype: pRole,
+                              imageUrl: img,
+                              image: img,
+                              icon,
+                              isPersona: true,
+                              rawPersona: p
+                            }
+                          : undefined
+                      }
+                      {...(isArchitectRole
+                        ? {
+                            onSpawn: () => handleDeployToken({
+                              id: pId,
+                              name: pName,
+                              vitality: vit,
+                              health: hp,
+                              dr,
+                              species: pSpecies,
+                              archetype: pRole,
+                              imageUrl: img,
+                              image: img,
+                              icon,
+                              isPersona: true,
+                              rawPersona: p
+                            })
+                          }
+                        : {})}
                       isVisibleToPlayers={true}
                     />
                   );
@@ -748,31 +809,39 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                       badge={p.isMcmPersona || p.fields?.personaSubcategory === 'mcm' ? 'ADE MCM' : 'ADE PERSONA'}
                       icon={<Users size={14} />}
                       iconColor="text-emerald-300"
-                      dragPayload={{
-                        type: 'hero',
-                        id: pId,
-                        name: pName,
-                        species: pSpecies,
-                        archetype: pArchetype,
-                        imageUrl: img,
-                        image: img,
-                        icon,
-                        isPersona: true,
-                        rawPersona: p
-                      }}
-                      onSpawn={() => handleDeployToken({
-                        id: pId,
-                        name: pName,
-                        species: pSpecies,
-                        archetype: pArchetype,
-                        imageUrl: img,
-                        image: img,
-                        icon,
-                        isPersona: true,
-                        rawPersona: p
-                      })}
+                      dragPayload={
+                        isArchitectRole
+                          ? {
+                              type: 'hero',
+                              id: pId,
+                              name: pName,
+                              species: pSpecies,
+                              archetype: pArchetype,
+                              imageUrl: img,
+                              image: img,
+                              icon,
+                              isPersona: true,
+                              rawPersona: p
+                            }
+                          : undefined
+                      }
+                      {...(isArchitectRole
+                        ? {
+                            onSpawn: () => handleDeployToken({
+                              id: pId,
+                              name: pName,
+                              species: pSpecies,
+                              archetype: pArchetype,
+                              imageUrl: img,
+                              image: img,
+                              icon,
+                              isPersona: true,
+                              rawPersona: p
+                            }),
+                            onDelete: () => handleDeleteAdeElement(p)
+                          }
+                        : {})}
                       isVisibleToPlayers={true}
-                      onDelete={() => handleDeleteAdeElement(p)}
                     />
                   );
                 })}
@@ -803,19 +872,27 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                 badge="SCENARIO"
                 icon={<Swords size={14} />}
                 iconColor="text-red-400"
-                dragPayload={{
-                  type: 'encounter',
-                  id: encId,
-                  name: enc.name || enc.title,
-                  icon: enc.icon || '⚔️',
-                  imageUrl: enc.image || enc.imageUrl
-                }}
-                onSpawn={() => handleDeployToken({
-                  id: encId,
-                  name: enc.name || enc.title,
-                  icon: enc.icon || '⚔️',
-                  imageUrl: enc.image || enc.imageUrl
-                })}
+                dragPayload={
+                  isArchitectRole
+                    ? {
+                        type: 'encounter',
+                        id: encId,
+                        name: enc.name || enc.title,
+                        icon: enc.icon || '⚔️',
+                        imageUrl: enc.image || enc.imageUrl
+                      }
+                    : undefined
+                }
+                {...(isArchitectRole
+                  ? {
+                      onSpawn: () => handleDeployToken({
+                        id: encId,
+                        name: enc.name || enc.title,
+                        icon: enc.icon || '⚔️',
+                        imageUrl: enc.image || enc.imageUrl
+                      })
+                    }
+                  : {})}
                 isVisibleToPlayers={false}
               />
             );
@@ -841,27 +918,35 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                   badge={isSyn ? 'SYNTHETIC' : 'BESTIARY'}
                   icon={<Swords size={14} />}
                   iconColor="text-red-400"
-                  dragPayload={{
-                    type: 'npc',
-                    id: spId,
-                    name: sp.name,
-                    species: sp.name,
-                    structure: struct,
-                    dr,
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  }}
-                  onSpawn={() => handleDeployToken({
-                    id: spId,
-                    name: sp.name,
-                    species: sp.name,
-                    structure: struct,
-                    dr,
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  })}
+                  dragPayload={
+                    isArchitectRole
+                      ? {
+                          type: 'npc',
+                          id: spId,
+                          name: sp.name,
+                          species: sp.name,
+                          structure: struct,
+                          dr,
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        }
+                      : undefined
+                  }
+                  {...(isArchitectRole
+                    ? {
+                        onSpawn: () => handleDeployToken({
+                          id: spId,
+                          name: sp.name,
+                          species: sp.name,
+                          structure: struct,
+                          dr,
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        })
+                      }
+                    : {})}
                   isVisibleToPlayers={false}
                 />
               );
@@ -931,7 +1016,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                     image: img
                   }}
                   isVisibleToPlayers={true}
-                  onDelete={() => handleDeleteAdeElement(f)}
+                  {...(isArchitectRole ? { onDelete: () => handleDeleteAdeElement(f) } : {})}
                 />
               );
             })}
@@ -949,7 +1034,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           </div>
 
           {storyCards
-            .filter((card: any) => matchesSearch(card.title || '', 'clue', card))
+            .filter((card: any) => (isArchitectRole || card.revealed !== false) && matchesSearch(card.title || '', 'clue', card))
             .map((card: any, idx: number) => (
             <CatalogNodeItem
               key={card.id || `card-${idx}`}
@@ -959,18 +1044,22 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               badge="STORY BEAT"
               icon={<Sparkles size={14} />}
               iconColor="text-amber-400"
-              dragPayload={{
-                type: 'story_card',
-                id: card.id,
-                title: card.title,
-                icon: '✨'
-              }}
+              dragPayload={
+                isArchitectRole
+                  ? {
+                      type: 'story_card',
+                      id: card.id,
+                      title: card.title,
+                      icon: '✨'
+                    }
+                  : undefined
+              }
               isVisibleToPlayers={card.revealed !== false}
             />
           ))}
 
           {adeLore
-            .filter((l: any) => matchesSearch(l.title || l.name || '', l.type === 'Clue' ? 'clue' : 'lore', l))
+            .filter((l: any) => (isArchitectRole || l.revealed !== false) && matchesSearch(l.title || l.name || '', l.type === 'Clue' ? 'clue' : 'lore', l))
             .map((lore: any, idx: number) => {
               const lId = lore.id || `ade-lore-${idx}`;
               const icon = lore.icon || (lore.type === 'Clue' ? '🗝️' : '📜');
@@ -984,16 +1073,20 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                   badge={lore.type?.toUpperCase() || 'LORE'}
                   icon={lore.type === 'Clue' ? <Key size={14} /> : <Scroll size={14} />}
                   iconColor="text-sky-400"
-                  dragPayload={{
-                    type: 'item_clue',
-                    id: lId,
-                    name: lore.title || lore.name,
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  }}
+                  dragPayload={
+                    isArchitectRole
+                      ? {
+                          type: 'item_clue',
+                          id: lId,
+                          name: lore.title || lore.name,
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        }
+                      : undefined
+                  }
                   isVisibleToPlayers={lore.revealed !== false}
-                  onDelete={() => handleDeleteAdeElement(lore)}
+                  {...(isArchitectRole ? { onDelete: () => handleDeleteAdeElement(lore) } : {})}
                 />
               );
             })}
@@ -1026,23 +1119,31 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                   badge="WEAPON"
                   icon={<Package size={14} />}
                   iconColor="text-indigo-400"
-                  dragPayload={{
-                    type: 'equipment',
-                    category: 'weapon',
-                    id: wId,
-                    name: wpn.name,
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  }}
-                  onSpawn={() => handleDeployToken({
-                    id: wId,
-                    name: wpn.name,
-                    category: 'weapon',
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  })}
+                  dragPayload={
+                    isArchitectRole
+                      ? {
+                          type: 'equipment',
+                          category: 'weapon',
+                          id: wId,
+                          name: wpn.name,
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        }
+                      : undefined
+                  }
+                  {...(isArchitectRole
+                    ? {
+                        onSpawn: () => handleDeployToken({
+                          id: wId,
+                          name: wpn.name,
+                          category: 'weapon',
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        })
+                      }
+                    : {})}
                   isVisibleToPlayers={true}
                 />
               );
@@ -1064,23 +1165,31 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                   badge="ARMOR"
                   icon={<Shield size={14} />}
                   iconColor="text-cyan-400"
-                  dragPayload={{
-                    type: 'equipment',
-                    category: 'armor',
-                    id: aId,
-                    name: arm.name,
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  }}
-                  onSpawn={() => handleDeployToken({
-                    id: aId,
-                    name: arm.name,
-                    category: 'armor',
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  })}
+                  dragPayload={
+                    isArchitectRole
+                      ? {
+                          type: 'equipment',
+                          category: 'armor',
+                          id: aId,
+                          name: arm.name,
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        }
+                      : undefined
+                  }
+                  {...(isArchitectRole
+                    ? {
+                        onSpawn: () => handleDeployToken({
+                          id: aId,
+                          name: arm.name,
+                          category: 'armor',
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        })
+                      }
+                    : {})}
                   isVisibleToPlayers={true}
                 />
               );
@@ -1162,25 +1271,33 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                   badge="ADE ITEM"
                   icon={<Package size={14} />}
                   iconColor="text-emerald-400"
-                  dragPayload={{
-                    type: 'equipment',
-                    category: 'item',
-                    id: itId,
-                    name: item.title || item.name,
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  }}
-                  onSpawn={() => handleDeployToken({
-                    id: itId,
-                    name: item.title || item.name,
-                    category: 'item',
-                    icon,
-                    imageUrl: img,
-                    image: img
-                  })}
+                  dragPayload={
+                    isArchitectRole
+                      ? {
+                          type: 'equipment',
+                          category: 'item',
+                          id: itId,
+                          name: item.title || item.name,
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        }
+                      : undefined
+                  }
+                  {...(isArchitectRole
+                    ? {
+                        onSpawn: () => handleDeployToken({
+                          id: itId,
+                          name: item.title || item.name,
+                          category: 'item',
+                          icon,
+                          imageUrl: img,
+                          image: img
+                        }),
+                        onDelete: () => handleDeleteAdeElement(item)
+                      }
+                    : {})}
                   isVisibleToPlayers={true}
-                  onDelete={() => handleDeleteAdeElement(item)}
                 />
               );
             })}
@@ -1196,37 +1313,45 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
             <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
               Media & Custom Assets
             </span>
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="px-2 py-1 rounded bg-teal-950/80 hover:bg-teal-900 border border-teal-500/50 text-teal-300 font-mono text-[10px] font-bold transition-all cursor-pointer flex items-center gap-1 shadow-sm"
-              title="Upload PNG, JPG, WEBP, or SVG images from local disk"
-            >
-              <Upload size={11} /> Upload Asset
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              className="hidden"
-              onChange={handleFileUpload}
-            />
+            {isArchitectRole && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-2 py-1 rounded bg-teal-950/80 hover:bg-teal-900 border border-teal-500/50 text-teal-300 font-mono text-[10px] font-bold transition-all cursor-pointer flex items-center gap-1 shadow-sm"
+                  title="Upload PNG, JPG, WEBP, or SVG images from local disk"
+                >
+                  <Upload size={11} /> Upload Asset
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleFileUpload}
+                />
+              </>
+            )}
           </div>
 
           {/* Quick Drop Zone Hint */}
-          <div className="p-2 text-center rounded-lg border border-dashed border-teal-500/30 bg-teal-950/20 text-[10px] text-teal-300/80 font-mono">
-            Drop images directly onto The Stage or upload here.
-          </div>
+          {isArchitectRole && (
+            <div className="p-2 text-center rounded-lg border border-dashed border-teal-500/30 bg-teal-950/20 text-[10px] text-teal-300/80 font-mono">
+              Drop images directly onto The Stage or upload here.
+            </div>
+          )}
 
           {/* Asset List */}
           {customAssets.length === 0 ? (
             <div className="p-4 text-center text-xs font-mono text-slate-500 border border-dashed border-slate-800 rounded-xl space-y-1">
               <FolderOpen size={20} className="mx-auto text-slate-600 mb-1" />
               <div>No custom media uploaded yet.</div>
-              <p className="text-[10px] text-slate-600">
-                Click [Upload Asset] above to import battlemaps, tokens, and props.
-              </p>
+              {isArchitectRole && (
+                <p className="text-[10px] text-slate-600">
+                  Click [Upload Asset] above to import battlemaps, tokens, and props.
+                </p>
+              )}
             </div>
           ) : (
             <div className="space-y-1.5">
@@ -1235,8 +1360,9 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                 .map(asset => (
                   <div
                     key={asset.id}
-                    draggable
+                    draggable={isArchitectRole}
                     onDragStart={(e) => {
+                      if (!isArchitectRole) return;
                       e.dataTransfer.setData('application/json', JSON.stringify({
                         id: asset.id,
                         name: asset.name,
@@ -1248,7 +1374,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                       }));
                       e.dataTransfer.effectAllowed = 'copy';
                     }}
-                    className="p-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-teal-500/50 transition-all flex items-center justify-between gap-2 group cursor-grab active:cursor-grabbing"
+                    className={`p-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-teal-500/50 transition-all flex items-center justify-between gap-2 group ${isArchitectRole ? 'cursor-grab active:cursor-grabbing' : ''}`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <img 
@@ -1266,39 +1392,42 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => handleDeployToken({
-                          id: asset.id,
-                          name: asset.name,
-                          imageUrl: asset.url,
-                          vitality: 30,
-                          health: 30,
-                          dr: 6
-                        })}
-                        className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-teal-300 border border-teal-500/30 text-[9.5px] font-mono font-bold transition-colors cursor-pointer"
-                        title="Spawn as token onto Stage"
-                      >
-                        + Token
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleSetMapBackground(asset.url, asset.name)}
-                        className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/30 text-[9.5px] font-mono font-bold transition-colors cursor-pointer"
-                        title="Set as active battlemap background"
-                      >
-                        Set Map
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteAsset(asset.id)}
-                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
-                        title="Delete asset"
-                      >
-                        <Trash2 size={11} />
-                      </button>
-                    </div>
+                    {isArchitectRole && (
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => handleDeployToken({
+                            id: asset.id,
+                            name: asset.name,
+                            imageUrl: asset.url,
+                            vitality: 30,
+                            health: 30,
+                            dr: 6
+                          })}
+                          className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-teal-300 border border-teal-500/30 text-[9.5px] font-mono font-bold transition-colors cursor-pointer"
+                          title="Spawn as token onto Stage"
+                        >
+                          + Token
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSetMapBackground(asset.url, asset.name)}
+                          className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/30 text-[9.5px] font-mono font-bold transition-colors cursor-pointer"
+                          title="Set as active battlemap background"
+                        >
+                          Set Map
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteAsset(asset.id)}
+                          className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
+                          title="Delete asset"
+                          aria-label={`Delete ${asset.name}`}
+                        >
+                          <Trash2 size={11} />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))}
             </div>
@@ -1352,21 +1481,33 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                             <span>{mod.remainingRounds}r</span>
                           </span>
                         )}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            AudioService.playTerminalBeep(1100, 0.02);
-                            if (toggleGalleryModifier) toggleGalleryModifier(mod.id);
-                          }}
-                          className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors cursor-pointer ${
-                            mod.isActive
-                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                              : 'bg-slate-800 text-slate-500 border border-slate-700'
-                          }`}
-                        >
-                          {mod.isActive ? 'ON' : 'OFF'}
-                        </button>
-                        {deleteGalleryModifier && (
+                        {isArchitectRole ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              AudioService.playTerminalBeep(1100, 0.02);
+                              if (toggleGalleryModifier) toggleGalleryModifier(mod.id);
+                            }}
+                            className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors cursor-pointer ${
+                              mod.isActive
+                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
+                                : 'bg-slate-800 text-slate-500 border border-slate-700'
+                            }`}
+                          >
+                            {mod.isActive ? 'ON' : 'OFF'}
+                          </button>
+                        ) : (
+                          <span
+                            className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold ${
+                              mod.isActive
+                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
+                                : 'bg-slate-800 text-slate-500 border border-slate-700'
+                            }`}
+                          >
+                            {mod.isActive ? 'ON' : 'OFF'}
+                          </span>
+                        )}
+                        {isArchitectRole && deleteGalleryModifier && (
                           <button
                             type="button"
                             onClick={() => {
@@ -1375,6 +1516,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                             }}
                             className="p-0.5 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
                             title="Remove Modifier"
+                            aria-label={`Remove ${mod.name}`}
                           >
                             <Trash2 size={11} />
                           </button>

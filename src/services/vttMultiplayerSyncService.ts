@@ -218,6 +218,9 @@ export class VttMultiplayerSyncService {
           if (typeof data.current_vitality === 'number') {
             store.setVitality(key, data.current_vitality);
           }
+          if (typeof data.is_hidden === 'boolean') {
+            store.setHidden(key, data.is_hidden);
+          }
           if (Array.isArray(data.active_conditions)) {
             const current = store.ephemeralData[key]?.active_conditions || [];
             for (const cond of data.active_conditions) {
@@ -437,6 +440,7 @@ export class VttMultiplayerSyncService {
       current_health?: number;
       current_vitality?: number;
       current_structure?: number;
+      is_hidden?: boolean;
       active_conditions?: string[];
       active_effects?: any[];
     }

@@ -14,6 +14,7 @@ import {
   parseRollCommand,
   generateSelectiveFields,
   parseAndEnrichBastionTurnPayload,
+  summarizeUniverseForBastion,
 } from '../../services/bastionService';
 import {
   synthesizeCharacterWithBastion,
@@ -766,7 +767,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
         activeDatabaseCategory: activeDbCategory,
         selectedEntryData: activeSurface?.editFormData || activeSurface?.selectedItem || undefined,
         elementContext: activeSurface?.activeNode || undefined,
-        universeState: campaignContext?.universeState || undefined,
+        universeState: campaignContext?.universeState
+          ? summarizeUniverseForBastion(
+              campaignContext.universeState,
+              sessionState?.effectiveRole === 'operator' || Boolean(sessionState?.isOperatorPreview)
+            )
+          : undefined,
         pathname: location?.pathname || '/'
       }
     });

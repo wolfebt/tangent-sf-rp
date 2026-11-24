@@ -63,7 +63,7 @@ export class DiceASTParser {
     }
 
     const sorted = [...dicePool].sort((a, b) => (netAdvantage >= 0 ? b - a : a - b));
-    const keptDice: [number, number] = [sorted[0], sorted[1]];
+    const keptDice: [number, number] = [sorted[0] ?? 1, sorted[1] ?? 1];
     const rawNaturalTotal = keptDice[0] + keptDice[1];
 
     const critThreshold = 21 - clampedCritSize;
@@ -164,7 +164,7 @@ export class DiceASTParser {
     const diceMatch = clean.match(/^(\d*)d(\d+)(kh\d+|kl\d+|!)?$/i);
     if (diceMatch) {
       const countNum = diceMatch[1] ? parseInt(diceMatch[1], 10) : 1;
-      const sidesNum = parseInt(diceMatch[2], 10);
+      const sidesNum = parseInt(diceMatch[2] || '10', 10);
       let modifier: string | undefined;
       let modValue: number | undefined;
 
@@ -185,8 +185,8 @@ export class DiceASTParser {
         type: 'DICE',
         count: { type: 'NUMBER', value: countNum },
         sides: { type: 'NUMBER', value: sidesNum },
-        modifier,
-        modValue
+        ...(modifier !== undefined ? { modifier } : {}),
+        ...(modValue !== undefined ? { modValue } : {})
       };
     }
 

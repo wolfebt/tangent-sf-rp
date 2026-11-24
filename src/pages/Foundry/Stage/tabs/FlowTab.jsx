@@ -66,7 +66,14 @@ export default function FlowTab() {
     setConditionWhen(trigger.when || '');
     const firstAction = trigger.actions?.[0];
     setActionType(firstAction?.type || 'TRIGGER_AIME');
-    setActionPayloadText(firstAction?.readAloudText || firstAction?.prompt || firstAction?.targetScenarioId || '');
+    setActionPayloadText(
+      firstAction?.readAloudText ||
+      firstAction?.prompt ||
+      firstAction?.targetScenarioId ||
+      firstAction?.key ||
+      firstAction?.modifierId ||
+      ''
+    );
     setGmConfirm(!!trigger.gmConfirm);
     setIsModalOpen(true);
   };
@@ -84,6 +91,8 @@ export default function FlowTab() {
       actionObj = { type: 'SET_FLAG', key: actionPayloadText || 'ALERT_ACTIVE', value: true };
     } else if (actionType === 'REVEAL_BEAT') {
       actionObj = { type: 'REVEAL_BEAT', prompt: actionPayloadText };
+    } else if (actionType === 'APPLY_MODIFIER') {
+      actionObj = { type: 'APPLY_MODIFIER', modifierId: actionPayloadText.trim() || 'CUSTOM_MODIFIER' };
     }
 
     const payload = {
@@ -207,9 +216,9 @@ export default function FlowTab() {
                         <ArrowRight size={11} className="text-purple-400" />
                         <span>Action: <strong className="text-white">{action?.type || 'CUSTOM'}</strong></span>
                       </div>
-                      {(action?.readAloudText || action?.prompt || action?.targetScenarioId) && (
+                      {(action?.readAloudText || action?.prompt || action?.targetScenarioId || action?.key || action?.modifierId) && (
                         <p className="text-[11px] text-slate-300 italic font-sans pl-4">
-                          "{action.readAloudText || action.prompt || action.targetScenarioId}"
+                          "{action.readAloudText || action.prompt || action.targetScenarioId || action.key || action.modifierId}"
                         </p>
                       )}
                     </div>

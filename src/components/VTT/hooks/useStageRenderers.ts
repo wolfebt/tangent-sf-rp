@@ -374,12 +374,28 @@ export function useStageRenderers({
     if (!isDrawingToolActive || !isDesignModeActive) return;
 
     const g = new Graphics();
-    if (activeDesignTool === 'wall' && wallDrawStart && wallDrawCurrent) {
+    if ((activeDesignTool === 'wall' || activeDesignTool === 'curved_wall') && wallDrawStart && wallDrawCurrent) {
       const isDoor = selectedWallType === 'door';
       const isWindow = selectedWallType === 'window';
       const color = isDoor ? 0xf59e0b : isWindow ? 0x38bdf8 : 0x06b6d4;
 
-      if (wallConstructionMode === 'room') {
+      if (activeDesignTool === 'curved_wall') {
+        const dx = wallDrawCurrent.x - wallDrawStart.x;
+        const dy = wallDrawCurrent.y - wallDrawStart.y;
+        const cpX = (wallDrawStart.x + wallDrawCurrent.x) / 2 - dy * 0.28;
+        const cpY = (wallDrawStart.y + wallDrawCurrent.y) / 2 + dx * 0.28;
+
+        g.moveTo(wallDrawStart.x, wallDrawStart.y);
+        g.quadraticCurveTo(cpX, cpY, wallDrawCurrent.x, wallDrawCurrent.y);
+        g.stroke({ width: 4, color, alpha: 0.9 });
+
+        g.circle(wallDrawStart.x, wallDrawStart.y, 5);
+        g.fill({ color: 0xffffff });
+        g.circle(wallDrawCurrent.x, wallDrawCurrent.y, 5);
+        g.fill({ color });
+        g.circle(cpX, cpY, 4);
+        g.fill({ color: 0xf59e0b });
+      } else if (wallConstructionMode === 'room') {
         const minX = Math.min(wallDrawStart.x, wallDrawCurrent.x);
         const maxX = Math.max(wallDrawStart.x, wallDrawCurrent.x);
         const minY = Math.min(wallDrawStart.y, wallDrawCurrent.y);

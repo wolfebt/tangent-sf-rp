@@ -37,6 +37,17 @@ export interface UseStageLightingProps {
   selectedToken?: FusedToken | null;
 }
 
+/**
+ * Parses a CSS hex color string (e.g. '#38bdf8') into a numeric 24-bit Pixi color integer.
+ */
+function parseHexTint(raw?: string): number | null {
+  if (typeof raw !== 'string') return null;
+  const normalized = raw.trim().replace(/^#/, '');
+  if (!/^[0-9a-fA-F]{6}/.test(normalized)) return null;
+  const parsed = Number.parseInt(normalized.slice(0, 6), 16);
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
 export function useStageLighting({
   currentMap,
   isCanvasReady,
@@ -53,6 +64,7 @@ export function useStageLighting({
   selectedToken = null
 }: UseStageLightingProps) {
   const [atmosphericWeather, setAtmosphericWeather] = useState<AtmosphericWeatherType>('clear');
+  const [customAtmosphereOverride, setCustomAtmosphereOverride] = useState<{ tint?: string; fogDensity?: number } | null>(null);
   const [localLights, setLocalLights] = useState<SceneLightSource[]>([]);
   const [hazardCount, setHazardCount] = useState<number>(0);
 
@@ -114,16 +126,23 @@ export function useStageLighting({
     clearPixiContainer(container);
 
     const preset = resolveAtmosphericPreset(atmosphericWeather);
-    if (preset.tintAlpha <= 0 && preset.fogDensity <= 0) return;
+    const overrideTint = parseHexTint(customAtmosphereOverride?.tint);
+    const effectiveTint = overrideTint !== null ? overrideTint : preset.tintHex;
+    const overrideFog = customAtmosphereOverride?.fogDensity;
+    const hasCustomFog = typeof overrideFog === 'number' && !Number.isNaN(overrideFog);
+    const effectiveAlpha = hasCustomFog
+      ? Math.max(0, Math.min(0.85, overrideFog))
+      : preset.tintAlpha;
+    if (effectiveAlpha <= 0 && preset.fogDensity <= 0) return;
 
     const g = new Graphics();
     const width = 3840;
     const height = 2160;
     g.rect(0, 0, width, height);
-    g.fill({ color: preset.tintHex, alpha: preset.tintAlpha });
+    g.fill({ color: effectiveTint, alpha: effectiveAlpha });
 
     container.addChild(g);
-  }, [isCanvasReady, canvasGeneration, atmosphericWeather, atmosphereOverlayRef]);
+  }, [isCanvasReady, canvasGeneration, atmosphericWeather, customAtmosphereOverride, atmosphereOverlayRef]);
 
   // Synchronize environmental atmospheric weather preset from currentMap
   useEffect(() => {
@@ -138,13 +157,31 @@ export function useStageLighting({
     } else {
       setAtmosphericWeather('clear');
     }
+
+    const customTint = currentMap?.lighting?.tint || currentMap?.weather?.tint;
+    const customFog = currentMap?.lighting?.fogDensity ?? currentMap?.weather?.fogDensity;
+    if (
+      (typeof customTint === 'string' && customTint.trim().length > 0) ||
+      (typeof customFog === 'number' && !Number.isNaN(customFog))
+    ) {
+      setCustomAtmosphereOverride({
+        ...(typeof customTint === 'string' && customTint.trim().length > 0 ? { tint: customTint } : {}),
+        ...(typeof customFog === 'number' && !Number.isNaN(customFog) ? { fogDensity: customFog } : {})
+      });
+    } else {
+      setCustomAtmosphereOverride(null);
+    }
   }, [
     currentMap?.id,
     currentMap?.atmosphericPresetId,
     currentMap?.weather?.presetId,
+    currentMap?.weather?.tint,
+    currentMap?.weather?.fogDensity,
     currentMap?.environmental?.weatherPreset,
     currentMap?.atmosphericWeather,
-    currentMap?.lightingMode
+    currentMap?.lightingMode,
+    currentMap?.lighting?.tint,
+    currentMap?.lighting?.fogDensity
   ]);
 
   // Event bus subscription for atmospheric preset & quick lighting mode
@@ -159,10 +196,47 @@ export function useStageLighting({
     };
 
     const unsubPreset = VttEventBus.on('apply-atmospheric-preset', (payload) => {
-      applyPresetOrMode(payload?.presetKey);
+      const hasCustomTint = typeof payload?.tint === 'string' && payload.tint.trim().length > 0;
+      const hasCustomFog = typeof payload?.fogDensity === 'number' && !Number.isNaN(payload.fogDensity);
+      if (hasCustomTint || hasCustomFog) {
+        setCustomAtmosphereOverride({
+          ...(hasCustomTint ? { tint: payload.tint } : {}),
+          ...(hasCustomFog ? { fogDensity: payload.fogDensity } : {})
+        });
+      } else {
+        setCustomAtmosphereOverride(null);
+      }
+
+      if (payload?.presetKey && isKnownAtmosphericPreset(payload.presetKey)) {
+        const normalized = normalizeAtmosphericPresetKey(payload.presetKey);
+        setAtmosphericWeather(normalized);
+        if (currentMapRef.current?.id && updateMapRef.current) {
+          updateMapRef.current(currentMapRef.current.id, {
+            atmosphericWeather: normalized,
+            ...(hasCustomTint || hasCustomFog
+              ? {
+                  lighting: {
+                    ...(currentMapRef.current?.lighting || {}),
+                    ...(hasCustomTint ? { tint: payload.tint } : {}),
+                    ...(hasCustomFog ? { fogDensity: payload.fogDensity } : {})
+                  }
+                }
+              : {})
+          });
+        }
+      } else if ((hasCustomTint || hasCustomFog) && currentMapRef.current?.id && updateMapRef.current) {
+        updateMapRef.current(currentMapRef.current.id, {
+          lighting: {
+            ...(currentMapRef.current?.lighting || {}),
+            ...(hasCustomTint ? { tint: payload.tint } : {}),
+            ...(hasCustomFog ? { fogDensity: payload.fogDensity } : {})
+          }
+        });
+      }
     });
 
     const unsubLightMode = VttEventBus.on('change-lighting-mode', (payload) => {
+      setCustomAtmosphereOverride(null);
       applyPresetOrMode(payload?.mode);
     });
 

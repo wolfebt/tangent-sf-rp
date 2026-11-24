@@ -451,6 +451,70 @@ const CORE_MECHANICS_COVERAGE_REGEX =
   /\b(2d10|150\s*cp|\bcp\b|\bap\b|award point|character point|skill|specialization|attribute|stamina|vitality|health|structure|armor|diminishing return|toughness|karma|called shot|crit|fumble|advantage|disadvantage|rest|mortality|revivif|economatrix|euft|tsc|credit|wealth score|liquidity|udu|socket|node|mount|module|mecha|augmentation|archetype|origin|occupation|faction|species|hindrance|trait|feature|multi-group|pacing|encounter|session zero|x-card|lines and veils|action economy|precision strike|combat|defense|tie)\b/i;
 
 /**
+ * Produces a bounded, role-safe summary of campaign universeState for BASTION prompts
+ * without serializing raw Quill HTML, base64 assets, or GM secrets.
+ */
+export function summarizeUniverseForBastion(universeState, operatorSafe = false) {
+  if (!universeState || typeof universeState !== 'object') return undefined;
+
+  const flatScenarios = [];
+  const collectScenarios = (nodes) => {
+    if (!Array.isArray(nodes)) return;
+    for (const node of nodes) {
+      if (!node || typeof node !== 'object') continue;
+      if (operatorSafe && (node.isHidden || node.isGmOnly)) continue;
+      flatScenarios.push(node);
+      if (Array.isArray(node.children) && node.children.length > 0) {
+        collectScenarios(node.children);
+      }
+    }
+  };
+  collectScenarios(universeState.scenarios);
+
+  const activeScenario =
+    flatScenarios.find((s) => s.id === universeState.activeScenarioId) || flatScenarios[0] || null;
+  const maps = Array.isArray(universeState.maps) ? universeState.maps : [];
+
+  let rawSummary = activeScenario?.fields?.summary || activeScenario?.content || '';
+  if (operatorSafe && typeof rawSummary === 'string') {
+    rawSummary = rawSummary.replace(/<div[^>]*class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/div>/gi, '');
+  }
+  const activeNodeSummary = String(rawSummary)
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 240);
+
+  return {
+    id: universeState.id || 'default',
+    projectName: universeState.projectName || universeState.title || 'Untitled Module',
+    scenarioCount: flatScenarios.length,
+    mapCount: maps.length,
+    activeScenarioId: activeScenario?.id || null,
+    activeScenarioTitle: activeScenario?.title || null,
+    activeScenarioType: activeScenario?.type || null,
+    activeNodeSummary,
+    scenarioTitles: flatScenarios.slice(0, 12).map((s) => s.title || s.id).filter(Boolean),
+    mapTitles: maps.slice(0, 10).map((m) => m?.title || m?.name || m?.id).filter(Boolean),
+  };
+}
+
+function sanitizeBastionContextData(contextData, operatorSafe = false) {
+  if (!contextData || typeof contextData !== 'object') return contextData;
+  const next = { ...contextData };
+  if (operatorSafe) {
+    delete next.architectNotes;
+    delete next.gmSecrets;
+    delete next.hiddenTokens;
+    delete next.whisperCards;
+  }
+  if (next.universeState && typeof next.universeState === 'object') {
+    next.universeState = summarizeUniverseForBastion(next.universeState, operatorSafe);
+  }
+  return next;
+}
+
+/**
  * Evaluates whether a user prompt requests information that is unavailable in the canonical archive
  * without an explicit request to extrapolate/synthesize.
  * Enforces Decision 3: ALWAYS HALT AND INFORM USER IF ANY INFORMATION IS NOT AVAILABLE; EXTRAPOLATE ONLY BY REQUEST.
@@ -478,11 +542,12 @@ export function evaluateArchiveCoverageAndExtrapolation({
     };
   }
 
+  const compactContext = sanitizeBastionContextData(contextData, false);
   const combinedArchiveText = [
     ...(Array.isArray(ragResults)
       ? ragResults.map((r) => `${r.chunk?.title || ''} ${(r.chunk?.tags || []).join(' ')} ${r.chunk?.text || ''}`)
       : []),
-    contextData ? JSON.stringify(contextData) : '',
+    compactContext ? JSON.stringify(compactContext) : '',
   ]
     .join(' ')
     .toLowerCase();
@@ -920,12 +985,9 @@ export const composeBastionSystemPrompt = ({
   }
 
   if (contextData) {
-    // Strip any internal GM fields if in Operator mode
-    let safeContext = contextData;
-    if (normalizedRole === BASTION_ROLES.OPERATOR && typeof contextData === 'object' && contextData !== null) {
-      const { architectNotes, gmSecrets, hiddenTokens, whisperCards, ...rest } = contextData;
-      safeContext = rest;
-    }
+    // Strip any internal GM fields if in Operator mode and compact raw universeState objects
+    const isOperator = normalizedRole === BASTION_ROLES.OPERATOR;
+    const safeContext = sanitizeBastionContextData(contextData, isOperator);
     layers.push(`ACTIVE WORKSPACE CONTEXT:\n${JSON.stringify(safeContext, null, 2)}`);
   }
 

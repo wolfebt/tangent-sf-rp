@@ -128,7 +128,9 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
         pixelsPerGrid,
         sourceGridSize,
         terrains: currentMap?.terrains || [],
-        underlays: currentMap?.underlays || [],
+        underlays: (Array.isArray(currentMap?.underlays) && currentMap.underlays.length > 0)
+          ? currentMap.underlays
+          : (currentMap?.underlay ? [currentMap.underlay] : []),
         walls: currentMap?.walls || [],
         lights: currentMap?.lights || [],
         format: 'image/webp',
@@ -194,7 +196,9 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
         sourceGridSize,
         enableWallShadows: currentMap?.enableWallShadows !== false,
         terrains: currentMap?.terrains || [],
-        underlays: currentMap?.underlays || [],
+        underlays: (Array.isArray(currentMap?.underlays) && currentMap.underlays.length > 0)
+          ? currentMap.underlays
+          : (currentMap?.underlay ? [currentMap.underlay] : []),
         objects: currentMap?.objects || [],
         tokens: currentMap?.tokens || [],
         texts: currentMap?.texts || [],

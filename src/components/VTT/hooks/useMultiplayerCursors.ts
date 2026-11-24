@@ -1,5 +1,5 @@
 import { useEffect, type RefObject } from 'react';
-import { Container, Graphics } from 'pixi.js';
+import { Container } from 'pixi.js';
 import { clearPixiContainer } from '../utils/pixiCleanup';
 
 export interface UseMultiplayerCursorsOptions {
@@ -9,6 +9,9 @@ export interface UseMultiplayerCursorsOptions {
   canvasGeneration?: number;
 }
 
+/**
+ * Manages remote collaborator cursor layer clearing without spawning fake local bot cursors.
+ */
 export function useMultiplayerCursors({
   containerRef,
   isMultiplayerSimActive,
@@ -17,55 +20,10 @@ export function useMultiplayerCursors({
 }: UseMultiplayerCursorsOptions) {
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || (container as any).destroyed) return;
+    if (!container || (container as any).destroyed) return undefined;
 
     clearPixiContainer(container);
-    if (!isMultiplayerSimActive || isSimulationPaused) return;
-
-    const peers = [
-      { id: 'peer-vex', name: 'Operator Vex', color: 0x10b981, baseX: 450, baseY: 300 },
-      { id: 'peer-null', name: 'Architect Null', color: 0xf59e0b, baseX: 600, baseY: 220 },
-      { id: 'peer-echo', name: 'Spectator Echo', color: 0xec4899, baseX: 300, baseY: 420 }
-    ];
-
-    const graphicsList: { g: Graphics; peer: typeof peers[0]; offset: number }[] = [];
-
-    peers.forEach((peer, idx) => {
-      const g = new Graphics();
-      container.addChild(g);
-      graphicsList.push({ g, peer, offset: idx * 2.1 });
-    });
-
-    let frame = 0;
-    const interval = setInterval(() => {
-      if ((container as any).destroyed) return;
-      frame += 0.05;
-      graphicsList.forEach(({ g, peer, offset }) => {
-        if ((g as any).destroyed) return;
-        g.clear();
-        const curX = peer.baseX + Math.sin(frame + offset) * 70;
-        const curY = peer.baseY + Math.cos(frame * 0.7 + offset) * 45;
-
-        g.poly([
-          curX, curY,
-          curX + 16, curY + 12,
-          curX + 8, curY + 14,
-          curX + 12, curY + 22,
-          curX + 8, curY + 24,
-          curX + 4, curY + 16,
-          curX, curY + 18
-        ]);
-        g.fill({ color: peer.color, alpha: 0.9 });
-        g.stroke({ width: 1.5, color: 0xffffff });
-
-        g.roundRect(curX + 18, curY + 4, peer.name.length * 7 + 10, 16, 4);
-        g.fill({ color: 0x0f172a, alpha: 0.85 });
-        g.stroke({ width: 1, color: peer.color, alpha: 0.7 });
-      });
-    }, 1000 / 30);
-
     return () => {
-      clearInterval(interval);
       if (!(container as any).destroyed) {
         clearPixiContainer(container);
       }

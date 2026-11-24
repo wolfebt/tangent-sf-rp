@@ -137,6 +137,7 @@ export interface EngineState {
     totalDamage: number;
   };
   toggleHidden: (id: string) => void;
+  setHidden: (id: string, isHidden: boolean) => void;
   setElevation: (id: string, elevation: number) => void;
   setSensorMode: (id: string, mode: NonNullable<EphemeralState['sensor_mode']>) => void;
   setSelection: (id: string, isSelected: boolean) => void;
@@ -609,6 +610,13 @@ export const useEngineStore = create<EngineState>()(
         const token = draft.ephemeralData[id];
         if (token) {
           token.is_hidden = !token.is_hidden;
+        }
+      }),
+
+      setHidden: (id, isHidden) => set((draft) => {
+        const token = draft.ephemeralData[id];
+        if (token) {
+          token.is_hidden = Boolean(isHidden);
         }
       }),
 

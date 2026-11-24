@@ -58,6 +58,18 @@ export default function ModulePackageModal({
     };
   }, [isOpen, initialMode]);
 
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onEsc = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const scenariosCount = (universeState?.scenarios || []).length;
@@ -129,7 +141,12 @@ export default function ModulePackageModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[250] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-mono select-none">
+    <div
+      className="fixed inset-0 z-[250] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-mono select-none"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+    >
       <div className="bg-slate-900/98 border-2 border-cyan-400/80 rounded-2xl max-w-lg w-full my-auto max-h-[calc(100vh-4rem)] overflow-y-auto p-6 shadow-[0_0_40px_rgba(6,182,212,0.3)] space-y-5 animate-in fade-in zoom-in-95 duration-150 text-slate-200">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">

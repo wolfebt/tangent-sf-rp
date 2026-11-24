@@ -22,6 +22,7 @@ import { useEngineStore, selectAllFusedTokens } from '../../../engine/state/Vola
 import { v4 as uuidv4 } from 'uuid';
 import { useScenarioOperations } from './panels/useScenarioOperations';
 import ScenarioCanvasSwitch from './panels/ScenarioCanvasSwitch';
+import { normalizeElementType } from '../ElementForge/elementSchemas';
 
 export default function ScenarioPane({ 
   onSwitchTab, 
@@ -357,7 +358,7 @@ export default function ScenarioPane({
       const matchesSearch = !elementSearch ||
         (elem.title || '').toLowerCase().includes(elementSearch.toLowerCase()) ||
         (elem.type || '').toLowerCase().includes(elementSearch.toLowerCase());
-      const matchesType = selectedElementTypeFilter === 'All' || elem.type === selectedElementTypeFilter;
+      const matchesType = selectedElementTypeFilter === 'All' || normalizeElementType(elem.type) === normalizeElementType(selectedElementTypeFilter);
       return matchesSearch && matchesType;
     });
   }, [elementsCatalog, elementSearch, selectedElementTypeFilter]);
@@ -368,7 +369,7 @@ export default function ScenarioPane({
       const matchesSearch = !searchFilter ||
         (elem.title || '').toLowerCase().includes(searchFilter.toLowerCase()) ||
         (elem.type || '').toLowerCase().includes(searchFilter.toLowerCase());
-      const matchesType = outlinerElementTypeFilter === 'All' || elem.type === outlinerElementTypeFilter;
+      const matchesType = outlinerElementTypeFilter === 'All' || normalizeElementType(elem.type) === normalizeElementType(outlinerElementTypeFilter);
       return matchesSearch && matchesType;
     });
   }, [elementsCatalog, searchFilter, outlinerElementTypeFilter]);

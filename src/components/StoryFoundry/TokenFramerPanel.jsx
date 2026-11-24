@@ -20,6 +20,20 @@ function traceHexagon(ctx, cx, cy, r) {
   ctx.closePath();
 }
 
+function downloadDataUrl(dataUrl, filename) {
+  if (typeof document === 'undefined' || !dataUrl) return;
+  try {
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch {
+    // Ignore DOM download failures in restricted environments
+  }
+}
+
 export const TokenFramerPanel = ({
   sourceImageUrl = '',
   tokenLabel = 'Operative Token',
@@ -158,10 +172,16 @@ export const TokenFramerPanel = ({
     if (typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
       dataUrl = 'data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADwAQCdASoBAAEAAQAcJaACdLoAAP7/2wAA';
     }
+    const ext = mimeType === 'image/png' ? 'png' : 'webp';
+    const baseName = String(tokenLabel || 'operative_token')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]+/g, '_')
+      .replace(/^_+|_+$/g, '') || 'operative_token';
+    downloadDataUrl(dataUrl, `${baseName}_framed.${ext}`);
     if (typeof onExportToken === 'function') {
       onExportToken(dataUrl);
     }
-    setExportStatus(`Framed token ready (${mimeType === 'image/webp' ? 'WebP' : 'PNG'})`);
+    setExportStatus(`Downloaded & staged (${ext.toUpperCase()})`);
   };
 
   return (

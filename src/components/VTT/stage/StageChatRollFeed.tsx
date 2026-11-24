@@ -6,12 +6,14 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Shield, Heart, Zap, EyeOff, Lock, Globe, Send } from 'lucide-react';
+import { Shield, Heart, Zap, EyeOff, Lock, Globe, Send, Trash2 } from 'lucide-react';
 import { VttEventBus, type VttEventMap } from '../../../utils/vttEventBus';
 import { useEngineStore } from '../../../engine/state/VolatileSharder';
 import { resolveTangent2d10Check } from '../../../engine/rules/CanonicalCombatMath';
+import { DiceASTParser } from '../../../engine/math/DiceASTParser';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { AudioService } from '../../../services/audioService';
+import { useUILayoutStore } from '../store/uiLayoutStore';
 
 export type ChatRollCard = VttEventMap['stage-chat-card'];
 
@@ -20,49 +22,72 @@ export interface StageChatRollFeedProps {
   targetToken?: any;
   userRole?: 'architect' | 'operative' | 'gm' | 'player' | 'spectator';
   compact?: boolean;
+  useGlobalListener?: boolean;
+}
+
+export function sanitizeCardForRole(card: ChatRollCard, isArchitect: boolean): ChatRollCard | null {
+  if (!card) return null;
+  if (!isArchitect && card.visibility === 'whisper_gm' && card.remote) {
+    return null;
+  }
+  if (!isArchitect && card.visibility === 'blind_gm') {
+    return {
+      id: card.id,
+      timestamp: card.timestamp,
+      sender: card.sender,
+      ...(card.senderRole !== undefined ? { senderRole: card.senderRole } : {}),
+      ...(card.senderId !== undefined ? { senderId: card.senderId } : {}),
+      visibility: 'blind_gm',
+      kind: card.kind,
+      title: '[BLIND GM ROLL]',
+      body: 'Resolved in secret by the Architect.',
+      ...(card.remote !== undefined ? { remote: card.remote } : {})
+    };
+  }
+  return card;
 }
 
 export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
   selectedToken = null,
   targetToken = null,
   userRole = 'architect',
-  compact = false
+  compact = false,
+  useGlobalListener = true
 }) => {
   const isArchitect = userRole === 'architect' || userRole === 'gm';
-  const [cards, setCards] = useState<ChatRollCard[]>([]);
+  const cards = useUILayoutStore((s) => s.stageChatCards);
+  const pushStageChatCard = useUILayoutStore((s) => s.pushStageChatCard);
+  const clearStageChatCards = useUILayoutStore((s) => s.clearStageChatCards);
   const [visibility, setVisibility] = useState<'public' | 'whisper_gm' | 'blind_gm'>('public');
   const [quickFormula, setQuickFormula] = useState('2d10 + 4');
   const [appliedCardIds, setAppliedCardIds] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
+    if (!useGlobalListener) return undefined;
     const unsub = VttEventBus.on('stage-chat-card', (card) => {
-      if (!card) return;
-      // Suppress incoming remote whispers for Operatives unless they authored them
-      if (!isArchitect && card.visibility === 'whisper_gm' && card.remote) {
-        return;
+      const safeCard = sanitizeCardForRole(card, isArchitect);
+      if (safeCard) {
+        pushStageChatCard(safeCard, false);
       }
-      const safeCard: ChatRollCard =
-        !isArchitect && card.visibility === 'blind_gm'
-          ? {
-              id: card.id,
-              timestamp: card.timestamp,
-              sender: card.sender,
-              ...(card.senderRole !== undefined ? { senderRole: card.senderRole } : {}),
-              ...(card.senderId !== undefined ? { senderId: card.senderId } : {}),
-              visibility: 'blind_gm',
-              kind: card.kind,
-              title: '[BLIND GM ROLL]',
-              body: 'Resolved in secret by the Architect.',
-              ...(card.remote !== undefined ? { remote: card.remote } : {})
-            }
-          : card;
-      setCards((prev) => {
-        if (prev.some((c) => c.id === safeCard.id)) return prev;
-        return [safeCard, ...prev].slice(0, 25);
-      });
     });
-    return unsub;
-  }, [isArchitect]);
+    const unsubChat = VttEventBus.on('chat-message', (msg) => {
+      if (!msg || !msg.text) return;
+      const card: ChatRollCard = {
+        id: (msg as any).id || `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        timestamp: msg.timestamp || new Date().toISOString(),
+        sender: msg.sender || 'Stage',
+        visibility: 'public',
+        kind: msg.type === 'system' ? 'system' : 'narration',
+        title: (msg as any).title || msg.sender || 'Stage Comms',
+        body: msg.text
+      };
+      pushStageChatCard(card, false);
+    });
+    return () => {
+      unsub();
+      unsubChat();
+    };
+  }, [isArchitect, useGlobalListener, pushStageChatCard]);
 
   const handleApplyDamageCard = (card: ChatRollCard, multiplier: number) => {
     if (!isArchitect) return;
@@ -134,28 +159,73 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
 
   const handleQuickRoll = (e: React.FormEvent) => {
     e.preventDefault();
-    const match = quickFormula.trim().match(/^(\d*)d10\s*([+-]\s*\d+)?$/i);
-    const mod = match && match[2] ? parseInt(match[2].replace(/\s+/g, ''), 10) : 0;
-    const check = resolveTangent2d10Check({ modifier: mod, targetCR: 15, isOpposed: false });
-    const card: ChatRollCard = {
-      id: `roll_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-      timestamp: new Date().toISOString(),
-      sender: selectedToken?.name || (isArchitect ? 'Architect' : 'Operative'),
-      visibility,
-      kind: 'dice',
-      title: `2d10 Check (${quickFormula})`,
-      body: `Rolled [${check.d1}, ${check.d2}] ${mod >= 0 ? `+${mod}` : mod} => ${check.total}`,
-      diceBreakdown: {
-        d1: check.d1,
-        d2: check.d2,
-        modifier: mod,
-        total: check.total,
-        dcOrCr: 15,
-        outcome: check.isCrit ? 'CRIT +10' : check.isFumble ? 'GLITCH -10' : check.isSuccess ? 'SUCCESS' : 'MISS',
-        crit: check.isCrit,
-        fumble: check.isFumble
+    const raw = quickFormula.trim();
+    if (!raw) return;
+
+    const tangentMatch = raw.match(/^(?:\/roll\s+|\/r\s+)?2d10(?:\s*([+-]\s*\d+))?(?:\s*(?:vs|cr|dc)\s*(\d+))?$/i);
+    const arbitraryDiceMatch = raw.match(/^(?:\/roll\s+|\/r\s+)?(\d*d\d+(?:\s*[+-]\s*(?:\d*d\d+|\d+))*)$/i);
+
+    let card: ChatRollCard;
+    if (tangentMatch) {
+      const mod = tangentMatch[1] ? parseInt(tangentMatch[1].replace(/\s+/g, ''), 10) : 0;
+      const targetCr = tangentMatch[2] ? parseInt(tangentMatch[2], 10) : 15;
+      const check = resolveTangent2d10Check({ modifier: mod, targetCR: targetCr, isOpposed: false });
+      card = {
+        id: `roll_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        timestamp: new Date().toISOString(),
+        sender: selectedToken?.name || (isArchitect ? 'Architect' : 'Operative'),
+        visibility,
+        kind: 'dice',
+        title: `2d10 Check (${raw})`,
+        body: `Rolled [${check.d1}, ${check.d2}] ${mod >= 0 ? `+${mod}` : mod} => ${check.total} vs CR ${targetCr}`,
+        diceBreakdown: {
+          d1: check.d1,
+          d2: check.d2,
+          modifier: mod,
+          total: check.total,
+          dcOrCr: targetCr,
+          outcome: check.isCrit ? 'CRIT +10' : check.isFumble ? 'GLITCH -10' : check.isSuccess ? 'SUCCESS' : 'MISS',
+          crit: check.isCrit,
+          fumble: check.isFumble
+        }
+      };
+    } else if (arbitraryDiceMatch && arbitraryDiceMatch[1]) {
+      const expr = arbitraryDiceMatch[1].replace(/\s+/g, '');
+      try {
+        const res = new DiceASTParser().evaluateExpression(expr, selectedToken?.id);
+        card = {
+          id: `dice_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          timestamp: new Date().toISOString(),
+          sender: selectedToken?.name || (isArchitect ? 'Architect' : 'Operative'),
+          visibility,
+          kind: 'dice',
+          title: `Roll (${expr})`,
+          body: `Total: ${res.total} (${res.breakdown})`
+        };
+      } catch (err: any) {
+        card = {
+          id: `dice_err_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          timestamp: new Date().toISOString(),
+          sender: 'System',
+          visibility: 'public',
+          kind: 'system',
+          title: `Invalid Dice Formula`,
+          body: err?.message || `Could not parse "${expr}".`
+        };
       }
-    };
+    } else {
+      card = {
+        id: `chat_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        timestamp: new Date().toISOString(),
+        sender: selectedToken?.name || (isArchitect ? 'Architect' : 'Operative'),
+        visibility,
+        kind: 'narration',
+        title: isArchitect ? 'Architect Broadcast' : 'Operative Comms',
+        body: raw
+      };
+      setQuickFormula('');
+    }
+
     getVttMultiplayerSync().broadcastChatCard(card);
     VttEventBus.emit('stage-chat-card', card);
     AudioService.playTerminalBeep(1280, 0.04);
@@ -179,17 +249,28 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
           type="text"
           value={quickFormula}
           onChange={(e) => setQuickFormula(e.target.value)}
-          placeholder="2d10 + 4"
+          placeholder="2d10 + 4, 1d6+2, or chat message..."
           className="flex-1 min-w-0 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[10px] text-emerald-300 outline-none"
         />
         <button
           type="submit"
           className="px-2 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold flex items-center gap-1 cursor-pointer"
-          title="Roll 2d10 Card"
+          title="Roll Formula or Send Chat Message"
         >
           <Send size={10} />
-          <span>Roll</span>
+          <span>Send</span>
         </button>
+        {isArchitect && cards.length > 0 && (
+          <button
+            type="button"
+            onClick={() => clearStageChatCards()}
+            className="p-1 rounded bg-slate-900 hover:bg-rose-950/60 border border-slate-700 text-slate-400 hover:text-rose-300 cursor-pointer"
+            title="Clear Roll & Chat History"
+            aria-label="Clear Roll Feed"
+          >
+            <Trash2 size={10} />
+          </button>
+        )}
       </form>
 
       {/* Interactive Roll Cards Stream */}

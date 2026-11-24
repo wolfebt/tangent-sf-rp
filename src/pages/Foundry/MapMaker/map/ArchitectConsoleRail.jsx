@@ -10,6 +10,7 @@ import {
 } from './MapAssetCatalog';
 import {
   MousePointer,
+  Hand,
   Shield,
   Eye,
   Paintbrush,
@@ -90,8 +91,10 @@ export const ArchitectConsoleRail = ({
   onToggleWallShadows,
   paintRoofLayer = false,
   onTogglePaintRoofLayer,
-  rulerAvailableAp = 4,
-  setRulerAvailableAp,
+  rulerSelectedPace = 'walk',
+  setRulerSelectedPace,
+  measurementUnit = 'meters',
+  setMeasurementUnit,
   activeSensorMode = 'standard_optical',
   setActiveSensorMode,
   // Lighting options
@@ -282,9 +285,25 @@ export const ArchitectConsoleRail = ({
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         filteredObjects={filteredObjects}
+        pencilColor={pencilColor}
+        setPencilColor={setPencilColor}
+        pencilWidth={pencilWidth}
+        setPencilWidth={setPencilWidth}
+        textLabelInput={textLabelInput}
+        setTextLabelInput={setTextLabelInput}
+        textColor={textColor}
+        setTextColor={setTextColor}
+        textSize={textSize}
+        setTextSize={setTextSize}
+        tokenType={tokenType}
+        setTokenType={setTokenType}
         tokenLabelInput={tokenLabelInput}
         setTokenLabelInput={setTokenLabelInput}
         onOpenOmnicortexLink={onOpenOmnicortexLink}
+        rulerSelectedPace={rulerSelectedPace}
+        setRulerSelectedPace={setRulerSelectedPace}
+        measurementUnit={measurementUnit}
+        setMeasurementUnit={setMeasurementUnit}
         fogEnabled={fogEnabled}
         setFogEnabled={setFogEnabled}
         onOpenAssetManager={onOpenAssetManager}
@@ -486,6 +505,7 @@ export const ArchitectConsoleRail = ({
                 {t.id === 'fog' && <Eye size={18} />}
                 {t.id === 'eraser' && <Sparkles size={18} />}
                 {t.id === 'select' && <MousePointer size={18} />}
+                {t.id === 'pan' && <Hand size={18} />}
                 {t.id === 'chunk' && <Blocks size={18} />}
 
                 {/* Active Indicator */}

@@ -91,7 +91,14 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
     currentMap,
     userRole: isArchitectRole ? userRole : 'operative',
     collectionRoot: stageUniverse?.id ? 'user_stories' : 'Campaigns',
-    skipCanvasEvents: true
+    skipCanvasEvents: true,
+    onRemoteTurnUpdate: (turnState) => {
+      useUILayoutStore.getState().setTurnState({
+        roundNumber: turnState.roundNumber,
+        currentTurnIndex: turnState.currentTurnIndex,
+        ...(turnState.initiativeScores ? { initiativeScores: turnState.initiativeScores } : {})
+      });
+    }
   });
 
   const speakerBadges = useMemo(() => {
@@ -128,14 +135,23 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
     AudioService.playTerminalBeep(next ? 1500 : 900, 0.04);
   };
 
-  // Global hotkey V to toggle 2D / 3D Stage
+  // Global hotkey V (or Shift+V anytime) to toggle 2D / 3D Stage without colliding with Design Select (V)
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const activeEl = document.activeElement;
-      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || (activeEl as HTMLElement).isContentEditable)) {
+      const activeEl = document.activeElement as HTMLElement | null;
+      if (
+        activeEl &&
+        (activeEl.tagName === 'INPUT' ||
+          activeEl.tagName === 'TEXTAREA' ||
+          activeEl.tagName === 'SELECT' ||
+          activeEl.isContentEditable ||
+          activeEl.getAttribute?.('contenteditable') === 'true' ||
+          Boolean(activeEl.closest?.('[contenteditable="true"]')))
+      ) {
         return;
       }
-      if (e.key.toLowerCase() === 'v' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
+      const designActive = isArchitectActive || useUILayoutStore.getState().isDesignModeActive;
+      if (e.key.toLowerCase() === 'v' && !e.ctrlKey && !e.altKey && (e.shiftKey || !designActive)) {
         e.preventDefault();
         toggle3DActive();
         AudioService.playTerminalBeep(!is3DActive ? 880 : 440, 0.05);
@@ -143,7 +159,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [toggle3DActive, is3DActive]);
+  }, [toggle3DActive, is3DActive, isArchitectActive]);
 
   // Handle Drag & Drop Token Spawning directly onto The Stage
   const handleDragOver = (e: React.DragEvent) => {
@@ -542,7 +558,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           )}
 
           {/* Floating Contextual Action Pill (Fitts's Law on-canvas token HUD) */}
-          <TokenContextualPill />
+          <TokenContextualPill isArchitectRole={isArchitectRole} />
 
           {/* Empty Stage Quick-Start Fallback Overlay */}
           {(!currentMap || availableMaps.length === 0) && (

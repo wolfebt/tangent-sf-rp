@@ -10,7 +10,7 @@
  */
 
 import React, { useState, useEffect, useMemo, useRef, Suspense } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { 
   Crosshair, 
   FolderTree, 
@@ -37,6 +37,7 @@ import type { StageViewProps } from './StageView';
 import { useCampaign } from '../../context/CampaignContext';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
+import { useBastion } from '../../context/BastionContext';
 import { useEngineStore, selectAllFusedTokens, type StaticEntity } from '../../engine/state/VolatileSharder.ts';
 import { useUILayoutStore, type UserVttRole } from './store/uiLayoutStore';
 import { AudioService } from '../../services/audioService';
@@ -44,7 +45,10 @@ import { VttEventBus } from '../../utils/vttEventBus';
 import { getVttMultiplayerSync } from '../../services/vttMultiplayerSyncService';
 import { StageAudioMixerDrawer } from './stage/StageAudioMixerDrawer';
 import { HandoutBroadcastOverlay } from './stage/HandoutBroadcastOverlay';
-import { StageChatRollFeed } from './stage/StageChatRollFeed';
+import { StageChatRollFeed, sanitizeCardForRole } from './stage/StageChatRollFeed';
+import { StageTurnTrackerDrawer } from './stage/StageTurnTrackerDrawer';
+import SyncConflictModal from '../StoryFoundry/SyncConflictModal';
+import CommandPaletteModal from '../../pages/Foundry/StoryModule/CommandPaletteModal';
 import { QuickJSSandbox } from '../../engine/scripting/QuickJSSandbox';
 import { dispatchStageMacroActions } from '../../services/stageMacroDispatcher';
 import { useAdeStore } from '../../pages/Foundry/store/adeStore';
@@ -77,9 +81,19 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
 }) => {
   const isMobile = useIsMobile();
 
+  const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const scenarioIdParam = props.scenarioId || searchParams.get('scenarioId') || undefined;
   const mapIdParam = props.mapId || searchParams.get('mapId') || undefined;
+  const normalizedPath = (location.pathname || '').replace(/\/+$/, '');
+  const isFoundryRoute = normalizedPath.startsWith('/foundry');
+
+  const isCommandPaletteOpen = useAdeStore((s) => Boolean(s.modals?.commandPalette));
+  const setAdeModal = useAdeStore((s) => s.setModal);
+  const setAdeView = useAdeStore((s) => s.setActiveView);
+  const setStoryTab = useAdeStore((s) => s.setStoryWorkspaceTab);
+  const setStageTab = useAdeStore((s) => s.setStageWorkspaceTab);
 
 
   // Layout & Tool Reactive State
@@ -118,11 +132,37 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     setPencilColor,
     pencilWidth,
     setPencilWidth,
+    textLabelInput,
+    setTextLabelInput,
+    textColor,
+    setTextColor,
+    textSize,
+    setTextSize,
+    rulerSelectedPace,
+    setRulerSelectedPace,
+    measurementUnit,
+    setMeasurementUnit,
+    tokenType,
+    setTokenType,
     selectedObjectType,
-    setSelectedObjectType
+    setSelectedObjectType,
+    activeSensorMode,
+    setActiveSensorMode,
+    unreadChatCardCount,
+    pushStageChatCard,
+    resetUnreadChatCards,
+    roundNumber,
+    isTurnTrackerOpen,
+    setTurnTrackerOpen,
+    toggleTurnTracker,
+    tokenLabelInput,
+    setTokenLabelInput,
+    selectedRegionType,
+    setSelectedRegionType
   } = useUILayoutStore();
 
-  const [tokenLabelInput, setTokenLabelInput] = useState('Tactical Operator');
+  const [fogEnabled, setFogEnabled] = useState(false);
+  const [newLayerNameInput, setNewLayerNameInput] = useState('');
   const [isModuleIngestionOpen, setIsModuleIngestionOpen] = useState(false);
   const [isStageSettingsOpen, setIsStageSettingsOpen] = useState(false);
   const [isStageAimeOpen, setIsStageAimeOpen] = useState(false);
@@ -152,7 +192,12 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     addMap,
     activeScenarioId: contextActiveScenarioId,
     setActiveScenarioId,
-    getActiveGemsText
+    getActiveGemsText,
+    elementsCatalog,
+    syncConflict,
+    resolveConflictOverwrite,
+    resolveConflictPull,
+    resolveConflictCancel
   } = useCampaign() as any;
 
   const queryRole = searchParams.get('role')?.toLowerCase();
@@ -176,6 +221,10 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
 
   const effectiveRole: UserVttRole = isRoleLockedOperative ? 'operative' : (userRole || 'architect');
   const isArchitectRole = !isRoleLockedOperative && (effectiveRole === 'architect' || effectiveRole === 'gm');
+  const isRollFeedOpenRef = useRef(isRollFeedOpen);
+  isRollFeedOpenRef.current = isRollFeedOpen;
+  const isArchitectRoleRef = useRef(isArchitectRole);
+  isArchitectRoleRef.current = isArchitectRole;
 
   useEffect(() => {
     if (isRoleLockedOperative) {
@@ -186,6 +235,24 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
       VttEventBus.emit('toggle-stage-design-mode', { active: false });
     }
   }, [isRoleLockedOperative, userRole, activeStageTab, setUserRole, setRightCollapsed]);
+
+  useEffect(() => {
+    if (!isArchitectRole && activeLeftTab === 'scenario') {
+      setActiveLeftTab('cockpit');
+    }
+  }, [isArchitectRole, activeLeftTab, setActiveLeftTab]);
+
+  useEffect(() => {
+    if (isFoundryRoute || !isArchitectRole) return undefined;
+    const handleStandaloneKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setAdeModal('commandPalette', !useAdeStore.getState().modals?.commandPalette);
+      }
+    };
+    window.addEventListener('keydown', handleStandaloneKey);
+    return () => window.removeEventListener('keydown', handleStandaloneKey);
+  }, [isFoundryRoute, isArchitectRole, setAdeModal]);
 
   const handleSelectStageTab = (tab: 'map' | 'tree' | 'architect') => {
     if (tab === 'architect' && isRoleLockedOperative) {
@@ -236,11 +303,42 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
       AudioService.playTerminalBeep(1200, 0.03);
       setIsStageSettingsOpen(true);
     });
+    const offAudioMixer = VttEventBus.on('toggle-stage-audio-mixer', (payload) => {
+      setIsAudioMixerOpen((prev) => (typeof payload?.open === 'boolean' ? payload.open : !prev));
+    });
+    const offHandoutPush = VttEventBus.on('toggle-stage-handout-push', (payload) => {
+      setIsHandoutPushOpen((prev) => (typeof payload?.open === 'boolean' ? payload.open : !prev));
+    });
+    const offChatCard = VttEventBus.on('stage-chat-card', (card) => {
+      const safeCard = sanitizeCardForRole(card, isArchitectRoleRef.current);
+      if (safeCard) {
+        pushStageChatCard(safeCard, !isRollFeedOpenRef.current);
+      }
+    });
+    const offChatMsg = VttEventBus.on('chat-message', (msg) => {
+      if (!msg || !msg.text) return;
+      pushStageChatCard(
+        {
+          id: (msg as any).id || `msg_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          timestamp: msg.timestamp || new Date().toISOString(),
+          sender: msg.sender || 'Stage',
+          visibility: 'public',
+          kind: msg.type === 'system' ? 'system' : 'narration',
+          title: (msg as any).title || msg.sender || 'Stage Comms',
+          body: msg.text
+        },
+        !isRollFeedOpenRef.current
+      );
+    });
     return () => {
       offIngest();
       offOptions();
+      offAudioMixer();
+      offHandoutPush();
+      offChatCard();
+      offChatMsg();
     };
-  }, []);
+  }, [pushStageChatCard]);
 
   const { personaRoster = [], roster = [] } = (useFolio() as any) || {};
   const availableMaps = universeState?.maps || [];
@@ -249,6 +347,10 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   currentMapRef.current = currentMap;
   const updateMapRef = useRef<any>(updateMap);
   updateMapRef.current = updateMap;
+
+  useEffect(() => {
+    setFogEnabled(Boolean(currentMap?.fogEnabled));
+  }, [currentMap?.id, currentMap?.fogEnabled]);
   const folioRosterRef = useRef<any[]>(personaRoster.length ? personaRoster : roster);
   folioRosterRef.current = personaRoster.length ? personaRoster : roster;
   const universeCharsRef = useRef<any[]>(universeState?.characters || []);
@@ -422,6 +524,28 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     return flatScenarios.find((s) => s.id === effectiveScenarioId) || flatScenarios[0] || null;
   }, [flatScenarios, effectiveScenarioId]);
 
+  const { registerSurfaceContext, unregisterSurfaceContext } = (useBastion() as any) || {};
+  useEffect(() => {
+    if (typeof registerSurfaceContext !== 'function') return undefined;
+    registerSurfaceContext('vtt-stage', {
+      surfaceType: 'vtt',
+      role: effectiveRole,
+      mapId: currentMap?.id || null,
+      mapTitle: currentMap?.title || '',
+      scenarioId: activeScenario?.id || null,
+      scenarioTitle: activeScenario?.title || ''
+    });
+    return () => unregisterSurfaceContext?.('vtt-stage');
+  }, [
+    registerSurfaceContext,
+    unregisterSurfaceContext,
+    effectiveRole,
+    currentMap?.id,
+    currentMap?.title,
+    activeScenario?.id,
+    activeScenario?.title
+  ]);
+
   const effectiveMapForWaypoints = useMemo(() => {
     if (props.compiledStage?.map && (!currentMap || props.compiledStage.map.id === currentMap.id)) {
       return {
@@ -516,22 +640,24 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
           <span>CATALOG</span>
         </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setActiveLeftTab('scenario');
-            AudioService.playTerminalBeep(1250, 0.02);
-          }}
-          className={`flex-1 h-7 rounded text-[10px] font-mono font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer border ${
-            activeLeftTab === 'scenario'
-              ? 'bg-purple-950/60 text-purple-300 border-purple-500/50 shadow-[0_0_10px_rgba(168,85,247,0.2)]'
-              : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-900/60'
-          }`}
-          title="ADE Story & Scenario Stage Drawer (Live Beats & Element Deployer)"
-        >
-          <BookOpen size={12} className={activeLeftTab === 'scenario' ? 'text-purple-400' : 'text-slate-500'} />
-          <span>SCENARIO</span>
-        </button>
+        {isArchitectRole && (
+          <button
+            type="button"
+            onClick={() => {
+              setActiveLeftTab('scenario');
+              AudioService.playTerminalBeep(1250, 0.02);
+            }}
+            className={`flex-1 h-7 rounded text-[10px] font-mono font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer border ${
+              activeLeftTab === 'scenario'
+                ? 'bg-purple-950/60 text-purple-300 border-purple-500/50 shadow-[0_0_10px_rgba(168,85,247,0.2)]'
+                : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-900/60'
+            }`}
+            title="ADE Story & Scenario Stage Drawer (Live Beats & Element Deployer)"
+          >
+            <BookOpen size={12} className={activeLeftTab === 'scenario' ? 'text-purple-400' : 'text-slate-500'} />
+            <span>SCENARIO</span>
+          </button>
+        )}
       </div>
 
       {/* Main Panel Content */}
@@ -539,6 +665,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         {activeLeftTab === 'cockpit' && (
           <div className="w-full h-full overflow-hidden">
             <OperativeCockpit
+              embedded={true}
               isCollapsed={isLeftCollapsed}
               onToggleCollapse={toggleLeftCollapse}
               tokens={tokens}
@@ -551,25 +678,62 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
               targetToken={targetToken}
               onSelectTargetToken={(id: string) => setTargetTokenId(id)}
               vttRole={effectiveRole}
+              activeSensorMode={activeSensorMode}
+              onChangeSensorMode={(mode: any) => {
+                setActiveSensorMode(mode);
+                const targetId = selectedTokenId || tokens[0]?.id;
+                if (targetId) {
+                  useEngineStore.getState().setSensorMode(targetId, mode);
+                }
+              }}
+              onDropPing={(pingType: string) => {
+                VttEventBus.emit('request-tactical-ping', { type: pingType });
+              }}
+              onTriggerAttack={(attackerId: string, defenderId: string, netDamage: number) => {
+                const sync = getVttMultiplayerSync();
+                if (!isArchitectRole && !sync.canMoveToken(attackerId)) return;
+                const amt = Math.max(0, Math.round(Number(netDamage) || 0));
+                if (amt > 0) {
+                  useEngineStore.getState().applyDamage(defenderId, amt);
+                  const eph = useEngineStore.getState().ephemeralData[defenderId];
+                  if (eph) sync.broadcastTokenVitals(defenderId, eph);
+                }
+              }}
+              onBroadcastMessage={(text: string) => {
+                VttEventBus.emit('chat-message', {
+                  sender: isArchitectRole ? 'Architect' : 'Operative',
+                  text,
+                  type: 'tactical',
+                  timestamp: new Date().toISOString()
+                });
+              }}
               onUpdateTokenHealth={(id: string, hp: number) => {
+                const sync = getVttMultiplayerSync();
+                if (!isArchitectRole && !sync.canMoveToken(id)) return;
                 useEngineStore.getState().setHealth(id, hp);
                 const eph = useEngineStore.getState().ephemeralData[id];
-                if (eph) getVttMultiplayerSync().broadcastTokenVitals(id, eph);
+                if (eph) sync.broadcastTokenVitals(id, eph);
               }}
               onUpdateTokenVitality={(id: string, vit: number) => {
+                const sync = getVttMultiplayerSync();
+                if (!isArchitectRole && !sync.canMoveToken(id)) return;
                 useEngineStore.getState().setVitality(id, vit);
                 const eph = useEngineStore.getState().ephemeralData[id];
-                if (eph) getVttMultiplayerSync().broadcastTokenVitals(id, eph);
+                if (eph) sync.broadcastTokenVitals(id, eph);
               }}
               onUpdateTokenStructure={(id: string, struct: number) => {
+                const sync = getVttMultiplayerSync();
+                if (!isArchitectRole && !sync.canMoveToken(id)) return;
                 useEngineStore.getState().setStructure(id, struct);
                 const eph = useEngineStore.getState().ephemeralData[id];
-                if (eph) getVttMultiplayerSync().broadcastTokenVitals(id, eph);
+                if (eph) sync.broadcastTokenVitals(id, eph);
               }}
               objects={currentMap?.objects || []}
               currentMap={currentMap}
               onUpdateToken={(id: string, updates: any) => {
-                if (currentMap && updateMap) {
+                const sync = getVttMultiplayerSync();
+                if (!isArchitectRole && !sync.canMoveToken(id)) return;
+                if (isArchitectRole && currentMap && updateMap) {
                   const nextTokens = (currentMap.tokens || []).map((t: any) => t.id === id ? { ...t, ...updates } : t);
                   updateMap(currentMap.id, { tokens: nextTokens });
                 }
@@ -586,16 +750,18 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                 }
                 const eph = useEngineStore.getState().ephemeralData[id];
                 if (eph) {
-                  getVttMultiplayerSync().broadcastTokenVitals(id, eph);
+                  sync.broadcastTokenVitals(id, eph);
                 }
               }}
               onUpdateObject={(id: string, updates: any) => {
+                if (!isArchitectRole) return;
                 if (currentMap && updateMap) {
                   const nextObjs = (currentMap.objects || []).map((o: any) => o.id === id ? { ...o, ...updates } : o);
                   updateMap(currentMap.id, { objects: nextObjs });
                 }
               }}
               onDeleteToken={(id: string) => {
+                if (!isArchitectRole) return;
                 if (currentMap && updateMap) {
                   const nextTokens = (currentMap.tokens || []).filter((t: any) => t.id !== id);
                   updateMap(currentMap.id, { tokens: nextTokens });
@@ -604,12 +770,14 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                 if (selectedTokenId === id) setSelectedTokenId(null);
               }}
               onDeleteObject={(id: string) => {
+                if (!isArchitectRole) return;
                 if (currentMap && updateMap) {
                   const nextObjs = (currentMap.objects || []).filter((o: any) => o.id !== id);
                   updateMap(currentMap.id, { objects: nextObjs });
                 }
               }}
               onDuplicateToken={(id: string) => {
+                if (!isArchitectRole) return;
                 const tok = (currentMap?.tokens || []).find((t: any) => t.id === id);
                 if (!tok || !currentMap || !updateMap) return;
                 const clone = {
@@ -625,6 +793,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                 setSelectedTokenId(clone.id);
               }}
               onDuplicateObject={(id: string) => {
+                if (!isArchitectRole) return;
                 const obj = (currentMap?.objects || []).find((o: any) => o.id === id);
                 if (!obj || !currentMap || !updateMap) return;
                 const clone = {
@@ -638,6 +807,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                 updateMap(currentMap.id, { objects: [...(currentMap.objects || []), clone] });
               }}
               onDeployAsset={(asset: any, pos?: { x: number; y: number }) => {
+                if (!isArchitectRole) return;
                 handleDeployElementFromDrawer(asset, pos);
               }}
               onOpenTacticalModal={(token: any) => {
@@ -649,13 +819,14 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
 
         {activeLeftTab === 'catalog' && (
           <ModuleCatalogPanel
+            isArchitectRole={isArchitectRole}
             onSelectMap={(id) => {
               if (setActiveMapId) setActiveMapId(id);
             }}
           />
         )}
 
-        {activeLeftTab === 'scenario' && (
+        {isArchitectRole && activeLeftTab === 'scenario' && (
           <ADEScenarioStageDrawer
             isOpen={true}
             isInline={true}
@@ -718,6 +889,18 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             setPencilColor={setPencilColor}
             pencilWidth={pencilWidth}
             setPencilWidth={setPencilWidth}
+            textLabelInput={textLabelInput}
+            setTextLabelInput={setTextLabelInput}
+            textColor={textColor}
+            setTextColor={setTextColor}
+            textSize={textSize}
+            setTextSize={setTextSize}
+            rulerSelectedPace={rulerSelectedPace}
+            setRulerSelectedPace={setRulerSelectedPace}
+            measurementUnit={measurementUnit}
+            setMeasurementUnit={setMeasurementUnit}
+            tokenType={tokenType}
+            setTokenType={setTokenType}
             selectedLightColor={selectedLightColor}
             setSelectedLightColor={setSelectedLightColor}
             selectedLightRadius={selectedLightRadius}
@@ -732,10 +915,93 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             }}
             tokenLabelInput={tokenLabelInput}
             setTokenLabelInput={setTokenLabelInput}
+            selectedRegionType={selectedRegionType}
+            setSelectedRegionType={setSelectedRegionType}
+            fogEnabled={fogEnabled}
+            setFogEnabled={(val: boolean) => {
+              const next = Boolean(val);
+              setFogEnabled(next);
+              VttEventBus.emit('toggle-stage-fog', { enabled: next });
+            }}
             currentMapScale={currentMap?.scale || currentMap?.type || 'Encounter'}
             mapLayers={currentMap?.layers || DEFAULT_LAYERS}
             onToggleLayerVisibility={handleToggleLayerVisibility}
             onToggleLayerLock={handleToggleLayerLock}
+            newLayerNameInput={newLayerNameInput}
+            setNewLayerNameInput={setNewLayerNameInput}
+            onAddCustomLayer={(nameOrEvt?: any) => {
+              if (nameOrEvt && typeof nameOrEvt.preventDefault === 'function') {
+                nameOrEvt.preventDefault();
+              }
+              if (!currentMap || !updateMap) return;
+              const rawName = typeof nameOrEvt === 'string' ? nameOrEvt : newLayerNameInput;
+              const trimmed = String(rawName || '').trim();
+              if (!trimmed) return;
+              const existing = currentMap.layers || DEFAULT_LAYERS;
+              const createdLayer = {
+                id: `custom_${Date.now()}`,
+                name: trimmed,
+                visible: true,
+                locked: false,
+                custom: true,
+                opacity: 1
+              };
+              updateMap(currentMap.id, { layers: [...existing, createdLayer] });
+              setNewLayerNameInput('');
+              AudioService.playTerminalBeep(1200, 0.03);
+            }}
+            onDeleteCustomLayer={(layerId: string) => {
+              if (!currentMap || !updateMap) return;
+              const existing = currentMap.layers || DEFAULT_LAYERS;
+              const updated = existing.filter((l: any) => l.id !== layerId);
+              updateMap(currentMap.id, { layers: updated });
+              AudioService.playTerminalBeep(850, 0.03);
+            }}
+            onBatchTokenAction={(action: string) => {
+              const eng = useEngineStore.getState();
+              const sync = getVttMultiplayerSync();
+              const allToks = selectAllFusedTokens(eng);
+              if (action === 'reveal_all' || action === 'stealth_all') {
+                const nextHidden = action === 'stealth_all';
+                allToks.forEach((tok: any) => {
+                  eng.setHidden(tok.id, nextHidden);
+                  const eph = useEngineStore.getState().ephemeralData[tok.id];
+                  if (eph) sync.broadcastTokenVitals(tok.id, eph);
+                });
+                if (currentMap && updateMap) {
+                  updateMap(currentMap.id, {
+                    tokens: (currentMap.tokens || []).map((t: any) => ({ ...t, is_hidden: nextHidden }))
+                  });
+                }
+                AudioService.playTerminalBeep(nextHidden ? 750 : 1200, 0.03);
+              } else if (action === 'heal_party' || action === 'rest_party') {
+                allToks.forEach((tok: any) => {
+                  const maxHp = tok.base_health ?? tok.base_hp ?? 20;
+                  const maxVit = tok.base_vitality ?? 20;
+                  const maxStruct = tok.base_structure ?? 40;
+                  eng.setHealth(tok.id, maxHp);
+                  eng.setVitality(tok.id, maxVit);
+                  eng.setStructure(tok.id, maxStruct);
+                  const eph = useEngineStore.getState().ephemeralData[tok.id];
+                  if (eph) sync.broadcastTokenVitals(tok.id, eph);
+                });
+                VttEventBus.emit('chat-message', {
+                  sender: 'Architect',
+                  text: 'Full Rest / Party Restore applied across all active Stage tokens.',
+                  type: 'system',
+                  timestamp: new Date().toISOString()
+                });
+                AudioService.playCriticalChime(true);
+              }
+            }}
+            onBroadcastMessage={(text: string) => {
+              VttEventBus.emit('chat-message', {
+                sender: 'Architect',
+                text,
+                type: 'system',
+                timestamp: new Date().toISOString()
+              });
+            }}
             customAssets={universeState?.customAssets || { terrains: [], objects: [] }}
             onApplyEnvironmentPreset={(presetOrId: any) => {
               const presetKey = typeof presetOrId === 'string' ? presetOrId : presetOrId?.id;
@@ -808,7 +1074,17 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             onOpenHandoutPush={() => setIsHandoutPushOpen(true)}
             isArchitectRole={isArchitectRole}
             isRollFeedOpen={isRollFeedOpen}
-            onToggleRollFeed={() => setIsRollFeedOpen((v) => !v)}
+            onToggleRollFeed={() =>
+              setIsRollFeedOpen((v) => {
+                const next = !v;
+                if (next) resetUnreadChatCards();
+                return next;
+              })
+            }
+            unreadRollCount={unreadChatCardCount}
+            isTurnTrackerOpen={isTurnTrackerOpen}
+            onToggleTurnTracker={toggleTurnTracker}
+            roundNumber={roundNumber}
             onOpenMacroQuickRun={() => setIsMacroQuickRunOpen((v) => !v)}
           />
         }
@@ -861,7 +1137,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
 
       {/* Active Situational & Temporary Modifiers HUD Strip */}
       {universeState?.galleryModifiers && universeState.galleryModifiers.filter((m: any) => m.isActive).length > 0 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 bg-[#080d18]/92 backdrop-blur-md border border-purple-500/40 rounded-2xl px-3 py-1.5 flex items-center gap-2 shadow-2xl font-mono text-xs select-none max-w-[90vw] overflow-x-auto no-scrollbar animate-in fade-in slide-in-from-bottom-2">
+        <div className="absolute bottom-3 left-3 z-30 bg-[#080d18]/92 backdrop-blur-md border border-purple-500/40 rounded-2xl px-3 py-1.5 flex items-center gap-2 shadow-2xl font-mono text-xs select-none max-w-[38vw] overflow-x-auto no-scrollbar animate-in fade-in slide-in-from-bottom-2">
           <div className="flex items-center gap-1.5 text-purple-400 font-bold uppercase text-[10px] shrink-0 pr-1.5 border-r border-slate-700/80">
             <Sliders size={12} />
             <span>Active Mods:</span>
@@ -968,9 +1244,24 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             selectedToken={tokens.find((t) => t.id === selectedTokenId) || null}
             targetToken={targetToken}
             userRole={effectiveRole}
+            useGlobalListener={false}
           />
         </div>
       )}
+
+      {/* Docked Initiative & Turn Tracker Drawer */}
+      <StageTurnTrackerDrawer
+        isOpen={isTurnTrackerOpen}
+        onClose={() => setTurnTrackerOpen(false)}
+        tokens={tokens}
+        selectedTokenId={selectedTokenId}
+        onSelectToken={(id) => {
+          setSelectedTokenId(id);
+          useEngineStore.getState().clearSelection();
+          useEngineStore.getState().setSelection(id, true);
+        }}
+        isArchitectRole={isArchitectRole}
+      />
 
       {/* Live Macro Quick-Run Popover (Architect Only) */}
       {isArchitectRole && isMacroQuickRunOpen && (
@@ -1058,6 +1349,61 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         onClosePushModal={() => setIsHandoutPushOpen(false)}
         isArchitect={isArchitectRole}
       />
+
+      {!isFoundryRoute && (
+        <>
+          <SyncConflictModal
+            isOpen={!!syncConflict}
+            conflictData={syncConflict}
+            onOverwrite={resolveConflictOverwrite}
+            onPull={resolveConflictPull}
+            onCancel={resolveConflictCancel}
+          />
+          {isArchitectRole && isCommandPaletteOpen && (
+            <CommandPaletteModal
+              isOpen={isCommandPaletteOpen}
+              onClose={() => setAdeModal('commandPalette', false)}
+              universeState={universeState}
+              elementsCatalog={elementsCatalog}
+              onSelectScenario={(scId: string) => {
+                setActiveScenarioId?.(scId);
+                navigate(`/foundry?view=scenarios&tab=write&scenarioId=${encodeURIComponent(scId)}`);
+              }}
+              onEditElement={(el: any) => {
+                useAdeStore.getState().openGuidedElementCreator({ element: el, mode: 'sheet' });
+                navigate('/foundry?view=elements');
+              }}
+              onOpenNewElement={() => {
+                useAdeStore.getState().openGuidedElementCreator({ mode: 'guided' });
+                navigate('/foundry?view=elements');
+              }}
+              onSelectMap={(mapId: string) => {
+                setActiveMapId?.(mapId);
+                navigate(`/foundry/stage?mapId=${encodeURIComponent(mapId)}`);
+              }}
+              onSwitchView={(view: string, tab?: string) => {
+                if (view === 'stage') {
+                  setAdeView('stage');
+                  if (tab) setStageTab(tab as any);
+                  navigate('/foundry/stage');
+                } else {
+                  if (view) setAdeView(view as any);
+                  if (tab) setStoryTab(tab as any);
+                  navigate(`/foundry?view=${encodeURIComponent(view || 'scenarios')}${tab ? `&tab=${encodeURIComponent(tab)}` : ''}`);
+                }
+              }}
+              onToggleSplitView={() => {
+                useAdeStore.getState().setIsSplitView(!useAdeStore.getState().isSplitView);
+                navigate('/foundry?view=scenarios');
+              }}
+              onOpenModal={(key: string) => {
+                setAdeModal(key as any, true);
+                navigate('/foundry');
+              }}
+            />
+          )}
+        </>
+      )}
 
     </div>
   );

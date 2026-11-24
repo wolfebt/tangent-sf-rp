@@ -43,6 +43,12 @@ export interface UnderlayDecal {
   opacity?: number;
   imageUrl?: string;
   dataUrl?: string;
+  url?: string;
+  visible?: boolean;
+  mediaType?: string;
+  offsetX?: number;
+  offsetY?: number;
+  scale?: number;
   category?: 'scorch' | 'blood' | 'debris' | 'grate' | 'wire' | 'stain';
 }
 
@@ -132,8 +138,9 @@ export class MapGraphicsCompiler {
       if (t.textureUrl) imageUrls.push(t.textureUrl);
     }
     for (const u of options.underlays || []) {
-      if (u?.imageUrl) imageUrls.push(u.imageUrl);
-      if (u?.dataUrl) imageUrls.push(u.dataUrl);
+      if (!u || u.visible === false || u.mediaType === 'video') continue;
+      const uSrc = u.url || u.imageUrl || u.dataUrl;
+      if (uSrc) imageUrls.push(uSrc);
     }
     for (const o of options.objects || []) {
       if (o?.imageUrl) imageUrls.push(o.imageUrl);
@@ -271,23 +278,26 @@ export class MapGraphicsCompiler {
 
     // 3. Render Z-Layer 10: Underlay, Decals, Spent Brass, Scorch & Blood
     for (const d of underlays) {
-      if (!d) continue;
+      if (!d || d.visible === false || d.mediaType === 'video') continue;
       ctx.save();
-      const dx = d.x ?? 0;
-      const dy = d.y ?? 0;
+      const dx = Number(d.offsetX ?? d.x ?? 0);
+      const dy = Number(d.offsetY ?? d.y ?? 0);
+      const dScale = Number(d.scale || 1);
       ctx.translate(dx, dy);
       if (d.rotation) {
         ctx.rotate((d.rotation * Math.PI) / 180);
       }
-      ctx.globalAlpha = d.opacity ?? 0.85;
+      ctx.globalAlpha = d.opacity ?? 0.55;
 
-      const imgSrc = d.imageUrl || d.dataUrl;
+      const imgSrc = d.url || d.imageUrl || d.dataUrl;
       const cachedUnderlay = imgSrc ? imageCache?.get(imgSrc) : null;
-      const dw = d.width ?? pixelsPerGrid * 0.8;
-      const dh = d.height ?? pixelsPerGrid * 0.8;
+      const fallbackW = cachedUnderlay?.width || pixelsPerGrid * 0.8;
+      const fallbackH = cachedUnderlay?.height || pixelsPerGrid * 0.8;
+      const dw = Number(d.width ?? fallbackW) * dScale;
+      const dh = Number(d.height ?? fallbackH) * dScale;
 
       if (cachedUnderlay) {
-        ctx.drawImage(cachedUnderlay, d.width ? 0 : -dw / 2, d.height ? 0 : -dh / 2, dw, dh);
+        ctx.drawImage(cachedUnderlay, d.width || d.offsetX !== undefined || d.url ? 0 : -dw / 2, d.height || d.offsetY !== undefined || d.url ? 0 : -dh / 2, dw, dh);
       } else if (d.category === 'scorch') {
         ctx.fillStyle = d.color || '#0f172a';
         ctx.beginPath();

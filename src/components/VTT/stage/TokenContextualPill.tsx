@@ -23,6 +23,11 @@ import {
 import { useEngineStore, selectAllFusedTokens, type FusedToken } from '../../../engine/state/VolatileSharder';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
+import { useUILayoutStore } from '../store/uiLayoutStore';
+
+export interface TokenContextualPillProps {
+  isArchitectRole?: boolean;
+}
 
 const QUICK_CONDITIONS = [
   { id: 'cover', label: 'Cover', icon: <ShieldAlert size={10} />, color: 'border-cyan-500/60 text-cyan-300' },
@@ -31,7 +36,12 @@ const QUICK_CONDITIONS = [
   { id: 'stunned', label: 'Stun', icon: <Zap size={10} />, color: 'border-purple-500/60 text-purple-300' }
 ];
 
-export const TokenContextualPill: React.FC = () => {
+export const TokenContextualPill: React.FC<TokenContextualPillProps> = ({ isArchitectRole }) => {
+  const storeRole = useUILayoutStore((s) => s.userRole);
+  const effectiveIsArchitect =
+    typeof isArchitectRole === 'boolean'
+      ? isArchitectRole
+      : storeRole === 'architect' || storeRole === 'gm';
   const fusedTokens = useEngineStore(selectAllFusedTokens);
   const selectedToken: FusedToken | undefined = fusedTokens.find((t: FusedToken) => t.is_selected);
   const [showConditionsDropdown, setShowConditionsDropdown] = useState(false);
@@ -42,8 +52,10 @@ export const TokenContextualPill: React.FC = () => {
   const [effectModInput, setEffectModInput] = useState(0);
 
   if (!selectedToken) return null;
+  if (selectedToken.is_hidden && !effectiveIsArchitect) return null;
 
   const { id, name, elevation_ft = 0, active_conditions = [], active_effects = [], is_hidden } = selectedToken;
+  const canEditToken = effectiveIsArchitect || getVttMultiplayerSync().canMoveToken(id);
 
   const isSynthetic = !!selectedToken.is_synthetic || (selectedToken.species?.toLowerCase().includes('synthetic') ?? false);
   const vitCurrent = selectedToken.current_vitality ?? selectedToken.base_vitality ?? 30;
@@ -62,32 +74,38 @@ export const TokenContextualPill: React.FC = () => {
   };
 
   const handleDamage = (amount: number, isLethal: boolean = true) => {
+    if (!canEditToken) return;
     useEngineStore.getState().applyDamage(id, amount, isLethal);
     broadcastCurrentVitals();
   };
 
   const handleHealVitality = (amount: number) => {
+    if (!canEditToken) return;
     useEngineStore.getState().healVitality(id, amount);
     broadcastCurrentVitals();
   };
 
   const handleHealHealth = (amount: number) => {
+    if (!canEditToken) return;
     useEngineStore.getState().healHealth(id, amount);
     broadcastCurrentVitals();
   };
 
   const handleHealStructure = (amount: number) => {
+    if (!canEditToken) return;
     useEngineStore.getState().healStructure(id, amount);
     broadcastCurrentVitals();
   };
 
   const handleToggleCondition = (condition: string) => {
+    if (!canEditToken) return;
     useEngineStore.getState().toggleCondition(id, condition);
     broadcastCurrentVitals();
   };
 
   const handleAddActiveEffect = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canEditToken) return;
     const cleanName = effectNameInput.trim();
     if (!cleanName) return;
     useEngineStore.getState().addActiveEffect(id, {
@@ -102,15 +120,19 @@ export const TokenContextualPill: React.FC = () => {
   };
 
   const handleRemoveActiveEffect = (effectId: string) => {
+    if (!canEditToken) return;
     useEngineStore.getState().removeActiveEffect(id, effectId);
     broadcastCurrentVitals();
   };
 
   const handleToggleHidden = () => {
+    if (!effectiveIsArchitect) return;
     useEngineStore.getState().toggleHidden(id);
+    broadcastCurrentVitals();
   };
 
   const handleElevationChange = (delta: number) => {
+    if (!canEditToken) return;
     const current = elevation_ft || 0;
     const nextElev = Math.max(0, current + delta);
     useEngineStore.getState().setElevation(id, nextElev);
@@ -136,22 +158,26 @@ export const TokenContextualPill: React.FC = () => {
       {/* Dynamic Survival Bars & Quick Adjustments */}
       {isSynthetic ? (
         <div className="flex items-center bg-slate-950/80 rounded-xl border border-slate-800 p-0.5">
-          <button
-            type="button"
-            onClick={() => handleDamage(5, true)}
-            className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10.5px]"
-            title="Apply -5 Structural Damage"
-          >
-            -5
-          </button>
-          <button
-            type="button"
-            onClick={() => handleDamage(1, true)}
-            className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10.5px]"
-            title="Apply -1 Structural Damage"
-          >
-            -1
-          </button>
+          {canEditToken && (
+            <>
+              <button
+                type="button"
+                onClick={() => handleDamage(5, true)}
+                className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10.5px]"
+                title="Apply -5 Structural Damage"
+              >
+                -5
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDamage(1, true)}
+                className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10.5px]"
+                title="Apply -1 Structural Damage"
+              >
+                -1
+              </button>
+            </>
+          )}
 
           {/* SP Bar & Number */}
           <div className="px-2 flex flex-col items-center justify-center min-w-[80px]">
@@ -169,41 +195,49 @@ export const TokenContextualPill: React.FC = () => {
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => handleHealStructure(1)}
-            className="px-1.5 py-0.5 rounded-lg hover:bg-amber-950/60 text-amber-400 hover:text-amber-300 transition-colors font-bold text-[10.5px]"
-            title="Repair +1 SP"
-          >
-            +1
-          </button>
-          <button
-            type="button"
-            onClick={() => handleHealStructure(5)}
-            className="px-1.5 py-0.5 rounded-lg hover:bg-amber-950/60 text-amber-400 hover:text-amber-300 transition-colors font-bold text-[10.5px]"
-            title="Repair +5 SP"
-          >
-            +5
-          </button>
+          {canEditToken && (
+            <>
+              <button
+                type="button"
+                onClick={() => handleHealStructure(1)}
+                className="px-1.5 py-0.5 rounded-lg hover:bg-amber-950/60 text-amber-400 hover:text-amber-300 transition-colors font-bold text-[10.5px]"
+                title="Repair +1 SP"
+              >
+                +1
+              </button>
+              <button
+                type="button"
+                onClick={() => handleHealStructure(5)}
+                className="px-1.5 py-0.5 rounded-lg hover:bg-amber-950/60 text-amber-400 hover:text-amber-300 transition-colors font-bold text-[10.5px]"
+                title="Repair +5 SP"
+              >
+                +5
+              </button>
+            </>
+          )}
         </div>
       ) : (
         <div className="flex items-center bg-slate-950/80 rounded-xl border border-slate-800 p-0.5 gap-0.5">
-          <button
-            type="button"
-            onClick={() => handleDamage(5, true)}
-            className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10px]"
-            title="Apply -5 Lethal Damage"
-          >
-            -5
-          </button>
-          <button
-            type="button"
-            onClick={() => handleDamage(1, true)}
-            className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10px]"
-            title="Apply -1 Lethal Damage"
-          >
-            -1
-          </button>
+          {canEditToken && (
+            <>
+              <button
+                type="button"
+                onClick={() => handleDamage(5, true)}
+                className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10px]"
+                title="Apply -5 Lethal Damage"
+              >
+                -5
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDamage(1, true)}
+                className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10px]"
+                title="Apply -1 Lethal Damage"
+              >
+                -1
+              </button>
+            </>
+          )}
 
           {/* Dual Vitality & Health Bars */}
           <div className="px-2 flex flex-col items-center justify-center min-w-[90px] gap-0.5">
@@ -240,52 +274,68 @@ export const TokenContextualPill: React.FC = () => {
             )}
           </div>
 
-          <div className="flex flex-col gap-0.5">
-            <button
-              type="button"
-              onClick={() => handleHealVitality(5)}
-              className="px-1 py-0.2 rounded hover:bg-cyan-950/60 text-cyan-400 hover:text-cyan-300 font-bold text-[9px]"
-              title="Restore +5 Vitality (VP)"
-            >
-              +5 VP
-            </button>
-            <button
-              type="button"
-              onClick={() => handleHealHealth(5)}
-              className="px-1 py-0.2 rounded hover:bg-rose-950/60 text-rose-400 hover:text-rose-300 font-bold text-[9px]"
-              title="Restore +5 Health (HP)"
-            >
-              +5 HP
-            </button>
-          </div>
+          {canEditToken && (
+            <div className="flex flex-col gap-0.5">
+              <button
+                type="button"
+                onClick={() => handleHealVitality(5)}
+                className="px-1 py-0.2 rounded hover:bg-cyan-950/60 text-cyan-400 hover:text-cyan-300 font-bold text-[9px]"
+                title="Restore +5 Vitality (VP)"
+              >
+                +5 VP
+              </button>
+              <button
+                type="button"
+                onClick={() => handleHealHealth(5)}
+                className="px-1 py-0.2 rounded hover:bg-rose-950/60 text-rose-400 hover:text-rose-300 font-bold text-[9px]"
+                title="Restore +5 Health (HP)"
+              >
+                +5 HP
+              </button>
+            </div>
+          )}
         </div>
       )}
 
       {/* Elevation Controls */}
       <div className="flex items-center bg-slate-950/80 rounded-xl border border-slate-800 px-1 py-0.5 gap-0.5">
-        <button
-          type="button"
-          onClick={() => handleElevationChange(5)}
-          className="p-1 hover:bg-slate-800 rounded-lg text-slate-300 hover:text-cyan-300 transition-colors"
-          title="Raise Elevation (+5 ft)"
-        >
-          <ArrowUp size={11} />
-        </button>
+        {canEditToken && (
+          <button
+            type="button"
+            onClick={() => handleElevationChange(5)}
+            className="p-1 hover:bg-slate-800 rounded-lg text-slate-300 hover:text-cyan-300 transition-colors"
+            title="Raise Elevation (+5 ft)"
+            aria-label="Raise elevation"
+          >
+            <ArrowUp size={11} />
+          </button>
+        )}
         <span className="text-[10px] text-slate-300 min-w-[32px] text-center font-bold">
           {elevation_ft}ft
         </span>
-        <button
-          type="button"
-          onClick={() => handleElevationChange(-5)}
-          className="p-1 hover:bg-slate-800 rounded-lg text-slate-300 hover:text-cyan-300 transition-colors"
-          title="Lower Elevation (-5 ft)"
-        >
-          <ArrowDown size={11} />
-        </button>
+        {canEditToken && (
+          <button
+            type="button"
+            onClick={() => handleElevationChange(-5)}
+            className="p-1 hover:bg-slate-800 rounded-lg text-slate-300 hover:text-cyan-300 transition-colors"
+            title="Lower Elevation (-5 ft)"
+            aria-label="Lower elevation"
+          >
+            <ArrowDown size={11} />
+          </button>
+        )}
       </div>
 
-      {/* Quick Condition Toggles */}
-      <div className="relative">
+      {!canEditToken && (
+        <span className="px-1.5 py-0.5 rounded-lg bg-slate-900 border border-slate-700 text-[9px] uppercase tracking-wider font-bold text-slate-400">
+          READ-ONLY
+        </span>
+      )}
+
+      {/* Quick Condition & Active Effect Controls */}
+      {canEditToken && (
+        <>
+          <div className="relative">
         <button
           type="button"
           onClick={() => setShowConditionsDropdown(prev => !prev)}
@@ -444,6 +494,8 @@ export const TokenContextualPill: React.FC = () => {
           </div>
         )}
       </div>
+        </>
+      )}
 
       {/* Tactical Play Cockpit Button */}
       <button
@@ -458,19 +510,22 @@ export const TokenContextualPill: React.FC = () => {
         <span className="hidden sm:inline">PLAY</span>
       </button>
 
-      {/* Player Visibility Toggle (Eye) */}
-      <button
-        type="button"
-        onClick={handleToggleHidden}
-        className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
-          is_hidden
-            ? 'bg-red-950/60 border-red-500/60 text-red-300 shadow-[0_0_8px_rgba(239,68,68,0.3)]'
-            : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-cyan-300 hover:border-cyan-500/40'
-        }`}
-        title={is_hidden ? "Entity Hidden from Operators (Click to Reveal)" : "Entity Visible to Operators (Click to Hide)"}
-      >
-        {is_hidden ? <EyeOff size={13} /> : <Eye size={13} />}
-      </button>
+      {/* Player Visibility Toggle (Eye) — Architect Only */}
+      {effectiveIsArchitect && (
+        <button
+          type="button"
+          onClick={handleToggleHidden}
+          className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
+            is_hidden
+              ? 'bg-red-950/60 border-red-500/60 text-red-300 shadow-[0_0_8px_rgba(239,68,68,0.3)]'
+              : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-cyan-300 hover:border-cyan-500/40'
+          }`}
+          title={is_hidden ? "Entity Hidden from Operators (Click to Reveal)" : "Entity Visible to Operators (Click to Hide)"}
+          aria-label="Toggle token visibility"
+        >
+          {is_hidden ? <EyeOff size={13} /> : <Eye size={13} />}
+        </button>
+      )}
 
       {/* Deselect / Close Button */}
       <button
@@ -478,6 +533,7 @@ export const TokenContextualPill: React.FC = () => {
         onClick={handleDeselect}
         className="p-1.5 rounded-xl bg-slate-950/80 hover:bg-slate-800 border border-slate-800 text-slate-500 hover:text-slate-200 transition-colors cursor-pointer"
         title="Deselect Token (Esc)"
+        aria-label="Deselect token"
       >
         <X size={13} />
       </button>

@@ -187,6 +187,31 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
           .catch(() => {});
       }
 
+      // Calibrated Blueprint Underlay
+      const underlayContainer = new Container();
+      bgLayer.addChild(underlayContainer);
+      const activeUnderlay = mapData?.underlay || (Array.isArray(mapData?.underlays) ? mapData.underlays[0] : null);
+      const underlaySrc =
+        activeUnderlay && activeUnderlay.visible !== false && activeUnderlay.mediaType !== 'video'
+          ? activeUnderlay.url || activeUnderlay.imageUrl || activeUnderlay.dataUrl
+          : null;
+      if (underlaySrc) {
+        Assets.load(underlaySrc)
+          .then((tex) => {
+            if (!isCancelled && !underlayContainer.destroyed && tex) {
+              const uSprite = new Sprite(tex);
+              const uScale = Number(activeUnderlay.scale || 1);
+              uSprite.x = Number(activeUnderlay.offsetX ?? activeUnderlay.x ?? 0);
+              uSprite.y = Number(activeUnderlay.offsetY ?? activeUnderlay.y ?? 0);
+              uSprite.scale.set(uScale);
+              uSprite.alpha = Number(activeUnderlay.opacity ?? 0.55);
+              uSprite.eventMode = 'none';
+              underlayContainer.addChild(uSprite);
+            }
+          })
+          .catch(() => {});
+      }
+
       // Base ground terrains (roof canopies render onto ZLayer.RoofCanopy above tokens)
       const tg = new Graphics();
       visibleTerrains.filter((t: any) => !t?.isRoofLayer).forEach((t: any) => {
@@ -310,18 +335,42 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
         const c = new Container();
         c.x = obj.x || 0;
         c.y = obj.y || 0;
-        const g = new Graphics();
-        const col = parseHexColor(obj.color, 0x3b82f6);
+        if (obj.rotation) c.rotation = (obj.rotation * Math.PI) / 180;
         const w = obj.width || 30;
         const h = obj.height || 30;
-        if (obj.shape === 'circle') {
-          g.circle(0, 0, Math.max(w, h) / 2);
+        const col = parseHexColor(obj.color, 0x3b82f6);
+
+        if (obj.imageUrl) {
+          Assets.load(obj.imageUrl)
+            .then((tex) => {
+              if (!isCancelled && !c.destroyed && tex) {
+                const sp = new Sprite(tex);
+                sp.anchor.set(0.5, 0.5);
+                sp.width = w;
+                sp.height = h;
+                c.addChildAt(sp, 0);
+              }
+            })
+            .catch(() => {
+              if (!isCancelled && !c.destroyed) {
+                const fallbackG = new Graphics();
+                fallbackG.roundRect(-w / 2, -h / 2, w, h, 4);
+                fallbackG.fill({ color: col, alpha: 0.8 });
+                fallbackG.stroke({ width: 1.5, color: 0xffffff, alpha: 0.7 });
+                c.addChildAt(fallbackG, 0);
+              }
+            });
         } else {
-          g.roundRect(-w / 2, -h / 2, w, h, 4);
+          const g = new Graphics();
+          if (obj.shape === 'circle') {
+            g.circle(0, 0, Math.max(w, h) / 2);
+          } else {
+            g.roundRect(-w / 2, -h / 2, w, h, 4);
+          }
+          g.fill({ color: col, alpha: 0.8 });
+          g.stroke({ width: 1.5, color: 0xffffff, alpha: 0.7 });
+          c.addChild(g);
         }
-        g.fill({ color: col, alpha: 0.8 });
-        g.stroke({ width: 1.5, color: 0xffffff, alpha: 0.7 });
-        c.addChild(g);
         if (obj.label || obj.name) {
           const txt = new PixiText({
             text: obj.label || obj.name,
@@ -566,6 +615,24 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
       ctx.stroke();
     }
 
+    // Calibrated underlay backdrop footprint (Canvas2D fallback)
+    const fallbackUnderlay = mapData?.underlay || (Array.isArray(mapData?.underlays) ? mapData.underlays[0] : null);
+    if (fallbackUnderlay && fallbackUnderlay.visible !== false && fallbackUnderlay.mediaType !== 'video') {
+      const ux = Number(fallbackUnderlay.offsetX ?? fallbackUnderlay.x ?? 0);
+      const uy = Number(fallbackUnderlay.offsetY ?? fallbackUnderlay.y ?? 0);
+      const uScale = Number(fallbackUnderlay.scale || 1);
+      const uw = Number(fallbackUnderlay.width || worldWidth) * uScale;
+      const uh = Number(fallbackUnderlay.height || worldHeight) * uScale;
+      ctx.save();
+      ctx.globalAlpha = Number(fallbackUnderlay.opacity ?? 0.45);
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(ux, uy, uw, uh);
+      ctx.strokeStyle = 'rgba(6, 182, 212, 0.35)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(ux, uy, uw, uh);
+      ctx.restore();
+    }
+
     // Walls (supports curved Bezier walls)
     visibleWalls.forEach((w: any) => {
       const p1 = w.p1 || { x: w.x1 || 0, y: w.y1 || 0 };
@@ -591,6 +658,22 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
       ctx.stroke();
     });
 
+    // Interactive Objects (Canvas2D fallback)
+    visibleObjects.forEach((obj: any) => {
+      const w = obj.width || 30;
+      const h = obj.height || 30;
+      const ox = (obj.x || 0) - w / 2;
+      const oy = (obj.y || 0) - h / 2;
+      ctx.save();
+      ctx.globalAlpha = 0.85;
+      ctx.fillStyle = obj.color || '#3b82f6';
+      ctx.fillRect(ox, oy, w, h);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(ox, oy, w, h);
+      ctx.restore();
+    });
+
     // Tokens
     visibleTokens.forEach((tok: any) => {
       ctx.fillStyle = tok.type === 'hero' || tok.is_persona ? '#06b6d4' : '#8b5cf6';
@@ -603,7 +686,7 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
     });
 
     ctx.restore();
-  }, [useCanvas2DFallback, width, height, scale, position.x, position.y, gridSize, worldWidth, worldHeight, visibleWalls, visibleTokens, activePings]);
+  }, [useCanvas2DFallback, width, height, scale, position.x, position.y, gridSize, worldWidth, worldHeight, visibleWalls, visibleObjects, visibleTokens, activePings, mapData?.underlay, mapData?.underlays]);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     isPanningRef.current = true;

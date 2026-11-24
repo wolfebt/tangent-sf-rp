@@ -143,6 +143,17 @@ export const ArtistHubModal = ({
     }
   }, [isOpen, initialPrompt, initialStyle, initialTemplate, elementContext]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   const activeStyle = useMemo(() => getArtistStyleById(styleId), [styleId]);
   const activeTemplate = useMemo(() => getArtistTemplateById(templateId), [templateId]);
 
@@ -274,8 +285,16 @@ export const ArtistHubModal = ({
   };
 
   const modalContent = (
-    <div className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-6 sm:pt-10 pb-10 overflow-y-auto font-sans select-none animate-fadeIn">
-      <div className="w-full max-w-4xl bg-[#0d1117] border border-purple-500/70 rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.35)] flex flex-col max-h-[90vh] overflow-hidden">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+      className="fixed inset-0 z-[280] bg-black/85 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-6 sm:pt-10 pb-10 overflow-y-auto font-sans select-none animate-fadeIn"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-4xl bg-[#0d1117] border border-purple-500/70 rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.35)] flex flex-col max-h-[90vh] overflow-hidden"
+      >
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 bg-[#161b22] border-b border-purple-500/30 shrink-0">
           <div className="flex items-center gap-3">

@@ -1,11 +1,11 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useStory } from '../../context/CampaignContext';
 import { useDBM } from '../../context/DBMContext';
 import { useFolio } from '../../context/FolioContext';
 import { persistAdeElement } from '../../utils/adeElementPersistence';
 import { exportElementJSON, exportElementMarkdown, exportElementPDF } from '../../pages/Foundry/StoryModule/exportUtils';
 import EditElementModal from '../../pages/Foundry/ElementForge/EditElementModal';
-import { ELEMENT_TYPES } from '../../pages/Foundry/ElementForge/elementSchemas';
+import { ELEMENT_TYPES, normalizeElementType } from '../../pages/Foundry/ElementForge/elementSchemas';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { generateTempHandle } from '../../utils/personaValidationUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
@@ -67,7 +67,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
   // Tab 2: Elements Catalog Search, Filter & Sort State
   const [elementSearch, setElementSearch] = useState('');
-  const [elementTypeFilter, setElementTypeFilter] = useState('Scenario');
+  const [elementTypeFilter, setElementTypeFilter] = useState('All');
   const [elementSortBy, setElementSortBy] = useState('recent'); // 'recent' | 'title_asc' | 'title_desc' | 'type' | 'author'
   const [openElementMenuId, setOpenElementMenuId] = useState(null);
 
@@ -98,7 +98,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     }
   };
 
-  const handleCreateNewElement = (typeStr = 'Scenario') => {
+  const handleCreateNewElement = (typeStr = 'Scene') => {
     const rawElem = {
       id: `elem_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       title: `New ${typeStr}`,
@@ -184,7 +184,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
     // Type filter
     if (elementTypeFilter !== 'All') {
-      list = list.filter(elem => (elem.type || 'Custom').toLowerCase() === elementTypeFilter.toLowerCase());
+      const normalizedFilter = normalizeElementType(elementTypeFilter);
+      list = list.filter(elem => normalizeElementType(elem.type || 'Custom') === normalizedFilter);
     }
 
     // Search filter
@@ -254,6 +255,22 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
     return list;
   }, [mapsCatalog, mapSearch, mapSortBy]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onEsc = (e) => {
+      if (e.key !== 'Escape') return;
+      if (isEditModalOpen) return;
+      e.preventDefault();
+      if (isCreatingStory) {
+        setIsCreatingStory(false);
+      } else {
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, [isOpen, isCreatingStory, isEditModalOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -429,7 +446,12 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
+    <div
+      className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+    >
       <div className="bg-[#161b22] border-2 border-cyan-400/80 rounded-2xl w-full max-w-6xl xl:max-w-7xl max-h-[88vh] sm:max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden text-slate-200">
         
         {/* Top Header & Tab Switcher */}
@@ -971,15 +993,10 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                   onChange={(e) => setElementTypeFilter(e.target.value)}
                   className="bg-slate-950 border border-slate-700 text-xs font-bold text-amber-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-amber-500 cursor-pointer"
                 >
-                  <option value="Scenario">Scenario</option>
-                  <option value="Character">Character</option>
-                  <option value="Location">Location</option>
-                  <option value="Faction">Faction</option>
-                  <option value="Item">Item</option>
-                  <option value="Clue">Clue</option>
-                  <option value="Lore">Lore</option>
-                  <option value="Custom">Custom</option>
                   <option value="All">All Element Types</option>
+                  {ELEMENT_TYPES.map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
                 </select>
               </div>
 
@@ -1235,7 +1252,12 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
         {/* Create New Story Dialog Overlay */}
         {isCreatingStory && (
-          <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-4 pt-16 pb-12 overflow-y-auto select-none font-sans">
+          <div
+            className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-4 pt-16 pb-12 overflow-y-auto select-none font-sans"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setIsCreatingStory(false);
+            }}
+          >
             <div className="bg-[#161b22] border border-cyan-500/60 rounded-xl max-w-md w-full p-6 shadow-2xl space-y-4">
               <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
                 <span className="text-xl">✨</span>

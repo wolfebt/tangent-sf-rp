@@ -67,7 +67,7 @@ export const DashboardCatalogPanel = () => {
   // Search and Sort states
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('recent'); // 'custom' | 'recent' | 'name_asc' | 'name_desc'
-  const [activeFolderId, setActiveFolderId] = useState('unfiled'); // 'unfiled' | folderId | 'all'
+  const [activeFolderId, setActiveFolderId] = useState('all'); // 'unfiled' | folderId | 'all'
 
   // Folder system state
   const [folders, setFolders] = useState(() => getFolders());

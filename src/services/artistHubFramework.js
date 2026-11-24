@@ -598,3 +598,30 @@ export function compileModularArtistPrompt({
     template
   };
 }
+
+/**
+ * Builds a non-destructive update patch applying an Artist Hub concept payload
+ * (image URL, compiled prompt, style, template) onto an ADE element or story node.
+ */
+export function buildArtistConceptPatch(existing = {}, asset = {}, { fillContent = false } = {}) {
+  const img = asset?.url || asset?.imageUrl || '';
+  const promptText = String(asset?.prompt || '').trim();
+  const prevFields = existing?.fields && typeof existing.fields === 'object' ? existing.fields : {};
+
+  return {
+    ...(img ? { imageUrl: img } : {}),
+    ...(fillContent && !existing?.content && promptText ? { content: promptText } : {}),
+    fields: {
+      ...prevFields,
+      ...(!prevFields.summary && promptText ? { summary: promptText.slice(0, 160) } : {}),
+      ...(promptText
+        ? {
+            visualConceptPrompt: promptText,
+            artistStyle: asset?.style || asset?.styleId || '',
+            artistTemplate: asset?.template || asset?.templateId || ''
+          }
+        : {})
+    },
+    updatedAt: new Date().toISOString()
+  };
+}
