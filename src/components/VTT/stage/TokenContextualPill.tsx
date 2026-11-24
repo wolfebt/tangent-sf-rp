@@ -20,9 +20,9 @@ import {
   Cpu,
   AlertTriangle
 } from 'lucide-react';
-import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
-import type { FusedToken } from '../../../engine/index';
+import { useEngineStore, selectAllFusedTokens, type FusedToken } from '../../../engine/state/VolatileSharder';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 
 const QUICK_CONDITIONS = [
   { id: 'cover', label: 'Cover', icon: <ShieldAlert size={10} />, color: 'border-cyan-500/60 text-cyan-300' },
@@ -35,10 +35,15 @@ export const TokenContextualPill: React.FC = () => {
   const fusedTokens = useEngineStore(selectAllFusedTokens);
   const selectedToken: FusedToken | undefined = fusedTokens.find((t: FusedToken) => t.is_selected);
   const [showConditionsDropdown, setShowConditionsDropdown] = useState(false);
+  const [showEffectsDropdown, setShowEffectsDropdown] = useState(false);
+  const [effectNameInput, setEffectNameInput] = useState('');
+  const [effectRoundsInput, setEffectRoundsInput] = useState(3);
+  const [effectDotInput, setEffectDotInput] = useState(0);
+  const [effectModInput, setEffectModInput] = useState(0);
 
   if (!selectedToken) return null;
 
-  const { id, name, elevation_ft = 0, active_conditions = [], is_hidden } = selectedToken;
+  const { id, name, elevation_ft = 0, active_conditions = [], active_effects = [], is_hidden } = selectedToken;
 
   const isSynthetic = !!selectedToken.is_synthetic || (selectedToken.species?.toLowerCase().includes('synthetic') ?? false);
   const vitCurrent = selectedToken.current_vitality ?? selectedToken.base_vitality ?? 30;
@@ -49,24 +54,56 @@ export const TokenContextualPill: React.FC = () => {
   const structMax = selectedToken.base_structure ?? 60;
   const stabilityPoints = selectedToken.stability_points ?? 10;
 
+  const broadcastCurrentVitals = () => {
+    const eph = useEngineStore.getState().ephemeralData[id];
+    if (eph) {
+      getVttMultiplayerSync().broadcastTokenVitals(id, eph);
+    }
+  };
+
   const handleDamage = (amount: number, isLethal: boolean = true) => {
     useEngineStore.getState().applyDamage(id, amount, isLethal);
+    broadcastCurrentVitals();
   };
 
   const handleHealVitality = (amount: number) => {
     useEngineStore.getState().healVitality(id, amount);
+    broadcastCurrentVitals();
   };
 
   const handleHealHealth = (amount: number) => {
     useEngineStore.getState().healHealth(id, amount);
+    broadcastCurrentVitals();
   };
 
   const handleHealStructure = (amount: number) => {
     useEngineStore.getState().healStructure(id, amount);
+    broadcastCurrentVitals();
   };
 
   const handleToggleCondition = (condition: string) => {
     useEngineStore.getState().toggleCondition(id, condition);
+    broadcastCurrentVitals();
+  };
+
+  const handleAddActiveEffect = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanName = effectNameInput.trim();
+    if (!cleanName) return;
+    useEngineStore.getState().addActiveEffect(id, {
+      id: `eff_${Date.now()}_${Math.random().toString(36).slice(2, 5)}`,
+      name: cleanName,
+      remainingRounds: Math.max(1, Number(effectRoundsInput) || 1),
+      tickDamage: Number(effectDotInput) || 0,
+      modifierBonus: Number(effectModInput) || 0
+    });
+    broadcastCurrentVitals();
+    setEffectNameInput('');
+  };
+
+  const handleRemoveActiveEffect = (effectId: string) => {
+    useEngineStore.getState().removeActiveEffect(id, effectId);
+    broadcastCurrentVitals();
   };
 
   const handleToggleHidden = () => {
@@ -75,7 +112,9 @@ export const TokenContextualPill: React.FC = () => {
 
   const handleElevationChange = (delta: number) => {
     const current = elevation_ft || 0;
-    useEngineStore.getState().setElevation(id, Math.max(0, current + delta));
+    const nextElev = Math.max(0, current + delta);
+    useEngineStore.getState().setElevation(id, nextElev);
+    getVttMultiplayerSync().broadcastTokenMove(id, selectedToken.x, selectedToken.y, nextElev);
   };
 
   const handleDeselect = () => {
@@ -291,6 +330,117 @@ export const TokenContextualPill: React.FC = () => {
                 </button>
               );
             })}
+          </div>
+        )}
+      </div>
+
+      {/* Active Effects Chips & Popover Editor */}
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setShowEffectsDropdown((prev) => !prev)}
+          className={`px-2 py-1 rounded-xl border text-[10.5px] font-bold transition-colors flex items-center gap-1 cursor-pointer ${
+            active_effects.length > 0
+              ? 'bg-purple-950/70 border-purple-400/70 text-purple-200'
+              : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-slate-200'
+          }`}
+          title="Manage Multi-Round Active Effects (DoT / Buffs / Debuffs)"
+        >
+          <span>FX</span>
+          {active_effects.length > 0 && (
+            <span className="w-3.5 h-3.5 rounded-full bg-purple-500 text-white text-[8.5px] font-bold flex items-center justify-center">
+              {active_effects.length}
+            </span>
+          )}
+        </button>
+
+        {showEffectsDropdown && (
+          <div className="absolute bottom-full mb-2 left-0 w-60 bg-[#0c1219] border border-purple-500/40 rounded-xl p-2 shadow-2xl space-y-2 z-40">
+            <div className="text-[9px] uppercase tracking-wider text-purple-300 font-bold">
+              Active Effects ({active_effects.length})
+            </div>
+            {active_effects.length > 0 && (
+              <div className="space-y-1 max-h-28 overflow-y-auto">
+                {active_effects.map((eff) => (
+                  <div
+                    key={eff.id}
+                    className="flex items-center justify-between gap-1 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[10px]"
+                  >
+                    <div className="truncate">
+                      <span className="font-bold text-slate-100">{eff.name}</span>{' '}
+                      <span className="text-amber-300">({eff.remainingRounds}r)</span>
+                      {Number(eff.modifierBonus || 0) !== 0 && (
+                        <span className="ml-1 text-cyan-300">
+                          {eff.modifierBonus! > 0 ? `+${eff.modifierBonus}` : eff.modifierBonus}
+                        </span>
+                      )}
+                      {Number(eff.tickDamage || 0) > 0 && (
+                        <span className="ml-1 text-rose-300">-{eff.tickDamage}/r</span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveActiveEffect(eff.id)}
+                      className="text-slate-400 hover:text-rose-400 px-1 cursor-pointer"
+                      aria-label={`Remove ${eff.name}`}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <form onSubmit={handleAddActiveEffect} className="space-y-1.5 border-t border-slate-800 pt-1.5">
+              <input
+                type="text"
+                value={effectNameInput}
+                onChange={(e) => setEffectNameInput(e.target.value)}
+                placeholder="Effect Name (e.g. Overclock)"
+                aria-label="Effect Name"
+                className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-[10px] text-slate-100"
+              />
+              <div className="grid grid-cols-3 gap-1 text-[9px] text-slate-400">
+                <label className="flex flex-col">
+                  <span>Rounds</span>
+                  <input
+                    type="number"
+                    min={1}
+                    max={99}
+                    value={effectRoundsInput}
+                    onChange={(e) => setEffectRoundsInput(Number(e.target.value))}
+                    className="bg-slate-950 border border-slate-700 rounded px-1 py-0.5 text-[10px] text-amber-300"
+                  />
+                </label>
+                <label className="flex flex-col">
+                  <span>DoT</span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={99}
+                    value={effectDotInput}
+                    onChange={(e) => setEffectDotInput(Number(e.target.value))}
+                    className="bg-slate-950 border border-slate-700 rounded px-1 py-0.5 text-[10px] text-rose-300"
+                  />
+                </label>
+                <label className="flex flex-col">
+                  <span>Mod</span>
+                  <input
+                    type="number"
+                    min={-20}
+                    max={20}
+                    value={effectModInput}
+                    onChange={(e) => setEffectModInput(Number(e.target.value))}
+                    className="bg-slate-950 border border-slate-700 rounded px-1 py-0.5 text-[10px] text-cyan-300"
+                  />
+                </label>
+              </div>
+              <button
+                type="submit"
+                className="w-full py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] cursor-pointer"
+              >
+                + Apply Effect
+              </button>
+            </form>
           </div>
         )}
       </div>

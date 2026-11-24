@@ -582,6 +582,14 @@ export const useEngineStore = create<EngineState>()(
                   eph.current_hp = nextHp;
                 }
               }
+              if (!stat.is_synthetic && (eph.current_health ?? 0) <= 0) {
+                if (!eph.active_conditions.includes('status_incapacitated')) {
+                  eph.active_conditions.push('status_incapacitated');
+                }
+                if (!eph.active_conditions.includes('status_bleeding_out')) {
+                  eph.active_conditions.push('status_bleeding_out');
+                }
+              }
             }
             const nextRounds = Number(effect.remainingRounds || 0) - 1;
             const updated: ActiveEffectRecord = { ...effect, remainingRounds: nextRounds };

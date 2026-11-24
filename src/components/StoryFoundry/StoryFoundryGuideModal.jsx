@@ -24,7 +24,7 @@ const CONTENT = {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-2 text-xs">
           {[
             { icon: '📖', label: 'Story Weaver', desc: 'Hierarchical scenario tree with rich element editing and push/pull sync.' },
-            { icon: '🗺️', label: 'Tactical Map Maker', desc: 'Konva grid canvas, terrain painting, token summoning & combat tracker.' },
+            { icon: '🗺️', label: 'Tactical Map Maker', desc: 'PixiJS v8 grid canvas, terrain painting, token summoning & combat tracker.' },
             { icon: '✨', label: 'AIME Manuscript Suite', desc: '3-stage AI prose weaver (Brainstorm, Outline, Draft) with floating toolbar.' },
             { icon: '🧩', label: 'Element Forge', desc: 'Schema-driven lore database for characters, planets, factions & relics.' },
             { icon: '🚀', label: 'Launcher & Catalog', desc: 'Project switcher, map library, and cloud-synced element asset catalog.' },

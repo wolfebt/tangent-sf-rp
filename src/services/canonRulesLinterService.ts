@@ -12,6 +12,7 @@ export interface CanonLintDiagnostic {
   ruleCode:
     | 'NO_D20_RESOLUTION'
     | 'NO_ACTION_POINTS'
+    | 'NO_5E_TERMINOLOGY'
     | 'SYNTHETIC_STRUCTURE_CANON'
     | 'ORGANIC_BASELINE_VITALS'
     | 'TECH_LEVEL_BOUNDS'
@@ -23,6 +24,13 @@ export interface CanonLintDiagnostic {
   suggestion: string;
   matchText?: string;
   autoFixReplacement?: string;
+}
+
+const SAFE_AP_CONTEXT_RE =
+  /\b(?:DR\s*\d+\s*[/|,-]\s*AP\s*\d+|AP\s*\d+|Armor\s+Penetration|Award\s+Points|\d+\s*AP\s+(?:penetration|piercing|ammo|round|rounds|shell|shells|slug|slugs))\b/gi;
+
+function maskSafeApTokens(raw: string): string {
+  return raw.replace(SAFE_AP_CONTEXT_RE, (m) => '\u0000'.repeat(m.length));
 }
 
 export interface CanonLintInput {
@@ -52,7 +60,9 @@ export function lintCanonContent(input: CanonLintInput): CanonLintDiagnostic[] {
   }
 
   // 2. Legacy Action Points / AP cost terminology -> Skill Tier Action Economy
-  const apMatch = plainText.match(/\b(\d+\s*AP|Action Points?)\b/i);
+  // Ignore Armor Penetration ("DR 6 / AP 4", "AP 4", "Armor Penetration") and "Award Points"
+  const maskedForAp = maskSafeApTokens(plainText);
+  const apMatch = maskedForAp.match(/\b(\d+\s*AP|Action Points?)\b/i);
   if (apMatch) {
     diagnostics.push({
       id: `lint_ap_${diagnostics.length}`,
@@ -62,6 +72,20 @@ export function lintCanonContent(input: CanonLintInput): CanonLintDiagnostic[] {
       suggestion: 'Express action budget via Skill Stage (Trained/Veteran/Master Actions).',
       matchText: apMatch[0],
       autoFixReplacement: 'Action Tier'
+    });
+  }
+
+  // 2b. Non-canonical 5e terminology -> Tangent v6 Skill Actions / Focus
+  const dnd5eMatch = plainText.match(/\b(bonus\s+actions?|legendary\s+actions?|proficiency\s+bonus|spell\s+slots?)\b/i);
+  if (dnd5eMatch) {
+    diagnostics.push({
+      id: `lint_5e_${diagnostics.length}`,
+      ruleCode: 'NO_5E_TERMINOLOGY',
+      severity: 'warning',
+      message: `Detected non-Tangent 5e term "${dnd5eMatch[0]}". Tangent v6 uses Skill Actions & Metaphysics Focus.`,
+      suggestion: 'Replace 5e mechanics with Tangent v6 Skill Actions or Resonance cost.',
+      matchText: dnd5eMatch[0],
+      autoFixReplacement: 'Skill Action'
     });
   }
 
@@ -177,7 +201,22 @@ export function applyAutoFix(text: string, diagnostic: CanonLintDiagnostic): str
     return String(text || '').replace(/\b(?:1d20|d20)\b/gi, diagnostic.autoFixReplacement);
   }
   if (diagnostic.ruleCode === 'NO_ACTION_POINTS') {
-    return String(text || '').replace(/\b(\d+\s*AP|Action Points?)\b/gi, diagnostic.autoFixReplacement);
+    const src = String(text || '');
+    const masked = maskSafeApTokens(src);
+    let out = '';
+    let last = 0;
+    for (const m of masked.matchAll(/\b(\d+\s*AP|Action Points?)\b/gi)) {
+      const idx = m.index ?? 0;
+      out += src.slice(last, idx) + diagnostic.autoFixReplacement;
+      last = idx + m[0].length;
+    }
+    return out + src.slice(last);
+  }
+  if (diagnostic.ruleCode === 'NO_5E_TERMINOLOGY') {
+    return String(text || '').replace(
+      /\b(bonus\s+actions?|legendary\s+actions?|proficiency\s+bonus|spell\s+slots?)\b/gi,
+      diagnostic.autoFixReplacement
+    );
   }
   return text;
 }

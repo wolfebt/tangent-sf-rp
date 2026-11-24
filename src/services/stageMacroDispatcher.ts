@@ -92,7 +92,12 @@ export function dispatchStageMacroActions(
             errors.push(`Denied toggle_door "${action.wallId}": Architect required.`);
             break;
           }
-          options.onToggleDoor?.(action.wallId);
+          if (typeof options.onToggleDoor === 'function') {
+            options.onToggleDoor(action.wallId);
+          } else {
+            VttEventBus.emit('stage-bulkhead-toggled', { bulkheadId: action.wallId, isOpen: true });
+            sync.broadcastDoorToggle(action.wallId, true, 'open');
+          }
           applied++;
           break;
         }

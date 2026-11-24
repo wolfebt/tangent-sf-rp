@@ -219,8 +219,8 @@ test('Firestore Rules: /users/{userId} and /users/{userId}/private_settings/{doc
 test('Firestore Rules: Persona Folio & Characters enforce strict owner isolation and public flag semantics', () => {
   assert.match(
     rulesText,
-    /match\s+\/users\/\{userId\}\/personas\/\{personaId\}\s*\{\s*allow\s+read:\s*if\s+isOwner\(userId\)\s*\|\|\s*resource\.data\.isPublic\s*==\s*true\s*\|\|\s*isAdmin\(\);\s*allow\s+write:\s*if\s+isOwner\(userId\)\s*\|\|\s*isAdmin\(\);\s*\}/,
-    'Nested user personas must enforce owner/public read and owner/admin write'
+    /match\s+\/users\/\{userId\}\/personas\/\{personaId\}\s*\{[\s\S]*?allow\s+read:\s*if\s+isOwner\(userId\)\s*\|\|\s*resource\.data\.isPublic\s*==\s*true\s*\|\|\s*isAdmin\(\);[\s\S]*?allow\s+create:\s*if\s+\(isOwner\(userId\)\s*\|\|\s*isAdmin\(\)\)[\s\S]*?isValidPersona\(request\.resource\.data\)[\s\S]*?allow\s+update:\s*if\s+\(isOwner\(userId\)\s*\|\|\s*isAdmin\(\)\)[\s\S]*?isValidPersona\(request\.resource\.data\)[\s\S]*?allow\s+delete:\s*if\s+isOwner\(userId\)\s*\|\|\s*isAdmin\(\);/,
+    'Nested user personas must enforce owner/public read, split schema-validated create/update blocking privilege/API key fields, and owner/admin delete'
   );
 
   const alice = { uid: 'alice', token: {} };
@@ -317,8 +317,27 @@ test('Firestore Rules: Story Foundry assets, Universe state, Commlink public cha
   );
   assert.match(
     rulesText,
-    /match\s+\/story_maps\/\{mapId\}\s*\{[^}]*allow\s+read:\s+if\s+resource\.data\.isPublic\s*==\s*true\s*\|\|\s*\(isAuthenticated\(\)\s*&&\s*\(resource\.data\.authorUid\s*==\s*request\.auth\.uid\s*\|\|\s*resource\.data\.creatorId\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)\)\);/,
-    'story_maps must restrict reads to public or author/creator/admin'
+    /match\s+\/story_maps\/\{mapId\}\s*\{[^}]*allow\s+read:\s*if\s+resource\.data\.isPublic\s*==\s*true\s*\|\|\s*\(isAuthenticated\(\)\s*&&\s*\(resource\.data\.authorUid\s*==\s*request\.auth\.uid\s*\|\|\s*resource\.data\.creatorId\s*==\s*request\.auth\.uid\s*\|\|\s*isCampaignGmForResource\(resource\.data\)\s*\|\|\s*isAdmin\(\)\)\);/,
+    'story_maps must restrict reads to public or author/creator/campaign-GM/admin'
+  );
+  const canSendInviteFn = rulesText.match(/function\s+canSendInviteForGroup\(groupId\)\s*\{([\s\S]*?)\n\s*\}/);
+  assert.ok(canSendInviteFn, 'canSendInviteForGroup helper must exist');
+  assert.doesNotMatch(
+    canSendInviteFn[1],
+    /!\s*exists\(/,
+    'canSendInviteForGroup must NOT bypass group existence checks via !exists(...)'
+  );
+  const parentStoryFn = rulesText.match(/function\s+isParentStoryAuthorized\(storyId\)\s*\{([\s\S]*?)\n\s*\}/);
+  assert.ok(parentStoryFn, 'isParentStoryAuthorized helper must exist');
+  assert.doesNotMatch(
+    parentStoryFn[1],
+    /!\s*exists\(/,
+    'isParentStoryAuthorized must NOT allow open access via !exists(...) fallback'
+  );
+  assert.match(
+    rulesText,
+    /match\s+\/user_stories\/\{storyId\}\/sessions\/\{sessionId\}\s*\{[\s\S]*?allow\s+read:\s*if\s+isAuthenticated\(\)\s*&&\s*\(isAdmin\(\)\s*\|\|\s*\(isParentStoryAuthorized\(storyId\)\s*&&\s*isStorySessionDocAuthorized\(\)\)\);[\s\S]*?allow\s+create:[\s\S]*?'ownerId'\s+in\s+request\.resource\.data[\s\S]*?request\.resource\.data\.ownerId\s*==\s*request\.auth\.uid[\s\S]*?allow\s+update:[\s\S]*?affectedKeys\(\)\.hasAny\(\['ownerId'/,
+    'user_stories sessions subcollection must mirror Campaign Sessions security with parent story authorization and ownerId immutability'
   );
   assert.doesNotMatch(
     rulesText,
@@ -343,16 +362,21 @@ test('Firestore Rules: Story Foundry assets, Universe state, Commlink public cha
     'isParentCampaignAuthorized must NOT allow open access via !exists(...) fallback'
   );
 
-  // Sanitized Spectator Map projection rules (Option 1A)
+  // Sanitized Spectator Map projection rules (Option 1A + Phase 15 hardening)
   assert.match(
     rulesText,
-    /match\s+\/spectator_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+get:\s+if\s+true;[\s\S]*?allow\s+list:\s+if\s+isAuthenticated\(\)[\s\S]*?isValidSpectatorMap\(request\.resource\.data\)[\s\S]*?allow\s+delete:\s+if\s+isAuthenticated\(\)/,
-    'spectator_maps must restrict anonymous reads to allow get (no list enumeration) and enforce schema-validated author/creator/admin writes'
+    /function\s+isValidSpectatorMap\(data\)\s*\{[\s\S]*?'gridSize'[\s\S]*?'background_url'[\s\S]*?'videoBackgroundUrl'[\s\S]*?'underlay'[\s\S]*?'lights'[\s\S]*?'regions'[\s\S]*?'exploredFog'/,
+    'isValidSpectatorMap must explicitly allow sanitized visual playback fields while preserving hasOnly enforcement'
+  );
+  assert.match(
+    rulesText,
+    /match\s+\/spectator_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+get:\s+if\s+resource\.data\.isSpectatorLive\s*==\s*true[\s\S]*?allow\s+list:\s+if\s+isAuthenticated\(\)[\s\S]*?isValidSpectatorMap\(request\.resource\.data\)[\s\S]*?isValidSpectatorOwnerFieldOnCreate\(mapId,\s*'authorUid'\)[\s\S]*?allow\s+delete:\s+if\s+isAuthenticated\(\)/,
+    'spectator_maps must gate anonymous get on isSpectatorLive == true, block list enumeration, and enforce schema-validated author/creator/campaign-GM/admin writes'
   );
   assert.doesNotMatch(
     rulesText,
-    /match\s+\/spectator_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+read:\s+if\s+true;/,
-    'spectator_maps must not use unrestricted allow read: if true'
+    /match\s+\/spectator_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+(read|get):\s+if\s+true;/,
+    'spectator_maps must not use unrestricted allow read/get: if true'
   );
 
   // Final catch-all explicit deny

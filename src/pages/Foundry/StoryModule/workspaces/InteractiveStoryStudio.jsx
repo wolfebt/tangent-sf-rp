@@ -1548,12 +1548,23 @@ Respond in 2-3 concise in-character sentences.`;
                 {activeBeat?.gate?.options && activeBeat.gate.options.length > 0 && (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                     {activeBeat.gate.options.map((opt, i) => (
-                      <button
+                      <div
                         key={opt.id || i}
-                        type="button"
-                        disabled={isGenerating}
-                        onClick={() => handleAdvanceBeat(opt.text)}
-                        className="p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-850 hover:border-cyan-500/60 border border-slate-800 text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 shadow-sm disabled:opacity-50"
+                        role="button"
+                        tabIndex={isGenerating ? -1 : 0}
+                        aria-disabled={isGenerating}
+                        onClick={() => {
+                          if (!isGenerating) handleAdvanceBeat(opt.text);
+                        }}
+                        onKeyDown={(e) => {
+                          if (!isGenerating && (e.key === 'Enter' || e.key === ' ')) {
+                            e.preventDefault();
+                            handleAdvanceBeat(opt.text);
+                          }
+                        }}
+                        className={`p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-850 hover:border-cyan-500/60 border border-slate-800 text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 shadow-sm ${
+                          isGenerating ? 'opacity-50 pointer-events-none' : ''
+                        }`}
                       >
                         <div className="flex items-start gap-1.5">
                           <span className="text-[9px] font-bold text-cyan-400 bg-cyan-950 px-1 py-0.2 rounded border border-cyan-500/30 shrink-0">
@@ -1585,7 +1596,7 @@ Respond in 2-3 concise in-character sentences.`;
                             </div>
                           );
                         })()}
-                      </button>
+                      </div>
                     ))}
                   </div>
                 )}

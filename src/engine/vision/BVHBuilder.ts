@@ -123,9 +123,16 @@ export class BVHBuilder {
    * Recursively splits walls into left and right child nodes along the longest axis.
    */
   private split(walls: WallSegment[]): BVHNode {
-    let globalBounds = this.getWallAABB(walls[0]);
+    const firstWall = walls[0];
+    if (!firstWall) {
+      return new BVHNode({ minX: 0, minY: 0, maxX: 0, maxY: 0 });
+    }
+    let globalBounds = this.getWallAABB(firstWall);
     for (let i = 1; i < walls.length; i++) {
-      globalBounds = this.mergeAABB(globalBounds, this.getWallAABB(walls[i]));
+      const wall = walls[i];
+      if (wall) {
+        globalBounds = this.mergeAABB(globalBounds, this.getWallAABB(wall));
+      }
     }
 
     const node = new BVHNode(globalBounds);
@@ -201,11 +208,13 @@ export class BVHBuilder {
     const buffer = new Float32Array(walls.length * 4);
     
     for (let i = 0; i < walls.length; i++) {
+      const wall = walls[i];
+      if (!wall) continue;
       const offset = i * 4;
-      buffer[offset] = walls[i].p1.x;
-      buffer[offset + 1] = walls[i].p1.y;
-      buffer[offset + 2] = walls[i].p2.x;
-      buffer[offset + 3] = walls[i].p2.y;
+      buffer[offset] = wall.p1.x;
+      buffer[offset + 1] = wall.p1.y;
+      buffer[offset + 2] = wall.p2.x;
+      buffer[offset + 3] = wall.p2.y;
     }
     
     return buffer;

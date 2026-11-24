@@ -6,7 +6,8 @@
 import { useEffect, useRef } from 'react';
 import { stepNpcPatrols, evaluateSentryVision } from '../../../services/reactiveVttService';
 import { VttEventBus } from '../../../utils/vttEventBus';
-import { useEngineStore, type BVHBuilder } from '../../../engine/index';
+import { useEngineStore } from '../../../engine/state/VolatileSharder.ts';
+import type { BVHBuilder } from '../../../engine/vision/BVHBuilder.ts';
 
 export interface UseStageRaycastProps {
   isMultiplayerSimActive: boolean;

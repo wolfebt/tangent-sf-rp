@@ -85,7 +85,6 @@ export interface UseDesignModeControllerReturn {
 export function useDesignModeController(): UseDesignModeControllerReturn {
   // Store values
   const activeArchitectTool = useUILayoutStore(s => s.activeArchitectTool);
-  const userRole = useUILayoutStore(s => s.userRole);
   const storeWallType = useUILayoutStore(s => s.selectedWallType);
   const storeDoorLockDc = useUILayoutStore(s => s.doorLockDc);
   const storeTerrain = useUILayoutStore(s => s.selectedTerrain);
@@ -145,11 +144,11 @@ export function useDesignModeController(): UseDesignModeControllerReturn {
   useEffect(() => {
     if (activeArchitectTool) {
       setActiveDesignTool(activeArchitectTool as ArchitectDesignTool);
-      if (activeArchitectTool !== 'select' || userRole === 'architect') {
+      if (activeArchitectTool !== 'select') {
         setIsDesignModeActive(true);
       }
     }
-  }, [activeArchitectTool, userRole]);
+  }, [activeArchitectTool]);
 
   useEffect(() => {
     if (storeWallType) setSelectedWallType(storeWallType);

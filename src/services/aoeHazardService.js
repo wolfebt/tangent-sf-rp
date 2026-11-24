@@ -239,8 +239,16 @@ export const resolveAoEImpact = (preset, affectedResults = [], options = {}) => 
     const sta = Math.max(0, parseInt(token.stamina || token.toughness || 0, 10));
     const armorDr = Math.max(0, parseInt(token.armorDr || token.dr || 0, 10));
 
-    // Save calculation (Reflex or Fortitude)
-    const saveBonus = Math.max(0, parseInt(token.reflex || token.saves?.reflex || token.agilityMod || 2, 10));
+    // Save calculation (Fortitude vs Reflex)
+    const saveTypeNormalized = String(preset.saveType || '').toLowerCase();
+    const hazardNormalized = String(preset.hazardType || preset.id || '').toLowerCase();
+    const useFortitude =
+      saveTypeNormalized.includes('fort') ||
+      (!saveTypeNormalized && /(toxic|radiation|rad|bio|gas|emp|poison)/.test(hazardNormalized));
+    const rawSaveBonus = useFortitude
+      ? (token.fortitude ?? token.saves?.fortitude ?? token.stamina ?? token.toughness ?? 2)
+      : (token.reflex ?? token.saves?.reflex ?? token.agilityMod ?? 2);
+    const saveBonus = Math.max(0, parseInt(rawSaveBonus, 10));
     const rollTotal = customSaveRolls[token.id] !== undefined
       ? customSaveRolls[token.id]
       : (Math.floor(Math.random() * 10) + 1 + Math.floor(Math.random() * 10) + 1 + saveBonus);
@@ -259,7 +267,12 @@ export const resolveAoEImpact = (preset, affectedResults = [], options = {}) => 
     let healthDamage = 0;
     let structureDamage = 0;
 
-    if (token.isSynthetic || token.structure) {
+    const hasExplicitOrganicVitals =
+      token.base_health !== undefined ||
+      token.base_vitality !== undefined ||
+      token.current_health !== undefined ||
+      token.current_vitality !== undefined;
+    if (token.isSynthetic || (token.isSynthetic !== false && Number(token.structure) > 0 && !hasExplicitOrganicVitals)) {
       structureDamage = finalDamage;
     } else if (preset.damageType === 'concussive') {
       vitalityDamage = Math.ceil(finalDamage / 2);

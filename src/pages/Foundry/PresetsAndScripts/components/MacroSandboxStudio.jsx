@@ -23,6 +23,11 @@ import {
 import { QuickJSSandbox } from '../../../../engine/scripting/QuickJSSandbox';
 import { dispatchStageMacroActions } from '../../../../services/stageMacroDispatcher';
 import { useAdeStore } from '../../store/adeStore';
+import { useAuth } from '../../../../context/AuthContext';
+import { useStory } from '../../../../context/CampaignContext';
+import { useEngineStore } from '../../../../engine/state/VolatileSharder.ts';
+import { VttEventBus } from '../../../../utils/vttEventBus';
+import { getVttMultiplayerSync } from '../../../../services/vttMultiplayerSyncService';
 import { AudioService } from '../../../../services/audioService';
 import { MACRO_TEMPLATES, STAGE_API_MACRO_TEMPLATES } from '../constants/macroTemplates.js';
 
@@ -47,6 +52,8 @@ export const MacroSandboxStudio = ({
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   const sandboxRef = useRef(new QuickJSSandbox());
+  const { currentUser, isAdmin, isGM } = useAuth() || {};
+  const { universeState, activeMapId, updateMap } = useStory() || {};
 
   // Execute macro inside QuickJSSandbox with watchdog timer
   const handleExecute = async () => {
@@ -55,16 +62,64 @@ export const MacroSandboxStudio = ({
 
     const startTime = performance.now();
     try {
+      const adeState = useAdeStore.getState();
+      const workingFlags = { ...(adeState.storyFlags || {}) };
+
       // Execute in isolated sandbox & capture StageAPI intents
       const { result, actions } = await sandboxRef.current.executeWithActions(activeCode, {
+        storyFlags: workingFlags,
         targetAsset: selectedAsset ? { id: selectedAsset.id, title: selectedAsset.title, type: selectedAsset.type } : null,
         timestamp: Date.now()
       });
+
+      // Persist StoryFlags mutations triggered by StoryFlags.set() inside sandbox
+      for (const [fk, fv] of Object.entries(workingFlags)) {
+        if (adeState.storyFlags?.[fk] !== fv) {
+          adeState.setStoryFlag(fk, fv);
+        }
+      }
+
       let dispatchReport = null;
       if (Array.isArray(actions) && actions.length > 0) {
-        const adeState = useAdeStore.getState();
+        const storyOwner = universeState?.ownerId || universeState?.authorUid || universeState?.creatorId;
+        const isStoryOwner = Boolean(
+          currentUser?.uid && storyOwner && (storyOwner === currentUser.uid || storyOwner === 'local')
+        );
+        const isAuthorizedArchitect = Boolean(
+          isAdmin || isGM || isStoryOwner || (!currentUser && (!storyOwner || storyOwner === 'local'))
+        );
+
+        const staticEntities = Object.values(useEngineStore.getState().staticData || {});
+        const allowedTokenIds = staticEntities
+          .filter((ent) => {
+            if (!ent) return false;
+            const uid = currentUser?.uid;
+            if (uid && (ent.ownerUid === uid || ent.creatorId === uid || ent.controllerUid === uid)) {
+              return true;
+            }
+            return Boolean(ent.is_persona && !ent.ownerUid && !ent.creatorUid);
+          })
+          .map((ent) => ent.id);
+
         dispatchReport = dispatchStageMacroActions(actions, {
-          role: adeState.perspectiveMode === 'operator' ? 'operative' : 'architect',
+          role: isAuthorizedArchitect ? 'architect' : 'operative',
+          allowedTokenIds,
+          onToggleDoor: (wallId) => {
+            const targetMap = (universeState?.maps || []).find((m) => m.id === activeMapId) || universeState?.maps?.[0];
+            let nextOpen = true;
+            if (targetMap && Array.isArray(targetMap.walls) && typeof updateMap === 'function') {
+              const updatedWalls = targetMap.walls.map((w) => {
+                if (w.id === wallId || w.label === wallId) {
+                  nextOpen = !w.isOpen;
+                  return { ...w, isOpen: nextOpen, doorState: nextOpen ? 'open' : 'closed' };
+                }
+                return w;
+              });
+              updateMap(targetMap.id, { walls: updatedWalls });
+            }
+            VttEventBus.emit('stage-bulkhead-toggled', { bulkheadId: wallId, isOpen: nextOpen });
+            getVttMultiplayerSync().broadcastDoorToggle(wallId, nextOpen, nextOpen ? 'open' : 'closed');
+          },
           onSetStoryFlag: (k, v) => adeState.setStoryFlag(k, v)
         });
       }

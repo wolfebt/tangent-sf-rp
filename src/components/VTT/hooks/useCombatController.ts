@@ -4,17 +4,17 @@
  */
 
 import { useState, useRef, useCallback } from 'react';
-import { 
-  useEngineStore,
+import { useEngineStore } from '../../../engine/state/VolatileSharder.ts';
+import {
   CombatArbitrator,
   SizeCategory,
-  RangeCategory,
-  DamagePipeline,
-  DiceASTParser,
-  EssenceTracker,
-  resolveTangent2d10Check,
-  type BVHBuilder
-} from '../../../engine/index';
+  RangeCategory
+} from '../../../engine/rules/CombatArbitrator.ts';
+import { DamagePipeline } from '../../../engine/rules/DamagePipeline.ts';
+import { DiceASTParser } from '../../../engine/math/DiceASTParser.ts';
+import { EssenceTracker } from '../../../engine/rules/EssenceTracker.ts';
+import { resolveTangent2d10Check } from '../../../engine/rules/CanonicalCombatMath.ts';
+import type { BVHBuilder } from '../../../engine/vision/BVHBuilder.ts';
 import { AudioService } from '../../../services/audioService';
 import { CANONICAL_DEFAULT_DEFENSE_CR } from '../../../engine/rules/CanonicalCombatMath';
 import { showToast } from '../../../context/ToastContext';
@@ -163,7 +163,10 @@ export function useCombatController({
       }
     );
 
-    toHit.finalTarget += coverCheck.coverMod;
+    const activeEffectAttackMod = Array.isArray(selectedToken.active_effects)
+      ? selectedToken.active_effects.reduce((sum: number, eff: any) => sum + Number(eff?.modifierBonus || 0), 0)
+      : 0;
+    toHit.finalTarget += coverCheck.coverMod + activeEffectAttackMod;
 
     const targetDefenseDC = Number(
       targetToken.defense_dc ?? (targetToken as any).defense ?? CANONICAL_DEFAULT_DEFENSE_CR
@@ -334,7 +337,8 @@ export function useCombatController({
         netDamage: strikeResult.netDamage,
         damageType: attackWeapon,
         isLethal: targetedLimb === 'head',
-        saveCr: targetDefenseDC
+        saveCr: targetDefenseDC,
+        damageApplied: true
       }
     };
     VttEventBus.emit('stage-chat-card', hitCard);
@@ -382,8 +386,17 @@ export function useCombatController({
     if (tokens.length === 0) return;
     AudioService.playTerminalBeep(1050, 0.03);
 
-    const nextIndex = (currentTurnIndex + 1) % tokens.length;
-    const nextToken = tokens[nextIndex];
+    const orderedTokens = [...tokens].sort((a, b) => {
+      const sa = initiativeScores[a.id];
+      const sb = initiativeScores[b.id];
+      if (sa === undefined && sb === undefined) return 0;
+      if (sa === undefined) return 1;
+      if (sb === undefined) return -1;
+      return sb - sa;
+    });
+
+    const nextIndex = (currentTurnIndex + 1) % orderedTokens.length;
+    const nextToken = orderedTokens[nextIndex];
     setCurrentTurnIndex(nextIndex);
     if (nextToken) {
       setSelectedTokenId(nextToken.id);
@@ -451,13 +464,19 @@ export function useCombatController({
       const initMod = Number((t as any).initiative_mod ?? (t as any).attributes?.agi ?? (t as any).attributes?.agility ?? 0);
       scores[t.id] = (Math.floor(Math.random() * 10) + 1) + (Math.floor(Math.random() * 10) + 1) + initMod;
     });
+    const orderedTokens = [...tokens].sort((a, b) => (scores[b.id] ?? 0) - (scores[a.id] ?? 0));
     setInitiativeScores(scores);
     setCurrentTurnIndex(0);
-    if (tokens[0]) {
-      setSelectedTokenId(tokens[0].id);
+    if (orderedTokens[0]) {
+      setSelectedTokenId(orderedTokens[0].id);
     }
     setCombatLog(prev => [`[INITIATIVE] Roster initiative rolled for ${tokens.length} combatants.`, ...prev.slice(0, 8)]);
-  }, [tokens, setSelectedTokenId]);
+    getVttMultiplayerSync().broadcastTurnState({
+      roundNumber,
+      currentTurnIndex: 0,
+      initiativeScores: scores
+    });
+  }, [tokens, roundNumber, setSelectedTokenId]);
 
   return {
     combatLog,

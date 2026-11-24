@@ -353,7 +353,11 @@ export class MapGraphicsCompiler {
       ctx.lineWidth = isDoor ? 5 : 4;
       ctx.beginPath();
       ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
+      if (w.bezierControl && typeof w.bezierControl.x === 'number' && typeof w.bezierControl.y === 'number') {
+        ctx.quadraticCurveTo(w.bezierControl.x, w.bezierControl.y, x2, y2);
+      } else {
+        ctx.lineTo(x2, y2);
+      }
       ctx.stroke();
       ctx.restore();
     }

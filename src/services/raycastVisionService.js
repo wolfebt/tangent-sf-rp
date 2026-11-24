@@ -3,7 +3,7 @@
  * High-performance 2D raycasting & visibility polygon calculation for Tangent SF RP VTT.
  */
 
-import { doesWallBlockVision } from '../schemas/vttWallSchema.js';
+import { doesWallBlockVision, expandWallsForGeometry } from '../schemas/vttWallSchema.js';
 
 /**
  * Calculates intersection between a ray starting at (ox, oy) in direction (dx, dy)
@@ -66,7 +66,8 @@ export function computeVisibilityPolygon(origin, walls = [], options = {}) {
   activeSegments.push({ x1: maxX, y1: maxY, x2: minX, y2: maxY });
   activeSegments.push({ x1: minX, y1: maxY, x2: minX, y2: minY });
 
-  for (const wall of walls) {
+  const expandedWalls = expandWallsForGeometry(walls);
+  for (const wall of expandedWalls) {
     if (!wall) continue;
     const p1 = wall.p1 || (wall.x1 !== undefined && wall.y1 !== undefined ? { x: wall.x1, y: wall.y1 } : null);
     const p2 = wall.p2 || (wall.x2 !== undefined && wall.y2 !== undefined ? { x: wall.x2, y: wall.y2 } : null);
@@ -162,7 +163,8 @@ export function isPointVisible(origin, target, walls = [], sensorMode = 'standar
 
   if (dist === 0) return true;
 
-  for (const wall of walls) {
+  const expandedWalls = expandWallsForGeometry(walls);
+  for (const wall of expandedWalls) {
     if (!wall) continue;
     const p1 = wall.p1 || (wall.x1 !== undefined && wall.y1 !== undefined ? { x: wall.x1, y: wall.y1 } : null);
     const p2 = wall.p2 || (wall.x2 !== undefined && wall.y2 !== undefined ? { x: wall.x2, y: wall.y2 } : null);

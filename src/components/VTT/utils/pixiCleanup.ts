@@ -9,8 +9,9 @@ export function clearPixiContainer(container: Container | null | undefined): voi
   const removed = container.removeChildren();
   for (let i = 0; i < removed.length; i++) {
     try {
-      if (!(removed[i] as any).destroyed) {
-        removed[i].destroy({ children: true });
+      const child = removed[i];
+      if (child && !(child as any).destroyed) {
+        child.destroy({ children: true });
       }
     } catch {
       // Ignore already-destroyed Pixi display objects

@@ -18,7 +18,7 @@ import { useAdeStore } from '../store/adeStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useWaypointEngine } from '../hooks/useWaypointEngine';
 import { createBlankCanvas, getStarterMapsCollection } from '../../../components/VTT/stage/defaultMaps';
-import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
+import { useEngineStore, selectAllFusedTokens } from '../../../engine/state/VolatileSharder.ts';
 import { v4 as uuidv4 } from 'uuid';
 import { useScenarioOperations } from './panels/useScenarioOperations';
 import ScenarioCanvasSwitch from './panels/ScenarioCanvasSwitch';
@@ -250,6 +250,7 @@ export default function ScenarioPane({
     setActiveScenarioId,
     storyContext: { universeState, activeScenario: activeNode, linkedMap },
     studioMode,
+    enableProximityInDev: scenarioWorkspaceTab === 'stage',
     liveTokens
   });
 

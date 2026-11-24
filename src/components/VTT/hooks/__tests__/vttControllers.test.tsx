@@ -10,7 +10,7 @@ import { renderHook, act } from '@testing-library/react';
 import { useDesignModeController } from '../useDesignModeController';
 import { useCombatController } from '../useCombatController';
 import { useUILayoutStore } from '../../store/uiLayoutStore';
-import { BVHBuilder } from '../../../../engine/index';
+import { BVHBuilder } from '../../../../engine/vision/BVHBuilder.ts';
 
 describe('VTT Controller Hooks — useDesignModeController & useCombatController', () => {
   beforeEach(() => {

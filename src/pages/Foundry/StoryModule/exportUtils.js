@@ -4,6 +4,7 @@ import { ELEMENT_SCHEMAS } from '../ElementForge/elementSchemas';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { showToast } from '../../../context/ToastContext';
 import { showConfirm } from '../../../context/ConfirmContext';
+import { decodeHtmlEntities, stripGmSecretHtmlBlocks, sanitizeScenarioForOperator } from '../../../utils/gmSecretSanitizer';
 
 const escapeHtml = (val) => {
   return String(val ?? '')
@@ -60,7 +61,7 @@ export const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
 // Helper to convert HTML string to Markdown text
 export const htmlToMarkdown = (htmlStr) => {
   if (!htmlStr) return '';
-  return String(htmlStr)
+  const md = String(htmlStr)
     .replace(/<h1[^>]*>([\s\S]*?)<\/h1>/gi, '# $1\n\n')
     .replace(/<h2[^>]*>([\s\S]*?)<\/h2>/gi, '## $1\n\n')
     .replace(/<h3[^>]*>([\s\S]*?)<\/h3>/gi, '### $1\n\n')
@@ -79,13 +80,8 @@ export const htmlToMarkdown = (htmlStr) => {
     .replace(/<(strong|b)[^>]*>([\s\S]*?)<\/\1>/gi, '**$2**')
     .replace(/<(em|i)[^>]*>([\s\S]*?)<\/\1>/gi, '*$2*')
     .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&lt;/gi, '<')
-    .replace(/&gt;/gi, '>')
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/gi, "'")
+    .replace(/<[^>]+>/g, '');
+  return decodeHtmlEntities(md)
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 };
@@ -175,9 +171,10 @@ export const HALF_PAGE_ELEMENT_TYPES = ['Map', 'Clue', 'Handout'];
 export const isHalfPageElement = (type) => HALF_PAGE_ELEMENT_TYPES.includes(type);
 
 // Export Element as Printable PDF
-export const exportElementPDF = (targetNode, universeState) => {
+export const exportElementPDF = (targetNode, universeState, options = {}) => {
   if (!targetNode) return;
-  const locationPath = getBreadcrumbPath(universeState?.scenarios || [], targetNode.id);
+  const rootNode = options?.operatorSafe ? sanitizeScenarioForOperator(targetNode) : targetNode;
+  const locationPath = getBreadcrumbPath(universeState?.scenarios || [], rootNode.id);
 
   const buildNodeHTML = (node, depth = 2) => {
     const headingTag = `h${Math.min(depth, 6)}`;
@@ -226,9 +223,10 @@ export const exportElementPDF = (targetNode, universeState) => {
     }
 
     if (node.content) {
+      const cleanedHtml = options?.operatorSafe ? stripGmSecretHtmlBlocks(node.content) : node.content;
       const safeContent = typeof window !== 'undefined' && typeof DOMPurify?.sanitize === 'function'
-        ? DOMPurify.sanitize(String(node.content))
-        : escapeHtml(node.content);
+        ? DOMPurify.sanitize(String(cleanedHtml))
+        : escapeHtml(cleanedHtml);
       html += `<div style="font-family: inherit; font-size: 14px; line-height: 1.6; color: #334155;">${safeContent}</div>`;
     }
     if (node.children && node.children.length > 0) {
@@ -240,12 +238,12 @@ export const exportElementPDF = (targetNode, universeState) => {
     return html;
   };
 
-  const creatorInfo = extractCreatorInfo(targetNode || universeState);
+  const creatorInfo = extractCreatorInfo(rootNode || universeState);
   const buildFullHtml = (includeAutoPrintScript) => `
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Tangent SFF RPG - ${escapeHtml(targetNode.title || 'Untitled')}</title>
+        <title>Tangent SFF RPG - ${escapeHtml(rootNode.title || 'Untitled')}</title>
         <style>
           body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; padding: 40px; color: #0f172a; background: #fff; }
           .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-bottom: 24px; gap: 16px; }
@@ -262,7 +260,7 @@ export const exportElementPDF = (targetNode, universeState) => {
         <div class="header">
           <div>
             <div class="subtitle">Tangent Science Fantasy Roleplay — Story Module</div>
-            <div class="title">${escapeHtml(targetNode.title || 'Untitled')}</div>
+            <div class="title">${escapeHtml(rootNode.title || 'Untitled')}</div>
             <div class="path">Location Path: ${locationPath ? locationPath.map(escapeHtml).join(' ❯ ') : 'Root'}</div>
           </div>
           <div class="creator-box">
@@ -270,7 +268,7 @@ export const exportElementPDF = (targetNode, universeState) => {
             ${creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 ? `<div style="font-size: 9px; color: #475569; margin-top: 3px;">CONTRIB: ${creatorInfo.contributorTags.map(escapeHtml).join(', ')}</div>` : ''}
           </div>
         </div>
-        ${buildNodeHTML(targetNode)}
+        ${buildNodeHTML(rootNode)}
         ${includeAutoPrintScript ? `<script>window.onload = function() { window.print(); };</script>` : ''}
       </body>
     </html>

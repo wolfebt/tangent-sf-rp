@@ -17,7 +17,7 @@ import { useStory } from '../../../context/CampaignContext';
 import { AudioService } from '../../../services/audioService';
 import { stepNpcPatrols } from '../../../services/reactiveVttService';
 import { VttEventBus } from '../../../utils/vttEventBus';
-import { useEngineStore } from '../../../engine/index';
+import { useEngineStore } from '../../../engine/state/VolatileSharder.ts';
 import { aggregateModuleAssets } from './utils/assetAggregator';
 
 // Modular Child Components

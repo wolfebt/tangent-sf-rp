@@ -36,6 +36,7 @@ export interface StageTacticalConsoleProps {
   handleRollCustomDice: () => void;
   combatLog: string[];
   onOpenHandoutPush?: () => void;
+  userRole?: 'architect' | 'operative' | 'gm' | 'player' | 'spectator';
 }
 
 export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
@@ -70,7 +71,8 @@ export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
   setCustomDiceExpr,
   handleRollCustomDice,
   combatLog,
-  onOpenHandoutPush
+  onOpenHandoutPush,
+  userRole = 'architect'
 }) => {
   if (isEmbeddedInTripartite || isDesignModeActive || isZenMode) {
     return null;
@@ -348,6 +350,7 @@ export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
       <StageChatRollFeed
         selectedToken={selectedToken}
         targetToken={targetToken}
+        userRole={userRole}
         compact
       />
 

@@ -238,7 +238,7 @@ Rules:
         weapons: Array.isArray(synthChar.weapons) ? synthChar.weapons.map((w: any) => w.name || String(w)) : [],
         armor: Array.isArray(synthChar.armor) ? synthChar.armor.map((a: any) => a.name || String(a)) : [],
         vitals: { health: 30, vitality: 30, structure: 60 },
-        pillars: canonicalPillarsSummary
+        ...(canonicalPillarsSummary ? { pillars: canonicalPillarsSummary } : {})
       };
     } else {
       // Deterministic 5-Pillar Character Synthesis fallback
@@ -281,7 +281,7 @@ Rules:
           vitality: synthChar.vitality ?? 30,
           structure: synthChar.structure ?? 60
         },
-        pillars: canonicalPillarsSummary
+        ...(canonicalPillarsSummary ? { pillars: canonicalPillarsSummary } : {})
       };
     }
 
@@ -459,7 +459,7 @@ Rules:
         augmentationsBp
       },
       errors,
-      correctedDraft
+      ...(correctedDraft ? { correctedDraft } : {})
     };
   }
 

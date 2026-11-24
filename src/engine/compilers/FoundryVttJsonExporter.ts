@@ -5,6 +5,8 @@
  * with @UUID inter-document linkage.
  */
 
+import { expandWallsForGeometry } from '../../schemas/vttWallSchema.js';
+
 export interface FoundryExportPayload {
   packageId?: string;
   title?: string;
@@ -162,7 +164,7 @@ export class FoundryVttJsonExporterService {
         width: mapWidthPx,
         height: mapHeightPx,
         grid: { size: mapGridSize, type: map.gridMode === 'hex' ? 2 : 1 },
-        walls: (map.walls || []).map((w: any) => {
+        walls: expandWallsForGeometry(map.walls || []).map((w: any) => {
           const isDoor = w.type === 'door' || w.wallType === 'door' || w.isDoor === true || w.isDynamic === true;
           const isWindow = w.type === 'window' || w.wallType === 'window' || w.isTransparent === true;
           const isEthereal = w.type === 'ethereal' || w.wallType === 'ethereal';

@@ -557,7 +557,7 @@ export function quantizePaletteColors(imgData, paletteRgbList) {
   }
 }
 
-export function convertGridToKonvaElements(gridData, options) {
+export function convertGridToMapElements(gridData, options) {
   const {
     stageWidth = 4000,
     stageHeight = 3000,
@@ -827,4 +827,7 @@ export function convertGridToKonvaElements(gridData, options) {
 
   return { terrains, objects };
 }
+
+// Backwards-compatible alias retained for external tests
+export const convertGridToKonvaElements = convertGridToMapElements;
 

@@ -4,6 +4,9 @@ import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../../firebase';
 import { useCampaign } from '../../../context/CampaignContext';
 import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
+import { expandWallsForGeometry } from '../../../schemas/vttWallSchema';
+import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
+import { proAudioMixerService } from '../../../services/proAudioMixerService';
 import { Maximize, Minimize, Compass, Volume2, VolumeX, Shield, Swords, X, FileText } from 'lucide-react';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
@@ -23,6 +26,7 @@ export const PlayerSpectatorView = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [activeHandout, setActiveHandout] = useState(null);
+  const [activePings, setActivePings] = useState([]);
   const [stageDimensions, setStageDimensions] = useState({
     width: typeof window !== 'undefined' ? window.innerWidth : 1280,
     height: typeof window !== 'undefined' ? window.innerHeight : 720
@@ -86,12 +90,103 @@ export const PlayerSpectatorView = () => {
     };
   }, [isMobile, mapId, universeState?.maps]);
 
-  // Listen for pushed player handouts
+  // Listen to pushed handouts, live multiplayer tokens/doors/fog/pings
   useEffect(() => {
-    return VttEventBus.on('stage-remote-handout', (handout) => {
+    const sync = getVttMultiplayerSync();
+    sync.init({ role: 'operative' });
+    const unsubHandout = VttEventBus.on('stage-remote-handout', (handout) => {
       if (handout) setActiveHandout(handout);
     });
-  }, []);
+    const unsubDoor = VttEventBus.on('stage-remote-door-toggled', (payload) => {
+      if (!payload?.wallId) return;
+      setMapData((prev) => {
+        if (!prev?.walls) return prev;
+        return {
+          ...prev,
+          walls: prev.walls.map((w) =>
+            w.id === payload.wallId
+              ? {
+                  ...w,
+                  isOpen: Boolean(payload.isOpen),
+                  ...(payload.doorState !== undefined ? { doorState: payload.doorState } : {}),
+                  ...(payload.breachHp !== undefined ? { breachHp: payload.breachHp } : {})
+                }
+              : w
+          )
+        };
+      });
+    });
+    const unsubPing = VttEventBus.on('stage-remote-ping', (ping) => {
+      if (!ping) return;
+      setActivePings((prev) => [...prev.slice(-11), { ...ping, expiresAt: Date.now() + 4500 }]);
+    });
+    const unsubFog = VttEventBus.on('stage-remote-fog-explored', (fogPayload) => {
+      if (!fogPayload?.mapId || fogPayload.mapId !== mapId) return;
+      setMapData((prev) =>
+        prev
+          ? {
+              ...prev,
+              ...(fogPayload.fogEnabled !== undefined ? { fogEnabled: fogPayload.fogEnabled } : {}),
+              exploredFog: {
+                ...(prev.exploredFog || {}),
+                exploredPolygons: fogPayload.exploredAreas || [],
+                hiddenPolygons: fogPayload.hiddenAreas || prev.exploredFog?.hiddenPolygons || []
+              }
+            }
+          : prev
+      );
+    });
+    const tokensMap = sync.getTacticalTokensMap();
+    const onTokenMove = (event) => {
+      event.changes.keys.forEach((change, key) => {
+        if (change.action === 'add' || change.action === 'update') {
+          const pos = tokensMap.get(key);
+          if (pos && typeof pos.x === 'number' && typeof pos.y === 'number') {
+            setMapData((prev) =>
+              prev?.tokens
+                ? {
+                    ...prev,
+                    tokens: prev.tokens.map((t) => (t.id === key ? { ...t, x: pos.x, y: pos.y } : t))
+                  }
+                : prev
+            );
+          }
+        }
+      });
+    };
+    tokensMap.observe(onTokenMove);
+    const vitalsMap = sync.getDocument().getMap('token_vitals');
+    const onVitals = (event) => {
+      event.changes.keys.forEach((change, key) => {
+        if (change.action === 'add' || change.action === 'update') {
+          const v = vitalsMap.get(key);
+          if (v) {
+            setMapData((prev) =>
+              prev?.tokens
+                ? {
+                    ...prev,
+                    tokens: prev.tokens.map((t) => (t.id === key ? { ...t, ...v } : t))
+                  }
+                : prev
+            );
+          }
+        }
+      });
+    };
+    vitalsMap.observe(onVitals);
+    const pingTimer = setInterval(() => {
+      setActivePings((prev) => prev.filter((p) => !p.expiresAt || p.expiresAt > Date.now()));
+    }, 1000);
+    return () => {
+      unsubHandout();
+      unsubDoor();
+      unsubPing();
+      unsubFog();
+      tokensMap.unobserve(onTokenMove);
+      vitalsMap.unobserve(onVitals);
+      clearInterval(pingTimer);
+    };
+  }, [mapId]);
 
   // Handle Fullscreen Toggle
   const toggleFullscreen = () => {
@@ -140,7 +235,9 @@ export const PlayerSpectatorView = () => {
   // Security Sanitization: Strip GM-hidden tokens and layers
   const visibleTokens = useMemo(() => {
     if (!mapData?.tokens) return [];
-    return mapData.tokens.filter(t => !t.isHidden && !t.hidden && !t.isGmOnly && t.visible !== false);
+    return mapData.tokens.filter(
+      (t) => !t.isHidden && !t.hidden && !t.is_hidden && !t.isGmOnly && !t.gmOnly && t.visible !== false
+    );
   }, [mapData?.tokens]);
 
   const visibleObjects = useMemo(() => {
@@ -168,17 +265,27 @@ export const PlayerSpectatorView = () => {
   const visibleWalls = useMemo(() => {
     if (!mapData?.walls) return [];
     return mapData.walls.map(w => {
-      if (w?.isSecret && !w?.isOpen) {
-        return { ...w, type: 'solid', isSecret: false, isOpen: false };
+      if (w?.isSecret && !w?.isOpen && w?.doorState !== 'open') {
+        const {
+          isDynamic: _d,
+          isDoor: _dr,
+          wallType: _wt,
+          doorState: _ds,
+          hackDc: _hd,
+          breachHp: _bh,
+          label: _lb,
+          ...plain
+        } = w;
+        return { ...plain, type: 'solid', isSecret: false, isOpen: false };
       }
       return w;
     });
   }, [mapData?.walls]);
 
-  // Closed secret doors still occlude player line-of-sight even though hidden visually
+  // Closed secret doors still occlude player line-of-sight even though hidden visually (with Bezier expansion)
   const occludingWalls = useMemo(() => {
     if (!mapData?.walls) return [];
-    return mapData.walls.filter(
+    const blocking = mapData.walls.filter(
       w =>
         !w.isOpen &&
         w.doorState !== 'open' &&
@@ -188,27 +295,33 @@ export const PlayerSpectatorView = () => {
         !w.isTransparent &&
         w.blocksVision !== false
     );
+    return expandWallsForGeometry(blocking, 8);
   }, [mapData?.walls]);
 
-  const activeHeroToken = useMemo(() => {
-    return visibleTokens.find(t => t.type === 'hero' || t.linkedHeroId || t.is_persona) || visibleTokens[0];
+  const heroTokens = useMemo(() => {
+    const heroes = visibleTokens.filter(t => t.type === 'hero' || t.linkedHeroId || t.is_persona);
+    return heroes.length > 0 ? heroes : visibleTokens.slice(0, 1);
   }, [visibleTokens]);
 
   const spectatorGridSize = Math.max(15, mapData?.gridSize || 50);
   const spectatorWidth = Math.max(4000, mapData?.width || (mapData?.gridWidth || 40) * spectatorGridSize);
   const spectatorHeight = Math.max(3000, mapData?.height || (mapData?.gridHeight || 30) * spectatorGridSize);
 
-  const visibilityPolygon = useMemo(() => {
-    if (!activeHeroToken) return null;
-    return computeVisibilityPolygon(
-      { x: activeHeroToken.x, y: activeHeroToken.y },
-      occludingWalls,
-      {
-        maxRadius: 1000,
-        bounds: { width: spectatorWidth, height: spectatorHeight }
-      }
-    );
-  }, [activeHeroToken?.x, activeHeroToken?.y, occludingWalls, spectatorWidth, spectatorHeight]);
+  const visibilityPolygons = useMemo(() => {
+    return heroTokens
+      .map((hero) =>
+        computeVisibilityPolygon(
+          { x: hero.x, y: hero.y },
+          occludingWalls,
+          {
+            maxRadius: Number(hero.vision_radius_px || 1000),
+            bounds: { width: spectatorWidth, height: spectatorHeight }
+          }
+        )
+      )
+      .filter((poly) => Array.isArray(poly) && poly.length >= 6);
+  }, [heroTokens, occludingWalls, spectatorWidth, spectatorHeight]);
+  const visibilityPolygon = visibilityPolygons[0] || null;
 
   const lines = mapData?.lines || [];
   const gridMode = mapData?.gridMode || 'hex';
@@ -271,7 +384,16 @@ export const PlayerSpectatorView = () => {
             <Compass size={16} />
           </button>
           <button
-            onClick={() => setIsMuted(prev => !prev)}
+            onClick={() => {
+              const nextMuted = !isMuted;
+              setIsMuted(nextMuted);
+              (['music', 'ambient', 'sfx']).forEach((bus) => {
+                const state = proAudioMixerService.getBusState(bus);
+                if (state.muted !== nextMuted) {
+                  proAudioMixerService.toggleBusMute(bus);
+                }
+              });
+            }}
             className="p-2 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-slate-800 transition-colors"
             title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
           >
@@ -326,6 +448,18 @@ export const PlayerSpectatorView = () => {
         </div>
       )}
 
+      {/* Optional Synchronized Animated Video Backdrop */}
+      {mapData.videoBackgroundUrl && (
+        <video
+          src={mapData.videoBackgroundUrl}
+          autoPlay
+          loop
+          muted={isMuted}
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none"
+        />
+      )}
+
       {/* Unified PixiJS v8 Tabletop Canvas (with automatic Canvas2D fallback) */}
       <SpectatorPixiCanvas
         width={stageDimensions.width}
@@ -347,6 +481,8 @@ export const PlayerSpectatorView = () => {
         visibleTokens={visibleTokens}
         visibleFog={visibleFog}
         visibilityPolygon={visibilityPolygon}
+        visibilityPolygons={visibilityPolygons}
+        activePings={activePings}
         fogEnabled={Boolean(mapData.fogEnabled)}
       />
     </div>

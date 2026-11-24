@@ -377,16 +377,18 @@ function buildWrappedScriptBody(code: string): string {
     .replace(/\/\*[\s\S]*?\*\//g, ' ')
     .replace(/\/\/[^\n]*/g, ' ');
   const normalizedConcat = withoutComments.replace(/['"`]\s*\+\s*['"`]/g, '');
+  const escapeObfuscationPattern = /(?:\\u\{?[0-9a-fA-F]{2,6}\}?|\\x[0-9a-fA-F]{2})/;
   const forbiddenPattern =
-    /(\.\s*constructor\b|\[\s*['"`]?\s*constructor\s*['"`]?\s*\]|\b__proto__\b|\bprototype\b|\bglobalThis\b|\bFunction\b|\beval\b|\bimport\s*\(|\bprocess\b|\bReflect\b|\bProxy\b)/;
+    /(\.\s*constructor\b|\[\s*['"`]?\s*constructor\s*['"`]?\s*\]|\b__proto__\b|\bprototype\b|\bgetPrototypeOf\b|\bsetPrototypeOf\b|\bglobalThis\b|\bFunction\b|\beval\b|\bimport\s*\(|\bprocess\b|\bReflect\b|\bProxy\b)/;
   const concatEscapePattern =
-    /(\.\s*constructor\b|\[\s*['"`]?\s*constructor\s*['"`]?\s*\]|\bFunction\b|\beval\b|\bprocess\b|\bglobalThis\b|\bReflect\b|\bProxy\b)/;
+    /(\.\s*constructor\b|\[\s*['"`]?\s*constructor\s*['"`]?\s*\]|\bgetPrototypeOf\b|\bsetPrototypeOf\b|\bFunction\b|\beval\b|\bprocess\b|\bglobalThis\b|\bReflect\b|\bProxy\b)/;
   if (
+    escapeObfuscationPattern.test(trimmed) ||
     forbiddenPattern.test(trimmed) ||
     forbiddenPattern.test(withoutComments) ||
     concatEscapePattern.test(normalizedConcat)
   ) {
-    throw new Error('Security Violation: Restricted global or prototype chain access is prohibited in sandboxed macros.');
+    throw new Error('Security Violation: Restricted global, escape sequence, or prototype chain access is prohibited in sandboxed macros.');
   }
 
   const codeWithoutLeadingComments = trimmed.replace(/^(\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)+/, '').trim();
@@ -468,7 +470,11 @@ export class QuickJSSandbox {
   try {
     var workerCode = [
       '"use strict";',
+      'var __post = self.postMessage.bind(self);',
       'var __buildStdLib = ' + ${escapeInlineScriptJson(JSON.stringify(buildSandboxStandardLibrary.toString()))} + ';',
+      '["postMessage","fetch","XMLHttpRequest","WebSocket","importScripts","indexedDB","caches","BroadcastChannel","Worker"].forEach(function(g){',
+      '  try { Object.defineProperty(self, g, { value: undefined, writable: false, configurable: false }); } catch (e) { try { self[g] = undefined; } catch (_) {} }',
+      '});',
       'try { Object.freeze(Object.prototype); } catch (e) {}',
       'try { Object.freeze(Array.prototype); } catch (e) {}',
       'self.onmessage = function(evt) {',
@@ -488,10 +494,12 @@ export class QuickJSSandbox {
       '    var keys = Object.keys(env);',
       '    var values = keys.map(function(k) { return env[k]; });',
       '    var runner = new Function(...keys, d.body);',
+      '    try { Object.defineProperty(Function.prototype, "constructor", { value: undefined, writable: false, configurable: false }); } catch (e) {}',
+      '    try { Object.freeze(Function.prototype); } catch (e) {}',
       '    var result = runner(...values);',
-      '    self.postMessage({ ok: true, result: result, finalFlags: stdLib.StoryFlags.all(), actions: stdLib.StageAPI.getActions() });',
+      '    __post({ ok: true, result: result, finalFlags: stdLib.StoryFlags.all(), actions: stdLib.StageAPI.getActions() });',
       '  } catch (err) {',
-      '    self.postMessage({ ok: false, error: err && err.message ? err.message : String(err) });',
+      '    __post({ ok: false, error: err && err.message ? err.message : String(err) });',
       '  }',
       '};'
     ].join('\\n');
@@ -511,29 +519,13 @@ export class QuickJSSandbox {
       __finish({ __sandboxNonce: __nonce, ok: false, error: err && err.message ? err.message : 'Worker execution failed' });
     };
     __worker.postMessage({ ctxJson: ${serializedCtxArg}, body: ${serializedBody} });
-  } catch (fallbackErr) {
-    try {
-      var __buildStdLibFallback = ${buildSandboxStandardLibrary.toString()};
-      try { Object.freeze(Object.prototype); } catch (e) {}
-      try { Object.freeze(Array.prototype); } catch (e) {}
-      var ctxFallback = JSON.parse(${serializedCtxArg});
-      var stdLibFallback = __buildStdLibFallback(ctxFallback || {});
-      var envFallback = Object.assign({
-        Dice: stdLibFallback.Dice,
-        MathOps: stdLibFallback.MathOps,
-        Trauma: stdLibFallback.Trauma,
-        StoryFlags: stdLibFallback.StoryFlags,
-        StageAPI: stdLibFallback.StageAPI,
-        performance: { now: function() { return Date.now(); } }
-      }, ctxFallback || {});
-      var fKeys = Object.keys(envFallback);
-      var fVals = Object.values(envFallback);
-      var fRunner = new Function(...fKeys, ${serializedBody});
-      var fResult = fRunner(...fVals);
-      __finish({ __sandboxNonce: __nonce, ok: true, result: fResult, finalFlags: stdLibFallback.StoryFlags.all(), actions: stdLibFallback.StageAPI.getActions() });
-    } catch (innerErr) {
-      __finish({ __sandboxNonce: __nonce, ok: false, error: innerErr && innerErr.message ? innerErr.message : String(innerErr) });
-    }
+  } catch (workerInitErr) {
+    // Fail closed rather than running untrusted code synchronously on the main UI thread
+    __finish({
+      __sandboxNonce: __nonce,
+      ok: false,
+      error: workerInitErr && workerInitErr.message ? workerInitErr.message : 'Isolated sandbox worker unavailable'
+    });
   }
 })();
 </script>
@@ -593,16 +585,9 @@ export class QuickJSSandbox {
       const __postResult = self.postMessage.bind(self);
       try { Object.freeze(Object.prototype); } catch {}
       try { Object.freeze(Array.prototype); } catch {}
-      try { self.postMessage = undefined; } catch {}
-      // Lock down worker network/storage surfaces before executing user code
-      try { self.fetch = undefined; } catch {}
-      try { self.XMLHttpRequest = undefined; } catch {}
-      try { self.WebSocket = undefined; } catch {}
-      try { self.importScripts = undefined; } catch {}
-      try { self.indexedDB = undefined; } catch {}
-      try { self.caches = undefined; } catch {}
-      try { self.BroadcastChannel = undefined; } catch {}
-      try { self.Worker = undefined; } catch {}
+      ["postMessage","fetch","XMLHttpRequest","WebSocket","importScripts","indexedDB","caches","BroadcastChannel","Worker"].forEach(function(g){
+        try { Object.defineProperty(self, g, { value: undefined, writable: false, configurable: false }); } catch { try { self[g] = undefined; } catch {} }
+      });
 
       self.onmessage = function(ev) {
         const { wrappedBody, safeContext } = ev.data || {};
@@ -622,6 +607,8 @@ export class QuickJSSandbox {
           const keys = Object.keys(sandboxEnv);
           const values = Object.values(sandboxEnv);
           const runner = new Function(...keys, wrappedBody);
+          try { Object.defineProperty(Function.prototype, 'constructor', { value: undefined, writable: false, configurable: false }); } catch {}
+          try { Object.freeze(Function.prototype); } catch {}
           const result = runner(...values);
           __postResult({ ok: true, result, finalFlags: stdLib.StoryFlags.all(), actions: stdLib.StageAPI.getActions() });
         } catch (err) {
@@ -708,29 +695,42 @@ export class QuickJSSandbox {
       });
     }
 
+    const ctxKeys = Object.keys(safeContext);
+    const paramNames = ['Dice', 'MathOps', 'Trauma', 'StoryFlags', 'StageAPI', 'performance', ...ctxKeys];
+
+    // Compile untrusted macro cleanly as an isolated function inside vmContext (zero raw code interpolation)
+    const userMacroFn = vm.compileFunction(wrappedBody, paramNames, {
+      parsingContext: vmContext
+    });
+    vmContext.__invokeUserMacro = userMacroFn;
+
     const serializedContext = JSON.stringify(safeContext || {});
     const bootstrapSource = `
-      const __ctx = JSON.parse(${JSON.stringify(serializedContext)});
-      const __buildStdLib = ${buildSandboxStandardLibrary.toString()};
-      const __stdLib = __buildStdLib(__ctx);
-      const __perf = { now: () => Date.now() };
-      const __runUserMacro = (${Object.keys(safeContext).length > 0
-        ? `function(${['Dice', 'MathOps', 'Trauma', 'StoryFlags', 'StageAPI', 'performance', ...Object.keys(safeContext)].join(', ')}) {\n${wrappedBody}\n}`
-        : `function(Dice, MathOps, Trauma, StoryFlags, StageAPI, performance) {\n${wrappedBody}\n}`});
-      const __macroResult = __runUserMacro(
-        __stdLib.Dice,
-        __stdLib.MathOps,
-        __stdLib.Trauma,
-        __stdLib.StoryFlags,
-        __stdLib.StageAPI,
-        __perf${Object.keys(safeContext).length > 0 ? ', ' + Object.keys(safeContext).map((k) => `__ctx[${JSON.stringify(k)}]`).join(', ') : ''}
-      );
-      JSON.stringify({
-        result: __macroResult === undefined ? null : __macroResult,
-        hasUndefinedResult: __macroResult === undefined,
-        finalFlags: __stdLib.StoryFlags.all(),
-        actions: __stdLib.StageAPI.getActions()
-      });
+      (() => {
+        const __userFn = __invokeUserMacro;
+        __invokeUserMacro = undefined;
+        const __ctx = JSON.parse(${JSON.stringify(serializedContext)});
+        const __buildStdLib = ${buildSandboxStandardLibrary.toString()};
+        const __stdLib = __buildStdLib(__ctx);
+        const __perf = { now: () => Date.now() };
+        try { Object.defineProperty((() => {}).constructor.prototype, 'constructor', { value: undefined, writable: false, configurable: false }); } catch {}
+        try { Object.freeze(Object.prototype); } catch {}
+        try { Object.freeze(Array.prototype); } catch {}
+        const __macroResult = __userFn(
+          __stdLib.Dice,
+          __stdLib.MathOps,
+          __stdLib.Trauma,
+          __stdLib.StoryFlags,
+          __stdLib.StageAPI,
+          __perf${ctxKeys.length > 0 ? ', ' + ctxKeys.map((k) => `__ctx[${JSON.stringify(k)}]`).join(', ') : ''}
+        );
+        return JSON.stringify({
+          result: __macroResult === undefined ? null : __macroResult,
+          hasUndefinedResult: __macroResult === undefined,
+          finalFlags: __stdLib.StoryFlags.all(),
+          actions: __stdLib.StageAPI.getActions()
+        });
+      })();
     `;
 
     try {

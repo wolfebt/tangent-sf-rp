@@ -38,7 +38,7 @@ import { StageAudioMixerDrawer } from '../../../components/VTT/stage/StageAudioM
 import { StageChatRollFeed } from '../../../components/VTT/stage/StageChatRollFeed';
 import { TokenFramerPanel } from '../../../components/StoryFoundry/TokenFramerPanel';
 import { VttEventBus } from '../../../utils/vttEventBus';
-import { useEngineStore } from '../../../engine/index';
+import { useEngineStore } from '../../../engine/state/VolatileSharder.ts';
 
 describe('ADE Pro-Level Upgrades UI Suite (Phases 10–14)', () => {
   afterEach(() => {

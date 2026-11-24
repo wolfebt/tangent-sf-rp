@@ -423,12 +423,12 @@ export async function callAutomatedInferencePipeline({
     const llamaResult = await callLocalLlama({
       endpoint: llamaEndpoint || 'http://localhost:8080',
       prompt,
-      grammar,
+      ...(grammar !== undefined ? { grammar } : {}),
       tier,
-      temperature,
-      maxTokens,
-      onChunk,
-      signal
+      ...(temperature !== undefined ? { temperature } : {}),
+      ...(maxTokens !== undefined ? { maxTokens } : {}),
+      ...(onChunk !== undefined ? { onChunk } : {}),
+      ...(signal !== undefined ? { signal } : {})
     });
     if (llamaResult) {
       return { text: llamaResult, engine: 'llama_cpp' };
@@ -441,10 +441,10 @@ export async function callAutomatedInferencePipeline({
       endpoint: ollamaEndpoint || 'http://localhost:11434',
       prompt,
       tier,
-      temperature,
+      ...(temperature !== undefined ? { temperature } : {}),
       format: enforceJson ? 'json' : null,
-      onChunk,
-      signal
+      ...(onChunk !== undefined ? { onChunk } : {}),
+      ...(signal !== undefined ? { signal } : {})
     });
     if (ollamaResult) {
       return { text: ollamaResult, engine: 'ollama' };

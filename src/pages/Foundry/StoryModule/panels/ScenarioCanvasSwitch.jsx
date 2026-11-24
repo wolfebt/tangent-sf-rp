@@ -67,22 +67,43 @@ export default function ScenarioCanvasSwitch({
   const [completedBeats, setCompletedBeats] = useState(() => new Set());
   const [broadcastedText, setBroadcastedText] = useState(false);
 
+  const isOperatorPerspective = perspectiveMode === 'operator';
+  const safeDeleteElement = isOperatorPerspective ? undefined : handleDeleteElement;
+
+  const operatorPerspectiveBanner = isOperatorPerspective ? (
+    <div
+      role="status"
+      data-testid="operator-perspective-banner"
+      className="px-4 py-1.5 bg-amber-950/75 border-b border-amber-500/40 text-amber-200 text-[11px] font-mono font-bold flex items-center justify-between gap-2 shrink-0"
+    >
+      <span>🎮 OPERATOR PERSPECTIVE — GM SECRETS &amp; AUTHORING LOCKED</span>
+      <span className="text-[10px] text-amber-300/80 uppercase">Operative Safe Mode Active</span>
+    </div>
+  ) : null;
+
   if (!activeNode && scenarioWorkspaceTab !== 'interactive') {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-3 select-none bg-[#090d16] font-mono">
-        <BookOpen size={36} className="text-slate-700" />
-        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
-          No Element Selected
-        </h3>
-        <p className="text-xs text-slate-600 max-w-sm">
-          Select an element from the left Outliner tree, or create a new one to begin drafting your story.
-        </p>
-        <button
-          onClick={() => handleOpenAddModal(null)}
-          className="px-3.5 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold rounded-xl uppercase tracking-wider transition-all shadow-md cursor-pointer"
-        >
-          + Create Element
-        </button>
+      <div className="flex-1 flex flex-col bg-[#090d16] font-mono select-none">
+        {operatorPerspectiveBanner}
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-3">
+          <BookOpen size={36} className="text-slate-700" />
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
+            No Element Selected
+          </h3>
+          <p className="text-xs text-slate-600 max-w-sm">
+            {isOperatorPerspective
+              ? 'Select an unlocked sector scenario from the Outliner to run live operations.'
+              : 'Select an element from the left Outliner tree, or create a new one to begin drafting your story.'}
+          </p>
+          {!isOperatorPerspective && (
+            <button
+              onClick={() => handleOpenAddModal(null)}
+              className="px-3.5 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold rounded-xl uppercase tracking-wider transition-all shadow-md cursor-pointer"
+            >
+              + Create Element
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -160,6 +181,7 @@ export default function ScenarioCanvasSwitch({
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] relative min-w-0 font-mono">
+      {operatorPerspectiveBanner}
       {/* ── LIVE SESSION COCKPIT HUD (Shown only in studioMode === 'live_session' when not in full stage) ── */}
       {!isFullStage && studioMode === 'live_session' && (
         <div className="bg-gradient-to-r from-rose-950/40 via-slate-950 to-purple-950/40 border-b border-rose-500/40 p-2.5 px-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shrink-0 text-xs shadow-lg">
@@ -222,8 +244,56 @@ export default function ScenarioCanvasSwitch({
         </div>
       )}
 
-      {/* SPLIT VIEW: SIDE-BY-SIDE MANUSCRIPT/TACTICAL + TACTICAL STAGE */}
+      {/* SPLIT VIEW: SIDE-BY-SIDE MANUSCRIPT/TACTICAL + TACTICAL STAGE (including 100/0 & 0/100 focus) */}
       {isSplitView ? (
+        viewportSplit === 'story_full' ? (
+          <div className="h-full w-full overflow-hidden bg-[#090d16] flex flex-col min-w-0 flex-1">
+            {scenarioWorkspaceTab === 'tactical' ? (
+              <div className="flex-1 overflow-y-auto bg-[#090d16]">
+                <OsrControlPanelDeck
+                  activeNode={activeNode}
+                  updateStory={updateStory}
+                  guidanceGems={formatGemsText()}
+                />
+              </div>
+            ) : (
+              <StoryWeaver
+                activeNode={activeNode}
+                updateStory={updateStory}
+                guidanceGems={formatGemsText()}
+                onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+                isSplitView={isSplitView}
+                setIsSplitView={setIsSplitView}
+                viewportSplit={viewportSplit}
+                setViewportSplit={setViewportSplit}
+                handleOpenAddModal={handleOpenAddModal}
+                handleDeleteElement={safeDeleteElement}
+                locationPath={locationPath}
+              />
+            )}
+          </div>
+        ) : viewportSplit === 'canvas_full' ? (
+          <div className="h-full w-full overflow-hidden bg-[#070b13] flex flex-col min-w-0 relative flex-1">
+            <TacticalStageViewport
+              activeNode={activeNode}
+              linkedMap={linkedMap}
+              allAvailableMaps={allAvailableMaps}
+              universeState={universeState}
+              updateStory={updateStory}
+              setActiveMapId={setActiveMapId}
+              addMap={addMap}
+              handleCreateNewMapForElement={handleCreateNewMapForElement}
+              onSwitchView={onSwitchView}
+              waypointPromptData={waypointPromptData}
+              executeWaypointTrigger={executeWaypointTrigger}
+              handleConfirmWaypointBeat={handleConfirmWaypointBeat}
+              handleToggleAutoTrigger={handleToggleAutoTrigger}
+              setWaypointPromptData={setWaypointPromptData}
+              onSwitchToWeaver={() => setScenarioWorkspaceTab('weaver')}
+              perspectiveMode={perspectiveMode}
+            />
+          </div>
+        ) : (
         <Split
           sizes={splitSizes}
           minSize={[280, 280]}
@@ -252,7 +322,7 @@ export default function ScenarioCanvasSwitch({
                 viewportSplit={viewportSplit}
                 setViewportSplit={setViewportSplit}
                 handleOpenAddModal={handleOpenAddModal}
-                handleDeleteElement={handleDeleteElement}
+                handleDeleteElement={safeDeleteElement}
                 locationPath={locationPath}
               />
             )}
@@ -276,9 +346,11 @@ export default function ScenarioCanvasSwitch({
               handleToggleAutoTrigger={handleToggleAutoTrigger}
               setWaypointPromptData={setWaypointPromptData}
               onSwitchToWeaver={() => setScenarioWorkspaceTab('weaver')}
+              perspectiveMode={perspectiveMode}
             />
           </div>
         </Split>
+        )
       ) : (
         <>
           {/* FORMAT VIEW 1: MASTER WEAVER WORKSPACE (Write, Brainstorm, Gems, Elements, Graph, Play) */}
@@ -297,7 +369,7 @@ export default function ScenarioCanvasSwitch({
               viewportSplit={viewportSplit}
               setViewportSplit={setViewportSplit}
               handleOpenAddModal={handleOpenAddModal}
-              handleDeleteElement={handleDeleteElement}
+              handleDeleteElement={safeDeleteElement}
               locationPath={locationPath}
             />
           )}
@@ -332,6 +404,7 @@ export default function ScenarioCanvasSwitch({
                 handleToggleAutoTrigger={handleToggleAutoTrigger}
                 setWaypointPromptData={setWaypointPromptData}
                 onSwitchToWeaver={() => setScenarioWorkspaceTab('write')}
+                perspectiveMode={perspectiveMode}
               />
             </div>
           )}

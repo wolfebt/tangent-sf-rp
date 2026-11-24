@@ -5,9 +5,9 @@
  * Spotlight NPC/Persona cards, Read-Aloud teleprompter, quick 2d10 check roller, and Story Flags.
  */
 
-import React, { useMemo, useState } from 'react';
-import { BookOpen, Dices, Flag, Sparkles, User, Map as MapIcon } from 'lucide-react';
-import { resolveTangent2d10Check } from '../../../engine/index';
+import React, { useEffect, useMemo, useState } from 'react';
+import { BookOpen, Dices, Flag, Sparkles, User, Map as MapIcon, Mic } from 'lucide-react';
+import { resolveTangent2d10Check } from '../../../engine/rules/CanonicalCombatMath';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { useAdeStore } from '../../../pages/Foundry/store/adeStore';
@@ -18,6 +18,8 @@ export interface TheaterSceneViewportProps {
   activeScenario?: any;
   tokens?: any[];
   elementsCatalog?: any[];
+  activeSpeakers?: Array<{ identity: string; name?: string }>;
+  isArchitect?: boolean;
   onSwitchMode?: (mode: '2d' | '3d' | 'theater') => void;
 }
 
@@ -26,6 +28,8 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
   activeScenario,
   tokens = [],
   elementsCatalog = [],
+  activeSpeakers = [],
+  isArchitect = true,
   onSwitchMode
 }) => {
   const storyFlags = useAdeStore((s) => s.storyFlags);
@@ -33,11 +37,54 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
   const [lastCheckResult, setLastCheckResult] = useState<string | null>(null);
   const [showReadAloud, setShowReadAloud] = useState<boolean>(true);
 
+  // Sync Theater Spotlight & Teleprompter visibility via Yjs session_meta
+  useEffect(() => {
+    const doc = getVttMultiplayerSync().getDocument();
+    const meta = doc.getMap('session_meta');
+    const syncFromMeta = () => {
+      const remoteSpotlight = meta.get('theaterSpotlightId');
+      if (remoteSpotlight !== undefined) {
+        setSpotlightId(remoteSpotlight ? String(remoteSpotlight) : null);
+      }
+      const remoteTeleprompter = meta.get('theaterShowReadAloud');
+      if (typeof remoteTeleprompter === 'boolean') {
+        setShowReadAloud(remoteTeleprompter);
+      }
+    };
+    syncFromMeta();
+    meta.observe(syncFromMeta);
+    return () => meta.unobserve(syncFromMeta);
+  }, []);
+
+  const handleToggleSpotlight = (charId: string) => {
+    const nextId = spotlightId === charId ? null : charId;
+    setSpotlightId(nextId);
+    if (isArchitect) {
+      const doc = getVttMultiplayerSync().getDocument();
+      doc.transact(() => {
+        doc.getMap('session_meta').set('theaterSpotlightId', nextId);
+      }, 'local');
+    }
+  };
+
+  const handleToggleTeleprompter = () => {
+    const next = !showReadAloud;
+    setShowReadAloud(next);
+    if (isArchitect) {
+      const doc = getVttMultiplayerSync().getDocument();
+      doc.transact(() => {
+        doc.getMap('session_meta').set('theaterShowReadAloud', next);
+      }, 'local');
+    }
+  };
+
   const backdropVideoUrl = currentMap?.videoBackgroundUrl || currentMap?.videoUrl || '';
   const backdropImageUrl =
+    currentMap?.background_url ||
     currentMap?.backgroundUrl ||
     currentMap?.backgroundImage ||
     currentMap?.underlayUrl ||
+    currentMap?.underlay?.imageUrl ||
     activeScenario?.fields?.backdropUrl ||
     '';
 
@@ -132,10 +179,17 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          {activeSpeakers.length > 0 && (
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-950/85 border border-emerald-400/50 text-emerald-200 text-[10.5px]">
+              <Mic size={11} className="text-emerald-400 animate-pulse" />
+              <span>{activeSpeakers.map((s) => s.name || s.identity).join(', ')}</span>
+            </div>
+          )}
+
           <button
             type="button"
-            onClick={() => setShowReadAloud((v) => !v)}
+            onClick={handleToggleTeleprompter}
             className="px-2.5 py-1.5 rounded-xl bg-slate-950/85 border border-amber-500/40 text-amber-200 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer"
           >
             <BookOpen size={12} />
@@ -207,7 +261,7 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
               <button
                 key={char.id}
                 type="button"
-                onClick={() => setSpotlightId(isActive ? null : char.id)}
+                onClick={() => handleToggleSpotlight(char.id)}
                 className={`min-w-[165px] p-2.5 rounded-2xl border backdrop-blur-md text-left transition-all cursor-pointer flex items-center gap-2.5 ${
                   isActive
                     ? 'bg-cyan-950/85 border-cyan-400 shadow-[0_0_24px_rgba(34,211,238,0.4)] -translate-y-1'

@@ -6,7 +6,7 @@
  * layout modes (OSR 2-Column, Novel, GM Card Deck) and clean @media print CSS styling.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { 
   Printer, 
@@ -24,8 +24,13 @@ import { AudioService } from '../../services/audioService';
 import { PagedPdfCompiler } from '../../engine/compilers/PagedPdfCompiler';
 import {
   compileToEpubBlob,
-  compileToWordHtmlBlob
+  compileToWordHtmlBlob,
+  compileToRtfBlob
 } from '../../engine/compilers/DocumentExporters';
+import {
+  sanitizeScenarioForOperator,
+  stripGmSecretHtmlBlocks
+} from '../../utils/gmSecretSanitizer';
 
 export const SelectivePrintModal = ({
   isOpen,
@@ -33,7 +38,8 @@ export const SelectivePrintModal = ({
   universeState = {},
   elementsCatalog = [],
   activeScenario = null,
-  activeMap = null
+  activeMap = null,
+  defaultOperatorSafeMode = false
 }) => {
   // Selected Component Flags
   const [selectedSections, setSelectedSections] = useState({
@@ -51,8 +57,14 @@ export const SelectivePrintModal = ({
   });
 
   const [printLayout, setPrintLayout] = useState('osr_module'); // 'osr_module' | 'novel' | 'cards'
-  const [operatorSafeMode, setOperatorSafeMode] = useState(false);
+  const [operatorSafeMode, setOperatorSafeMode] = useState(Boolean(defaultOperatorSafeMode));
   const [includeToc, setIncludeToc] = useState(true);
+
+  useEffect(() => {
+    if (isOpen) {
+      setOperatorSafeMode(Boolean(defaultOperatorSafeMode));
+    }
+  }, [isOpen, defaultOperatorSafeMode]);
 
   if (!isOpen) return null;
 
@@ -87,7 +99,10 @@ export const SelectivePrintModal = ({
   const title = universeState?.projectName || universeState?.title || activeScenario?.title || 'Tactical Sector Adventure';
   const author = universeState?.author || 'ADE Studio Architect';
   const techLevel = universeState?.techLevel || activeScenario?.fields?.['tech-level'] || 3;
-  const scenarios = universeState?.scenarios || (activeScenario ? [activeScenario] : []);
+  const rawScenarios = universeState?.scenarios || (activeScenario ? [activeScenario] : []);
+  const scenarios = operatorSafeMode
+    ? rawScenarios.filter((s) => s && !s.isHidden && !s.isGmOnly).map((s) => sanitizeScenarioForOperator(s))
+    : rawScenarios;
   const maps = universeState?.maps || (activeMap ? [activeMap] : []);
   const activeTargetMap = activeMap || maps[0] || null;
 
@@ -130,23 +145,48 @@ export const SelectivePrintModal = ({
     triggerDownload(blob, `${slug}${operatorSafeMode ? '_operator' : ''}.print.html`);
   };
 
+  const handleDownloadRtf = () => {
+    const blob = compileToRtfBlob(scenarios, buildExportOptions());
+    const slug = String(title).toLowerCase().replace(/[^a-z0-9_-]+/g, '_');
+    triggerDownload(blob, `${slug}${operatorSafeMode ? '_operator' : ''}.rtf`);
+  };
+
   // Resolved scene beats
   const beatsRaw = activeScenario?.fields?.sceneBeats || universeState?.creativeState?.sceneBeats || '';
   const beatsList = beatsRaw.split('\n').map(b => b.trim()).filter(Boolean);
 
   // Resolved manuscript prose
-  const proseText = activeScenario?.content || universeState?.creativeState?.storyDraft || '';
+  const rawProseText = activeScenario?.content || universeState?.creativeState?.storyDraft || '';
+  const proseText = operatorSafeMode ? stripGmSecretHtmlBlocks(rawProseText) : rawProseText;
+  const readAloudSource = operatorSafeMode
+    ? stripGmSecretHtmlBlocks(activeScenario?.content || '')
+    : (activeScenario?.content || '');
+  const rawSynopsis = activeScenario?.fields?.summary || activeScenario?.fields?.goal || universeState?.creativeState?.storyOutline || '';
+  const synopsisText = operatorSafeMode ? stripGmSecretHtmlBlocks(rawSynopsis) : rawSynopsis;
 
-  // Personas & Adversaries
-  const personas = elementsCatalog.filter(e => e.type === 'Persona');
-  const tokensOnMap = activeTargetMap?.tokens || [];
+  // Personas & Adversaries (Operator Safe hides hidden/GM-only tokens and traps)
+  const rawPersonas = elementsCatalog.filter(e => e.type === 'Persona');
+  const personas = operatorSafeMode
+    ? rawPersonas.filter((e) => !e.isHidden && !e.isGmOnly && e.fields?.playerVisible !== false)
+    : rawPersonas;
+  const rawTokensOnMap = activeTargetMap?.tokens || [];
+  const tokensOnMap = operatorSafeMode
+    ? rawTokensOnMap.filter((t) => t && !t.isHidden && !t.isGmOnly && t.type !== 'enemy' && (t.type === 'hero' || t.isPlayerVisible || t.visibleToPlayers))
+    : rawTokensOnMap;
 
   // Props & Clues
-  const propsOnMap = activeTargetMap?.objects || [];
-  const clues = elementsCatalog.filter(e => e.type === 'Clue' || e.type === 'Handout');
+  const rawPropsOnMap = activeTargetMap?.objects || [];
+  const propsOnMap = operatorSafeMode
+    ? rawPropsOnMap.filter((o) => o && !o.isHidden && !o.isGmOnly && !o.isTrap && !o.secret && !o.isSecret)
+    : rawPropsOnMap;
+  const rawClues = elementsCatalog.filter(e => e.type === 'Clue' || e.type === 'Handout');
+  const clues = operatorSafeMode
+    ? rawClues.filter((c) => c && !c.isHidden && !c.isGmOnly && c.fields?.playerVisible !== false)
+    : rawClues;
 
   // Waypoints
-  const waypoints = activeTargetMap?.waypoints || [];
+  const rawWaypoints = activeTargetMap?.waypoints || [];
+  const waypoints = operatorSafeMode ? rawWaypoints.filter((w) => w && w.isPlayerVisible) : rawWaypoints;
 
   const modalContent = (
     <div id="ade-print-portal-root" className="fixed inset-0 z-[230] bg-black/90 backdrop-blur-md flex items-start justify-center p-2 sm:p-5 pt-6 pb-8 overflow-y-auto font-sans select-none">
@@ -273,6 +313,16 @@ export const SelectivePrintModal = ({
 
             <button
               type="button"
+              onClick={handleDownloadRtf}
+              className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-amber-200 border border-amber-500/40 font-mono font-bold text-[11px] rounded-xl flex items-center gap-1 cursor-pointer"
+              title="Download Universal Rich Text Format (.rtf)"
+            >
+              <Download size={12} />
+              <span>RTF</span>
+            </button>
+
+            <button
+              type="button"
               onClick={handleExecutePrint}
               className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-black font-mono font-bold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all"
             >
@@ -382,7 +432,7 @@ export const SelectivePrintModal = ({
                   Mission Synopsis &amp; Operational Brief
                 </h3>
                 <p className="text-xs text-slate-800 leading-relaxed font-sans">
-                  {activeScenario?.fields?.summary || activeScenario?.fields?.goal || universeState?.creativeState?.storyOutline || 'Tactical mission parameters established. Operatives infiltrate sector to resolve primary objective.'}
+                  {synopsisText || 'Tactical mission parameters established. Operatives infiltrate sector to resolve primary objective.'}
                 </p>
               </div>
             )}
@@ -414,8 +464,8 @@ export const SelectivePrintModal = ({
                   <strong className="block font-sans not-italic font-bold uppercase tracking-wider text-[10px] text-slate-800 mb-1">
                     📢 Boxed Read-Aloud Description (To Be Read to Operators upon Sector Arrival):
                   </strong>
-                  "{activeScenario?.content 
-                    ? activeScenario.content.replace(/<[^>]+>/g, ' ').slice(0, 500)
+                  "{readAloudSource
+                    ? readAloudSource.replace(/<[^>]+>/g, ' ').slice(0, 500)
                     : 'The air hums with electromagnetic discharge. Shadows stretch long across reinforced bulkheads as warning klaxons pulse in distant corridors.'}"
                 </div>
               </div>
@@ -442,7 +492,7 @@ export const SelectivePrintModal = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {(activeTargetMap.objects || []).slice(0, 8).map((obj, i) => (
+                      {(propsOnMap || []).slice(0, 8).map((obj, i) => (
                         <tr key={obj.id || i} className="border-b border-slate-200">
                           <td className="p-1.5 border-r border-slate-200 font-bold">{obj.name || obj.label || `Object ${i+1}`}</td>
                           <td className="p-1.5 border-r border-slate-200">{obj.type}</td>

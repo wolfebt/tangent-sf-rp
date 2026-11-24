@@ -8,7 +8,8 @@
 import React, { useEffect, useState } from 'react';
 import { Shield, Heart, Zap, EyeOff, Lock, Globe, Send } from 'lucide-react';
 import { VttEventBus, type VttEventMap } from '../../../utils/vttEventBus';
-import { useEngineStore, resolveTangent2d10Check } from '../../../engine/index';
+import { useEngineStore } from '../../../engine/state/VolatileSharder';
+import { resolveTangent2d10Check } from '../../../engine/rules/CanonicalCombatMath';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { AudioService } from '../../../services/audioService';
 
@@ -31,23 +32,40 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
   const [cards, setCards] = useState<ChatRollCard[]>([]);
   const [visibility, setVisibility] = useState<'public' | 'whisper_gm' | 'blind_gm'>('public');
   const [quickFormula, setQuickFormula] = useState('2d10 + 4');
+  const [appliedCardIds, setAppliedCardIds] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const unsub = VttEventBus.on('stage-chat-card', (card) => {
       if (!card) return;
-      // Hide GM-only whisper cards from operative view if sent remotely
-      if (!isArchitect && (card.visibility === 'whisper_gm' || card.visibility === 'blind_gm') && card.remote) {
+      // Suppress incoming remote whispers for Operatives unless they authored them
+      if (!isArchitect && card.visibility === 'whisper_gm' && card.remote) {
         return;
       }
+      const safeCard: ChatRollCard =
+        !isArchitect && card.visibility === 'blind_gm'
+          ? {
+              id: card.id,
+              timestamp: card.timestamp,
+              sender: card.sender,
+              ...(card.senderRole !== undefined ? { senderRole: card.senderRole } : {}),
+              ...(card.senderId !== undefined ? { senderId: card.senderId } : {}),
+              visibility: 'blind_gm',
+              kind: card.kind,
+              title: '[BLIND GM ROLL]',
+              body: 'Resolved in secret by the Architect.',
+              ...(card.remote !== undefined ? { remote: card.remote } : {})
+            }
+          : card;
       setCards((prev) => {
-        if (prev.some((c) => c.id === card.id)) return prev;
-        return [card, ...prev].slice(0, 25);
+        if (prev.some((c) => c.id === safeCard.id)) return prev;
+        return [safeCard, ...prev].slice(0, 25);
       });
     });
     return unsub;
   }, [isArchitect]);
 
   const handleApplyDamageCard = (card: ChatRollCard, multiplier: number) => {
+    if (!isArchitect) return;
     const dmgInfo = card.damagePayload;
     if (!dmgInfo) return;
     const recipientId = dmgInfo.targetTokenId || targetToken?.id || selectedToken?.id;
@@ -60,10 +78,12 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
     if (eph) {
       getVttMultiplayerSync().broadcastTokenVitals(recipientId, eph);
     }
+    setAppliedCardIds((prev) => ({ ...prev, [card.id]: true }));
     AudioService.playTerminalBeep(multiplier < 0 ? 1300 : 750, 0.04);
   };
 
   const handleHealCard = (card: ChatRollCard) => {
+    if (!isArchitect) return;
     const dmgInfo = card.damagePayload;
     if (!dmgInfo) return;
     const recipientId = dmgInfo.targetTokenId || selectedToken?.id || targetToken?.id;
@@ -107,10 +127,8 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
         fumble: check.isFumble
       }
     };
+    getVttMultiplayerSync().broadcastChatCard(saveCard);
     VttEventBus.emit('stage-chat-card', saveCard);
-    if (visibility === 'public') {
-      getVttMultiplayerSync().broadcastChatCard(saveCard);
-    }
     AudioService.playCriticalChime(check.isSuccess);
   };
 
@@ -138,10 +156,8 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
         fumble: check.isFumble
       }
     };
+    getVttMultiplayerSync().broadcastChatCard(card);
     VttEventBus.emit('stage-chat-card', card);
-    if (visibility === 'public') {
-      getVttMultiplayerSync().broadcastChatCard(card);
-    }
     AudioService.playTerminalBeep(1280, 0.04);
   };
 
@@ -225,29 +241,38 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
                 </div>
               )}
 
-              {card.damagePayload && (
+              {card.damagePayload && (isArchitect || card.visibility !== 'blind_gm') && (
                 <div className="flex flex-wrap items-center gap-1 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => handleApplyDamageCard(card, 1)}
-                    className="px-1.5 py-0.5 rounded bg-rose-950/80 hover:bg-rose-900 border border-rose-500/40 text-rose-200 text-[9px] font-bold flex items-center gap-0.5 cursor-pointer"
-                  >
-                    <Zap size={9} /> Full
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleApplyDamageCard(card, 0.5)}
-                    className="px-1.5 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-200 text-[9px] font-bold cursor-pointer"
-                  >
-                    Half
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleHealCard(card)}
-                    className="px-1.5 py-0.5 rounded bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-200 text-[9px] font-bold flex items-center gap-0.5 cursor-pointer"
-                  >
-                    <Heart size={9} /> Heal
-                  </button>
+                  {isArchitect && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => handleApplyDamageCard(card, 1)}
+                        className="px-1.5 py-0.5 rounded bg-rose-950/80 hover:bg-rose-900 border border-rose-500/40 text-rose-200 text-[9px] font-bold flex items-center gap-0.5 cursor-pointer"
+                      >
+                        <Zap size={9} /> Full
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleApplyDamageCard(card, 0.5)}
+                        className="px-1.5 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-200 text-[9px] font-bold cursor-pointer"
+                      >
+                        Half
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleHealCard(card)}
+                        className="px-1.5 py-0.5 rounded bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-200 text-[9px] font-bold flex items-center gap-0.5 cursor-pointer"
+                      >
+                        <Heart size={9} /> Heal
+                      </button>
+                      {(card.damagePayload.damageApplied || appliedCardIds[card.id]) && (
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 text-[8.5px] font-bold">
+                          Applied
+                        </span>
+                      )}
+                    </>
+                  )}
                   <button
                     type="button"
                     onClick={() => handleRollSave(card)}

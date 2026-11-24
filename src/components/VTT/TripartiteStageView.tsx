@@ -35,13 +35,19 @@ const OperativeCockpit = OperativeCockpitRail as unknown as React.ComponentType<
 const ArchitectConsole = ArchitectConsoleRail as unknown as React.ComponentType<any>;
 import type { StageViewProps } from './StageView';
 import { useCampaign } from '../../context/CampaignContext';
+import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
-import { useEngineStore, selectAllFusedTokens, type StaticEntity } from '../../engine/index';
+import { useEngineStore, selectAllFusedTokens, type StaticEntity } from '../../engine/state/VolatileSharder.ts';
 import { useUILayoutStore, type UserVttRole } from './store/uiLayoutStore';
 import { AudioService } from '../../services/audioService';
 import { VttEventBus } from '../../utils/vttEventBus';
+import { getVttMultiplayerSync } from '../../services/vttMultiplayerSyncService';
 import { StageAudioMixerDrawer } from './stage/StageAudioMixerDrawer';
 import { HandoutBroadcastOverlay } from './stage/HandoutBroadcastOverlay';
+import { StageChatRollFeed } from './stage/StageChatRollFeed';
+import { QuickJSSandbox } from '../../engine/scripting/QuickJSSandbox';
+import { dispatchStageMacroActions } from '../../services/stageMacroDispatcher';
+import { useAdeStore } from '../../pages/Foundry/store/adeStore';
 
 const LazyAIMEChatBox = React.lazy(() =>
   import('../../pages/Foundry/AIME/AIMEChatBox').then((m) => ({
@@ -122,11 +128,70 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   const [isStageAimeOpen, setIsStageAimeOpen] = useState(false);
   const [isAudioMixerOpen, setIsAudioMixerOpen] = useState(false);
   const [isHandoutPushOpen, setIsHandoutPushOpen] = useState(false);
+  const [isRollFeedOpen, setIsRollFeedOpen] = useState(false);
+  const [isMacroQuickRunOpen, setIsMacroQuickRunOpen] = useState(false);
+  const [macroRunStatus, setMacroRunStatus] = useState<string | null>(null);
+  const macroSandboxRef = useRef(new QuickJSSandbox());
+  const [selectedChunk, setSelectedChunk] = useState<any>(null);
+  const [chunkRotationDeg, setChunkRotationDeg] = useState<number>(0);
+  const [chunkFlipX, setChunkFlipX] = useState<boolean>(false);
+  const [chunkFlipY, setChunkFlipY] = useState<boolean>(false);
+  const [chunkSettings, setChunkSettings] = useState<any>({});
+  const [chunkSlotOverrides, setChunkSlotOverrides] = useState<any>({});
+  const [magneticSnapEnabled, setMagneticSnapEnabled] = useState<boolean>(true);
   const [tacticalPlayCharacter, setTacticalPlayCharacter] = useState<any | null>(null);
   const [activeStageTab, setActiveStageTab] = useState<'map' | 'tree' | 'architect'>('map');
   const hasBootstrappedStartersRef = useRef(false);
 
+  const { currentUser, isAdmin, isGM } = (useAuth() as any) || {};
+  const {
+    universeState,
+    activeMapId,
+    setActiveMapId,
+    updateMap,
+    addMap,
+    activeScenarioId: contextActiveScenarioId,
+    setActiveScenarioId,
+    getActiveGemsText
+  } = useCampaign() as any;
+
+  const queryRole = searchParams.get('role')?.toLowerCase();
+  const isRemoteNonGm = Boolean(
+    universeState?.ownerId &&
+      universeState.ownerId !== 'local' &&
+      currentUser?.uid &&
+      universeState.ownerId !== currentUser.uid &&
+      !isAdmin &&
+      !isGM &&
+      !(Array.isArray(universeState?.gmIds) && universeState.gmIds.includes(currentUser.uid))
+  );
+  const isRoleLockedOperative =
+    queryRole === 'operative' ||
+    queryRole === 'player' ||
+    queryRole === 'spectator' ||
+    defaultRole === 'operative' ||
+    defaultRole === 'player' ||
+    defaultRole === 'spectator' ||
+    isRemoteNonGm;
+
+  const effectiveRole: UserVttRole = isRoleLockedOperative ? 'operative' : (userRole || 'architect');
+  const isArchitectRole = !isRoleLockedOperative && (effectiveRole === 'architect' || effectiveRole === 'gm');
+
+  useEffect(() => {
+    if (isRoleLockedOperative) {
+      if (userRole !== 'operative') setUserRole('operative');
+      setRightCollapsed(true);
+      getVttMultiplayerSync().setRole('operative');
+      if (activeStageTab === 'architect') setActiveStageTab('map');
+      VttEventBus.emit('toggle-stage-design-mode', { active: false });
+    }
+  }, [isRoleLockedOperative, userRole, activeStageTab, setUserRole, setRightCollapsed]);
+
   const handleSelectStageTab = (tab: 'map' | 'tree' | 'architect') => {
+    if (tab === 'architect' && isRoleLockedOperative) {
+      setActiveStageTab('map');
+      return;
+    }
     setActiveStageTab(tab);
     if (tab === 'map') {
       setLeftCollapsed(true);
@@ -177,16 +242,6 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     };
   }, []);
 
-  const {
-    universeState,
-    activeMapId,
-    setActiveMapId,
-    updateMap,
-    addMap,
-    activeScenarioId: contextActiveScenarioId,
-    setActiveScenarioId,
-    getActiveGemsText
-  } = useCampaign() as any;
   const { personaRoster = [], roster = [] } = (useFolio() as any) || {};
   const availableMaps = universeState?.maps || [];
   const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0];
@@ -336,15 +391,15 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     });
   };
 
-  // Initialize Role if defaultRole specified
+  // Initialize Role if defaultRole specified (without overriding operative locks)
   useEffect(() => {
-    if (defaultRole && userRole !== defaultRole) {
+    if (!isRoleLockedOperative && defaultRole && userRole !== defaultRole) {
       setUserRole(defaultRole);
       if (defaultRole === 'architect' || defaultRole === 'gm') {
         setRightCollapsed(false);
       }
     }
-  }, [defaultRole, userRole, setUserRole, setRightCollapsed]);
+  }, [isRoleLockedOperative, defaultRole, userRole, setUserRole, setRightCollapsed]);
 
   // Live tokens from engine store
   const tokens = useEngineStore(selectAllFusedTokens);
@@ -389,7 +444,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     flatScenarios,
     setActiveScenarioId,
     storyContext: null,
-    studioMode: 'live',
+    studioMode: 'live_session',
     liveTokens: tokens as any
   } as any);
 
@@ -495,15 +550,21 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
               }}
               targetToken={targetToken}
               onSelectTargetToken={(id: string) => setTargetTokenId(id)}
-              vttRole={userRole}
+              vttRole={effectiveRole}
               onUpdateTokenHealth={(id: string, hp: number) => {
                 useEngineStore.getState().setHealth(id, hp);
+                const eph = useEngineStore.getState().ephemeralData[id];
+                if (eph) getVttMultiplayerSync().broadcastTokenVitals(id, eph);
               }}
               onUpdateTokenVitality={(id: string, vit: number) => {
                 useEngineStore.getState().setVitality(id, vit);
+                const eph = useEngineStore.getState().ephemeralData[id];
+                if (eph) getVttMultiplayerSync().broadcastTokenVitals(id, eph);
               }}
               onUpdateTokenStructure={(id: string, struct: number) => {
                 useEngineStore.getState().setStructure(id, struct);
+                const eph = useEngineStore.getState().ephemeralData[id];
+                if (eph) getVttMultiplayerSync().broadcastTokenVitals(id, eph);
               }}
               objects={currentMap?.objects || []}
               currentMap={currentMap}
@@ -522,6 +583,10 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                 }
                 if (updates.current_structure !== undefined) {
                   useEngineStore.getState().setStructure(id, updates.current_structure);
+                }
+                const eph = useEngineStore.getState().ephemeralData[id];
+                if (eph) {
+                  getVttMultiplayerSync().broadcastTokenVitals(id, eph);
                 }
               }}
               onUpdateObject={(id: string, updates: any) => {
@@ -604,8 +669,20 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     </div>
   );
 
+  // Sync armed chunk config to StageView when chunk tool is edited from rail
+  useEffect(() => {
+    if (!selectedChunk) return;
+    VttEventBus.emit('arm-stage-chunk', {
+      chunk: selectedChunk,
+      rotationDeg: chunkRotationDeg,
+      flipX: chunkFlipX,
+      flipY: chunkFlipY,
+      settings: chunkSettings,
+      slotOverrides: chunkSlotOverrides
+    });
+  }, [selectedChunk, chunkRotationDeg, chunkFlipX, chunkFlipY, chunkSettings, chunkSlotOverrides]);
+
   // Right Panel: Architect Console (Cartography & World-Building)
-  const isArchitectRole = userRole === 'architect' || userRole === 'gm';
   const renderRightPanel = () => {
     if (!isArchitectRole) return null;
 
@@ -675,6 +752,27 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             onOpenAssetManager={() => VttEventBus.emit('open-asset-manager')}
             onOpenHeroDrawer={() => VttEventBus.emit('open-hero-drawer')}
             onOpenOmnicortexDrawer={() => VttEventBus.emit('open-omnicortex-drawer')}
+            selectedChunk={selectedChunk}
+            setSelectedChunk={(chunk: any) => {
+              setSelectedChunk(chunk);
+              if (chunk) setActiveArchitectTool('chunk');
+            }}
+            chunkRotationDeg={chunkRotationDeg}
+            setChunkRotationDeg={setChunkRotationDeg}
+            chunkFlipX={chunkFlipX}
+            setChunkFlipX={setChunkFlipX}
+            chunkFlipY={chunkFlipY}
+            setChunkFlipY={setChunkFlipY}
+            chunkSettings={chunkSettings}
+            setChunkSettings={setChunkSettings}
+            chunkSlotOverrides={chunkSlotOverrides}
+            setChunkSlotOverrides={setChunkSlotOverrides}
+            magneticSnapEnabled={magneticSnapEnabled}
+            setMagneticSnapEnabled={setMagneticSnapEnabled}
+            onOpenChunkStudio={() => {
+              setSelectedChunk((c: any) => c);
+              setActiveArchitectTool('chunk');
+            }}
           />
         </div>
       </div>
@@ -691,11 +789,13 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
               if (setActiveMapId) setActiveMapId(id);
             }}
             onOpenMapMaker={() => {
+              if (isRoleLockedOperative) return;
               setUserRole('architect');
               setRightCollapsed(false);
               AudioService.playTerminalBeep(1200, 0.04);
             }}
             onOpenUnderlayModal={() => {
+              if (isRoleLockedOperative) return;
               VttEventBus.emit('open-underlay-modal');
             }}
             onOpenStageOptions={() => {
@@ -706,13 +806,19 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             onSwitchToWeaver={props.onSwitchToWeaver}
             onOpenAudioMixer={() => setIsAudioMixerOpen(true)}
             onOpenHandoutPush={() => setIsHandoutPushOpen(true)}
+            isArchitectRole={isArchitectRole}
+            isRollFeedOpen={isRollFeedOpen}
+            onToggleRollFeed={() => setIsRollFeedOpen((v) => !v)}
+            onOpenMacroQuickRun={() => setIsMacroQuickRunOpen((v) => !v)}
           />
         }
         leftPanel={renderLeftPanel()}
         centerStage={
           <StageViewportWrapper
             {...props}
+            isArchitectRole={isArchitectRole}
             onOpenMapMaker={() => {
+              if (isRoleLockedOperative) return;
               setUserRole('architect');
               setRightCollapsed(false);
               AudioService.playTerminalBeep(1200, 0.04);
@@ -840,10 +946,117 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         </Suspense>
       )}
 
-      <StageAudioMixerDrawer isOpen={isAudioMixerOpen} onClose={() => setIsAudioMixerOpen(false)} />
+      {/* Docked Stage Chat & Roll Feed Drawer (Reachable across all viewport modes) */}
+      {isRollFeedOpen && (
+        <div
+          role="dialog"
+          aria-label="Stage Roll Feed"
+          className="fixed bottom-4 right-4 z-[175] w-88 max-w-[360px] bg-[#0a0f1d]/95 border border-emerald-500/40 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl"
+        >
+          <div className="px-3 py-2 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between text-[11px] font-mono">
+            <span className="font-bold text-emerald-300 uppercase">Roll Feed & Combat Log</span>
+            <button
+              type="button"
+              onClick={() => setIsRollFeedOpen(false)}
+              className="text-slate-400 hover:text-white px-1 cursor-pointer"
+              aria-label="Close Roll Feed"
+            >
+              ×
+            </button>
+          </div>
+          <StageChatRollFeed
+            selectedToken={tokens.find((t) => t.id === selectedTokenId) || null}
+            targetToken={targetToken}
+            userRole={effectiveRole}
+          />
+        </div>
+      )}
+
+      {/* Live Macro Quick-Run Popover (Architect Only) */}
+      {isArchitectRole && isMacroQuickRunOpen && (
+        <div
+          role="dialog"
+          aria-label="Stage Macro Quick-Run"
+          className="fixed top-14 right-4 z-[185] w-80 bg-[#0b101d]/95 border border-cyan-500/40 rounded-2xl shadow-2xl p-3 font-mono text-xs backdrop-blur-xl space-y-2"
+        >
+          <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
+            <span className="font-bold text-cyan-300 uppercase text-[11px]">Stage Macro Quick-Run</span>
+            <button
+              type="button"
+              onClick={() => setIsMacroQuickRunOpen(false)}
+              className="text-slate-400 hover:text-white px-1 cursor-pointer"
+            >
+              ×
+            </button>
+          </div>
+          <div className="max-h-56 overflow-y-auto space-y-1.5">
+            {(Array.isArray(universeState?.scripts) ? universeState.scripts : []).length === 0 ? (
+              <div className="text-[10.5px] text-slate-400 py-2">
+                No saved macros yet. Author StageAPI scripts in Presets &amp; Scripts.
+              </div>
+            ) : (
+              universeState.scripts.map((scr: any) => (
+                <div
+                  key={scr.id || scr.title}
+                  className="flex items-center justify-between gap-2 p-2 rounded-xl bg-slate-900/90 border border-slate-800"
+                >
+                  <span className="truncate text-[11px] font-bold text-slate-200">{scr.title || scr.name || 'Macro'}</span>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        const adeState = useAdeStore.getState();
+                        const workingFlags: Record<string, string | number | boolean> = {};
+                        for (const [k, rec] of Object.entries(adeState.storyFlags || {})) {
+                          const val = rec && typeof rec === 'object' && 'value' in rec ? (rec as any).value : rec;
+                          if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') {
+                            workingFlags[k] = val;
+                          }
+                        }
+                        const { actions } = await macroSandboxRef.current.executeWithActions(scr.code || '', {
+                          storyFlags: workingFlags,
+                          timestamp: Date.now()
+                        });
+                        for (const [fk, fv] of Object.entries(workingFlags)) {
+                          const prevRec = adeState.storyFlags?.[fk];
+                          const prevVal = prevRec && typeof prevRec === 'object' && 'value' in prevRec ? (prevRec as any).value : prevRec;
+                          if (prevVal !== fv) adeState.setStoryFlag(fk, fv);
+                        }
+                        if (Array.isArray(actions) && actions.length > 0) {
+                          dispatchStageMacroActions(actions, {
+                            role: 'architect',
+                            onSetStoryFlag: (k, v) => adeState.setStoryFlag(k, v)
+                          });
+                        }
+                        setMacroRunStatus(`Executed "${scr.title || 'Macro'}" (${actions?.length || 0} actions).`);
+                        AudioService.playCriticalChime(true);
+                      } catch (err: any) {
+                        setMacroRunStatus(`Error: ${err?.message || 'Execution failed'}`);
+                      }
+                    }}
+                    className="px-2 py-0.5 rounded bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold text-[10px] shrink-0 cursor-pointer"
+                  >
+                    Run
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+          {macroRunStatus && (
+            <div className="text-[10px] text-emerald-300 border-t border-slate-800 pt-1.5">{macroRunStatus}</div>
+          )}
+        </div>
+      )}
+
+      <StageAudioMixerDrawer
+        isOpen={isAudioMixerOpen}
+        onClose={() => setIsAudioMixerOpen(false)}
+        isArchitect={isArchitectRole}
+      />
       <HandoutBroadcastOverlay
         isPushModalOpen={isHandoutPushOpen}
         onClosePushModal={() => setIsHandoutPushOpen(false)}
+        isArchitect={isArchitectRole}
       />
 
     </div>

@@ -4,8 +4,17 @@
  * Inserts print-safe semantic blocks (Read-Aloud, GM Secret, Statblock Card, 2d10 Skill Check, Waypoint Pin, Divider).
  */
 
-import React, { useState } from 'react';
-import { BookOpen, Lock, Shield, Dices, MapPin, Minus, Plus, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { BookOpen, Lock, Shield, Dices, MapPin, Minus, Plus, X, Search } from 'lucide-react';
+
+function escHtml(val) {
+  return String(val ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 export const WEAVER_BLOCK_TEMPLATES = [
   {
@@ -34,11 +43,11 @@ export const WEAVER_BLOCK_TEMPLATES = [
     color: 'text-cyan-300',
     buildHtml: (elem) => {
       if (elem) {
-        const vit = elem.fields?.vitality || 30;
-        const hp = elem.fields?.health || elem.fields?.structure || 30;
-        const dr = elem.fields?.dr || elem.fields?.armor_dr || 4;
-        const atk = elem.fields?.attack || '+5 (2d10)';
-        return `<div class="ade-statblock-card"><p><strong>${elem.title || 'Combatant'}</strong> [${elem.type || 'Persona'}] &bull; Vit ${vit} / HP ${hp} &bull; DR ${dr} &bull; ATK ${atk}</p></div><p><br/></p>`;
+        const vit = escHtml(elem.fields?.vitality || 30);
+        const hp = escHtml(elem.fields?.health || elem.fields?.structure || 30);
+        const dr = escHtml(elem.fields?.dr || elem.fields?.armor_dr || 4);
+        const atk = escHtml(elem.fields?.attack || '+5 (2d10)');
+        return `<div class="ade-statblock-card"><p><strong>${escHtml(elem.title || 'Combatant')}</strong> [${escHtml(elem.type || 'Persona')}] &bull; Vit ${vit} / HP ${hp} &bull; DR ${dr} &bull; ATK ${atk}</p></div><p><br/></p>`;
       }
       return '<div class="ade-statblock-card"><p><strong>Security Drone MK-IV</strong> [Synthetic Threat] &bull; 60 SP &bull; DR 6 &bull; ATK +6 Plasma Carbine (2d8)</p></div><p><br/></p>';
     }
@@ -78,12 +87,29 @@ export default function WeaverSlashCommandMenu({
   onInsertBlockHtml
 }) {
   const [selectedStatblockId, setSelectedStatblockId] = useState('');
+  const [filterText, setFilterText] = useState('');
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   const personas = (elementsCatalog || []).filter(
     (e) => e && (e.type === 'Persona' || e.type === 'Hazard' || e.type === 'Encounter')
   );
+  const q = filterText.trim().toLowerCase();
+  const visibleTemplates = q
+    ? WEAVER_BLOCK_TEMPLATES.filter((t) => `${t.label} ${t.description}`.toLowerCase().includes(q))
+    : WEAVER_BLOCK_TEMPLATES;
 
   return (
     <div
@@ -125,8 +151,19 @@ export default function WeaverSlashCommandMenu({
         </div>
       )}
 
+      <div className="px-3 py-1.5 border-b border-slate-800/80 bg-slate-950/60 flex items-center gap-1.5">
+        <Search size={11} className="text-slate-500 shrink-0" />
+        <input
+          type="text"
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
+          placeholder="Filter blocks (read, secret, stat, 2d10)..."
+          className="w-full bg-transparent text-[11px] text-slate-200 placeholder-slate-500 outline-none"
+        />
+      </div>
+
       <div className="p-1.5 space-y-1 max-h-72 overflow-y-auto">
-        {WEAVER_BLOCK_TEMPLATES.map((tpl) => {
+        {visibleTemplates.map((tpl) => {
           const Icon = tpl.icon;
           return (
             <button

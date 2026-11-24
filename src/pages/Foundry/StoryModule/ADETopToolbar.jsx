@@ -38,7 +38,7 @@ export default function ADETopToolbar({
   activeNode,
   activeElement
 }) {
-  const { universeState, elementsCatalog, cronicle, activeMapId } = useStory();
+  const { universeState, elementsCatalog, cronicle, activeMapId, isDirty, cloudSyncStatus } = useStory();
   const {
     studioMode,
     setStudioMode,
@@ -128,6 +128,8 @@ export default function ADETopToolbar({
         onToggleRightDock={onToggleRightDock}
         activeCockpitDeck={activeCockpitDeck}
         onSelectCockpitDeck={onSelectCockpitDeck}
+        isDirty={isDirty}
+        cloudSyncStatus={cloudSyncStatus}
       />
     </header>
   );

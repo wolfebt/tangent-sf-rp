@@ -5,6 +5,7 @@
  */
 
 import { PagedPdfCompiler, type CompileOptions, type ScenarioExportNode } from './PagedPdfCompiler.ts';
+import { decodeHtmlEntities, stripGmSecretHtmlBlocks } from '../../utils/gmSecretSanitizer.js';
 
 function encodeUtf8(str: string): Uint8Array {
   return new TextEncoder().encode(str);
@@ -20,28 +21,15 @@ function escapeXml(val: unknown): string {
 }
 
 function stripHtmlToPlain(rawHtml: unknown): string {
-  return String(rawHtml ?? '')
+  const plain = String(rawHtml ?? '')
     .replace(/<\/(p|div|blockquote|h[1-6]|li|tr)>/gi, '\n')
     .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .trim();
+    .replace(/<[^>]+>/g, '');
+  return decodeHtmlEntities(plain).trim();
 }
 
 function stripGmSecretBlocks(rawHtml: unknown): string {
-  let clean = String(rawHtml ?? '');
-  let prev = '';
-  while (clean !== prev) {
-    prev = clean;
-    clean = clean
-      .replace(/<div[^>]*\bclass\s*=\s*["'][^"']*\bade-gm-secret\b[^"']*["'][^>]*>[\s\S]*?<\/div>/gi, '')
-      .replace(/<div[^>]*\bdata-gm-secret\s*=\s*["']true["'][^>]*>[\s\S]*?<\/div>/gi, '')
-      .replace(/<blockquote[^>]*\bclass\s*=\s*["'][^"']*\bade-gm-secret\b[^"']*["'][^>]*>[\s\S]*?<\/blockquote>/gi, '');
-  }
-  return clean;
+  return stripGmSecretHtmlBlocks(rawHtml);
 }
 
 const CRC32_TABLE = (() => {
@@ -240,7 +228,7 @@ blockquote.ade-read-aloud { background: #f8fafc; border-left: 3px solid #f59e0b;
         ? ch.fields.threats
             .map(
               (t) =>
-                `<p><strong>${escapeXml(t.name)}</strong> [${escapeXml(t.tier)}] &mdash; HP ${escapeXml(t.hp)}, DR ${escapeXml(t.dr)}, Attack ${escapeXml(t.attack)}</p>`
+                `<p><strong>${escapeXml(t.name)}</strong> [${escapeXml(t.tier)}] &#8212; HP ${escapeXml(t.hp)}, DR ${escapeXml(t.dr)}, Attack ${escapeXml(t.attack)}</p>`
             )
             .join('\n    ')
         : '';
@@ -342,11 +330,32 @@ export function compileToWordHtmlBlob(
 }
 
 function escapeRtf(str: string): string {
-  return String(str || '')
-    .replace(/\\/g, '\\\\')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}')
-    .replace(/\r?\n/g, '\\par\n');
+  const raw = String(str || '');
+  let out = '';
+  for (let i = 0; i < raw.length; i++) {
+    const ch = raw[i]!;
+    const code = raw.charCodeAt(i);
+    if (ch === '\\') out += '\\\\';
+    else if (ch === '{') out += '\\{';
+    else if (ch === '}') out += '\\}';
+    else if (ch === '\r') continue;
+    else if (ch === '\n') out += '\\par\n';
+    else if (code > 127) {
+      const signed = code > 32767 ? code - 65536 : code;
+      out += `\\u${signed}?`;
+    } else {
+      out += ch;
+    }
+  }
+  return out;
+}
+
+export function compileToRtfBlob(
+  nodes: ScenarioExportNode[],
+  options: CompileOptions = {}
+): Blob {
+  const rtf = compileToRtfString(nodes, options);
+  return new Blob([rtf], { type: 'application/rtf;charset=utf-8' });
 }
 
 export function compileToRtfString(

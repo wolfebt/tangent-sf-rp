@@ -25,7 +25,8 @@ export default function TacticalStageViewport({
   handleConfirmWaypointBeat,
   handleToggleAutoTrigger,
   setWaypointPromptData,
-  onSwitchToWeaver
+  onSwitchToWeaver,
+  perspectiveMode = 'architect'
 }) {
   const navigate = useNavigate();
 
@@ -57,6 +58,7 @@ export default function TacticalStageViewport({
             <TripartiteStageView
               campaignId={universeState?.id}
               sceneId={effectiveMap.id}
+              defaultRole={perspectiveMode === 'operator' ? 'operative' : 'architect'}
               onSwitchToWeaver={onSwitchToWeaver}
             />
             <WaypointPromptChip

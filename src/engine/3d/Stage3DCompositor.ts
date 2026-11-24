@@ -36,8 +36,9 @@ export class Stage3DCompositor {
   private tokensGroup: THREE.Group = new THREE.Group();
   private propsGroup: THREE.Group = new THREE.Group();
 
-  // Internal raycaster for pointer events
+  // Internal raycaster & multi-deck dirty flag
   private raycaster: THREE.Raycaster = new THREE.Raycaster();
+  private sliceDirty: boolean = true;
 
   constructor() {
     this.scene = new THREE.Scene();
@@ -171,6 +172,11 @@ export class Stage3DCompositor {
 
     // 6. Sync Tokens & Standees
     this.syncTokens(tokens, selectedTokenId, targetTokenId, camera);
+    this.sliceDirty = true;
+  }
+
+  public markSliceDirty() {
+    this.sliceDirty = true;
   }
 
   /**
@@ -190,6 +196,7 @@ export class Stage3DCompositor {
       const tokenMesh = this.tokenStandees.createTokenGroup(token, isSelected, isTarget, camera);
       this.tokensGroup.add(tokenMesh);
     }
+    this.sliceDirty = true;
   }
 
   /**
@@ -208,8 +215,11 @@ export class Stage3DCompositor {
       });
     }
 
-    // 3. Apply Multi-Deck Slice if active
-    this.deckManager.applySliceToScene(this.scene);
+    // 3. Apply Multi-Deck Slice only when deck settings or scene contents change
+    if (this.sliceDirty) {
+      this.deckManager.applySliceToScene(this.scene);
+      this.sliceDirty = false;
+    }
   }
 
   /**

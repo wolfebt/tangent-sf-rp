@@ -4,7 +4,7 @@
  * keyboard shortcuts, and VttEventBus tool integration.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { AudioService } from '../../../services/audioService';
 
@@ -25,7 +25,14 @@ export function useStageTools({
   const [dragStartPos, setDragStartPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [activeTab, setActiveTab] = useState<'combat' | 'spawner' | 'turns' | 'objects' | 'dice'>('combat');
 
-  // Listen to navigation and tool events across VttEventBus
+  const zoomRef = useRef(zoom);
+  zoomRef.current = zoom;
+  const setToolRef = useRef(setActiveDesignTool);
+  setToolRef.current = setActiveDesignTool;
+  const setDesignRef = useRef(setIsDesignModeActive);
+  setDesignRef.current = setIsDesignModeActive;
+
+  // Listen to navigation and tool events across VttEventBus without re-subscribing on zoom/callback changes
   useEffect(() => {
     const unsubPan = VttEventBus.on('pan-stage-to', (payload) => {
       if (payload) {
@@ -33,7 +40,7 @@ export function useStageTools({
         const app = renderer?.getApp?.();
         const canvasWidth = app?.renderer?.width || 1200;
         const canvasHeight = app?.renderer?.height || 800;
-        const targetZoom = payload.zoom || zoom;
+        const targetZoom = payload.zoom || zoomRef.current;
         setPan({
           x: Math.round(canvasWidth / 2 - payload.x * targetZoom),
           y: Math.round(canvasHeight / 2 - payload.y * targetZoom)
@@ -44,15 +51,15 @@ export function useStageTools({
     });
 
     const unsubTool = VttEventBus.on('arm-stage-tool', (payload) => {
-      if (payload?.tool && setActiveDesignTool && setIsDesignModeActive) {
-        setActiveDesignTool(payload.tool);
-        setIsDesignModeActive(() => true);
+      if (payload?.tool && setToolRef.current && setDesignRef.current) {
+        setToolRef.current(payload.tool);
+        setDesignRef.current(() => true);
       }
     });
 
     const unsubToggleDesign = VttEventBus.on('toggle-stage-design-mode', (payload) => {
-      if (setIsDesignModeActive) {
-        setIsDesignModeActive(prev => payload?.active !== undefined ? payload.active : !prev);
+      if (setDesignRef.current) {
+        setDesignRef.current(prev => payload?.active !== undefined ? payload.active : !prev);
       }
     });
 
@@ -61,7 +68,7 @@ export function useStageTools({
       unsubTool();
       unsubToggleDesign();
     };
-  }, [zoom, setActiveDesignTool, setIsDesignModeActive]);
+  }, [rendererContextRef]);
 
   const handleZoomIn = useCallback(() => {
     AudioService.playTerminalBeep(1200, 0.02);

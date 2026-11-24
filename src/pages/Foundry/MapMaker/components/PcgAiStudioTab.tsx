@@ -57,7 +57,7 @@ import { UniversalVttPackager, type RawWallSegment } from '../../../../engine/co
 import { createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../../schemas/vttWallSchema';
 import type { AssetUnit } from '../../../../schemas/assetUnitSchema';
 import coreSeedUnits from '../../../../data/seed_units/science_fantasy_core.json';
-import { generateLandmassGrid, convertGridToKonvaElements, BIOME_PALETTES, createPRNG } from '../map/landmassGenerator';
+import { generateLandmassGrid, convertGridToMapElements, BIOME_PALETTES, createPRNG } from '../map/landmassGenerator';
 
 export type PcgMapType = 
   | 'planetary' 
@@ -735,12 +735,11 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
     setTacticalGrid(grid);
   }, [widthCells, heightCells, storyNodes, storyEdges]);
 
-  // F. Generate Planetary Landmass Grid
-  const runGeneratePlanetary = useCallback(() => {
+  // F. Generate Planetary Landmass Grid (off-thread Web Worker with synchronous fallback)
+  const runGeneratePlanetary = useCallback(async () => {
     const resW = plResolution;
     const resH = Math.floor((plResolution * 3) / 4);
-
-    const result = generateLandmassGrid({
+    const params = {
       algorithm: plAlgorithm,
       seed,
       width: resW,
@@ -755,8 +754,41 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       enableRivers: plEnableRivers,
       enableDomainWarp: plEnableDomainWarp,
       paletteKey: plPaletteKey
-    });
+    };
 
+    if (typeof Worker !== 'undefined') {
+      try {
+        const result = await new Promise<any>((resolve, reject) => {
+          const worker = new Worker(new URL('../../../../workers/landmassWorker.ts', import.meta.url), {
+            type: 'module'
+          });
+          const reqId = `lm_${Date.now().toString(36)}`;
+          const timer = setTimeout(() => {
+            try { worker.terminate(); } catch {}
+            reject(new Error('Landmass worker timed out.'));
+          }, 15000);
+          worker.onmessage = (ev: MessageEvent<any>) => {
+            if (ev.data?.id !== reqId) return;
+            clearTimeout(timer);
+            try { worker.terminate(); } catch {}
+            if (ev.data?.ok) resolve(ev.data.result);
+            else reject(new Error(ev.data?.error || 'Landmass worker error'));
+          };
+          worker.onerror = (err: ErrorEvent) => {
+            clearTimeout(timer);
+            try { worker.terminate(); } catch {}
+            reject(new Error(err?.message || 'Landmass worker crashed'));
+          };
+          worker.postMessage({ id: reqId, params });
+        });
+        setPlGridResult(result);
+        return;
+      } catch {
+        // Fallback to synchronous generator cleanly in headless/CSP runtimes
+      }
+    }
+
+    const result = generateLandmassGrid(params);
     setPlGridResult(result);
   }, [
     seed, 
@@ -1397,7 +1429,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
   const handleDeployToCanvas = () => {
     if (activeMapType === 'planetary') {
       if (!plGridResult) return;
-      const { terrains, objects } = convertGridToKonvaElements(plGridResult, {
+      const { terrains, objects } = convertGridToMapElements(plGridResult, {
         stageWidth,
         stageHeight,
         scatterDensity: plScatterDensity,

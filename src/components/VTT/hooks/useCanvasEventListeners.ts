@@ -6,9 +6,9 @@
  * - Studio & Cartography drawers/modals (Landmass, UVTT, Asset Manager, Hero Drawer, Omnicortex)
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { VttEventBus } from '../../../utils/vttEventBus';
-import { useEngineStore, type StaticEntity } from '../../../engine/index';
+import { useEngineStore, type StaticEntity } from '../../../engine/state/VolatileSharder.ts';
 import { AudioService } from '../../../services/audioService';
 
 export interface UseCanvasEventListenersOptions {
@@ -42,10 +42,41 @@ export function useCanvasEventListeners({
   setSelectedTokenId,
   setCombatLog
 }: UseCanvasEventListenersOptions): void {
+  const callbacksRef = useRef({
+    setIsLandmassModalOpen,
+    setIsUvttModalOpen,
+    setIsAssetManagerOpen,
+    setIsHeroDrawerOpen,
+    setIsOmnicortexDrawerOpen,
+    setIsLayersPanelOpen,
+    setIsUnderlayModalOpen,
+    setIsAssetStudioOpen,
+    setIsAssetIngestionOpen,
+    setIsSpriteSheetCutterOpen,
+    selectedTokenId,
+    setSelectedTokenId,
+    setCombatLog
+  });
+  callbacksRef.current = {
+    setIsLandmassModalOpen,
+    setIsUvttModalOpen,
+    setIsAssetManagerOpen,
+    setIsHeroDrawerOpen,
+    setIsOmnicortexDrawerOpen,
+    setIsLayersPanelOpen,
+    setIsUnderlayModalOpen,
+    setIsAssetStudioOpen,
+    setIsAssetIngestionOpen,
+    setIsSpriteSheetCutterOpen,
+    selectedTokenId,
+    setSelectedTokenId,
+    setCombatLog
+  };
+
   // Sentry alert listener
   useEffect(() => {
     const off = VttEventBus.on('sentry-alert', ({ detectedHero, alertBark }) => {
-      setCombatLog(prev => [
+      callbacksRef.current.setCombatLog(prev => [
         `🚨 [SENTRY ALERT] ${alertBark || 'Intruder detected in sector!'} (Target: ${detectedHero?.name || detectedHero?.label || 'Hero'})`,
         ...prev.slice(0, 8)
       ]);
@@ -53,7 +84,7 @@ export function useCanvasEventListeners({
     });
 
     return off;
-  }, [setCombatLog]);
+  }, []);
 
   // Companion & Cohort deployment listener
   useEffect(() => {
@@ -84,33 +115,33 @@ export function useCanvasEventListeners({
         };
         store.loadStaticEntitiesBatch([compEntity]);
         store.updatePosition(tokenId, 200 + Math.random() * 40, 200 + Math.random() * 40);
-        setSelectedTokenId(tokenId);
+        callbacksRef.current.setSelectedTokenId(tokenId);
       } else {
         // Recall companion token from stage
         const tokenId = `comp_tok_${companionId}`;
         store.removeEntity(tokenId);
-        if (selectedTokenId === tokenId) {
-          setSelectedTokenId(null);
+        if (callbacksRef.current.selectedTokenId === tokenId) {
+          callbacksRef.current.setSelectedTokenId(null);
         }
       }
     });
 
     return off;
-  }, [selectedTokenId, setSelectedTokenId]);
+  }, []);
 
   // Cartography & studio modal listeners
   useEffect(() => {
-    const offLandmass = VttEventBus.on('open-landmass-modal', () => setIsLandmassModalOpen(true));
-    const offPcg = VttEventBus.on('open-pcg-modal', () => setIsLandmassModalOpen(true));
-    const offAssetStudio = setIsAssetStudioOpen ? VttEventBus.on('open-asset-studio', () => setIsAssetStudioOpen(true)) : () => {};
-    const offAssetIngest = setIsAssetIngestionOpen ? VttEventBus.on('open-asset-ingestion', () => setIsAssetIngestionOpen(true)) : () => {};
-    const offSpriteCutter = setIsSpriteSheetCutterOpen ? VttEventBus.on('open-sprite-cutter', () => setIsSpriteSheetCutterOpen(true)) : () => {};
-    const offUvtt = VttEventBus.on('open-uvtt-modal', () => setIsUvttModalOpen(true));
-    const offAsset = VttEventBus.on('open-asset-manager', () => setIsAssetManagerOpen(true));
-    const offHero = VttEventBus.on('open-hero-drawer', () => setIsHeroDrawerOpen(true));
-    const offOmni = VttEventBus.on('open-omnicortex-drawer', () => setIsOmnicortexDrawerOpen(true));
-    const offLayers = setIsLayersPanelOpen ? VttEventBus.on('open-layers-panel', () => setIsLayersPanelOpen(true)) : () => {};
-    const offUnderlay = setIsUnderlayModalOpen ? VttEventBus.on('open-underlay-modal', () => setIsUnderlayModalOpen(true)) : () => {};
+    const offLandmass = VttEventBus.on('open-landmass-modal', () => callbacksRef.current.setIsLandmassModalOpen(true));
+    const offPcg = VttEventBus.on('open-pcg-modal', () => callbacksRef.current.setIsLandmassModalOpen(true));
+    const offAssetStudio = VttEventBus.on('open-asset-studio', () => callbacksRef.current.setIsAssetStudioOpen?.(true));
+    const offAssetIngest = VttEventBus.on('open-asset-ingestion', () => callbacksRef.current.setIsAssetIngestionOpen?.(true));
+    const offSpriteCutter = VttEventBus.on('open-sprite-cutter', () => callbacksRef.current.setIsSpriteSheetCutterOpen?.(true));
+    const offUvtt = VttEventBus.on('open-uvtt-modal', () => callbacksRef.current.setIsUvttModalOpen(true));
+    const offAsset = VttEventBus.on('open-asset-manager', () => callbacksRef.current.setIsAssetManagerOpen(true));
+    const offHero = VttEventBus.on('open-hero-drawer', () => callbacksRef.current.setIsHeroDrawerOpen(true));
+    const offOmni = VttEventBus.on('open-omnicortex-drawer', () => callbacksRef.current.setIsOmnicortexDrawerOpen(true));
+    const offLayers = VttEventBus.on('open-layers-panel', () => callbacksRef.current.setIsLayersPanelOpen?.(true));
+    const offUnderlay = VttEventBus.on('open-underlay-modal', () => callbacksRef.current.setIsUnderlayModalOpen?.(true));
 
     return () => {
       offLandmass();
@@ -125,16 +156,5 @@ export function useCanvasEventListeners({
       offLayers();
       offUnderlay();
     };
-  }, [
-    setIsLandmassModalOpen,
-    setIsAssetStudioOpen,
-    setIsAssetIngestionOpen,
-    setIsSpriteSheetCutterOpen,
-    setIsUvttModalOpen,
-    setIsAssetManagerOpen,
-    setIsHeroDrawerOpen,
-    setIsOmnicortexDrawerOpen,
-    setIsLayersPanelOpen,
-    setIsUnderlayModalOpen
-  ]);
+  }, []);
 }

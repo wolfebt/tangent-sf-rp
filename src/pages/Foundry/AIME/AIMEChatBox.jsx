@@ -12,7 +12,7 @@ const QUICK_ACTIONS = [
 ];
 
 export default function AIMEChatBox({ onClose, contextData, activeNode: propActiveNode, cronicle: propCronicle }) {
-  const storyContext = useStory ? useStory() : null;
+  const storyContext = useStory();
   const universeState = storyContext?.universeState || {};
   const activeScenarioId = storyContext?.activeScenarioId;
   const getActiveGemsText = storyContext?.getActiveGemsText;

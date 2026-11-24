@@ -109,7 +109,6 @@ export default defineConfig(({ command, mode }) => {
           if (cleanId.includes('node_modules/livekit-client')) return 'vendor-livekit';
           if (cleanId.includes('node_modules/lucide-react')) return 'vendor-icons';
           if (cleanId.includes('node_modules/react/') || cleanId.includes('node_modules/react-dom/') || cleanId.includes('node_modules/react-router')) return 'vendor-react';
-          if (cleanId.includes('node_modules/konva') || cleanId.includes('node_modules/react-konva')) return 'vendor-konva';
           if (cleanId.includes('node_modules/yjs')) return 'vendor-yjs';
           if (
             cleanId.includes('node_modules/react-markdown') ||
@@ -178,6 +177,20 @@ export default defineConfig(({ command, mode }) => {
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api/, /^\/__(.*)/],
         runtimeCaching: [
+          {
+            urlPattern: /\/data\/compendiumSeed\.json$/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'compendium-seed-cache',
+              expiration: {
+                maxEntries: 4,
+                maxAgeSeconds: 60 * 60 * 24 * 14
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          },
           {
             urlPattern: /^\/api\/.*/i,
             handler: 'NetworkOnly'

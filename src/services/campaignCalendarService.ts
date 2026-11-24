@@ -14,6 +14,14 @@ export interface CalendarMoonConfig {
   phaseOffset?: number;
 }
 
+export interface CalendarHolidayConfig {
+  id: string;
+  name: string;
+  monthIndex: number; // 0-based
+  day: number; // 1-based
+  notes?: string;
+}
+
 export interface CalendarConfig {
   presetId: 'galactic_standard' | 'terran_metric' | 'orbital_cycle' | 'custom';
   name: string;
@@ -23,6 +31,7 @@ export interface CalendarConfig {
   dayNames: string[];
   months: CalendarMonthConfig[];
   moons: CalendarMoonConfig[];
+  holidays?: CalendarHolidayConfig[];
 }
 
 export interface CalendarDate {
@@ -129,7 +138,8 @@ export function createDefaultCalendarState(
       ...cfg,
       dayNames: [...cfg.dayNames],
       months: cfg.months.map((m) => ({ ...m })),
-      moons: cfg.moons.map((m) => ({ ...m }))
+      moons: cfg.moons.map((m) => ({ ...m })),
+      holidays: []
     },
     currentDate: {
       year: cfg.epochYear,
@@ -139,6 +149,15 @@ export function createDefaultCalendarState(
     },
     events: []
   };
+}
+
+export function getHolidaysForDate(
+  date: CalendarDate,
+  config: CalendarConfig
+): CalendarHolidayConfig[] {
+  return (config.holidays || []).filter(
+    (h) => Number(h.monthIndex) === Number(date.monthIndex) && Number(h.day) === Number(date.day)
+  );
 }
 
 export function getTotalDaysSinceEpoch(date: CalendarDate, config: CalendarConfig): number {

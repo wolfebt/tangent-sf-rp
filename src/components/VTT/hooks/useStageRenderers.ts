@@ -12,12 +12,9 @@
 import { useEffect } from 'react';
 import { Graphics, Container, Text as PixiText, TextStyle, Assets, Sprite } from 'pixi.js';
 import { clearPixiContainer } from '../utils/pixiCleanup';
-import { 
-  type LayerCompositor, 
-  ZLayer, 
-  type WallSegment,
-  MarchingSquaresAutoTiler
-} from '../../../engine/index';
+import { type LayerCompositor, ZLayer } from '../../../engine/canvas/LayerCompositor.ts';
+import type { WallSegment } from '../../../engine/vision/BVHBuilder.ts';
+import { MarchingSquaresAutoTiler } from '../../../engine/canvas/MarchingSquaresAutoTiler.ts';
 
 export interface UseStageRenderersOptions {
   layerCompositorRef: React.MutableRefObject<LayerCompositor | null>;
@@ -189,6 +186,26 @@ export function useStageRenderers({
         } else if (typeof t.color === 'number') {
           colorHex = t.color;
         }
+      }
+
+      const isImageTerrain =
+        t.renderType === 'canvasImage' ||
+        t.renderType === 'image' ||
+        (!t.points && Boolean(t.imageUrl));
+      if (isImageTerrain && t.imageUrl) {
+        Assets.load(t.imageUrl)
+          .then((tex) => {
+            if (isCancelled || container.destroyed || !tex) return;
+            const sp = new Sprite(tex);
+            sp.x = t.x || 0;
+            sp.y = t.y || 0;
+            if (t.width) sp.width = t.width;
+            if (t.height) sp.height = t.height;
+            if (t.opacity !== undefined) sp.alpha = Number(t.opacity);
+            targetSpriteContainer.addChild(sp);
+          })
+          .catch(() => {});
+        return;
       }
 
       if (t.renderType === 'hexTile' && t.x !== undefined && t.y !== undefined) {

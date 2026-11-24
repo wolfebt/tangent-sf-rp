@@ -4,13 +4,14 @@
  * Observes Yjs mutations and executes throttled, batched updates to the Tangent DBM.
  */
 
-import { doc, setDoc, type Firestore, type DocumentReference } from 'firebase/firestore';
+import { doc, getDoc, setDoc, type Firestore, type DocumentReference } from 'firebase/firestore';
 import * as Y from 'yjs';
 import { auth as defaultAuth, db as defaultDb } from '../../firebase.js';
 
 export interface FirestoreDebouncerOptions {
   ownerId?: string;
   memberIds?: string[];
+  collectionRoot?: 'Campaigns' | 'user_stories';
 }
 
 // Polyfill function for Uint8Array to Base64
@@ -21,6 +22,16 @@ function bytesToBase64(bytes: Uint8Array): string {
     binary += String.fromCharCode(bytes[i] ?? 0);
   }
   return btoa(binary);
+}
+
+function base64ToBytes(base64: string): Uint8Array {
+  const binary = atob(base64);
+  const len = binary.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
 }
 
 export class FirestoreDebouncer {
@@ -34,6 +45,7 @@ export class FirestoreDebouncer {
   private isFlushing: boolean = false;
   private dirtyDuringFlush: boolean = false;
   private isDestroyed: boolean = false;
+  private hasPersistedCreate: boolean = false;
   private ownerId?: string | undefined;
   private memberIds?: string[] | undefined;
   private updateHandler?: ((_update: Uint8Array, origin: any) => void) | undefined;
@@ -49,8 +61,10 @@ export class FirestoreDebouncer {
     options?: FirestoreDebouncerOptions
   ) {
     this.db = firestoreInstance || defaultDb;
+    const rootCollection = options?.collectionRoot === 'user_stories' ? 'user_stories' : 'Campaigns';
+    const subCollection = rootCollection === 'user_stories' ? 'sessions' : 'Sessions';
     // Map to a specific active session document in the Tangent DBM
-    this.targetDocRef = doc(this.db, `Campaigns/${campaignId}/Sessions/${sessionId}`);
+    this.targetDocRef = doc(this.db, `${rootCollection}/${campaignId}/${subCollection}/${sessionId}`);
     this.yDoc = yDoc;
     this.debounceIntervalMs = intervalMs;
     this.ownerId = options?.ownerId;
@@ -89,6 +103,29 @@ export class FirestoreDebouncer {
     }, this.debounceIntervalMs);
   }
 
+  /**
+   * Restores previously persisted CRDT snapshot from Firestore into this Y.Doc
+   * and records existence so subsequent updates never re-write immutable ownerId.
+   */
+  public async hydrateFromFirestore(): Promise<boolean> {
+    if (this.isDestroyed || !this.db) return false;
+    try {
+      const snap = await getDoc(this.targetDocRef);
+      if (!snap.exists()) return false;
+      this.hasPersistedCreate = true;
+      const data = snap.data() as Record<string, any> | undefined;
+      if (typeof data?.crdt_blob === 'string' && data.crdt_blob.length > 0) {
+        const bytes = base64ToBytes(data.crdt_blob);
+        Y.applyUpdate(this.yDoc, bytes, 'network');
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.warn('[Firestore Debouncer] Failed to hydrate CRDT state from Firestore:', error);
+      return false;
+    }
+  }
+
   public async flushToFirestore(): Promise<boolean> {
     if (!this.isFlushPending) return true;
     if (this.isFlushing) {
@@ -117,15 +154,17 @@ export class FirestoreDebouncer {
         crdt_blob: base64State,
         last_updated: new Date().toISOString()
       };
-      if (resolvedOwnerId) {
+      // Include ownerId only on initial creation; omit on subsequent updates to preserve Firestore immutability rules
+      if (!this.hasPersistedCreate && resolvedOwnerId) {
         payload.ownerId = resolvedOwnerId;
       }
-      if (this.memberIds && this.memberIds.length > 0) {
+      if (!this.hasPersistedCreate && this.memberIds && this.memberIds.length > 0) {
         payload.memberIds = this.memberIds;
       }
 
       // 3. Execute a single write to GCP (merge: true prevents wiping metadata)
       await setDoc(this.targetDocRef, payload, { merge: true });
+      this.hasPersistedCreate = true;
 
       if (!this.dirtyDuringFlush) {
         this.isFlushPending = false;

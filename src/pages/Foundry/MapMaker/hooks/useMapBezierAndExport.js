@@ -46,9 +46,14 @@ export function useMapBezierAndExport({
     setTimeout(() => {
       try {
         let dataURL = '';
-        if (stageRef.current) {
-          dataURL = stageRef.current.toDataURL({ pixelRatio: 2 });
-        } else {
+        if (stageRef.current && typeof stageRef.current.toDataURL === 'function') {
+          try {
+            dataURL = stageRef.current.toDataURL({ pixelRatio: 2 }) || '';
+          } catch {
+            dataURL = '';
+          }
+        }
+        if (!dataURL) {
           const gridSz = currentMap.gridSize || 50;
           const widthCells = currentMap.gridWidth || Math.max(1, Math.round((currentMap.width || 1500) / gridSz));
           const heightCells = currentMap.gridHeight || Math.max(1, Math.round((currentMap.height || 1000) / gridSz));
@@ -56,8 +61,14 @@ export function useMapBezierAndExport({
             widthCells,
             heightCells,
             pixelsPerGrid: gridSz,
+            sourceGridSize: gridSz,
             terrains: currentMap.terrains || [],
-            underlays: currentMap.underlays || []
+            underlays: currentMap.underlays || [],
+            objects: currentMap.objects || [],
+            tokens: currentMap.tokens || [],
+            texts: currentMap.texts || [],
+            walls: currentMap.walls || [],
+            lights: currentMap.lights || []
           }, 'image/png', 1);
         }
         const link = document.createElement('a');
@@ -82,9 +93,13 @@ export function useMapBezierAndExport({
       widthCells,
       heightCells,
       pixelsPerGrid: gridSz,
+      sourceGridSize: gridSz,
       enableWallShadows: currentMap.enableWallShadows !== false,
       terrains: currentMap.terrains || [],
       underlays: currentMap.underlays || [],
+      objects: currentMap.objects || [],
+      tokens: currentMap.tokens || [],
+      texts: currentMap.texts || [],
       walls: currentMap.walls || [],
       lights: currentMap.lights || [],
       format: 'image/png',

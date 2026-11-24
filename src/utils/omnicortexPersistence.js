@@ -59,14 +59,13 @@ import {
   DEFAULT_MASTER_SOCIETIES
 } from '../data/supportingCatalogsData.js';
 
-import compendiumSeedData from '../data/compendiumSeed.json' with { type: 'json' };
-
-let cachedCompendiumSeed = Array.isArray(compendiumSeedData) ? compendiumSeedData : [];
-let compendiumSeedPromise = Promise.resolve(cachedCompendiumSeed);
+import {
+  getCachedCompendiumSeed,
+  loadCompendiumSeed
+} from './compendiumSeedLoader.js';
 
 export const loadCompendiumCatalog = async () => {
-  if (cachedCompendiumSeed && cachedCompendiumSeed.length > 0) return cachedCompendiumSeed;
-  return compendiumSeedPromise;
+  return loadCompendiumSeed();
 };
 
 export const TOMBSTONES_KEY = 'omnicortex_deleted_entries';
@@ -897,7 +896,7 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
 };
 
 export const getFallbackSeedForCategory = (catK) => {
-  if (catK === 'compendium' || catK === 'rules_codex') return cachedCompendiumSeed || [];
+  if (catK === 'compendium' || catK === 'rules_codex') return getCachedCompendiumSeed();
   if (catK === 'archetypes' || catK === 'char-archetype') return DEFAULT_ARCHETYPES;
   if (catK === 'species' || catK === 'char-species') return DEFAULT_SPECIES;
   if (catK === 'species_lineage' || catK === 'species_lineages') return SPECIES_LINEAGES;

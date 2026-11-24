@@ -35,6 +35,24 @@
     "src/services/artistHubImageService.ts",
     "src/services/customElementTemplateService.ts",
     "src/workers/mapExportWorker.ts",
-    "src/components/VTT/stage/StageTopHudBar.tsx"
+    "src/components/VTT/stage/StageTopHudBar.tsx",
+    "src/engine/network/FirestoreDebouncer.ts",
+    "src/engine/network/YjsProviderBridge.ts",
+    "src/services/vttMultiplayerSyncService.ts",
+    "src/components/VTT/stage/StageChatRollFeed.tsx",
+    "src/components/VTT/stage/StageAudioMixerDrawer.tsx",
+    "src/components/VTT/stage/HandoutBroadcastOverlay.tsx",
+    "src/components/VTT/stage/TheaterSceneViewport.tsx",
+    "src/components/VTT/stage/TokenContextualPill.tsx",
+    "src/components/VTT/stage/useStageAoEController.ts",
+    "src/components/VTT/stage/useStageFogAndRegions.ts",
+    "src/components/VTT/stage/useStageUnderlayAndGrid.ts",
+    "src/components/VTT/stage/useStageActionsAndSummons.ts",
+    "src/components/VTT/stage/useStageTokensRenderer.ts",
+    "src/components/VTT/stage/useStagePointerTools.ts",
+    "src/components/VTT/A11yStageFeed.tsx",
+    "src/components/VTT/SpectatorPixiCanvas.tsx",
+    "src/pages/Foundry/MapMaker/pixi/**/*.ts",
+    "src/pages/Foundry/MapMaker/pixi/**/*.tsx"
   ]
 }

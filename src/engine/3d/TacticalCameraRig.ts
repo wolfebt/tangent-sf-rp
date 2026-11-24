@@ -42,11 +42,18 @@ export class TacticalCameraRig {
   private theta: number = Math.PI / 4; // 45 degrees
   private desiredTheta: number = Math.PI / 4;
 
-  // Drag tracking
+  // Drag & touch tracking
   private isPointerDown = false;
   private pointerButton = 0; // 0 = left, 1 = middle, 2 = right
   private lastPointerX = 0;
   private lastPointerY = 0;
+  private lastTouchDistance: number | null = null;
+  private lastTouchMidX: number | null = null;
+  private lastTouchMidY: number | null = null;
+
+  // Pitch bounds relative to vertical axis (phi): PI/12 (~+75 deg above ground) to PI/2 + PI/12 (~-15 deg low angle)
+  private static readonly MIN_ORBIT_PHI = Math.PI / 12;
+  private static readonly MAX_ORBIT_PHI = Math.PI / 2 + Math.PI / 12;
 
   // Key state for WASD pan
   private activeKeys: Set<string> = new Set();
@@ -106,6 +113,10 @@ export class TacticalCameraRig {
     this.domElement.addEventListener('pointerdown', this.onPointerDown);
     window.addEventListener('pointermove', this.onPointerMove);
     window.addEventListener('pointerup', this.onPointerUp);
+    this.domElement.addEventListener('touchstart', this.onTouchStart, { passive: false });
+    this.domElement.addEventListener('touchmove', this.onTouchMove, { passive: false });
+    this.domElement.addEventListener('touchend', this.onTouchEnd);
+    this.domElement.addEventListener('touchcancel', this.onTouchEnd);
     this.domElement.addEventListener('wheel', this.onWheel, { passive: false });
     this.domElement.addEventListener('contextmenu', this.onContextMenu);
     window.addEventListener('keydown', this.onKeyDown);
@@ -120,6 +131,10 @@ export class TacticalCameraRig {
     this.domElement.removeEventListener('pointerdown', this.onPointerDown);
     window.removeEventListener('pointermove', this.onPointerMove);
     window.removeEventListener('pointerup', this.onPointerUp);
+    this.domElement.removeEventListener('touchstart', this.onTouchStart);
+    this.domElement.removeEventListener('touchmove', this.onTouchMove);
+    this.domElement.removeEventListener('touchend', this.onTouchEnd);
+    this.domElement.removeEventListener('touchcancel', this.onTouchEnd);
     this.domElement.removeEventListener('wheel', this.onWheel);
     this.domElement.removeEventListener('contextmenu', this.onContextMenu);
     window.removeEventListener('keydown', this.onKeyDown);
@@ -127,6 +142,9 @@ export class TacticalCameraRig {
 
     this.domElement = null;
     this.listenersAttached = false;
+    this.lastTouchDistance = null;
+    this.lastTouchMidX = null;
+    this.lastTouchMidY = null;
     this.activeKeys.clear();
   }
 
@@ -223,18 +241,72 @@ export class TacticalCameraRig {
     } else if (this.pointerButton === 2 || (this.pointerButton === 0 && e.altKey)) {
       // Right-click or Alt+LeftDrag: ROTATE
       if (this.mode === 'orbit') {
-        // Free Orbit rotation
+        // Free Orbit rotation with -15°..+75° pitch clamp
         this.desiredTheta -= dx * 0.006;
         this.desiredPhi = THREE.MathUtils.clamp(
           this.desiredPhi - dy * 0.006,
-          0.05, // Avoid looking from straight below
-          Math.PI / 2 - 0.02 // Don't clip below ground plane
+          TacticalCameraRig.MIN_ORBIT_PHI,
+          TacticalCameraRig.MAX_ORBIT_PHI
         );
       } else {
         // Tactical mode: Smooth horizontal rotation, fixed pitch
         this.desiredTheta -= dx * 0.006;
       }
     }
+  };
+
+  private onTouchStart = (e: TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const [t0, t1] = [e.touches[0], e.touches[1]];
+      this.lastTouchDistance = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
+      this.lastTouchMidX = (t0.clientX + t1.clientX) / 2;
+      this.lastTouchMidY = (t0.clientY + t1.clientY) / 2;
+    } else if (e.touches.length === 1 && this.mode === 'orbit') {
+      this.lastPointerX = e.touches[0].clientX;
+      this.lastPointerY = e.touches[0].clientY;
+    }
+  };
+
+  private onTouchMove = (e: TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const [t0, t1] = [e.touches[0], e.touches[1]];
+      const dist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
+      const midX = (t0.clientX + t1.clientX) / 2;
+      const midY = (t0.clientY + t1.clientY) / 2;
+
+      if (this.lastTouchDistance && dist > 0) {
+        const ratio = this.lastTouchDistance / dist;
+        this.desiredDistance = THREE.MathUtils.clamp(this.desiredDistance * ratio, this.minDistance, this.maxDistance);
+      }
+      if (this.lastTouchMidX !== null && this.lastTouchMidY !== null) {
+        const dx = midX - this.lastTouchMidX;
+        const dy = midY - this.lastTouchMidY;
+        this.panByPixels(dx, dy);
+      }
+      this.lastTouchDistance = dist;
+      this.lastTouchMidX = midX;
+      this.lastTouchMidY = midY;
+    } else if (e.touches.length === 1 && this.mode === 'orbit') {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - this.lastPointerX;
+      const dy = e.touches[0].clientY - this.lastPointerY;
+      this.lastPointerX = e.touches[0].clientX;
+      this.lastPointerY = e.touches[0].clientY;
+      this.desiredTheta -= dx * 0.006;
+      this.desiredPhi = THREE.MathUtils.clamp(
+        this.desiredPhi - dy * 0.006,
+        TacticalCameraRig.MIN_ORBIT_PHI,
+        TacticalCameraRig.MAX_ORBIT_PHI
+      );
+    }
+  };
+
+  private onTouchEnd = () => {
+    this.lastTouchDistance = null;
+    this.lastTouchMidX = null;
+    this.lastTouchMidY = null;
   };
 
   private onPointerUp = () => {

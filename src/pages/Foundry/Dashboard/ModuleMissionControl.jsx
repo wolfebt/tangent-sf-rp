@@ -122,6 +122,8 @@ export default function ModuleMissionControl({
     togglePerspectiveMode, 
     activePillar, 
     setActivePillar,
+    preflightTelemetry,
+    setPreflightTelemetry,
     setModal,
     openGuidedElementCreator
   } = useADEStore();
@@ -244,6 +246,22 @@ export default function ModuleMissionControl({
         : 'text-red-400 border-red-500/40 bg-red-950/40'
     };
   }, [universeState, elementsCatalog]);
+
+  useEffect(() => {
+    if (moduleHealth && typeof setPreflightTelemetry === 'function') {
+      setPreflightTelemetry(moduleHealth);
+    }
+  }, [moduleHealth, setPreflightTelemetry]);
+
+  const effectiveHealth =
+    preflightTelemetry && typeof preflightTelemetry.score === 'number'
+      ? {
+          ...moduleHealth,
+          score: preflightTelemetry.score,
+          issues: preflightTelemetry.issues || moduleHealth.issues,
+          warnings: preflightTelemetry.warnings || moduleHealth.warnings
+        }
+      : moduleHealth;
 
   // Title rename submission
   const handleTitleSubmit = () => {
@@ -943,23 +961,23 @@ export default function ModuleMissionControl({
               <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-slate-950/90 border border-slate-800">
                 <span
                   className={`w-2 h-2 rounded-full animate-pulse ${
-                    moduleHealth.score >= 80
+                    effectiveHealth.score >= 80
                       ? 'bg-emerald-400'
-                      : moduleHealth.score >= 50
+                      : effectiveHealth.score >= 50
                       ? 'bg-amber-400'
                       : 'bg-red-400'
                   }`}
                 />
                 <span
                   className={`text-[10px] ${
-                    moduleHealth.score >= 80
+                    effectiveHealth.score >= 80
                       ? 'text-emerald-400'
-                      : moduleHealth.score >= 50
+                      : effectiveHealth.score >= 50
                       ? 'text-amber-400'
                       : 'text-red-400'
                   }`}
                 >
-                  {moduleHealth.score}%
+                  {effectiveHealth.score}%
                 </span>
               </span>
 
@@ -1004,14 +1022,14 @@ export default function ModuleMissionControl({
                       onOpenCompiler?.();
                     }}
                     className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800/80 flex items-center justify-between gap-2 transition-colors cursor-pointer"
-                    title={`Module Health: ${moduleHealth.score}%\n${[...moduleHealth.issues, ...moduleHealth.warnings].join('\n') || 'All systems nominal'}`}
+                    title={`Module Health: ${effectiveHealth.score}%\n${[...effectiveHealth.issues, ...effectiveHealth.warnings].join('\n') || 'All systems nominal'}`}
                   >
                     <div className="flex items-center gap-2 text-slate-200">
                       <Activity size={13} className="text-cyan-400 shrink-0" />
                       <span>Module Health Check</span>
                     </div>
-                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${moduleHealth.color}`}>
-                      {moduleHealth.score}% HEALTH
+                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${effectiveHealth.color}`}>
+                      {effectiveHealth.score}% HEALTH
                     </span>
                   </button>
 

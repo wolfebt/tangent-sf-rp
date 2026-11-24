@@ -84,6 +84,78 @@ import {
 import { useAdeStore } from '../../store/adeStore';
 import { useShallow } from 'zustand/react/shallow';
 
+let adeQuillBlotsRegistered = false;
+function registerAdeQuillBlots() {
+  if (adeQuillBlotsRegistered) return;
+  try {
+    const Quill = ReactQuill?.Quill;
+    if (!Quill || typeof Quill.import !== 'function' || typeof Quill.register !== 'function') return;
+    const Block = Quill.import('blots/block');
+    const Inline = Quill.import('blots/inline');
+    const BlockEmbed = Quill.import('blots/block/embed');
+    if (Block) {
+      class ReadAloudBlot extends Block {}
+      ReadAloudBlot.blotName = 'ade-read-aloud';
+      ReadAloudBlot.tagName = 'BLOCKQUOTE';
+      ReadAloudBlot.className = 'ade-read-aloud';
+
+      class GmSecretBlot extends Block {
+        static create(value) {
+          const node = super.create(value);
+          node.setAttribute('data-gm-secret', 'true');
+          return node;
+        }
+      }
+      GmSecretBlot.blotName = 'ade-gm-secret';
+      GmSecretBlot.tagName = 'DIV';
+      GmSecretBlot.className = 'ade-gm-secret';
+
+      class StatblockBlot extends Block {}
+      StatblockBlot.blotName = 'ade-statblock-card';
+      StatblockBlot.tagName = 'DIV';
+      StatblockBlot.className = 'ade-statblock-card';
+
+      Quill.register(ReadAloudBlot, true);
+      Quill.register(GmSecretBlot, true);
+      Quill.register(StatblockBlot, true);
+    }
+    if (Inline) {
+      class SkillCheckBlot extends Inline {
+        static create(value) {
+          const node = super.create(value);
+          if (value && typeof value === 'object') {
+            if (value.skill) node.setAttribute('data-skill', String(value.skill));
+            if (value.dc !== undefined) node.setAttribute('data-dc', String(value.dc));
+          }
+          return node;
+        }
+        static formats(node) {
+          if (!node?.getAttribute) return true;
+          return {
+            skill: node.getAttribute('data-skill') || undefined,
+            dc: node.getAttribute('data-dc') || undefined
+          };
+        }
+      }
+      SkillCheckBlot.blotName = 'ade-skill-check';
+      SkillCheckBlot.tagName = 'SPAN';
+      SkillCheckBlot.className = 'ade-skill-check';
+      Quill.register(SkillCheckBlot, true);
+    }
+    if (BlockEmbed) {
+      class SceneDividerBlot extends BlockEmbed {}
+      SceneDividerBlot.blotName = 'ade-scene-divider';
+      SceneDividerBlot.tagName = 'HR';
+      SceneDividerBlot.className = 'ade-scene-divider';
+      Quill.register(SceneDividerBlot, true);
+    }
+    adeQuillBlotsRegistered = true;
+  } catch {
+    // Safe no-op in mocked/SSR environments
+  }
+}
+registerAdeQuillBlots();
+
 export default function StoryWeaver({ 
   activeNode, 
   updateStory, 
@@ -1511,12 +1583,18 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                 ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
                 : 'bg-slate-900 border-slate-800 text-slate-300'
             }`}
-            title="CRDT Yjs P2P Prose Synchronization Status"
+            title={
+              collabStatus.peerNames?.length > 0
+                ? `Connected CRDT Peers: ${collabStatus.peerNames.join(', ')}`
+                : 'CRDT Yjs P2P Prose Synchronization Status'
+            }
           >
             <span className={`w-1.5 h-1.5 rounded-full ${collabStatus.isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400'}`} />
-            <span>
+            <span className="truncate max-w-[160px]">
               {collabStatus.isConnected
-                ? `Live CRDT · ${Math.max(1, collabStatus.peerCount || 1)} ${collabStatus.peerCount === 1 ? 'Peer' : 'Peers'}`
+                ? collabStatus.peerNames?.length > 0
+                  ? `Live CRDT · ${collabStatus.peerNames.slice(0, 2).join(', ')}${collabStatus.peerNames.length > 2 ? ` +${collabStatus.peerNames.length - 2}` : ''}`
+                  : `Live CRDT · ${Math.max(1, collabStatus.peerCount || 1)} ${collabStatus.peerCount === 1 ? 'Peer' : 'Peers'}`
                 : 'Solo Local'}
             </span>
           </div>
@@ -1558,7 +1636,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
       {/* Wiki Hover Dossier Preview */}
       {hoveredWikiElement && (
         <div
-          className="fixed bottom-14 left-6 z-50"
+          className="fixed bottom-14 left-4 right-4 sm:right-auto sm:left-6 max-w-[calc(100vw-2rem)] z-50"
           onMouseEnter={() => setHoveredWikiElement(hoveredWikiElement)}
           onMouseLeave={() => setHoveredWikiElement(null)}
         >

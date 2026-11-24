@@ -37,10 +37,26 @@ export const useMapCanvasEvents = ({
   textLabelInput,
   textColor,
   textSize,
+  regions = [],
+  selectedRegionType = 'roof_zone',
   onStampChunk
 }) => {
+  const latestRef = useRef({});
+  latestRef.current = {
+    walls,
+    terrains,
+    fog,
+    lines,
+    objects,
+    tokens,
+    texts,
+    lights,
+    regions
+  };
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const cameraRef = useRef({ scale: 1, position: { x: 0, y: 0 } });
+  cameraRef.current = { scale, position };
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [isDrawing, setIsDrawing] = useState(false);
@@ -52,6 +68,35 @@ export const useMapCanvasEvents = ({
   const [chunkPointerPos, setChunkPointerPos] = useState(null);
   const [chunkCaptureMarquee, setChunkCaptureMarquee] = useState(null);
 
+  const normalizeEvent = (e) => {
+    const raw = e?.evt || e || {};
+    const clientX = Number(e?.clientX ?? raw?.clientX ?? 0);
+    const clientY = Number(e?.clientY ?? raw?.clientY ?? 0);
+    const button = Number(e?.button ?? raw?.button ?? 0);
+    const buttons = Number(e?.buttons ?? raw?.buttons ?? 0);
+    const deltaY = Number(e?.deltaY ?? raw?.deltaY ?? 0);
+    const shiftKey = Boolean(e?.shiftKey ?? raw?.shiftKey);
+    const ctrlKey = Boolean(e?.ctrlKey ?? raw?.ctrlKey);
+    const preventDefault = () => {
+      if (typeof e?.preventDefault === 'function') e.preventDefault();
+      if (typeof raw?.preventDefault === 'function') raw.preventDefault();
+    };
+    const stage = typeof e?.target?.getStage === 'function' ? e.target.getStage() : null;
+    const pointerPos =
+      e?.pointerPos ||
+      stage?.getPointerPosition?.() ||
+      { x: clientX, y: clientY };
+    const cam = cameraRef.current;
+    const safeScale = Math.max(0.05, cam.scale || 1);
+    const worldPos =
+      e?.worldPos ||
+      stage?.getRelativePointerPosition?.() || {
+        x: (pointerPos.x - cam.position.x) / safeScale,
+        y: (pointerPos.y - cam.position.y) / safeScale
+      };
+    return { clientX, clientY, button, buttons, deltaY, shiftKey, ctrlKey, preventDefault, stage, pointerPos, worldPos };
+  };
+
   // Global safety listener to release panning/drawing if mouse leaves canvas or context menu opens
   useEffect(() => {
     const handleGlobalRelease = () => {
@@ -59,53 +104,61 @@ export const useMapCanvasEvents = ({
       setIsDrawing(false);
     };
     window.addEventListener('mouseup', handleGlobalRelease);
+    window.addEventListener('pointerup', handleGlobalRelease);
     window.addEventListener('blur', handleGlobalRelease);
     return () => {
       window.removeEventListener('mouseup', handleGlobalRelease);
+      window.removeEventListener('pointerup', handleGlobalRelease);
       window.removeEventListener('blur', handleGlobalRelease);
     };
   }, []);
 
   const handleWheel = (e) => {
-    e.evt.preventDefault();
+    const ev = normalizeEvent(e);
+    ev.preventDefault();
     // Ignore wheel click / middle click or zero/negligible delta to prevent zoom jump on click
-    if ((e.evt.buttons & 4) || !e.evt.deltaY || Math.abs(e.evt.deltaY) < 1) return;
+    if ((ev.buttons & 4) || !ev.deltaY || Math.abs(ev.deltaY) < 1) return;
     const scaleBy = 1.1;
-    const stage = e.target.getStage();
-    const oldScale = stage.scaleX();
+    const cam = cameraRef.current;
+    const oldScale = ev.stage ? ev.stage.scaleX() : Math.max(0.05, cam.scale || 1);
+    const posX = ev.stage ? ev.stage.x() : cam.position.x;
+    const posY = ev.stage ? ev.stage.y() : cam.position.y;
+    const ptr = ev.pointerPos;
 
     const mousePointTo = {
-      x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
-      y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
+      x: ptr.x / oldScale - posX / oldScale,
+      y: ptr.y / oldScale - posY / oldScale
     };
 
-    let newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+    let newScale = ev.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
     newScale = Math.max(0.05, Math.min(newScale, 20));
 
     setScale(newScale);
     setPosition({
-      x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
-      y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale,
+      x: -(mousePointTo.x - ptr.x / newScale) * newScale,
+      y: -(mousePointTo.y - ptr.y / newScale) * newScale
     });
   };
 
-  const handleMouseDown = (e, setSelectedId) => {
-    if (e.evt.button === 1) {
-      e.evt.preventDefault();
+  const handleMouseDown = (e) => {
+    const ev = normalizeEvent(e);
+    const cam = cameraRef.current;
+    if (ev.button === 1) {
+      ev.preventDefault();
       setIsPanning(true);
-      setPanStart({ x: e.evt.clientX - position.x, y: e.evt.clientY - position.y });
+      setPanStart({ x: ev.clientX - cam.position.x, y: ev.clientY - cam.position.y });
       return;
     }
 
-    if (e.evt.button === 0 && currentMap) {
+    if (ev.button === 0 && currentMap) {
       if (activeTool === 'pan') {
-        e.evt.preventDefault?.();
+        ev.preventDefault();
         setIsPanning(true);
-        setPanStart({ x: e.evt.clientX - position.x, y: e.evt.clientY - position.y });
+        setPanStart({ x: ev.clientX - cam.position.x, y: ev.clientY - cam.position.y });
         return;
       }
 
-      const pos = e.target.getStage().getRelativePointerPosition();
+      const pos = ev.worldPos;
 
       if (activeTool === 'chunk') {
         if (onStampChunk) {
@@ -115,7 +168,7 @@ export const useMapCanvasEvents = ({
         return;
       }
 
-      if (activeTool === 'select' && e.evt.shiftKey) {
+      if (activeTool === 'select' && ev.shiftKey) {
         setIsDrawing(true);
         setChunkCaptureMarquee({
           startX: pos.x,
@@ -127,16 +180,38 @@ export const useMapCanvasEvents = ({
         return;
       }
 
-      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall', 'curved_wall', 'hazard', 'light'].includes(activeTool)) {
+      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall', 'curved_wall', 'hazard', 'light', 'region'].includes(activeTool)) {
         recordHistory();
       }
 
-      if (activeTool === 'wall' || activeTool === 'curved_wall') {
+      if (activeTool === 'region') {
+        const gSize = Math.max(20, currentMap?.gridSize || 50);
+        const newRegion = {
+          id: uuidv4(),
+          name: `${selectedRegionType === 'hazard' ? 'Hazard' : selectedRegionType === 'teleport_deck' ? 'Teleport' : selectedRegionType === 'audio_zone' ? 'Audio' : 'Roof'} Zone`,
+          triggerType: selectedRegionType || 'roof_zone',
+          bounds: {
+            x: Math.round(pos.x - gSize * 1.5),
+            y: Math.round(pos.y - gSize * 1.5),
+            width: gSize * 3,
+            height: gSize * 3
+          },
+          autoTrigger: true,
+          enabled: true,
+          payload:
+            selectedRegionType === 'hazard'
+              ? { damage: 6, damageType: 'thermal' }
+              : selectedRegionType === 'roof_zone'
+              ? { radiusPx: 110 }
+              : {}
+        };
+        updateMap(activeMapId, { regions: [...(latestRef.current.regions || []), newRegion] });
+      } else if (activeTool === 'wall' || activeTool === 'curved_wall') {
         setIsDrawing(true);
         setWallStartPoint(pos);
         setWallPreviewEnd(pos);
       } else if (activeTool === 'ruler') {
-        if (e.evt.shiftKey || e.evt.ctrlKey || rulerWaypoints.length === 0) {
+        if (ev.shiftKey || ev.ctrlKey || rulerWaypoints.length === 0) {
           setRulerWaypoints(prev => [...prev, pos]);
         } else {
           // Reset or add
@@ -241,19 +316,19 @@ export const useMapCanvasEvents = ({
   };
 
   const handleMouseMove = (e) => {
+    const ev = normalizeEvent(e);
     if (isPanning) {
-      if (e.evt.buttons === 0) {
+      if (ev.buttons === 0) {
         setIsPanning(false);
         return;
       }
-      e.evt.preventDefault();
-      setPosition({ x: e.evt.clientX - panStart.x, y: e.evt.clientY - panStart.y });
+      ev.preventDefault();
+      setPosition({ x: ev.clientX - panStart.x, y: ev.clientY - panStart.y });
       return;
     }
 
     if (currentMap) {
-      const stage = e.target.getStage();
-      const point = stage.getRelativePointerPosition();
+      const point = ev.worldPos;
 
       if (activeTool === 'ruler') {
         setRulerPointer(point);
@@ -322,7 +397,9 @@ export const useMapCanvasEvents = ({
             hackDc: doorLockDc,
             ...(bezierControl ? { bezierControl } : {})
           });
-          updateMap(activeMapId, { walls: [...walls, newWall] });
+          updateMap(activeMapId, (prev) => ({
+            walls: [...(prev?.walls || latestRef.current.walls || []), newWall]
+          }));
         }
         setWallStartPoint(null);
         setWallPreviewEnd(null);

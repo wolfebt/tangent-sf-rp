@@ -14,6 +14,7 @@ import {
 import { UniversalVttPackager } from '../../../../engine/compilers/UniversalVttPackager';
 import { FoundryVttJsonExporterService } from '../../../../engine/compilers/FoundryVttJsonExporter';
 import { exportMapWithWorker } from '../../../../services/mapWorkerExportService';
+import { expandWallsForGeometry } from '../../../../schemas/vttWallSchema.js';
 
 export interface VttExportTabProps {
   currentMap: any;
@@ -29,7 +30,7 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
   const mapWidthCells = currentMap?.gridWidth || Math.max(1, Math.round((currentMap?.width || 1500) / sourceGridSize));
   const mapHeightCells = currentMap?.gridHeight || Math.max(1, Math.round((currentMap?.height || 1000) / sourceGridSize));
 
-  const mapWallsList = Array.isArray(currentMap?.walls) ? currentMap.walls : [];
+  const mapWallsList = Array.isArray(currentMap?.walls) ? expandWallsForGeometry(currentMap.walls) : [];
   const maxRawCoord = mapWallsList.reduce((acc: number, w: any) => {
     const coords = [
       w.p1?.x ?? w.x1 ?? 0,
@@ -194,6 +195,9 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
         enableWallShadows: currentMap?.enableWallShadows !== false,
         terrains: currentMap?.terrains || [],
         underlays: currentMap?.underlays || [],
+        objects: currentMap?.objects || [],
+        tokens: currentMap?.tokens || [],
+        texts: currentMap?.texts || [],
         walls: currentMap?.walls || [],
         lights: currentMap?.lights || [],
         format: 'image/png',

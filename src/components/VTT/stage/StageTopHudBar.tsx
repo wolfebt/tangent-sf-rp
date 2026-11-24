@@ -47,8 +47,11 @@ export interface StageTopHudBarProps {
   aoePresets: AoEPresetOption[];
   isFogEnabled: boolean;
   onToggleFog: () => void;
+  fogBrushMode?: 'none' | 'reveal' | 'hide';
+  onSetFogBrushMode?: (mode: 'none' | 'reveal' | 'hide') => void;
   onRevealAllFog: () => void;
   onResetFog: () => void;
+  isArchitectRole?: boolean;
   onOpenAudioMixer: () => void;
   onOpenHandoutPush: () => void;
   aoeOrigin: { x: number; y: number } | null;
@@ -72,8 +75,11 @@ export const StageTopHudBar: React.FC<StageTopHudBarProps> = ({
   aoePresets,
   isFogEnabled,
   onToggleFog,
+  fogBrushMode = 'none',
+  onSetFogBrushMode,
   onRevealAllFog,
   onResetFog,
+  isArchitectRole = true,
   onOpenAudioMixer,
   onOpenHandoutPush,
   aoeOrigin,
@@ -126,94 +132,128 @@ export const StageTopHudBar: React.FC<StageTopHudBarProps> = ({
             </select>
           </div>
 
-          {/* Measured AoE Blast Tool */}
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={onToggleAoEMode}
-              className={`px-2 py-0.5 rounded-lg border text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors ${
-                isAoEMode
-                  ? 'bg-amber-950/80 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-                  : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-amber-500/50'
-              }`}
-              title="Toggle Measured AoE Template Tool (Drag/Click on Canvas)"
-            >
-              <Flame size={11} className="text-amber-400" />
-              <span>AoE</span>
-            </button>
-
-            {isAoEMode && (
-              <select
-                aria-label="AoE Template Preset"
-                value={selectedAoEPresetId}
-                onChange={(e) => onSelectAoEPresetId(e.target.value)}
-                className="bg-slate-900 border border-amber-500/40 rounded-lg px-2 py-0.5 text-[10px] text-amber-200 outline-none cursor-pointer max-w-[160px]"
-              >
-                {aoePresets.map((p) => (
-                  <option key={p.id} value={p.id} className="bg-slate-950 text-slate-200">
-                    {p.icon} {p.label}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-
-          {/* Persistent Explored Fog Toggle */}
-          <button
-            type="button"
-            onClick={onToggleFog}
-            className={`px-2 py-0.5 rounded-lg border text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors ${
-              isFogEnabled
-                ? 'bg-cyan-950/80 border-cyan-400 text-cyan-200'
-                : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-cyan-500/50'
-            }`}
-            title="Toggle 3-Tier Persistent Fog-of-War & Memory Shroud"
-          >
-            <CloudFog size={11} className="text-cyan-400" />
-            <span>Fog</span>
-          </button>
-
-          {isFogEnabled && (
+          {/* Measured AoE Blast Tool (Architect only) */}
+          {isArchitectRole && (
             <div className="flex items-center gap-1">
               <button
                 type="button"
-                onClick={onRevealAllFog}
-                className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[9px] text-emerald-300 cursor-pointer"
-                title="Reveal Entire Map"
+                onClick={onToggleAoEMode}
+                className={`px-2 py-0.5 rounded-lg border text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors ${
+                  isAoEMode
+                    ? 'bg-amber-950/80 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                    : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-amber-500/50'
+                }`}
+                title="Toggle Measured AoE Template Tool (Drag/Click on Canvas)"
               >
-                Reveal
+                <Flame size={11} className="text-amber-400" />
+                <span>AoE</span>
               </button>
-              <button
-                type="button"
-                onClick={onResetFog}
-                className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[9px] text-rose-300 cursor-pointer"
-                title="Reset Explored Fog"
-              >
-                Reset
-              </button>
+
+              {isAoEMode && (
+                <select
+                  aria-label="AoE Template Preset"
+                  value={selectedAoEPresetId}
+                  onChange={(e) => onSelectAoEPresetId(e.target.value)}
+                  className="bg-slate-900 border border-amber-500/40 rounded-lg px-2 py-0.5 text-[10px] text-amber-200 outline-none cursor-pointer max-w-[160px]"
+                >
+                  {aoePresets.map((p) => (
+                    <option key={p.id} value={p.id} className="bg-slate-950 text-slate-200">
+                      {p.icon} {p.label}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
           )}
 
-          {/* 3-Bus Audio Mixer Trigger */}
-          <button
-            type="button"
-            onClick={onOpenAudioMixer}
-            className="px-2 py-0.5 rounded-lg border bg-slate-900 border-slate-700 hover:border-purple-400/60 text-purple-200 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
-            title="Open 3-Bus Audio Mixer & Soundboard"
-          >
-            <Volume2 size={11} className="text-purple-400" />
-            <span>Audio</span>
-          </button>
+          {/* Persistent Explored Fog Toggle (Architect only) */}
+          {isArchitectRole && (
+            <>
+              <button
+                type="button"
+                onClick={onToggleFog}
+                className={`px-2 py-0.5 rounded-lg border text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors ${
+                  isFogEnabled
+                    ? 'bg-cyan-950/80 border-cyan-400 text-cyan-200'
+                    : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-cyan-500/50'
+                }`}
+                title="Toggle 3-Tier Persistent Fog-of-War & Memory Shroud"
+              >
+                <CloudFog size={11} className="text-cyan-400" />
+                <span>Fog</span>
+              </button>
 
-          {/* Push Handout Trigger */}
-          <button
-            type="button"
-            onClick={onOpenHandoutPush}
-            className="px-2 py-0.5 rounded-lg border bg-slate-900 border-slate-700 hover:border-amber-400/60 text-amber-200 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
-            title="Push Handout / Clue to Operatives"
-          >
-            <Send size={11} className="text-amber-400" />
-          </button>
+              {isFogEnabled && (
+                <div className="flex items-center gap-1">
+                  {onSetFogBrushMode && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => onSetFogBrushMode(fogBrushMode === 'reveal' ? 'none' : 'reveal')}
+                        className={`px-1.5 py-0.5 rounded border text-[9px] cursor-pointer ${
+                          fogBrushMode === 'reveal'
+                            ? 'bg-emerald-950/90 border-emerald-400 text-emerald-200 font-bold'
+                            : 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-emerald-300'
+                        }`}
+                        title="Drag box on Stage to Reveal Fog"
+                      >
+                        Reveal Box
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onSetFogBrushMode(fogBrushMode === 'hide' ? 'none' : 'hide')}
+                        className={`px-1.5 py-0.5 rounded border text-[9px] cursor-pointer ${
+                          fogBrushMode === 'hide'
+                            ? 'bg-amber-950/90 border-amber-400 text-amber-200 font-bold'
+                            : 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-amber-300'
+                        }`}
+                        title="Drag box on Stage to Hide Fog"
+                      >
+                        Hide Box
+                      </button>
+                    </>
+                  )}
+                  <button
+                    type="button"
+                    onClick={onRevealAllFog}
+                    className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[9px] text-emerald-300 cursor-pointer"
+                    title="Reveal Entire Map"
+                  >
+                    Reveal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onResetFog}
+                    className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[9px] text-rose-300 cursor-pointer"
+                    title="Reset Explored Fog"
+                  >
+                    Reset
+                  </button>
+                </div>
+              )}
+
+              {/* 3-Bus Audio Mixer Trigger */}
+              <button
+                type="button"
+                onClick={onOpenAudioMixer}
+                className="px-2 py-0.5 rounded-lg border bg-slate-900 border-slate-700 hover:border-purple-400/60 text-purple-200 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
+                title="Open 3-Bus Audio Mixer & Soundboard"
+              >
+                <Volume2 size={11} className="text-purple-400" />
+                <span>Audio</span>
+              </button>
+
+              {/* Push Handout Trigger */}
+              <button
+                type="button"
+                onClick={onOpenHandoutPush}
+                className="px-2 py-0.5 rounded-lg border bg-slate-900 border-slate-700 hover:border-amber-400/60 text-amber-200 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
+                title="Push Handout / Clue to Operatives"
+              >
+                <Send size={11} className="text-amber-400" />
+              </button>
+            </>
+          )}
         </div>
       )}
 

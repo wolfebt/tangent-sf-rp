@@ -18,6 +18,7 @@ import { useAuth } from '../../../context/AuthContext';
 export interface StageAudioMixerDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  isArchitect?: boolean;
 }
 
 const BUS_META: Record<AudioBusId, { label: string; color: string; badge: string }> = {
@@ -26,7 +27,7 @@ const BUS_META: Record<AudioBusId, { label: string; color: string; badge: string
   sfx: { label: 'Sound FX', color: 'accent-amber-400', badge: 'text-amber-300 border-amber-500/40 bg-amber-950/60' }
 };
 
-export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ isOpen, onClose }) => {
+export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ isOpen, onClose, isArchitect = true }) => {
   const { currentUser } = (useAuth() as any) || {};
   const [buses, setBuses] = useState<Record<AudioBusId, AudioBusState>>(() =>
     proAudioMixerService.getAllBusStates()
@@ -38,6 +39,7 @@ export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ is
     proAudioMixerService.getCrossfadeMs()
   );
   const [broadcastToOperatives, setBroadcastToOperatives] = useState<boolean>(true);
+  const effectiveBroadcast = isArchitect && broadcastToOperatives;
   const [customTitle, setCustomTitle] = useState('');
   const [customUrl, setCustomUrl] = useState('');
   const [customBus, setCustomBus] = useState<AudioBusId>('music');
@@ -72,7 +74,7 @@ export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ is
     });
     setCustomTitle('');
     setCustomUrl('');
-    void proAudioMixerService.playCue(customBus, track.id, broadcastToOperatives);
+    void proAudioMixerService.playCue(customBus, track.id, effectiveBroadcast);
   };
 
   const handleUploadAudioFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +95,7 @@ export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ is
         url: res.url,
         loop: customBus !== 'sfx'
       });
-      await proAudioMixerService.playCue(customBus, track.id, broadcastToOperatives);
+      await proAudioMixerService.playCue(customBus, track.id, effectiveBroadcast);
     } catch (err: any) {
       setUploadError(err?.message || 'Audio upload failed.');
     } finally {
@@ -137,18 +139,20 @@ export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ is
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* Sync + Crossfade Top Row */}
         <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2.5">
-          <div className="flex items-center justify-between">
-            <label className="flex items-center gap-2 text-[11px] font-bold text-slate-300 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={broadcastToOperatives}
-                onChange={(e) => setBroadcastToOperatives(e.target.checked)}
-                className="accent-emerald-400"
-              />
-              <Radio size={12} className={broadcastToOperatives ? 'text-emerald-400' : 'text-slate-500'} />
-              <span>Sync Cues to Connected Operatives</span>
-            </label>
-          </div>
+          {isArchitect && (
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2 text-[11px] font-bold text-slate-300 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={broadcastToOperatives}
+                  onChange={(e) => setBroadcastToOperatives(e.target.checked)}
+                  className="accent-emerald-400"
+                />
+                <Radio size={12} className={broadcastToOperatives ? 'text-emerald-400' : 'text-slate-500'} />
+                <span>Sync Cues to Connected Operatives</span>
+              </label>
+            </div>
+          )}
 
           <div className="flex items-center justify-between gap-3 text-[10px] text-slate-400">
             <span className="flex items-center gap-1">
@@ -191,7 +195,15 @@ export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ is
                     </button>
                     <button
                       type="button"
-                      onClick={() => proAudioMixerService.stopBus(busId, broadcastToOperatives)}
+                      onClick={() => proAudioMixerService.nextTrack(busId, effectiveBroadcast)}
+                      className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-700 text-[9px] text-cyan-300 hover:text-white cursor-pointer"
+                      title={`Next queued track (${busState.queue?.length || 0} queued)`}
+                    >
+                      Next {busState.queue?.length ? `(${busState.queue.length})` : ''}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => proAudioMixerService.stopBus(busId, effectiveBroadcast)}
                       className="p-1 rounded bg-slate-950 border border-slate-700 text-slate-300 hover:text-rose-300 cursor-pointer"
                       title="Stop bus"
                     >
@@ -209,7 +221,7 @@ export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ is
                     step={0.02}
                     value={busState.volume}
                     aria-label={`${meta.label} Volume`}
-                    onChange={(e) => proAudioMixerService.setBusVolume(busId, Number(e.target.value), broadcastToOperatives)}
+                    onChange={(e) => proAudioMixerService.setBusVolume(busId, Number(e.target.value), effectiveBroadcast)}
                     className={`flex-1 ${meta.color}`}
                   />
                 </div>
@@ -227,11 +239,9 @@ export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ is
             {tracks.map((track) => {
               const isActive = buses[track.bus]?.isPlaying && buses[track.bus]?.activeTrackId === track.id;
               return (
-                <button
+                <div
                   key={track.id}
-                  type="button"
-                  onClick={() => void proAudioMixerService.playCue(track.bus, track.id, broadcastToOperatives)}
-                  className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                  className={`p-2 rounded-xl border transition-all flex flex-col justify-between gap-1 ${
                     isActive
                       ? 'bg-purple-950/70 border-purple-400 text-purple-100 shadow-[0_0_12px_rgba(168,85,247,0.3)]'
                       : 'bg-slate-950/80 border-slate-800 hover:border-slate-600 text-slate-300'
@@ -239,10 +249,33 @@ export const StageAudioMixerDrawer: React.FC<StageAudioMixerDrawerProps> = ({ is
                 >
                   <div className="flex items-center justify-between text-[10px] font-bold">
                     <span className="uppercase text-slate-400">{track.bus}</span>
-                    <Play size={10} className={isActive ? 'text-purple-300' : 'text-slate-500'} />
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => proAudioMixerService.enqueueTrack(track.bus, track.id)}
+                        className="px-1 py-0.2 rounded bg-slate-900 border border-slate-700 text-[8.5px] text-cyan-300 hover:text-white cursor-pointer"
+                        title={`Queue ${track.title} next on ${track.bus}`}
+                      >
+                        +Q
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void proAudioMixerService.playCue(track.bus, track.id, effectiveBroadcast)}
+                        className="p-0.5 rounded hover:bg-purple-900/50 cursor-pointer"
+                        title={`Play ${track.title}`}
+                      >
+                        <Play size={10} className={isActive ? 'text-purple-300' : 'text-slate-500'} />
+                      </button>
+                    </div>
                   </div>
-                  <div className="text-[11px] font-bold truncate mt-0.5">{track.title}</div>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => void proAudioMixerService.playCue(track.bus, track.id, effectiveBroadcast)}
+                    className="text-left text-[11px] font-bold truncate cursor-pointer"
+                  >
+                    {track.title}
+                  </button>
+                </div>
               );
             })}
           </div>

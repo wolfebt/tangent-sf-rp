@@ -39,7 +39,9 @@ export default function ToolbarQuickActions({
   isRightDockOpen,
   onToggleRightDock,
   activeCockpitDeck,
-  onSelectCockpitDeck
+  onSelectCockpitDeck,
+  isDirty = false,
+  cloudSyncStatus = 'offline'
 }) {
   const navigate = useNavigate();
 
@@ -83,6 +85,32 @@ export default function ToolbarQuickActions({
         </button>
       )}
 
+      {/* Cloud Sync / Pending Changes Badge */}
+      <span
+        className={`hidden xl:inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[9.5px] font-bold border ${
+          cloudSyncStatus === 'conflict' || cloudSyncStatus === 'error'
+            ? 'bg-rose-950/70 border-rose-500/50 text-rose-200'
+            : cloudSyncStatus === 'syncing'
+            ? 'bg-cyan-950/70 border-cyan-500/50 text-cyan-200'
+            : isDirty
+            ? 'bg-amber-950/70 border-amber-500/50 text-amber-200'
+            : cloudSyncStatus === 'synced'
+            ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-300'
+            : 'bg-slate-900 border-slate-700 text-slate-400'
+        }`}
+        title={isDirty ? 'Pending unsaved local revisions' : `Cloud Sync Status: ${cloudSyncStatus}`}
+      >
+        {cloudSyncStatus === 'conflict'
+          ? 'SYNC CONFLICT'
+          : cloudSyncStatus === 'syncing'
+          ? 'SYNCING...'
+          : isDirty
+          ? 'PENDING SAVE'
+          : cloudSyncStatus === 'synced'
+          ? 'SYNCED'
+          : 'LOCAL'}
+      </span>
+
       {/* Split Stage Toggle & Ratio Selector (When in Scenarios view) */}
       {activeView === 'scenarios' && setIsSplitView && (
         <div className="hidden md:flex items-center gap-1 bg-slate-900/90 border border-slate-800 rounded-xl p-0.5">
@@ -106,6 +134,14 @@ export default function ToolbarQuickActions({
             <div className="flex items-center gap-0.5 px-1 text-[9px] font-bold">
               <button
                 type="button"
+                onClick={() => setViewportSplit('story_full')}
+                className={`px-1 py-0.5 rounded cursor-pointer ${viewportSplit === 'story_full' ? 'bg-emerald-500/30 text-emerald-300' : 'text-slate-400 hover:text-white'}`}
+                title="100% Story / 0% Stage"
+              >
+                100/0
+              </button>
+              <button
+                type="button"
                 onClick={() => setViewportSplit('story_only')}
                 className={`px-1 py-0.5 rounded cursor-pointer ${viewportSplit === 'story_only' ? 'bg-emerald-500/30 text-emerald-300' : 'text-slate-400 hover:text-white'}`}
                 title="75% Story / 25% Stage"
@@ -127,6 +163,14 @@ export default function ToolbarQuickActions({
                 title="25% Story / 75% Stage"
               >
                 25/75
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewportSplit('canvas_full')}
+                className={`px-1 py-0.5 rounded cursor-pointer ${viewportSplit === 'canvas_full' ? 'bg-emerald-500/30 text-emerald-300' : 'text-slate-400 hover:text-white'}`}
+                title="0% Story / 100% Stage"
+              >
+                0/100
               </button>
             </div>
           )}

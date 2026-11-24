@@ -6,7 +6,7 @@
  */
 
 import * as THREE from 'three';
-import { WALL_TYPES, DOOR_STATES } from '../../../schemas/vttWallSchema.js';
+import { WALL_TYPES, DOOR_STATES, expandWallsForGeometry } from '../../../schemas/vttWallSchema.js';
 import { DEFAULT_WALL_HEIGHT_WORLD } from '../scaleConstants.ts';
 
 export interface Wall3DOptions {
@@ -115,7 +115,8 @@ export class WallExtruder3D {
       return group;
     }
 
-    for (const wall of walls) {
+    const expanded = expandWallsForGeometry(walls, 8);
+    for (const wall of expanded) {
       const wallMesh = this.createWallMesh(wall);
       if (wallMesh) {
         group.add(wallMesh);

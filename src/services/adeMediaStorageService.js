@@ -63,9 +63,12 @@ export function buildAdeStoragePath({
   }
   const safeCat = ALLOWED_ADE_MEDIA_CATEGORIES.has(assetCategory) ? assetCategory : 'maps';
 
-  const extFromMime = contentType === 'image/png'
-    ? 'png'
-    : (contentType === 'image/jpeg' ? 'jpg' : 'webp');
+  const cleanMime = String(contentType || '').toLowerCase();
+  const extFromMime = AUDIO_MIME_EXT[cleanMime]
+    || VIDEO_MIME_EXT[cleanMime]
+    || (cleanMime === 'image/png'
+      ? 'png'
+      : (cleanMime === 'image/jpeg' || cleanMime === 'image/jpg' ? 'jpg' : 'webp'));
 
   const rawBase = String(fileName || 'asset')
     .replace(/\.[^.]+$/, '')
@@ -349,6 +352,88 @@ export async function offloadMapBinaryFields(
 }
 
 /**
+ * Offloads large embedded data:image/* binaries on a Story Element (and its fields)
+ * before Firestore persistence so `story_elements.imageUrl` stays within the 2048-char limit.
+ */
+export async function offloadElementBinaryFields(
+  elementNode,
+  {
+    userId = undefined,
+    storage = defaultStorage,
+    uploadFn = null,
+    inlineThresholdBytes = 1800
+  } = {}
+) {
+  if (!elementNode || typeof elementNode !== 'object') return elementNode;
+  const resolvedUid = userId || defaultAuth?.currentUser?.uid || null;
+  if (!resolvedUid || (!storage && typeof uploadFn !== 'function')) {
+    return elementNode;
+  }
+
+  const maybeOffload = async (val, category, hint) => {
+    if (typeof val !== 'string' || !val.startsWith('data:image/')) return val;
+    if (val.length <= inlineThresholdBytes) return val;
+    try {
+      const res = await uploadAdeImageAsset(val, {
+        userId: resolvedUid,
+        assetCategory: category,
+        fileName: hint,
+        storage,
+        uploadFn
+      });
+      if (res?.offloaded && res.url) return res.url;
+    } catch (err) {
+      console.warn(`[adeMediaStorageService] Skipped element offload ${hint}:`, err?.message || err);
+    }
+    return val;
+  };
+
+  const nextElem = { ...elementNode };
+  if (nextElem.imageUrl) {
+    nextElem.imageUrl = await maybeOffload(nextElem.imageUrl, 'elements', `${nextElem.id || 'elem'}_img`);
+  }
+  if (nextElem.portraitUrl) {
+    nextElem.portraitUrl = await maybeOffload(nextElem.portraitUrl, 'elements', `${nextElem.id || 'elem'}_portrait`);
+  }
+  if (nextElem.avatarUrl) {
+    nextElem.avatarUrl = await maybeOffload(nextElem.avatarUrl, 'elements', `${nextElem.id || 'elem'}_avatar`);
+  }
+  if (nextElem.tokenUrl) {
+    nextElem.tokenUrl = await maybeOffload(nextElem.tokenUrl, 'tokens', `${nextElem.id || 'elem'}_token`);
+  }
+  if (nextElem.fields && typeof nextElem.fields === 'object') {
+    const nextFields = { ...nextElem.fields };
+    if (nextFields.imageUrl) nextFields.imageUrl = await maybeOffload(nextFields.imageUrl, 'elements', `${nextElem.id || 'elem'}_fimg`);
+    if (nextFields.portraitUrl) nextFields.portraitUrl = await maybeOffload(nextFields.portraitUrl, 'elements', `${nextElem.id || 'elem'}_fportrait`);
+    if (nextFields.tokenUrl) nextFields.tokenUrl = await maybeOffload(nextFields.tokenUrl, 'tokens', `${nextElem.id || 'elem'}_ftoken`);
+    nextElem.fields = nextFields;
+  }
+  return nextElem;
+}
+
+const trackedMediaBlobUrls = new Set();
+
+export function revokeTrackedMediaObjectUrl(url) {
+  if (!url || typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') return;
+  if (trackedMediaBlobUrls.has(url)) {
+    try {
+      URL.revokeObjectURL(url);
+    } catch {}
+    trackedMediaBlobUrls.delete(url);
+  }
+}
+
+export function revokeAllTrackedMediaObjectUrls() {
+  if (typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') return;
+  for (const url of trackedMediaBlobUrls) {
+    try {
+      URL.revokeObjectURL(url);
+    } catch {}
+  }
+  trackedMediaBlobUrls.clear();
+}
+
+/**
  * Validates and uploads audio soundboard tracks (<= 15 MB) or animated video map backdrops (<= 25 MB)
  * under owner-scoped Firebase Storage paths, with offline ObjectURL fallback.
  *
@@ -394,9 +479,14 @@ export async function uploadAdeMediaAsset(
     throw new Error(`Media payload exceeds ${Math.round(maxBytes / (1024 * 1024))} MB limit.`);
   }
 
-  const rawType = String(fileOrUrl.type || '').toLowerCase();
+  const rawType = String(fileOrUrl.type || '').toLowerCase().split(';')[0].trim();
+  const normalizedMime = rawType === 'audio/mp3'
+    ? 'audio/mpeg'
+    : rawType === 'audio/x-wav'
+      ? 'audio/wav'
+      : rawType;
   const mimeTable = safeCategory === 'video_maps' ? VIDEO_MIME_EXT : AUDIO_MIME_EXT;
-  const resolvedExt = mimeTable[rawType];
+  const resolvedExt = mimeTable[normalizedMime] || mimeTable[rawType];
   if (!resolvedExt) {
     throw new Error(
       safeCategory === 'video_maps'
@@ -404,12 +494,6 @@ export async function uploadAdeMediaAsset(
         : 'Unsupported audio format. Allowed: audio/mpeg, audio/ogg, audio/wav, audio/webm.'
     );
   }
-
-  const normalizedMime = rawType === 'audio/mp3'
-    ? 'audio/mpeg'
-    : rawType === 'audio/x-wav'
-      ? 'audio/wav'
-      : rawType;
 
   const rawBase = String(fileName || fileOrUrl.name || `ade_${safeCategory}`)
     .replace(/\.[^.]+$/, '')
@@ -451,11 +535,15 @@ export async function uploadAdeMediaAsset(
   const fallbackUrl = typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function'
     ? URL.createObjectURL(fileOrUrl)
     : '';
+  if (fallbackUrl) {
+    trackedMediaBlobUrls.add(fallbackUrl);
+  }
   return {
     url: fallbackUrl,
     storagePath: null,
     contentType: normalizedMime,
     byteLength: fileOrUrl.size,
-    offloaded: false
+    offloaded: false,
+    ephemeralBlob: Boolean(fallbackUrl)
   };
 }

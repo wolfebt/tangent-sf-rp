@@ -10,13 +10,40 @@ export interface MapExportWorkerRequest {
   width: number;
   height: number;
   gridSize: number;
+  sourceGridSize?: number;
   backgroundColor?: string;
   enableWallShadows?: boolean;
   terrains?: Array<Record<string, any>>;
+  underlays?: Array<Record<string, any>>;
+  objects?: Array<Record<string, any>>;
+  tokens?: Array<Record<string, any>>;
+  texts?: Array<Record<string, any>>;
   walls?: Array<Record<string, any>>;
   lights?: Array<Record<string, any>>;
   format?: 'image/png' | 'image/webp';
   quality?: number;
+}
+
+async function preloadWorkerBitmaps(urls: string[]): Promise<Map<string, ImageBitmap>> {
+  const map = new Map<string, ImageBitmap>();
+  if (typeof fetch !== 'function' || typeof createImageBitmap !== 'function' || urls.length === 0) {
+    return map;
+  }
+  const unique = Array.from(new Set(urls.filter((u) => typeof u === 'string' && u.length > 0)));
+  await Promise.all(
+    unique.map(async (url) => {
+      try {
+        const res = await fetch(url, { mode: 'cors' });
+        if (!res.ok) return;
+        const blob = await res.blob();
+        const bmp = await createImageBitmap(blob);
+        map.set(url, bmp);
+      } catch {
+        // Ignore CORS/network failures inside worker and use vector fallback
+      }
+    })
+  );
+  return map;
 }
 
 export interface MapExportWorkerResponse {
@@ -26,7 +53,7 @@ export interface MapExportWorkerResponse {
   error?: string;
 }
 
-function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerRequest): Promise<Blob> {
+async function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerRequest): Promise<Blob> {
   if (typeof OffscreenCanvas === 'undefined') {
     return Promise.reject(new Error('OffscreenCanvas is not available in this worker context.'));
   }
@@ -34,6 +61,24 @@ function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerRequest): Pr
   const width = Math.max(64, Math.min(8192, Math.round(payload.width || 1024)));
   const height = Math.max(64, Math.min(8192, Math.round(payload.height || 1024)));
   const gridSize = Math.max(10, Math.round(payload.gridSize || 50));
+  const sourceGridSize = Math.max(10, Number(payload.sourceGridSize || gridSize));
+  const coordScale = gridSize / sourceGridSize;
+
+  const imageUrls: string[] = [];
+  for (const u of payload.underlays || []) {
+    if (u?.imageUrl) imageUrls.push(u.imageUrl);
+    if (u?.dataUrl) imageUrls.push(u.dataUrl);
+  }
+  for (const t of payload.terrains || []) {
+    if (t?.imageUrl) imageUrls.push(t.imageUrl);
+  }
+  for (const o of payload.objects || []) {
+    if (o?.imageUrl) imageUrls.push(o.imageUrl);
+  }
+  for (const tk of payload.tokens || []) {
+    if (tk?.imageUrl || tk?.avatarUrl) imageUrls.push(tk.imageUrl || tk.avatarUrl);
+  }
+  const bitmaps = await preloadWorkerBitmaps(imageUrls);
 
   const canvas = new OffscreenCanvas(width, height);
   const ctx = canvas.getContext('2d');
@@ -59,12 +104,43 @@ function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerRequest): Pr
   }
   ctx.stroke();
 
-  // 3. Terrains (with soft-edge support)
-  for (const t of payload.terrains || []) {
+  // Apply uniform coordinate scaling so 4K upscaled exports preserve full map alignment
+  ctx.save();
+  if (coordScale !== 1) {
+    ctx.scale(coordScale, coordScale);
+  }
+
+  // 2.5 Underlays
+  for (const u of payload.underlays || []) {
+    const src = u?.imageUrl || u?.dataUrl;
+    const bmp = src ? bitmaps.get(src) : undefined;
+    const ux = Number(u?.offsetX ?? u?.x ?? 0);
+    const uy = Number(u?.offsetY ?? u?.y ?? 0);
+    const uScale = Number(u?.scale || 1);
+    const uw = Number(u?.width || width / coordScale) * uScale;
+    const uh = Number(u?.height || height / coordScale) * uScale;
+    ctx.save();
+    ctx.globalAlpha = Number(u?.opacity ?? 0.55);
+    if (bmp) {
+      ctx.drawImage(bmp, ux, uy, uw, uh);
+    } else if (u?.color) {
+      ctx.fillStyle = u.color;
+      ctx.fillRect(ux, uy, uw, uh);
+    }
+    ctx.restore();
+  }
+
+  // 3. Terrains (ground first, roof canopy terrains rendered above tokens/walls)
+  const renderTerrainList = (list: Array<Record<string, any>>) => {
+  for (const t of list) {
     const color = typeof t.color === 'string' ? t.color : '#1e293b';
     const alpha = typeof t.opacity === 'number' ? t.opacity : 0.85;
     ctx.save();
-    if (t.renderType === 'rect' || (typeof t.width === 'number' && typeof t.height === 'number')) {
+    const imgSrc = t.imageUrl ? bitmaps.get(t.imageUrl) : undefined;
+    if ((t.renderType === 'canvasImage' || t.renderType === 'image') && imgSrc) {
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(imgSrc, Number(t.x || 0), Number(t.y || 0), Number(t.width || width / coordScale), Number(t.height || height / coordScale));
+    } else if (t.renderType === 'rect' || (typeof t.width === 'number' && typeof t.height === 'number')) {
       const x = Number(t.x || 0);
       const y = Number(t.y || 0);
       const w = Number(t.width || 50);
@@ -111,6 +187,28 @@ function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerRequest): Pr
         ctx.globalAlpha = alpha;
         ctx.stroke();
       }
+    }
+    ctx.restore();
+  }
+  };
+
+  const allTerrains = payload.terrains || [];
+  renderTerrainList(allTerrains.filter((t) => !t?.isRoofLayer));
+
+  // 3.5 Objects / Props
+  for (const obj of payload.objects || []) {
+    if (!obj || obj.isHidden || obj.isGmOnly) continue;
+    const ox = Number(obj.x || 0);
+    const oy = Number(obj.y || 0);
+    const ow = Number(obj.width || (obj.radius ? obj.radius * 2 : 40));
+    const oh = Number(obj.height || (obj.radius ? obj.radius * 2 : 40));
+    const objImg = obj.imageUrl ? bitmaps.get(obj.imageUrl) : undefined;
+    ctx.save();
+    if (objImg) {
+      ctx.drawImage(objImg, ox, oy, ow, oh);
+    } else {
+      ctx.fillStyle = obj.color || '#38bdf8';
+      ctx.fillRect(ox, oy, ow, oh);
     }
     ctx.restore();
   }
@@ -172,6 +270,50 @@ function renderMapSnapshotToOffscreenCanvas(payload: MapExportWorkerRequest): Pr
     ctx.fill();
     ctx.restore();
   }
+
+  // 4.5 Tokens, Texts & Roof Canopy Layer
+  for (const tk of payload.tokens || []) {
+    if (!tk || tk.isHidden || tk.hidden || tk.isGmOnly) continue;
+    const tx = Number(tk.x || 0);
+    const ty = Number(tk.y || 0);
+    const tr = Number(tk.radius || 22);
+    const tkImg = (tk.imageUrl || tk.avatarUrl) ? bitmaps.get(tk.imageUrl || tk.avatarUrl) : undefined;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(tx, ty, tr, 0, Math.PI * 2);
+    ctx.clip();
+    if (tkImg) {
+      ctx.drawImage(tkImg, tx - tr, ty - tr, tr * 2, tr * 2);
+    } else {
+      ctx.fillStyle = tk.fill || tk.color || (tk.type === 'hero' ? '#22d3ee' : '#ef4444');
+      ctx.fill();
+    }
+    ctx.restore();
+    ctx.save();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(tx, ty, tr, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  for (const txt of payload.texts || []) {
+    if (!txt?.text) continue;
+    ctx.save();
+    ctx.fillStyle = txt.fill || txt.color || '#f8fafc';
+    ctx.font = `bold ${Number(txt.fontSize || 16)}px sans-serif`;
+    ctx.fillText(String(txt.text), Number(txt.x || 0), Number(txt.y || 0));
+    ctx.restore();
+  }
+
+  renderTerrainList(allTerrains.filter((t) => Boolean(t?.isRoofLayer)));
+
+  ctx.restore();
+
+  bitmaps.forEach((bmp) => {
+    try { bmp.close?.(); } catch {}
+  });
 
   return canvas.convertToBlob({
     type: payload.format || 'image/png',

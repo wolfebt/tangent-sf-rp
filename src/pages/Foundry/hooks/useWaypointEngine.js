@@ -18,6 +18,7 @@ export const useWaypointEngine = ({
   setActiveScenarioId,
   storyContext,
   studioMode,
+  enableProximityInDev = false,
   liveTokens = [],
   setSaveStatusText,
   setIsFloatingAimeOpen,
@@ -126,9 +127,11 @@ export const useWaypointEngine = ({
     AudioService.playTerminalBeep(900, 0.04);
   }, [activeMap, updateMap]);
 
+  const isWaypointEngineArmed = studioMode === 'live_session' || Boolean(enableProximityInDev);
+
   // Spatial Proximity Collision Watcher
   useEffect(() => {
-    if (studioMode !== 'live_session') return;
+    if (!isWaypointEngineArmed) return;
     if (!activeMap?.waypoints || activeMap.waypoints.length === 0 || !liveTokens || liveTokens.length === 0) return;
 
     const waypoints = activeMap.waypoints;
@@ -169,7 +172,7 @@ export const useWaypointEngine = ({
         }
       });
     });
-  }, [liveTokens, studioMode, activeMap?.waypoints, activeScenario, executeWaypointTrigger, flatScenarios]);
+  }, [liveTokens, isWaypointEngineArmed, activeMap?.waypoints, activeScenario, executeWaypointTrigger, flatScenarios]);
 
   // Listen to remote or canvas-dispatched waypoint events
   useEffect(() => {
@@ -295,6 +298,7 @@ export const useWaypointEngine = ({
     handleArmWaypointTool,
     handlePanToWaypoint,
     handleDeleteWaypoint,
-    handleAutoRouteFromBeats
+    handleAutoRouteFromBeats,
+    isWaypointEngineArmed
   };
 };

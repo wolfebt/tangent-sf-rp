@@ -8,7 +8,7 @@ import { createDebouncedSaver } from '../utils/debounceUtils';
 import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreUtils';
 import { StorageService } from '../services/storageService';
 import { sanitizeMapForSpectator } from '../utils/spectatorSanitizer';
-import { offloadMapBinaryFields } from '../services/adeMediaStorageService';
+import { offloadMapBinaryFields, offloadElementBinaryFields } from '../services/adeMediaStorageService';
 import { normalizeElementType } from '../pages/Foundry/ElementForge/elementSchemas';
 import {
   createDefaultCronicleState,
@@ -28,9 +28,12 @@ import {
 } from '../utils/scenarioTreeEngine.js';
 
 const StoryContext = globalThis.__TANGENT_STORY_CONTEXT__ || (globalThis.__TANGENT_STORY_CONTEXT__ = createContext({}));
+const StoryActionsContext = globalThis.__TANGENT_STORY_ACTIONS_CONTEXT__ || (globalThis.__TANGENT_STORY_ACTIONS_CONTEXT__ = createContext({}));
 
 export const useStory = () => useContext(StoryContext) || {};
 export const useCampaign = useStory;
+export const useStoryActions = () => useContext(StoryActionsContext) || {};
+export const useCampaignActions = useStoryActions;
 
 // Helper to format filenames as {name}-{type}.{ext}
 export const formatExportFilename = (name, type, ext) => {
@@ -72,6 +75,7 @@ const DEFAULT_UNIVERSE_STATE = {
   },
   cronicle: createDefaultCronicleState('Tangent Universe'),
   galleryModifiers: [],
+  customTemplates: [],
   updatedAt: new Date().toISOString()
 };
 
@@ -308,7 +312,7 @@ export const StoryProvider = ({ children }) => {
     if (!Array.isArray(scenariosTree) || scenariosTree.length === 0) return;
 
     const flattened = flattenTree(scenariosTree);
-    const extractedElements = flattened.map(node => {
+    let extractedElements = flattened.map(node => {
       const cleanTitle = (node.title && node.title.trim()) ? node.title.trim() : `Untitled ${node.type || 'Element'}`;
       return {
         ...node,
@@ -320,6 +324,12 @@ export const StoryProvider = ({ children }) => {
         storyId: universeStateRef.current?.id || 'proj_default_universe'
       };
     });
+
+    if (user && db) {
+      extractedElements = await Promise.all(
+        extractedElements.map(elem => offloadElementBinaryFields(elem, { userId: user.uid }))
+      );
+    }
 
     // Update local elements catalog state (merging/upserting by ID)
     setElementsCatalog(prev => {
@@ -670,6 +680,64 @@ export const StoryProvider = ({ children }) => {
     showToast({ type: 'success', text: `Successfully cloned "${source.projectName}" to your ADE Studio catalog.` });
   }, [universeState, currentUser, setStoryReadOnlyState]);
 
+  const offloadScenarioTree = useCallback(async (nodes = [], userId) => {
+    return Promise.all(
+      (nodes || []).map(async (node) => {
+        const offloadedNode = await offloadElementBinaryFields(node, { userId });
+        if (Array.isArray(offloadedNode.children) && offloadedNode.children.length > 0) {
+          return { ...offloadedNode, children: await offloadScenarioTree(offloadedNode.children, userId) };
+        }
+        return offloadedNode;
+      })
+    );
+  }, []);
+
+  // Write back offloaded Storage URLs once so future auto-saves do not re-upload inline binaries
+  const patchOffloadedUrlsIntoUniverseState = useCallback((preparedMaps, preparedScenarios, rawMaps = [], rawScenarios = []) => {
+    if (isStoryReadOnlyRef.current) return;
+    const mapsChanged = JSON.stringify(preparedMaps) !== JSON.stringify(rawMaps || []);
+    const scenariosChanged = JSON.stringify(preparedScenarios) !== JSON.stringify(rawScenarios || []);
+    if (!mapsChanged && !scenariosChanged) return;
+
+    const mapById = new Map((preparedMaps || []).map(m => [m.id, m]));
+    const urlMapFromTree = new Map();
+    const collectUrls = (nodes = []) => {
+      nodes.forEach(n => {
+        if (n?.id) urlMapFromTree.set(n.id, n);
+        if (Array.isArray(n?.children)) collectUrls(n.children);
+      });
+    };
+    collectUrls(preparedScenarios);
+    const patchTreeUrls = (nodes = []) =>
+      nodes.map(n => {
+        const p = urlMapFromTree.get(n.id);
+        const patchedChildren = Array.isArray(n.children) ? patchTreeUrls(n.children) : [];
+        if (!p) return { ...n, children: patchedChildren };
+        const patchedFields = (n.fields && typeof n.fields === 'object' && p.fields && typeof p.fields === 'object')
+          ? {
+              ...n.fields,
+              ...(typeof p.fields.imageUrl === 'string' && p.fields.imageUrl.startsWith('http') ? { imageUrl: p.fields.imageUrl } : {}),
+              ...(typeof p.fields.portraitUrl === 'string' && p.fields.portraitUrl.startsWith('http') ? { portraitUrl: p.fields.portraitUrl } : {}),
+              ...(typeof p.fields.tokenUrl === 'string' && p.fields.tokenUrl.startsWith('http') ? { tokenUrl: p.fields.tokenUrl } : {})
+            }
+          : n.fields;
+        return {
+          ...n,
+          ...(typeof p.imageUrl === 'string' && p.imageUrl.startsWith('http') ? { imageUrl: p.imageUrl } : {}),
+          ...(typeof p.portraitUrl === 'string' && p.portraitUrl.startsWith('http') ? { portraitUrl: p.portraitUrl } : {}),
+          ...(typeof p.avatarUrl === 'string' && p.avatarUrl.startsWith('http') ? { avatarUrl: p.avatarUrl } : {}),
+          ...(typeof p.tokenUrl === 'string' && p.tokenUrl.startsWith('http') ? { tokenUrl: p.tokenUrl } : {}),
+          ...(patchedFields !== undefined ? { fields: patchedFields } : {}),
+          children: patchedChildren
+        };
+      });
+    setUniverseState(prev => ({
+      ...prev,
+      ...(mapsChanged ? { maps: (prev.maps || []).map(m => mapById.get(m.id) || m) } : {}),
+      ...(scenariosChanged ? { scenarios: patchTreeUrls(prev.scenarios || []) } : {})
+    }));
+  }, []);
+
   // Actual Cloud Persistence Worker
   const executeCloudSave = useCallback(async (stateToSave) => {
     if (isStoryReadOnlyRef.current) return false;
@@ -690,8 +758,16 @@ export const StoryProvider = ({ children }) => {
     try {
       const currentProjectId = stateToSave.id || 'proj_default_universe';
       const savedUpdatedAt = stateToSave.updatedAt || new Date().toISOString();
+      const [preparedMaps, preparedScenarios] = await Promise.all([
+        Promise.all((stateToSave.maps || []).map(m => offloadMapBinaryFields(m, { userId: currentUser.uid }))),
+        offloadScenarioTree(stateToSave.scenarios || [], currentUser.uid)
+      ]);
+      patchOffloadedUrlsIntoUniverseState(preparedMaps, preparedScenarios, stateToSave.maps, stateToSave.scenarios);
+
       const payload = {
         ...stateToSave,
+        maps: preparedMaps,
+        scenarios: preparedScenarios,
         id: currentProjectId,
         updatedAt: savedUpdatedAt
       };
@@ -704,8 +780,8 @@ export const StoryProvider = ({ children }) => {
 
       await Promise.all([
         setDoc(userStoryDoc, sanitizeFirestoreData(payloadWithOwner), { merge: true }),
-        saveAllElementsIndependently(stateToSave.scenarios, currentUser),
-        saveAllMapsIndependently(stateToSave.maps, currentUser)
+        saveAllElementsIndependently(preparedScenarios, currentUser),
+        saveAllMapsIndependently(preparedMaps, currentUser)
       ]);
 
       lastSyncedCloudUpdatedAtRef.current = payload.updatedAt;
@@ -874,8 +950,15 @@ export const StoryProvider = ({ children }) => {
 
       const updatedTime = new Date().toISOString();
       const currentState = universeStateRef.current;
+      const [preparedMaps, preparedScenarios] = await Promise.all([
+        Promise.all((currentState.maps || []).map(m => offloadMapBinaryFields(m, { userId: currentUser.uid }))),
+        offloadScenarioTree(currentState.scenarios || [], currentUser.uid)
+      ]);
+      patchOffloadedUrlsIntoUniverseState(preparedMaps, preparedScenarios, currentState.maps, currentState.scenarios);
       const updatedState = {
         ...currentState,
+        maps: preparedMaps,
+        scenarios: preparedScenarios,
         id: currentProjectId,
         updatedAt: updatedTime
       };
@@ -883,8 +966,8 @@ export const StoryProvider = ({ children }) => {
 
       await Promise.all([
         setDoc(userStoryDoc, sanitizeFirestoreData(payloadWithOwner), { merge: true }),
-        saveAllElementsIndependently(currentState.scenarios, currentUser),
-        saveAllMapsIndependently(currentState.maps, currentUser)
+        saveAllElementsIndependently(preparedScenarios, currentUser),
+        saveAllMapsIndependently(preparedMaps, currentUser)
       ]);
 
       lastSyncedCloudUpdatedAtRef.current = updatedTime;
@@ -987,12 +1070,13 @@ export const StoryProvider = ({ children }) => {
     try {
       setCloudSyncStatus('syncing');
       const taggedNode = attachCreatorTag(elementNode, localStorage.getItem('userHandle'), currentUser);
+      const offloadedNode = await offloadElementBinaryFields(taggedNode, { userId: currentUser.uid });
       const payload = {
-        ...taggedNode,
+        ...offloadedNode,
         updatedAt: new Date().toISOString(),
         authorHandle: getEffectiveUserHandle(currentUser),
         authorUid: currentUser.uid,
-        creatorId: taggedNode.creatorId || currentUser.uid
+        creatorId: offloadedNode.creatorId || currentUser.uid
       };
       await setDoc(doc(db, 'story_elements', elementNode.id), sanitizeFirestoreData(payload));
       setCloudSyncStatus('synced');
@@ -1101,6 +1185,7 @@ export const StoryProvider = ({ children }) => {
             },
             cronicle: loadedData.cronicle || createDefaultCronicleState(projectTitle),
             galleryModifiers: Array.isArray(loadedData.galleryModifiers) ? loadedData.galleryModifiers : [],
+            customTemplates: Array.isArray(loadedData.customTemplates) ? loadedData.customTemplates : [],
             scripts: Array.isArray(loadedData.scripts) ? loadedData.scripts : [],
             isPublic: Boolean(loadedData.isPublic),
             updatedAt: loadedData.updatedAt || new Date().toISOString()
@@ -2056,7 +2141,8 @@ export const StoryProvider = ({ children }) => {
 
     if (currentUser && db) {
       try {
-        const sanitized = sanitizeMapForSpectator(liveFlaggedMap, currentUser);
+        const preparedSpectatorMap = await offloadMapBinaryFields(liveFlaggedMap, { userId: currentUser.uid });
+        const sanitized = sanitizeMapForSpectator(preparedSpectatorMap, currentUser);
         if (sanitized) {
           await setDoc(doc(db, 'spectator_maps', mapId), sanitizeFirestoreData(sanitized), { merge: true });
         }
@@ -2202,7 +2288,8 @@ export const StoryProvider = ({ children }) => {
 
     if (currentUser && updatedElem) {
       try {
-        await setDoc(doc(db, 'story_elements', elementId), sanitizeFirestoreData(updatedElem), { merge: true });
+        const preparedElem = await offloadElementBinaryFields(updatedElem, { userId: currentUser.uid });
+        await setDoc(doc(db, 'story_elements', elementId), sanitizeFirestoreData(preparedElem), { merge: true });
       } catch (e) {
         console.warn('Failed to update element in Firestore:', e);
       }
@@ -2261,20 +2348,19 @@ export const StoryProvider = ({ children }) => {
     setIsDirty(true);
   };
 
-  const value = useMemo(() => ({
-    universeState,
-    setUniverseState,
-    galleryModifiers: universeState?.galleryModifiers || [],
+  const guardedSetUniverseState = useCallback((updater) => {
+    if (isStoryReadOnlyRef.current) return;
+    setUniverseState(updater);
+  }, []);
+
+  const actionsRef = useRef({});
+  actionsRef.current = {
+    setUniverseState: guardedSetUniverseState,
     addGalleryModifier,
     updateGalleryModifier,
     deleteGalleryModifier,
     toggleGalleryModifier,
     setGalleryModifiers,
-    storyCatalog,
-    elementsCatalog,
-    mapsCatalog,
-    lastCloudSavedAt,
-    isDirty,
     setIsDirty,
     confirmIfDirty,
     createNewStory,
@@ -2298,7 +2384,6 @@ export const StoryProvider = ({ children }) => {
     updateDraft,
     updateLinkedElements,
     getActiveGemsText,
-    cronicle,
     updateCronicle,
     updateWorkingMemory,
     applyCronicleDelta: applyCronicleDeltaAction,
@@ -2308,8 +2393,6 @@ export const StoryProvider = ({ children }) => {
     rejectPendingDelta,
     clearPendingDeltas,
     cloneElementToCronicle,
-    cloudSyncStatus,
-    syncConflict,
     setSyncConflict,
     resolveConflictOverwrite,
     resolveConflictPull,
@@ -2318,9 +2401,7 @@ export const StoryProvider = ({ children }) => {
     pullUniverseFromCloud,
     saveElementToCloud,
     loadElementsFromCloud,
-    activeScenarioId,
     setActiveScenarioId,
-    activeMapId,
     setActiveMapId,
     handleSaveLocal,
     handleLoadLocal,
@@ -2344,8 +2425,6 @@ export const StoryProvider = ({ children }) => {
     reorderRelativeScenario,
     undoScenarioTree,
     redoScenarioTree,
-    canUndoScenarioTree: treeHistoryRef.current.canUndo,
-    canRedoScenarioTree: treeHistoryRef.current.canRedo,
     addMap,
     updateMap,
     deleteMap,
@@ -2358,57 +2437,163 @@ export const StoryProvider = ({ children }) => {
     addCustomChunk,
     updateCustomChunk,
     deleteCustomChunk,
-    isStoryReadOnly,
     setIsStoryReadOnly: setStoryReadOnlyState,
-    publicStoryCatalog,
     toggleStoryVisibility,
     loadPublicStories,
     clonePublicStory,
-    saveStatus,
     setSaveStatus,
-    lastSavedTimestamp,
-    saveError,
     triggerSave,
     forceSaveNow,
     publishSpectatorMap
-  }), [
+  };
+
+  const stableActions = useMemo(() => ({
+    setUniverseState: (...args) => actionsRef.current.setUniverseState(...args),
+    addGalleryModifier: (...args) => actionsRef.current.addGalleryModifier(...args),
+    updateGalleryModifier: (...args) => actionsRef.current.updateGalleryModifier(...args),
+    deleteGalleryModifier: (...args) => actionsRef.current.deleteGalleryModifier(...args),
+    toggleGalleryModifier: (...args) => actionsRef.current.toggleGalleryModifier(...args),
+    setGalleryModifiers: (...args) => actionsRef.current.setGalleryModifiers(...args),
+    setIsDirty: (...args) => actionsRef.current.setIsDirty(...args),
+    confirmIfDirty: (...args) => actionsRef.current.confirmIfDirty(...args),
+    createNewStory: (...args) => actionsRef.current.createNewStory(...args),
+    openStory: (...args) => actionsRef.current.openStory(...args),
+    closeStory: (...args) => actionsRef.current.closeStory(...args),
+    deleteStoryProject: (...args) => actionsRef.current.deleteStoryProject(...args),
+    deleteSavedElement: (...args) => actionsRef.current.deleteSavedElement(...args),
+    updateSavedElement: (...args) => actionsRef.current.updateSavedElement(...args),
+    enforceElementNames: (...args) => actionsRef.current.enforceElementNames(...args),
+    saveAllElementsIndependently: (...args) => actionsRef.current.saveAllElementsIndependently(...args),
+    saveAllMapsIndependently: (...args) => actionsRef.current.saveAllMapsIndependently(...args),
+    deleteSavedMap: (...args) => actionsRef.current.deleteSavedMap(...args),
+    updateProjectName: (...args) => actionsRef.current.updateProjectName(...args),
+    updateUniverseMetadata: (...args) => actionsRef.current.updateUniverseMetadata(...args),
+    handleClearUniverse: (...args) => actionsRef.current.handleClearUniverse(...args),
+    updateCreativeState: (...args) => actionsRef.current.updateCreativeState(...args),
+    updateGems: (...args) => actionsRef.current.updateGems(...args),
+    updateStoryCards: (...args) => actionsRef.current.updateStoryCards(...args),
+    updateOutline: (...args) => actionsRef.current.updateOutline(...args),
+    updateSceneBeats: (...args) => actionsRef.current.updateSceneBeats(...args),
+    updateDraft: (...args) => actionsRef.current.updateDraft(...args),
+    updateLinkedElements: (...args) => actionsRef.current.updateLinkedElements(...args),
+    getActiveGemsText: (...args) => actionsRef.current.getActiveGemsText(...args),
+    updateCronicle: (...args) => actionsRef.current.updateCronicle(...args),
+    updateWorkingMemory: (...args) => actionsRef.current.updateWorkingMemory(...args),
+    applyCronicleDelta: (...args) => actionsRef.current.applyCronicleDelta(...args),
+    stageCronicleDeltas: (...args) => actionsRef.current.stageCronicleDeltas(...args),
+    acceptPendingDelta: (...args) => actionsRef.current.acceptPendingDelta(...args),
+    acceptAllPendingDeltas: (...args) => actionsRef.current.acceptAllPendingDeltas(...args),
+    rejectPendingDelta: (...args) => actionsRef.current.rejectPendingDelta(...args),
+    clearPendingDeltas: (...args) => actionsRef.current.clearPendingDeltas(...args),
+    cloneElementToCronicle: (...args) => actionsRef.current.cloneElementToCronicle(...args),
+    setSyncConflict: (...args) => actionsRef.current.setSyncConflict(...args),
+    resolveConflictOverwrite: (...args) => actionsRef.current.resolveConflictOverwrite(...args),
+    resolveConflictPull: (...args) => actionsRef.current.resolveConflictPull(...args),
+    resolveConflictCancel: (...args) => actionsRef.current.resolveConflictCancel(...args),
+    pushUniverseToCloud: (...args) => actionsRef.current.pushUniverseToCloud(...args),
+    pullUniverseFromCloud: (...args) => actionsRef.current.pullUniverseFromCloud(...args),
+    saveElementToCloud: (...args) => actionsRef.current.saveElementToCloud(...args),
+    loadElementsFromCloud: (...args) => actionsRef.current.loadElementsFromCloud(...args),
+    setActiveScenarioId: (...args) => actionsRef.current.setActiveScenarioId(...args),
+    setActiveMapId: (...args) => actionsRef.current.setActiveMapId(...args),
+    handleSaveLocal: (...args) => actionsRef.current.handleSaveLocal(...args),
+    handleLoadLocal: (...args) => actionsRef.current.handleLoadLocal(...args),
+    triggerStorySave: (...args) => actionsRef.current.triggerStorySave(...args),
+    handleSaveStory: (...args) => actionsRef.current.handleSaveStory(...args),
+    handleLoadStory: (...args) => actionsRef.current.handleLoadStory(...args),
+    handleSaveScenario: (...args) => actionsRef.current.handleSaveScenario(...args),
+    handleLoadScenario: (...args) => actionsRef.current.handleLoadScenario(...args),
+    handleSaveActiveMap: (...args) => actionsRef.current.handleSaveActiveMap(...args),
+    handleLoadMap: (...args) => actionsRef.current.handleLoadMap(...args),
+    addStory: (...args) => actionsRef.current.addStory(...args),
+    addScenario: (...args) => actionsRef.current.addScenario(...args),
+    updateStory: (...args) => actionsRef.current.updateStory(...args),
+    updateScenario: (...args) => actionsRef.current.updateScenario(...args),
+    deleteStory: (...args) => actionsRef.current.deleteStory(...args),
+    deleteScenario: (...args) => actionsRef.current.deleteScenario(...args),
+    moveStory: (...args) => actionsRef.current.moveStory(...args),
+    moveScenario: (...args) => actionsRef.current.moveScenario(...args),
+    reorderStory: (...args) => actionsRef.current.reorderStory(...args),
+    reorderScenario: (...args) => actionsRef.current.reorderScenario(...args),
+    reorderRelativeScenario: (...args) => actionsRef.current.reorderRelativeScenario(...args),
+    undoScenarioTree: (...args) => actionsRef.current.undoScenarioTree(...args),
+    redoScenarioTree: (...args) => actionsRef.current.redoScenarioTree(...args),
+    addMap: (...args) => actionsRef.current.addMap(...args),
+    updateMap: (...args) => actionsRef.current.updateMap(...args),
+    deleteMap: (...args) => actionsRef.current.deleteMap(...args),
+    addCustomTerrain: (...args) => actionsRef.current.addCustomTerrain(...args),
+    updateCustomTerrain: (...args) => actionsRef.current.updateCustomTerrain(...args),
+    deleteCustomTerrain: (...args) => actionsRef.current.deleteCustomTerrain(...args),
+    addCustomObject: (...args) => actionsRef.current.addCustomObject(...args),
+    updateCustomObject: (...args) => actionsRef.current.updateCustomObject(...args),
+    deleteCustomObject: (...args) => actionsRef.current.deleteCustomObject(...args),
+    addCustomChunk: (...args) => actionsRef.current.addCustomChunk(...args),
+    updateCustomChunk: (...args) => actionsRef.current.updateCustomChunk(...args),
+    deleteCustomChunk: (...args) => actionsRef.current.deleteCustomChunk(...args),
+    setIsStoryReadOnly: (...args) => actionsRef.current.setIsStoryReadOnly(...args),
+    toggleStoryVisibility: (...args) => actionsRef.current.toggleStoryVisibility(...args),
+    loadPublicStories: (...args) => actionsRef.current.loadPublicStories(...args),
+    clonePublicStory: (...args) => actionsRef.current.clonePublicStory(...args),
+    setSaveStatus: (...args) => actionsRef.current.setSaveStatus(...args),
+    triggerSave: (...args) => actionsRef.current.triggerSave(...args),
+    forceSaveNow: (...args) => actionsRef.current.forceSaveNow(...args),
+    publishSpectatorMap: (...args) => actionsRef.current.publishSpectatorMap(...args)
+  }), []);
+
+  const canUndoScenarioTree = treeHistoryRef.current.canUndo;
+  const canRedoScenarioTree = treeHistoryRef.current.canRedo;
+  const galleryModifiers = universeState?.galleryModifiers || [];
+
+  const value = useMemo(() => ({
+    ...stableActions,
     universeState,
+    galleryModifiers,
     storyCatalog,
     elementsCatalog,
     mapsCatalog,
     lastCloudSavedAt,
     isDirty,
-    confirmIfDirty,
-    openStory,
-    deleteSavedElement,
-    enforceElementNames,
-    saveAllElementsIndependently,
-    saveAllMapsIndependently,
-    deleteSavedMap,
+    cronicle,
     cloudSyncStatus,
     syncConflict,
-    pushUniverseToCloud,
     activeScenarioId,
     activeMapId,
+    canUndoScenarioTree,
+    canRedoScenarioTree,
     isStoryReadOnly,
-    setStoryReadOnlyState,
     publicStoryCatalog,
-    toggleStoryVisibility,
-    loadPublicStories,
-    clonePublicStory,
     saveStatus,
     lastSavedTimestamp,
-    saveError,
-    triggerSave,
-    forceSaveNow,
-    publishSpectatorMap,
-    currentUser
+    saveError
+  }), [
+    stableActions,
+    universeState,
+    galleryModifiers,
+    storyCatalog,
+    elementsCatalog,
+    mapsCatalog,
+    lastCloudSavedAt,
+    isDirty,
+    cronicle,
+    cloudSyncStatus,
+    syncConflict,
+    activeScenarioId,
+    activeMapId,
+    canUndoScenarioTree,
+    canRedoScenarioTree,
+    isStoryReadOnly,
+    publicStoryCatalog,
+    saveStatus,
+    lastSavedTimestamp,
+    saveError
   ]);
 
   return (
-    <StoryContext.Provider value={value}>
-      {children}
-    </StoryContext.Provider>
+    <StoryActionsContext.Provider value={stableActions}>
+      <StoryContext.Provider value={value}>
+        {children}
+      </StoryContext.Provider>
+    </StoryActionsContext.Provider>
   );
 };
 

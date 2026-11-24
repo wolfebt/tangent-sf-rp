@@ -7,19 +7,32 @@
 import * as Y from 'yjs';
 import { Room, RoomEvent, DataPacket_Kind, type RemoteParticipant } from 'livekit-client';
 
-// Unique byte prefix to differentiate Yjs binary payloads from Telemetry packets
-const PAYLOAD_PREFIX_YJS = 0x02;
+// Unique byte prefixes to differentiate Yjs CRDT vs targeted Whisper packets from Telemetry packets
+const DEFAULT_PREFIX_YJS = 0x02;
+const DEFAULT_PREFIX_SYNC1 = 0x03;
+export const PAYLOAD_PREFIX_WHISPER = 0x04;
+
+export interface YjsBridgeOptions {
+  onWhisperPayload?: (payload: any, senderIdentity?: string) => void;
+  updatePrefix?: number;
+  syncStep1Prefix?: number;
+  whisperPrefix?: number;
+}
 
 export class YjsProviderBridge {
   private doc: Y.Doc;
   private ownsDoc: boolean;
   public room: Room;
   private isConnected: boolean = false;
+  private updatePrefix: number;
+  private syncStep1Prefix: number;
+  private whisperPrefix: number;
   private updateHandler?: ((update: Uint8Array, origin: any) => void) | undefined;
   private dataReceivedHandler?: ((payload: Uint8Array, participant?: RemoteParticipant, kind?: DataPacket_Kind) => void) | undefined;
   private connectedHandler?: (() => void) | undefined;
   private disconnectedHandler?: (() => void) | undefined;
   private participantConnectedHandler?: ((participant: RemoteParticipant) => void) | undefined;
+  private onWhisperPayload?: ((payload: any, senderIdentity?: string) => void) | undefined;
   
   // High-level CRDT structures mapped to Tangent mechanics
   public personaSheets: Y.Map<any>;
@@ -38,9 +51,13 @@ export class YjsProviderBridge {
   public audioStateMap: Y.Map<any>;
   public sessionMetaMap: Y.Map<any>;
 
-  constructor(room: Room, existingDoc?: Y.Doc) {
+  constructor(room: Room, existingDoc?: Y.Doc, options?: YjsBridgeOptions) {
     this.room = room;
     this.ownsDoc = !existingDoc;
+    this.onWhisperPayload = options?.onWhisperPayload;
+    this.updatePrefix = options?.updatePrefix ?? DEFAULT_PREFIX_YJS;
+    this.syncStep1Prefix = options?.syncStep1Prefix ?? DEFAULT_PREFIX_SYNC1;
+    this.whisperPrefix = options?.whisperPrefix ?? PAYLOAD_PREFIX_WHISPER;
     
     // Reuse the caller's Yjs document when provided so local mutations and LiveKit sync share one CRDT instance
     this.doc = existingDoc || new Y.Doc({ gc: true });
@@ -71,7 +88,7 @@ export class YjsProviderBridge {
     this.dataReceivedHandler = (payload: Uint8Array, participant?: RemoteParticipant, kind?: DataPacket_Kind) => {
       // Yjs updates MUST be reliable. Ignore LOSSY packets (which are for 60Hz telemetry).
       if (kind === DataPacket_Kind.RELIABLE && participant) {
-        this.decodeAndApplyYjsPayload(payload);
+        this.decodeAndApplyYjsPayload(payload, participant.identity);
       }
     };
 
@@ -112,7 +129,7 @@ export class YjsProviderBridge {
 
   public broadcastYjsUpdate(update: Uint8Array) {
     const payload = new Uint8Array(update.length + 1);
-    payload.set([PAYLOAD_PREFIX_YJS], 0);
+    payload.set([this.updatePrefix], 0);
     payload.set(update, 1);
 
     try {
@@ -124,17 +141,68 @@ export class YjsProviderBridge {
     }
   }
 
-  private broadcastStateVector() {
+  public sendSyncStep1() {
+    if (!this.isConnected || !this.room?.localParticipant) return;
+    const stateVector = Y.encodeStateVector(this.doc);
+    const payload = new Uint8Array(stateVector.length + 1);
+    payload.set([this.syncStep1Prefix], 0);
+    payload.set(stateVector, 1);
+    try {
+      this.room.localParticipant.publishData(payload, { reliable: true });
+    } catch (error) {
+      console.error('[Yjs Bridge] Failed to broadcast CRDT sync step 1:', error);
+    }
+  }
+
+  public broadcastStateVector() {
     const fullStateUpdate = Y.encodeStateAsUpdate(this.doc);
     this.broadcastYjsUpdate(fullStateUpdate);
   }
 
-  private decodeAndApplyYjsPayload(payload: Uint8Array) {
+  /**
+   * Sends a targeted encrypted/reliable whisper payload (0x04) over LiveKit to explicit recipient identities
+   * (or all participants with GM/Architect metadata when destinationIdentities is omitted).
+   */
+  public sendWhisper(data: any, destinationIdentities?: string[]): boolean {
+    if (!this.isConnected || !this.room?.localParticipant) return false;
+    try {
+      const json = JSON.stringify(data);
+      const body = new TextEncoder().encode(json);
+      const payload = new Uint8Array(body.length + 1);
+      payload.set([this.whisperPrefix], 0);
+      payload.set(body, 1);
+
+      let targets = Array.isArray(destinationIdentities) && destinationIdentities.length > 0
+        ? destinationIdentities
+        : undefined;
+      if (!targets && this.room?.remoteParticipants && typeof this.room.remoteParticipants.forEach === 'function') {
+        const gmIds: string[] = [];
+        this.room.remoteParticipants.forEach((p: any) => {
+          const metaStr = String(p?.metadata || '').toLowerCase();
+          if (metaStr.includes('"gm"') || metaStr.includes('"architect"') || metaStr.includes('"admin"')) {
+            if (p.identity) gmIds.push(p.identity);
+          }
+        });
+        if (gmIds.length > 0) targets = gmIds;
+      }
+
+      this.room.localParticipant.publishData(payload, {
+        reliable: true,
+        ...(targets ? { destinationIdentities: targets } : {})
+      });
+      return true;
+    } catch (error) {
+      console.error('[Yjs Bridge] Failed to broadcast whisper packet:', error);
+      return false;
+    }
+  }
+
+  private decodeAndApplyYjsPayload(payload: Uint8Array, senderIdentity?: string) {
     if (payload.length < 2) return;
     const type = payload[0];
 
     // Verify Yjs packet prefix
-    if (type === PAYLOAD_PREFIX_YJS) {
+    if (type === this.updatePrefix) {
       const updateData = payload.slice(1);
       
       try {
@@ -143,6 +211,24 @@ export class YjsProviderBridge {
         Y.applyUpdate(this.doc, updateData, 'network');
       } catch (error) {
         console.error('[Yjs Bridge] CRDT Merge Conflict / Decryption Error:', error);
+      }
+    } else if (type === this.syncStep1Prefix) {
+      try {
+        const remoteStateVector = payload.slice(1);
+        const diffUpdate = Y.encodeStateAsUpdate(this.doc, remoteStateVector);
+        if (diffUpdate.length > 0) {
+          this.broadcastYjsUpdate(diffUpdate);
+        }
+      } catch (error) {
+        console.error('[Yjs Bridge] SyncStep1 diff encode error:', error);
+      }
+    } else if (type === this.whisperPrefix) {
+      try {
+        const decoded = new TextDecoder().decode(payload.slice(1));
+        const parsed = JSON.parse(decoded);
+        this.onWhisperPayload?.(parsed, senderIdentity);
+      } catch (error) {
+        console.error('[Yjs Bridge] Whisper decode error:', error);
       }
     }
   }

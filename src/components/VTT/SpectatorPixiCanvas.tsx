@@ -32,6 +32,8 @@ export interface SpectatorPixiCanvasProps {
   visibleTokens: any[];
   visibleFog: any[];
   visibilityPolygon: number[] | null;
+  visibilityPolygons?: number[][];
+  activePings?: Array<{ id?: string; x: number; y: number; color?: string; label?: string }>;
   fogEnabled: boolean;
 }
 
@@ -65,6 +67,8 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
   visibleTokens,
   visibleFog,
   visibilityPolygon,
+  visibilityPolygons,
+  activePings = [],
   fogEnabled
 }) => {
   const pixiCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -144,20 +148,27 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
     const debrisLayer = compositor.getLayer(ZLayer.UnderlayDebris);
     const objLayer = compositor.getLayer(ZLayer.InteractiveObjects);
     const tokenLayer = compositor.getLayer(ZLayer.Tokens);
+    const roofLayer = compositor.getLayer(ZLayer.RoofCanopy);
     const fxLayer = compositor.getLayer(ZLayer.DynamicFX);
     const lightLayer = compositor.getLayer(ZLayer.LightingDarkness);
     const fogLayer = compositor.getLayer(ZLayer.FogOfWar);
     const uiLayer = compositor.getLayer(ZLayer.ForegroundUI);
 
+    const hasVideoBackdrop = Boolean(mapData?.videoBackgroundUrl);
+
     if (bgLayer) {
       clearPixiContainer(bgLayer);
 
-      // Background mat + board
+      // Background mat + board (transparent when synchronized video backdrop is playing underneath)
       const mat = new Graphics();
-      mat.rect(-5000, -5000, 14000, 13000);
-      mat.fill({ color: 0x070a12 });
-      mat.rect(0, 0, worldWidth, worldHeight);
-      mat.fill({ color: 0x0a0e17 });
+      if (!hasVideoBackdrop) {
+        mat.rect(-5000, -5000, 14000, 13000);
+        mat.fill({ color: 0x070a12 });
+        mat.rect(0, 0, worldWidth, worldHeight);
+        mat.fill({ color: 0x0a0e17 });
+      } else {
+        mat.rect(0, 0, worldWidth, worldHeight);
+      }
       mat.stroke({ width: 2, color: 0x1e293b });
       bgLayer.addChild(mat);
 
@@ -176,9 +187,9 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
           .catch(() => {});
       }
 
-      // Terrains
+      // Base ground terrains (roof canopies render onto ZLayer.RoofCanopy above tokens)
       const tg = new Graphics();
-      visibleTerrains.forEach((t: any) => {
+      visibleTerrains.filter((t: any) => !t?.isRoofLayer).forEach((t: any) => {
         const isImg = t.renderType === 'canvasImage' || t.renderType === 'image' || (!t.points && Boolean(t.imageUrl));
         if (isImg && t.imageUrl) {
           Assets.load(t.imageUrl)
@@ -345,8 +356,40 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
         });
         label.anchor.set(0.5, -1.6);
         c.addChild(label);
+
+        // Live HP bar
+        const maxHp = Number(tok.base_health ?? tok.base_hp ?? tok.base_structure ?? 30);
+        const curHp = Number(tok.current_health ?? tok.current_hp ?? tok.current_structure ?? maxHp);
+        const hpRatio = maxHp > 0 ? Math.max(0, Math.min(1, curHp / maxHp)) : 1;
+        const hpBar = new Graphics();
+        hpBar.rect(-r, r + 5, r * 2, 4);
+        hpBar.fill({ color: 0x0f172a, alpha: 0.85 });
+        hpBar.rect(-r, r + 5, r * 2 * hpRatio, 4);
+        hpBar.fill({ color: hpRatio > 0.5 ? 0x10b981 : hpRatio > 0.25 ? 0xf59e0b : 0xef4444 });
+        c.addChild(hpBar);
+
         tokenLayer.addChild(c);
       });
+    }
+
+    // Roof Canopy Layer (above tokens; masked out when heroes enter roof zones)
+    if (roofLayer) {
+      clearPixiContainer(roofLayer);
+      const roofs = visibleTerrains.filter((t: any) => Boolean(t?.isRoofLayer));
+      if (roofs.length > 0) {
+        const rg = new Graphics();
+        roofs.forEach((t: any) => {
+          const colorHex = parseHexColor(t.color, 0x334155);
+          if (t.renderType === 'rect') {
+            rg.rect(t.x || 0, t.y || 0, t.width || 60, t.height || 60);
+            rg.fill({ color: colorHex, alpha: t.opacity ?? 0.9 });
+          } else if (Array.isArray(t.points) && t.points.length >= 6) {
+            rg.poly(t.points);
+            rg.fill({ color: colorHex, alpha: t.opacity ?? 0.9 });
+          }
+        });
+        roofLayer.addChild(rg);
+      }
     }
 
     // Dynamic Lights & Atmospheric Weather Tint
@@ -374,17 +417,56 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
       }
     }
 
-    // Fog of War Mask + LoS Cutout
+    // Fog of War Mask + Multi-Hero LoS Cutout + Explored Memory
     if (fogLayer) {
       clearPixiContainer(fogLayer);
       if (fogEnabled || visibleFog.length > 0) {
         const fg = new Graphics();
+        const activePolys = Array.isArray(visibilityPolygons) && visibilityPolygons.length > 0
+          ? visibilityPolygons
+          : (visibilityPolygon && visibilityPolygon.length >= 6 ? [visibilityPolygon] : []);
+        const exploredPolys: any[] = Array.isArray(mapData?.exploredFog?.exploredPolygons)
+          ? mapData.exploredFog.exploredPolygons
+          : [];
+
         if (fogEnabled) {
           fg.rect(-5000, -5000, 14000, 13000);
           fg.fill({ color: 0x05070a, alpha: 0.92 });
-          if (visibilityPolygon && visibilityPolygon.length >= 6) {
-            fg.poly(visibilityPolygon);
-            fg.cut();
+          if (typeof fg.cut === 'function') {
+            exploredPolys.forEach((poly: any) => {
+              const flat = Array.isArray(poly) && typeof poly[0] === 'number'
+                ? poly
+                : Array.isArray(poly) ? poly.flatMap((pt: any) => [pt.x, pt.y]) : [];
+              if (flat.length >= 6) {
+                fg.poly(flat);
+                fg.cut();
+              }
+            });
+            activePolys.forEach((poly) => {
+              if (poly.length >= 6) {
+                fg.poly(poly);
+                fg.cut();
+              }
+            });
+          }
+          if (exploredPolys.length > 0) {
+            exploredPolys.forEach((poly: any) => {
+              const flat = Array.isArray(poly) && typeof poly[0] === 'number'
+                ? poly
+                : Array.isArray(poly) ? poly.flatMap((pt: any) => [pt.x, pt.y]) : [];
+              if (flat.length >= 6) {
+                fg.poly(flat);
+              }
+            });
+            fg.fill({ color: 0x090f1e, alpha: 0.52 });
+            if (typeof fg.cut === 'function') {
+              activePolys.forEach((poly) => {
+                if (poly.length >= 6) {
+                  fg.poly(poly);
+                  fg.cut();
+                }
+              });
+            }
           }
         }
         visibleFog.forEach((f: any) => {
@@ -401,7 +483,7 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
       }
     }
 
-    // Labels
+    // Labels & Tactical Pings
     if (uiLayer) {
       clearPixiContainer(uiLayer);
       visibleTexts.forEach((t: any) => {
@@ -412,6 +494,15 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
         txt.x = t.x || 0;
         txt.y = t.y || 0;
         uiLayer.addChild(txt);
+      });
+      activePings.forEach((ping) => {
+        const pg = new Graphics();
+        const col = parseHexColor(ping.color, 0x22d3ee);
+        pg.circle(ping.x, ping.y, 26);
+        pg.stroke({ width: 3, color: col, alpha: 0.9 });
+        pg.circle(ping.x, ping.y, 12);
+        pg.fill({ color: col, alpha: 0.35 });
+        uiLayer.addChild(pg);
       });
     }
 
@@ -434,6 +525,8 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
     visibleTokens,
     visibleFog,
     visibilityPolygon,
+    visibilityPolygons,
+    activePings,
     fogEnabled
   ]);
 
@@ -473,7 +566,7 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
       ctx.stroke();
     }
 
-    // Walls
+    // Walls (supports curved Bezier walls)
     visibleWalls.forEach((w: any) => {
       const p1 = w.p1 || { x: w.x1 || 0, y: w.y1 || 0 };
       const p2 = w.p2 || { x: w.x2 || 0, y: w.y2 || 0 };
@@ -481,7 +574,20 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
       ctx.lineWidth = 4;
       ctx.beginPath();
       ctx.moveTo(p1.x, p1.y);
-      ctx.lineTo(p2.x, p2.y);
+      if (w.bezierControl && typeof w.bezierControl.x === 'number' && typeof w.bezierControl.y === 'number') {
+        ctx.quadraticCurveTo(w.bezierControl.x, w.bezierControl.y, p2.x, p2.y);
+      } else {
+        ctx.lineTo(p2.x, p2.y);
+      }
+      ctx.stroke();
+    });
+
+    // Pings
+    activePings.forEach((ping) => {
+      ctx.strokeStyle = ping.color || '#22d3ee';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(ping.x, ping.y, 22, 0, Math.PI * 2);
       ctx.stroke();
     });
 
@@ -497,7 +603,7 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
     });
 
     ctx.restore();
-  }, [useCanvas2DFallback, width, height, scale, position.x, position.y, gridSize, worldWidth, worldHeight, visibleWalls, visibleTokens]);
+  }, [useCanvas2DFallback, width, height, scale, position.x, position.y, gridSize, worldWidth, worldHeight, visibleWalls, visibleTokens, activePings]);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     isPanningRef.current = true;

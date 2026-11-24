@@ -62,7 +62,8 @@ export function syncScenarioProse(scenarioId, initialContent = '') {
 }
 
 /**
- * Updates the shared Y.Text manuscript prose with new content in an atomic transaction.
+ * Updates the shared Y.Text manuscript prose with incremental prefix/suffix diffing
+ * so concurrent peer edits to disjoint sections merge without overwriting.
  * @param {string} scenarioId 
  * @param {string} newContent 
  * @param {string} origin 
@@ -71,12 +72,33 @@ export function updateScenarioProse(scenarioId, newContent, origin = 'local') {
   if (newContent === undefined || newContent === null) return;
   const yText = getScenarioProseText(scenarioId);
   const currentStr = yText.toString();
+  const nextStr = String(newContent);
 
-  if (currentStr === newContent) return;
+  if (currentStr === nextStr) return;
+
+  let start = 0;
+  const minLen = Math.min(currentStr.length, nextStr.length);
+  while (start < minLen && currentStr.charCodeAt(start) === nextStr.charCodeAt(start)) {
+    start++;
+  }
+  let oldEnd = currentStr.length;
+  let newEnd = nextStr.length;
+  while (
+    oldEnd > start &&
+    newEnd > start &&
+    currentStr.charCodeAt(oldEnd - 1) === nextStr.charCodeAt(newEnd - 1)
+  ) {
+    oldEnd--;
+    newEnd--;
+  }
 
   sharedDoc.transact(() => {
-    yText.delete(0, yText.length);
-    yText.insert(0, newContent);
+    if (oldEnd > start) {
+      yText.delete(start, oldEnd - start);
+    }
+    if (newEnd > start) {
+      yText.insert(start, nextStr.slice(start, newEnd));
+    }
   }, origin);
 }
 
@@ -117,7 +139,14 @@ export function attachLiveKitBridge(room) {
   }
 
   try {
-    activeBridge = new YjsProviderBridge(room, sharedDoc);
+    // Dedicated 0x11 / 0x12 prefix isolation keeps StoryWeaver prose channels separate from Stage VTT
+    activeBridge = new YjsProviderBridge(room, sharedDoc, {
+      updatePrefix: 0x11,
+      syncStep1Prefix: 0x12
+    });
+    if (room?.state === 'connected') {
+      activeBridge.sendSyncStep1?.();
+    }
     notifyStatusListeners();
     return activeBridge;
   } catch (err) {
@@ -143,10 +172,24 @@ export function detachLiveKitBridge() {
  */
 export function getCollabStatus() {
   const isConnected = Boolean(activeBridge);
+  const remoteMap = activeBridge?.room?.remoteParticipants;
+  const peerNames = [];
+  if (remoteMap && typeof remoteMap.forEach === 'function') {
+    remoteMap.forEach((p) => {
+      const label = p?.name || p?.identity;
+      if (label) peerNames.push(String(label));
+    });
+  } else if (Array.isArray(remoteMap)) {
+    remoteMap.forEach((p) => {
+      const label = p?.name || p?.identity;
+      if (label) peerNames.push(String(label));
+    });
+  }
   const remoteCount = activeBridge?.room?.remoteParticipants?.size;
   return {
     isConnected,
     peerCount: isConnected ? (typeof remoteCount === 'number' ? remoteCount + 1 : 1) : 0,
+    peerNames,
     doc: sharedDoc
   };
 }

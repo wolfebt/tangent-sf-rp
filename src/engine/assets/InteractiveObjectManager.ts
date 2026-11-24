@@ -40,7 +40,7 @@ export class InteractiveObjectManager {
         isLocked: obj.isLocked ?? false,
         isHacked: (obj as any).isHacked ?? false,
         isDestroyed: (obj as any).isDestroyed ?? false,
-        bvhWallId: obj.type === 'bulkhead' ? obj.id : undefined
+        ...(obj.type === 'bulkhead' ? { bvhWallId: obj.id } : {})
       });
     }
     console.log(`[Interactive Objects] Loaded ${objects.length} Story Foundry map elements on the Stage.`);

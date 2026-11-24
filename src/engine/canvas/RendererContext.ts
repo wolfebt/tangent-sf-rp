@@ -97,6 +97,7 @@ export class RendererContext {
           ...(resizeTarget ? { resizeTo: resizeTarget } : {}),
           preference: 'webgpu',
           antialias: false, // Disabled for crisp tactical grid sharpness and maximum compute performance
+          backgroundAlpha: 0,
           resolution: typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1,
           autoDensity: true,
         });
@@ -130,6 +131,7 @@ export class RendererContext {
             ...(this.canvasRef ? { canvas: this.canvasRef } : {}),
             ...(resizeTarget ? { resizeTo: resizeTarget } : {}),
             preference: 'webgl',
+            backgroundAlpha: 0,
             antialias: false,
             resolution: typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1,
             autoDensity: true,

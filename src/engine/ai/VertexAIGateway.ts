@@ -212,10 +212,16 @@ class VertexAIGatewayService {
           llamaEndpoint: configuredLocalEndpoint || 'http://localhost:8080',
           ollamaEndpoint: 'http://localhost:11434',
           prompt: localPrompt,
-          grammar: options.grammar,
+          ...(options.grammar !== undefined ? { grammar: options.grammar } : {}),
           tier: tierConfig,
           enforceJson: options.responseMimeType === 'application/json',
-          onChunk: options.onStreamChunk ? (piece) => options.onStreamChunk?.(piece, piece) : undefined
+          ...(options.onStreamChunk
+            ? {
+                onChunk: (piece: string) => {
+                  options.onStreamChunk?.(piece, piece);
+                }
+              }
+            : {})
         });
         if (localRes && localRes.text) {
           const parsedLocal = this.tryParseJsonPayload(localRes.text, options.responseMimeType);
@@ -386,7 +392,7 @@ class VertexAIGatewayService {
     let response = await this.generateContent<T>(prompt, {
       ...options,
       contents: conversationContents,
-      tools: toolsPayload
+      ...(toolsPayload !== undefined ? { tools: toolsPayload } : {})
     });
 
     const executedCalls: Array<{ name: string; args: Record<string, any>; result?: any }> = [];
@@ -436,7 +442,7 @@ class VertexAIGatewayService {
       const followUp = await this.generateContent<T>(prompt, {
         ...options,
         contents: conversationContents,
-        tools: toolsPayload
+        ...(toolsPayload !== undefined ? { tools: toolsPayload } : {})
       });
 
       if (followUp.success && !followUp.isSimulated) {
@@ -617,8 +623,8 @@ class VertexAIGatewayService {
       const cuesMatch = prompt.match(/(?:Required|Mandatory)\s+Sensory\s+Cues(?:\s+to\s+Depict)?:\s*([^\n]+)/i);
       const outcomeMatch = prompt.match(/Prescribed(?:\s+Narrative)?\s+Outcome:\s*([^\n]+)/i);
       const intentMatch = prompt.match(/System Intent:\s*([A-Z_]+)/i);
-      const cues = cuesMatch ? cuesMatch[1].trim() : 'ozone discharge and cycling bulkhead locks';
-      const outcome = outcomeMatch ? outcomeMatch[1].trim() : 'The operator executes the maneuver within canonical parameters.';
+      const cues = cuesMatch?.[1]?.trim() || 'ozone discharge and cycling bulkhead locks';
+      const outcome = outcomeMatch?.[1]?.trim() || 'The operator executes the maneuver within canonical parameters.';
       fallbackData = `[AIME MANDATED BEAT${intentMatch ? ` (${intentMatch[1]})` : ''}]: ${outcome} Sensory telemetry registers ${cues}.`;
     } else {
       fallbackData = `[AIME SIMULATED TELEMETRY]: Analyzing situation. Atmospheric sensors detect low-pressure venting and magnetic resonance. Proceed with standard caution.`;

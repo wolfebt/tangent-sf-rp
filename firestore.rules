@@ -27,9 +27,13 @@ service cloud.firestore {
     //   to prevent cross-user overwrite; strict schema validation.
     // - characters/{charId}: Scoped ownership or Campaign-GM shared access with
     //   cross-field poisoning prevention, immutable owner fields, and schema checks.
-    // - user_stories, story_elements, story_maps: Public read only if isPublic == true;
+    // - user_stories, user_stories/{storyId}/sessions, story_elements, story_maps:
+    //   Public read only if isPublic == true (parent stories/elements/maps);
     //   private read/write scoped to owner/creator/author or admin with schema validation.
-    // - spectator_maps/{mapId}: Sanitized public get-by-ID projection; list restricted
+    //   user_stories/{storyId}/sessions/{sessionId} mirrors Campaigns/*/Sessions with
+    //   parent story authorization, immutable ownerId, and isValidCampaignSession().
+    // - spectator_maps/{mapId}: Sanitized public get-by-ID projection gated on
+    //   isSpectatorLive == true (or author/creator/campaign-GM/admin); list restricted
     //   to author/creator/campaign-GM/admin; parent story_map anti-hijack check and
     //   strict schema validation via isValidSpectatorMap().
     // - channels/{channelId} & messages/{messageId}: Authenticated reads/writes only;
@@ -515,8 +519,8 @@ service cloud.firestore {
     }
 
     function canSendInviteForGroup(groupId) {
-      return !exists(/databases/$(database)/documents/game_groups/$(groupId))
-        || (
+      return exists(/databases/$(database)/documents/game_groups/$(groupId))
+        && (
           get(/databases/$(database)/documents/game_groups/$(groupId)).data.get('creatorId', '') == request.auth.uid
           || (
             'coArchitects' in get(/databases/$(database)/documents/game_groups/$(groupId)).data
@@ -701,7 +705,25 @@ service cloud.firestore {
 
     match /users/{userId}/personas/{personaId} {
       allow read: if isOwner(userId) || resource.data.isPublic == true || isAdmin();
-      allow write: if isOwner(userId) || isAdmin();
+      allow create: if (isOwner(userId) || isAdmin())
+                    && isValidPersona(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        !request.resource.data.keys().hasAny(['role', 'isAdmin', 'admin', 'geminiApiKey', 'otherAiApiKey'])
+                        && (!('ownerUid' in request.resource.data) || request.resource.data.ownerUid == userId)
+                      )
+                    );
+      allow update: if (isOwner(userId) || isAdmin())
+                    && isValidPersona(request.resource.data)
+                    && (
+                      isAdmin()
+                      || (
+                        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'isAdmin', 'admin', 'geminiApiKey', 'otherAiApiKey'])
+                        && (!('ownerUid' in request.resource.data) || request.resource.data.ownerUid == userId)
+                      )
+                    );
+      allow delete: if isOwner(userId) || isAdmin();
     }
 
     // CollectionGroup read-only projection for public/shared personas; writes disabled
@@ -889,6 +911,93 @@ service cloud.firestore {
       allow delete: if isAuthenticated() && (resource.data.get('ownerId', '') == request.auth.uid || resource.data.get('creatorId', '') == request.auth.uid || isAdmin());
     }
 
+    function isParentStoryAuthorized(storyId) {
+      return exists(/databases/$(database)/documents/user_stories/$(storyId))
+        && (
+          get(/databases/$(database)/documents/user_stories/$(storyId)).data.get('ownerId', '') == request.auth.uid
+          || get(/databases/$(database)/documents/user_stories/$(storyId)).data.get('creatorId', '') == request.auth.uid
+          || (
+            'gmIds' in get(/databases/$(database)/documents/user_stories/$(storyId)).data
+            && get(/databases/$(database)/documents/user_stories/$(storyId)).data.gmIds is list
+            && request.auth.uid in get(/databases/$(database)/documents/user_stories/$(storyId)).data.gmIds
+          )
+          || (
+            'memberIds' in get(/databases/$(database)/documents/user_stories/$(storyId)).data
+            && get(/databases/$(database)/documents/user_stories/$(storyId)).data.memberIds is list
+            && request.auth.uid in get(/databases/$(database)/documents/user_stories/$(storyId)).data.memberIds
+          )
+          || isAdmin()
+        );
+    }
+
+    function isStoryGmOrOwner(storyId) {
+      return exists(/databases/$(database)/documents/user_stories/$(storyId))
+        && (
+          get(/databases/$(database)/documents/user_stories/$(storyId)).data.get('ownerId', '') == request.auth.uid
+          || get(/databases/$(database)/documents/user_stories/$(storyId)).data.get('creatorId', '') == request.auth.uid
+          || (
+            'gmIds' in get(/databases/$(database)/documents/user_stories/$(storyId)).data
+            && get(/databases/$(database)/documents/user_stories/$(storyId)).data.gmIds is list
+            && request.auth.uid in get(/databases/$(database)/documents/user_stories/$(storyId)).data.gmIds
+          )
+        );
+    }
+
+    match /user_stories/{storyId}/sessions/{sessionId} {
+      function isStorySessionDocAuthorized() {
+        return resource.data.get('ownerId', '') == request.auth.uid
+          || resource.data.get('creatorId', '') == request.auth.uid
+          || (
+            'gmIds' in resource.data
+            && resource.data.gmIds is list
+            && request.auth.uid in resource.data.gmIds
+          )
+          || (
+            'memberIds' in resource.data
+            && resource.data.memberIds is list
+            && request.auth.uid in resource.data.memberIds
+          )
+          || isStoryGmOrOwner(storyId)
+          || isAdmin();
+      }
+
+      allow read: if isAuthenticated() && (isAdmin() || (isParentStoryAuthorized(storyId) && isStorySessionDocAuthorized()));
+      allow create: if isAuthenticated() && (
+        isAdmin()
+        || (
+          isValidCampaignSession(request.resource.data)
+          && 'ownerId' in request.resource.data
+          && request.resource.data.ownerId == request.auth.uid
+          && (!('creatorId' in request.resource.data) || request.resource.data.creatorId == request.auth.uid)
+          && (!('sessionId' in request.resource.data) || request.resource.data.sessionId == sessionId)
+          && isParentStoryAuthorized(storyId)
+        )
+      );
+      allow update: if isAuthenticated() && (
+        isAdmin()
+        || (
+          isValidCampaignSession(request.resource.data)
+          && isStorySessionDocAuthorized()
+          && isParentStoryAuthorized(storyId)
+          && (!('ownerId' in request.resource.data) || request.resource.data.ownerId == resource.data.get('ownerId', request.auth.uid))
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['ownerId', 'creatorId', 'campaignId', 'sessionId', 'createdAt'])
+          && (
+            resource.data.get('ownerId', '') == request.auth.uid
+            || isStoryGmOrOwner(storyId)
+            || !request.resource.data.diff(resource.data).affectedKeys().hasAny(['memberIds', 'gmIds'])
+          )
+        )
+      );
+      allow delete: if isAdmin() || (
+        isAuthenticated()
+        && isParentStoryAuthorized(storyId)
+        && (
+          resource.data.get('ownerId', '') == request.auth.uid
+          || get(/databases/$(database)/documents/user_stories/$(storyId)).data.get('ownerId', '') == request.auth.uid
+        )
+      );
+    }
+
     // =========================================================================
     // 9. STORY FOUNDRY: INDEPENDENT SCENARIO ELEMENTS
     // =========================================================================
@@ -983,7 +1092,7 @@ service cloud.firestore {
     }
 
     match /story_maps/{mapId} {
-      allow read: if resource.data.isPublic == true || (isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin()));
+      allow read: if resource.data.isPublic == true || (isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isCampaignGmForResource(resource.data) || isAdmin()));
       allow create: if isAuthenticated()
                     && (
                       isAdmin()
@@ -1012,14 +1121,18 @@ service cloud.firestore {
     //   Sanitized public projection generated by sanitizeMapForSpectator().
     //   Strictly excludes PII (email/authorEmail) and GM secrets (gmNotes,
     //   secrets, gmSecretNotes, lockDc, trapState).
-    //   Fields: id, title, name, type, width, height, gridMode, fogEnabled,
-    //   lines, layers, tokens, objects, texts, terrains, fog, walls,
+    //   Fields: id, title, name, type, width, height, gridMode, gridSize,
+    //   fogEnabled, exploredFog, enableWallShadows, background_url,
+    //   videoBackgroundUrl, underlay, lights, atmosphericWeather, lightingMode,
+    //   regions, lines, layers, tokens, objects, texts, terrains, fog, walls,
     //   isSpectatorLive, updatedAt, campaignId, groupId, authorUid (immutable),
     //   creatorId (immutable).
     function isValidSpectatorMap(data) {
       return data.keys().hasOnly([
-          'id', 'title', 'name', 'type', 'width', 'height', 'gridMode',
-          'fogEnabled', 'lines', 'layers', 'tokens', 'objects', 'texts',
+          'id', 'title', 'name', 'type', 'width', 'height', 'gridMode', 'gridSize',
+          'fogEnabled', 'exploredFog', 'enableWallShadows', 'background_url',
+          'videoBackgroundUrl', 'underlay', 'lights', 'atmosphericWeather',
+          'lightingMode', 'regions', 'lines', 'layers', 'tokens', 'objects', 'texts',
           'terrains', 'fog', 'walls', 'isSpectatorLive', 'updatedAt',
           'campaignId', 'groupId', 'authorUid', 'creatorId'
         ])
@@ -1032,7 +1145,17 @@ service cloud.firestore {
         && (!('width' in data) || (data.width is number && data.width > 0 && data.width <= 100000))
         && (!('height' in data) || (data.height is number && data.height > 0 && data.height <= 100000))
         && (!('gridMode' in data) || (data.gridMode is string && data.gridMode.size() > 0 && data.gridMode.size() <= 32))
+        && (!('gridSize' in data) || (data.gridSize is number && data.gridSize >= 5 && data.gridSize <= 500))
         && (!('fogEnabled' in data) || data.fogEnabled is bool)
+        && (!('exploredFog' in data) || data.exploredFog == null || (data.exploredFog is map && data.exploredFog.keys().size() <= 20))
+        && (!('enableWallShadows' in data) || data.enableWallShadows is bool)
+        && isValidOptionalNullableString(data, 'background_url', 2048)
+        && isValidOptionalNullableString(data, 'videoBackgroundUrl', 2048)
+        && (!('underlay' in data) || data.underlay == null || (data.underlay is map && data.underlay.keys().size() <= 30))
+        && (!('lights' in data) || (data.lights is list && data.lights.size() <= 500))
+        && isValidOptionalNullableString(data, 'atmosphericWeather', 64)
+        && isValidOptionalNullableString(data, 'lightingMode', 64)
+        && (!('regions' in data) || (data.regions is list && data.regions.size() <= 500))
         && (!('lines' in data) || (data.lines is list && data.lines.size() <= 10000))
         && (!('layers' in data) || (data.layers is list && data.layers.size() <= 100))
         && (!('tokens' in data) || (data.tokens is list && data.tokens.size() <= 2000))
@@ -1054,8 +1177,18 @@ service cloud.firestore {
         || isStoryMapAuthorized(get(/databases/$(database)/documents/story_maps/$(mapId)).data);
     }
 
+    function isValidSpectatorOwnerFieldOnCreate(mapId, field) {
+      return request.resource.data.get(field, request.auth.uid) in [request.auth.uid, 'local']
+        || (
+          isCampaignGmForResource(request.resource.data)
+          && exists(/databases/$(database)/documents/story_maps/$(mapId))
+          && field in request.resource.data
+          && request.resource.data[field] == get(/databases/$(database)/documents/story_maps/$(mapId)).data.get(field, '')
+        );
+    }
+
     match /spectator_maps/{mapId} {
-      allow get: if true;
+      allow get: if resource.data.isSpectatorLive == true || (isAuthenticated() && (resource.data.get('authorUid', '') == request.auth.uid || resource.data.get('creatorId', '') == request.auth.uid || isCampaignGmForResource(resource.data) || isAdmin()));
       allow list: if isAuthenticated() && (
         resource.data.get('authorUid', '') == request.auth.uid
         || resource.data.get('creatorId', '') == request.auth.uid
@@ -1073,8 +1206,8 @@ service cloud.firestore {
                           || isCampaignGmForResource(request.resource.data)
                         )
                         && (!('id' in request.resource.data) || request.resource.data.id == mapId)
-                        && request.resource.data.get('authorUid', request.auth.uid) in [request.auth.uid, 'local']
-                        && request.resource.data.get('creatorId', request.auth.uid) in [request.auth.uid, 'local']
+                        && isValidSpectatorOwnerFieldOnCreate(mapId, 'authorUid')
+                        && isValidSpectatorOwnerFieldOnCreate(mapId, 'creatorId')
                         && canWriteSpectatorForParentStoryMap(mapId)
                       )
                     );
@@ -1669,10 +1802,11 @@ service cloud.firestore {
           isValidCampaignSession(request.resource.data)
           && isSessionDocAuthorized()
           && isParentCampaignAuthorized(campaignId)
-          && 'ownerId' in resource.data
-          && 'ownerId' in request.resource.data
-          && request.resource.data.ownerId == resource.data.ownerId
-          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['creatorId', 'campaignId', 'sessionId', 'createdAt'])
+          && (
+            !('ownerId' in resource.data)
+            || ('ownerId' in request.resource.data && request.resource.data.ownerId == resource.data.ownerId)
+          )
+          && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['ownerId', 'creatorId', 'campaignId', 'sessionId', 'createdAt'])
           && (
             resource.data.get('ownerId', '') == request.auth.uid
             || isCampaignGmOrOwner(campaignId)

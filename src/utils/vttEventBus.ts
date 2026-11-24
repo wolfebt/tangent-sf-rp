@@ -77,17 +77,20 @@ export interface VttEventMap {
   'stage-remote-ping': { id?: string; x: number; y: number; type?: string; color?: string; label?: string; author?: string; timestamp: number; [key: string]: any };
   'stage-remote-handout': { id: string; title: string; imageUrl?: string; text?: string; sender?: string; targetOperativeIds?: string[]; timestamp: number };
   'stage-remote-audio-cue': { bus: 'music' | 'ambient' | 'sfx'; action: 'play' | 'stop' | 'volume' | 'crossfade'; trackId?: string; trackUrl?: string; title?: string; volume?: number; timestamp?: number };
-  'stage-remote-fog-explored': { mapId: string; exploredAreas: any[]; fogEnabled?: boolean; timestamp?: number };
+  'stage-remote-fog-explored': { mapId: string; exploredAreas: any[]; hiddenAreas?: any[]; fogEnabled?: boolean; timestamp?: number };
   'stage-chat-card': {
     id: string;
     timestamp: string;
     sender: string;
+    senderRole?: string;
+    senderId?: string;
+    recipientIds?: string[];
     visibility: 'public' | 'whisper_gm' | 'blind_gm';
     kind: 'attack' | 'aoe' | 'dice' | 'effect' | 'handout' | 'narration' | 'system';
     title: string;
     body: string;
     diceBreakdown?: { d1: number; d2: number; modifier?: number; total: number; dcOrCr?: number; outcome?: string; crit?: boolean; fumble?: boolean };
-    damagePayload?: { targetTokenId?: string; targetLabel?: string; rawDamage: number; netDamage?: number; damageType?: string; isLethal?: boolean; saveType?: string; saveCr?: number };
+    damagePayload?: { targetTokenId?: string; targetLabel?: string; rawDamage: number; netDamage?: number; damageType?: string; isLethal?: boolean; saveType?: string; saveCr?: number; damageApplied?: boolean };
     handoutPayload?: { id: string; title: string; imageUrl?: string; text?: string };
     remote?: boolean;
   };
@@ -95,6 +98,14 @@ export interface VttEventMap {
   'stage-sensor-mode-changed': { mode: 'standard_optical' | 'night_vision' | 'thermal_infrared' | 'cyber_motion_radar' | 'meta_attunement'; tokenId?: string | null };
   'stage-region-triggered': { regionId: string; regionName: string; triggerType: string; tokenId: string; payload?: any };
   'stage-theater-mode-changed': { mode: '2d' | '3d' | 'theater' };
+  'arm-stage-chunk': {
+    chunk: any;
+    rotationDeg: number;
+    flipX: boolean;
+    flipY: boolean;
+    settings?: any;
+    slotOverrides?: any;
+  };
 }
 
 type VttEventCallback<K extends keyof VttEventMap> =

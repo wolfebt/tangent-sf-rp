@@ -11,17 +11,19 @@ import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData.js';
 import { DEFAULT_ARMORING } from '../data/armoringData.js';
 
-let compendiumSeed = [];
-const loadCompendiumSeedForHydrator = () => {
-  if (!import.meta.env) {
-    const jsonSpecifier = '../data/compendiumSeed.json';
-    return import(/* @vite-ignore */ jsonSpecifier, { with: { type: 'json' } });
-  }
-  return import('../data/compendiumSeed.json');
-};
-loadCompendiumSeedForHydrator().then(mod => {
-  compendiumSeed = mod.default || mod;
-}).catch(() => {});
+import {
+  getCachedCompendiumSeed,
+  loadCompendiumSeed
+} from '../utils/compendiumSeedLoader.js';
+
+let compendiumSeed = getCachedCompendiumSeed();
+if (compendiumSeed.length === 0 && typeof window !== 'undefined') {
+  loadCompendiumSeed()
+    .then((seed) => {
+      compendiumSeed = seed;
+    })
+    .catch(() => {});
+}
 
 /**
  * Standardizes comparison strings
@@ -108,7 +110,8 @@ export function resolveEntity(category, identifier, customCatalog = []) {
   }
 
   // 3. Check Compendium Seed articles as fallback
-  const compendiumMatch = findInCatalog(compendiumSeed, identifier);
+  const activeCompendium = compendiumSeed.length > 0 ? compendiumSeed : getCachedCompendiumSeed();
+  const compendiumMatch = findInCatalog(activeCompendium, identifier);
   if (compendiumMatch) {
     return { ...compendiumMatch, _source: 'compendium_seed' };
   }

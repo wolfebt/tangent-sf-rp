@@ -17,8 +17,10 @@ const Stage3DViewport = lazyWithRetry(() => import('./Stage3DViewport'));
 import { TheaterSceneViewport } from './TheaterSceneViewport';
 import { A11yStageFeed } from '../A11yStageFeed';
 import { useCampaign } from '../../../context/CampaignContext';
-import { useEngineStore } from '../../../engine/index';
+import { useVoiceChat } from '../../../context/VoiceChatContext';
+import { useEngineStore, selectAllFusedTokens } from '../../../engine/state/VolatileSharder.ts';
 import { useUILayoutStore } from '../store/uiLayoutStore';
+import { useStageMultiplayerBridge } from './useStageMultiplayerBridge';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { AudioService } from '../../../services/audioService';
 import { VttEventBus } from '../../../utils/vttEventBus';
@@ -35,6 +37,7 @@ export interface StageViewportWrapperProps extends StageViewProps {
   onOpenUnderlayModal?: () => void;
   sceneId?: string;
   showFloatingBar?: boolean;
+  isArchitectRole?: boolean;
 }
 
 export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
@@ -42,11 +45,14 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
   onOpenUnderlayModal,
   sceneId,
   showFloatingBar = false,
+  isArchitectRole = true,
   ...stageProps
 }) => {
   const navigate = useNavigate();
   const confirm = useConfirm();
   const { universeState, activeMapId, setActiveMapId, updateMap, addMap, mapsCatalog } = useCampaign();
+  const { activeSpeakers = [], participants = [] } = (useVoiceChat() as any) || {};
+  const liveTokens = useEngineStore(selectAllFusedTokens);
 
   const availableMaps = React.useMemo(() => {
     const catalog = ((mapsCatalog || []) as any[]);
@@ -73,9 +79,27 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
     is3DActive,
     toggle3DActive,
     viewportMode,
-    setViewportMode
+    setViewportMode,
+    userRole,
+    activeArchitectTool
   } = useUILayoutStore();
   const { elementsCatalog = [], universeState: stageUniverse, activeScenarioId } = (useCampaign() as any) || {};
+
+  // Persistent session-level multiplayer bridge lifted above 2D/3D/Theater viewport unmounts
+  useStageMultiplayerBridge({
+    campaignId: stageProps.campaignId || stageUniverse?.id,
+    currentMap,
+    userRole: isArchitectRole ? userRole : 'operative',
+    collectionRoot: stageUniverse?.id ? 'user_stories' : 'Campaigns',
+    skipCanvasEvents: true
+  });
+
+  const speakerBadges = useMemo(() => {
+    return (activeSpeakers || []).map((id: string) => {
+      const peer = (participants || []).find((p: any) => p?.identity === id);
+      return { identity: id, name: peer?.name || id };
+    });
+  }, [activeSpeakers, participants]);
   const activeScenario = useMemo(() => {
     const scenarios = stageUniverse?.scenarios || [];
     return scenarios.find((s: any) => s.id === activeScenarioId) || scenarios[0] || null;
@@ -254,7 +278,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           base_hp: vttUnit.base_hp || charData.health || charData.hp || 30,
           base_vitality: vttUnit.base_vitality || charData.vitality || 30,
           base_health: vttUnit.base_health || charData.health || charData.hp || 30,
-          base_structure: vttUnit.base_structure || charData.structure || 60,
+          base_structure: vttUnit.base_structure || charData.structure || (isSyn ? 60 : 0),
           is_synthetic: isSyn,
           tech_level: vttUnit.tech_level || 3,
           armor_dr: charData.dr ?? vttUnit.armor_dr ?? 6,
@@ -353,32 +377,36 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
 
           {/* Center: In-Situ Architect & Map Studio Controls */}
           <div className="flex items-center gap-1.5 pointer-events-auto bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl p-1 shadow-lg">
-            <button
-              type="button"
-              onClick={handleToggleArchitectMode}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                isArchitectActive
-                  ? 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)]'
-                  : 'bg-slate-900/80 hover:bg-slate-800 text-amber-300 border border-amber-500/40'
-              }`}
-              title="Toggle In-Situ Architect Mode: Draw walls, doors, terrains, and lights directly on this stage"
-            >
-              <Hammer size={12} />
-              <span>{isArchitectActive ? 'ARCHITECT ACTIVE' : 'MAP ARCHITECT'}</span>
-            </button>
+            {isArchitectRole && (
+              <>
+                <button
+                  type="button"
+                  onClick={handleToggleArchitectMode}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                    isArchitectActive
+                      ? 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)]'
+                      : 'bg-slate-900/80 hover:bg-slate-800 text-amber-300 border border-amber-500/40'
+                  }`}
+                  title="Toggle In-Situ Architect Mode: Draw walls, doors, terrains, and lights directly on this stage"
+                >
+                  <Hammer size={12} />
+                  <span>{isArchitectActive ? 'ARCHITECT ACTIVE' : 'MAP ARCHITECT'}</span>
+                </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                const targetId = currentMap?.id || activeMapId;
-                navigate(targetId ? `/foundry/map-maker?mapId=${targetId}` : '/foundry/map-maker');
-              }}
-              className="px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-950/70 hover:bg-purple-900/80 text-purple-200 border border-purple-500/40 transition-colors flex items-center gap-1.5 cursor-pointer"
-              title="Launch Full Map Maker Studio in dedicated workspace"
-            >
-              <ExternalLink size={11} />
-              <span className="hidden sm:inline">FULL STUDIO</span>
-            </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const targetId = currentMap?.id || activeMapId;
+                    navigate(targetId ? `/foundry/map-maker?mapId=${targetId}` : '/foundry/map-maker');
+                  }}
+                  className="px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-950/70 hover:bg-purple-900/80 text-purple-200 border border-purple-500/40 transition-colors flex items-center gap-1.5 cursor-pointer"
+                  title="Launch Full Map Maker Studio in dedicated workspace"
+                >
+                  <ExternalLink size={11} />
+                  <span className="hidden sm:inline">FULL STUDIO</span>
+                </button>
+              </>
+            )}
 
             <div className="flex items-center bg-slate-900 rounded-lg border border-slate-800 p-0.5 text-[10px] font-bold">
               {(['2d', '3d', 'theater'] as const).map((mode) => (
@@ -475,8 +503,10 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
             <TheaterSceneViewport
               currentMap={currentMap}
               activeScenario={activeScenario}
-              tokens={currentMap?.tokens || []}
+              tokens={liveTokens.length > 0 ? liveTokens : (currentMap?.tokens || [])}
               elementsCatalog={elementsCatalog}
+              activeSpeakers={speakerBadges}
+              isArchitect={isArchitectRole}
               onSwitchMode={(mode) => {
                 setViewportMode(mode);
                 VttEventBus.emit('stage-theater-mode-changed', { mode });
@@ -484,13 +514,17 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
             />
           ) : viewportMode === '3d' || is3DActive ? (
             <Suspense fallback={<div className="flex items-center justify-center w-full h-full bg-[#050811] text-cyan-400 font-mono text-xs">Initializing 3D Viewport...</div>}>
-              <Stage3DViewport onSwitchTo2D={() => setViewportMode('2d')} />
+              <Stage3DViewport
+                onSwitchTo2D={() => setViewportMode('2d')}
+                activeTool={activeArchitectTool}
+              />
             </Suspense>
           ) : (
             <StageView
               {...stageProps}
               sceneId={targetMapId || undefined}
               isEmbeddedInTripartite={stageProps.isEmbeddedInTripartite ?? true}
+              isArchitectRole={isArchitectRole}
             />
           )}
 

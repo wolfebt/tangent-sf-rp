@@ -14,7 +14,7 @@ import {
   getTokensInLine,
   resolveAoEImpact
 } from '../../../services/aoeHazardService.js';
-import { useEngineStore, type FusedToken } from '../../../engine/index';
+import { useEngineStore, type FusedToken } from '../../../engine/state/VolatileSharder';
 import { clearPixiContainer } from '../utils/pixiCleanup';
 import { AudioService } from '../../../services/audioService';
 import { VttEventBus } from '../../../utils/vttEventBus';
@@ -81,15 +81,22 @@ export function useStageAoEController({
 
   // Normalize tokens into the shape expected by aoeHazardService.js
   const normalizedTokens = useMemo(() => {
-    return (tokens || []).map((t) => ({
-      ...t,
-      label: t.name || 'Combatant',
-      armorDr: t.armor_dr ?? 0,
-      stamina: Number((t as any).attributes?.sta ?? t.stamina_dr ?? 0),
-      isSynthetic: Boolean(t.is_synthetic),
-      structure: t.base_structure,
-      conditions: t.active_conditions || []
-    }));
+    return (tokens || []).map((t) => {
+      const isSynthetic = Boolean(t.is_synthetic);
+      const saves = (t as any).saves || {};
+      const attrs = (t as any).attributes || {};
+      return {
+        ...t,
+        label: t.name || 'Combatant',
+        armorDr: t.armor_dr ?? 0,
+        stamina: Number(attrs.sta ?? t.stamina_dr ?? 0),
+        fortitude: Number(saves.fortitude ?? (t as any).fortitude ?? attrs.sta ?? t.stamina_dr ?? 2),
+        reflex: Number(saves.reflex ?? (t as any).reflex ?? attrs.agi ?? attrs.dex ?? 2),
+        isSynthetic,
+        structure: isSynthetic ? (t.base_structure ?? 0) : 0,
+        conditions: t.active_conditions || []
+      };
+    });
   }, [tokens]);
 
   const affectedResults: AoEAffectedResult[] = useMemo(() => {
@@ -215,7 +222,7 @@ export function useStageAoEController({
     if (!container) return;
     clearPixiContainer(container);
 
-    if (!aoeOrigin || (!isAoEToolActive && !isAimingAoE && !hasCommittedTemplate)) return;
+    if (!aoeOrigin || !activePreset || (!isAoEToolActive && !isAimingAoE && !hasCommittedTemplate)) return;
 
     const target = aoeTarget || aoeOrigin;
     const strokeHex =

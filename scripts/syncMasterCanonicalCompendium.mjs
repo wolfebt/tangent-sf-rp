@@ -1064,6 +1064,12 @@ ${art.description || ''}${art.mechanic ? `\n\n## Game Mechanics Rules\n\`\`\`\n$
   // Write out consolidated compendiumSeed.json
   fs.writeFileSync(SEED_PATH, JSON.stringify(finalArticles, null, 2), 'utf8');
 
+  // Mirror minified static JSON asset to public/data/compendiumSeed.json for client-side fetch without JS bundle bloat
+  const PUBLIC_SEED_DIR = path.join(projectRoot, 'public', 'data');
+  const PUBLIC_SEED_PATH = path.join(PUBLIC_SEED_DIR, 'compendiumSeed.json');
+  fs.mkdirSync(PUBLIC_SEED_DIR, { recursive: true });
+  fs.writeFileSync(PUBLIC_SEED_PATH, JSON.stringify(finalArticles), 'utf8');
+
   if (!silent) {
     if (purgedCount > 0) {
       console.log(`Purged ${purgedCount} stale markdown files from ${MD_OUTPUT_DIR}`);

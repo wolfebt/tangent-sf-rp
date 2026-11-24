@@ -11,7 +11,10 @@
  */
 
 import { ROUTES } from '../constants/routes.js';
-import compendiumSeedData from '../data/compendiumSeed.json' with { type: 'json' };
+import {
+  getCachedCompendiumSeed,
+  ensureCompendiumSeedPrefetched
+} from '../utils/compendiumSeedLoader.js';
 
 /**
  * Platform Section dictionary with aliases, paths, badges, and descriptions.
@@ -248,10 +251,11 @@ export function matchElementsCatalog(term, elementsCatalog = []) {
  */
 export function matchCompendiumEntry(term, dbData = {}) {
   if (!term) return null;
+  ensureCompendiumSeedPrefetched();
   const clean = term.trim().toLowerCase().replace(/\.md$/i, '');
   const list = (Array.isArray(dbData?.compendium) && dbData.compendium.length > 0)
     ? dbData.compendium
-    : (Array.isArray(compendiumSeedData) ? compendiumSeedData : []);
+    : getCachedCompendiumSeed();
 
   if (list.length === 0) return null;
 
@@ -300,7 +304,7 @@ export function getAvailableOptionsForCompendium(item, dbData = {}) {
   const options = [];
   const list = (Array.isArray(dbData?.compendium) && dbData.compendium.length > 0)
     ? dbData.compendium
-    : (Array.isArray(compendiumSeedData) ? compendiumSeedData : []);
+    : getCachedCompendiumSeed();
 
   const primaryTitle = item.name || item.title || item.fileName || item.id;
   const isArch = item.perspective === 'architect' || item.id?.startsWith('doc-architect-');
@@ -529,7 +533,7 @@ export function getAvailableOptionsForPlatformSection(section, dbData = {}) {
   const options = [];
   const list = (Array.isArray(dbData?.compendium) && dbData.compendium.length > 0)
     ? dbData.compendium
-    : (Array.isArray(compendiumSeedData) ? compendiumSeedData : []);
+    : getCachedCompendiumSeed();
 
   options.push({
     id: `section-${section.key}`,

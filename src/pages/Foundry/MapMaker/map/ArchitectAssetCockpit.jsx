@@ -41,7 +41,7 @@ import { useCampaign, useStory } from '../../../../context/CampaignContext';
 import { useDBM } from '../../../../context/DBMContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { useConfirm } from '../../../../context/ConfirmContext';
-import { useEngineStore } from '../../../../engine/index';
+import { useEngineStore } from '../../../../engine/state/VolatileSharder.ts';
 import { AudioService } from '../../../../services/audioService';
 import { adeElementToStageToken, adeElementToInteractiveObject } from '../../../../utils/storyAssetAdapter';
 import { OBJECT_TYPES } from '../../../../services/interactiveObjectService';

@@ -17,6 +17,9 @@ export interface WorkerMapExportOptions {
   enableWallShadows?: boolean;
   terrains?: Array<Record<string, any>>;
   underlays?: Array<Record<string, any>>;
+  objects?: Array<Record<string, any>>;
+  tokens?: Array<Record<string, any>>;
+  texts?: Array<Record<string, any>>;
   walls?: Array<Record<string, any>>;
   lights?: Array<Record<string, any>>;
   format?: 'image/png' | 'image/webp';
@@ -61,12 +64,15 @@ export async function exportMapWithWorker(
   const timeoutMs = Math.max(1000, Number(options.timeoutMs ?? 12000));
 
   const runFallback = async (reason: string): Promise<WorkerMapExportResult> => {
-    const compileOptions: Record<string, any> = {
+      const compileOptions: Record<string, any> = {
       widthCells,
       heightCells,
       pixelsPerGrid,
       terrains: options.terrains || [],
       underlays: options.underlays || [],
+      objects: options.objects || [],
+      tokens: options.tokens || [],
+      texts: options.texts || [],
       walls: options.walls || [],
       lights: options.lights || []
     };
@@ -140,8 +146,13 @@ export async function exportMapWithWorker(
         width,
         height,
         gridSize: pixelsPerGrid,
+        sourceGridSize: options.sourceGridSize ?? pixelsPerGrid,
         enableWallShadows: options.enableWallShadows ?? true,
         terrains: options.terrains || [],
+        underlays: options.underlays || [],
+        objects: options.objects || [],
+        tokens: options.tokens || [],
+        texts: options.texts || [],
         walls: options.walls || [],
         lights: options.lights || [],
         format,

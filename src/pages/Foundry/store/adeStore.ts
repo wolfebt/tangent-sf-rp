@@ -16,7 +16,34 @@ export type StudioMode = 'development' | 'live_session';
 export type PerspectiveMode = 'architect' | 'operator';
 export type AdePillar = 'mission_control' | 'narrative' | 'stage' | 'maps' | 'scripts' | 'assets' | 'live_director';
 export type AdeView = 'mission_control' | 'scenarios' | 'stage' | 'control-panel' | 'interactive' | 'graph' | 'gallery' | 'elements' | 'map' | 'scripts';
-export type ViewportSplit = 'side_by_side' | 'canvas_only' | 'story_only';
+
+/**
+ * Derives the canonical ADE pillar corresponding to an active ADE workspace view.
+ */
+export function derivePillarForView(view: AdeView): AdePillar {
+  switch (view) {
+    case 'mission_control':
+      return 'mission_control';
+    case 'scenarios':
+    case 'graph':
+    case 'interactive':
+      return 'narrative';
+    case 'stage':
+      return 'stage';
+    case 'map':
+      return 'maps';
+    case 'scripts':
+      return 'scripts';
+    case 'elements':
+    case 'gallery':
+      return 'assets';
+    case 'control-panel':
+      return 'live_director';
+    default:
+      return 'mission_control';
+  }
+}
+export type ViewportSplit = 'side_by_side' | 'canvas_only' | 'story_only' | 'story_full' | 'canvas_full';
 export type WeaverWorkspaceTab = 'write' | 'brainstorm' | 'gems' | 'elements' | 'graph' | 'play' | 'weaver' | 'manuscript' | 'outline' | 'genesis' | 'tactical' | 'stage' | 'interactive' | 'gallery';
 export type StoryWorkspaceTab = WeaverWorkspaceTab;
 export type StageWorkspaceTab = 'setup' | 'anchors' | 'flow' | 'environment' | 'encounters' | 'scripts' | 'run';
@@ -274,7 +301,10 @@ export const useADEStore = create<ADEStoreState>()(
           perspectiveMode: state.perspectiveMode === 'architect' ? 'operator' : 'architect' 
         })),
         setActivePillar: (pillar) => set({ activePillar: pillar }),
-        setActiveView: (view) => set({ activeView: view }),
+        setActiveView: (view) => set({
+          activeView: view,
+          activePillar: derivePillarForView(view)
+        }),
         setStoryWorkspaceTab: (tab) => set({ storyWorkspaceTab: tab }),
         setStageWorkspaceTab: (tab) => set({ stageWorkspaceTab: tab }),
         setActiveElementType: (type) => set({

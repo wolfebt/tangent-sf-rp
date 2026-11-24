@@ -9,15 +9,11 @@
  */
 
 import { useEffect, useRef } from 'react';
-import { 
-  useEngineStore, 
-  type StaticEntity, 
-  GridType, 
-  BVHBuilder, 
-  type WallSegment,
-  InteractiveObjectManager,
-  type SceneInteractiveObject
-} from '../../../engine/index';
+import { useEngineStore, type StaticEntity } from '../../../engine/state/VolatileSharder.ts';
+import { GridType } from '../../../engine/math/CoordinateEngine.ts';
+import { BVHBuilder, type WallSegment } from '../../../engine/vision/BVHBuilder.ts';
+import { InteractiveObjectManager } from '../../../engine/assets/InteractiveObjectManager.ts';
+import type { SceneInteractiveObject } from '../../../engine/assets/FoundryIngestion.ts';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { expandWallsForGeometry } from '../../../schemas/vttWallSchema.js';
 import { 
@@ -91,12 +87,20 @@ export function useMapIngestion({
           p1: w.p1 || { x: w.x1 || 0, y: w.y1 || 0 },
           p2: w.p2 || { x: w.x2 || 100, y: w.y2 || 100 },
           ...(w.bezierControl ? { bezierControl: w.bezierControl } : {}),
+          ...(w.type ? { type: w.type } : {}),
+          ...(w.wallType ? { wallType: w.wallType } : {}),
+          ...(w.doorState ? { doorState: w.doorState } : {}),
+          ...(w.breachHp !== undefined ? { breachHp: w.breachHp } : {}),
+          ...(w.hackDc !== undefined ? { hackDc: w.hackDc } : {}),
+          ...(w.label ? { label: w.label } : {}),
+          ...(w.isSecret !== undefined ? { isSecret: Boolean(w.isSecret) } : {}),
           isDynamic: Boolean(
             w.isDynamic ||
             w.isDoor ||
             w.type === 'door' ||
             w.wallType?.includes('door') ||
-            w.wallType?.includes('bulkhead')
+            w.wallType?.includes('bulkhead') ||
+            w.wallType?.includes('airlock')
           ),
           isOpen: Boolean(
             w.isOpen ||
@@ -110,6 +114,13 @@ export function useMapIngestion({
           id: seg.id || `wall-${Math.random()}`,
           p1: seg.p1,
           p2: seg.p2,
+          ...(seg.type ? { type: seg.type } : {}),
+          ...(seg.wallType ? { wallType: seg.wallType } : {}),
+          ...(seg.doorState ? { doorState: seg.doorState } : {}),
+          ...(seg.breachHp !== undefined ? { breachHp: seg.breachHp } : {}),
+          ...(seg.hackDc !== undefined ? { hackDc: seg.hackDc } : {}),
+          ...(seg.label ? { label: seg.label } : {}),
+          ...(seg.isSecret !== undefined ? { isSecret: Boolean(seg.isSecret) } : {}),
           isDynamic: Boolean(seg.isDynamic),
           isOpen: Boolean(seg.isOpen),
           isTransparent: Boolean(seg.isTransparent)

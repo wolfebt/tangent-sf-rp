@@ -9,6 +9,10 @@ import InteractiveObjectModal from '../../../pages/Foundry/MapMaker/map/Interact
 import HazmatVolumeManagerModal from '../../../pages/Foundry/MapMaker/map/HazmatVolumeManagerModal.jsx';
 import MapLayersPanel from '../../../pages/Foundry/MapMaker/map/MapLayersPanel.jsx';
 import { DEFAULT_LAYERS } from '../../../pages/Foundry/MapMaker/map/MapConstants';
+import { useAuth } from '../../../context/AuthContext';
+import { useEngineStore } from '../../../engine/state/VolatileSharder.ts';
+import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
+import { showToast } from '../../../context/ToastContext';
 import { AssetStudioModal } from '../studio/AssetStudioModal';
 import { AssetIngestionModal } from '../ingestion/AssetIngestionModal';
 import { SpriteSheetCutterModal } from '../ingestion/SpriteSheetCutterModal';
@@ -143,6 +147,52 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
   isSpriteSheetCutterOpen = false,
   setIsSpriteSheetCutterOpen
 }) => {
+  const { currentUser } = (useAuth() as any) || {};
+  const [newLayerNameInput, setNewLayerNameInput] = React.useState('');
+
+  const broadcastTokenState = (id: string) => {
+    const eph = useEngineStore.getState().ephemeralData[id];
+    if (eph) {
+      getVttMultiplayerSync().broadcastTokenVitals(id, eph);
+    }
+  };
+
+  const handleUpdateTokenHealth = (id: string, val: number) => {
+    useEngineStore.getState().setHealth(id, val);
+    broadcastTokenState(id);
+  };
+
+  const handleUpdateTokenVitality = (id: string, val: number) => {
+    useEngineStore.getState().setVitality(id, val);
+    broadcastTokenState(id);
+  };
+
+  const handleUpdateTokenStructure = (id: string, val: number) => {
+    useEngineStore.getState().setStructure(id, val);
+    broadcastTokenState(id);
+  };
+
+  const handleUpdateTokenConditions = (id: string, conditionOrList: string | string[]) => {
+    const store = useEngineStore.getState();
+    if (Array.isArray(conditionOrList)) {
+      const current = store.ephemeralData[id]?.active_conditions || [];
+      conditionOrList.forEach((c) => {
+        if (!current.includes(c)) store.addCondition(id, c);
+      });
+      current.forEach((c) => {
+        if (!conditionOrList.includes(c)) store.toggleCondition(id, c);
+      });
+    } else if (typeof conditionOrList === 'string' && conditionOrList) {
+      store.toggleCondition(id, conditionOrList);
+    }
+    broadcastTokenState(id);
+  };
+
+  const handleTriggerFloatingText = (text: string, color?: string) => {
+    if (!text) return;
+    showToast({ type: color === '#ef4444' ? 'error' : 'info', text });
+  };
+
   return (
     <>
       {/* 1. Procedural Content Generation (PCG) Modal */}
@@ -222,10 +272,10 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
           }
           setInspectingInteractiveObj(null);
         }}
-        onUpdateTokenHealth={() => {}}
-        onUpdateTokenVitality={() => {}}
-        onUpdateTokenStructure={() => {}}
-        onTriggerFloatingText={() => {}}
+        onUpdateTokenHealth={handleUpdateTokenHealth}
+        onUpdateTokenVitality={handleUpdateTokenVitality}
+        onUpdateTokenStructure={handleUpdateTokenStructure}
+        onTriggerFloatingText={handleTriggerFloatingText}
       />
 
       {/* 7. Hazmat Volume Manager Modal */}
@@ -237,13 +287,23 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
           hazardSimulatorRef.current?.addHazardField(hz);
           setHazardCount(hazardSimulatorRef.current?.getActiveHazards().length || 0);
         }}
-        onUpdateHazardZone={() => {}}
-        onDeleteHazardZone={() => {}}
-        onUpdateTokenHealth={() => {}}
-        onUpdateTokenVitality={() => {}}
-        onUpdateTokenStructure={() => {}}
-        onUpdateTokenConditions={() => {}}
-        onTriggerFloatingText={() => {}}
+        onUpdateHazardZone={(id: string, updates: any) => {
+          const existing = (hazardSimulatorRef.current?.getActiveHazards() || []).find((h: any) => h.id === id);
+          hazardSimulatorRef.current?.removeHazardField?.(id);
+          if (existing) {
+            hazardSimulatorRef.current?.addHazardField({ ...existing, ...updates, id });
+          }
+          setHazardCount(hazardSimulatorRef.current?.getActiveHazards().length || 0);
+        }}
+        onDeleteHazardZone={(id: string) => {
+          hazardSimulatorRef.current?.removeHazardField?.(id);
+          setHazardCount(hazardSimulatorRef.current?.getActiveHazards().length || 0);
+        }}
+        onUpdateTokenHealth={handleUpdateTokenHealth}
+        onUpdateTokenVitality={handleUpdateTokenVitality}
+        onUpdateTokenStructure={handleUpdateTokenStructure}
+        onUpdateTokenConditions={handleUpdateTokenConditions}
+        onTriggerFloatingText={handleTriggerFloatingText}
       />
 
       {/* 8. Map Layers Manager Panel */}
@@ -253,10 +313,23 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
         mapLayers={currentMap?.layers || DEFAULT_LAYERS}
         toggleLayerVisibility={toggleLayerVisibility}
         toggleLayerLock={toggleLayerLock}
-        deleteCustomLayer={() => {}}
-        newLayerNameInput=""
-        setNewLayerNameInput={() => {}}
-        addCustomLayer={() => {}}
+        deleteCustomLayer={(layerId: string) => {
+          if (!currentMap || !updateMap) return;
+          const nextLayers = (currentMap.layers || DEFAULT_LAYERS).filter((l: any) => l.id !== layerId);
+          updateMap(currentMap.id, { layers: nextLayers });
+        }}
+        newLayerNameInput={newLayerNameInput}
+        setNewLayerNameInput={setNewLayerNameInput}
+        addCustomLayer={() => {
+          const clean = newLayerNameInput.trim();
+          if (!clean || !currentMap || !updateMap) return;
+          const nextLayers = [
+            ...(currentMap.layers || DEFAULT_LAYERS),
+            { id: `layer_custom_${Date.now()}`, name: clean, visible: true, locked: false }
+          ];
+          updateMap(currentMap.id, { layers: nextLayers });
+          setNewLayerNameInput('');
+        }}
       />
 
       {/* 9. Background Blueprint Underlay Calibration Modal */}
@@ -264,18 +337,25 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
         isOpen={isUnderlayModalOpen}
         onClose={() => setIsUnderlayModalOpen(false)}
         currentUnderlay={underlayConfig}
+        currentVideoUrl={currentMap?.videoBackgroundUrl || ''}
+        mapId={currentMap?.id || 'map'}
+        userId={currentUser?.uid || null}
         onApplyUnderlay={(cfg: any) => {
           recordHistory('Apply Blueprint Underlay');
           setUnderlayConfig(cfg);
           if (currentMap && updateMap) {
-            updateMap(currentMap.id, { underlay: cfg });
+            if (cfg?.isVideo) {
+              updateMap(currentMap.id, { videoBackgroundUrl: cfg.url || null, underlay: cfg });
+            } else {
+              updateMap(currentMap.id, { underlay: cfg });
+            }
           }
         }}
         onClearUnderlay={() => {
           recordHistory('Clear Blueprint Underlay');
           setUnderlayConfig(null);
           if (currentMap && updateMap) {
-            updateMap(currentMap.id, { underlay: null });
+            updateMap(currentMap.id, { underlay: null, videoBackgroundUrl: null });
           }
         }}
       />

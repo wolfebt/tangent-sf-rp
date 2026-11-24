@@ -16,7 +16,9 @@ import {
   evaluateTokenRegions,
   type SceneRegion
 } from '../../../engine/cartography/SceneRegionManager';
-import { ZLayer, type LayerCompositor, type WallSegment, type FusedToken, useEngineStore } from '../../../engine/index';
+import { ZLayer, type LayerCompositor } from '../../../engine/canvas/LayerCompositor';
+import type { WallSegment } from '../../../engine/vision/BVHBuilder';
+import { useEngineStore, type FusedToken } from '../../../engine/state/VolatileSharder';
 import { computeVisibilityPolygon } from '../../../services/raycastVisionService.js';
 import { expandWallsForGeometry } from '../../../schemas/vttWallSchema.js';
 import { VttEventBus } from '../../../utils/vttEventBus';
@@ -34,6 +36,8 @@ export interface UseStageFogAndRegionsOptions {
   selectedToken: FusedToken | null;
   activeSensorMode: string;
   isFogEnabled?: boolean;
+  userRole?: string;
+  isArchitect?: boolean;
   onUpdateMap?: (mapId: string, updates: any) => void;
   onSwitchMap?: (mapId: string) => void;
 }
@@ -48,22 +52,50 @@ export function useStageFogAndRegions({
   selectedToken,
   activeSensorMode,
   isFogEnabled = false,
+  userRole,
+  isArchitect,
   onUpdateMap,
   onSwitchMap
 }: UseStageFogAndRegionsOptions) {
+  const effectiveIsArchitect =
+    typeof isArchitect === 'boolean'
+      ? isArchitect
+      : (userRole ? !['operative', 'player', 'spectator'].includes(userRole.toLowerCase()) : true);
+
   const fogManagerRef = useRef<FogOfWarManager>(new FogOfWarManager());
   const fogGraphicsRef = useRef<Graphics | null>(null);
   const prevPositionsRef = useRef<Map<string, { x: number; y: number }>>(new Map());
   const persistTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isArchitectFogPreview, setIsArchitectFogPreview] = useState<boolean>(true);
+  const [isArchitectFogPreview, setIsArchitectFogPreviewState] = useState<boolean>(effectiveIsArchitect);
   const [fogRevision, setFogRevision] = useState<number>(0);
 
-  const mapId = String(currentMap?.id || '');
-  const mapWidth = Number(currentMap?.width || 2800);
-  const mapHeight = Number(currentMap?.height || 2100);
-
-  // 1. Hydrate FogOfWarManager when map changes
   useEffect(() => {
+    if (!effectiveIsArchitect) {
+      setIsArchitectFogPreviewState(false);
+    }
+  }, [effectiveIsArchitect]);
+
+  const setIsArchitectFogPreview = useCallback(
+    (value: boolean | ((prev: boolean) => boolean)) => {
+      if (!effectiveIsArchitect) {
+        setIsArchitectFogPreviewState(false);
+        return;
+      }
+      setIsArchitectFogPreviewState(value);
+    },
+    [effectiveIsArchitect]
+  );
+
+  const mapId = String(currentMap?.id || '');
+  const gridSize = Number(currentMap?.gridSize || 50);
+  const rawWidth = Number(currentMap?.width || 2800);
+  const rawHeight = Number(currentMap?.height || 2100);
+  const mapWidth = rawWidth <= 300 ? rawWidth * gridSize : rawWidth;
+  const mapHeight = rawHeight <= 300 ? rawHeight * gridSize : rawHeight;
+
+  // 1. Hydrate FogOfWarManager & clear stale token tracking when map changes
+  useEffect(() => {
+    prevPositionsRef.current.clear();
     if (!mapId) return;
     if (currentMap?.exploredFog && typeof currentMap.exploredFog === 'object') {
       fogManagerRef.current.hydrate({
@@ -81,10 +113,11 @@ export function useStageFogAndRegions({
     const unsub = VttEventBus.on('stage-remote-fog-explored', (payload) => {
       if (!payload?.mapId || payload.mapId !== mapId) return;
       if (Array.isArray(payload.exploredAreas)) {
+        const currentHidden = fogManagerRef.current.getState(payload.mapId).hiddenPolygons;
         const snapshot: ExploredFogSnapshot = {
           mapId: payload.mapId,
           exploredPolygons: payload.exploredAreas,
-          hiddenPolygons: [],
+          hiddenPolygons: Array.isArray(payload.hiddenAreas) ? payload.hiddenAreas : currentHidden,
           updatedAt: payload.timestamp || Date.now()
         };
         fogManagerRef.current.hydrate(snapshot);
@@ -101,7 +134,12 @@ export function useStageFogAndRegions({
       persistTimerRef.current = setTimeout(() => {
         const snap = fogManagerRef.current.serialize(targetMapId);
         onUpdateMap?.(targetMapId, { exploredFog: snap });
-        getVttMultiplayerSync().broadcastFogExplored(targetMapId, snap.exploredPolygons, isFogEnabled);
+        getVttMultiplayerSync().broadcastFogExplored(
+          targetMapId,
+          snap.exploredPolygons,
+          isFogEnabled,
+          snap.hiddenPolygons
+        );
       }, 600);
     },
     [onUpdateMap, isFogEnabled]
@@ -177,7 +215,7 @@ export function useStageFogAndRegions({
       mapHeight,
       mapId,
       activePolys,
-      isArchitectFogPreview
+      effectiveIsArchitect && isArchitectFogPreview
     );
   }, [
     isCanvasReady,
@@ -191,6 +229,7 @@ export function useStageFogAndRegions({
     activeSensorMode,
     isFogEnabled,
     currentMap?.fogEnabled,
+    effectiveIsArchitect,
     isArchitectFogPreview,
     fogRevision,
     layerCompositorRef,
@@ -199,13 +238,59 @@ export function useStageFogAndRegions({
 
   // 4. Evaluate Scene Regions on Token Movement + Roof Hole Cutouts
   useEffect(() => {
-    const regions: SceneRegion[] = Array.isArray(currentMap?.regions) ? currentMap.regions : [];
+    const explicitRegions: SceneRegion[] = Array.isArray(currentMap?.regions) ? currentMap.regions : [];
+    const hasExplicitRoof = explicitRegions.some((r) => r.triggerType === 'roof_zone');
+    const derivedRoofRegions: SceneRegion[] = hasExplicitRoof
+      ? []
+      : (Array.isArray(currentMap?.terrains) ? currentMap.terrains : [])
+          .filter((t: any) => t?.isRoofLayer && Array.isArray(t?.points) && t.points.length >= 2)
+          .map((t: any, idx: number) => {
+            let minX = Infinity;
+            let minY = Infinity;
+            let maxX = -Infinity;
+            let maxY = -Infinity;
+            for (let i = 0; i + 1 < t.points.length; i += 2) {
+              const px = Number(t.points[i]);
+              const py = Number(t.points[i + 1]);
+              if (px < minX) minX = px;
+              if (px > maxX) maxX = px;
+              if (py < minY) minY = py;
+              if (py > maxY) maxY = py;
+            }
+            return {
+              id: `auto_roof_${t.id || idx}`,
+              name: t.label || 'Roof Canopy',
+              bounds: {
+                x: minX,
+                y: minY,
+                width: Math.max(10, maxX - minX),
+                height: Math.max(10, maxY - minY)
+              },
+              triggerType: 'roof_zone' as const,
+              payload: { radiusPx: 110 },
+              autoTrigger: true,
+              enabled: true
+            };
+          });
+    const regions: SceneRegion[] = [...explicitRegions, ...derivedRoofRegions];
     const compositor = layerCompositorRef.current;
     let roofHolePunched = false;
+    let anyTokenInsideRoof = false;
+
+    const isInsideBounds = (pt: { x: number; y: number }, r: SceneRegion) =>
+      pt.x >= r.bounds.x &&
+      pt.x <= r.bounds.x + r.bounds.width &&
+      pt.y >= r.bounds.y &&
+      pt.y <= r.bounds.y + r.bounds.height;
 
     for (const tok of tokens) {
       const prev = prevPositionsRef.current.get(tok.id);
       const curr = { x: tok.x, y: tok.y };
+
+      const insideRoof = regions.find((r) => r.enabled !== false && r.triggerType === 'roof_zone' && isInsideBounds(curr, r));
+      if (insideRoof) {
+        anyTokenInsideRoof = true;
+      }
 
       if (prev && (prev.x !== curr.x || prev.y !== curr.y) && regions.length > 0) {
         const triggered = evaluateTokenRegions(tok.id, prev, curr, regions);
@@ -222,6 +307,21 @@ export function useStageFogAndRegions({
             if (evt.region.triggerType === 'roof_zone') {
               compositor?.punchRoofHole(curr.x, curr.y, Number(evt.region.payload?.radiusPx || 110));
               roofHolePunched = true;
+              anyTokenInsideRoof = true;
+            } else if (evt.region.triggerType === 'hazard') {
+              const store = useEngineStore.getState();
+              const dmg = Number(evt.region.payload?.damage || 0);
+              if (dmg > 0) {
+                store.applyDamage(tok.id, dmg, Boolean(evt.region.payload?.isLethal));
+              }
+              if (evt.region.payload?.condition) {
+                store.addCondition(tok.id, String(evt.region.payload.condition));
+              }
+              VttEventBus.emit('stage-hazard-toggled', {
+                hazardId: evt.region.id,
+                isActive: true,
+                hazardType: String(evt.region.payload?.hazardType || evt.region.name || 'hazard')
+              });
             } else if (evt.region.triggerType === 'story_flag' && evt.region.payload?.flagKey) {
               useAdeStore
                 .getState()
@@ -233,36 +333,68 @@ export function useStageFogAndRegions({
                 true
               );
             } else if (evt.region.triggerType === 'teleport_deck' && evt.region.payload?.targetX !== undefined) {
-              useEngineStore.getState().updatePosition(
-                tok.id,
-                Number(evt.region.payload.targetX),
-                Number(evt.region.payload.targetY ?? curr.y),
-                Number(evt.region.payload.targetElevationFt ?? tok.z ?? 0)
-              );
+              const targetX = Number(evt.region.payload.targetX);
+              const targetY = Number(evt.region.payload.targetY ?? curr.y);
+              const targetElev = Number(evt.region.payload.targetElevationFt ?? tok.z ?? 0);
+              useEngineStore.getState().updatePosition(tok.id, targetX, targetY, targetElev);
+              getVttMultiplayerSync().broadcastTokenMove(tok.id, targetX, targetY, targetElev);
             } else if (evt.region.triggerType === 'switch_map' && evt.region.payload?.targetMapId) {
               onSwitchMap?.(String(evt.region.payload.targetMapId));
             }
-          } else if (evt.event === 'exit' && evt.region.triggerType === 'roof_zone') {
-            compositor?.resetRoofMask();
           }
         }
-      } else if (tok.id === selectedToken?.id && !roofHolePunched) {
-        const insideRoof = regions.find(
-          (r) => r.triggerType === 'roof_zone' &&
-            curr.x >= r.bounds.x &&
-            curr.x <= r.bounds.x + r.bounds.width &&
-            curr.y >= r.bounds.y &&
-            curr.y <= r.bounds.y + r.bounds.height
-        );
-        if (insideRoof) {
-          compositor?.punchRoofHole(curr.x, curr.y, Number(insideRoof.payload?.radiusPx || 110));
-          roofHolePunched = true;
-        }
+      }
+
+      if (insideRoof && (tok.id === selectedToken?.id || !roofHolePunched)) {
+        compositor?.punchRoofHole(curr.x, curr.y, Number(insideRoof.payload?.radiusPx || 110));
+        roofHolePunched = true;
       }
 
       prevPositionsRef.current.set(tok.id, curr);
     }
-  }, [tokens, currentMap?.regions, selectedToken?.id, layerCompositorRef, onSwitchMap]);
+
+    if (!anyTokenInsideRoof && regions.some((r) => r.triggerType === 'roof_zone')) {
+      compositor?.resetRoofMask();
+    }
+  }, [tokens, currentMap?.regions, currentMap?.terrains, selectedToken?.id, layerCompositorRef, onSwitchMap]);
+
+  const revealFogRect = useCallback(
+    (x: number, y: number, width: number, height: number) => {
+      if (!mapId) return;
+      const x0 = Math.min(x, x + width);
+      const y0 = Math.min(y, y + height);
+      const w = Math.max(10, Math.abs(width));
+      const h = Math.max(10, Math.abs(height));
+      fogManagerRef.current.revealArea(mapId, [
+        { x: x0, y: y0 },
+        { x: x0 + w, y: y0 },
+        { x: x0 + w, y: y0 + h },
+        { x: x0, y: y0 + h }
+      ]);
+      setFogRevision((r) => r + 1);
+      schedulePersistFog(mapId);
+    },
+    [mapId, schedulePersistFog]
+  );
+
+  const hideFogRect = useCallback(
+    (x: number, y: number, width: number, height: number) => {
+      if (!mapId) return;
+      const x0 = Math.min(x, x + width);
+      const y0 = Math.min(y, y + height);
+      const w = Math.max(10, Math.abs(width));
+      const h = Math.max(10, Math.abs(height));
+      fogManagerRef.current.hideArea(mapId, [
+        { x: x0, y: y0 },
+        { x: x0 + w, y: y0 },
+        { x: x0 + w, y: y0 + h },
+        { x: x0, y: y0 + h }
+      ]);
+      setFogRevision((r) => r + 1);
+      schedulePersistFog(mapId);
+    },
+    [mapId, schedulePersistFog]
+  );
 
   const revealAllFog = useCallback(() => {
     if (!mapId) return;
@@ -285,8 +417,10 @@ export function useStageFogAndRegions({
 
   return {
     fogManager: fogManagerRef.current,
-    isArchitectFogPreview,
+    isArchitectFogPreview: effectiveIsArchitect && isArchitectFogPreview,
     setIsArchitectFogPreview,
+    revealFogRect,
+    hideFogRect,
     revealAllFog,
     resetFog
   };

@@ -630,7 +630,7 @@ export class DBMFunctionRegistryService {
             attributesCp,
             totalSkillAndSpecRanks: totalBaseSkillRanks + totalSpecRanks,
             freeBackgroundSpApplied: cappedFreeSp,
-            freeBackgroundTraitsGranted: resolvedTraitPolicy.totalFree,
+            freeBackgroundTraitsGranted: resolvedTraitPolicy?.totalFree ?? 0,
             skillsCp,
             featuresCp,
             traitsCp,
@@ -678,8 +678,9 @@ export class DBMFunctionRegistryService {
 
       case 'query_omnicortex_rag': {
         const { query = '2d10 combat resolution', topK = 3 } = tool.args || {};
-        const vectorResults = queryOmnicortexRAG(query, { topK, role: normalizedRole });
-        const ftsResults = queryRulebook(query, { topK, role: normalizedRole });
+        const ragOpts = { topK, ...(normalizedRole !== undefined ? { role: normalizedRole } : {}) };
+        const vectorResults = queryOmnicortexRAG(query, ragOpts);
+        const ftsResults = queryRulebook(query, ragOpts);
         return {
           query,
           roleApplied: normalizedRole || 'unrestricted',

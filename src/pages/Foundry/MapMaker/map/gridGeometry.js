@@ -1,6 +1,6 @@
 /**
  * @file gridGeometry.js
- * @description Pure viewport-culled grid calculation and single-pass Konva Canvas2D
+ * @description Pure viewport-culled grid calculation and single-pass Canvas2D
  * drawing helpers for square and flat-topped/pointy-top tactical hex grids.
  */
 
@@ -42,7 +42,7 @@ export function computeVisibleGridBounds(
 }
 
 /**
- * Draws a viewport-culled square grid directly onto Konva's SceneContext
+ * Draws a viewport-culled square grid directly onto a Canvas2D context
  * (single minor path + optional major 5-cell accent path -> 60 FPS even zoomed out).
  */
 export function drawSquareGridOnCanvas(

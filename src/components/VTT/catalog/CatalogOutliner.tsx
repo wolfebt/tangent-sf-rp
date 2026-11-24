@@ -28,7 +28,7 @@ import { useCampaign } from '../../../context/CampaignContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { useFolio } from '../../../context/FolioContext';
 import { useDBM } from '../../../context/DBMContext';
-import { useEngineStore } from '../../../engine/index';
+import { useEngineStore } from '../../../engine/state/VolatileSharder.ts';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { AudioService } from '../../../services/audioService';
 import { showToast } from '../../../context/ToastContext';

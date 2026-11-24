@@ -3,7 +3,7 @@
  * @description Non-destructive Manuscript Revision Snapshots & Line Diff Drawer for StoryWeaver.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { History, RotateCcw, Plus, X, GitCompare } from 'lucide-react';
 import {
   computeLineDiff,
@@ -21,6 +21,12 @@ export default function RevisionHistoryDrawer({
   const [labelInput, setLabelInput] = useState('');
   const [selectedRevId, setSelectedRevId] = useState(revisions[0]?.id || null);
 
+  useEffect(() => {
+    if (revisions.length > 0 && !revisions.some((r) => r.id === selectedRevId)) {
+      setSelectedRevId(revisions[0].id);
+    }
+  }, [revisions, selectedRevId]);
+
   const activeRevision = useMemo(
     () => revisions.find((r) => r.id === selectedRevId) || revisions[0] || null,
     [revisions, selectedRevId]
@@ -32,6 +38,16 @@ export default function RevisionHistoryDrawer({
     const currPlain = stripHtmlForDiff(currentContent);
     return computeLineDiff(oldPlain, currPlain);
   }, [activeRevision, currentContent]);
+
+  const diffStats = useMemo(() => {
+    let added = 0;
+    let removed = 0;
+    for (const line of diffLines) {
+      if (line.type === 'add') added++;
+      else if (line.type === 'remove') removed++;
+    }
+    return { added, removed };
+  }, [diffLines]);
 
   if (!isOpen) return null;
 
@@ -128,8 +144,14 @@ export default function RevisionHistoryDrawer({
 
             {activeRevision && (
               <div className="space-y-1.5 border-t border-slate-800 pt-3">
-                <div className="text-[10px] uppercase font-bold text-cyan-300 flex items-center gap-1.5">
-                  <GitCompare size={12} /> Diff vs Current Manuscript
+                <div className="text-[10px] uppercase font-bold text-cyan-300 flex items-center justify-between gap-1.5">
+                  <span className="flex items-center gap-1.5">
+                    <GitCompare size={12} /> Diff vs Current Manuscript
+                  </span>
+                  <span className="text-[10px] font-mono">
+                    <span className="text-emerald-300">+{diffStats.added}</span>{' / '}
+                    <span className="text-rose-300">-{diffStats.removed}</span>
+                  </span>
                 </div>
                 <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] space-y-1 max-h-64 overflow-y-auto">
                   {diffLines.map((line, i) => (

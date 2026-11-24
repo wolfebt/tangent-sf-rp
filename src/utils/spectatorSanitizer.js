@@ -93,9 +93,22 @@ export function sanitizeMapForSpectator(map, user = null) {
         .filter(isPlayerVisibleRecord)
         .map((w) => {
           const cleaned = stripSecretFields(w);
-          if (cleaned.isSecret && !cleaned.isOpen) {
+          const isClosedSecretDoor = Boolean(
+            cleaned.isSecret && !cleaned.isOpen && cleaned.doorState !== 'open'
+          );
+          if (isClosedSecretDoor) {
+            const {
+              isDynamic: _d,
+              isDoor: _dr,
+              wallType: _wt,
+              doorState: _ds,
+              hackDc: _hd,
+              breachHp: _bh,
+              label: _lb,
+              ...plainWall
+            } = cleaned;
             return {
-              ...cleaned,
+              ...plainWall,
               type: 'solid',
               isSecret: false,
               isOpen: false
@@ -103,6 +116,16 @@ export function sanitizeMapForSpectator(map, user = null) {
           }
           return cleaned;
         })
+    : [];
+
+  const lights = Array.isArray(map.lights)
+    ? map.lights.filter(isPlayerVisibleRecord).map((item) => stripSecretFields(item))
+    : [];
+
+  const regions = Array.isArray(map.regions)
+    ? map.regions
+        .filter((r) => r && r.triggerType !== 'story_flag' && isPlayerVisibleRecord(r))
+        .map((item) => stripSecretFields(item))
     : [];
 
   const isPlaceholderOwner = (val) => !val || val === 'local' || val === 'system';
@@ -116,8 +139,18 @@ export function sanitizeMapForSpectator(map, user = null) {
     type: map.type || 'Sector',
     width: map.width || 3000,
     height: map.height || 2000,
-    gridMode: map.gridMode || 'hex',
+    gridMode: map.gridMode || map.gridType || 'hex',
+    ...(map.gridSize !== undefined ? { gridSize: Number(map.gridSize) } : {}),
     fogEnabled: Boolean(map.fogEnabled),
+    ...(map.exploredFog ? { exploredFog: stripSecretFields(map.exploredFog) } : {}),
+    ...(map.enableWallShadows !== undefined ? { enableWallShadows: Boolean(map.enableWallShadows) } : {}),
+    ...(map.background_url ? { background_url: map.background_url } : {}),
+    ...(map.videoBackgroundUrl ? { videoBackgroundUrl: map.videoBackgroundUrl } : {}),
+    ...(map.underlay && typeof map.underlay === 'object' ? { underlay: stripSecretFields(map.underlay) } : {}),
+    ...(map.atmosphericWeather ? { atmosphericWeather: String(map.atmosphericWeather) } : {}),
+    ...(map.lightingMode ? { lightingMode: String(map.lightingMode) } : {}),
+    lights,
+    regions,
     lines,
     layers,
     tokens,
@@ -126,6 +159,8 @@ export function sanitizeMapForSpectator(map, user = null) {
     terrains,
     fog,
     walls,
+    ...(map.campaignId ? { campaignId: map.campaignId } : {}),
+    ...(map.groupId ? { groupId: map.groupId } : {}),
     isSpectatorLive: true,
     updatedAt: new Date().toISOString(),
     authorUid: resolvedAuthorUid,

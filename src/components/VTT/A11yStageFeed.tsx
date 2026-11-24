@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useEngineStore, selectAllFusedTokens } from '../../engine';
+import { useEngineStore, selectAllFusedTokens } from '../../engine/state/VolatileSharder.ts';
 
 export interface A11yStageFeedProps {
   mapName?: string;

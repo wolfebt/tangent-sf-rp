@@ -52,7 +52,11 @@ function getAllowedCorsOrigins() {
 function isOriginAllowed(origin) {
   if (!origin || typeof origin !== 'string') return false;
   const trimmed = origin.trim();
-  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/i.test(trimmed)) {
+  const allowLocalhostCors =
+    process.env.FUNCTIONS_EMULATOR === 'true' ||
+    process.env.ALLOW_LOCALHOST_CORS === 'true' ||
+    process.env.NODE_ENV !== 'production';
+  if (allowLocalhostCors && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/i.test(trimmed)) {
     return true;
   }
   return getAllowedCorsOrigins().has(trimmed);
@@ -127,28 +131,33 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
       const db = admin.firestore();
       if (safeRoomName.startsWith('group_chan_') || safeRoomName.startsWith('group_')) {
         const groupId = safeRoomName.replace(/^group_(?:chan_)?/, '');
-        if (groupId) {
-          const groupSnap = await db.collection('game_groups').doc(groupId).get();
-          if (groupSnap.exists) {
-            const gData = groupSnap.data() || {};
-            const members = Array.isArray(gData.members) ? gData.members : [];
-            const coArchs = Array.isArray(gData.coArchitects) ? gData.coArchitects : [];
-            if (gData.creatorId !== decodedUser.uid && !members.includes(decodedUser.uid) && !coArchs.includes(decodedUser.uid)) {
-              return res.status(403).json({ error: 'Forbidden: Not a member of the target group room.' });
-            }
-          }
+        if (!groupId) {
+          return res.status(400).json({ error: 'Invalid group room identifier.' });
+        }
+        const groupSnap = await db.collection('game_groups').doc(groupId).get();
+        if (!groupSnap.exists) {
+          return res.status(403).json({ error: 'Forbidden: Target group room does not exist.' });
+        }
+        const gData = groupSnap.data() || {};
+        const members = Array.isArray(gData.members) ? gData.members : [];
+        const coArchs = Array.isArray(gData.coArchitects) ? gData.coArchitects : [];
+        if (gData.creatorId !== decodedUser.uid && !members.includes(decodedUser.uid) && !coArchs.includes(decodedUser.uid)) {
+          return res.status(403).json({ error: 'Forbidden: Not a member of the target group room.' });
         }
       } else if (safeRoomName.startsWith('campaign_')) {
         const campaignId = safeRoomName.replace(/^campaign_/, '');
-        if (campaignId) {
-          const campSnap = await db.collection('Campaigns').doc(campaignId).get();
-          if (campSnap.exists) {
-            const cData = campSnap.data() || {};
-            const memberIds = Array.isArray(cData.memberIds) ? cData.memberIds : [];
-            if (cData.ownerId !== decodedUser.uid && !memberIds.includes(decodedUser.uid)) {
-              return res.status(403).json({ error: 'Forbidden: Not a member of the target campaign room.' });
-            }
-          }
+        if (!campaignId) {
+          return res.status(400).json({ error: 'Invalid campaign room identifier.' });
+        }
+        const campSnap = await db.collection('Campaigns').doc(campaignId).get();
+        if (!campSnap.exists) {
+          return res.status(403).json({ error: 'Forbidden: Target campaign room does not exist.' });
+        }
+        const cData = campSnap.data() || {};
+        const memberIds = Array.isArray(cData.memberIds) ? cData.memberIds : [];
+        const gmIds = Array.isArray(cData.gmIds) ? cData.gmIds : [];
+        if (cData.ownerId !== decodedUser.uid && !memberIds.includes(decodedUser.uid) && !gmIds.includes(decodedUser.uid)) {
+          return res.status(403).json({ error: 'Forbidden: Not a member of the target campaign room.' });
         }
       }
     }
@@ -208,7 +217,9 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
  * Per-user sliding-window rate limiter & secret redaction helper for geminiProxy
  */
 const userRateLimitWindows = new Map();
+const imageRateLimitWindows = new Map();
 const MAX_REQUESTS_PER_USER_PER_MINUTE = 60;
+const MAX_IMAGE_REQUESTS_PER_USER_PER_MINUTE = 10;
 const MAX_PROXY_OUTPUT_TOKENS = 8192;
 const MAX_PROXY_BODY_BYTES = 512 * 1024;
 const ALLOWED_GEMINI_MODELS = new Set([
@@ -221,26 +232,34 @@ const ALLOWED_GEMINI_MODELS = new Set([
   'gemini-flash-lite-latest'
 ]);
 
-function checkUserRateLimit(uid) {
+function checkRateLimitWindow(store, uid, limit) {
   if (!uid) return false;
   const now = Date.now();
-  if (userRateLimitWindows.size > 1000) {
-    for (const [k, v] of userRateLimitWindows.entries()) {
+  if (store.size > 1000) {
+    for (const [k, v] of store.entries()) {
       if (now - v.windowStart > 60000) {
-        userRateLimitWindows.delete(k);
+        store.delete(k);
       }
     }
   }
-  const entry = userRateLimitWindows.get(uid);
+  const entry = store.get(uid);
   if (!entry || now - entry.windowStart > 60000) {
-    userRateLimitWindows.set(uid, { windowStart: now, count: 1 });
+    store.set(uid, { windowStart: now, count: 1 });
     return true;
   }
-  if (entry.count >= MAX_REQUESTS_PER_USER_PER_MINUTE) {
+  if (entry.count >= limit) {
     return false;
   }
   entry.count += 1;
   return true;
+}
+
+function checkUserRateLimit(uid) {
+  return checkRateLimitWindow(userRateLimitWindows, uid, MAX_REQUESTS_PER_USER_PER_MINUTE);
+}
+
+function checkImageRateLimit(uid) {
+  return checkRateLimitWindow(imageRateLimitWindows, uid, MAX_IMAGE_REQUESTS_PER_USER_PER_MINUTE);
 }
 
 function sanitizeProxyTools(tools, decodedUser) {
@@ -432,7 +451,7 @@ const ALLOWED_IMAGE_ASPECT_RATIOS = new Set(['1:1', '16:9', '9:16', '4:3', '3:4'
  * and Gemini image models without exposing server API keys to browser clients.
  */
 exports.geminiImageProxy = functions.https.onRequest(async (req, res) => {
-  applyCorsHeaders(req, res);
+  applyCorsHeaders(req, res, 'POST, OPTIONS', 'Content-Type, Authorization, X-Firebase-AppCheck');
 
   if (req.method === 'OPTIONS') {
     return res.status(204).send('');
@@ -461,8 +480,8 @@ exports.geminiImageProxy = functions.https.onRequest(async (req, res) => {
     }
   }
 
-  if (!checkUserRateLimit(decodedUser.uid)) {
-    return res.status(429).json({ error: 'Rate limit exceeded (max 60 requests/minute per user).' });
+  if (!checkImageRateLimit(decodedUser.uid)) {
+    return res.status(429).json({ error: 'Rate limit exceeded (max 10 image requests/minute per user).' });
   }
 
   let geminiKey = '';
@@ -508,7 +527,10 @@ exports.geminiImageProxy = functions.https.onRequest(async (req, res) => {
         }
       : {
           contents: [{ parts: [{ text: prompt.trim() }] }],
-          generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
+          generationConfig: {
+            responseModalities: ['IMAGE', 'TEXT'],
+            imageConfig: { aspectRatio: safeAspectRatio }
+          }
         };
 
     const fetchInit = {

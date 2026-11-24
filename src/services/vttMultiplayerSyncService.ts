@@ -21,12 +21,14 @@ export interface VttSyncPersistenceConfig {
   intervalMs?: number;
   ownerId?: string;
   memberIds?: string[];
+  collectionRoot?: 'Campaigns' | 'user_stories';
   firestoreInstance?: any;
 }
 
 export interface VttSyncConfig {
   role?: UserVttRole;
   personaId?: string;
+  actorId?: string;
   room?: any; // LiveKit Room instance if active
   channelName?: string;
   persistence?: VttSyncPersistenceConfig;
@@ -60,7 +62,9 @@ export class VttMultiplayerSyncService {
   private persistenceDebouncer: FirestoreDebouncer | null = null;
   private role: UserVttRole = 'architect';
   private personaId: string | null = null;
+  private actorId: string = `peer_${Math.random().toString(36).slice(2, 10)}`;
   private isInitialized = false;
+  private seenChatCardIds = new Set<string>();
   private unsubscribers: Array<() => void> = [];
   private docUpdateHandler: ((update: Uint8Array, origin: any) => void) | null = null;
 
@@ -89,7 +93,16 @@ export class VttMultiplayerSyncService {
    * Initializes real-time synchronization for the active Stage session.
    */
   public init(config: VttSyncConfig = {}): void {
+    if (config.actorId) {
+      this.actorId = config.actorId;
+    }
     if (this.isInitialized) {
+      if (config.role) {
+        this.role = config.role;
+      }
+      if (config.personaId) {
+        this.personaId = config.personaId;
+      }
       if (config.room) {
         this.attachLiveKitRoom(config.room);
       }
@@ -103,7 +116,7 @@ export class VttMultiplayerSyncService {
     if (typeof window !== 'undefined' && window.location) {
       const params = new URLSearchParams(window.location.search);
       const queryRole = params.get('role')?.toLowerCase();
-      if (queryRole === 'operative' || queryRole === 'player') {
+      if (queryRole === 'operative' || queryRole === 'player' || queryRole === 'spectator') {
         this.role = 'operative';
       } else {
         this.role = config.role || 'architect';
@@ -114,7 +127,7 @@ export class VttMultiplayerSyncService {
       this.personaId = config.personaId || null;
     }
 
-    // 1. Initialize local multi-window BroadcastChannel
+    // 1. Initialize local multi-window BroadcastChannel & request catch-up state from sibling tabs
     const channelName = config.channelName || 'tangent_vtt_stage_sync';
     if (typeof BroadcastChannel !== 'undefined') {
       try {
@@ -122,6 +135,11 @@ export class VttMultiplayerSyncService {
         this.broadcastChannel.onmessage = (event: MessageEvent) => {
           this.handleBroadcastMessage(event.data);
         };
+        this.broadcastChannel.postMessage({
+          type: 'SYNC_REQUEST',
+          actorId: this.actorId,
+          timestamp: Date.now()
+        });
       } catch (err) {
         console.warn('[VttMultiplayerSync] BroadcastChannel not supported:', err);
       }
@@ -205,6 +223,25 @@ export class VttMultiplayerSyncService {
             for (const cond of data.active_conditions) {
               if (!current.includes(cond)) store.addCondition(key, cond);
             }
+            for (const existing of current) {
+              if (!data.active_conditions.includes(existing)) {
+                store.toggleCondition(key, existing);
+              }
+            }
+          }
+          if (Array.isArray(data.active_effects)) {
+            const currentEffects = store.ephemeralData[key]?.active_effects || [];
+            const incomingIds = new Set(data.active_effects.map((e: any) => e?.id).filter(Boolean));
+            for (const existingEff of currentEffects) {
+              if (existingEff?.id && !incomingIds.has(existingEff.id)) {
+                store.removeActiveEffect(key, existingEff.id);
+              }
+            }
+            for (const eff of data.active_effects) {
+              if (eff && eff.id) {
+                store.addActiveEffect(key, eff);
+              }
+            }
           }
         }
       });
@@ -238,14 +275,14 @@ export class VttMultiplayerSyncService {
     this.tacticalPingsArray.observe(pingsObserver);
     this.unsubscribers.push(() => this.tacticalPingsArray.unobserve(pingsObserver));
 
-    // 10. Observe chat / roll cards
+    // 10. Observe chat / roll cards with Operative whisper & blind-GM redaction
     const chatObserver = (event: Y.YArrayEvent<any>, transaction: Y.Transaction) => {
       if (transaction.origin !== 'network') return;
       event.changes.added.forEach((item) => {
         const vals = item.content.getContent();
         vals.forEach((card: any) => {
           if (card && card.id) {
-            VttEventBus.emit('stage-chat-card', { ...card, remote: true });
+            this.emitSanitizedRemoteCard(card);
           }
         });
       });
@@ -293,6 +330,7 @@ export class VttMultiplayerSyncService {
             VttEventBus.emit('stage-remote-fog-explored', {
               mapId: key,
               exploredAreas: Array.isArray(fogData.exploredAreas) ? fogData.exploredAreas : [],
+              ...(Array.isArray(fogData.hiddenAreas) ? { hiddenAreas: fogData.hiddenAreas } : {}),
               fogEnabled: fogData.fogEnabled,
               timestamp: fogData.timestamp
             });
@@ -307,10 +345,48 @@ export class VttMultiplayerSyncService {
     console.log(`[VttMultiplayerSync] Initialized as [${this.role.toUpperCase()}] (Persona: ${this.personaId || 'None'})`);
   }
 
+  private sanitizeIncomingChatCard(card: any): any | null {
+    if (!card || !card.id) return null;
+    const isPrivileged = this.role === 'architect';
+    if (!isPrivileged) {
+      if (card.visibility === 'whisper_gm' && card.senderId !== this.actorId) {
+        return null;
+      }
+      if (card.visibility === 'blind_gm') {
+        return {
+          id: card.id,
+          timestamp: card.timestamp,
+          sender: card.sender,
+          senderRole: card.senderRole,
+          senderId: card.senderId,
+          visibility: 'blind_gm',
+          kind: card.kind,
+          title: '[BLIND GM ROLL]',
+          body: 'Resolved in secret by the Architect.',
+          remote: true
+        };
+      }
+    }
+    return { ...card, remote: true };
+  }
+
+  private emitSanitizedRemoteCard(card: any): void {
+    const safeCard = this.sanitizeIncomingChatCard(card);
+    if (!safeCard) return;
+    if (this.seenChatCardIds.has(safeCard.id)) return;
+    this.seenChatCardIds.add(safeCard.id);
+    if (this.seenChatCardIds.size > 200) {
+      const oldest = this.seenChatCardIds.values().next().value;
+      if (oldest) this.seenChatCardIds.delete(oldest);
+    }
+    VttEventBus.emit('stage-chat-card', safeCard);
+  }
+
   private bumpEpoch(): number {
     const prev = Number(this.sessionMetaMap.get('epoch') || 0);
     const next = prev + 1;
     this.sessionMetaMap.set('epoch', next);
+    this.sessionMetaMap.set('lastActorId', this.actorId);
     this.sessionMetaMap.set('lastUpdatedAt', Date.now());
     return next;
   }
@@ -362,6 +438,7 @@ export class VttMultiplayerSyncService {
       current_vitality?: number;
       current_structure?: number;
       active_conditions?: string[];
+      active_effects?: any[];
     }
   ): void {
     this.doc.transact(() => {
@@ -408,6 +485,9 @@ export class VttMultiplayerSyncService {
     id: string;
     timestamp: string;
     sender: string;
+    senderRole?: string;
+    senderId?: string;
+    recipientIds?: string[];
     visibility: 'public' | 'whisper_gm' | 'blind_gm';
     kind: 'attack' | 'aoe' | 'dice' | 'effect' | 'handout' | 'narration' | 'system';
     title: string;
@@ -416,8 +496,44 @@ export class VttMultiplayerSyncService {
     damagePayload?: any;
     handoutPayload?: any;
   }): void {
+    const stampedCard = {
+      ...card,
+      senderId: card.senderId || this.actorId,
+      senderRole: card.senderRole || this.role
+    };
+
+    // Route private GM whispers over targeted LiveKit 0x04 channel when live room is active
+    if (stampedCard.visibility === 'whisper_gm' && this.yjsBridge?.room?.state === 'connected') {
+      this.yjsBridge.sendWhisper(stampedCard, stampedCard.recipientIds);
+      return;
+    }
+
+    if (stampedCard.visibility === 'blind_gm' && this.yjsBridge?.room?.state === 'connected') {
+      // Send full card directly to GM peers via targeted 0x04 whisper and push redacted placeholder to CRDT feed
+      this.yjsBridge.sendWhisper(stampedCard, stampedCard.recipientIds);
+      const redactedForFeed = {
+        id: stampedCard.id,
+        timestamp: stampedCard.timestamp,
+        sender: stampedCard.sender,
+        senderRole: stampedCard.senderRole,
+        senderId: stampedCard.senderId,
+        visibility: 'blind_gm' as const,
+        kind: stampedCard.kind,
+        title: '[BLIND GM ROLL]',
+        body: 'Resolved in secret by the Architect.'
+      };
+      this.doc.transact(() => {
+        this.chatFeedArray.push([redactedForFeed]);
+        if (this.chatFeedArray.length > 100) {
+          this.chatFeedArray.delete(0, this.chatFeedArray.length - 100);
+        }
+        this.bumpEpoch();
+      }, 'local');
+      return;
+    }
+
     this.doc.transact(() => {
-      this.chatFeedArray.push([card]);
+      this.chatFeedArray.push([stampedCard]);
       if (this.chatFeedArray.length > 100) {
         this.chatFeedArray.delete(0, this.chatFeedArray.length - 100);
       }
@@ -459,11 +575,12 @@ export class VttMultiplayerSyncService {
     }, 'local');
   }
 
-  public broadcastFogExplored(mapId: string, exploredAreas: any[], fogEnabled?: boolean): void {
+  public broadcastFogExplored(mapId: string, exploredAreas: any[], fogEnabled?: boolean, hiddenAreas?: any[]): void {
     this.doc.transact(() => {
       this.fogStateMap.set(mapId, {
         mapId,
         exploredAreas,
+        ...(Array.isArray(hiddenAreas) ? { hiddenAreas } : {}),
         ...(fogEnabled !== undefined ? { fogEnabled } : {}),
         timestamp: Date.now()
       });
@@ -476,13 +593,24 @@ export class VttMultiplayerSyncService {
    */
   public canMoveToken(tokenId: string): boolean {
     if (this.role === 'architect') return true;
-    if (this.personaId && tokenId === this.personaId) return true;
 
     const store = useEngineStore.getState();
-    const token = store.staticData[tokenId];
+    const token = store.staticData[tokenId] as any;
+    if (this.personaId) {
+      if (tokenId === this.personaId) return true;
+      if (token && (token.character_doc_id === this.personaId || token.source_persona_id === this.personaId)) {
+        return true;
+      }
+      return false;
+    }
+
     if (token) {
-      if (token.character_doc_id === this.personaId) return true;
-      if (token.is_persona) return true;
+      if (this.actorId && (token.ownerUid === this.actorId || token.controllerUid === this.actorId)) {
+        return true;
+      }
+      if (token.is_persona && !token.ownerUid && !token.creatorUid) {
+        return true;
+      }
     }
 
     return false;
@@ -529,7 +657,36 @@ export class VttMultiplayerSyncService {
   private handleBroadcastMessage(data: any): void {
     if (!data) return;
 
-    if (data.type === 'YJS_UPDATE' && Array.isArray(data.update)) {
+    if (data.type === 'SYNC_REQUEST' && data.actorId && data.actorId !== this.actorId) {
+      if (this.broadcastChannel) {
+        this.broadcastChannel.postMessage({
+          type: 'SYNC_STATE',
+          targetActorId: data.actorId,
+          actorId: this.actorId,
+          epoch: Number(this.sessionMetaMap.get('epoch') || 0),
+          state: Array.from(Y.encodeStateAsUpdate(this.doc)),
+          timestamp: Date.now()
+        });
+      }
+    } else if (data.type === 'SYNC_STATE' && Array.isArray(data.state)) {
+      if (data.targetActorId && data.targetActorId !== this.actorId) return;
+      const updateData = new Uint8Array(data.state);
+      try {
+        Y.applyUpdate(this.doc, updateData, 'network');
+        const localEpoch = Number(this.sessionMetaMap.get('epoch') || 0);
+        const localActor = String(this.sessionMetaMap.get('lastActorId') || '');
+        const incomingEpoch = Number(data.epoch || 0);
+        const incomingActor = String(data.actorId || '');
+        if (incomingEpoch > localEpoch || (incomingEpoch === localEpoch && incomingActor > localActor)) {
+          this.doc.transact(() => {
+            this.sessionMetaMap.set('epoch', incomingEpoch);
+            if (incomingActor) this.sessionMetaMap.set('lastActorId', incomingActor);
+          }, 'network');
+        }
+      } catch (err) {
+        console.error('[VttMultiplayerSync] Error applying SYNC_STATE update:', err);
+      }
+    } else if (data.type === 'YJS_UPDATE' && Array.isArray(data.update)) {
       const updateData = new Uint8Array(data.update);
       try {
         Y.applyUpdate(this.doc, updateData, 'network');
@@ -558,9 +715,15 @@ export class VttMultiplayerSyncService {
       config.firestoreInstance,
       {
         ...(config.ownerId !== undefined ? { ownerId: config.ownerId } : {}),
-        ...(config.memberIds !== undefined ? { memberIds: config.memberIds } : {})
+        ...(config.memberIds !== undefined ? { memberIds: config.memberIds } : {}),
+        ...(config.collectionRoot !== undefined ? { collectionRoot: config.collectionRoot } : {})
       }
     );
+  }
+
+  public async hydrateFromPersistence(): Promise<boolean> {
+    if (!this.persistenceDebouncer) return false;
+    return this.persistenceDebouncer.hydrateFromFirestore();
   }
 
   public detachPersistence(): void {
@@ -579,7 +742,16 @@ export class VttMultiplayerSyncService {
     }
 
     try {
-      this.yjsBridge = new YjsProviderBridge(room, this.doc);
+      this.yjsBridge = new YjsProviderBridge(room, this.doc, {
+        onWhisperPayload: (card) => {
+          if (card && card.id) {
+            this.emitSanitizedRemoteCard(card);
+          }
+        }
+      });
+      if (room?.state === 'connected' && room?.localParticipant) {
+        this.yjsBridge.broadcastStateVector();
+      }
       console.log('[VttMultiplayerSync] Attached LiveKit room to YjsProviderBridge.');
     } catch (err) {
       console.warn('[VttMultiplayerSync] Failed to attach LiveKit room:', err);

@@ -67,6 +67,8 @@ export interface SocketSnapCandidate {
   snappedX: number;
   snappedY: number;
   distancePx: number;
+  snapAngleDeg: number;
+  mismatchWarning?: string;
   incomingSocket: WorldPerimeterSocket;
   targetSocket: WorldPerimeterSocket;
 }
@@ -1015,17 +1017,23 @@ export function findBestSocketSnap(
   let bestSnap: SocketSnapCandidate | null = null;
   let minDistance = snapThresholdPx;
 
+  const EDGE_ANGLE_DEG: Record<CardinalEdge, number> = { north: 0, east: 90, south: 180, west: 270 };
+
   for (const inc of incomingSockets) {
     const desiredTargetEdge = OPPOSITE_EDGE[inc.edge];
     for (const target of existingSockets) {
       if (target.edge !== desiredTargetEdge) continue;
-      if (target.spanCells !== inc.spanCells) continue;
 
       const dist = Math.hypot(
         inc.worldMid.x - target.worldMid.x,
         inc.worldMid.y - target.worldMid.y
       );
       if (dist <= minDistance) {
+        const spanMismatch = target.spanCells !== inc.spanCells;
+        const typeMismatch = target.socketType !== inc.socketType;
+        if (spanMismatch && bestSnap && !bestSnap.mismatchWarning) {
+          continue;
+        }
         minDistance = dist;
         const deltaX = target.worldMid.x - inc.worldMid.x;
         const deltaY = target.worldMid.y - inc.worldMid.y;
@@ -1033,6 +1041,9 @@ export function findBestSocketSnap(
         const snappedY = Math.round(candidateY + deltaY);
         const snappedCol = Math.round(snappedX / gridSize);
         const snappedRow = Math.round(snappedY / gridSize);
+        const warnings: string[] = [];
+        if (spanMismatch) warnings.push(`Width ${inc.spanCells} vs ${target.spanCells} cells`);
+        if (typeMismatch) warnings.push(`Type ${inc.socketType} vs ${target.socketType}`);
 
         bestSnap = {
           snappedCol,
@@ -1040,6 +1051,8 @@ export function findBestSocketSnap(
           snappedX: snappedCol * gridSize,
           snappedY: snappedRow * gridSize,
           distancePx: dist,
+          snapAngleDeg: EDGE_ANGLE_DEG[inc.edge] ?? 0,
+          ...(warnings.length > 0 ? { mismatchWarning: warnings.join(' · ') } : {}),
           incomingSocket: {
             ...inc,
             worldP1: { x: inc.worldP1.x + deltaX, y: inc.worldP1.y + deltaY },

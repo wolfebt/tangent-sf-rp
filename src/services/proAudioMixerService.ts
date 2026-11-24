@@ -375,13 +375,50 @@ class ProAudioMixerService {
     gain: GainNode
   ): void {
     try {
-      const osc = ctx.createOscillator();
       const subGain = ctx.createGain();
+      subGain.gain.value = bus === 'sfx' ? 0.14 : 0.04;
+      subGain.connect(gain);
+
+      if (track.synthMode === 'noise' && typeof ctx.createBuffer === 'function' && typeof ctx.createBufferSource === 'function') {
+        const sampleRate = ctx.sampleRate || 44100;
+        const length = Math.max(1024, Math.floor(sampleRate * (bus === 'sfx' && !track.loop ? 0.35 : 2)));
+        const buffer = ctx.createBuffer(1, length, sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < length; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+        const noiseSrc = ctx.createBufferSource();
+        noiseSrc.buffer = buffer;
+        noiseSrc.loop = bus !== 'sfx' || Boolean(track.loop);
+        if (typeof ctx.createBiquadFilter === 'function') {
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.value = track.synthFrequency || 600;
+          noiseSrc.connect(filter);
+          filter.connect(subGain);
+        } else {
+          noiseSrc.connect(subGain);
+        }
+        noiseSrc.start();
+        if (bus === 'sfx' && !track.loop) {
+          subGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.35);
+          noiseSrc.stop(ctx.currentTime + 0.37);
+          this.busStates[bus].isPlaying = false;
+        }
+        this.activeStops[bus] = () => {
+          try {
+            noiseSrc.stop();
+            noiseSrc.disconnect();
+            subGain.disconnect();
+          } catch {}
+        };
+        return;
+      }
+
+      const osc = ctx.createOscillator();
       osc.type = track.synthMode === 'pulse' ? 'sawtooth' : track.synthMode === 'chime' ? 'triangle' : 'sine';
       osc.frequency.value = track.synthFrequency || 140;
-      subGain.gain.value = bus === 'sfx' ? 0.14 : 0.04;
       osc.connect(subGain);
-      subGain.connect(gain);
       osc.start();
       if (bus === 'sfx' && !track.loop) {
         const durSec = 0.35;

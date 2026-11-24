@@ -56,7 +56,9 @@ import { htmlToMarkdown } from '../StoryModule/exportUtils.js';
 import { SelectivePrintModal } from '../../../components/StoryFoundry/SelectivePrintModal.jsx';
 import { StageSplitView } from '../../../components/VTT/stage/StageSplitView.tsx';
 import { useMapIngestion } from '../../../components/VTT/hooks/useMapIngestion.ts';
-import { useEngineStore, BVHBuilder, InteractiveObjectManager } from '../../../engine/index.ts';
+import { useEngineStore } from '../../../engine/state/VolatileSharder.ts';
+import { BVHBuilder } from '../../../engine/vision/BVHBuilder.ts';
+import { InteractiveObjectManager } from '../../../engine/assets/InteractiveObjectManager.ts';
 import { LightSourceManager } from '../../../engine/vision/LightSourceManager.ts';
 
 describe('ADE Phase 8 React & VTT Convergence Suite', () => {

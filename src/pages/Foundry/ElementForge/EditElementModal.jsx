@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -21,8 +21,6 @@ import { useDBM } from '../../../context/DBMContext';
 import { useFolio } from '../../../context/FolioContext';
 import { useAuth } from '../../../context/AuthContext';
 import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
-import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
-import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
 import GuidedForgeShell from '../../../components/StoryFoundry/GuidedForge/GuidedForgeShell';
 import AimeThreeTierStack from './components/AimeThreeTierStack';
@@ -33,14 +31,25 @@ import {
   GUIDED_ELEMENT_STAGE_IDS
 } from './guided/elementPlaybooks';
 import { buildArtistHubVisualBrief } from './guided/guidedElementAiService';
-import Stage1SparkAndCanon from './guided/stages/Stage1SparkAndCanon';
-import Stage2DirectorialLens from './guided/stages/Stage2DirectorialLens';
-import Stage3CoreReality from './guided/stages/Stage3CoreReality';
-import Stage4TacticalSystems from './guided/stages/Stage4TacticalSystems';
-import Stage5WebAndFinalize from './guided/stages/Stage5WebAndFinalize';
+
+const ArtistHubModal = React.lazy(() =>
+  import('../../../components/StoryFoundry/ArtistHubModal').then((m) => ({
+    default: m.ArtistHubModal || m.default
+  }))
+);
+const AimeGuidanceFlyout = React.lazy(() =>
+  import('../../../components/StoryFoundry/AimeGuidanceFlyout').then((m) => ({
+    default: m.AimeGuidanceFlyout || m.default
+  }))
+);
+const Stage1SparkAndCanon = React.lazy(() => import('./guided/stages/Stage1SparkAndCanon'));
+const Stage2DirectorialLens = React.lazy(() => import('./guided/stages/Stage2DirectorialLens'));
+const Stage3CoreReality = React.lazy(() => import('./guided/stages/Stage3CoreReality'));
+const Stage4TacticalSystems = React.lazy(() => import('./guided/stages/Stage4TacticalSystems'));
+const Stage5WebAndFinalize = React.lazy(() => import('./guided/stages/Stage5WebAndFinalize'));
 import { ModifierService } from '../../../services/modifierService';
 import { AudioService } from '../../../services/audioService';
-import { lintCanonContent } from '../../../services/canonRulesLinterService';
+import { lintCanonContent, applyAutoFix } from '../../../services/canonRulesLinterService';
 import {
   listCustomTemplates,
   saveCustomTemplate,
@@ -115,6 +124,8 @@ const EditElementModal = ({
     deleteSavedElement,
     elementsCatalog,
     universeState,
+    setUniverseState,
+    setIsDirty: setCampaignDirty,
     mapsCatalog,
     cronicle,
     updateStory,
@@ -151,10 +162,10 @@ const EditElementModal = ({
   const [savedTemplates, setSavedTemplates] = useState(() => listCustomTemplates(universeState));
 
   useEffect(() => {
-    if (isOpen) {
-      setSavedTemplates(listCustomTemplates(universeState));
-    }
-  }, [isOpen, universeState]);
+    if (!isOpen) return;
+    const next = listCustomTemplates(universeState);
+    setSavedTemplates((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
+  }, [isOpen, universeState?.customElementTemplates]);
 
   const handleSaveAsTemplate = () => {
     const rawTags = typeof fields.tags === 'string'
@@ -168,7 +179,14 @@ const EditElementModal = ({
         attributes: { ...fields },
         tags: rawTags
       },
-      universeState
+      universeState,
+      (nextTemplates) => {
+        setUniverseState?.((prev) => ({
+          ...prev,
+          customTemplates: nextTemplates
+        }));
+        setCampaignDirty?.(true);
+      }
     );
     setSavedTemplates(templates);
     showToast({ type: 'success', text: `Saved blueprint template: "${template.name}"` });
@@ -195,6 +213,7 @@ const EditElementModal = ({
   const [urlInputValue, setUrlInputValue] = useState('');
   const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
   const [isAimeGuidanceOpen, setIsAimeGuidanceOpen] = useState(false);
+  const [isCanonOpen, setIsCanonOpen] = useState(false);
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [relationalSelectorState, setRelationalSelectorState] = useState(null);
   const fileMenuRef = useRef(null);
@@ -916,6 +935,19 @@ const EditElementModal = ({
               )}
             </div>
 
+            <button
+              type="button"
+              onClick={() => setIsCanonOpen((v) => !v)}
+              className={`px-2.5 py-1.5 rounded-xl text-[11px] font-mono font-bold border transition-colors cursor-pointer ${
+                canonDiagnostics.length > 0
+                  ? 'bg-amber-950/70 border-amber-500/60 text-amber-200 hover:bg-amber-900/70'
+                  : 'bg-emerald-950/50 border-emerald-500/40 text-emerald-300'
+              }`}
+              title="Inspect Tangent v6 Canon Rules Linter diagnostics"
+            >
+              Canon: {canonDiagnostics.length}
+            </button>
+
             <AimeGuidanceButton
               onClick={() => setIsAimeGuidanceOpen(true)}
               label="AIME Guidance"
@@ -930,6 +962,45 @@ const EditElementModal = ({
             </button>
           </div>
         </div>
+
+        {/* ── INTERACTIVE CANON LINTER DRAWER ── */}
+        {isCanonOpen && (
+          <div className="px-5 py-2.5 bg-slate-950/95 border-b border-amber-500/40 text-xs font-mono space-y-1.5 max-h-44 overflow-y-auto shrink-0">
+            <div className="flex items-center justify-between text-[10px] uppercase font-bold text-amber-300">
+              <span>Tangent v6 Canon Linter ({canonDiagnostics.length} finding{canonDiagnostics.length === 1 ? '' : 's'})</span>
+              <button type="button" onClick={() => setIsCanonOpen(false)} className="text-slate-400 hover:text-white cursor-pointer">
+                ✕
+              </button>
+            </div>
+            {canonDiagnostics.length === 0 ? (
+              <div className="text-emerald-300 text-[11px]">✓ Element conforms to Tangent v6 Canon rules.</div>
+            ) : (
+              canonDiagnostics.map((diag) => (
+                <div key={diag.id} className="p-2 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="text-[11px] font-bold text-amber-200">{diag.message}</div>
+                    <div className="text-[10px] text-slate-400">{diag.suggestion}</div>
+                  </div>
+                  {diag.autoFixReplacement && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setContent((prev) => applyAutoFix(prev || '', diag));
+                        if (fields?.summary) {
+                          handleFieldChange('summary', applyAutoFix(String(fields.summary), diag));
+                        }
+                        showToast({ type: 'success', text: `Auto-fixed "${diag.matchText || diag.ruleCode}"` });
+                      }}
+                      className="px-2.5 py-1 rounded bg-amber-600 hover:bg-amber-500 text-black font-bold text-[10px] shrink-0 cursor-pointer"
+                    >
+                      Auto-Fix
+                    </button>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        )}
 
         {/* ── SHARED TYPE CHANGE CONFIRMATION OVERLAY ── */}
         {showTypeConfirm && (
@@ -1048,6 +1119,7 @@ const EditElementModal = ({
               </>
             }
           >
+            <Suspense fallback={<div className="p-6 text-xs font-mono text-cyan-400">Loading editor stage...</div>}>
             {activeStageId === 'spark' && (
               <Stage1SparkAndCanon
                 type={type}
@@ -1126,6 +1198,7 @@ const EditElementModal = ({
                 onToggleLinkToScenario={setLinkToActiveScenario}
               />
             )}
+            </Suspense>
           </GuidedForgeShell>
         ) : (
           /* ── MODE B: DIRECT MASTER SHEET EDITOR (FAST POWER-USER VIEW) ── */
@@ -1517,49 +1590,53 @@ const EditElementModal = ({
       </div>
 
       {isArtistHubOpen && (
-        <ArtistHubModal
-          isOpen={isArtistHubOpen}
-          onClose={() => setIsArtistHubOpen(false)}
-          initialPrompt={buildArtistHubVisualBrief(currentDraft)}
-          elementContext={currentDraft}
-          onApplyAsset={(asset) => {
-            if (asset?.url || asset?.imageUrl) {
-              setImageUrl(asset.url || asset.imageUrl);
-            }
-            if (asset?.prompt && !fields.summary) {
-              handleFieldChange('summary', asset.prompt.substring(0, 160));
-            }
-          }}
-        />
+        <Suspense fallback={null}>
+          <ArtistHubModal
+            isOpen={isArtistHubOpen}
+            onClose={() => setIsArtistHubOpen(false)}
+            initialPrompt={buildArtistHubVisualBrief(currentDraft)}
+            elementContext={currentDraft}
+            onApplyAsset={(asset) => {
+              if (asset?.url || asset?.imageUrl) {
+                setImageUrl(asset.url || asset.imageUrl);
+              }
+              if (asset?.prompt && !fields.summary) {
+                handleFieldChange('summary', asset.prompt.substring(0, 160));
+              }
+            }}
+          />
+        </Suspense>
       )}
 
       {isAimeGuidanceOpen && (
-        <AimeGuidanceFlyout
-          isOpen={isAimeGuidanceOpen}
-          onClose={() => setIsAimeGuidanceOpen(false)}
-          targetType={
-            currentTab.includes('Script')
-              ? 'VttScript'
-              : currentTab.includes('Relations')
-              ? 'Relations'
-              : type === 'Persona'
-              ? 'Persona'
-              : 'Story'
-          }
-          contextData={{
-            title,
-            type,
-            fields,
-            content
-          }}
-          onApplyGuidance={(suggestion) => {
-            if (!content) {
-              setContent(suggestion);
-            } else if (!fields.summary) {
-              handleFieldChange('summary', suggestion.slice(0, 200));
+        <Suspense fallback={null}>
+          <AimeGuidanceFlyout
+            isOpen={isAimeGuidanceOpen}
+            onClose={() => setIsAimeGuidanceOpen(false)}
+            targetType={
+              currentTab.includes('Script')
+                ? 'VttScript'
+                : currentTab.includes('Relations')
+                ? 'Relations'
+                : type === 'Persona'
+                ? 'Persona'
+                : 'Story'
             }
-          }}
-        />
+            contextData={{
+              title,
+              type,
+              fields,
+              content
+            }}
+            onApplyGuidance={(suggestion) => {
+              if (!content) {
+                setContent(suggestion);
+              } else if (!fields.summary) {
+                handleFieldChange('summary', suggestion.slice(0, 200));
+              }
+            }}
+          />
+        </Suspense>
       )}
       {relationalSelectorState && (
         <React.Suspense fallback={null}>

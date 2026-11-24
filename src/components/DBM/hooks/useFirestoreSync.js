@@ -4,7 +4,11 @@ import { collection, onSnapshot, doc, setDoc, deleteDoc, getDocs } from 'firebas
 import { categoryConfig } from '../categoryConfig';
 import { commitChunkedBatches, sanitizeFirestoreData } from '../../../utils/firestoreUtils';
 import { validateDbmEntry } from '../../../utils/dbmValidators';
-import compendiumSeedData from '../../../data/compendiumSeed.json';
+import {
+  isCompendiumSeedReady,
+  loadCompendiumSeed,
+  subscribeCompendiumSeed
+} from '../../../utils/compendiumSeedLoader.js';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { 
@@ -53,6 +57,27 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
     dbDataRef.current = dbData;
   }, [dbData]);
 
+  const rawDocsByCategoryRef = useRef({});
+
+  useEffect(() => {
+    const refreshCompendiumFromSeed = () => {
+      const tombstones = getOmnicortexTombstones();
+      setDbData(prev => ({
+        ...prev,
+        compendium: mergeSeedsWithDocs(rawDocsByCategoryRef.current.compendium || [], 'compendium', tombstones),
+        ...(prev.rules_codex !== undefined
+          ? { rules_codex: mergeSeedsWithDocs(rawDocsByCategoryRef.current.rules_codex || [], 'rules_codex', tombstones) }
+          : {})
+      }));
+    };
+
+    const unsubSeed = subscribeCompendiumSeed(refreshCompendiumFromSeed);
+    if ((currentKey === 'compendium' || currentKey === 'rules_codex') && !isCompendiumSeedReady()) {
+      loadCompendiumSeed().catch(() => {});
+    }
+    return unsubSeed;
+  }, [currentKey]);
+
   const clearToast = useCallback(() => {
     setToastMessage(null);
   }, []);
@@ -87,12 +112,14 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       const unsubCurrent = onSnapshot(colRef, (snapshot) => {
         const tombstones = getOmnicortexTombstones();
         const rawDocs = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+        rawDocsByCategoryRef.current[currentKey] = rawDocs;
         const items = mergeSeedsWithDocs(rawDocs, currentKey, tombstones);
         setDbData(prev => ({ ...prev, [currentKey]: items }));
         setIsLoading(false);
       }, (err) => {
         handleFirestoreQuotaError(err);
         const tombstones = getOmnicortexTombstones();
+        rawDocsByCategoryRef.current[currentKey] = [];
         const items = mergeSeedsWithDocs([], currentKey, tombstones);
         setDbData(prev => ({ ...prev, [currentKey]: items }));
         setIsLoading(false);

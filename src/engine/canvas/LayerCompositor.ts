@@ -56,17 +56,22 @@ export class LayerCompositor {
     console.log('[LayerCompositor] Strict Stage Z-Axis hierarchy initialized with RenderGroup optimizations.');
   }
 
+  private static readonly ROOF_MASK_ORIGIN = -2000;
+  private static readonly ROOF_MASK_SPAN = 12000; // Covers -2000..10000 world bounds regardless of zoom/viewport
+
   private setupRoofMasking() {
     const roofLayer = this.layers.get(ZLayer.RoofCanopy);
     if (!roofLayer) return;
 
     // Roof Canopy layer alpha mask allows "seeing inside" buildings when an operative enters
-    const width = typeof window !== 'undefined' ? window.innerWidth : 1920;
-    const height = typeof window !== 'undefined' ? window.innerHeight : 1080;
-    
-    this.roofMask.rect(0, 0, width, height);
+    this.roofMask.rect(
+      LayerCompositor.ROOF_MASK_ORIGIN,
+      LayerCompositor.ROOF_MASK_ORIGIN,
+      LayerCompositor.ROOF_MASK_SPAN,
+      LayerCompositor.ROOF_MASK_SPAN
+    );
     this.roofMask.fill(0xFFFFFF); // Fully opaque by default
-    
+
     this.app.stage.addChild(this.roofMask);
     roofLayer.mask = this.roofMask;
   }
@@ -100,25 +105,29 @@ export class LayerCompositor {
    * @param radiusPx The size of the visibility cutout in pixels (e.g., 5ft-30ft converted to pixels)
    */
   public punchRoofHole(x: number, y: number, radiusPx: number) {
-    const width = typeof window !== 'undefined' ? window.innerWidth : 1920;
-    const height = typeof window !== 'undefined' ? window.innerHeight : 1080;
-
     this.roofMask.clear();
-    this.roofMask.rect(0, 0, width, height);
+    this.roofMask.rect(
+      LayerCompositor.ROOF_MASK_ORIGIN,
+      LayerCompositor.ROOF_MASK_ORIGIN,
+      LayerCompositor.ROOF_MASK_SPAN,
+      LayerCompositor.ROOF_MASK_SPAN
+    );
     this.roofMask.fill(0xFFFFFF);
     this.roofMask.circle(x, y, radiusPx);
-    this.roofMask.cut(); 
+    this.roofMask.cut();
   }
 
   /**
    * Resets the roof mask to fully solid
    */
   public resetRoofMask() {
-    const width = typeof window !== 'undefined' ? window.innerWidth : 1920;
-    const height = typeof window !== 'undefined' ? window.innerHeight : 1080;
-
     this.roofMask.clear();
-    this.roofMask.rect(0, 0, width, height);
+    this.roofMask.rect(
+      LayerCompositor.ROOF_MASK_ORIGIN,
+      LayerCompositor.ROOF_MASK_ORIGIN,
+      LayerCompositor.ROOF_MASK_SPAN,
+      LayerCompositor.ROOF_MASK_SPAN
+    );
     this.roofMask.fill(0xFFFFFF);
   }
 

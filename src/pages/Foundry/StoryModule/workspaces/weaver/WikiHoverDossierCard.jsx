@@ -20,7 +20,7 @@ export default function WikiHoverDossierCard({ element, onEdit }) {
   const cr = element.fields?.defense_cr ?? element.fields?.cr;
 
   return (
-    <div className="w-72 p-3 rounded-2xl bg-[#0b101d]/98 border border-amber-500/50 shadow-2xl font-mono text-xs text-slate-200 backdrop-blur-xl space-y-2 z-50">
+    <div className="w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-4rem)] overflow-y-auto p-3 rounded-2xl bg-[#0b101d]/98 border border-amber-500/50 shadow-2xl font-mono text-xs text-slate-200 backdrop-blur-xl space-y-2 z-50">
       <div className="flex items-start gap-2.5">
         {imageUrl ? (
           <img

@@ -285,7 +285,7 @@ export function normalizeAtmosphericPresetKey(key?: string | null): AtmosphericW
     return normalized as AtmosphericWeatherType;
   }
   if (Object.prototype.hasOwnProperty.call(ATMOSPHERIC_PRESET_ALIASES, normalized)) {
-    return ATMOSPHERIC_PRESET_ALIASES[normalized];
+    return ATMOSPHERIC_PRESET_ALIASES[normalized] ?? 'clear';
   }
   return 'clear';
 }

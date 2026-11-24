@@ -32,14 +32,16 @@ import {
   Scissors,
   Volume2,
   Send,
-  Search
+  Search,
+  MessageSquare,
+  Terminal
 } from 'lucide-react';
 import { useAdeStore } from '../../../pages/Foundry/store/adeStore';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { showToast } from '../../../context/ToastContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { useUILayoutStore } from '../store/uiLayoutStore';
-import { GridType, GridScaleTier } from '../../../engine/index';
+import { GridType, GridScaleTier } from '../../../engine/math/CoordinateEngine.ts';
 import { AudioService } from '../../../services/audioService';
 import { v4 as uuidv4 } from 'uuid';
 import { NewMapModal } from './NewMapModal';
@@ -65,6 +67,10 @@ export interface StageBreadcrumbTabsProps {
   onSwitchToWeaver?: () => void;
   onOpenAudioMixer?: () => void;
   onOpenHandoutPush?: () => void;
+  isArchitectRole?: boolean;
+  isRollFeedOpen?: boolean;
+  onToggleRollFeed?: () => void;
+  onOpenMacroQuickRun?: () => void;
 }
 
 export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
@@ -77,7 +83,11 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   onSelectStageTab,
   onSwitchToWeaver,
   onOpenAudioMixer,
-  onOpenHandoutPush
+  onOpenHandoutPush,
+  isArchitectRole = true,
+  isRollFeedOpen = false,
+  onToggleRollFeed,
+  onOpenMacroQuickRun
 }) => {
   const { universeState, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
   const confirm = useConfirm();
@@ -669,22 +679,24 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           <span>Module Tree <span className="opacity-80 text-[11px] font-normal">(Elements)</span></span>
         </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            if (onSelectStageTab) onSelectStageTab('architect');
-          }}
-          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
-            activeStageTab === 'architect'
-              ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-amber-500/30'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
-          }`}
-          title="Architect Builder & Map Tools"
-        >
-          <Hammer size={13} className={activeStageTab === 'architect' ? 'text-white' : 'text-slate-400'} />
-          <span>Architect</span>
-        </button>
+        {isArchitectRole && (
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              if (onSelectStageTab) onSelectStageTab('architect');
+            }}
+            className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
+              activeStageTab === 'architect'
+                ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-amber-500/30'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
+            }`}
+            title="Architect Builder & Map Tools"
+          >
+            <Hammer size={13} className={activeStageTab === 'architect' ? 'text-white' : 'text-slate-400'} />
+            <span>Architect</span>
+          </button>
+        )}
 
       </nav>
 
@@ -862,7 +874,35 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           <span>THEATER</span>
         </button>
 
-        {onOpenAudioMixer && (
+        {onToggleRollFeed && (
+          <button
+            type="button"
+            onClick={onToggleRollFeed}
+            className={`px-2 py-1 rounded-lg border text-[10.5px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
+              isRollFeedOpen
+                ? 'bg-emerald-950/80 border-emerald-400 text-emerald-200'
+                : 'bg-slate-900/90 border-slate-800 text-emerald-300 hover:text-white hover:bg-slate-800'
+            }`}
+            title="Toggle Stage Roll Cards & Combat Chat Feed"
+          >
+            <MessageSquare size={12} />
+            <span className="hidden lg:inline">Roll Feed</span>
+          </button>
+        )}
+
+        {isArchitectRole && onOpenMacroQuickRun && (
+          <button
+            type="button"
+            onClick={onOpenMacroQuickRun}
+            className="px-2 py-1 rounded-lg border bg-slate-900/90 border-slate-800 text-cyan-300 hover:text-white hover:bg-slate-800 text-[10.5px] font-mono font-bold flex items-center gap-1 cursor-pointer"
+            title="Quick-Run Saved Stage Macros"
+          >
+            <Terminal size={12} />
+            <span className="hidden lg:inline">Macros</span>
+          </button>
+        )}
+
+        {isArchitectRole && onOpenAudioMixer && (
           <button
             type="button"
             onClick={onOpenAudioMixer}
@@ -873,7 +913,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           </button>
         )}
 
-        {onOpenHandoutPush && (
+        {isArchitectRole && onOpenHandoutPush && (
           <button
             type="button"
             onClick={onOpenHandoutPush}

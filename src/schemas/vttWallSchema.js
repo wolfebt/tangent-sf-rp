@@ -92,19 +92,20 @@ export const damageWallSegment = (wall, damageAmount) => {
  * Determines if a wall currently blocks line-of-sight based on type and door state
  */
 export const doesWallBlockVision = (wall, sensorMode = 'standard_optical') => {
-  if (!wall || wall.doorState === DOOR_STATES.BREACHED || (wall.breachHp !== undefined && wall.breachHp <= 0)) {
+  if (!wall || wall.isOpen === true || wall.isTransparent === true || wall.doorState === DOOR_STATES.BREACHED || (wall.breachHp !== undefined && wall.breachHp <= 0)) {
     return false;
   }
-  if (wall.type === WALL_TYPES.DOOR) {
-    return wall.doorState !== DOOR_STATES.OPEN && wall.doorState !== DOOR_STATES.BREACHED;
+  const wt = String(wall.type || wall.wallType || '').toLowerCase();
+  if (wt === WALL_TYPES.DOOR || wt.includes('door') || wt.includes('bulkhead') || wt.includes('airlock') || wall.isDoor || wall.isDynamic) {
+    return wall.doorState !== DOOR_STATES.OPEN && wall.doorState !== DOOR_STATES.BREACHED && wall.isOpen !== true;
   }
-  if (wall.type === WALL_TYPES.WINDOW) {
+  if (wt === WALL_TYPES.WINDOW || wt.includes('window') || wt.includes('glass')) {
     return false; // Windows allow optical sight
   }
-  if (wall.type === WALL_TYPES.ETHEREAL) {
+  if (wt === WALL_TYPES.ETHEREAL || wt.includes('ethereal')) {
     return sensorMode !== 'meta_attunement'; // Ethereal blocks optical, transparent to Meta
   }
-  if (sensorMode === 'cyber_radar') {
+  if (sensorMode === 'cyber_radar' || sensorMode === 'cyber_motion_radar') {
     // Cyber radar can penetrate low-HP drywall/bulkheads
     return (wall.breachHp || 0) > 80;
   }

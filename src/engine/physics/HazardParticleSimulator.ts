@@ -105,6 +105,13 @@ export class HazardParticleSimulator {
     this.spawnParticlesForHazard(hazard, 25);
   }
 
+  public removeHazardField(id: string) {
+    this.activeHazards = this.activeHazards.filter((h) => h.id !== id);
+    if (this.activeHazards.length === 0) {
+      this.clearHazards();
+    }
+  }
+
   public clearHazards() {
     this.activeHazards = [];
     this.particles = [];
@@ -185,6 +192,7 @@ export class HazardParticleSimulator {
 
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const p = this.particles[i];
+      if (!p) continue;
       p.life -= deltaTime;
       if (p.life <= 0) {
         this.particles.splice(i, 1);

@@ -18,10 +18,11 @@ import { useCampaign } from '../../../context/CampaignContext';
 import {
   useEngineStore,
   selectAllFusedTokens
-} from '../../../engine';
+} from '../../../engine/state/VolatileSharder.ts';
 import { toggleDoorState } from '../../../schemas/vttWallSchema.js';
 import { AudioService } from '../../../services/audioService';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { 
   Camera, 
   RotateCcw, 
@@ -210,13 +211,14 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
     }
   }, [tokens, selectedTokenId, targetTokenId]);
 
-  // Sync Deck settings
+  // Sync Deck settings & trigger scene slicing only on state changes (avoid per-frame traversal)
   useEffect(() => {
     const compositor = compositorRef.current;
     if (!compositor) return;
     compositor.deckManager.setActiveDeck(activeDeckId);
     compositor.deckManager.setSliceActive(isSliceActive);
-  }, [activeDeckId, isSliceActive]);
+    compositor.markSliceDirty?.();
+  }, [activeDeckId, isSliceActive, currentMap, tokens.length]);
 
   // Pointer Interaction Handlers
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -260,9 +262,11 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
     );
     if (isHitDoor) {
       const wallId = hitWall.wallId;
+      let toggledDoor: any = null;
       const updatedWalls = (currentMap.walls || []).map((w: any) => {
         if (w.id === wallId) {
           const toggled = toggleDoorState(w);
+          toggledDoor = toggled;
           if (toggled.isOpen) AudioService.playCriticalChime(true);
           return toggled;
         }
@@ -271,6 +275,14 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
 
       if (updateMap && currentMap.id) {
         updateMap(currentMap.id, { walls: updatedWalls });
+      }
+      if (toggledDoor) {
+        getVttMultiplayerSync().broadcastDoorToggle(
+          wallId,
+          Boolean(toggledDoor.isOpen),
+          toggledDoor.doorState,
+          toggledDoor.breachHp
+        );
       }
       return;
     }
@@ -350,6 +362,12 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
           );
           updateMap(currentMap.id, { tokens: updatedTokens });
         }
+        getVttMultiplayerSync().broadcastTokenMove(
+          draggingTokenId,
+          movedToken.x,
+          movedToken.y,
+          movedToken.elevation_ft ?? 0
+        );
       }
       setDraggingTokenId(null);
     }

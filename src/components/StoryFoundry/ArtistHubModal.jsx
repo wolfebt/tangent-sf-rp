@@ -708,8 +708,24 @@ export const ArtistHubModal = ({
                     <TokenFramerPanel
                       sourceImageUrl={generatedImageUrl || elementContext?.imageUrl || elementContext?.image || ''}
                       tokenLabel={elementContext?.title || 'Operative Token'}
-                      onExportToken={(dataUrl) => {
+                      onExportToken={async (dataUrl) => {
                         setFramedTokenUrl(dataUrl);
+                        if (currentUser?.uid && typeof dataUrl === 'string' && dataUrl.startsWith('data:image/')) {
+                          try {
+                            const safeName = `${(elementContext?.title || 'token').toLowerCase().replace(/[^a-z0-9_-]+/g, '_')}_${Date.now().toString(36)}`;
+                            const uploadedUrl = await uploadAdeImageAsset({
+                              dataUrl,
+                              userId: currentUser.uid,
+                              fileName: safeName,
+                              folder: 'tokens'
+                            });
+                            if (uploadedUrl) {
+                              setFramedTokenUrl(uploadedUrl);
+                            }
+                          } catch (err) {
+                            console.warn('[ArtistHubModal] Token storage offload failed, keeping local snapshot:', err);
+                          }
+                        }
                         toast?.({ type: 'success', text: 'Framed VTT token snapshot staged!' });
                       }}
                     />

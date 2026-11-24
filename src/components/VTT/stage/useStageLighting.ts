@@ -19,7 +19,7 @@ import { VttEventBus } from '../../../utils/vttEventBus';
 import { AudioService } from '../../../services/audioService';
 import { SENSOR_MODES, checkTargetVisibility } from '../../../services/sensorVisionService.js';
 import type { SensorModeId } from '../store/uiLayoutStore';
-import type { FusedToken } from '../../../engine/index';
+import type { FusedToken } from '../../../engine/state/VolatileSharder.ts';
 
 export interface UseStageLightingProps {
   currentMap: any;
@@ -206,7 +206,8 @@ export function useStageLighting({
       targetDarkness = Math.min(targetDarkness, 0.35);
     }
     sim.setAmbientDarkness(targetDarkness);
-    sim.clearHazards();
+    const ambientIds = ['ambient-toxic-1', 'ambient-toxic-2', 'ambient-plasma-1', 'ambient-void-1', 'ambient-sand-1'];
+    ambientIds.forEach((aid) => sim.removeHazardField?.(aid));
 
     if (atmosphericWeather === 'toxic_smog') {
       sim.addHazardField({ id: 'ambient-toxic-1', type: 'corrosive_gas', x: 450, y: 350, radius: 180, intensity: 0.8 });

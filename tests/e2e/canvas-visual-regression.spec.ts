@@ -44,7 +44,7 @@ test.describe('Tangent SF RP — Canvas & WebGL Visual Regression Suite (toHaveS
     });
   });
 
-  test('2. MapMaker Konva Cartography Canvas & Story Weaver Graph Visual Baselines', async ({ page }) => {
+  test('2. MapMaker PixiJS Cartography Canvas & Story Weaver Graph Visual Baselines', async ({ page }) => {
     await page.goto('/foundry/map');
     const mapCanvas = page.locator('main canvas').first();
     await expect(mapCanvas).toBeVisible({ timeout: 15000 });

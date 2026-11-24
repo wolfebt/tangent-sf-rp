@@ -6,6 +6,7 @@
  */
 
 import DOMPurify from 'dompurify';
+import { stripGmSecretHtmlBlocks } from '../../utils/gmSecretSanitizer.js';
 
 export interface ScenarioExportNode {
   id: string;
@@ -72,16 +73,7 @@ function sanitizeRichHtml(rawHtml: unknown): string {
 }
 
 function stripGmSecretMarkup(rawHtml: string): string {
-  let clean = String(rawHtml ?? '');
-  let prev = '';
-  while (clean !== prev) {
-    prev = clean;
-    clean = clean
-      .replace(/<div[^>]*\bclass\s*=\s*["'][^"']*\bade-gm-secret\b[^"']*["'][^>]*>[\s\S]*?<\/div>/gi, '')
-      .replace(/<div[^>]*\bdata-gm-secret\s*=\s*["']true["'][^>]*>[\s\S]*?<\/div>/gi, '')
-      .replace(/<blockquote[^>]*\bclass\s*=\s*["'][^"']*\bade-gm-secret\b[^"']*["'][^>]*>[\s\S]*?<\/blockquote>/gi, '');
-  }
-  return clean;
+  return stripGmSecretHtmlBlocks(rawHtml);
 }
 
 export class PagedPdfCompilerService {
@@ -269,19 +261,21 @@ export class PagedPdfCompilerService {
       `;
     }
 
-    const renderNodeHtml = (node: ScenarioExportNode, depth: number = 2): string => {
+    const renderNodeHtml = (node: ScenarioExportNode & Record<string, any>, depth: number = 2): string => {
+      if (!includeGmSecrets && (node.isHidden || node.isGmOnly)) return '';
       const headingTag = `h${Math.min(6, Math.max(2, depth))}`;
       const anchorId = `sec_${String(node.id || 'node').replace(/[^A-Za-z0-9_-]/g, '_')}`;
       const rawContent = includeGmSecrets ? node.content : stripGmSecretMarkup(node.content || '');
+      const rawSummary = includeGmSecrets ? node.summary : stripGmSecretMarkup(node.summary || '');
       const childrenHtml = Array.isArray(node.children) && node.children.length > 0
-        ? node.children.map(child => renderNodeHtml(child, depth + 1)).join('')
+        ? node.children.map(child => renderNodeHtml(child as any, depth + 1)).join('')
         : '';
 
       return `
         <div class="scenario-section" id="${escapeHtml(anchorId)}">
           <${headingTag}>${escapeHtml(node.title)}</${headingTag}>
           <div class="two-columns">
-            ${node.summary ? `<p><strong>Overview:</strong> ${escapeHtml(node.summary)}</p>` : ''}
+            ${rawSummary ? `<p><strong>Overview:</strong> ${escapeHtml(rawSummary)}</p>` : ''}
             
             ${node.fields?.readAloud ? `
               <div class="sensory-box">

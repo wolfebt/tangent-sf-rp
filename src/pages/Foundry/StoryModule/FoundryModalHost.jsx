@@ -57,6 +57,7 @@ export default function FoundryModalHost({
   onToggleSplitView,
   isStoryReadOnly = false
 }) {
+  const perspectiveMode = useAdeStore((s) => s.perspectiveMode);
   const isCatalogOpen = Boolean(modals.catalog);
   const isPrintModalOpen = Boolean(modals.print);
   const isArtistHubOpen = Boolean(modals.artistHub);
@@ -161,6 +162,7 @@ export default function FoundryModalHost({
             elementsCatalog={elementsCatalog}
             activeScenario={activeNode}
             activeMap={activeMap}
+            defaultOperatorSafeMode={perspectiveMode === 'operator'}
           />
         </Suspense>
       )}

@@ -22,11 +22,13 @@ export interface BroadcastHandout {
 export interface HandoutBroadcastOverlayProps {
   isPushModalOpen?: boolean;
   onClosePushModal?: () => void;
+  isArchitect?: boolean;
 }
 
 export const HandoutBroadcastOverlay: React.FC<HandoutBroadcastOverlayProps> = ({
   isPushModalOpen = false,
-  onClosePushModal
+  onClosePushModal,
+  isArchitect = true
 }) => {
   const { elementsCatalog = [] } = (useCampaign() as any) || {};
   const [activeHandout, setActiveHandout] = useState<BroadcastHandout | null>(null);
@@ -100,7 +102,7 @@ export const HandoutBroadcastOverlay: React.FC<HandoutBroadcastOverlayProps> = (
       )}
 
       {/* Architect Handout Push Picker */}
-      {isPushModalOpen && (
+      {isArchitect && isPushModalOpen && (
         <div
           role="dialog"
           aria-label="Push Handout to Operatives"

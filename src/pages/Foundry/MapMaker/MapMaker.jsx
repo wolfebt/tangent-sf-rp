@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback, Suspense } from 'react';
 import { lazyWithRetry } from '../../../utils/lazyWithRetry';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Stage, Layer, Rect, Circle, Text as KonvaText, Line, RegularPolygon, Image as KonvaImage, Group, Shape } from 'react-konva';
-import { drawSquareGridOnCanvas, drawHexGridOnCanvas } from './map/gridGeometry';
+import MapMakerPixiCanvas from './pixi/MapMakerPixiCanvas';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
@@ -13,9 +12,6 @@ import { createTacticalPing, filterExpiredPings } from '../../../services/mapPin
 import { createDefaultTeamRoster, canUserControlToken, isUserArchitect, VTT_ROLES } from '../../../services/vttTeamService';
 
 import { MAP_TYPES, DEFAULT_LAYERS, MASTER_TERRAINS, MASTER_OBJECTS, PENCIL_COLORS, PENCIL_WIDTHS, TEXT_COLORS } from './map/MapConstants';
-import { MapObjectNode, TokenNode, TextLabelNode } from './map/MapObjectNode';
-import MapWallNode from './map/MapWallNode';
-import WaypointRulerOverlay from './map/WaypointRulerOverlay';
 import UvttImportModal from './map/UvttImportModal';
 import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
 import { toggleDoorState, damageWallSegment, createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../schemas/vttWallSchema';
@@ -47,7 +43,6 @@ import {
 } from '../../../components/VTT/stage/defaultMaps';
 
 import { getBiomeTextureUrl } from './map/landmassGenerator';
-import { getTextureUrlFromColor } from './map/MapTextures';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { MapMakerTabBar } from './components/MapMakerTabBar';
 import { AssetStudioTab } from './components/AssetStudioTab';
@@ -56,7 +51,6 @@ import { VttExportTab } from './components/VttExportTab';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 const ChunkStudioModal = lazyWithRetry(() => import('./components/ChunkStudioModal'));
-import { ChunkGhostPreviewOverlay } from './map/ChunkGhostPreviewOverlay';
 import { PlacedChunkInspectorBar } from './map/PlacedChunkInspectorBar';
 import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../../data/seed_chunks/science_fantasy_chunks';
 import {
@@ -70,164 +64,6 @@ import {
   deletePlacedChunkInstance,
   extractChunkFromMapSelection
 } from '../../../services/mapChunkCompilerService';
-
-const TerrainImageNode = ({ t, isEraser, isLocked, onErase }) => {
-  const [imageObj, setImageObj] = useState(null);
-
-  useEffect(() => {
-    if (t.imageUrl) {
-      const img = new window.Image();
-      img.src = t.imageUrl;
-      img.onload = () => setImageObj(img);
-    }
-  }, [t.imageUrl]);
-
-  if (!imageObj) return null;
-
-  return (
-    <KonvaImage
-      image={imageObj}
-      x={t.x || 0}
-      y={t.y || 0}
-      width={t.width}
-      height={t.height}
-      onClick={() => !isLocked && isEraser && onErase(t.id)}
-    />
-  );
-};
-
-const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
-  const shapeRef = useRef(null);
-  const [patternImg, setPatternImg] = useState(null);
-  const [strokePattern, setStrokePattern] = useState(null);
-
-  const textureUrl = t.textureUrl || getBiomeTextureUrl(t.biomeType || t.terrainTypeId) || getTextureUrlFromColor(t.color || t.terrainTypeId);
-
-  useEffect(() => {
-    if (textureUrl) {
-      const img = new window.Image();
-      img.src = textureUrl;
-      img.onload = () => {
-        setPatternImg(img);
-        try {
-          const cvs = document.createElement('canvas');
-          const w = img.naturalWidth || img.width || 64;
-          const h = img.naturalHeight || img.height || 64;
-          cvs.width = w;
-          cvs.height = h;
-          const ctx = cvs.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-          const ptn = ctx.createPattern(cvs, 'repeat');
-          setStrokePattern(ptn);
-        } catch (e) {
-          console.warn('Stroke pattern create error:', e);
-        }
-      };
-      img.onerror = () => {
-        setPatternImg(null);
-        setStrokePattern(null);
-      };
-    }
-  }, [textureUrl]);
-
-  // Caching effect: Pre-renders shape to offscreen canvas once pattern/texture is available
-  useEffect(() => {
-    if (shapeRef.current) {
-      try {
-        shapeRef.current.clearCache();
-        shapeRef.current.cache({ pixelRatio: 2 });
-      } catch (e) {
-        // Fallback gracefully if node bounds cannot be computed immediately
-      }
-    }
-  }, [patternImg, strokePattern, t.points, t.x, t.y, t.radius, t.color]);
-
-  if (t.renderType === 'hexTile') {
-    return (
-      <RegularPolygon
-        ref={shapeRef}
-        x={t.x}
-        y={t.y}
-        sides={6}
-        radius={t.radius}
-        fill={t.color}
-        fillPatternImage={patternImg}
-        fillPatternRepeat="repeat"
-        stroke="rgba(0, 0, 0, 0.15)"
-        strokeWidth={1}
-        onClick={() => !isLocked && isEraser && onErase(t.id)}
-      />
-    );
-  }
-
-  if (t.renderType === 'rect') {
-    return (
-      <Rect
-        ref={shapeRef}
-        x={t.x}
-        y={t.y}
-        width={t.width || 40}
-        height={t.height || 40}
-        fill={t.color}
-        fillPatternImage={patternImg}
-        fillPatternRepeat="repeat"
-        stroke={t.strokeColor || t.color}
-        strokeWidth={t.strokeWidth || 1}
-        onClick={() => !isLocked && isEraser && onErase(t.id)}
-      />
-    );
-  }
-
-  if (t.closed || t.renderType === 'polygon') {
-    return (
-      <Line
-        ref={shapeRef}
-        points={t.points}
-        fill={t.color}
-        fillPatternImage={patternImg}
-        fillPatternRepeat="repeat"
-        stroke={t.strokeColor || t.color}
-        strokeWidth={t.strokeWidth || 1.5}
-        closed={true}
-        tension={t.tension !== undefined ? t.tension : 0.35}
-        lineCap="round"
-        lineJoin="round"
-        onClick={() => !isLocked && isEraser && onErase(t.id)}
-      />
-    );
-  }
-
-  return (
-    <Group>
-      {t.softEdge && (
-        <Line
-          points={t.points}
-          stroke={t.color || '#15803d'}
-          strokeWidth={(t.strokeWidth || 30) + 18}
-          tension={t.tension || 0.2}
-          lineCap={t.lineCap || 'round'}
-          lineJoin="round"
-          opacity={0.22}
-          listening={false}
-        />
-      )}
-      <Line
-        ref={shapeRef}
-        points={t.points}
-        fill={t.color}
-        fillPatternImage={patternImg}
-        fillPatternRepeat="repeat"
-        stroke={strokePattern || t.color}
-        strokeWidth={t.strokeWidth || 30}
-        tension={t.tension || 0.2}
-        lineCap={t.lineCap || "round"}
-        lineJoin="round"
-        opacity={t.isRoofLayer ? 0.92 : 1}
-        onClick={() => !isLocked && isEraser && onErase(t.id)}
-      />
-    </Group>
-  );
-};
 
 const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, onSwitchView }) => {
   const isMobile = useIsMobile();
@@ -263,6 +99,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const [selectedObjectType, setSelectedObjectType] = useState(MASTER_OBJECTS['Planetary'][0]);
   const [selectedWallType, setSelectedWallType] = useState('solid');
   const [doorLockDc, setDoorLockDc] = useState(14);
+  const [selectedRegionType, setSelectedRegionType] = useState('roof_zone');
   const [rulerSelectedPace, setRulerSelectedPace] = useState('walk');
   const [activeSensorMode, setActiveSensorMode] = useState('standard_optical');
   const [pencilColor, setPencilColor] = useState(PENCIL_COLORS[0]);
@@ -690,8 +527,21 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const walls = currentMap?.walls || [];
   const lights = currentMap?.lights || [];
   const fog = currentMap?.fog || [];
-  const mapLayers = currentMap?.layers || DEFAULT_LAYERS;
+  const regions = currentMap?.regions || [];
+  const mapLayers = React.useMemo(() => {
+    const raw = currentMap?.layers || DEFAULT_LAYERS;
+    if (raw.some((l) => l.id === 'layer_roof')) return raw;
+    const roofEntry = { id: 'layer_roof', name: 'Roof & Upper Canopy', visible: true, locked: false };
+    const idx = raw.findIndex((l) => l.id === 'layer_annotations');
+    if (idx === -1) return [...raw, roofEntry];
+    return [...raw.slice(0, idx), roofEntry, ...raw.slice(idx)];
+  }, [currentMap?.layers]);
   const chunkInstances = currentMap?.chunkInstances || [];
+
+  useEffect(() => {
+    if (currentMap?.gridSize) setGridSize(currentMap.gridSize);
+    if (currentMap?.gridMode) setGridMode(currentMap.gridMode);
+  }, [currentMap?.id]);
   const allAvailableChunks = React.useMemo(() => {
     const customList = universeState?.customAssets?.chunks || [];
     return [...customList, ...SCIENCE_FANTASY_SEED_CHUNKS];
@@ -870,6 +720,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     selectedWallType, doorLockDc,
     selectedLightColor, selectedLightRadius, selectedLightAnimation,
     tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize,
+    regions, selectedRegionType,
     onStampChunk: handleStampChunkAtPos
   });
 
@@ -1407,8 +1258,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         updateMap(activeMapId, {
           objects: objects.filter(o => o.id !== selectedId),
           terrains: terrains.filter(t => t.id !== selectedId),
+          walls: walls.filter(w => w.id !== selectedId),
+          lights: lights.filter(l => l.id !== selectedId),
+          lines: lines.filter(l => l.id !== selectedId),
           tokens: tokens.filter(tk => tk.id !== selectedId),
-          texts: texts.filter(txt => txt.id !== selectedId)
+          texts: texts.filter(txt => txt.id !== selectedId),
+          fog: fog.filter(f => f.id !== selectedId),
+          regions: regions.filter(r => r.id !== selectedId),
+          chunkInstances: chunkInstances.filter(ci => ci.instanceId !== selectedId)
         });
         setSelectedId(null);
       }
@@ -1439,7 +1296,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('blur', handleWindowBlur);
     };
-  }, [isMobile, activeStudioTab, activeMapId, gridMode, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts, activeTool, zoomBy, panBy, recordHistory, updateMap, isShortcutsModalOpen, isVttDrawerOpen, isUvttModalOpen, rulerWaypoints, clearRuler, selectedChunkInstance]);
+  }, [isMobile, activeStudioTab, activeMapId, gridMode, currentMap?.gridMode, selectedId, objects, terrains, walls, lights, lines, tokens, texts, fog, regions, chunkInstances, activeTool, zoomBy, panBy, recordHistory, updateMap, isShortcutsModalOpen, isVttDrawerOpen, isUvttModalOpen, rulerWaypoints, clearRuler, selectedChunkInstance]);
 
   const handleCommitPcgSector = ({
     terrains: generatedTerrains = [],
@@ -1581,7 +1438,9 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       objects: objects.filter(item => item.id !== id),
       lights: lights.filter(item => item.id !== id),
       texts: texts.filter(item => item.id !== id),
-      fog: fog.filter(item => item.id !== id)
+      fog: fog.filter(item => item.id !== id),
+      regions: regions.filter(item => item.id !== id),
+      chunkInstances: chunkInstances.filter(ci => ci.instanceId !== id)
     });
     if (selectedId === id) setSelectedId(null);
   };
@@ -1651,7 +1510,19 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const handleClearMap = () => {
     recordHistory();
-    updateMap(activeMapId, { lines: [], terrains: [], walls: [], objects: [], lights: [], texts: [], fog: [] });
+    updateMap(activeMapId, {
+      lines: [],
+      terrains: [],
+      walls: [],
+      objects: [],
+      lights: [],
+      texts: [],
+      fog: [],
+      regions: [],
+      chunkInstances: [],
+      underlays: []
+    });
+    setSelectedId(null);
   };
 
   const { handleExportPNG, computeWallPreviewPoints } = useMapBezierAndExport({
@@ -1715,31 +1586,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     setSelectedId(null);
   };
 
-  const renderGrid = () => {
-    if (gridMode !== 'square' && gridMode !== 'hex') return null;
-
-    return (
-      <Shape
-        listening={false}
-        perfectDrawEnabled={false}
-        sceneFunc={(ctx) => {
-          const viewport = {
-            x: position.x,
-            y: position.y,
-            width: stageSize.width,
-            height: stageSize.height,
-            scale
-          };
-          if (gridMode === 'square') {
-            drawSquareGridOnCanvas(ctx, viewport, gridSize, { scale });
-          } else {
-            drawHexGridOnCanvas(ctx, viewport, gridSize, { scale });
-          }
-        }}
-      />
-    );
-  };
-
   const createNewMap = (e) => {
     e.preventDefault();
     addMap({
@@ -1752,15 +1598,15 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     setIsModalOpen(false);
   };
 
-  const isLayerVisible = (layerId) => {
+  const isLayerVisible = useCallback((layerId) => {
     const l = mapLayers.find(item => item.id === layerId);
     return l ? l.visible : true;
-  };
+  }, [mapLayers]);
 
-  const isLayerLocked = (layerId) => {
+  const isLayerLocked = useCallback((layerId) => {
     const l = mapLayers.find(item => item.id === layerId);
     return l ? l.locked : false;
-  };
+  }, [mapLayers]);
 
   if (isMobile) {
     return <MobileTacticalBlocker operation="map" onBack={onBackToStory} />;
@@ -2442,336 +2288,123 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                   muted
                   playsInline
                   aria-hidden="true"
-                  className="absolute inset-0 w-full h-full object-cover opacity-85 pointer-events-none"
+                  className="absolute top-0 left-0 object-cover pointer-events-none"
+                  style={{
+                    width: `${currentMap?.width || 2800}px`,
+                    height: `${currentMap?.height || 2100}px`,
+                    opacity: currentMap?.underlay?.visible === false ? 0 : (currentMap?.underlay?.opacity ?? 0.85),
+                    transformOrigin: '0 0',
+                    transform: `translate(${position.x + (currentMap?.underlay?.offsetX || 0) * scale}px, ${position.y + (currentMap?.underlay?.offsetY || 0) * scale}px) scale(${scale * (currentMap?.underlay?.scale || 1)})`
+                  }}
                 />
               )}
-              <Stage
-              ref={stageRef}
-              width={stageSize.width}
-              height={stageSize.height}
-              onContextMenu={(e) => {
-                e.evt?.preventDefault?.();
-              }}
-              onWheel={handleWheel}
-              onMouseDown={(e) => {
-                const clickedOnEmpty = e.target === e.target.getStage() || e.target.name() === 'bgRect';
-                if (clickedOnEmpty && activeTool === 'select') {
-                  setSelectedId(null);
-                }
-                handleMouseDown(e);
-              }}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              scaleX={scale}
-              scaleY={scale}
-              x={position.x}
-              y={position.y}
-              draggable={activeTool === 'select' && selectedId === null}
-              onDragEnd={(e) => {
-                if (activeTool === 'select' && e.target === e.target.getStage()) {
-                  setPosition({ x: e.target.x(), y: e.target.y() });
-                }
-              }}
-            >
-              {/* Layer 1: Background & Tactical Grid */}
-              <Layer id="layer_bg_grid">
-                <Rect x={-100000} y={-100000} width={200000} height={200000} fill={currentMap?.videoBackgroundUrl ? 'transparent' : '#111827'} name="bgRect" />
-                {/* Primary Tactical Sector Boundary Frame */}
-                <Rect
-                  x={0}
-                  y={0}
-                  width={currentMap?.width || 2800}
-                  height={currentMap?.height || 2100}
-                  stroke="rgba(34, 211, 238, 0.45)"
-                  strokeWidth={2}
-                  dash={[12, 6]}
-                  listening={false}
-                />
-                <Group listening={false}>
-                  {renderGrid()}
-                </Group>
-              </Layer>
-
-              {/* Layer 2: World Terrain & Objects */}
-              <Layer id="layer_world">
-                {isLayerVisible('layer_terrain') && (
-                  <Group>
-                    {terrains.map((t, i) => {
-                      if (t.renderType === 'canvasImage') {
-                        return (
-                          <TerrainImageNode
-                            key={t.id || i}
-                            t={t}
-                            isLocked={isLayerLocked('layer_terrain')}
-                            isEraser={activeTool === 'eraser'}
-                            onErase={eraseElement}
-                          />
-                        );
-                      }
-                      return (
-                        <TexturedTerrainNode
-                          key={t.id || i}
-                          t={t}
-                          isLocked={isLayerLocked('layer_terrain')}
-                          isEraser={activeTool === 'eraser'}
-                          onErase={eraseElement}
-                        />
-                      );
-                    })}
-                    {lines.map((l, i) => (
-                      <Line
-                        key={l.id || i}
-                        points={l.points}
-                        stroke={l.stroke || l.color || "#ef4444"}
-                        strokeWidth={l.strokeWidth || 5}
-                        tension={l.tension !== undefined ? l.tension : (l.closed ? 0.2 : 0)}
-                        closed={l.closed || false}
-                        lineCap="round"
-                        lineJoin="round"
-                        onClick={() => !isLayerLocked('layer_terrain') && activeTool === 'eraser' && eraseElement(l.id)}
-                      />
-                    ))}
-                  </Group>
-                )}
-
-                {isLayerVisible('layer_objects') && (
-                  <Group>
-                    {objects.map((obj) => (
-                      <MapObjectNode
-                        key={obj.id}
-                        shapeProps={obj}
-                        isSelected={obj.id === selectedId}
-                        isEraser={activeTool === 'eraser'}
-                        isLocked={isLayerLocked('layer_objects')}
-                        zoomScale={scale}
-                        onErase={eraseElement}
-                        onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_objects')) setSelectedId(obj.id); }}
-                        onDoubleClick={() => handleObjectDoubleClick(obj)}
-                        onChange={(newAttrs) => {
-                          const nextObjects = produce(objects, draft => {
-                            const index = draft.findIndex(o => o.id === obj.id);
-                            if (index !== -1) draft[index] = newAttrs;
-                          });
-                          updateMap(activeMapId, { objects: nextObjects });
-                        }}
-                      />
-                    ))}
-                  </Group>
-                )}
-              </Layer>
-
-              {/* Layer 2.5: Walls, Bulkheads & Interactive Doors */}
-              {isLayerVisible('layer_walls') && (
-                <Layer id="layer_walls">
-                  {walls.map((w) => (
-                    <MapWallNode
-                      key={w.id}
-                      wall={w}
-                      isSelected={w.id === selectedId}
-                      isEraser={activeTool === 'eraser'}
-                      isLocked={isLayerLocked('layer_walls')}
-                      enableWallShadows={currentMap?.enableWallShadows !== false}
-                      zoomScale={scale}
-                      onSelect={(id) => { if (activeTool === 'select' && !isLayerLocked('layer_walls')) setSelectedId(id); }}
-                      onErase={(id) => eraseElement(id)}
-                      onToggleDoor={handleToggleDoor}
-                    />
-                  ))}
-                  {/* Active Wall Drawing Line Preview */}
-                  {isDrawing && (activeTool === 'wall' || activeTool === 'curved_wall') && wallStartPoint && wallPreviewEnd && (
-                    <Line
-                      points={computeWallPreviewPoints(wallStartPoint, wallPreviewEnd, activeTool === 'curved_wall')}
-                      stroke={selectedWallType === 'door' ? '#f59e0b' : (selectedWallType === 'window' ? '#38bdf8' : (selectedWallType === 'ethereal' ? '#c084fc' : '#22d3ee'))}
-                      strokeWidth={5}
-                      dash={[6, 4]}
-                    />
-                  )}
-                </Layer>
-              )}
-
-              {/* Layer 2.75: Dynamic Lights & Ambient Luminance Emitters */}
-              <Layer id="layer_lights">
-                {lights.map((lt) => (
-                  <Group
-                    key={lt.id}
-                    x={lt.x}
-                    y={lt.y}
-                    draggable={activeTool === 'select' && !isLayerLocked('layer_objects')}
-                    onClick={() => {
-                      if (activeTool === 'eraser') eraseElement(lt.id);
-                      else if (activeTool === 'select') setSelectedId(lt.id);
-                    }}
-                    onDragEnd={(e) => {
-                      const nextLights = produce(lights, draft => {
-                        const idx = draft.findIndex(item => item.id === lt.id);
-                        if (idx !== -1) {
-                          draft[idx].x = e.target.x();
-                          draft[idx].y = e.target.y();
-                        }
-                      });
-                      updateMap(activeMapId, { lights: nextLights });
-                    }}
-                  >
-                    {/* Outer ambient glow halo */}
-                    <Circle
-                      radius={lt.radius || 180}
-                      fill={lt.color || '#f59e0b'}
-                      opacity={lt.id === selectedId ? 0.28 : 0.18}
-                      listening={false}
-                    />
-                    {/* Inner illumination ring */}
-                    <Circle
-                      radius={(lt.radius || 180) * 0.45}
-                      fill={lt.color || '#f59e0b'}
-                      opacity={0.35}
-                      listening={false}
-                    />
-                    {/* Emitter source center point */}
-                    <Circle
-                      radius={10}
-                      fill="#ffffff"
-                      stroke={lt.color || '#f59e0b'}
-                      strokeWidth={3}
-                      shadowColor={lt.color || '#f59e0b'}
-                      shadowBlur={12}
-                      shadowOpacity={0.9}
-                    />
-                  </Group>
-                ))}
-              </Layer>
-
-              {/* Layer 3: Annotations, Tokens, Units & Tactical Radar Pings */}
-              <Layer id="layer_entities">
-                {isLayerVisible('layer_annotations') && (
-                  <Group>
-                    {texts.map((txt) => (
-                      <TextLabelNode
-                        key={txt.id} shapeProps={txt} isSelected={txt.id === selectedId} isEraser={activeTool === 'eraser'} isLocked={isLayerLocked('layer_annotations')}
-                        onErase={eraseElement}
-                        onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_annotations')) setSelectedId(txt.id); }}
-                        onChange={(newAttrs) => {
-                          const nextTexts = produce(texts, draft => {
-                            const index = draft.findIndex(t => t.id === txt.id);
-                            if (index !== -1) draft[index] = newAttrs;
-                          });
-                          updateMap(activeMapId, { texts: nextTexts });
-                        }}
-                      />
-                    ))}
-                  </Group>
-                )}
-
-                {isLayerVisible('layer_tokens') && (
-                  <Group>
-                    {tokens.map((token) => (
-                      <Group
-                        key={token.id}
-                        onContextMenu={(e) => {
-                          e.evt.preventDefault();
-                        }}
-                      >
-                        <TokenNode
-                          shapeProps={token}
-                          isSelected={token.id === selectedId}
-                          isActiveTurn={false}
-                          isEraser={activeTool === 'eraser'}
-                          isLocked={isLayerLocked('layer_tokens')}
-                          onErase={eraseElement}
-                          onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_tokens')) handleSelectToken(token.id); }}
-                          onDoubleClick={() => { if (token.type === 'link' && token.targetMapId) { setActiveMapId(token.targetMapId); setSelectedId(null); } }}
-                          onDragMove={(e) => {
-                            if (e.evt?.shiftKey || activeTool === 'ruler') {
-                              setRulerWaypoints([{ x: token.x, y: token.y }]);
-                              setRulerPointer({ x: e.target.x(), y: e.target.y() });
-                            }
-                          }}
-                          onDragEnd={() => {
-                            if (rulerWaypoints?.length > 0 && activeTool !== 'ruler') {
-                              clearRuler();
-                            }
-                          }}
-                          onChange={(newAttrs) => {
-                            const nextTokens = produce(tokens, draft => {
-                              const index = draft.findIndex(t => t.id === token.id);
-                              if (index !== -1) draft[index] = newAttrs;
-                            });
-                            updateMap(activeMapId, { tokens: nextTokens });
-                          }}
-                        />
-                      </Group>
-                    ))}
-                  </Group>
-                )}
-
-                {/* Hybrid Chunk / Tile Ghost Preview & Marquee Capture Overlay */}
-                <ChunkGhostPreviewOverlay
-                  activeTool={activeTool}
-                  ghostPreviewData={chunkGhostPreviewData}
-                  gridSize={Math.max(15, gridSize || 50)}
-                  chunkCaptureMarquee={chunkCaptureMarquee}
-                />
-
-                {/* Tactical Waypoint Movement Ruler Overlay */}
-                <WaypointRulerOverlay
-                  waypoints={rulerWaypoints}
-                  currentPointer={rulerPointer}
-                  gridSize={gridSize}
-                  gridMode={gridMode}
-                  measurementUnit={measurementUnit}
-                  selectedPace={rulerSelectedPace}
-                  zoomScale={scale}
-                />
-
-                {/* Tactical Radar Pings */}
-                {activePings.map(ping => (
-                  <Group key={ping.id} x={ping.x} y={ping.y}>
-                    <Circle radius={30} stroke={ping.color} strokeWidth={2} opacity={0.7} />
-                    <Circle radius={14} fill={ping.color} opacity={0.6} />
-                    <KonvaText
-                      text={`${ping.icon} ${ping.label}`}
-                      fontSize={12}
-                      fontStyle="bold"
-                      fill="#ffffff"
-                      align="center"
-                      y={-28}
-                      x={-60}
-                      width={120}
-                    />
-                  </Group>
-                ))}
-              </Layer>
-
-              {/* Layer 4: Fog of War & Dynamic Line of Sight */}
-              {isLayerVisible('layer_fog') && (
-                <Layer id="layer_fog">
-                  {fogEnabled && (
-                    <Group>
-                      <Rect
-                        x={0}
-                        y={0}
-                        width={Math.max(4000, (currentMap?.gridWidth || 40) * (currentMap?.gridSize || gridSize || 50))}
-                        height={Math.max(3000, (currentMap?.gridHeight || 30) * (currentMap?.gridSize || gridSize || 50))}
-                        fill="rgba(0, 0, 0, 0.75)"
-                        listening={false}
-                      />
-                      {/* Dynamic Line-of-Sight Cutout */}
-                      {visibilityPolygon && (
-                        <Line
-                          points={visibilityPolygon}
-                          fill="#000000"
-                          closed={true}
-                          globalCompositeOperation="destination-out"
-                          listening={false}
-                        />
-                      )}
-                    </Group>
-                  )}
-                  {fog.map((f, i) => (
-                    <Line key={f.id || i} points={f.points} stroke="#000000" strokeWidth={50} tension={0.4} lineCap="round" lineJoin="round" onClick={() => !isLayerLocked('layer_fog') && activeTool === 'eraser' && eraseElement(f.id)} />
-                  ))}
-                </Layer>
-              )}
-            </Stage>
+              <MapMakerPixiCanvas
+                ref={stageRef}
+                width={stageSize.width}
+                height={stageSize.height}
+                scale={scale}
+                position={position}
+                currentMap={currentMap}
+                gridMode={gridMode}
+                gridSize={gridSize}
+                terrains={terrains}
+                lines={lines}
+                objects={objects}
+                walls={walls}
+                lights={lights}
+                texts={texts}
+                tokens={tokens}
+                regions={regions}
+                fog={fog}
+                fogEnabled={fogEnabled}
+                visibilityPolygon={visibilityPolygon}
+                activePings={activePings}
+                rulerWaypoints={rulerWaypoints}
+                rulerPointer={rulerPointer}
+                chunkGhostPreviewData={chunkGhostPreviewData}
+                chunkCaptureMarquee={chunkCaptureMarquee}
+                activeTool={activeTool}
+                selectedId={selectedId}
+                wallStartPoint={wallStartPoint}
+                wallPreviewEnd={wallPreviewEnd}
+                computeWallPreviewPoints={computeWallPreviewPoints}
+                selectedWallType={selectedWallType}
+                paintRoofLayer={paintRoofLayer}
+                isLayerVisible={isLayerVisible}
+                isLayerLocked={isLayerLocked}
+                onWheel={handleWheel}
+                onPointerDownEmptyOrTool={handleMouseDown}
+                onPointerMove={handleMouseMove}
+                onPointerUp={handleMouseUp}
+                onStagePan={setPosition}
+                onSelect={(id) => {
+                  if (id === null) setSelectedId(null);
+                  else if (activeTool === 'select') setSelectedId(id);
+                }}
+                onSelectToken={(tokenId) => {
+                  if (activeTool === 'select' && !isLayerLocked('layer_tokens')) handleSelectToken(tokenId);
+                }}
+                onErase={eraseElement}
+                onToggleDoor={handleToggleDoor}
+                onUpdateWall={(wallId, patch) => {
+                  recordHistory('Edit Wall Geometry');
+                  const nextWalls = walls.map((item) => (item.id === wallId ? { ...item, ...patch } : item));
+                  updateMap(activeMapId, { walls: nextWalls });
+                }}
+                onUpdateObject={(newAttrs) => {
+                  const nextObjects = produce(objects, (draft) => {
+                    const index = draft.findIndex((o) => o.id === newAttrs.id);
+                    if (index !== -1) draft[index] = newAttrs;
+                  });
+                  updateMap(activeMapId, { objects: nextObjects });
+                }}
+                onUpdateToken={(newAttrs) => {
+                  const nextTokens = produce(tokens, (draft) => {
+                    const index = draft.findIndex((t) => t.id === newAttrs.id);
+                    if (index !== -1) draft[index] = newAttrs;
+                  });
+                  updateMap(activeMapId, { tokens: nextTokens });
+                }}
+                onUpdateLight={(lightId, lx, ly) => {
+                  const nextLights = produce(lights, (draft) => {
+                    const idx = draft.findIndex((item) => item.id === lightId);
+                    if (idx !== -1) {
+                      draft[idx].x = lx;
+                      draft[idx].y = ly;
+                    }
+                  });
+                  updateMap(activeMapId, { lights: nextLights });
+                }}
+                onUpdateText={(newAttrs) => {
+                  const nextTexts = produce(texts, (draft) => {
+                    const index = draft.findIndex((t) => t.id === newAttrs.id);
+                    if (index !== -1) draft[index] = newAttrs;
+                  });
+                  updateMap(activeMapId, { texts: nextTexts });
+                }}
+                onUpdateRegion={(regionId, bounds) => {
+                  const nextRegions = regions.map((r) => (r.id === regionId ? { ...r, bounds } : r));
+                  updateMap(activeMapId, { regions: nextRegions });
+                }}
+                onObjectDoubleClick={handleObjectDoubleClick}
+                onTokenDoubleClick={(token) => {
+                  if (token.type === 'link' && token.targetMapId) {
+                    setActiveMapId(token.targetMapId);
+                    setSelectedId(null);
+                  }
+                }}
+                onTokenDragMove={(worldPos, token, nativeEvt) => {
+                  if (nativeEvt?.shiftKey || activeTool === 'ruler') {
+                    setRulerWaypoints([{ x: token.x, y: token.y }]);
+                    setRulerPointer({ x: worldPos.x, y: worldPos.y });
+                  }
+                }}
+                onTokenDragEnd={() => {
+                  if (rulerWaypoints?.length > 0 && activeTool !== 'ruler') {
+                    clearRuler();
+                  }
+                }}
+              />
             </>
           )}
         </div>
@@ -2795,6 +2428,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             setSelectedWallType={setSelectedWallType}
             doorLockDc={doorLockDc}
             setDoorLockDc={setDoorLockDc}
+            selectedRegionType={selectedRegionType}
+            setSelectedRegionType={setSelectedRegionType}
+            enableWallShadows={currentMap?.enableWallShadows !== false}
+            onToggleWallShadows={() => updateMap(activeMapId, { enableWallShadows: currentMap?.enableWallShadows === false })}
+            paintRoofLayer={paintRoofLayer}
+            onTogglePaintRoofLayer={() => setPaintRoofLayer((prev) => !prev)}
             rulerSelectedPace={rulerSelectedPace}
             setRulerSelectedPace={setRulerSelectedPace}
             activeSensorMode={activeSensorMode}

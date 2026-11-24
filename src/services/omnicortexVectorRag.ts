@@ -265,7 +265,7 @@ export function splitMarkdownIntoSections(
       if (content || currentHeading) {
         rawBlocks.push({ heading: currentHeading, content });
       }
-      currentHeading = headingMatch[2].replace(/[#*_`~]/g, '').trim();
+      currentHeading = (headingMatch[2] || '').replace(/[#*_`~]/g, '').trim();
       currentLines = [line];
     } else {
       currentLines.push(line);
@@ -697,6 +697,7 @@ function computeTermVector(text: string, vocabulary: string[]): { vector: number
   const wordFreq = new Map<string, number>();
   for (let i = 0; i < words.length; i++) {
     const w = words[i];
+    if (!w) continue;
     wordFreq.set(w, (wordFreq.get(w) || 0) + 1);
   }
 
@@ -714,7 +715,8 @@ function computeTermVector(text: string, vocabulary: string[]): { vector: number
     }
   } else {
     for (let i = 0; i < vocabulary.length; i++) {
-      const count = wordFreq.get(vocabulary[i]);
+      const term = vocabulary[i];
+      const count = term ? wordFreq.get(term) : undefined;
       if (count) {
         const val = count * invLen;
         vector[i] = val;
@@ -741,8 +743,9 @@ function cosineSimilaritySparse(
   const vecLen = chunkVec.length;
   for (let i = 0; i < nonZeroIdx.length; i++) {
     const idx = nonZeroIdx[i];
-    if (idx < vecLen) {
-      dotProduct += nonZeroVal[i] * chunkVec[idx];
+    const val = nonZeroVal[i];
+    if (idx !== undefined && val !== undefined && idx < vecLen) {
+      dotProduct += val * (chunkVec[idx] ?? 0);
     }
   }
   if (dotProduct === 0) return 0;
@@ -759,7 +762,7 @@ function recomputeEmbeddings() {
     const tokens = sampleText.replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/);
     for (let i = 0; i < tokens.length; i++) {
       const w = tokens[i];
-      if (w.length > 2 && !STOPWORDS.has(w) && !existingSet.has(w) && !/^\d{3,}$/.test(w)) {
+      if (w && w.length > 2 && !STOPWORDS.has(w) && !existingSet.has(w) && !/^\d{3,}$/.test(w)) {
         candidateCounts.set(w, (candidateCounts.get(w) || 0) + 1);
       }
     }
@@ -799,7 +802,10 @@ function recomputeEmbeddings() {
       chunk.embedding.fill(0, prevLen);
       if (!CHUNK_NORMS.has(chunk)) {
         let sq = 0;
-        for (let i = 0; i < prevLen; i++) sq += chunk.embedding[i] * chunk.embedding[i];
+        for (let i = 0; i < prevLen; i++) {
+          const v = chunk.embedding[i] ?? 0;
+          sq += v * v;
+        }
         CHUNK_NORMS.set(chunk, Math.sqrt(sq));
       }
     } else if (chunk.embedding.length !== VOCABULARY.length) {
@@ -821,12 +827,10 @@ let isCompendiumSeedLoaded = false;
 export async function loadCompendiumSeedDataset(): Promise<void> {
   if (isCompendiumSeedLoaded) return;
   if (!compendiumSeedPromise) {
-    const loadSeedModule = () => {
-      if (!(import.meta as any).env) {
-        const jsonSpecifier = '../data/compendiumSeed.json';
-        return import(/* @vite-ignore */ jsonSpecifier, { with: { type: 'json' } });
-      }
-      return import('../data/compendiumSeed.json');
+    const loadSeedModule = async () => {
+      const { loadCompendiumSeed } = await import('../utils/compendiumSeedLoader.js');
+      const data = await loadCompendiumSeed();
+      return { default: data };
     };
     compendiumSeedPromise = Promise.all([
       loadSeedModule(),
@@ -1073,9 +1077,10 @@ export function queryOmnicortexRAG(
   const nonZeroIdx: number[] = [];
   const nonZeroVal: number[] = [];
   for (let i = 0; i < queryVector.length; i++) {
-    if (queryVector[i] !== 0) {
+    const qv = queryVector[i];
+    if (qv !== undefined && qv !== 0) {
       nonZeroIdx.push(i);
-      nonZeroVal.push(queryVector[i]);
+      nonZeroVal.push(qv);
     }
   }
 
@@ -1125,7 +1130,10 @@ export function queryOmnicortexRAG(
     let chunkNorm = CHUNK_NORMS.get(chunk);
     if (chunkNorm === undefined) {
       let sq = 0;
-      for (let i = 0; i < chunk.embedding.length; i++) sq += chunk.embedding[i] * chunk.embedding[i];
+      for (let i = 0; i < chunk.embedding.length; i++) {
+        const v = chunk.embedding[i] ?? 0;
+        sq += v * v;
+      }
       chunkNorm = Math.sqrt(sq);
       CHUNK_NORMS.set(chunk, chunkNorm);
     }
@@ -1134,7 +1142,7 @@ export function queryOmnicortexRAG(
     // Direct lexical token coverage across complete unredacted chunk prose (zero loss for rare/hapax lore words)
     for (let i = 0; i < queryContentTokens.length; i++) {
       const qt = queryContentTokens[i];
-      if (chunkContentLower.includes(qt)) {
+      if (qt && chunkContentLower.includes(qt)) {
         score += qt.length >= 5 ? 0.12 : 0.07;
       }
     }

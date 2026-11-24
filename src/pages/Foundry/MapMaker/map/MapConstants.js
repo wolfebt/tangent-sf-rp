@@ -15,7 +15,8 @@ export const SIDEBAR_TOOLS = [
   { id: 'select', label: 'Select / Move', icon: 'Pointer' },
   { id: 'chunk', label: 'Map Chunk / Prefab', icon: 'Blocks' },
   { id: 'wall', label: 'Wall & Door', icon: 'Shield' },
-  { id: 'curved_wall', label: 'Curved Wall', icon: 'Shield' },
+  { id: 'curved_wall', label: 'Curved Wall', icon: 'PenTool' },
+  { id: 'region', label: 'Scene Region', icon: 'MapPin' },
   { id: 'terrain', label: 'Terrain Brush', icon: 'Paintbrush' },
   { id: 'object', label: 'Place Object / Prop', icon: 'Box' },
   { id: 'hazard', label: 'Environmental Hazard', icon: 'Flame' },
@@ -37,6 +38,7 @@ export const DEFAULT_LAYERS = [
   { id: 'layer_walls', name: 'Walls & Bulkheads', visible: true, locked: false },
   { id: 'layer_objects', name: 'Objects & Buildings', visible: true, locked: false },
   { id: 'layer_tokens', name: 'Tokens & Portals', visible: true, locked: false },
+  { id: 'layer_roof', name: 'Roof & Upper Canopy', visible: true, locked: false },
   { id: 'layer_annotations', name: 'Text & Labels', visible: true, locked: false },
   { id: 'layer_fog', name: 'Fog of War', visible: true, locked: false }
 ];
