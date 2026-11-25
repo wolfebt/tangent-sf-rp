@@ -32,6 +32,151 @@ const formatExportFilename = (name, type, ext) => {
 
 export const MODULE_PACKAGE_SCHEMA_VERSION = '2.0.0';
 
+const TRANSIENT_EXTERNAL_KEYS = [
+  'isCortexSynced',
+  'isCortexExternal',
+  'cortexCollection',
+  'cortexId',
+  'dbmId',
+  'isOmnicortex',
+  'isFolioExternal',
+  'isMcmPersona',
+  'isReadOnlyExternal'
+];
+
+function stripOperatorSecretsFromElement(elem) {
+  const cleanElem = { ...elem };
+  if (typeof cleanElem.content === 'string') {
+    cleanElem.content = stripGmSecretHtmlBlocks(cleanElem.content);
+  }
+  delete cleanElem.gmNotes;
+  delete cleanElem.gmSecrets;
+  delete cleanElem.gmSecretNotes;
+  delete cleanElem.secrets;
+  delete cleanElem.guidance;
+  delete cleanElem.authorEmail;
+
+  const fields = { ...(elem.fields || {}) };
+  delete fields.gmNotes;
+  delete fields.gmSecrets;
+  delete fields.gmSecretNotes;
+  delete fields.secrets;
+  delete fields.architectNotes;
+  delete fields.hiddenNotes;
+  delete fields.vttScript;
+  delete fields.macroScript;
+  delete fields.quickJsMacro;
+  delete fields.script;
+  delete fields.authorEmail;
+
+  const sanitizedCustomFields = Array.isArray(cleanElem.customFields)
+    ? cleanElem.customFields.filter(
+        (cf) => cf && !cf.isGmOnly && !cf.isHidden && !/(secret|gm|architect|hidden)/i.test(String(cf.label || ''))
+      )
+    : cleanElem.customFields;
+  if (sanitizedCustomFields !== undefined) {
+    cleanElem.customFields = sanitizedCustomFields;
+  }
+
+  if (elem.type === 'Handout' || elem.type === 'Clue') {
+    return {
+      ...cleanElem,
+      fields
+    };
+  }
+
+  delete fields.attacks;
+  delete fields.stats;
+  delete fields.theSecret;
+  delete fields.definingTrauma;
+  delete fields['narrative-secrets'];
+  delete fields.theLie;
+  delete fields.theTruth;
+  delete fields.deepestFear;
+  delete fields.plotHooks;
+  delete fields.hiddenAgenda;
+
+  return {
+    ...cleanElem,
+    fields
+  };
+}
+
+/**
+ * Collects element IDs referenced across scenario nodes, battlemaps, and creative state.
+ */
+export function collectReferencedElementIds(scenarios = [], maps = [], creativeState = {}) {
+  const refs = new Set();
+  const pushRef = (val) => {
+    if (!val) return;
+    if (typeof val === 'string') {
+      const trimmed = val.trim();
+      if (trimmed) refs.add(trimmed);
+    } else if (typeof val === 'object') {
+      const candidate = val.elementId || val.assetId || val.id || val.sourceId || val.linkedElementId;
+      if (candidate) refs.add(String(candidate).trim());
+    }
+  };
+
+  const walkScenarios = (list = []) => {
+    for (const node of list || []) {
+      if (!node || typeof node !== 'object') continue;
+      if (Array.isArray(node.linkedElements)) node.linkedElements.forEach(pushRef);
+      if (Array.isArray(node.assetHub)) node.assetHub.forEach(pushRef);
+      if (Array.isArray(node.fields?.linkedElements)) node.fields.linkedElements.forEach(pushRef);
+      if (Array.isArray(node.children)) walkScenarios(node.children);
+    }
+  };
+  walkScenarios(scenarios);
+
+  for (const m of maps || []) {
+    if (!m || typeof m !== 'object') continue;
+    for (const t of m.tokens || []) {
+      pushRef(t?.elementId);
+      pushRef(t?.linkedElementId);
+      pushRef(t?.sourceId);
+    }
+    for (const wp of m.waypoints || []) {
+      pushRef(wp?.elementId);
+      pushRef(wp?.linkedElementId);
+      if (Array.isArray(wp?.linkedElements)) wp.linkedElements.forEach(pushRef);
+    }
+  }
+
+  if (creativeState && typeof creativeState === 'object') {
+    for (const key of ['pinnedElementIds', 'featuredElementIds', 'linkedElements', 'assetHub']) {
+      if (Array.isArray(creativeState[key])) {
+        creativeState[key].forEach(pushRef);
+      }
+    }
+  }
+
+  return refs;
+}
+
+/**
+ * Builds a stripped, standalone read-only snapshot from an unpinned external element record.
+ */
+export function buildSanitizedReadOnlySnapshot(record, { operatorSafe = false } = {}) {
+  if (!record || typeof record !== 'object') return null;
+  const clone = {
+    ...record,
+    fields: record.fields && typeof record.fields === 'object' ? { ...record.fields } : {}
+  };
+  for (const key of TRANSIENT_EXTERNAL_KEYS) {
+    delete clone[key];
+    delete clone.fields[key];
+  }
+  const baseSnap = operatorSafe ? stripOperatorSecretsFromElement(clone) : clone;
+  return {
+    ...baseSnap,
+    id: record.id,
+    isReadOnlySnapshot: true,
+    isPublic: false,
+    dbmSyncStatus: 'standalone'
+  };
+}
+
 /**
  * Builds a complete standalone module package payload.
  */
@@ -44,6 +189,22 @@ export function buildModulePackagePayload(universeState = {}, elementsCatalog = 
   const modifiers = universeState?.galleryModifiers || [];
   const creativeState = universeState?.creativeState || {};
   const cronicle = universeState?.cronicle || {};
+
+  const localIds = new Set((elementsCatalog || []).map((el) => String(el?.id || '')).filter(Boolean));
+  const referencedSnapshots = [];
+  if (Array.isArray(options?.unifiedCatalog) && options.unifiedCatalog.length > 0) {
+    const referencedIds = collectReferencedElementIds(scenarios, maps, creativeState);
+    const seenSnapIds = new Set();
+    for (const candidate of options.unifiedCatalog) {
+      const cid = String(candidate?.id || '');
+      if (!cid || localIds.has(cid) || seenSnapIds.has(cid) || !referencedIds.has(cid)) continue;
+      const snap = buildSanitizedReadOnlySnapshot(candidate, { operatorSafe: false });
+      if (snap) {
+        seenSnapIds.add(cid);
+        referencedSnapshots.push(snap);
+      }
+    }
+  }
 
   return {
     $schema: 'https://tangentsff.app/schemas/module-package-v2.json',
@@ -62,6 +223,7 @@ export function buildModulePackagePayload(universeState = {}, elementsCatalog = 
         totalScenarios: scenarios.length,
         totalMaps: maps.length,
         totalElements: elementsCatalog.length,
+        totalReferencedSnapshots: referencedSnapshots.length,
         totalModifiers: modifiers.length,
         totalTokens: maps.reduce((sum, m) => sum + (m.tokens?.length || 0), 0),
         totalWaypoints: maps.reduce((sum, m) => sum + (m.waypoints?.length || 0), 0),
@@ -73,6 +235,7 @@ export function buildModulePackagePayload(universeState = {}, elementsCatalog = 
     creativeState,
     maps,
     elements: elementsCatalog,
+    ...(referencedSnapshots.length > 0 ? { referencedSnapshots } : {}),
     galleryModifiers: modifiers,
     cronicle
   };
@@ -102,48 +265,17 @@ export function buildSanitizedOperatorPackagePayload(universeState = {}, element
     };
   });
 
-  // 3. Sanitize Elements (preserve public lore & handouts, strip GM secrets/scripts/mechanics)
-  const sanitizedElements = (basePayload.elements || []).map((elem) => {
-    const cleanElem = { ...elem };
-    delete cleanElem.gmNotes;
-    delete cleanElem.gmSecrets;
-    delete cleanElem.gmSecretNotes;
-    delete cleanElem.secrets;
-    delete cleanElem.authorEmail;
+  // 3. Sanitize Elements (preserve public lore & handouts, drop GM-only entries & strip GM secrets/scripts/mechanics)
+  const sanitizedElements = (basePayload.elements || [])
+    .filter((elem) => elem && !elem.isHidden && !elem.isGmOnly && elem.fields?.playerVisible !== false)
+    .map((elem) => stripOperatorSecretsFromElement(elem));
 
-    const fields = { ...(elem.fields || {}) };
-    delete fields.gmNotes;
-    delete fields.gmSecrets;
-    delete fields.gmSecretNotes;
-    delete fields.secrets;
-    delete fields.vttScript;
-    delete fields.macroScript;
-    delete fields.quickJsMacro;
-    delete fields.script;
-    delete fields.authorEmail;
-
-    if (elem.type === 'Handout' || elem.type === 'Clue') {
-      return {
-        ...cleanElem,
-        fields
-      };
-    }
-
-    delete fields.attacks;
-    delete fields.stats;
-    delete fields.theSecret;
-    delete fields.definingTrauma;
-    delete fields['narrative-secrets'];
-    delete fields.theLie;
-    delete fields.theTruth;
-    delete fields.deepestFear;
-    delete fields.plotHooks;
-    delete fields.hiddenAgenda;
-    return {
-      ...cleanElem,
-      fields
-    };
-  });
+  const sanitizedReferencedSnapshots = Array.isArray(basePayload.referencedSnapshots)
+    ? basePayload.referencedSnapshots
+        .filter((snap) => snap && !snap.isHidden && !snap.isGmOnly && snap.fields?.playerVisible !== false)
+        .map((snap) => buildSanitizedReadOnlySnapshot(snap, { operatorSafe: true }))
+        .filter(Boolean)
+    : [];
 
   return {
     ...basePayload,
@@ -157,6 +289,7 @@ export function buildSanitizedOperatorPackagePayload(universeState = {}, element
         totalScenarios: sanitizedScenarios.length,
         totalMaps: sanitizedMaps.length,
         totalElements: sanitizedElements.length,
+        totalReferencedSnapshots: sanitizedReferencedSnapshots.length,
         totalModifiers: 0,
         totalTokens: sanitizedMaps.reduce((sum, m) => sum + (m.tokens?.length || 0), 0),
         totalWaypoints: sanitizedMaps.reduce((sum, m) => sum + (m.waypoints?.length || 0), 0),
@@ -168,6 +301,7 @@ export function buildSanitizedOperatorPackagePayload(universeState = {}, element
     creativeState: {},
     maps: sanitizedMaps,
     elements: sanitizedElements,
+    ...(sanitizedReferencedSnapshots.length > 0 ? { referencedSnapshots: sanitizedReferencedSnapshots } : {}),
     galleryModifiers: [],
     scripts: [],
     cronicle: null
@@ -298,6 +432,7 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
     mapsImported: 0,
     scenariosImported: 0,
     elementsImported: 0,
+    snapshotsImported: 0,
     creativeStateRestored: false,
     cronicleRestored: false
   };
@@ -397,11 +532,13 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
   }
 
   // 3. Ingest Elements
+  const importedElementIds = new Set(existingElementIds);
   const incomingElements = Array.isArray(parsedData.elements) ? parsedData.elements : [];
   incomingElements.forEach((el) => {
     if (!el || typeof el !== 'object') return;
     const origId = el.id || `elem_${uuidv4().slice(0, 8)}`;
     const resolvedId = remapCollisions && existingElementIds.has(origId) ? `${origId}_${uuidv4().slice(0, 6)}` : origId;
+    importedElementIds.add(resolvedId);
     const nextEl = {
       ...el,
       id: resolvedId,
@@ -410,6 +547,31 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
     if (typeof addSavedElement === 'function') {
       addSavedElement(nextEl);
       results.elementsImported++;
+    }
+  });
+
+  // 3b. Ingest Standalone Referenced Snapshots into local project catalog (strictly read-only; never mutates OmniCortex/Folio)
+  const incomingSnapshots = Array.isArray(parsedData.referencedSnapshots) ? parsedData.referencedSnapshots : [];
+  incomingSnapshots.forEach((snap) => {
+    if (!snap || typeof snap !== 'object') return;
+    const origId = snap.id || `snap_${uuidv4().slice(0, 8)}`;
+    if (!remapCollisions && existingElementIds.has(origId)) return;
+    const resolvedId = remapCollisions && existingElementIds.has(origId) ? `${origId}_${uuidv4().slice(0, 6)}` : origId;
+    if (importedElementIds.has(resolvedId)) return;
+    const safeSnapshot = buildSanitizedReadOnlySnapshot(snap, { operatorSafe: Boolean(parsedData?.manifest?.isSanitizedForPlayers) });
+    if (!safeSnapshot) return;
+    const nextSnap = {
+      ...safeSnapshot,
+      id: resolvedId,
+      isReadOnlySnapshot: true,
+      dbmSyncStatus: 'standalone',
+      isPublic: false,
+      ...(snap.mapId && mapIdRemap.has(snap.mapId) ? { mapId: mapIdRemap.get(snap.mapId) } : {})
+    };
+    if (typeof addSavedElement === 'function') {
+      importedElementIds.add(resolvedId);
+      addSavedElement(nextSnap);
+      results.snapshotsImported++;
     }
   });
 

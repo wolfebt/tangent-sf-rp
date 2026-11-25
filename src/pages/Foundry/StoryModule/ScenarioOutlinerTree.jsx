@@ -276,7 +276,7 @@ export const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId, onImp
     }
 
     onAdd({ 
-      type, 
+      type: normalizeElementType(type), 
       title, 
       content,
       imageUrl,
@@ -409,9 +409,12 @@ export const ScenarioOutlinerRail = ({
   handleToggleLinkElement,
   onSwitchView,
   updateSavedElement: propUpdateSavedElement,
-  addStory: propAddStory
+  addStory: propAddStory,
+  isStoryReadOnly: propIsReadOnly,
+  perspectiveMode = 'architect'
 }) => {
-  const { undoScenarioTree, redoScenarioTree, deleteSavedElement, updateSavedElement: contextUpdateSavedElement, addStory: contextAddStory } = useStory();
+  const { undoScenarioTree, redoScenarioTree, deleteSavedElement, updateSavedElement: contextUpdateSavedElement, addStory: contextAddStory, isStoryReadOnly: ctxReadOnly = false } = useStory();
+  const isStoryReadOnly = propIsReadOnly ?? ctxReadOnly;
   const updateSavedElement = propUpdateSavedElement || contextUpdateSavedElement;
   const addStory = propAddStory || contextAddStory;
 
@@ -564,8 +567,22 @@ export const ScenarioOutlinerRail = ({
 
   // Reusable Element Card Renderer
   const renderElementCard = (elem) => {
-    const isLinked = (activeNode?.linkedElements || []).includes(elem.id);
+    const linkedIds = Array.isArray(activeNode?.linkedElements) ? activeNode.linkedElements : [];
+    const hubIds = Array.isArray(activeNode?.assetHub)
+      ? activeNode.assetHub.map(e => (typeof e === 'string' ? e : e?.assetId)).filter(Boolean)
+      : [];
+    const isLinked = linkedIds.includes(elem.id) || hubIds.includes(elem.id);
     const isPreviewing = previewElementId === elem.id;
+    const isUnpinnedExternal = (elem.isCortexAsset || elem.isFolioPersona) && !elem.isPinnedToModule;
+    const canDeleteElement = !isStoryReadOnly && !isUnpinnedExternal;
+    const rawPreviewText = elem.fields?.description || elem.content || 'No description recorded.';
+    const strippedPreviewText = (
+      perspectiveMode === 'operator'
+        ? String(rawPreviewText).replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '')
+        : String(rawPreviewText)
+    )
+      .replace(/<[^>]+>/g, ' ')
+      .trim() || 'No description recorded.';
 
     return (
       <div
@@ -618,20 +635,22 @@ export const ScenarioOutlinerRail = ({
             >
               <Edit3 size={11} />
             </button>
-            <button
-              type="button"
-              onClick={async () => {
-                if (!deleteSavedElement) return;
-                const ok = await confirmTypedDeletion(elem.title || 'world element', 'world element');
-                if (ok) {
-                  deleteSavedElement(elem.id);
-                }
-              }}
-              className="p-1 text-[10px] text-slate-500 hover:text-rose-400 transition-colors cursor-pointer"
-              title="Delete Element"
-            >
-              <Trash2 size={11} />
-            </button>
+            {canDeleteElement && (
+              <button
+                type="button"
+                onClick={async () => {
+                  if (!deleteSavedElement || isStoryReadOnly || isUnpinnedExternal) return;
+                  const ok = await confirmTypedDeletion(elem.title || 'world element', 'world element');
+                  if (ok) {
+                    deleteSavedElement(elem.id);
+                  }
+                }}
+                className="p-1 text-[10px] text-slate-500 hover:text-rose-400 transition-colors cursor-pointer"
+                title="Delete Element"
+              >
+                <Trash2 size={11} />
+              </button>
+            )}
           </div>
         </div>
 
@@ -642,7 +661,7 @@ export const ScenarioOutlinerRail = ({
               <p className="font-semibold text-cyan-300 italic">{elem.fields.oneLinePitch}</p>
             )}
             <p className="text-slate-300 line-clamp-4 leading-relaxed">
-              {elem.fields?.description || elem.content?.replace(/<[^>]+>/g, ' ') || 'No description recorded.'}
+              {strippedPreviewText}
             </p>
             {elem.tags && elem.tags.length > 0 && (
               <div className="flex flex-wrap gap-1 pt-1">

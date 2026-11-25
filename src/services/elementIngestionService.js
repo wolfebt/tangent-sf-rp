@@ -5,7 +5,7 @@
  * (plus standard adventure elements: Adventure, Story Arc, Encounter, Item, Clue, Handout, Map).
  */
 
-import { ELEMENT_SCHEMAS, ELEMENT_TYPES } from '../pages/Foundry/ElementForge/elementSchemas.js';
+import { ELEMENT_SCHEMAS, ELEMENT_TYPES, normalizeElementType } from '../pages/Foundry/ElementForge/elementSchemas.js';
 
 // Canonical type mappings from header or key signatures
 const TYPE_DETECTION_PATTERNS = [
@@ -220,6 +220,7 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
   }
 
   // Build full Tangent Element object
+  const canonicalType = detectedType === 'Technology' ? 'Technology' : normalizeElementType(detectedType);
   const resolvedDescription = extractedSummary || extractedFields.summary || extractedFields.coreIdentity || extractedFields.description || '';
   const guidance = parseJsonMeta(metadata.guidanceJson, {});
   const assetHub = parseJsonMeta(metadata.assetHubJson, []);
@@ -227,9 +228,10 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
 
   const element = {
     id: metadata.id || `elem_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
-    name: extractedName || `Untitled ${detectedType}`,
-    title: extractedName || metadata.title || `Untitled ${detectedType}`,
-    type: detectedType,
+    name: extractedName || `Untitled ${canonicalType}`,
+    title: extractedName || metadata.title || `Untitled ${canonicalType}`,
+    type: canonicalType,
+    ...(metadata.imageUrl ? { imageUrl: metadata.imageUrl } : {}),
     ...(metadata.propertySubcategory ? { propertySubcategory: metadata.propertySubcategory } : {}),
     ...(metadata.metaphysicsSubcategory ? { metaphysicsSubcategory: metadata.metaphysicsSubcategory } : {}),
     ...(metadata.personaSubcategory ? { personaSubcategory: metadata.personaSubcategory } : {}),
@@ -239,9 +241,9 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
     ...(Object.keys(guidance || {}).length > 0 ? { guidance } : {}),
     ...(Array.isArray(assetHub) && assetHub.length > 0 ? { assetHub } : {}),
     ...(Array.isArray(customFields) && customFields.length > 0 ? { customFields } : {}),
-    sourceFile: fileName || `${detectedType.toLowerCase()}-${(extractedName || 'element').toLowerCase().replace(/\s+/g, '-')}.md`,
+    sourceFile: fileName || `${canonicalType.toLowerCase()}-${(extractedName || 'element').toLowerCase().replace(/\s+/g, '-')}.md`,
     ingestedAt: new Date().toISOString(),
-    dbmSyncStatus: metadata.dbmSyncStatus || 'unlinked',
+    dbmSyncStatus: metadata.dbmSyncStatus || 'standalone',
     tags: metadata.tags ? (Array.isArray(metadata.tags) ? metadata.tags : metadata.tags.split(',').map(t => t.trim())) : []
   };
 
@@ -258,25 +260,49 @@ function mapSchemaAliases(type, lowerLabel, val, fields) {
     if (lowerLabel.includes('public slogan') || lowerLabel.includes('motto')) fields.motto = val;
     if (lowerLabel.includes('core ideology')) fields.ideology = val;
     if (lowerLabel.includes('primary goal') || lowerLabel.includes('agenda')) fields.goals = val;
-    if (lowerLabel.includes('government type')) fields.government = val;
-    if (lowerLabel.includes('leadership structure')) fields.leadership = val;
+    if (lowerLabel.includes('government type') || lowerLabel === 'government') fields.government = val;
+    if (lowerLabel.includes('leadership structure')) {
+      fields.leadership = val;
+      if (!fields.government) fields.government = val;
+    }
     if (lowerLabel.includes('laws & justice')) fields.laws = val;
     if (lowerLabel.includes('scope of influence') || lowerLabel.includes('territory')) fields.territory = val;
-    if (lowerLabel.includes('military strength') || lowerLabel.includes('key units')) fields.military = val;
+    if (lowerLabel.includes('military strength') || lowerLabel.includes('military doctrine') || lowerLabel.includes('key units')) {
+      fields.military = val;
+      fields.military_doctrine = val;
+    }
     if (lowerLabel.includes('economic strength') || lowerLabel.includes('primary industries')) fields.resources = val;
     if (lowerLabel.includes('social hierarchy') || lowerLabel.includes('culture & traditions')) fields.culture = val;
-    if (lowerLabel.includes('allies') || lowerLabel.includes('enemies') || lowerLabel.includes('foreign relations')) fields.relations = val;
+    if (lowerLabel.includes('allies') || lowerLabel.includes('enemies') || lowerLabel.includes('foreign relations') || lowerLabel.includes('diplomatic posture')) {
+      fields.relations = val;
+      fields.alliesEnemies = val;
+    }
     if (lowerLabel.includes('founding story') || lowerLabel.includes('founders')) fields.history = val;
   }
   
   if (type === 'Persona') {
-    if (lowerLabel.includes('role in story')) fields.role = val;
-    if (lowerLabel.includes('character archetype')) fields['char-concept'] = val;
-    if (lowerLabel.includes('core motivation')) fields['char-motive'] = val;
-    if (lowerLabel.includes('full name') || lowerLabel === 'name') fields['char-name'] = val;
+    if (lowerLabel.includes('role in story')) {
+      fields.role = val;
+      fields.roleInStory = val;
+    }
+    if (lowerLabel.includes('character archetype') || lowerLabel === 'archetype') {
+      fields['char-concept'] = val;
+      fields.archetype = val;
+    }
+    if (lowerLabel.includes('core motivation') || lowerLabel.includes('goals & motivations')) {
+      fields['char-motive'] = val;
+      fields.goalsMotivations = val;
+    }
+    if (lowerLabel.includes('full name') || lowerLabel === 'name') {
+      fields['char-name'] = val;
+      fields.name = val;
+    }
     if (lowerLabel.includes('age')) fields['char-age'] = val;
     if (lowerLabel.includes('gender')) fields['char-gender'] = val;
-    if (lowerLabel.includes('physical description') || lowerLabel.includes('appearance')) fields.appearance = val;
+    if (lowerLabel.includes('physical description') || lowerLabel.includes('appearance')) {
+      fields.appearance = val;
+      fields.physicalDescription = val;
+    }
     if (lowerLabel.includes('height')) fields['char-height'] = val;
     if (lowerLabel.includes('weight')) fields['char-weight'] = val;
     if (lowerLabel.includes('threat tier') || lowerLabel.includes('mcm tier')) fields.mcmTier = val;
@@ -287,8 +313,15 @@ function mapSchemaAliases(type, lowerLabel, val, fields) {
   if (type === 'Scene') {
     if (lowerLabel.includes('scene goal') || lowerLabel.includes('scene purpose')) fields.scenePurpose = val;
     if (lowerLabel.includes('beginning state') || lowerLabel.includes('ending state')) fields.stateChange = val;
-    if (lowerLabel.includes('atmosphere')) fields.atmosphere = val;
+    if (lowerLabel.includes('sensory') || lowerLabel.includes('sounds') || lowerLabel.includes('smells')) fields.sensoryDetails = val;
+    if (lowerLabel.includes('atmosphere') || lowerLabel.includes('mood')) {
+      fields.atmosphere = val;
+      fields.moodAtmosphere = val;
+    }
     if (lowerLabel.includes('weather')) fields.weather = val;
+    if (lowerLabel.includes('key object') || lowerLabel.includes('interactivity')) fields.keyObjects = val;
+    if (lowerLabel.includes('read-aloud') || lowerLabel.includes('read aloud')) fields.readAloud = val;
+    if (lowerLabel.includes('scene beat') || lowerLabel.includes('tactical beats')) fields.sceneBeats = val;
     if (lowerLabel.includes('opening beat')) fields.openingBeat = val;
     if (lowerLabel.includes('rising action') || lowerLabel.includes('climax')) fields.risingAction = val;
   }
@@ -297,45 +330,89 @@ function mapSchemaAliases(type, lowerLabel, val, fields) {
     if (lowerLabel.includes('setting name')) fields.settingName = val;
     if (lowerLabel.includes('scale')) fields.scale = val;
     if (lowerLabel.includes('genre') && (lowerLabel.includes('tech') || lowerLabel.includes('level'))) fields.genreTech = val;
-    if (lowerLabel.includes('core concept')) fields.coreConcept = val;
+    if (lowerLabel.includes('core concept') || lowerLabel.includes('function & purpose')) {
+      fields.coreConcept = val;
+      fields.functionPurpose = val;
+    }
     if (lowerLabel.includes('primary conflict')) fields.primaryConflict = val;
-    if (lowerLabel.includes('climate')) fields.climate = val;
-    if (lowerLabel.includes('terrain')) fields.terrain = val;
+    if (lowerLabel.includes('climate')) {
+      fields.climate = val;
+      fields.climateWeather = val;
+    }
+    if (lowerLabel.includes('terrain') || lowerLabel.includes('geography & architecture')) {
+      fields.terrain = val;
+      fields.geographyArchitecture = val;
+    }
   }
 
   if (type === 'Species') {
-    if (lowerLabel.includes('homeworld')) fields.homeworld = val;
+    if (lowerLabel.includes('homeworld') || lowerLabel.includes('habitat')) {
+      fields.homeworld = val;
+      fields.habitatOrigin = val;
+    }
     if (lowerLabel.includes('sentience')) fields.sentience = val;
-    if (lowerLabel.includes('general description')) fields.description = val;
-    if (lowerLabel.includes('anatomy') || lowerLabel.includes('appearance')) fields.appearance = val;
-    if (lowerLabel.includes('inherent abilities')) fields.abilities = val;
+    if (lowerLabel.includes('general description') || lowerLabel.includes('physiology')) {
+      fields.description = val;
+      fields.physicalDescription = val;
+    }
+    if (lowerLabel.includes('anatomy') || lowerLabel.includes('appearance')) {
+      fields.appearance = val;
+      if (!fields.physicalDescription) fields.physicalDescription = val;
+    }
+    if (lowerLabel.includes('inherent abilities') || lowerLabel.includes('inherent traits')) {
+      fields.abilities = val;
+      fields.abilitiesPowers = val;
+    }
+    if (lowerLabel.includes('culture') || lowerLabel.includes('diet') || lowerLabel.includes('psychology')) fields.behaviorDiet = val;
+    if (lowerLabel.includes('role in galactic') || lowerLabel.includes('role in world')) fields.roleInWorld = val;
     if (lowerLabel.includes('weaknesses')) fields.weaknesses = val;
   }
 
   if (type === 'Property') {
     if (lowerLabel.includes('subcategory')) fields.propertySubcategory = val;
     if (lowerLabel.includes('function') || lowerLabel.includes('purpose')) fields.functionPurpose = val;
+    if (lowerLabel.includes('aesthetic') || lowerLabel.includes('manufacturer')) fields.aestheticForm = val;
     if (lowerLabel.includes('damage')) fields.damage = val;
     if (lowerLabel.includes('range')) fields.range = val;
     if (lowerLabel.includes('location') || lowerLabel.includes('coverage')) fields.location = val;
     if (lowerLabel.includes('power source') || lowerLabel.includes('mechanism')) fields.mechanismPowerSource = val;
     if (lowerLabel.includes('mechanic') || lowerLabel.includes('rule')) fields.mechanic = val;
     if (lowerLabel.includes('rarity') || lowerLabel.includes('availability')) fields.rarity = val;
+    if (lowerLabel.includes('weaknesses') || lowerLabel.includes('vulnerabilities')) fields.weaknesses = val;
+    if (lowerLabel.includes('provenance') || lowerLabel.includes('creator')) fields.originContext = val;
   }
 
   if (type === 'Metaphysics') {
     if (lowerLabel.includes('subcategory') || lowerLabel.includes('category')) fields.metaphysicsSubcategory = val;
-    if (lowerLabel.includes('meta skill') || lowerLabel.includes('discipline')) fields.skill = val;
+    if (lowerLabel.includes('meta skill')) {
+      fields.skill = val;
+      fields.meta_skill = val;
+    }
+    if (lowerLabel.includes('discipline') || lowerLabel.includes('sphere')) fields.discipline = val;
     if (lowerLabel.includes('difficulty') || lowerLabel.includes('design dc')) fields.design_dc = val;
-    if (lowerLabel.includes('cost') || lowerLabel.includes('focus') || lowerLabel.includes('strain')) fields.costs = val;
+    if (lowerLabel.includes('cast time') || lowerLabel.includes('activation')) fields.cast_time = val;
+    if (lowerLabel.includes('range') || lowerLabel.includes('area')) fields.range_area = val;
+    if (lowerLabel.includes('cost') || lowerLabel.includes('focus') || lowerLabel.includes('strain') || lowerLabel.includes('backlash')) {
+      fields.costs = val;
+      fields.strainBacklash = val;
+    }
     if (lowerLabel.includes('mechanic') || lowerLabel.includes('effect')) fields.mechanic = val;
   }
 
   if (type === 'Technology') {
-    if (lowerLabel.includes('core function') || lowerLabel.includes('function')) fields.function = val;
-    if (lowerLabel.includes('power source') || lowerLabel.includes('power')) fields.power = val;
+    if (lowerLabel.includes('core function') || lowerLabel.includes('function')) {
+      fields.function = val;
+      fields.functionPurpose = val;
+    }
+    if (lowerLabel.includes('power source') || lowerLabel.includes('power')) {
+      fields.power = val;
+      fields.mechanismPowerSource = val;
+    }
     if (lowerLabel.includes('key components') || lowerLabel.includes('components')) fields.components = val;
-    if (lowerLabel.includes('inventor') || lowerLabel.includes('origin')) fields.origin = val;
+    if (lowerLabel.includes('inventor') || lowerLabel.includes('origin')) {
+      fields.origin = val;
+      fields.originContext = val;
+    }
     if (lowerLabel.includes('strengths, weaknesses') || lowerLabel.includes('weaknesses')) fields.weaknesses = val;
   }
 
@@ -383,6 +460,17 @@ function mapSchemaAliases(type, lowerLabel, val, fields) {
     if (lowerLabel.includes('description') || lowerLabel.includes('details')) fields.description = val;
     if (lowerLabel.includes('tags') || lowerLabel.includes('keywords')) fields.tags = val;
   }
+
+  // Shared Dynamic Lorebook & Trigger keys across all types
+  if (lowerLabel.includes('primary trigger')) fields.primaryTriggers = val;
+  if (lowerLabel.includes('secondary trigger')) fields.secondaryTriggers = val;
+  if (lowerLabel.includes('trigger logic')) fields.triggerLogic = val;
+  if (lowerLabel.includes('speaker code filter') || lowerLabel.includes('speaker filter')) fields.speakerFilter = val;
+  if (lowerLabel.includes('regular expression') || lowerLabel.includes('trigger regex')) fields.triggerRegex = val;
+  if (lowerLabel.includes('scan priority')) fields.loreScanPriority = val ? Number(val) || val : val;
+  if (lowerLabel.includes('token budget')) fields.loreBudgetTokens = val ? Number(val) || val : val;
+  if (lowerLabel.includes('flag requirement') || lowerLabel.includes('require condition')) fields.loreRequireCondition = val;
+  if (lowerLabel.includes('flag suppression') || lowerLabel.includes('suppress condition')) fields.loreSuppressCondition = val;
 }
 
 /**
@@ -393,7 +481,8 @@ export function exportElementToMarkdown(element) {
     throw new Error('Invalid element provided for markdown export.');
   }
 
-  const { id, type, description, content, fields = {}, tags = [], dbmSyncStatus, guidance, assetHub, customFields } = element;
+  const { id, description, content, fields = {}, tags = [], dbmSyncStatus, guidance, assetHub, customFields } = element;
+  const type = element.type === 'Technology' ? 'Technology' : normalizeElementType(element.type);
   const resolvedName = element.name || element.title || 'Untitled';
   const escYaml = (v) => String(v ?? '').replace(/\\/g, '\\\\').replace(/"/g, '\\"');
   const formatFieldVal = (v) => {
@@ -408,7 +497,8 @@ export function exportElementToMarkdown(element) {
   lines.push(`id: "${escYaml(id)}"`);
   lines.push(`name: "${escYaml(resolvedName)}"`);
   lines.push(`type: "${escYaml(type)}"`);
-  lines.push(`dbmSyncStatus: "${escYaml(dbmSyncStatus || 'unlinked')}"`);
+  lines.push(`dbmSyncStatus: "${escYaml(dbmSyncStatus || 'standalone')}"`);
+  if (element.imageUrl) lines.push(`imageUrl: "${escYaml(element.imageUrl)}"`);
   if (element.propertySubcategory) lines.push(`propertySubcategory: "${escYaml(element.propertySubcategory)}"`);
   if (element.metaphysicsSubcategory) lines.push(`metaphysicsSubcategory: "${escYaml(element.metaphysicsSubcategory)}"`);
   if (element.personaSubcategory) lines.push(`personaSubcategory: "${escYaml(element.personaSubcategory)}"`);

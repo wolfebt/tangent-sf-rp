@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useCampaign, useStory } from '../../../context/CampaignContext';
 import { useDBM } from '../../../context/DBMContext';
 import { useFolio } from '../../../context/FolioContext';
+import { useAuth } from '../../../context/AuthContext';
 import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
 import { 
   Search, 
@@ -33,6 +34,7 @@ export const ElementSelectorModal = ({
   const storyContext = useStory();
   const { dbData, saveEntry } = useDBM() || { dbData: {} };
   const { personaRoster = [], publicCatalog = [], saveCurrentToRoster } = useFolio() || {};
+  const { isAdmin = false } = useAuth() || {};
   const [searchTerm, setSearchTerm] = useState('');
 
   // Unified catalog composing Story Elements + Persona Folio Roster + Omnicortex MCM & Codex
@@ -48,6 +50,7 @@ export const ElementSelectorModal = ({
   // Map legacy dbSource keys to standard Element Types
   const typeMap = {
     'species': 'Species',
+    'species_type': 'Species',
     'factions': 'Faction',
     'origins': 'Custom',
     'occupations': 'Custom',
@@ -66,6 +69,36 @@ export const ElementSelectorModal = ({
   const [activeTypeFilter, setActiveTypeFilter] = useState(targetType && targetType !== 'Custom' ? targetType : null);
   const [sortOption, setSortOption] = useState('az'); // 'az' | 'za' | 'type'
   const [draftNewElement, setDraftNewElement] = useState(null);
+  const [selectedIds, setSelectedIds] = useState(() => new Set());
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedIds(new Set());
+    }
+  }, [isOpen, sourceType]);
+
+  const effectiveCatalog = useMemo(() => {
+    const base = Array.isArray(unifiedCatalog) ? unifiedCatalog : [];
+    if (!sourceType || !Array.isArray(dbData?.[sourceType]) || dbData[sourceType].length === 0) {
+      return base;
+    }
+    const existingIds = new Set(base.map((item) => item.id));
+    const fallbackEntries = dbData[sourceType]
+      .filter((entry) => entry && typeof entry === 'object')
+      .map((entry, idx) => {
+        const id = entry.id || `${sourceType}_${idx}`;
+        return {
+          id,
+          title: entry.name || entry.title || entry.label || String(id),
+          type: targetType || 'Custom',
+          sourceLabel: sourceType,
+          fields: { ...entry, dbmCategory: sourceType, dbmId: id },
+          content: entry.description || entry.summary || ''
+        };
+      })
+      .filter((entry) => !existingIds.has(entry.id));
+    return [...base, ...fallbackEntries];
+  }, [unifiedCatalog, dbData, sourceType, targetType]);
 
   const handleStartBuildNew = () => {
     setDraftNewElement({
@@ -92,11 +125,11 @@ export const ElementSelectorModal = ({
   // Compute available type pills
   const typePills = useMemo(() => {
     const types = new Set();
-    (unifiedCatalog || []).forEach(el => {
+    (effectiveCatalog || []).forEach(el => {
       if (el.type) types.add(el.type);
     });
     return [...Array.from(types).sort(), 'ALL'];
-  }, [unifiedCatalog]);
+  }, [effectiveCatalog]);
 
   // Sync default type filter if unselected
   useEffect(() => {
@@ -113,13 +146,10 @@ export const ElementSelectorModal = ({
   const filteredItems = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
 
-    let list = (unifiedCatalog || []).filter(el => {
+    let list = (effectiveCatalog || []).filter(el => {
       // Type matching
       if (activeTypeFilter !== 'ALL' && el.type !== activeTypeFilter) {
         return false;
-      }
-      if (targetType && targetType !== 'Custom' && activeTypeFilter === 'ALL' && el.type !== targetType) {
-        // Soft match: prioritize targetType unless custom
       }
 
       // Search matching
@@ -127,7 +157,15 @@ export const ElementSelectorModal = ({
         const title = String(el.title || '').toLowerCase();
         const summary = String(el.fields?.summary || el.content || '').toLowerCase();
         const elType = String(el.type || '').toLowerCase();
-        if (!title.includes(query) && !summary.includes(query) && !elType.includes(query)) {
+        const haystack = String(el.searchHaystack || '').toLowerCase();
+        const tags = String(el.fields?.tags || el.fields?.keywords || el.fields?.archetype || '').toLowerCase();
+        if (
+          !title.includes(query) &&
+          !summary.includes(query) &&
+          !elType.includes(query) &&
+          !haystack.includes(query) &&
+          !tags.includes(query)
+        ) {
           return false;
         }
       }
@@ -142,11 +180,29 @@ export const ElementSelectorModal = ({
       if (sortOption === 'type') return String(a.type || '').localeCompare(String(b.type || ''));
       return titleA.localeCompare(titleB);
     });
-  }, [unifiedCatalog, searchTerm, activeTypeFilter, sortOption, targetType]);
+  }, [effectiveCatalog, searchTerm, activeTypeFilter, sortOption]);
 
   const handleSelectItem = (item) => {
+    if (isMulti) {
+      setSelectedIds((prev) => {
+        const next = new Set(prev);
+        if (next.has(item.id)) next.delete(item.id);
+        else next.add(item.id);
+        return next;
+      });
+      return;
+    }
     if (onSelect) {
-      onSelect(isMulti ? [item] : item);
+      onSelect(item);
+    }
+    onClose();
+  };
+
+  const handleConfirmMultiSelect = () => {
+    const selectedItems = (effectiveCatalog || []).filter((item) => selectedIds.has(item.id));
+    if (selectedItems.length === 0) return;
+    if (onSelect) {
+      onSelect(selectedItems);
     }
     onClose();
   };
@@ -162,7 +218,10 @@ export const ElementSelectorModal = ({
       updateSavedElement: storyContext?.updateSavedElement,
       saveEntry,
       saveCurrentToRoster,
-      showToast
+      showToast,
+      isStoryReadOnly: Boolean(storyContext?.isStoryReadOnly),
+      fromEditModal: true,
+      isAdmin: Boolean(isAdmin)
     });
     if (!res) return null;
     if (onSelect) {
@@ -177,8 +236,13 @@ export const ElementSelectorModal = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
-        <div className="bg-[#0d131f] border-2 border-cyan-400/80 rounded-2xl w-full max-w-4xl shadow-[0_0_40px_rgba(6,182,212,0.3)] text-slate-100 flex flex-col max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
+      <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto font-sans">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Select ${fieldLabel || targetType}`}
+          className="bg-[#0d131f] border-2 border-cyan-400/80 rounded-2xl w-full max-w-4xl shadow-[0_0_40px_rgba(6,182,212,0.3)] text-slate-100 flex flex-col max-h-[85vh] sm:max-h-[88vh] overflow-hidden"
+        >
           
           {/* HEADER */}
           <div className="px-5 py-4 bg-slate-950/90 border-b border-slate-800 flex justify-between items-center shrink-0">
@@ -209,6 +273,7 @@ export const ElementSelectorModal = ({
               <button
                 type="button"
                 onClick={onClose}
+                aria-label="Close element selector"
                 className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
@@ -346,14 +411,21 @@ export const ElementSelectorModal = ({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/60">
-                    {filteredItems.map(item => (
+                    {filteredItems.map(item => {
+                      const isSelected = isMulti && selectedIds.has(item.id);
+                      return (
                       <tr
                         key={item.id}
                         onClick={() => handleSelectItem(item)}
-                        className="hover:bg-cyan-950/30 transition-colors cursor-pointer group"
+                        className={`hover:bg-cyan-950/30 transition-colors cursor-pointer group ${isSelected ? 'bg-cyan-950/40' : ''}`}
                       >
-                        <td className="py-3 px-4 font-bold text-slate-100 group-hover:text-cyan-300">
-                          {item.title || 'Untitled'}
+                        <td className="py-3 px-4 font-bold text-slate-100 group-hover:text-cyan-300 flex items-center gap-2">
+                          {isMulti && (
+                            <span className={`w-4 h-4 rounded border inline-flex items-center justify-center shrink-0 ${isSelected ? 'bg-cyan-500 border-cyan-400 text-slate-950' : 'border-slate-600'}`}>
+                              {isSelected && <Check className="w-3 h-3" />}
+                            </span>
+                          )}
+                          <span>{item.title || 'Untitled'}</span>
                         </td>
                         <td className="py-3 px-4 whitespace-nowrap">
                           <div className="flex items-center gap-1.5">
@@ -377,24 +449,35 @@ export const ElementSelectorModal = ({
                               e.stopPropagation();
                               handleSelectItem(item);
                             }}
-                            className="px-3 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer"
+                            className={`px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                              isSelected
+                                ? 'bg-cyan-600 border-cyan-400 text-white'
+                                : 'bg-cyan-950 hover:bg-cyan-900 border-cyan-500/60 text-cyan-300'
+                            }`}
                           >
-                            Select
+                            {isMulti ? (isSelected ? 'Selected' : 'Add') : 'Select'}
                           </button>
                         </td>
                       </tr>
-                    ))}
+                    );
+                    })}
                   </tbody>
                 </table>
               </div>
             ) : (
               /* SHARP HIGH-TECH CARDS */
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {filteredItems.map(item => (
+                {filteredItems.map(item => {
+                  const isSelected = isMulti && selectedIds.has(item.id);
+                  return (
                   <div
                     key={item.id}
                     onClick={() => handleSelectItem(item)}
-                    className="rounded-xl border border-slate-800 bg-slate-900/40 hover:bg-slate-900/90 hover:border-cyan-500/70 p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:shadow-[0_0_16px_rgba(34,211,238,0.2)]"
+                    className={`rounded-xl border p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:shadow-[0_0_16px_rgba(34,211,238,0.2)] ${
+                      isSelected
+                        ? 'border-cyan-400 bg-cyan-950/40'
+                        : 'border-slate-800 bg-slate-900/40 hover:bg-slate-900/90 hover:border-cyan-500/70'
+                    }`}
                   >
                     <div>
                       <div className="flex justify-between items-start mb-2">
@@ -427,20 +510,37 @@ export const ElementSelectorModal = ({
                           e.stopPropagation();
                           handleSelectItem(item);
                         }}
-                        className="px-3 py-1.5 bg-cyan-950/90 group-hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer"
+                        className={`px-3 py-1.5 border rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
+                          isSelected
+                            ? 'bg-cyan-600 border-cyan-400 text-white'
+                            : 'bg-cyan-950/90 group-hover:bg-cyan-900 border-cyan-500/60 text-cyan-300'
+                        }`}
                       >
-                        <span>Select</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
+                        {isMulti && isSelected ? <Check className="w-3.5 h-3.5" /> : null}
+                        <span>{isMulti ? (isSelected ? 'Selected' : 'Add') : 'Select'}</span>
+                        {!isMulti && <ChevronRight className="w-3.5 h-3.5" />}
                       </button>
                     </div>
                   </div>
-                ))}
+                );
+                })}
               </div>
             )}
           </div>
 
           {/* FOOTER */}
           <div className="px-5 py-3 bg-slate-950/90 border-t border-slate-800 flex justify-end gap-2 shrink-0">
+            {isMulti && (
+              <button
+                type="button"
+                disabled={selectedIds.size === 0}
+                onClick={handleConfirmMultiSelect}
+                className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 text-white rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer flex items-center gap-1.5"
+              >
+                <Check className="w-3.5 h-3.5" />
+                <span>Confirm Selected ({selectedIds.size})</span>
+              </button>
+            )}
             <button
               type="button"
               onClick={onClose}

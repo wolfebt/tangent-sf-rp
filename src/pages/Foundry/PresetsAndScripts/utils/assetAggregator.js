@@ -11,6 +11,7 @@
  */
 
 import { TRAP_TYPES } from '../../../../services/reactiveVttService.js';
+import { normalizeElementType } from '../../ElementForge/elementSchemas.js';
 
 export const CATALOG_CATEGORIES = [
   { id: 'all', label: 'All Assets', icon: '🌐', countKey: 'all' },
@@ -68,9 +69,10 @@ export function aggregateModuleAssets({
 
   // 1. PERSONAS (elementsCatalog)
   elementsCatalog.forEach(elem => {
-    if (elem.type === 'Persona') {
+    if (normalizeElementType(elem.type) === 'Persona') {
       const scriptObj = safeParseJson(elem.fields?.vttScript);
-      const isScripted = Boolean(
+      const isScriptDisabled = elem.fields?.vttScriptActive === 'false' || elem.fields?.vttScriptActive === false;
+      const isScripted = !isScriptDisabled && Boolean(
         scriptObj ||
         elem.fields?.vttScriptActive === 'true' ||
         elem.fields?.vttScriptActive === true
@@ -214,17 +216,17 @@ export function aggregateModuleAssets({
     });
   });
 
-  // 5. ITEMS & TECHNOLOGY
+  // 5. PROPERTY & TECHNOLOGY (Property, Item, Technology)
   elementsCatalog.forEach(elem => {
-    if (elem.type === 'Item') {
+    if (normalizeElementType(elem.type) === 'Property') {
       const hasMacro = Boolean(elem.fields?.macroScript || elem.fields?.onUseScript || elem.fields?.activationEffect);
       assets.push({
         id: elem.id,
         rawId: elem.id,
         title: elem.title || elem.name || 'Gear Asset',
-        type: 'Item',
+        type: 'Property',
         catalogCategory: 'items',
-        role: elem.fields?.itemCategory || elem.fields?.category || 'Gear',
+        role: elem.propertySubcategory || elem.fields?.propertySubcategory || elem.fields?.itemCategory || elem.fields?.category || 'Gear',
         tier: elem.fields?.techLevel ? `TL ${elem.fields.techLevel}` : 'TL 3',
         description: elem.content || elem.fields?.summary || 'Interactive equipment or weaponry.',
         isScripted: hasMacro,

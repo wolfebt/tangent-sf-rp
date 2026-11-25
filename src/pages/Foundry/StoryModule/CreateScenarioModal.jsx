@@ -129,7 +129,7 @@ export const CreateScenarioModal = ({
   defaultParentId = null,
   onScenarioCreated
 }) => {
-  const { universeState, addStory, mapsCatalog = [], addMap, setActiveMapId } = useStory();
+  const { universeState, addStory, mapsCatalog = [], addMap, setActiveMapId, isStoryReadOnly = false } = useStory();
 
   const existingMaps = useMemo(() => {
     const merged = [...(universeState?.maps || []), ...(mapsCatalog || [])];
@@ -178,6 +178,7 @@ export const CreateScenarioModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isStoryReadOnly) return;
     const finalTitle = title.trim() || `New ${type}`;
     const tpl = SCENARIO_TEMPLATES.find(t => t.id === selectedTemplate) || SCENARIO_TEMPLATES[0];
 
@@ -576,7 +577,8 @@ export const CreateScenarioModal = ({
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-bold shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all flex items-center gap-1.5 cursor-pointer"
+              disabled={isStoryReadOnly}
+              className="px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:cursor-not-allowed text-black text-xs font-bold shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <Plus size={14} />
               <span>Create Scenario</span>

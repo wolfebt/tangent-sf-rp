@@ -21,6 +21,8 @@ import {
 } from 'lucide-react';
 import { rollDice } from '../../../../../services/diceService';
 import { AudioService } from '../../../../../services/audioService';
+import { useAdeStore, evaluateConditionExpression } from '../../../store/adeStore';
+import { useFolio } from '../../../../../context/FolioContext';
 
 export const GraphPlaySimulator = ({
   isActive = false,
@@ -34,6 +36,8 @@ export const GraphPlaySimulator = ({
   onClose
 }) => {
   const [activeCheckResult, setActiveCheckResult] = useState(null);
+  const storyFlags = useAdeStore((s) => s.storyFlags);
+  const { characterData } = useFolio() || {};
 
   if (!isActive || !currentNode) return null;
 
@@ -46,6 +50,8 @@ export const GraphPlaySimulator = ({
   choices.forEach(c => {
     const tgt = allNodes.find(n => n.id === c.targetScenarioId);
     if (tgt) {
+      const condition = String(c.condition || c.requireCondition || '').trim();
+      const conditionMet = !condition || evaluateConditionExpression(condition, storyFlags);
       availableOptions.push({
         id: c.id,
         label: c.text || 'Choice',
@@ -53,6 +59,8 @@ export const GraphPlaySimulator = ({
         targetTitle: tgt.title,
         checkDc: c.checkDc,
         attribute: c.attribute,
+        condition,
+        conditionMet,
         type: 'choice'
       });
     }
@@ -61,6 +69,8 @@ export const GraphPlaySimulator = ({
   connections.forEach(conn => {
     const tgt = allNodes.find(n => n.id === conn.targetId);
     if (tgt && !availableOptions.some(o => o.targetId === conn.targetId)) {
+      const condition = String(conn.condition || conn.requireCondition || '').trim();
+      const conditionMet = !condition || evaluateConditionExpression(condition, storyFlags);
       availableOptions.push({
         id: conn.id,
         label: conn.label || 'Advance ❯',
@@ -68,16 +78,35 @@ export const GraphPlaySimulator = ({
         targetTitle: tgt.title,
         checkDc: conn.checkDc,
         attribute: conn.attribute,
+        condition,
+        conditionMet,
         type: 'branch'
       });
     }
   });
 
   const handleExecuteOption = (opt) => {
+    if (opt?.conditionMet === false) return;
     if (opt.checkDc) {
-      // Perform 2d10 dice check
+      // Perform 2d10 dice check using active Folio operative stats when loaded
       const rollRes = rollDice('2d10');
-      const baseAttr = 2; // Default operative base modifier
+      const attrKey = String(opt.attribute || '').toLowerCase();
+      let baseAttr = 2;
+      if (characterData && typeof characterData === 'object') {
+        const directSkill = Number(characterData?.skills?.[attrKey]?.rank ?? characterData?.skills?.[opt.attribute]?.rank);
+        const rawAttr =
+          characterData?.[`attr-${attrKey}`] ??
+          characterData?.attributes?.[attrKey] ??
+          characterData?.['attr-agility'] ??
+          characterData?.['attr-intellect'] ??
+          characterData?.['attr-charm'];
+        const parsedAttr = Number(rawAttr);
+        if (Number.isFinite(directSkill) && directSkill > 0) {
+          baseAttr = directSkill + (Number.isFinite(parsedAttr) ? parsedAttr : 0);
+        } else if (Number.isFinite(parsedAttr)) {
+          baseAttr = parsedAttr;
+        }
+      }
       const finalScore = rollRes.total + baseAttr;
       const isSuccess = finalScore >= opt.checkDc;
 
@@ -230,23 +259,37 @@ export const GraphPlaySimulator = ({
       {!activeCheckResult && (
         <div className="flex items-center gap-2 overflow-x-auto pt-1">
           {availableOptions.length > 0 ? (
-            availableOptions.map(opt => (
-              <button
-                key={opt.id}
-                type="button"
-                onClick={() => handleExecuteOption(opt)}
-                className="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 border border-slate-750 hover:border-cyan-500/60 text-slate-200 hover:text-cyan-200 text-[11px] font-bold flex items-center gap-2 shrink-0 cursor-pointer transition-all shadow-md group"
-              >
-                <span>{opt.label}</span>
-                {opt.checkDc ? (
-                  <span className="px-1.5 py-0.2 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 text-[9px]">
-                    CR {opt.checkDc}
-                  </span>
-                ) : (
-                  <ArrowRight size={11} className="text-slate-500 group-hover:text-cyan-300 transition-colors" />
-                )}
-              </button>
-            ))
+            availableOptions.map(opt => {
+              const isLocked = opt.conditionMet === false;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  disabled={isLocked}
+                  title={isLocked ? `Locked by condition: ${opt.condition}` : opt.label}
+                  onClick={() => handleExecuteOption(opt)}
+                  className={`px-3 py-1.5 rounded-xl border text-[11px] font-bold flex items-center gap-2 shrink-0 transition-all shadow-md group ${
+                    isLocked
+                      ? 'bg-slate-900/60 border-slate-800 text-slate-500 cursor-not-allowed opacity-60'
+                      : 'bg-slate-900/90 hover:bg-cyan-950 border-slate-750 hover:border-cyan-500/60 text-slate-200 hover:text-cyan-200 cursor-pointer'
+                  }`}
+                >
+                  <span>{opt.label}</span>
+                  {isLocked && opt.condition && (
+                    <span className="px-1.5 py-0.2 rounded bg-amber-950/70 text-amber-300 border border-amber-700/50 text-[9px]">
+                      🔒 {opt.condition}
+                    </span>
+                  )}
+                  {opt.checkDc ? (
+                    <span className="px-1.5 py-0.2 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 text-[9px]">
+                      CR {opt.checkDc}
+                    </span>
+                  ) : (
+                    !isLocked && <ArrowRight size={11} className="text-slate-500 group-hover:text-cyan-300 transition-colors" />
+                  )}
+                </button>
+              );
+            })
           ) : (
             <div className="text-[10.5px] text-slate-500 italic py-1">
               End of Branch Path: No further choices or scenario exits defined.

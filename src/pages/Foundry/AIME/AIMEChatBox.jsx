@@ -5,6 +5,7 @@ import DraggablePanel from '../MapMaker/map/DraggablePanel';
 import { streamChatContent, parseRollCommand, formatCronicleContextForAIME } from '../../../services/aimeService';
 import { useStory } from '../../../context/CampaignContext';
 import { useConfirm } from '../../../context/ConfirmContext';
+import { useAdeStore } from '../store/adeStore';
 
 const QUICK_ACTIONS = [
   { label: '💡 Brainstorm Hook', prompt: 'Brainstorm 3 compelling narrative hooks or dramatic conflicts for this story context.' },
@@ -19,6 +20,13 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
   const activeScenarioId = storyContext?.activeScenarioId;
   const getActiveGemsText = storyContext?.getActiveGemsText;
   const activeCronicle = propCronicle || storyContext?.cronicle || universeState?.cronicle || null;
+  const perspectiveMode = useAdeStore((state) => state.perspectiveMode || 'architect');
+  const isOperatorSafe = perspectiveMode === 'operator';
+  const filteredCatalog = React.useMemo(() => {
+    const list = storyContext?.elementsCatalog || [];
+    if (!isOperatorSafe) return list;
+    return list.filter((el) => el && !el.isHidden && !el.isGmOnly && el.fields?.playerVisible !== false);
+  }, [storyContext?.elementsCatalog, isOperatorSafe]);
 
   // Dock / Undock state (Persisted in localStorage)
   const [isDocked, setIsDocked] = useState(() => {
@@ -83,26 +91,33 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
       return {
         ...contextData,
         cronicle: contextData.cronicle || activeCronicle,
-        customCatalog: storyContext?.elementsCatalog || []
+        customCatalog: filteredCatalog
       };
     }
+    const sanitizedNodeContent = activeNode?.content
+      ? (isOperatorSafe
+          ? String(activeNode.content).replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '')
+          : activeNode.content)
+      : '';
     return {
       projectName,
       activeNode: activeNode ? {
         id: activeNode.id,
         title: activeNode.title,
         type: activeNode.type,
-        content: activeNode.content,
-        fields: activeNode.fields
+        content: sanitizedNodeContent,
+        fields: activeNode.fields,
+        linkedElements: activeNode.linkedElements || [],
+        assetHub: activeNode.assetHub || []
       } : null,
       guidanceGems: guidanceGemsText || 'Standard',
       outline: universeState?.creativeState?.storyOutline || '',
       sceneBeats: universeState?.creativeState?.sceneBeats || '',
       draft: universeState?.creativeState?.storyDraft || '',
-      customCatalog: storyContext?.elementsCatalog || [],
+      customCatalog: filteredCatalog,
       cronicle: activeCronicle
     };
-  }, [contextData, projectName, activeNode, guidanceGemsText, universeState, storyContext?.elementsCatalog, activeCronicle]);
+  }, [contextData, projectName, activeNode, guidanceGemsText, universeState, filteredCatalog, activeCronicle, isOperatorSafe]);
 
   const projectScopeId = contextData?.universeState?.id || universeState?.id || 'default';
   const storageKey = `tangent_aime_chat_history_v1_${projectScopeId}`;
@@ -153,6 +168,19 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, isMinimized]);
+
+  // Listen for cross-system prompt prefills (e.g., Waypoint TRIGGER_AIME)
+  useEffect(() => {
+    const handlePrefillPrompt = (event) => {
+      const promptText = event?.detail?.prompt;
+      if (typeof promptText === 'string' && promptText.trim()) {
+        setInputValue(promptText);
+        setIsMinimized(false);
+      }
+    };
+    window.addEventListener('aime-prefill-prompt', handlePrefillPrompt);
+    return () => window.removeEventListener('aime-prefill-prompt', handlePrefillPrompt);
+  }, []);
 
   const extractExpandablePoints = (text) => {
     if (!text || typeof text !== 'string') return [];

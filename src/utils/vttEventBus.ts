@@ -74,6 +74,7 @@ export interface VttEventMap {
   'mechanical-mandate-executed': { mandate: any };
   'ai-action-requested': { request: any };
   'ai-action-adjudicated': { request: any; mandate: any; appliedDelta?: any; error?: string };
+  'stage-ai-decision': { tokenId: string; decision: Record<string, any> };
   'vtt-spawn-entity': { name: string; hp?: number; armorDr?: number; isPersona?: boolean; storyElementId?: string; [key: string]: any };
   'chat-message': { sender: string; text: string; type?: string; timestamp?: string; [key: string]: any };
   'stage-remote-door-toggled': { wallId: string; isOpen: boolean; doorState?: string; breachHp?: number; timestamp?: number };

@@ -1,9 +1,11 @@
 import React from 'react';
-import { FileText, Copy, Check, Download, Edit3 } from 'lucide-react';
+import { FileText, Copy, Check, Download, Edit3, Search, X } from 'lucide-react';
 
 export default function CronicleScratchbookDocTab({
   compiledScratchbookMarkdown,
   displayedMarkdown,
+  docSearchQuery = '',
+  setDocSearchQuery,
   elementsCount,
   scenariosCount,
   copiedDoc,
@@ -11,16 +13,50 @@ export default function CronicleScratchbookDocTab({
   handleDownloadScratchbook,
   onNavigateToNotes
 }) {
-  const wordCount = compiledScratchbookMarkdown.split(/\s+/).filter(Boolean).length;
+  const safeDisplayed = typeof displayedMarkdown === 'string' && displayedMarkdown.length > 0
+    ? displayedMarkdown
+    : (() => {
+        if (!docSearchQuery.trim()) return compiledScratchbookMarkdown;
+        const q = docSearchQuery.trim().toLowerCase();
+        const filtered = String(compiledScratchbookMarkdown || '')
+          .split('\n')
+          .filter((line) => line.trim().startsWith('#') || line.toLowerCase().includes(q));
+        return filtered.length > 0
+          ? filtered.join('\n')
+          : `No Scratchbook entries matching "${docSearchQuery.trim()}".`;
+      })();
 
   return (
     <div className="flex-1 flex flex-col space-y-3 min-h-[500px]">
       {/* Document Telemetry & Control Strip */}
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-900/90 border border-slate-800 rounded-xl text-xs font-mono">
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="text-amber-300 font-bold flex items-center gap-1.5">
             <FileText size={14} /> Compiled Cronicle Dossier (.md)
           </span>
+          {typeof setDocSearchQuery === 'function' && (
+            <div className="relative">
+              <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input
+                type="text"
+                value={docSearchQuery}
+                onChange={(e) => setDocSearchQuery(e.target.value)}
+                aria-label="Search Scratchbook Dossier"
+                placeholder="Filter dossier..."
+                className="pl-7 pr-6 py-1 bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-lg text-xs text-slate-100 placeholder-slate-500 outline-none w-44"
+              />
+              {docSearchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setDocSearchQuery('')}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+                  aria-label="Clear dossier filter"
+                >
+                  <X size={11} />
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -58,7 +94,7 @@ export default function CronicleScratchbookDocTab({
 
       {/* Document Viewport */}
       <div className="flex-1 w-full bg-slate-950 border border-slate-800 rounded-xl p-4 sm:p-5 overflow-y-auto font-mono text-xs text-slate-200 leading-relaxed whitespace-pre-wrap select-text scrollbar-thin shadow-inner">
-        {displayedMarkdown}
+        {safeDisplayed}
       </div>
     </div>
   );

@@ -39,6 +39,7 @@ import { DEFAULT_FACTIONS } from '../../../data/factionsData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { adeElementToStageToken, adeElementToInteractiveObject } from '../../../utils/storyAssetAdapter';
 import { convertMcmToFolioPersona, buildVttUnitFromPersona } from '../../../utils/personaBridge';
+import { normalizeElementType } from '../../../pages/Foundry/ElementForge/elementSchemas';
 
 export interface CatalogOutlinerProps {
   searchQuery: string;
@@ -68,7 +69,8 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     elementsCatalog, 
     storyCatalog,
     toggleGalleryModifier,
-    deleteGalleryModifier
+    deleteGalleryModifier,
+    isStoryReadOnly = false
   } = useCampaign();
   const folio = (useFolio() || {}) as any;
   const dbm = (useDBM() || {}) as any;
@@ -99,10 +101,18 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
   // ADE World Elements collections
   const adeElements = elementsCatalog || [];
-  const adePersonas = useMemo(() => adeElements.filter((e: any) => e.type === 'Persona'), [adeElements]);
-  const adeItems = useMemo(() => adeElements.filter((e: any) => e.type === 'Item'), [adeElements]);
-  const adeFactions = useMemo(() => adeElements.filter((e: any) => e.type === 'Faction'), [adeElements]);
-  const adeLore = useMemo(() => adeElements.filter((e: any) => ['Clue', 'Lore', 'Document', 'Location', 'Quest'].includes(e.type)), [adeElements]);
+  const adePersonas = useMemo(() => adeElements.filter((e: any) => normalizeElementType(e.type) === 'Persona'), [adeElements]);
+  const adeItems = useMemo(() => adeElements.filter((e: any) => normalizeElementType(e.type) === 'Property'), [adeElements]);
+  const adeFactions = useMemo(() => adeElements.filter((e: any) => normalizeElementType(e.type) === 'Faction'), [adeElements]);
+  const adeLore = useMemo(
+    () =>
+      adeElements.filter((e: any) =>
+        ['Clue', 'Handout', 'Setting', 'World', 'Universe', 'Philosophy', 'Species', 'Metaphysics', 'Lore', 'Document', 'Location', 'Quest'].includes(
+          normalizeElementType(e.type)
+        )
+      ),
+    [adeElements]
+  );
 
   // Custom Assets Media Library State
   const [customAssets, setCustomAssets] = useState<Array<{ id: string; name: string; url: string; date: string }>>(() => {
@@ -195,7 +205,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   };
 
   const handleDeleteMap = async (map: any) => {
-    if (!isArchitectRole) return;
+    if (!isArchitectRole || isStoryReadOnly) return;
     const ok = await confirm({
       title: 'Delete Tactical Map',
       message: `Are you sure you want to permanently delete "${map.name || map.title || 'Untitled Map'}"?`,
@@ -210,7 +220,8 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   };
 
   const handleDeleteAdeElement = async (elem: any) => {
-    if (!isArchitectRole) return;
+    if (!isArchitectRole || isStoryReadOnly) return;
+    if ((elem.isCortexAsset || elem.isFolioPersona) && !elem.isPinnedToModule) return;
     const ok = await confirm({
       title: `Delete ${elem.type || 'Element'}`,
       message: `Are you sure you want to permanently delete "${elem.title || elem.name || 'Untitled'}"?`,
@@ -227,7 +238,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   };
 
   const handleDeleteScenario = async (sc: any) => {
-    if (!isArchitectRole) return;
+    if (!isArchitectRole || isStoryReadOnly) return;
     const ok = await confirm({
       title: 'Delete Scenario',
       message: `Are you sure you want to permanently delete "${sc.title || 'Untitled Scenario'}"?`,
@@ -350,7 +361,13 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     const targetScenario = scenarios.find((s: any) => s.id === scenarioId) || scenarios[0];
     if (!targetScenario) return;
 
-    const linkedIds = targetScenario.linkedElements || [];
+    const rawLinked = [
+      ...(Array.isArray(targetScenario.linkedElements) ? targetScenario.linkedElements : []),
+      ...(Array.isArray(targetScenario.assetHub) ? targetScenario.assetHub : [])
+    ];
+    const linkedIds = Array.from(
+      new Set(rawLinked.map((l: any) => (typeof l === 'string' ? l : l?.assetId)).filter(Boolean))
+    );
     const elementsToDeploy = (elementsCatalog || []).filter((e: any) => linkedIds.includes(e.id));
 
     if (elementsToDeploy.length === 0) {

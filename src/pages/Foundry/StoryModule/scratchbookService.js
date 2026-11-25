@@ -35,19 +35,46 @@ const traverseNodes = (nodes, callback, depth = 0) => {
   }
 };
 
+const NARRATIVE_CONTAINER_TYPES = new Set([
+  'Scenario',
+  'Folder',
+  'Scene',
+  'Act',
+  'Chapter',
+  'Story Arc',
+  'Encounter',
+  'Choice',
+  'Climax',
+  'Resolution'
+]);
+
+const stripGmSecretBlocks = (html) => {
+  if (!html) return '';
+  return String(html).replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '');
+};
+
 /**
  * Finds all elements used or referenced in the project
  */
-export const findElementsUsed = (universeState, elementsCatalog = []) => {
+export const findElementsUsed = (universeState, elementsCatalog = [], { operatorSafe = false } = {}) => {
   const elementsMap = new Map();
   const scenarios = universeState?.scenarios || [];
 
-  // Register elements linked in scenarios
+  // Register elements linked in scenarios (supports both linkedElements and assetHub)
   traverseNodes(scenarios, (node) => {
-    const linkedIds = Array.isArray(node.linkedElements) ? node.linkedElements : [];
+    if (operatorSafe && (node?.isHidden || node?.isGmOnly)) return;
+    const rawLinked = [
+      ...(Array.isArray(node.linkedElements) ? node.linkedElements : []),
+      ...(Array.isArray(node.assetHub) ? node.assetHub : [])
+    ];
+    const linkedIds = rawLinked
+      .map(entry => (typeof entry === 'string' ? entry : entry?.assetId))
+      .filter(Boolean);
+
     for (const id of linkedIds) {
       const match = elementsCatalog.find(e => e.id === id);
       if (match) {
+        if (operatorSafe && (match.isHidden || match.isGmOnly || match.fields?.playerVisible === false)) continue;
         if (!elementsMap.has(id)) {
           elementsMap.set(id, {
             ...match,
@@ -62,14 +89,15 @@ export const findElementsUsed = (universeState, elementsCatalog = []) => {
       }
     }
 
-    // Check if the node itself is a specific typed element
-    if (node.type && node.type !== 'Scenario' && node.type !== 'Folder') {
+    // Check if the node itself is a specific non-container element
+    if (node.type && !NARRATIVE_CONTAINER_TYPES.has(node.type)) {
       if (!elementsMap.has(node.id)) {
+        const cleanContent = operatorSafe ? stripGmSecretBlocks(node.content) : node.content;
         elementsMap.set(node.id, {
           id: node.id,
           title: node.title,
           type: node.type,
-          summary: node.fields?.summary || stripHtml(node.content).slice(0, 150),
+          summary: node.fields?.summary || stripHtml(cleanContent).slice(0, 150),
           fields: node.fields || {},
           usedIn: ['Scenario Hierarchy']
         });
@@ -86,17 +114,19 @@ export const findElementsUsed = (universeState, elementsCatalog = []) => {
 export const generateStoryScratchbook = ({
   universeState,
   elementsCatalog = [],
+  mapsCatalog = [],
   customNotes = '',
-  beatsLedger = []
+  beatsLedger = [],
+  operatorSafe = false
 }) => {
   const projectName = universeState?.projectName || 'Untitled Story Project';
   const author = universeState?.authorHandle || universeState?.creatorHandle || 'Architect';
   const scenarios = universeState?.scenarios || [];
   const creativeState = universeState?.creativeState || {};
   const activeGems = creativeState?.gems || [];
-  const maps = universeState?.maps || [];
+  const maps = [...(universeState?.maps || []), ...(Array.isArray(mapsCatalog) ? mapsCatalog : [])];
 
-  const elementsUsed = findElementsUsed(universeState, elementsCatalog);
+  const elementsUsed = findElementsUsed(universeState, elementsCatalog, { operatorSafe });
 
   // Compute total word count
   let totalWords = 0;
@@ -174,7 +204,7 @@ export const generateStoryScratchbook = ({
     md += `*No scenario elements authored yet.*\n\n`;
   } else {
     traverseNodes(scenarios, (node, depth) => {
-      const indent = '  '.repeat(depth);
+      if (operatorSafe && (node?.isHidden || node?.isGmOnly)) return;
       const headingPrefix = '#'.repeat(Math.min(depth + 3, 6));
       md += `${headingPrefix} [${node.type || 'Scene'}] ${node.title || 'Untitled'}\n\n`;
 
@@ -187,7 +217,8 @@ export const generateStoryScratchbook = ({
       }
 
       // Plain content summary
-      const plain = stripHtml(node.content);
+      const rawNodeContent = operatorSafe ? stripGmSecretBlocks(node.content) : node.content;
+      const plain = stripHtml(rawNodeContent);
       if (plain) {
         md += `${plain}\n\n`;
       }
@@ -214,7 +245,7 @@ export const generateStoryScratchbook = ({
         md += '\n';
       }
 
-      if (fields.gmSecrets) {
+      if (!operatorSafe && fields.gmSecrets) {
         md += `> 🔒 **Classified Architect Secret / Discovery**:  \n> ${fields.gmSecrets}\n\n`;
       }
     });

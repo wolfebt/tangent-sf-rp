@@ -13,7 +13,7 @@
  * As well as .aime bundles and backward-compatible .tangent-element / .json / .md files.
  */
 
-import { getElementFileExtension, AIME_CORE_ELEMENT_TYPES } from '../pages/Foundry/ElementForge/elementSchemas.js';
+import { getElementFileExtension, normalizeElementType, AIME_CORE_ELEMENT_TYPES } from '../pages/Foundry/ElementForge/elementSchemas.js';
 import { parseElementMarkdown } from './elementIngestionService.js';
 
 export const AIME_SCHEMA_URL = 'https://tangent-rpg.com/schemas/aime-asset-v1.json';
@@ -49,8 +49,11 @@ export function serializeAimeAsset(element) {
     throw new Error('Invalid element provided for AIME asset serialization.');
   }
 
-  const assetType = element.type;
+  const rawType = element.type;
+  const assetType = rawType === 'Technology' ? 'Technology' : normalizeElementType(rawType);
   const subcat = element.propertySubcategory || element.fields?.propertySubcategory;
+  const metaphysicsSubcategory = element.metaphysicsSubcategory || element.fields?.metaphysicsSubcategory;
+  const personaSubcategory = element.personaSubcategory || element.fields?.personaSubcategory;
   const fileExtension = getElementFileExtension(assetType, subcat);
   const now = new Date().toISOString();
 
@@ -70,6 +73,8 @@ export function serializeAimeAsset(element) {
   delete traits.guidance;
   delete traits.assetHub;
   delete traits.rpgExtensions;
+  delete traits.cortexRaw;
+  delete traits.searchHaystack;
 
   // Extract Asset Hub links (Layer 3)
   const rawHub = element.assetHub || element.linkedElements || [];
@@ -107,6 +112,10 @@ export function serializeAimeAsset(element) {
     assetType,
     id: element.id || `elem_${Date.now()}`,
     title: element.title || element.name || `Untitled ${assetType}`,
+    ...(subcat ? { propertySubcategory: subcat } : {}),
+    ...(metaphysicsSubcategory ? { metaphysicsSubcategory } : {}),
+    ...(personaSubcategory ? { personaSubcategory } : {}),
+    ...(element.imageUrl ? { imageUrl: element.imageUrl } : {}),
     fileExtension,
     guidance,
     traits,
@@ -120,8 +129,35 @@ export function serializeAimeAsset(element) {
   };
 }
 
+function sanitizeImportedElementDraft(rawElement, fallbackType = 'Persona') {
+  const rawType = rawElement?.type || fallbackType;
+  const resolvedType = rawType === 'Technology' ? 'Technology' : normalizeElementType(rawType);
+  const cleanFields = { ...(rawElement?.fields || {}) };
+  delete cleanFields.dbmRef;
+  delete cleanFields.dbmId;
+  delete cleanFields.dbmCategory;
+
+  const copy = {
+    ...rawElement,
+    type: resolvedType,
+    fields: cleanFields,
+    dbmSyncStatus: 'standalone'
+  };
+  delete copy.isCortexAsset;
+  delete copy.isFolioPersona;
+  delete copy.isPinnedToModule;
+  delete copy.folioDocId;
+  delete copy.dbmId;
+  delete copy.dbmCategory;
+  delete copy.dbmRef;
+  delete copy.cortexRaw;
+  delete copy.personaData;
+  return copy;
+}
+
 /**
  * Parses an imported file (portable JSON or Markdown) into a standard Tangent Element.
+ * Imported assets are always sanitized as Campaign-local standalone drafts.
  * @param {string} fileContent - Raw content of the file.
  * @param {string} fileName - File name with extension.
  * @returns {Object} Normalized Tangent Element object.
@@ -141,19 +177,27 @@ export function parseAimeAssetFile(fileContent, fileName = '') {
 
       // Check if it's an AIME portable asset format
       if (data.aimeVersion || data.$schema?.includes('aime-asset') || data.traits || data.assetHub) {
-        const assetType = data.assetType || data.type || detectTypeFromExtension(lowerName) || 'Persona';
+        const rawAssetType = data.assetType || data.type || detectTypeFromExtension(lowerName) || 'Persona';
+        const assetType = rawAssetType === 'Technology' ? 'Technology' : normalizeElementType(rawAssetType);
         const traits = data.traits || data.fields || {};
         const assetHub = Array.isArray(data.assetHub)
           ? data.assetHub
           : Array.isArray(data.linkedElements)
           ? data.linkedElements
           : [];
+        const propertySubcategory = data.propertySubcategory || traits.propertySubcategory || traits.itemCategory;
+        const metaphysicsSubcategory = data.metaphysicsSubcategory || traits.metaphysicsSubcategory;
+        const personaSubcategory = data.personaSubcategory || traits.personaSubcategory;
 
-        return {
+        return sanitizeImportedElementDraft({
           id: data.id || `elem_${Date.now()}`,
           title: data.title || data.name || traits.name || 'Untitled Element',
           name: data.title || data.name || traits.name || 'Untitled Element',
           type: assetType,
+          ...(propertySubcategory ? { propertySubcategory } : {}),
+          ...(metaphysicsSubcategory ? { metaphysicsSubcategory } : {}),
+          ...(personaSubcategory ? { personaSubcategory } : {}),
+          ...(data.imageUrl ? { imageUrl: data.imageUrl } : {}),
           guidance: data.guidance || {},
           fields: {
             ...traits,
@@ -167,28 +211,32 @@ export function parseAimeAssetFile(fileContent, fileName = '') {
           tags: data.tags || [],
           createdAt: data.createdAt,
           updatedAt: data.updatedAt
-        };
+        }, assetType);
       }
 
       // Check if standard Tangent JSON export
       if (data.type === 'TangentStoryElement' && data.element) {
-        return {
+        return sanitizeImportedElementDraft({
           ...data.element,
           title: data.element.title || data.element.name || 'Imported Element',
           name: data.element.title || data.element.name || 'Imported Element'
-        };
+        });
       }
 
       // Fallback generic JSON element
-      return {
+      return sanitizeImportedElementDraft({
         id: data.id || `elem_${Date.now()}`,
         title: data.title || data.name || 'Imported Asset',
         name: data.title || data.name || 'Imported Asset',
         type: data.type || detectTypeFromExtension(lowerName) || 'Persona',
+        ...(data.imageUrl ? { imageUrl: data.imageUrl } : {}),
         fields: data.fields || data.traits || {},
+        guidance: data.guidance || {},
+        assetHub: Array.isArray(data.assetHub) ? data.assetHub : [],
+        customFields: Array.isArray(data.customFields) ? data.customFields : [],
         content: data.content || '',
         tags: data.tags || []
-      };
+      });
     } catch (e) {
       // If JSON parsing fails, fall through to Markdown parsing
     }
@@ -197,11 +245,11 @@ export function parseAimeAssetFile(fileContent, fileName = '') {
   // 2. Parse as Markdown adhering to ELEMENTS.md
   try {
     const mdElement = parseElementMarkdown(fileContent, fileName);
-    return {
+    return sanitizeImportedElementDraft({
       ...mdElement,
       title: mdElement.name || mdElement.title || 'Imported Element',
       name: mdElement.name || mdElement.title || 'Imported Element'
-    };
+    });
   } catch (err) {
     throw new Error(`Failed to parse file "${fileName}": ${err.message}`);
   }

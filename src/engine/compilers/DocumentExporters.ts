@@ -142,10 +142,14 @@ export function buildZipBytes(entries: ZipEntryInput[]): Uint8Array {
   return archive;
 }
 
-function flattenNodesForChapters(nodes: ScenarioExportNode[]): ScenarioExportNode[] {
+function flattenNodesForChapters(nodes: ScenarioExportNode[], includeGmSecrets = true): ScenarioExportNode[] {
   const flat: ScenarioExportNode[] = [];
   const walk = (list: ScenarioExportNode[]) => {
     for (const n of list || []) {
+      const meta = n as ScenarioExportNode & { isHidden?: boolean; isGmOnly?: boolean };
+      if (!includeGmSecrets && (meta?.isHidden || meta?.isGmOnly)) {
+        continue;
+      }
       flat.push(n);
       if (Array.isArray(n.children) && n.children.length > 0) {
         walk(n.children);
@@ -165,7 +169,11 @@ export function compileToEpubBytes(
   const title = options.adventureTitle || 'Tangent SF RP Adventure Module';
   const author = options.authorName || 'ADE Architect';
   const includeGmSecrets = options.includeGmSecrets !== false;
-  const chapters = flattenNodesForChapters(nodes);
+  const includeSynopsis = options.includeSynopsis !== false;
+  const includeProse = options.includeProse !== false;
+  const includeReadAloud = options.includeReadAloud !== false;
+  const includeStatBlocks = options.includeStatBlocks !== false;
+  const chapters = flattenNodesForChapters(nodes, includeGmSecrets);
   const bookId = `urn:uuid:tangent-ade-${Date.now()}`;
   const modifiedIso = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
 
@@ -244,10 +252,10 @@ blockquote.ade-read-aloud { background: #f8fafc; border-left: 3px solid #f59e0b;
 <body>
   <section id="${escapeXml(itemId)}">
     <h1>${safeTitle}</h1>
-    ${ch.summary ? `<p><em>${escapeXml(ch.summary)}</em></p>` : ''}
-    ${readAloudHtml}
-    ${paragraphs}
-    ${threatsHtml}
+    ${includeSynopsis && ch.summary ? `<p><em>${escapeXml(ch.summary)}</em></p>` : ''}
+    ${includeReadAloud ? readAloudHtml : ''}
+    ${includeProse ? paragraphs : ''}
+    ${includeStatBlocks ? threatsHtml : ''}
   </section>
 </body>
 </html>`;
@@ -365,7 +373,10 @@ export function compileToRtfString(
   const title = options.adventureTitle || 'Tangent SF RP Adventure Module';
   const author = options.authorName || 'Architect';
   const includeGmSecrets = options.includeGmSecrets !== false;
-  const chapters = flattenNodesForChapters(nodes);
+  const includeSynopsis = options.includeSynopsis !== false;
+  const includeProse = options.includeProse !== false;
+  const includeReadAloud = options.includeReadAloud !== false;
+  const chapters = flattenNodesForChapters(nodes, includeGmSecrets);
 
   const lines: string[] = [
     '{\\rtf1\\ansi\\deff0',
@@ -376,14 +387,14 @@ export function compileToRtfString(
 
   for (const ch of chapters) {
     lines.push(`\\fs28\\b ${escapeRtf(ch.title || 'Section')}\\b0\\fs22\\par`);
-    if (ch.summary) {
+    if (includeSynopsis && ch.summary) {
       lines.push(`\\i ${escapeRtf(ch.summary)}\\i0\\par`);
     }
-    if (ch.fields?.readAloud) {
+    if (includeReadAloud && ch.fields?.readAloud) {
       lines.push(`\\li360 "${escapeRtf(ch.fields.readAloud)}"\\li0\\par`);
     }
     const contentSource = includeGmSecrets ? ch.content : stripGmSecretBlocks(ch.content || '');
-    const plain = stripHtmlToPlain(contentSource);
+    const plain = includeProse ? stripHtmlToPlain(contentSource) : '';
     if (plain) {
       lines.push(`${escapeRtf(plain)}\\par\\par`);
     }

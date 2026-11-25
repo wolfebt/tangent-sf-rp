@@ -48,7 +48,8 @@ export const VisualStoryGraph = ({
     setActiveScenarioId,
     activeMapId,
     setActiveMapId,
-    mapsCatalog
+    mapsCatalog,
+    isStoryReadOnly = false
   } = useCampaign();
 
   const containerRef = useRef(null);
@@ -188,8 +189,8 @@ export const VisualStoryGraph = ({
 
     setLocalNodePositions(newPositions);
 
-    // Persist positions to scenarios
-    if (updateStory) {
+    // Persist positions to scenarios when writable
+    if (updateStory && !isStoryReadOnly) {
       flatNodes.forEach(node => {
         if (newPositions[node.id]) {
           updateStory(node.id, {
@@ -325,7 +326,7 @@ export const VisualStoryGraph = ({
 
     if (draggingNodeId) {
       const finalPos = localNodePositions[draggingNodeId];
-      if (finalPos && updateStory) {
+      if (finalPos && updateStory && !isStoryReadOnly) {
         const targetNode = flatNodes.find(n => n.id === draggingNodeId);
         updateStory(draggingNodeId, {
           fields: {
@@ -403,7 +404,7 @@ export const VisualStoryGraph = ({
     }
 
     const sourceNode = flatNodes.find(n => n.id === activeSourceId);
-    if (!sourceNode || !updateStory) {
+    if (!sourceNode || !updateStory || isStoryReadOnly) {
       setIsConnecting(false);
       setConnectingSourceId(null);
       setConnectingMousePos(null);
@@ -448,7 +449,7 @@ export const VisualStoryGraph = ({
   };
 
   const handleUpdateEdge = (link, updates) => {
-    if (!updateStory) return;
+    if (!updateStory || isStoryReadOnly) return;
     const sourceNode = flatNodes.find(n => n.id === link.sourceId);
     if (!sourceNode) return;
 
@@ -488,7 +489,7 @@ export const VisualStoryGraph = ({
   };
 
   const handleDeleteEdge = async (link) => {
-    if (!updateStory) return;
+    if (!updateStory || isStoryReadOnly) return;
     const ok = await confirm({
       title: 'Delete Connection Wire',
       message: `Remove branch connection from "${link.label || 'Branch'}"?`,
@@ -518,7 +519,7 @@ export const VisualStoryGraph = ({
 
   // ── ADD / DUPLICATE / DELETE NODES ──
   const handleAddBranchNode = (parentNode) => {
-    if (!addStory) return;
+    if (!addStory || isStoryReadOnly) return;
     const parentPos = parentNode ? getNodePos(parentNode) : { x: 100, y: 100 };
     const newId = uuidv4();
     const newScenario = {
@@ -557,7 +558,7 @@ export const VisualStoryGraph = ({
   };
 
   const handleDuplicateNode = (node) => {
-    if (!addStory) return;
+    if (!addStory || isStoryReadOnly) return;
     const pos = getNodePos(node);
     const newId = uuidv4();
     const cloned = {
@@ -579,7 +580,7 @@ export const VisualStoryGraph = ({
   };
 
   const handleDeleteNode = async (node) => {
-    if (!deleteStory) return;
+    if (!deleteStory || isStoryReadOnly) return;
     const ok = await confirm({
       title: 'Delete Scenario Node',
       message: `Delete scenario "${node.title}" and its sub-elements?`,
@@ -594,7 +595,7 @@ export const VisualStoryGraph = ({
 
   // ── AIME GENERATED BRANCHES INJECTION ──
   const handleAddGeneratedBranches = (sourceNode, branches) => {
-    if (!addStory || !updateStory || !sourceNode) return;
+    if (!addStory || !updateStory || !sourceNode || isStoryReadOnly) return;
     const srcPos = getNodePos(sourceNode);
     const newChoices = [...(sourceNode.fields?.choices || [])];
 

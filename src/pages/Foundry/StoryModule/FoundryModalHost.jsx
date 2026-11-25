@@ -23,9 +23,12 @@ import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal'
 import CommandPaletteModal from './CommandPaletteModal';
 import { generateScratchbookMarkdown } from './scratchbookService';
 import { persistAdeElement } from '../../../utils/adeElementPersistence';
+import { useAuth } from '../../../context/AuthContext';
 import { buildArtistConceptPatch } from '../../../services/artistHubFramework';
 import { hydrateModuleIntoCampaign } from '../../../services/modulePackageService';
+import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
 import { useAdeStore } from '../store/adeStore';
+import CronicleDeltaBadge from '../../../components/StoryFoundry/Cronicle/CronicleDeltaBadge';
 
 export default function FoundryModalHost({
   modals = {},
@@ -39,12 +42,17 @@ export default function FoundryModalHost({
   activeMap,
   universeState,
   elementsCatalog = [],
+  dbData = {},
+  folioRoster = [],
+  publicPersonas = [],
   cronicle,
   getActiveGemsText,
   updateSavedElement,
   deleteSavedElement,
   saveEntry,
+  deleteEntry,
   saveCurrentToRoster,
+  isAdmin: propIsAdmin,
   showToast,
   addMap,
   updateMap,
@@ -55,10 +63,16 @@ export default function FoundryModalHost({
   setGalleryModifiers,
   updateCreativeState,
   updateCronicle,
+  acceptPendingDelta,
+  acceptAllPendingDeltas,
+  rejectPendingDelta,
+  clearPendingDeltas,
   onSwitchView,
   onToggleSplitView,
   isStoryReadOnly = false
 }) {
+  const { isAdmin: authIsAdmin = false } = useAuth() || {};
+  const isAdmin = Boolean(propIsAdmin ?? authIsAdmin);
   const perspectiveMode = useAdeStore((s) => s.perspectiveMode);
   const isCatalogOpen = Boolean(modals.catalog);
   const isPrintModalOpen = Boolean(modals.print);
@@ -72,6 +86,16 @@ export default function FoundryModalHost({
   const isModuleExportOpen = Boolean(modals.moduleExport);
   const isModuleImportOpen = Boolean(modals.moduleImport);
   const isCommandPaletteOpen = Boolean(modals.commandPalette);
+
+  const unifiedCatalogForExport = React.useMemo(() => {
+    if (!isModuleExportOpen && !isModuleImportOpen) return elementsCatalog;
+    return buildUnifiedAdeCatalog({
+      elementsCatalog,
+      dbData,
+      folioRoster,
+      publicPersonas
+    });
+  }, [isModuleExportOpen, isModuleImportOpen, elementsCatalog, dbData, folioRoster, publicPersonas]);
 
   React.useEffect(() => {
     const handleGlobalKey = (e) => {
@@ -153,27 +177,43 @@ export default function FoundryModalHost({
           initialMode={elementEditorMode}
           initialSeedTab={elementEditorInitialSeed || 'spark'}
           activeScenario={activeNode}
-          onSave={async (savedElem) => {
+          onSave={async (savedElem, options = {}) => {
             const res = await persistAdeElement({
               element: savedElem,
               elementsCatalog,
               updateSavedElement,
               saveEntry,
               saveCurrentToRoster,
-              showToast
+              showToast,
+              isStoryReadOnly: Boolean(isStoryReadOnly),
+              fromEditModal: true,
+              isAdmin
             });
             if (!res) return null;
-            setModal('editElement', false);
-            setEditingModalElement(null);
+            if (options?.closeAfter !== false) {
+              setModal('editElement', false);
+              setEditingModalElement(null);
+            }
             return res;
           }}
-          onDelete={(elementId) => {
+          onDelete={async (elementId) => {
+            if (isStoryReadOnly) {
+              showToast?.({ type: 'warning', text: 'Read-only mode active: unlock editing to remove elements.' });
+              return false;
+            }
             if (typeof deleteSavedElement === 'function' && elementId) {
-              deleteSavedElement(elementId);
+              const ok = await deleteSavedElement(elementId);
+              if (ok === false) return false;
             }
             setModal('editElement', false);
             setEditingModalElement(null);
+            return true;
           }}
+          onDeleteCortex={
+            isAdmin && typeof deleteEntry === 'function'
+              ? (el) => deleteEntry(el?.dbmId || el?.fields?.dbmId || el?.fields?.dbmRef, el?.dbmCategory || el?.fields?.dbmCategory)
+              : undefined
+          }
         />
       )}
 
@@ -234,6 +274,10 @@ export default function FoundryModalHost({
           isOpen={isArtistHubOpen}
           onClose={() => setModal('artistHub', false)}
           onApplyAsset={(asset) => {
+            if (isStoryReadOnly) {
+              showToast?.({ type: 'warning', text: 'Read-only mode active: unlock editing to apply Artist Hub art.' });
+              return;
+            }
             if (editingModalElement?.id) {
               updateSavedElement?.(editingModalElement.id, {
                 ...editingModalElement,
@@ -282,6 +326,7 @@ export default function FoundryModalHost({
           initialMode={isModuleExportOpen ? 'export' : 'import'}
           universeState={universeState}
           elementsCatalog={elementsCatalog}
+          unifiedCatalog={unifiedCatalogForExport}
           onImportPackage={(pkg) => {
             if (isStoryReadOnly) {
               showToast?.({ type: 'warning', text: 'Read-only story: clone project to import module packages.' });
@@ -317,6 +362,7 @@ export default function FoundryModalHost({
           onClose={() => setModal('commandPalette', false)}
           universeState={universeState}
           elementsCatalog={elementsCatalog}
+          isStoryReadOnly={isStoryReadOnly}
           onSelectScenario={(scId) => setActiveScenarioId?.(scId)}
           onEditElement={(el) => useAdeStore.getState().openGuidedElementCreator({ element: el, mode: 'sheet' })}
           onOpenNewElement={() => useAdeStore.getState().openGuidedElementCreator({ mode: 'guided' })}
@@ -324,6 +370,17 @@ export default function FoundryModalHost({
           onSwitchView={onSwitchView}
           onToggleSplitView={onToggleSplitView}
           onOpenModal={(key) => setModal(key, true)}
+        />
+      )}
+
+      {!isStoryReadOnly && (cronicle?.pendingDeltas?.length > 0) && (
+        <CronicleDeltaBadge
+          pendingDeltas={cronicle.pendingDeltas}
+          onAcceptDelta={acceptPendingDelta}
+          onAcceptAll={acceptAllPendingDeltas}
+          onRejectDelta={rejectPendingDelta}
+          onClearAll={clearPendingDeltas}
+          onOpenCronicleModal={() => setModal('cronicle', true)}
         />
       )}
     </>

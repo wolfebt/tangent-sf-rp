@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCampaign } from '../../../context/CampaignContext';
+import { useAuth } from '../../../context/AuthContext';
 import {
   ELEMENT_TYPES,
   PROPERTY_SUBCATEGORIES,
@@ -17,7 +18,9 @@ import EditElementModal from './EditElementModal';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { AudioService } from '../../../services/audioService';
-import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2, Upload, Download, Database, CheckSquare, Square, RefreshCw, ChevronDown, Pin, ExternalLink, LayoutGrid, List } from 'lucide-react';
+import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Upload, Download, Database, RefreshCw, ChevronDown, LayoutGrid, List } from 'lucide-react';
+import { ElementCardActions } from './components/ElementCardActions';
+import { DbmBulkPinModal } from './components/DbmBulkPinModal';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { showToast } from '../../../context/ToastContext';
 import DOMPurify from 'dompurify';
@@ -29,7 +32,8 @@ import { pullElementFromOmnicortexDBM } from '../../../utils/storyAssetAdapter.j
 import {
   buildUnifiedAdeCatalog,
   ADE_TYPE_TO_CORTEX_COLLECTIONS,
-  CORTEX_BACKED_ADE_TYPES
+  CORTEX_BACKED_ADE_TYPES,
+  projectOmnicortexRecordToAdeElement
 } from '../../../utils/cortexAdeAssetBridge.js';
 import { persistAdeElement } from '../../../utils/adeElementPersistence.js';
 import { buildArtistConceptPatch } from '../../../services/artistHubFramework';
@@ -40,7 +44,8 @@ const PAGE_BATCH_SIZE = 48;
 
 export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSelectType, hideSidebar = false }) => {
   const navigate = useNavigate();
-  const { elementsCatalog, updateSavedElement, deleteSavedElement, universeState, activeScenarioId } = useCampaign();
+  const { elementsCatalog, updateSavedElement, deleteSavedElement, toggleElementVisibility, loadPublicElements, universeState, activeScenarioId, isStoryReadOnly = false } = useCampaign();
+  const { isAdmin = false } = useAuth() || {};
   const storeActiveElementType = useAdeStore((state) => state.activeElementType);
   const setStoreActiveElementType = useAdeStore((state) => state.setActiveElementType);
   const activePropertySubcategory = useAdeStore((state) => state.activePropertySubcategory || 'all');
@@ -52,6 +57,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   
   const [localActiveType, setLocalActiveType] = useState(ELEMENT_TYPES[0]);
   const [sourceFilter, setSourceFilter] = useState('all'); // 'all' | 'module' | 'cortex'
+  const [sortBy, setSortBy] = useState('name_asc'); // 'name_asc' | 'name_desc' | 'updated' | 'origin'
   const activeType = normalizeElementType(propActiveType || storeActiveElementType || localActiveType || ELEMENT_TYPES[0]);
 
   const setActiveType = (nextType) => {
@@ -99,16 +105,42 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   }, []);
 
   const processImportFiles = async (files) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before importing assets.' });
+      return;
+    }
     const results = await batchIngestAimeFiles(files);
     let count = 0;
     for (const res of results) {
       if (res.success && res.element) {
+        const cleanFields = { ...(res.element.fields || {}) };
+        delete cleanFields.dbmRef;
+        delete cleanFields.dbmId;
+        delete cleanFields.dbmCategory;
+        const normalizedType = normalizeElementType(res.element.type);
+        const techSub =
+          res.element.type === 'Technology' && !res.element.propertySubcategory && !cleanFields.propertySubcategory
+            ? 'technology'
+            : undefined;
+        if (techSub) {
+          cleanFields.propertySubcategory = techSub;
+        }
         const normalizedElem = {
           ...res.element,
-          type: normalizeElementType(res.element.type)
+          type: normalizedType,
+          ...(techSub ? { propertySubcategory: techSub } : {}),
+          fields: cleanFields,
+          dbmSyncStatus: 'standalone'
         };
-        await updateSavedElement(normalizedElem.id, normalizedElem);
-        count++;
+        delete normalizedElem.isCortexAsset;
+        delete normalizedElem.isFolioPersona;
+        delete normalizedElem.isPinnedToModule;
+        delete normalizedElem.folioDocId;
+        delete normalizedElem.dbmId;
+        delete normalizedElem.dbmCategory;
+        delete normalizedElem.dbmRef;
+        const saved = await updateSavedElement(normalizedElem.id, normalizedElem);
+        if (saved !== false && saved !== null) count++;
       }
     }
     if (count > 0) {
@@ -119,7 +151,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   };
 
   // Omnicortex DBM & Persona Folio Live State
-  const { dbData = EMPTY_OBJ, saveEntry, deleteEntry } = useDBM() || EMPTY_OBJ;
+  const { dbData = EMPTY_OBJ, saveEntry, deleteEntry: dbmDeleteEntry } = useDBM() || EMPTY_OBJ;
   const {
     roster: folioRoster = EMPTY_ARRAY,
     personaRoster = EMPTY_ARRAY,
@@ -160,18 +192,25 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   }, [dbData, activeType]);
 
   const handleImportSelectedDbm = async () => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before pinning DBM entries.' });
+      return;
+    }
     if (selectedDbmIds.size === 0) return;
     const itemsToImport = matchingDbmItems.filter(item => selectedDbmIds.has(item.id));
     let count = 0;
     for (const item of itemsToImport) {
+      const projected = projectOmnicortexRecordToAdeElement(item, item.dbmCategory) || {};
+      const resolvedType = projected.type || activeType;
       const newElem = {
+        ...projected,
         id: `elem_dbm_${item.dbmCategory}_${item.id || Date.now()}`,
-        title: item.title || item.name || 'Omnicortex Element',
-        type: activeType,
-        ...(activeType === 'Property' ? { propertySubcategory: item.dbmCategory } : {}),
-        ...(activeType === 'Metaphysics' ? { metaphysicsSubcategory: item.dbmCategory } : {}),
-        ...(activeType === 'Persona' && item.dbmCategory === 'modular_characters' ? { personaSubcategory: 'mcm' } : {}),
-        content: item.description || item.concept || item.notes || item.summary || '',
+        title: projected.title || item.title || item.name || 'Omnicortex Element',
+        type: resolvedType,
+        ...(resolvedType === 'Property' && !projected.propertySubcategory ? { propertySubcategory: item.dbmCategory } : {}),
+        ...(resolvedType === 'Metaphysics' && !projected.metaphysicsSubcategory ? { metaphysicsSubcategory: item.dbmCategory } : {}),
+        ...(resolvedType === 'Persona' && item.dbmCategory === 'modular_characters' ? { personaSubcategory: 'mcm' } : {}),
+        content: projected.content || item.description || item.concept || item.notes || item.summary || '',
         dbmSyncStatus: 'synced',
         dbmCategory: item.dbmCategory,
         dbmId: item.id,
@@ -179,13 +218,14 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
           dbmRef: item.id,
           dbmId: item.id,
           dbmCategory: item.dbmCategory,
-          ...(activeType === 'Property' ? { propertySubcategory: item.dbmCategory } : {}),
-          ...(activeType === 'Metaphysics' ? { metaphysicsSubcategory: item.dbmCategory } : {}),
-          ...item
+          ...(resolvedType === 'Property' ? { propertySubcategory: projected.propertySubcategory || item.dbmCategory } : {}),
+          ...(resolvedType === 'Metaphysics' ? { metaphysicsSubcategory: projected.metaphysicsSubcategory || item.dbmCategory } : {}),
+          ...item,
+          ...(projected.fields || {})
         }
       };
-      await updateSavedElement(newElem.id, newElem);
-      count++;
+      const saved = await updateSavedElement(newElem.id, newElem);
+      if (saved !== false && saved !== null) count++;
     }
     showToast({ type: 'success', text: `Pinned ${count} ${activeType} element(s) from OmniCortex into Story Module!` });
     setSelectedDbmIds(new Set());
@@ -193,6 +233,10 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   };
 
   const handleRefreshAllDbmLinks = async () => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before refreshing pinned elements.' });
+      return;
+    }
     const linked = (elementsCatalog || EMPTY_ARRAY).filter(el => el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId);
     if (linked.length === 0) {
       showToast({ type: 'info', text: 'No DBM-linked elements found in this Story Module.' });
@@ -248,13 +292,17 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   const filterCounts = useMemo(() => {
     let cortex = 0;
     let modulePinned = 0;
+    let moduleLocal = 0;
+    let publicShared = 0;
     const propertySub = {};
     const personaSub = {};
     const metaphysicsSub = {};
 
     for (const e of typeElements) {
       if (e.isCortexAsset || e.isFolioPersona) cortex++;
+      else moduleLocal++;
       if (e.isPinnedToModule) modulePinned++;
+      if (e.isPublic) publicShared++;
 
       if (activeType === 'Property') {
         const sub = e.propertySubcategory || inferPropertySubcategory(e);
@@ -267,15 +315,19 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
         metaphysicsSub[mSub] = (metaphysicsSub[mSub] || 0) + 1;
       }
     }
-    return { cortex, modulePinned, propertySub, personaSub, metaphysicsSub };
+    return { cortex, modulePinned, moduleLocal, publicShared, propertySub, personaSub, metaphysicsSub };
   }, [typeElements, activeType]);
 
-  // Filter elements by source scope, subcategory, and search term
+  // Filter & sort elements by source scope, subcategory, search term, and sort order
   const filteredElements = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
-    return typeElements.filter((el) => {
-      if (sourceFilter === 'module' && !el.isPinnedToModule) return false;
-      if (sourceFilter === 'cortex' && !el.isCortexAsset && !el.isFolioPersona) return false;
+    const isCortexType = CORTEX_BACKED_ADE_TYPES.has(activeType);
+    const list = typeElements.filter((el) => {
+      if (sourceFilter === 'module') {
+        if (isCortexType ? !el.isPinnedToModule : (el.isCortexAsset || el.isFolioPersona)) return false;
+      }
+      if (sourceFilter === 'cortex' && isCortexType && !el.isCortexAsset && !el.isFolioPersona) return false;
+      if (sourceFilter === 'public' && !el.isPublic) return false;
 
       if (activeType === 'Property' && activePropertySubcategory !== 'all') {
         const sub = el.propertySubcategory || inferPropertySubcategory(el);
@@ -303,7 +355,10 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
           el.fields?.summary,
           el.fields?.archetype,
           el.fields?.discipline,
-          el.fields?.faction_type
+          el.fields?.faction_type,
+          el.fields?.tags,
+          el.fields?.keywords,
+          el.content
         ]
           .filter(Boolean)
           .join(' ')
@@ -313,7 +368,29 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
 
       return true;
     });
-  }, [typeElements, sourceFilter, activeType, activePropertySubcategory, activePersonaSource, activeMetaphysicsSubcategory, searchTerm]);
+
+    if (sortBy === 'name_desc') {
+      return [...list].sort((a, b) => String(b.title || b.name || '').localeCompare(String(a.title || a.name || '')));
+    }
+    if (sortBy === 'updated') {
+      return [...list].sort((a, b) => {
+        const tsA = Date.parse(a.updatedAt || a.createdAt || '') || 0;
+        const tsB = Date.parse(b.updatedAt || b.createdAt || '') || 0;
+        if (tsB !== tsA) return tsB - tsA;
+        return String(a.title || a.name || '').localeCompare(String(b.title || b.name || ''));
+      });
+    }
+    if (sortBy === 'origin') {
+      const originRank = (el) =>
+        el.isPinnedToModule ? 0 : (!el.isCortexAsset && !el.isFolioPersona ? 1 : el.isFolioPersona ? 2 : 3);
+      return [...list].sort((a, b) => {
+        const rankDiff = originRank(a) - originRank(b);
+        if (rankDiff !== 0) return rankDiff;
+        return String(a.title || a.name || '').localeCompare(String(b.title || b.name || ''));
+      });
+    }
+    return [...list].sort((a, b) => String(a.title || a.name || '').localeCompare(String(b.title || b.name || '')));
+  }, [typeElements, sourceFilter, activeType, activePropertySubcategory, activePersonaSource, activeMetaphysicsSubcategory, searchTerm, sortBy]);
 
   // Progressive windowed rendering for large catalogs (e.g., Property 800+, Metaphysics 200+)
   const [visibleLimit, setVisibleLimit] = useState(PAGE_BATCH_SIZE);
@@ -347,21 +424,34 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
 
   const handleTogglePinToModule = async (el, e) => {
     if (e) e.stopPropagation();
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before pinning or unpinning elements.' });
+      return;
+    }
     AudioService.playTerminalBeep(1160, 0.025);
 
     if (el.isPinnedToModule && (el.isCortexAsset || el.isFolioPersona)) {
       const targetModuleId = el.moduleElementId || el.id;
-      deleteSavedElement(targetModuleId);
-      showToast({
-        type: 'info',
-        text: `Unpinned "${el.title || el.name}" from active Story Module (Cortex/Folio asset preserved).`
-      });
+      const ok = await deleteSavedElement(targetModuleId);
+      if (ok !== false) {
+        showToast({
+          type: 'info',
+          text: `Unpinned "${el.title || el.name}" from active Story Module (Cortex/Folio asset preserved).`
+        });
+      }
       return;
     }
 
     const pinId = el.moduleElementId || `pin_${el.id}`;
+    const cleanSource = { ...el };
+    delete cleanSource.cortexRaw;
+    delete cleanSource.searchHaystack;
+    delete cleanSource.previewText;
+    delete cleanSource.personaData;
+    delete cleanSource.vttUnitData;
+
     const pinnedElem = {
-      ...el,
+      ...cleanSource,
       id: pinId,
       moduleElementId: pinId,
       type: normalizeElementType(el.type),
@@ -373,11 +463,13 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
       },
       updatedAt: new Date().toISOString()
     };
-    await updateSavedElement(pinnedElem.id, pinnedElem);
-    showToast({
-      type: 'success',
-      text: `Pinned "${pinnedElem.title || pinnedElem.name}" into active Story Module!`
-    });
+    const saved = await updateSavedElement(pinnedElem.id, pinnedElem);
+    if (saved !== false && saved !== null) {
+      showToast({
+        type: 'success',
+        text: `Pinned "${pinnedElem.title || pinnedElem.name}" into active Story Module!`
+      });
+    }
   };
 
   const activeScenario = useMemo(() => {
@@ -397,6 +489,10 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   }, [universeState, activeScenarioId]);
 
   const handleCreateNew = () => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before creating elements.' });
+      return;
+    }
     AudioService.playTerminalBeep(1180, 0.03);
     setModalInitialMode('guided');
     setModalInitialSeedTab('spark');
@@ -430,6 +526,10 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   };
 
   const handleOpenBlueprints = () => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before seeding blueprints.' });
+      return;
+    }
     AudioService.playTerminalBeep(1240, 0.03);
     setModalInitialMode('guided');
     setModalInitialSeedTab('blueprint');
@@ -466,28 +566,83 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
     setIsEditModalOpen(true);
   };
 
-  const handleSave = async (updatedElement) => {
+  const handleSave = async (updatedElement, options = {}) => {
     const res = await persistAdeElement({
       element: updatedElement,
       elementsCatalog,
       updateSavedElement,
       saveEntry,
       saveCurrentToRoster,
-      showToast
+      showToast,
+      isStoryReadOnly: Boolean(isStoryReadOnly),
+      fromEditModal: true,
+      isAdmin: Boolean(isAdmin)
     });
     if (!res) return null;
-    setIsEditModalOpen(false);
-    setSelectedElement(null);
+    if (options?.closeAfter !== false) {
+      setIsEditModalOpen(false);
+      setSelectedElement(null);
+    }
     return res;
   };
 
   const handleDeleteAsset = async (el) => {
-    const inModule = (elementsCatalog || []).some(e => e.id === el.id || e.id === el.moduleElementId);
-    if (inModule) {
-      deleteSavedElement(el.moduleElementId || el.id);
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before deleting module elements.' });
+      return false;
     }
-    if (el.isCortexAsset && el.dbmId && el.dbmCategory && typeof deleteEntry === 'function' && !inModule) {
-      await deleteEntry(el.dbmId, el.dbmCategory);
+    const targetModuleId = el.moduleElementId || el.id;
+    const inModule = (elementsCatalog || []).some(e => e.id === el.id || e.id === el.moduleElementId);
+    if (!inModule && (el.isCortexAsset || el.isFolioPersona || el.fields?.dbmRef || el.dbmRef || el.dbmId)) {
+      return false;
+    }
+    return await deleteSavedElement(targetModuleId);
+  };
+
+  const handleOpenFolioAsset = (el) => {
+    if (el?.folioDocId && typeof switchRosterCharacter === 'function') {
+      switchRosterCharacter(el.folioDocId);
+    }
+    navigate('/folio');
+  };
+
+  const handleOpenCodexAsset = (el) => {
+    if (el?.codexMatrixId) {
+      navigate(`/codex?matrix=${el.codexMatrixId}`);
+    }
+  };
+
+  const handlePullDbmAsset = async (el) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before pulling DBM updates.' });
+      return;
+    }
+    const updated = pullElementFromOmnicortexDBM(el, dbData);
+    if (updated) {
+      await updateSavedElement(updated.id, updated);
+      showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
+    } else {
+      showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });
+    }
+  };
+
+  const handleExportAimeAsset = (el) => {
+    downloadAimeAssetFile(el);
+    showToast({
+      type: 'success',
+      text: `Exported ${el.title || el.name} as portable ${getElementFileExtension(el.type, el.propertySubcategory)} asset!`
+    });
+  };
+
+  const handleExportMarkdownAsset = (el) => {
+    downloadElementMarkdownFile({ ...el, name: el.title || el.name });
+    showToast({ type: 'info', text: `Exported ${el.title || el.name} to ELEMENTS.md markdown.` });
+  };
+
+  const handleDeleteDraftAsset = async (el) => {
+    const targetName = el.title || 'Untitled Element';
+    if (await confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
+      await handleDeleteAsset(el);
     }
   };
 
@@ -631,6 +786,19 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                   <List size={14} />
                 </button>
               </div>
+
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                aria-label="Sort elements"
+                className="bg-slate-950 border border-slate-800 hover:border-slate-700 focus:border-cyan-500 rounded-xl px-2.5 py-1.5 text-[11px] font-mono text-slate-300 outline-none cursor-pointer shrink-0"
+                title="Sort elements"
+              >
+                <option value="name_asc">Sort: A → Z</option>
+                <option value="name_desc">Sort: Z → A</option>
+                <option value="updated">Sort: Updated</option>
+                <option value="origin">Sort: Module First</option>
+              </select>
             </div>
 
             {/* Standard Primary Create Button */}
@@ -663,26 +831,11 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
 
               {isActionsMenuOpen && (
                 <div className="absolute right-0 mt-2 w-64 sm:w-72 max-h-[calc(100vh-14rem)] overflow-y-auto custom-scrollbar bg-[#0b101b]/98 backdrop-blur-2xl border border-cyan-500/50 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.95)] py-1.5 z-[100] text-xs font-mono divide-y divide-slate-800/80 animate-in fade-in slide-in-from-top-2 duration-150">
-                  {/* Group 1: Creation & AI Studio */}
+                  {/* Group 1: AI Studio & Blueprints */}
                   <div className="py-1">
                     <div className="px-3.5 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider">
-                      Creation &amp; AI Studio
+                      AI Studio &amp; Blueprints
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsActionsMenuOpen(false);
-                        handleCreateNew();
-                      }}
-                      className="w-full text-left px-3.5 py-1.5 hover:bg-amber-950/60 text-slate-200 hover:text-amber-200 flex items-center justify-between gap-2 transition-colors cursor-pointer group"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Plus size={13} className="text-amber-400 group-hover:scale-110 transition-transform" />
-                        <span className="font-bold text-slate-200 group-hover:text-amber-300">Create {activeType}</span>
-                      </div>
-                      <span className="text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-400 border border-amber-500/30">New</span>
-                    </button>
 
                     <button
                       type="button"
@@ -773,7 +926,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                   </div>
 
                   {/* Group 3: Omnicortex Canon DBM */}
-                  {((matchingDbmItems && matchingDbmItems.length > 0) || (elementsCatalog || []).some(el => el.fields?.dbmRef || el.dbmRef)) && (
+                  {((matchingDbmItems && matchingDbmItems.length > 0) || (elementsCatalog || []).some(el => el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId)) && (
                     <div className="py-1">
                       <div className="px-3.5 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider">
                         Omnicortex Canon DBM
@@ -799,7 +952,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                         </button>
                       )}
 
-                      {(elementsCatalog || []).some(el => el.fields?.dbmRef || el.dbmRef) && (
+                      {(elementsCatalog || []).some(el => el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId) && (
                         <button
                           type="button"
                           onClick={() => {
@@ -841,40 +994,48 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
 
         {/* Consolidated Source & Subcategory Filter Bars */}
         <div className="mb-4 flex flex-col gap-2 shrink-0 relative z-20">
-          {/* Row 1: Source Scope Filter (Cortex / Folio / Story Module) */}
-          {CORTEX_BACKED_ADE_TYPES.has(activeType) && (
-            <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2 rounded-xl bg-slate-900/60 border border-slate-800/80 font-mono text-[11px]">
-              <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-slate-500 uppercase font-bold text-[10px] mr-1">Source:</span>
-                {[
-                  { id: 'all', label: `All ${activeType}`, count: typeElements.length },
-                  { id: 'cortex', label: activeType === 'Persona' ? 'OmniCortex & Folio' : 'OmniCortex / Codex', count: filterCounts.cortex },
-                  { id: 'module', label: 'Pinned in Story Module', count: filterCounts.modulePinned }
-                ].map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => {
-                      AudioService.playTerminalBeep(1080, 0.02);
-                      setSourceFilter(opt.id);
-                    }}
-                    className={`px-2.5 py-1 rounded-lg uppercase tracking-wider font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
-                      sourceFilter === opt.id
-                        ? 'bg-cyan-950/80 border-cyan-500/60 text-cyan-200 shadow-sm'
-                        : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    <span>{opt.label}</span>
-                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-black/40 text-slate-300">{opt.count}</span>
-                  </button>
-                ))}
-              </div>
-
-              <span className="text-[10px] text-slate-400 hidden lg:inline">
-                Showing <strong className="text-amber-300">{filteredElements.length}</strong> unified asset{filteredElements.length === 1 ? '' : 's'}
-              </span>
+          {/* Row 1: Source Scope Filter (Cortex / Folio / Story Module / Public) */}
+          <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2 rounded-xl bg-slate-900/60 border border-slate-800/80 font-mono text-[11px]">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-slate-500 uppercase font-bold text-[10px] mr-1">Source:</span>
+              {[
+                { id: 'all', label: `All ${activeType}`, count: typeElements.length },
+                ...(CORTEX_BACKED_ADE_TYPES.has(activeType)
+                  ? [
+                      { id: 'cortex', label: activeType === 'Persona' ? 'OmniCortex & Folio' : 'OmniCortex / Codex', count: filterCounts.cortex },
+                      { id: 'module', label: 'Pinned in Story Module', count: filterCounts.modulePinned }
+                    ]
+                  : [
+                      { id: 'module', label: 'Story Module', count: filterCounts.moduleLocal }
+                    ]),
+                { id: 'public', label: 'Public / Shared', count: filterCounts.publicShared || 0 }
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1080, 0.02);
+                    if (opt.id === 'public' && typeof loadPublicElements === 'function') {
+                      loadPublicElements();
+                    }
+                    setSourceFilter(opt.id);
+                  }}
+                  className={`px-2.5 py-1 rounded-lg uppercase tracking-wider font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                    sourceFilter === opt.id
+                      ? 'bg-cyan-950/80 border-cyan-500/60 text-cyan-200 shadow-sm'
+                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>{opt.label}</span>
+                  <span className="text-[9px] px-1.5 py-0.2 rounded bg-black/40 text-slate-300">{opt.count}</span>
+                </button>
+              ))}
             </div>
-          )}
+
+            <span className="text-[10px] text-slate-400 hidden lg:inline">
+              Showing <strong className="text-amber-300">{filteredElements.length}</strong> unified asset{filteredElements.length === 1 ? '' : 's'}
+            </span>
+          </div>
 
           {/* Row 2A: Property Subcategory Filter Pills */}
           {activeType === 'Property' && (
@@ -1066,7 +1227,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                             <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border shrink-0 ${
                               el.isFolioPersona
                                 ? 'bg-purple-950/80 text-purple-200 border-purple-500/50 shadow-sm'
-                                : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                                : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId || el.dbmSyncStatus === 'synced')
                                 ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50 shadow-sm' 
                                 : el.dbmSyncStatus === 'local_override'
                                 ? 'bg-amber-950/60 text-amber-300 border-amber-500/40'
@@ -1074,7 +1235,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                             }`}>
                               {el.isFolioPersona
                                 ? '🪪 Folio'
-                                : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                                : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId || el.dbmSyncStatus === 'synced')
                                 ? '⚡ Cortex'
                                 : el.dbmSyncStatus === 'local_override'
                                 ? '▲ Override'
@@ -1094,124 +1255,19 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                         <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold font-mono truncate max-w-[115px]">
                           {el.isPinnedToModule ? '📌 In Module' : el.isFolioPersona ? 'Folio Roster' : el.isCortexAsset ? 'OmniCortex' : 'Module Draft'}
                         </span>
-                        <div className="flex items-center gap-1">
-                          {/* Pin / Unpin Cortex or Folio Asset to Active Story Module */}
-                          {(el.isCortexAsset || el.isFolioPersona) && (
-                            <button
-                              type="button"
-                              onClick={(e) => handleTogglePinToModule(el, e)}
-                              className={`p-1.5 rounded border transition-colors cursor-pointer ${
-                                el.isPinnedToModule
-                                  ? 'bg-emerald-950/70 text-emerald-300 border-emerald-500/40 hover:bg-emerald-900'
-                                  : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-800 border-slate-700/70'
-                              }`}
-                              title={el.isPinnedToModule ? 'Pinned in Story Module (Click to unpin)' : 'Pin to active Story Module'}
-                            >
-                              <Pin size={12} />
-                            </button>
-                          )}
-
-                          {/* Open in Persona Folio or Codex Studio */}
-                          {el.isFolioPersona && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (el.folioDocId && typeof switchRosterCharacter === 'function') {
-                                  switchRosterCharacter(el.folioDocId);
-                                }
-                                navigate('/folio');
-                              }}
-                              className="p-1.5 rounded text-purple-300 hover:text-purple-100 hover:bg-purple-950/70 border border-purple-500/30 transition-colors cursor-pointer"
-                              title="Open character sheet in Persona Folio"
-                            >
-                              <ExternalLink size={12} />
-                            </button>
-                          )}
-
-                          {!el.isFolioPersona && el.codexMatrixId && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigate(`/codex?matrix=${el.codexMatrixId}`);
-                              }}
-                              className="p-1.5 rounded text-cyan-300 hover:text-cyan-100 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
-                              title={`Open in Codex Studio (${el.codexMatrixId})`}
-                            >
-                              <ExternalLink size={12} />
-                            </button>
-                          )}
-
-                          {/* Pull Canon Updates from Omnicortex DBM */}
-                          {el.isPinnedToModule && (el.fields?.dbmRef || el.dbmRef || el.dbmId || el.dbmSyncStatus === 'synced') && (
-                            <button
-                              type="button"
-                              onClick={async (e) => {
-                                e.stopPropagation();
-                                const updated = pullElementFromOmnicortexDBM(el, dbData);
-                                if (updated) {
-                                  await updateSavedElement(updated.id, updated);
-                                  showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
-                                } else {
-                                  showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });
-                                }
-                              }}
-                              className="p-1.5 rounded text-cyan-400 hover:text-cyan-200 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
-                              title="Pull canonical updates from Omnicortex DBM"
-                            >
-                              <RefreshCw size={12} />
-                            </button>
-                          )}
-
-                          {/* AIME Portable Asset Export Button */}
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              downloadAimeAssetFile(el);
-                              showToast({ type: 'success', text: `Exported ${el.title || el.name} as portable ${getElementFileExtension(el.type, el.propertySubcategory)} asset!` });
-                            }}
-                            className="p-1.5 rounded text-amber-400 hover:text-amber-200 hover:bg-amber-950/60 border border-amber-500/30 transition-colors"
-                            title={`Export AIME Asset (${getElementFileExtension(el.type, el.propertySubcategory)})`}
-                          >
-                            <Sparkles size={12} />
-                          </button>
-
-                          {/* Markdown Export Button */}
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              downloadElementMarkdownFile({ ...el, name: el.title || el.name });
-                              showToast({ type: 'info', text: `Exported ${el.title || el.name} to ELEMENTS.md markdown.` });
-                            }}
-                            className="p-1.5 rounded text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/50 transition-colors"
-                            title="Export as ELEMENTS.md Markdown"
-                          >
-                            <Download size={12} />
-                          </button>
-
-                          {!el.isFolioPersona && (
-                            <button
-                              type="button"
-                              onClick={async (e) => {
-                                e.stopPropagation();
-                                const targetName = el.title || 'Untitled Element';
-                                if (await confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
-                                  await handleDeleteAsset(el);
-                                }
-                              }}
-                              className="p-1.5 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors"
-                              title="Delete Element"
-                            >
-                              <Trash2 size={12} />
-                            </button>
-                          )}
-                          <span className="text-[10px] text-cyan-400 group-hover:text-amber-300 transition-colors ml-1 font-bold">
-                            Edit ✏️
-                          </span>
-                        </div>
+                        <ElementCardActions
+                          el={el}
+                          variant="card"
+                          isStoryReadOnly={isStoryReadOnly}
+                          onTogglePin={handleTogglePinToModule}
+                          onOpenFolio={handleOpenFolioAsset}
+                          onOpenCodex={handleOpenCodexAsset}
+                          onPullFromDbm={handlePullDbmAsset}
+                          onExportAime={handleExportAimeAsset}
+                          onExportMarkdown={handleExportMarkdownAsset}
+                          onDeleteDraft={handleDeleteDraftAsset}
+                          onEdit={handleEdit}
+                        />
                       </div>
                     </div>
                     );
@@ -1272,7 +1328,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                                 <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border shrink-0 ${
                                   el.isFolioPersona
                                     ? 'bg-purple-950/80 text-purple-200 border-purple-500/50 shadow-sm'
-                                    : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                                    : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId || el.dbmSyncStatus === 'synced')
                                     ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50 shadow-sm' 
                                     : el.dbmSyncStatus === 'local_override'
                                     ? 'bg-amber-950/60 text-amber-300 border-amber-500/40'
@@ -1280,7 +1336,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                                 }`}>
                                   {el.isFolioPersona
                                     ? '🪪 Folio'
-                                    : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                                    : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId || el.dbmSyncStatus === 'synced')
                                     ? '⚡ Cortex'
                                     : el.dbmSyncStatus === 'local_override'
                                     ? '▲ Override'
@@ -1291,124 +1347,19 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                                 {el.isPinnedToModule ? '📌 In Module' : el.isFolioPersona ? 'Folio Roster' : el.isCortexAsset ? 'OmniCortex' : 'Module Draft'}
                               </td>
                               <td className="py-3 px-4 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                                <div className="flex items-center justify-end gap-1.5">
-                                  {(el.isCortexAsset || el.isFolioPersona) && (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => handleTogglePinToModule(el, e)}
-                                      className={`p-1.5 rounded border transition-colors cursor-pointer ${
-                                        el.isPinnedToModule
-                                          ? 'bg-emerald-950/70 text-emerald-300 border-emerald-500/40 hover:bg-emerald-900'
-                                          : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-800 border-slate-700/70'
-                                      }`}
-                                      title={el.isPinnedToModule ? 'Pinned in Story Module (Click to unpin)' : 'Pin to active Story Module'}
-                                    >
-                                      <Pin size={12} />
-                                    </button>
-                                  )}
-
-                                  {el.isFolioPersona && (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (el.folioDocId && typeof switchRosterCharacter === 'function') {
-                                          switchRosterCharacter(el.folioDocId);
-                                        }
-                                        navigate('/folio');
-                                      }}
-                                      className="p-1.5 rounded text-purple-300 hover:text-purple-100 hover:bg-purple-950/70 border border-purple-500/30 transition-colors cursor-pointer"
-                                      title="Open character sheet in Persona Folio"
-                                    >
-                                      <ExternalLink size={12} />
-                                    </button>
-                                  )}
-
-                                  {!el.isFolioPersona && el.codexMatrixId && (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        navigate(`/codex?matrix=${el.codexMatrixId}`);
-                                      }}
-                                      className="p-1.5 rounded text-cyan-300 hover:text-cyan-100 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
-                                      title={`Open in Codex Studio (${el.codexMatrixId})`}
-                                    >
-                                      <ExternalLink size={12} />
-                                    </button>
-                                  )}
-
-                                  {el.isPinnedToModule && (el.fields?.dbmRef || el.dbmRef || el.dbmId || el.dbmSyncStatus === 'synced') && (
-                                    <button
-                                      type="button"
-                                      onClick={async (e) => {
-                                        e.stopPropagation();
-                                        const updated = pullElementFromOmnicortexDBM(el, dbData);
-                                        if (updated) {
-                                          await updateSavedElement(updated.id, updated);
-                                          showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
-                                        } else {
-                                          showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });
-                                        }
-                                      }}
-                                      className="p-1.5 rounded text-cyan-400 hover:text-cyan-200 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
-                                      title="Pull canonical updates from Omnicortex DBM"
-                                    >
-                                      <RefreshCw size={12} />
-                                    </button>
-                                  )}
-
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      downloadAimeAssetFile(el);
-                                      showToast({ type: 'success', text: `Exported ${el.title || el.name} as portable ${getElementFileExtension(el.type, el.propertySubcategory)} asset!` });
-                                    }}
-                                    className="p-1.5 rounded text-amber-400 hover:text-amber-200 hover:bg-amber-950/60 border border-amber-500/30 transition-colors cursor-pointer"
-                                    title={`Export AIME Asset (${getElementFileExtension(el.type, el.propertySubcategory)})`}
-                                  >
-                                    <Sparkles size={12} />
-                                  </button>
-
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      downloadElementMarkdownFile({ ...el, name: el.title || el.name });
-                                      showToast({ type: 'info', text: `Exported ${el.title || el.name} to ELEMENTS.md markdown.` });
-                                    }}
-                                    className="p-1.5 rounded text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/50 transition-colors cursor-pointer"
-                                    title="Export as ELEMENTS.md Markdown"
-                                  >
-                                    <Download size={12} />
-                                  </button>
-
-                                  {!el.isFolioPersona && (
-                                    <button
-                                      type="button"
-                                      onClick={async (e) => {
-                                        e.stopPropagation();
-                                        const targetName = el.title || 'Untitled Element';
-                                        if (await confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
-                                          await handleDeleteAsset(el);
-                                        }
-                                      }}
-                                      className="p-1.5 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
-                                      title="Delete Element"
-                                    >
-                                      <Trash2 size={12} />
-                                    </button>
-                                  )}
-
-                                  <button
-                                    type="button"
-                                    onClick={() => handleEdit(el)}
-                                    className="px-2.5 py-1 bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/40 rounded text-[10px] text-cyan-300 font-bold uppercase cursor-pointer"
-                                  >
-                                    Edit
-                                  </button>
-                                </div>
+                                <ElementCardActions
+                                  el={el}
+                                  variant="table"
+                                  isStoryReadOnly={isStoryReadOnly}
+                                  onTogglePin={handleTogglePinToModule}
+                                  onOpenFolio={handleOpenFolioAsset}
+                                  onOpenCodex={handleOpenCodexAsset}
+                                  onPullFromDbm={handlePullDbmAsset}
+                                  onExportAime={handleExportAimeAsset}
+                                  onExportMarkdown={handleExportMarkdownAsset}
+                                  onDeleteDraft={handleDeleteDraftAsset}
+                                  onEdit={handleEdit}
+                                />
                               </td>
                             </tr>
                           );
@@ -1441,16 +1392,8 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
           isOpen={isArtistHubOpen}
           onClose={() => setIsArtistHubOpen(false)}
           onApplyAsset={async (asset) => {
-            if (selectedElement?.id) {
-              const updated = {
-                ...selectedElement,
-                ...buildArtistConceptPatch(selectedElement, asset)
-              };
-              await updateSavedElement?.(selectedElement.id, updated);
-              showToast?.({
-                type: 'success',
-                text: `Applied Artist Hub concept to "${selectedElement.title || activeType}".`
-              });
+            if (isStoryReadOnly) {
+              showToast?.({ type: 'warning', text: 'Read-only story: unlock or clone this project before applying Artist Hub art.' });
               return;
             }
             const seedSubcategory =
@@ -1489,11 +1432,23 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
               ...baseElem,
               ...buildArtistConceptPatch(baseElem, asset, { fillContent: true })
             };
-            await updateSavedElement?.(newId, nextElem);
-            showToast?.({
-              type: 'success',
-              text: `Saved Artist Hub concept "${title}" to ${activeType} Forge.`
+            const persisted = await persistAdeElement({
+              element: nextElem,
+              elementsCatalog,
+              updateSavedElement,
+              saveEntry,
+              saveCurrentToRoster,
+              showToast,
+              isStoryReadOnly: Boolean(isStoryReadOnly),
+              fromEditModal: true,
+              isAdmin: Boolean(isAdmin)
             });
+            if (persisted) {
+              showToast?.({
+                type: 'success',
+                text: `Saved Artist Hub concept "${title}" to ${activeType} Forge.`
+              });
+            }
           }}
           initialPrompt={searchTerm ? `${searchTerm}` : ''}
           elementContext={{ type: activeType }}
@@ -1514,156 +1469,37 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
         />
       )}
 
-      {/* Omnicortex DBM Import Modal */}
-      {isDbmImportOpen && (
-        <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans">
-          <div className="w-full max-w-2xl bg-[#0d1117] border border-cyan-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(6,182,212,0.25)] flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
-            {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-cyan-950 border border-cyan-500/50 flex items-center justify-center text-cyan-300">
-                  <Database size={18} />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-white tracking-wide">
-                    Sync {activeType}s from Omnicortex DBM
-                  </h3>
-                  <p className="text-xs text-slate-400">
-                    Import existing canonical compendium data directly into your adventure element catalog.
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsDbmImportOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            {/* Search & Selection Controls */}
-            <div className="flex items-center justify-between gap-3">
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  placeholder={`Search ${matchingDbmItems.length} available DBM entries...`}
-                  value={dbmSearchTerm}
-                  onChange={(e) => setDbmSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
-                />
-                <Search size={14} className="absolute left-3 top-2 text-slate-500" />
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  const visibleIds = matchingDbmItems
-                    .filter(i => !dbmSearchTerm || (i.title || i.name || '').toLowerCase().includes(dbmSearchTerm.toLowerCase()))
-                    .map(i => i.id);
-                  if (selectedDbmIds.size === visibleIds.length) {
-                    setSelectedDbmIds(new Set());
-                  } else {
-                    setSelectedDbmIds(new Set(visibleIds));
-                  }
-                }}
-                className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold transition-colors shrink-0"
-              >
-                {selectedDbmIds.size > 0 ? 'Deselect All' : 'Select All'}
-              </button>
-            </div>
-
-            {/* Items List */}
-            <div className="flex-1 overflow-y-auto space-y-2 pr-1 scrollbar-thin max-h-[50vh]">
-              {matchingDbmItems
-                .filter(i => !dbmSearchTerm || (i.title || i.name || '').toLowerCase().includes(dbmSearchTerm.toLowerCase()))
-                .map(item => {
-                  const isSelected = selectedDbmIds.has(item.id);
-                  const alreadyImported = (elementsCatalog || []).some(el => el.fields?.dbmRef === item.id || el.id === `elem_dbm_${item.id}`);
-
-                  return (
-                    <div
-                      key={item.id}
-                      onClick={() => {
-                        setSelectedDbmIds(prev => {
-                          const next = new Set(prev);
-                          if (next.has(item.id)) next.delete(item.id);
-                          else next.add(item.id);
-                          return next;
-                        });
-                      }}
-                      className={`p-3 rounded-xl border text-xs font-mono flex items-center justify-between gap-3 cursor-pointer transition-all ${
-                        isSelected
-                          ? 'bg-cyan-950/40 border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.15)] text-cyan-100'
-                          : alreadyImported
-                          ? 'bg-slate-950/40 border-slate-800/80 text-slate-400 opacity-75'
-                          : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:border-slate-700'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className="shrink-0 text-cyan-400">
-                          {isSelected ? <CheckSquare size={16} /> : <Square size={16} />}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold truncate text-sm">{item.title || item.name}</span>
-                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-950 border border-slate-700 text-slate-400 uppercase font-mono">
-                              {item.dbmCategory || activeType}
-                            </span>
-                            {alreadyImported && (
-                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-mono">
-                                In Catalog
-                              </span>
-                            )}
-                          </div>
-                          {(item.description || item.concept || item.notes || item.summary) && (
-                            <p className="text-[11px] text-slate-400 line-clamp-1 pt-0.5">
-                              {item.description || item.concept || item.notes || item.summary}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-
-            {/* Footer */}
-            <div className="flex items-center justify-between pt-3 border-t border-slate-800">
-              <span className="text-xs font-mono text-slate-400">
-                {selectedDbmIds.size} of {matchingDbmItems.length} selected
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsDbmImportOpen(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  disabled={selectedDbmIds.size === 0}
-                  onClick={handleImportSelectedDbm}
-                  className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-mono font-bold transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] disabled:opacity-40 cursor-pointer flex items-center gap-1.5"
-                >
-                  <Database size={13} />
-                  <span>Import {selectedDbmIds.size} Elements</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Omnicortex DBM Bulk Pin Modal (Read-only copy into Story Module) */}
+      <DbmBulkPinModal
+        isOpen={isDbmImportOpen}
+        onClose={() => setIsDbmImportOpen(false)}
+        activeType={activeType}
+        matchingDbmItems={matchingDbmItems}
+        elementsCatalog={elementsCatalog}
+        searchTerm={dbmSearchTerm}
+        onChangeSearchTerm={setDbmSearchTerm}
+        selectedIds={selectedDbmIds}
+        onChangeSelectedIds={setSelectedDbmIds}
+        isStoryReadOnly={isStoryReadOnly}
+        onImportSelected={handleImportSelectedDbm}
+      />
 
       {/* Edit Modal (Dual-Mode Guided + Sheet Studio) */}
       {isEditModalOpen && (
         <EditElementModal
           isOpen={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedElement(null);
+          }}
           element={selectedElement}
           onSave={handleSave}
           onDelete={(id) => (selectedElement ? handleDeleteAsset(selectedElement) : deleteSavedElement(id))}
+          onDeleteCortex={
+            isAdmin && typeof dbmDeleteEntry === 'function'
+              ? (el) => dbmDeleteEntry(el?.dbmId || el?.fields?.dbmId || el?.fields?.dbmRef, el?.dbmCategory || el?.fields?.dbmCategory)
+              : undefined
+          }
           initialMode={modalInitialMode}
           initialSeedTab={modalInitialSeedTab}
           activeScenario={activeScenario}

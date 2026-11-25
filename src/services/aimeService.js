@@ -8,6 +8,7 @@ import { synthesizeSuperPrompt, buildStaticRulesPrefix } from './superPromptSynt
 import { scanDynamicLorebook } from './lorebookScanner.ts';
 import { formatMandateForPrompt } from './ade/adeEngineBridge.ts';
 import { extractAndResolveBracketContext, formatBracketContextForAI } from './hyperlinkResolver.js';
+import { stripGmSecretHtmlBlocks } from '../utils/gmSecretSanitizer.js';
 import { 
   TANGENT_STORY_BEAT_GBNF, 
   TANGENT_STORY_BEAT_JSON_SCHEMA,
@@ -135,6 +136,13 @@ export function formatContext(context, promptQuery = '') {
       || resolvedActiveNode?.assetHub
       || resolvedActiveNode?.linkedElements;
 
+    const isOperatorSafe = Boolean(
+      context.operatorSafe ||
+      context.excludeGmSecrets ||
+      context.perspectiveMode === 'operator' ||
+      context.perspective === 'operator'
+    );
+
     // If activeNode or rich AIME layers are present, leverage the Super-Prompt Synthesizer
     if (resolvedActiveNode || context.guidance || resolvedAssetHub) {
       const superPrompt = synthesizeSuperPrompt({
@@ -148,7 +156,11 @@ export function formatContext(context, promptQuery = '') {
         storyFlags: context.storyFlags,
         lorebookConfig: context.lorebookConfig,
         folioCharacter: context.folioCharacter || context.activeOperative,
-        dbData: context.dbData
+        dbData: context.dbData,
+        operatorSafe: isOperatorSafe,
+        excludeGmSecrets: isOperatorSafe,
+        perspective: context.perspective,
+        perspectiveMode: context.perspectiveMode
       });
       if (superPrompt) return superPrompt;
     }
@@ -157,12 +169,21 @@ export function formatContext(context, promptQuery = '') {
     if (context.activeNode) {
       out += `Active Story Element: [${context.activeNode.type || 'Element'}] "${context.activeNode.title || 'Untitled'}"\n`;
       if (context.activeNode.content) {
+        const rawContent = isOperatorSafe
+          ? stripGmSecretHtmlBlocks(context.activeNode.content)
+          : context.activeNode.content;
         // Strip HTML tags for clean context prompt
-        const cleanContent = context.activeNode.content.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
+        const cleanContent = rawContent.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
         out += `Element Content Summary: ${cleanContent.slice(0, 800)}\n`;
       }
       if (context.activeNode.fields && Object.keys(context.activeNode.fields).length > 0) {
-        out += `Element Custom Fields: ${JSON.stringify(context.activeNode.fields)}\n`;
+        const GM_SECRET_KEYS = new Set(['gmSecrets', 'gmNotes', 'secrets', 'hiddenNotes', 'architectNotes', 'theSecret', 'theLie', 'theTruth', 'hiddenAgenda']);
+        const safeFields = isOperatorSafe
+          ? Object.fromEntries(Object.entries(context.activeNode.fields).filter(([k]) => !GM_SECRET_KEYS.has(k)))
+          : context.activeNode.fields;
+        if (Object.keys(safeFields).length > 0) {
+          out += `Element Custom Fields: ${JSON.stringify(safeFields)}\n`;
+        }
       }
 
       // Tier 1: Hydrate Relational Entity References (Species, Factions, Origins, Occupations, Weapons)
@@ -275,7 +296,7 @@ export async function generateContent({
       actionText: prompt,
       userOverride: tierKey
     });
-    const gbnfGrammar = enforceJson ? (grammar || TANGENT_STORY_BEAT_GBNF) : grammar;
+    const gbnfGrammar = enforceJson ? (grammar || (responseSchema ? null : TANGENT_STORY_BEAT_GBNF)) : grammar;
 
     try {
       const pipelineResult = await callAutomatedInferencePipeline({
@@ -341,7 +362,7 @@ export async function generateContent({
     };
   }
 
-  const data = await fetchGeminiContent(activeKey, requestBody);
+  const data = await fetchGeminiContent(activeKey, requestBody, model ? { preferredModel: model } : undefined);
   return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
@@ -424,7 +445,7 @@ export async function streamContent({
       actionText: prompt,
       userOverride: tierKey
     });
-    const gbnfGrammar = enforceJson ? (grammar || TANGENT_STORY_BEAT_GBNF) : grammar;
+    const gbnfGrammar = enforceJson ? (grammar || (responseSchema ? null : TANGENT_STORY_BEAT_GBNF)) : grammar;
 
     try {
       const pipelineResult = await callAutomatedInferencePipeline({

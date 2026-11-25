@@ -17,8 +17,11 @@ export const useWaypointEngine = ({
   flatScenarios,
   setActiveScenarioId,
   storyContext,
+  applyCronicleDelta,
+  openFloatingAimeWithPrompt,
   studioMode,
   enableProximityInDev = false,
+  isStoryReadOnly = false,
   liveTokens = [],
   setSaveStatusText,
   setIsFloatingAimeOpen,
@@ -28,6 +31,22 @@ export const useWaypointEngine = ({
   const promptedWaypointsRef = useRef(new Set());
   const [editingWaypointId, setEditingWaypointId] = useState(null);
 
+  const recordWaypointCronicle = useCallback((deltaPayload) => {
+    if (storyContext?.cronicle?.recordDelta) {
+      storyContext.cronicle.recordDelta(deltaPayload);
+      return;
+    }
+    if (typeof applyCronicleDelta === 'function' && !isStoryReadOnly) {
+      applyCronicleDelta({
+        id: `wp_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        entityId: deltaPayload.entityId || activeScenario?.id || 'waypoint',
+        action: 'add_timeline_event',
+        sceneTitle: deltaPayload.title || 'Tactical Waypoint',
+        value: deltaPayload.description || deltaPayload.title || 'Waypoint event triggered.'
+      });
+    }
+  }, [storyContext?.cronicle, applyCronicleDelta, isStoryReadOnly, activeScenario?.id]);
+
   // Execute Waypoint Trigger Effect (Immediate Auto or GM-Confirmed)
   const executeWaypointTrigger = useCallback((wp, tok, linkedBeat) => {
     if (!wp || !activeMap) return;
@@ -36,7 +55,7 @@ export const useWaypointEngine = ({
     const updatedWaypoints = (activeMap.waypoints || []).map(w => 
       w.id === wp.id ? { ...w, isTriggered: true } : w
     );
-    if (updateMap) {
+    if (updateMap && !isStoryReadOnly) {
       updateMap(activeMap.id, { waypoints: updatedWaypoints });
     }
 
@@ -59,21 +78,24 @@ export const useWaypointEngine = ({
         targetScenarioId: wp.targetScenarioId
       });
 
-      if (storyContext?.cronicle?.recordDelta) {
-        storyContext.cronicle.recordDelta({
-          type: 'SCENARIO_TRANSITION',
-          title: `Scenario Shift: ${targetScenario?.title || wp.targetScenarioId}`,
-          description: `Operator ${tok?.label || tok?.name || 'Party'} reached "${wp.name}". Transitioned to new scenario branch.`
-        });
-      }
+      recordWaypointCronicle({
+        type: 'SCENARIO_TRANSITION',
+        entityId: wp.targetScenarioId,
+        title: `Scenario Shift: ${targetScenario?.title || wp.targetScenarioId}`,
+        description: `Operator ${tok?.label || tok?.name || 'Party'} reached "${wp.name}". Transitioned to new scenario branch.`
+      });
     } 
     // 4. Action: TRIGGER_AIME (Generate Sensory Atmosphere)
     else if (action === 'TRIGGER_AIME') {
-      if (setIsFloatingAimeOpen) setIsFloatingAimeOpen(true);
       const prompt = wp.readAloudText 
         ? `Describe the squad's arrival at "${wp.name}": ${wp.readAloudText}`
         : `Describe the tactical arrival and environment of "${wp.name}".`;
-      if (setAimePromptInput) setAimePromptInput(prompt);
+      if (typeof openFloatingAimeWithPrompt === 'function') {
+        openFloatingAimeWithPrompt(prompt);
+      } else {
+        if (setIsFloatingAimeOpen) setIsFloatingAimeOpen(true);
+        if (setAimePromptInput) setAimePromptInput(prompt);
+      }
 
       VttEventBus.emit('story-waypoint-tripped', {
         waypoint: wp,
@@ -82,13 +104,12 @@ export const useWaypointEngine = ({
         beat: prompt
       });
 
-      if (storyContext?.cronicle?.recordDelta) {
-        storyContext.cronicle.recordDelta({
-          type: 'AIME_NARRATION',
-          title: `Sensory Atmosphere: ${wp.name}`,
-          description: prompt
-        });
-      }
+      recordWaypointCronicle({
+        type: 'AIME_NARRATION',
+        entityId: wp.id || activeScenario?.id,
+        title: `Sensory Atmosphere: ${wp.name}`,
+        description: prompt
+      });
     }
     // 5. Action: REVEAL_BEAT (Default: Advance Scene Beat)
     else {
@@ -106,26 +127,25 @@ export const useWaypointEngine = ({
         beat: linkedBeat || wp.readAloudText
       });
 
-      if (storyContext?.cronicle?.recordDelta) {
-        storyContext.cronicle.recordDelta({
-          type: 'WAYPOINT_REACHED',
-          title: `Objective Reached: ${wp.name}`,
-          description: linkedBeat || wp.readAloudText || `Squad reached tactical waypoint ${wp.name}.`
-        });
-      }
+      recordWaypointCronicle({
+        type: 'WAYPOINT_REACHED',
+        entityId: wp.id || activeScenario?.id,
+        title: `Objective Reached: ${wp.name}`,
+        description: linkedBeat || wp.readAloudText || `Squad reached tactical waypoint ${wp.name}.`
+      });
     }
 
     setWaypointPromptData(null);
-  }, [activeMap, updateMap, flatScenarios, setActiveScenarioId, storyContext?.cronicle, activeScenario, setIsFloatingAimeOpen, setAimePromptInput]);
+  }, [activeMap, updateMap, isStoryReadOnly, flatScenarios, setActiveScenarioId, recordWaypointCronicle, activeScenario, openFloatingAimeWithPrompt, setIsFloatingAimeOpen, setAimePromptInput]);
 
   // Reset all waypoints for testing or fresh sessions
   const handleResetAllWaypoints = useCallback(() => {
-    if (!activeMap || !updateMap) return;
+    if (!activeMap || !updateMap || isStoryReadOnly) return;
     promptedWaypointsRef.current.clear();
     const updated = (activeMap.waypoints || []).map(w => ({ ...w, isTriggered: false }));
     updateMap(activeMap.id, { waypoints: updated });
     AudioService.playTerminalBeep(900, 0.04);
-  }, [activeMap, updateMap]);
+  }, [activeMap, updateMap, isStoryReadOnly]);
 
   const isWaypointEngineArmed = studioMode === 'live_session' || Boolean(enableProximityInDev);
 

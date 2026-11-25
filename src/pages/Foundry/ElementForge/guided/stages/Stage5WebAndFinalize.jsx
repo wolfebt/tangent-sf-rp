@@ -4,7 +4,7 @@
  * Preloaded Artist Hub Visual Identity, and Active Scenario Linking.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useDeferredValue } from 'react';
 import {
   Sparkles,
   Plus,
@@ -14,7 +14,8 @@ import {
   Palette,
   Upload,
   Globe,
-  Link2
+  Link2,
+  Trash2
 } from 'lucide-react';
 import AssetHubDeck from '../../components/AssetHubDeck';
 import {
@@ -22,6 +23,7 @@ import {
   deriveLorebookTriggersFromDraft,
   buildArtistHubVisualBrief
 } from '../guidedElementAiService';
+import { parseChipKeywords } from '../elementPlaybooks';
 import { showToast } from '../../../../../context/ToastContext';
 import { AudioService } from '../../../../../services/audioService';
 
@@ -45,21 +47,27 @@ export default function Stage5WebAndFinalize({
   const [urlDraft, setUrlDraft] = useState('');
 
   const fields = draft.fields || {};
+  const deferredDraft = useDeferredValue(draft);
 
   const suggestions = useMemo(
     () =>
       recommendResonantAssets({
-        draft,
+        draft: deferredDraft,
         catalog: elementsCatalog,
-        currentElementId: draft.id
+        currentElementId: deferredDraft.id
       }),
-    [draft, elementsCatalog]
+    [deferredDraft, elementsCatalog]
   );
 
   const visualBrief = useMemo(() => buildArtistHubVisualBrief(draft), [draft]);
 
   const handleAcceptSuggestion = (sug) => {
     AudioService.playTerminalBeep(1260, 0.03);
+    const alreadyLinked = (assetHub || []).some((a) => (typeof a === 'string' ? a : a?.assetId) === sug.assetId);
+    if (alreadyLinked) {
+      showToast({ type: 'info', text: `"${sug.assetTitle}" is already linked in Asset Hub.` });
+      return;
+    }
     const nextEntry = {
       assetId: sug.assetId,
       assetTitle: sug.assetTitle,
@@ -77,10 +85,26 @@ export default function Stage5WebAndFinalize({
   const handleAutoDeriveTriggers = () => {
     AudioService.playCriticalChime(true);
     const derived = deriveLorebookTriggersFromDraft(draft);
-    onMergeFields?.(derived);
+    const mergeUnique = (existingStr, derivedStr) => {
+      const merged = [];
+      const seen = new Set();
+      for (const token of [...parseChipKeywords(existingStr), ...parseChipKeywords(derivedStr)]) {
+        const lower = token.toLowerCase();
+        if (!seen.has(lower)) {
+          seen.add(lower);
+          merged.push(token);
+        }
+      }
+      return merged.join(', ');
+    };
+    onMergeFields?.({
+      ...derived,
+      primaryTriggers: mergeUnique(fields.primaryTriggers, derived.primaryTriggers),
+      secondaryTriggers: mergeUnique(fields.secondaryTriggers, derived.secondaryTriggers)
+    });
     showToast({
       type: 'success',
-      text: 'Generated Pass-1 Primary & Pass-2 Secondary Lorebook triggers!'
+      text: 'Merged Pass-1 Primary & Pass-2 Secondary Lorebook triggers!'
     });
   };
 
@@ -220,6 +244,7 @@ export default function Stage5WebAndFinalize({
                   <option value="AND_ANY">AND ANY (1 Primary + 1 Secondary)</option>
                   <option value="AND_ALL">AND ALL (All Primary Present)</option>
                   <option value="NOT_ANY">NOT ANY (Primary &amp; None of Secondary)</option>
+                  <option value="NOT_ALL">NOT ALL (Primary &amp; Not All Secondary)</option>
                 </select>
               </div>
 
@@ -261,6 +286,48 @@ export default function Stage5WebAndFinalize({
                   onChange={(e) => onChangeField?.('loreSuppressCondition', e.target.value)}
                   placeholder="e.g. sector_cleared"
                   className="w-full bg-slate-950 border border-slate-800 text-rose-200 p-2 rounded-lg text-xs outline-none"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-[10px] font-bold text-cyan-300 uppercase mb-1">
+                  Trigger Regex &amp; Speaker Code Pattern
+                </label>
+                <input
+                  type="text"
+                  value={fields.triggerRegex || ''}
+                  onChange={(e) => onChangeField?.('triggerRegex', e.target.value)}
+                  placeholder="e.g. /\b(Vane|Kestrel)\b/i"
+                  className="w-full bg-slate-950 border border-slate-800 text-cyan-200 p-2 rounded-lg text-xs outline-none font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold text-slate-300 uppercase mb-1">
+                  Scan Priority (1–100)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={fields.loreScanPriority ?? 50}
+                  onChange={(e) => onChangeField?.('loreScanPriority', Number(e.target.value))}
+                  className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-lg text-xs outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold text-slate-300 uppercase mb-1">
+                  Token Budget Allocation
+                </label>
+                <input
+                  type="number"
+                  min="50"
+                  max="800"
+                  step="50"
+                  value={fields.loreBudgetTokens ?? 250}
+                  onChange={(e) => onChangeField?.('loreBudgetTokens', Number(e.target.value))}
+                  className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-lg text-xs outline-none"
                 />
               </div>
             </div>
@@ -305,6 +372,18 @@ export default function Stage5WebAndFinalize({
               <Palette size={12} />
               <span>Launch Artist Hub (Preloaded Brief)</span>
             </button>
+
+            {imageUrl && (
+              <button
+                type="button"
+                onClick={() => onSetImageUrl?.('')}
+                className="px-2.5 py-1.5 rounded-xl bg-red-950 hover:bg-red-900 border border-red-800 text-red-200 text-[11px] font-bold uppercase flex items-center gap-1 cursor-pointer"
+                title="Remove attached image"
+              >
+                <Trash2 size={12} />
+                <span>Remove</span>
+              </button>
+            )}
           </div>
         </div>
 

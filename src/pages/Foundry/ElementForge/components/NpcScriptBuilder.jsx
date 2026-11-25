@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AudioService } from '../../../../services/audioService';
 import { generateContent } from '../../../../services/aimeService';
+import { showToast } from '../../../../context/ToastContext';
 import { 
-  Bot, Eye, MapPin, Compass, ShieldAlert, 
-  Sparkles, Check, Plus, Trash2, Sliders, MessageSquare, 
-  Swords, Shield, Radio, Flame, AlertTriangle 
+  Bot, MapPin,
+  Sparkles, Plus, Trash2,
+  Swords, Shield, Radio
 } from 'lucide-react';
 
 const ROUTINE_TYPES = [
@@ -24,11 +25,24 @@ const BEHAVIOR_PROFILES = [
   { id: 'boss', name: 'Sector Commander', desc: 'Multi-phase tactical command, AoE barrages, emergency shields.' }
 ];
 
+const normalizeBehaviorProfile = (raw = 'tactical') => {
+  const lower = String(raw || '').trim().toLowerCase();
+  if (!lower) return 'tactical';
+  if (BEHAVIOR_PROFILES.some((p) => p.id === lower)) return lower;
+  if (lower.includes('boss') || lower.includes('leader') || lower.includes('commander')) return 'boss';
+  if (lower.includes('snipe') || lower.includes('ranged') || lower.includes('precision')) return 'sniper';
+  if (lower.includes('bruis') || lower.includes('melee') || lower.includes('vanguard') || lower.includes('tank')) return 'bruiser';
+  if (lower.includes('guard') || lower.includes('protect') || lower.includes('buffer')) return 'guardian';
+  if (lower.includes('surviv') || lower.includes('skirmish') || lower.includes('flank') || lower.includes('mobil')) return 'survivalist';
+  if (lower.includes('aggress') || lower.includes('swarm')) return 'aggressive';
+  return 'tactical';
+};
+
 export const NpcScriptBuilder = ({
   fields = {},
   onFieldChange,
-  elementTitle = '',
-  onOpenAimeGuidance = null
+  onBatchFieldChange,
+  elementTitle = ''
 }) => {
   // Parse existing vttScript if present
   const initialScript = (() => {
@@ -45,7 +59,9 @@ export const NpcScriptBuilder = ({
 
   const [isEnabled, setIsEnabled] = useState(Boolean(initialScript || fields.vttScriptActive === 'true'));
   const [routineType, setRoutineType] = useState(initialScript?.type || 'patrol');
-  const [behaviorProfile, setBehaviorProfile] = useState(initialScript?.behaviorProfile || fields.mcmRole?.toLowerCase() || 'tactical');
+  const [behaviorProfile, setBehaviorProfile] = useState(() =>
+    normalizeBehaviorProfile(initialScript?.behaviorProfile || fields.mcmRole || 'tactical')
+  );
   const [visionRangePx, setVisionRangePx] = useState(initialScript?.visionRangePx || 250);
   const [visionFovDeg, setVisionFovDeg] = useState(initialScript?.visionFovDeg || 90);
   const [facingAngleDeg, setFacingAngleDeg] = useState(initialScript?.facingAngleDeg || 0);
@@ -71,25 +87,34 @@ export const NpcScriptBuilder = ({
   const [isSynthesizingScript, setIsSynthesizingScript] = useState(false);
   const didMountRef = useRef(false);
 
-  // Serialize script state whenever user modifies parameters after mount
+  // Serialize script state atomically whenever user modifies parameters after mount
   useEffect(() => {
     if (!didMountRef.current) {
       didMountRef.current = true;
       return;
     }
 
-    onFieldChange?.('relationsStance', relationsStance);
-    onFieldChange?.('vipTarget', vipTarget);
-    onFieldChange?.('rivalTarget', rivalTarget);
+    const flushBatch = (patch) => {
+      if (typeof onBatchFieldChange === 'function') {
+        onBatchFieldChange(patch);
+      } else if (typeof onFieldChange === 'function') {
+        Object.entries(patch).forEach(([k, v]) => onFieldChange(k, v));
+      }
+    };
 
     if (!isEnabled) {
-      onFieldChange?.('vttScriptActive', 'false');
+      flushBatch({
+        relationsStance,
+        vipTarget,
+        rivalTarget,
+        vttScriptActive: 'false'
+      });
       return;
     }
 
     const scriptObject = {
       type: routineType,
-      behaviorProfile,
+      behaviorProfile: normalizeBehaviorProfile(behaviorProfile),
       moraleThreshold,
       visionRangePx,
       visionFovDeg,
@@ -103,8 +128,13 @@ export const NpcScriptBuilder = ({
       rivalTarget: rivalTarget.trim() || null
     };
 
-    onFieldChange?.('vttScriptActive', 'true');
-    onFieldChange?.('vttScript', JSON.stringify(scriptObject, null, 2));
+    flushBatch({
+      relationsStance,
+      vipTarget,
+      rivalTarget,
+      vttScriptActive: 'true',
+      vttScript: JSON.stringify(scriptObject, null, 2)
+    });
   }, [
     isEnabled,
     routineType,
@@ -188,6 +218,10 @@ Respond in JSON format:
       AudioService.playTerminalBeep(1200, 0.12);
     } catch (err) {
       console.warn('AIME script synthesis error:', err);
+      showToast({
+        type: 'warning',
+        text: 'AIME Script Architect could not parse live JSON; kept current script settings.'
+      });
     } finally {
       setIsSynthesizingScript(false);
     }
@@ -447,6 +481,39 @@ Respond in JSON format:
                 </div>
               </div>
             )}
+
+            {/* Combat Behavior Profile & Detection CR */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pb-2 border-b border-slate-800">
+              <div className="sm:col-span-2 space-y-1">
+                <label className="text-[10px] font-mono font-bold uppercase text-cyan-400">
+                  Combat AI Behavior Profile
+                </label>
+                <select
+                  value={behaviorProfile}
+                  onChange={(e) => setBehaviorProfile(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-700 text-cyan-200 p-2 rounded-lg text-xs font-mono outline-none focus:border-cyan-400"
+                >
+                  {BEHAVIOR_PROFILES.map((bp) => (
+                    <option key={bp.id} value={bp.id}>
+                      {bp.name} — {bp.desc}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-mono font-bold uppercase text-amber-400">
+                  Detection Challenge Rating (CR)
+                </label>
+                <input
+                  type="number"
+                  min="5"
+                  max="35"
+                  value={detectionDc}
+                  onChange={(e) => setDetectionDc(Math.max(5, Math.min(35, parseInt(e.target.value, 10) || 14)))}
+                  className="w-full bg-slate-950 border border-slate-700 text-amber-200 p-2 rounded-lg text-xs font-mono font-bold outline-none focus:border-amber-400"
+                />
+              </div>
+            </div>
 
             {/* Comms Transmission Bark & Detection */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-800">

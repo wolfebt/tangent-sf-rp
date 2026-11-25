@@ -112,10 +112,13 @@ export function lintCanonContent(input: CanonLintInput): CanonLintDiagnostic[] {
   const elem = input.element;
   if (elem && typeof elem === 'object') {
     const fields = elem.fields || {};
-    const species = String(fields.species || elem.species || '').toLowerCase();
+    const species = String(fields.species || fields['char-species'] || elem.species || '').toLowerCase();
     const isSynthetic = Boolean(
       fields.is_synthetic ||
+        fields.isSynthetic ||
+        fields.physiology === 'Synthetic' ||
         elem.is_synthetic ||
+        elem.isSynthetic ||
         species.includes('synthetic') ||
         species.includes('android') ||
         species.includes('automaton') ||
@@ -123,7 +126,7 @@ export function lintCanonContent(input: CanonLintInput): CanonLintDiagnostic[] {
     );
 
     if (isSynthetic) {
-      const structure = Number(fields.structure ?? fields.base_structure ?? elem.base_structure ?? 0);
+      const structure = Number(fields.structure ?? fields.structurePoints ?? fields.base_structure ?? elem.base_structure ?? 0);
       const vitality = Number(fields.vitality ?? fields.base_vitality ?? 0);
       if (vitality > 0 || (structure > 0 && structure < 60)) {
         diagnostics.push({
@@ -148,7 +151,7 @@ export function lintCanonContent(input: CanonLintInput): CanonLintDiagnostic[] {
       }
     }
 
-    const rawTl = fields['tech-level'] ?? fields.tech_level ?? elem.tech_level;
+    const rawTl = fields['tech-level'] ?? fields.tech_level ?? fields.techLevel ?? elem.tech_level;
     if (rawTl !== undefined && rawTl !== '') {
       const tlNum = Number(String(rawTl).replace(/[^0-9.-]/g, ''));
       if (Number.isFinite(tlNum) && (tlNum < 0 || tlNum > 5)) {
@@ -162,7 +165,7 @@ export function lintCanonContent(input: CanonLintInput): CanonLintDiagnostic[] {
       }
     }
 
-    const rawMl = fields['meta-level'] ?? fields.meta_level ?? elem.meta_level;
+    const rawMl = fields['meta-level'] ?? fields.meta_level ?? fields.metaLevel ?? elem.meta_level;
     if (rawMl !== undefined && rawMl !== '') {
       const mlNum = Number(String(rawMl).replace(/[^0-9.-]/g, ''));
       if (Number.isFinite(mlNum) && (mlNum < 0 || mlNum > 5)) {

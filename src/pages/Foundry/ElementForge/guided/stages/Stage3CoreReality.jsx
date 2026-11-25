@@ -5,7 +5,7 @@
  * (auto-filling empty fields while surfacing inline [Accept | Keep Current] diff cards for populated fields).
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import ReactQuill from 'react-quill-new';
 import DOMPurify from 'dompurify';
 import {
@@ -21,10 +21,20 @@ import {
   getPlaybookForType,
   getCoreSchemaFieldsForStage3
 } from '../elementPlaybooks';
+import { resolveSchemaFieldValue } from '../../elementSchemas';
 import { draftStructuredElementTraits } from '../guidedElementAiService';
+import { formatAimeProseToHtml } from '../../../AIME/aimeTextUtils';
+import { FOLIO_NARRATIVE_SECTIONS } from '../../../../../utils/personaBridge';
 import { useDBM } from '../../../../../context/DBMContext';
 import { showToast } from '../../../../../context/ToastContext';
 import { AudioService } from '../../../../../services/audioService';
+
+function toSanitizedRichHtml(raw = '') {
+  const str = String(raw || '').trim();
+  if (!str) return '';
+  const html = /<[a-z][\s\S]*>/i.test(str) ? str : formatAimeProseToHtml(str);
+  return DOMPurify.sanitize(html);
+}
 
 export default function Stage3CoreReality({
   draft,
@@ -34,7 +44,11 @@ export default function Stage3CoreReality({
   onChangeContent,
   elementsCatalog = [],
   projectName = 'Tangent Universe',
-  cronicle = null
+  cronicle = null,
+  pendingDiffs: controlledDiffs,
+  onChangePendingDiffs,
+  pendingProseDiff: controlledProseDiff,
+  onChangePendingProseDiff
 }) {
   const { dbData = {} } = useDBM() || {};
   const playbook = useMemo(() => getPlaybookForType(draft.type), [draft.type]);
@@ -61,11 +75,30 @@ export default function Stage3CoreReality({
     'Core Traits';
 
   const [isDrafting, setIsDrafting] = useState(false);
-  const [pendingDiffs, setPendingDiffs] = useState([]);
-  const [pendingProseDiff, setPendingProseDiff] = useState('');
+  const [localPendingDiffs, setLocalPendingDiffs] = useState([]);
+  const [localPendingProseDiff, setLocalPendingProseDiff] = useState('');
+  const pendingDiffs = controlledDiffs !== undefined ? controlledDiffs : localPendingDiffs;
+  const setPendingDiffs = onChangePendingDiffs || setLocalPendingDiffs;
+  const pendingProseDiff = controlledProseDiff !== undefined ? controlledProseDiff : localPendingProseDiff;
+  const setPendingProseDiff = onChangePendingProseDiff || setLocalPendingProseDiff;
   const [isProseExpanded, setIsProseExpanded] = useState(Boolean(content));
+  const [isFolioDossierExpanded, setIsFolioDossierExpanded] = useState(false);
+  const draftReqIdRef = useRef(0);
+  const draftAbortRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      draftReqIdRef.current += 1;
+      draftAbortRef.current?.abort();
+    };
+  }, []);
 
   const handleDraftTraitsWithAime = async () => {
+    const reqId = ++draftReqIdRef.current;
+    draftAbortRef.current?.abort();
+    const controller = new AbortController();
+    draftAbortRef.current = controller;
+
     setIsDrafting(true);
     AudioService.playTerminalBeep(1240, 0.04);
 
@@ -75,8 +108,10 @@ export default function Stage3CoreReality({
         catalog: elementsCatalog,
         campaignName: projectName,
         cronicle,
-        dbData
+        dbData,
+        signal: controller.signal
       });
+      if (draftReqIdRef.current !== reqId) return;
 
       if (res.appliedKeys.length > 0) {
         const patch = {};
@@ -90,30 +125,44 @@ export default function Stage3CoreReality({
 
       const cleanExistingProse = String(content || '').replace(/<[^>]*>?/gm, '').trim();
       if (res.proposedProse) {
+        const safeHtml = toSanitizedRichHtml(res.proposedProse);
         if (!cleanExistingProse) {
-          onChangeContent?.(res.proposedProse);
+          onChangeContent?.(safeHtml);
+          if (draft.type === 'Persona') {
+            onChangeField?.('narrativeProse', safeHtml);
+          }
           setIsProseExpanded(true);
           setPendingProseDiff('');
-        } else if (res.proposedProse.trim() !== content.trim()) {
-          setPendingProseDiff(res.proposedProse);
+        } else if (safeHtml.trim() !== String(content || '').trim()) {
+          setPendingProseDiff(safeHtml);
           setIsProseExpanded(true);
         }
       }
 
-      AudioService.playCriticalChime(true);
-      showToast({
-        type: 'success',
-        text: `Filled ${res.appliedKeys.length} empty trait(s)${
-          res.diffs.length > 0 ? ` • ${res.diffs.length} optional diff(s) ready for review` : ''
-        }.`
-      });
+      AudioService.playCriticalChime(!res.usedFallback);
+      if (res.usedFallback) {
+        showToast({
+          type: 'warning',
+          text: `Offline fallback draft generated (${res.appliedKeys.length} field(s)) — configure Gemini/local AI for live drafting.`
+        });
+      } else {
+        showToast({
+          type: 'success',
+          text: `Filled ${res.appliedKeys.length} empty trait(s)${
+            res.diffs.length > 0 ? ` • ${res.diffs.length} optional diff(s) ready for review` : ''
+          }.`
+        });
+      }
     } catch (err) {
+      if (err?.name === 'AbortError' || draftReqIdRef.current !== reqId) return;
       showToast({
         type: 'error',
         text: `Trait drafting failed: ${err?.message || 'Unknown error'}`
       });
     } finally {
-      setIsDrafting(false);
+      if (draftReqIdRef.current === reqId) {
+        setIsDrafting(false);
+      }
     }
   };
 
@@ -218,6 +267,7 @@ export default function Stage3CoreReality({
               const v = draft.fields?.[f.key];
               return v !== undefined && v !== null && String(v).trim().length > 0;
             }).length;
+            const tabDiffCount = grp.items.filter((f) => diffByKey.has(f.key)).length;
             const isSelected = grp.tabName === resolvedSubTab;
 
             return (
@@ -238,6 +288,11 @@ export default function Stage3CoreReality({
                 <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-950 border border-slate-700 text-slate-300">
                   {filled}/{grp.items.length}
                 </span>
+                {tabDiffCount > 0 && (
+                  <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-950 border border-amber-500/50 text-amber-300 font-bold">
+                    +{tabDiffCount}
+                  </span>
+                )}
               </button>
             );
           })}
@@ -248,7 +303,7 @@ export default function Stage3CoreReality({
       <section className="rounded-2xl border border-slate-800 bg-[#0c121e]/95 p-4 sm:p-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {activeGroup.items.map((f) => {
-            const val = draft.fields?.[f.key] ?? '';
+            const val = resolveSchemaFieldValue(draft.fields, f);
             const pendingDiff = diffByKey.get(f.key);
             const dbOptions = f.dbSource && Array.isArray(dbData?.[f.dbSource]) ? dbData[f.dbSource] : [];
 
@@ -396,7 +451,11 @@ export default function Stage3CoreReality({
                     <button
                       type="button"
                       onClick={() => {
-                        onChangeContent?.(pendingProseDiff);
+                        const safeHtml = toSanitizedRichHtml(pendingProseDiff);
+                        onChangeContent?.(safeHtml);
+                        if (draft.type === 'Persona') {
+                          onChangeField?.('narrativeProse', safeHtml);
+                        }
                         setPendingProseDiff('');
                       }}
                       className="px-2.5 py-0.5 rounded bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 cursor-pointer"
@@ -406,7 +465,12 @@ export default function Stage3CoreReality({
                     <button
                       type="button"
                       onClick={() => {
-                        onChangeContent?.(`${content}<hr/>${pendingProseDiff}`);
+                        const safeHtml = toSanitizedRichHtml(pendingProseDiff);
+                        const combined = `${content || ''}<hr/>${safeHtml}`;
+                        onChangeContent?.(combined);
+                        if (draft.type === 'Persona') {
+                          onChangeField?.('narrativeProse', combined);
+                        }
                         setPendingProseDiff('');
                       }}
                       className="px-2.5 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 cursor-pointer"
@@ -433,7 +497,12 @@ export default function Stage3CoreReality({
               <ReactQuill
                 theme="snow"
                 value={content}
-                onChange={onChangeContent}
+                onChange={(val) => {
+                  onChangeContent?.(val);
+                  if (draft.type === 'Persona') {
+                    onChangeField?.('narrativeProse', val);
+                  }
+                }}
                 placeholder="Compose atmospheric codex prose, secrets, or history..."
                 className="text-slate-100"
               />
@@ -441,6 +510,63 @@ export default function Stage3CoreReality({
           </div>
         )}
       </section>
+
+      {/* ── COLLAPSIBLE EXTENDED FOLIO DOSSIER FIELDS (PERSONA ONLY) ── */}
+      {draft.type === 'Persona' && Array.isArray(FOLIO_NARRATIVE_SECTIONS) && (
+        <section className="rounded-2xl border border-slate-800 bg-[#0c121e]/95 overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setIsFolioDossierExpanded((prev) => !prev)}
+            className="w-full px-4 py-3 bg-slate-950/80 border-b border-slate-800/80 flex items-center justify-between text-left cursor-pointer"
+          >
+            <div className="flex items-center gap-2 font-mono">
+              <Sparkles size={14} className="text-purple-400" />
+              <span className="text-xs font-bold uppercase tracking-wider text-purple-300">
+                Extended Folio Dossier Fields
+              </span>
+            </div>
+            {isFolioDossierExpanded ? (
+              <ChevronUp size={15} className="text-slate-400" />
+            ) : (
+              <ChevronDown size={15} className="text-slate-400" />
+            )}
+          </button>
+
+          {isFolioDossierExpanded && (
+            <div className="p-4 space-y-4">
+              {FOLIO_NARRATIVE_SECTIONS.map((sec) => (
+                <div key={sec.id} className="space-y-2.5">
+                  <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 border-b border-slate-800 pb-1">
+                    {sec.title}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {(sec.fields || []).map((nf) => {
+                      const resolvedVal = resolveSchemaFieldValue(draft.fields, {
+                        key: nf.id,
+                        aliasKeys: nf.aliasKeys
+                      });
+                      return (
+                        <div key={nf.id} className={nf.span2 ? 'md:col-span-2 space-y-1' : 'space-y-1'}>
+                          <label className="block text-[10px] font-mono font-bold uppercase text-slate-400">
+                            {nf.label}
+                          </label>
+                          <textarea
+                            rows={nf.span2 ? 2 : 1}
+                            value={resolvedVal}
+                            onChange={(e) => onChangeField?.(nf.id, e.target.value)}
+                            placeholder={nf.placeholder || `Enter ${nf.label}...`}
+                            className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2 rounded-xl text-xs outline-none transition-colors"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
     </div>
   );
 }

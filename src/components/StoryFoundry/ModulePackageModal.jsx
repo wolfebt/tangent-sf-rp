@@ -32,6 +32,7 @@ export default function ModulePackageModal({
   initialMode = 'export', // 'export' | 'import'
   universeState,
   elementsCatalog = [],
+  unifiedCatalog = [],
   onImportPackage
 }) {
   const [mode, setMode] = useState(initialMode);
@@ -80,9 +81,14 @@ export default function ModulePackageModal({
   const handleExport = () => {
     setImportError(null);
     setImportStatus(null);
+    const exportOptions = Array.isArray(unifiedCatalog) && unifiedCatalog.length > 0 ? { unifiedCatalog } : undefined;
     const result = exportType === 'architect'
-      ? exportArchitectModuleToFile(universeState, elementsCatalog)
-      : exportOperatorModuleToFile(universeState, elementsCatalog);
+      ? (exportOptions
+        ? exportArchitectModuleToFile(universeState, elementsCatalog, exportOptions)
+        : exportArchitectModuleToFile(universeState, elementsCatalog))
+      : (exportOptions
+        ? exportOperatorModuleToFile(universeState, elementsCatalog, exportOptions)
+        : exportOperatorModuleToFile(universeState, elementsCatalog));
     if (result && result.success === false) {
       setImportError(result.error || 'Export failed.');
       AudioService.playTerminalBeep(500, 0.06);

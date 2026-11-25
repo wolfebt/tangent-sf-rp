@@ -19,7 +19,7 @@ export const VttCompilerModal = ({
   activeScenario = null
 }) => {
   const navigate = useNavigate();
-  const { universeState, elementsCatalog, mapsCatalog, galleryModifiers = [], updateMap } = useStory();
+  const { universeState, elementsCatalog, mapsCatalog, galleryModifiers = [], updateMap, isStoryReadOnly = false } = useStory();
   const { dbData } = useDBM() || { dbData: {} };
 
   const [compiledResult, setCompiledResult] = useState(null);
@@ -96,6 +96,10 @@ export const VttCompilerModal = ({
 
   // 1-Click Launch & Deploy on Tactical Stage
   const handleLaunchToVtt = () => {
+    if (isStoryReadOnly) {
+      setDeployStatus('Read-only story: unlock or clone this project before deploying to Stage.');
+      return;
+    }
     if (!pkg || !activeMap) return;
     if (!diagnostics?.isValid) return;
 
@@ -368,9 +372,9 @@ export const VttCompilerModal = ({
               <button
                 type="button"
                 onClick={handleLaunchToVtt}
-                disabled={!diagnostics?.isValid || isCompiling || !pkg}
+                disabled={isStoryReadOnly || !diagnostics?.isValid || isCompiling || !pkg}
                 className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-bold font-mono text-xs uppercase tracking-wider rounded-xl shadow-lg transition-all flex items-center gap-1.5 cursor-pointer"
-                title={!diagnostics?.isValid ? 'Fix compiler errors before deploying to Stage' : 'Deploy compiled module to tactical Stage'}
+                title={isStoryReadOnly ? 'Read-only story: deploy disabled' : !diagnostics?.isValid ? 'Fix compiler errors before deploying to Stage' : 'Deploy compiled module to tactical Stage'}
               >
                 <Play size={13} className="fill-slate-950" />
                 <span>Deploy to Tactical Stage</span>

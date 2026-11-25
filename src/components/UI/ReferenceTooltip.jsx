@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './ReferenceTooltip.css';
 import { useCampaign } from '../../context/CampaignContext';
 import { useDBM } from '../../context/DBMContext';
+import { useAdeStore } from '../../pages/Foundry/store/adeStore';
 import { AudioService } from '../../services/audioService';
 import { resolveHyperlinkTarget } from '../../services/hyperlinkResolver.js';
 import { ExternalLink, Compass, BookOpen, Layers, HelpCircle, ArrowUpRight, User, Database, FileText } from 'lucide-react';
@@ -53,13 +54,20 @@ const ReferenceTooltip = ({
   const dbmContext = useDBM();
 
   const elementsCatalog = campaignContext?.elementsCatalog || [];
+  const scenarios = campaignContext?.universeState?.scenarios || [];
   const dbData = dbmContext?.dbData || {};
+  const perspectiveMode = useAdeStore((state) => state.perspectiveMode || 'architect');
 
   // Resolve target using centralized multi-source resolver
   const resolved = useMemo(() => {
     const raw = propLabel ? `${propLabel}|${term}` : term;
-    return resolveHyperlinkTarget(raw, { elementsCatalog, dbData });
-  }, [term, propLabel, elementsCatalog, dbData]);
+    return resolveHyperlinkTarget(raw, {
+      elementsCatalog,
+      dbData,
+      scenarios,
+      operatorSafe: perspectiveMode === 'operator'
+    });
+  }, [term, propLabel, elementsCatalog, dbData, scenarios, perspectiveMode]);
 
   const theme = THEME_STYLES[resolved.colorTheme] || THEME_STYLES.cyan;
 

@@ -159,29 +159,36 @@ export function useMapIngestion({
       }
 
       if (mapTokens.length > 0) {
-        const staticBatch: StaticEntity[] = mapTokens.map((t: any) => ({
-          ...t,
-          id: t.id,
-          unit_id: t.unit_id || t.id,
-          source_persona_id: t.source_persona_id || t.character_doc_id || t.id,
-          character_doc_id: t.character_doc_id || t.source_persona_id || t.id,
-          name: t.name || t.label || 'Operator',
-          base_hp: t.base_hp || t.hp_max || t.hp?.max || 30,
-          base_health: t.base_health || t.hp_max || t.base_hp || 30,
-          base_vitality: t.base_vitality || t.vit_max || 30,
-          base_structure: t.base_structure || t.struct_max || 60,
-          tech_level: t.tech_level || 3,
-          armor_dr: t.armor_dr ?? t.dr ?? 0,
-          stamina_dr: t.stamina_dr ?? t.toughness ?? 0,
-          defense_dc: t.defense_dc ?? t.defense ?? 15,
-          attack_bonus: t.attack_bonus ?? 3,
-          actions_per_round: t.actions_per_round ?? t.actionPoints ?? 1,
-          size_modifier: t.size_modifier || 0,
-          speed_ft: t.speed_ft || 30,
-          species: t.species || 'Human',
-          archetype: t.archetype || 'Operator',
-          is_persona: t.is_persona !== false
-        }));
+        const staticBatch: StaticEntity[] = mapTokens.map((t: any) => {
+          const isSynth = Boolean(t.is_synthetic || t.isSynthetic || String(t.species || '').toLowerCase().includes('synthetic'));
+          return {
+            ...t,
+            id: t.id,
+            unit_id: t.unit_id || t.id,
+            elementId: t.elementId || t.adeStoryElementId || t.storyElementId || t.id,
+            source_persona_id: t.source_persona_id || t.character_doc_id || t.id,
+            character_doc_id: t.character_doc_id || t.source_persona_id || t.id,
+            name: t.name || t.label || 'Operator',
+            is_synthetic: isSynth,
+            base_hp: t.base_hp || t.hp_max || t.hp?.max || 30,
+            base_health: t.base_health || t.hp_max || t.base_hp || 30,
+            base_vitality: isSynth ? 0 : (t.base_vitality ?? t.vit_max ?? 30),
+            base_structure: t.base_structure ?? t.struct_max ?? 60,
+            tech_level: t.tech_level || 3,
+            armor_dr: t.armor_dr ?? t.dr ?? 0,
+            stamina_dr: t.stamina_dr ?? t.toughness ?? 0,
+            defense_dc: t.defense_dc ?? t.defense ?? 15,
+            attack_bonus: t.attack_bonus ?? 3,
+            actions_per_round: t.actions_per_round ?? t.actionPoints ?? 1,
+            size_modifier: t.size_modifier || 0,
+            speed_ft: t.speed_ft || 30,
+            species: t.species || 'Human',
+            archetype: t.archetype || 'Operator',
+            is_persona: t.is_persona !== false,
+            isPlayerVisible: t.isPlayerVisible !== false && !t.isHidden && !t.isGmOnly,
+            isHidden: Boolean(t.isHidden || t.isGmOnly)
+          };
+        });
 
         if (!isMapSwitch) {
           const mapTokenIds = new Set(mapTokens.map((t: any) => t.id));

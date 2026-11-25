@@ -25,6 +25,8 @@ import { useFolio } from '../../../context/FolioContext';
 import { useBastion } from '../../../context/BastionContext';
 import { showToast } from '../../../context/ToastContext';
 import { exportElementMarkdown, exportElementPDF } from './exportUtils';
+import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
+import { normalizeElementType } from '../ElementForge/elementSchemas';
 import { useAdeStore } from '../store/adeStore';
 import { useShallow } from 'zustand/react/shallow';
 import { v4 as uuidv4 } from 'uuid';
@@ -35,8 +37,13 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   const storyIdParam = searchParams.get('storyId');
   const scenarioIdParam = searchParams.get('scenarioId');
   const mapIdParam = searchParams.get('mapId');
+  const elementIdParam = searchParams.get('elementId') || searchParams.get('id');
+  const typeParam = searchParams.get('type') || searchParams.get('elementType');
+  const createParam = searchParams.get('create');
   const viewParam = searchParams.get('view');
   const tabParam = searchParams.get('tab') || searchParams.get('workspaceTab');
+  const returnToParam = searchParams.get('returnTo');
+  const subParam = searchParams.get('subcategory') || searchParams.get('sub');
   const { 
     openStory, 
     universeState, 
@@ -57,11 +64,21 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     setGalleryModifiers,
     updateCreativeState,
     updateCronicle,
+    acceptPendingDelta,
+    acceptAllPendingDeltas,
+    rejectPendingDelta,
+    clearPendingDeltas,
     isStoryReadOnly = false
   } = useStory();
-  const { currentUser, userHandle } = useAuth();
-  const { saveEntry } = useDBM() || {};
-  const { saveCurrentToRoster } = useFolio() || {};
+  const { currentUser, userHandle, isAdmin = false } = useAuth();
+  const { dbData = {}, saveEntry, deleteEntry } = useDBM() || {};
+  const {
+    roster: folioRoster = [],
+    personaRoster = [],
+    publicPersonas = [],
+    publicCatalog = [],
+    saveCurrentToRoster
+  } = useFolio() || {};
   const { registerSurfaceContext, unregisterSurfaceContext } = useBastion() || {};
   const isMobile = useIsMobile();
 
@@ -167,6 +184,88 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       setActiveMapId(mapIdParam);
     }
   }, [mapIdParam, activeMapId, setActiveMapId]);
+
+  // Deep-link support for Element Forge (?view=elements&elementId=...&type=...&create=1)
+  useEffect(() => {
+    if (!elementIdParam && !typeParam && createParam !== '1') return;
+    if (typeParam && setActiveElementType) {
+      setActiveElementType(normalizeElementType(typeParam));
+    }
+    const openCreator = useAdeStore.getState().openGuidedElementCreator;
+    if (elementIdParam && typeof openCreator === 'function') {
+      const liveFolio = Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : personaRoster;
+      const livePublic = Array.isArray(publicPersonas) && publicPersonas.length > 0 ? publicPersonas : publicCatalog;
+      const catalog = buildUnifiedAdeCatalog({
+        elementsCatalog: elementsCatalog || [],
+        dbData: dbData || {},
+        folioRoster: liveFolio || [],
+        publicPersonas: livePublic || []
+      });
+      const match = catalog.find(
+        (el) =>
+          el &&
+          (el.id === elementIdParam ||
+            el.moduleElementId === elementIdParam ||
+            el.dbmId === elementIdParam ||
+            el.folioDocId === elementIdParam)
+      );
+      if (match) {
+        setActiveElementType?.(normalizeElementType(match.type));
+        openCreator({ element: match, mode: 'sheet' });
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('elementId');
+        nextParams.delete('id');
+        setSearchParams(nextParams, { replace: true });
+      }
+    } else if (createParam === '1' && !isStoryReadOnly && typeof openCreator === 'function') {
+      const nextType = normalizeElementType(typeParam || activeElementType || 'Persona');
+      setActiveElementType?.(nextType);
+      const adeSnapshot = useAdeStore.getState();
+      const seededFields = {};
+      if (nextType === 'Property') {
+        const sub = subParam || (adeSnapshot.activePropertySubcategory && adeSnapshot.activePropertySubcategory !== 'all' ? adeSnapshot.activePropertySubcategory : 'gear');
+        seededFields.propertySubcategory = sub;
+        seededFields.itemCategory = sub;
+      } else if (nextType === 'Persona') {
+        const sub = subParam || (adeSnapshot.activePersonaSource && adeSnapshot.activePersonaSource !== 'all' ? adeSnapshot.activePersonaSource : 'story');
+        seededFields.personaSubcategory = sub;
+      } else if (nextType === 'Metaphysics') {
+        const sub = subParam || (adeSnapshot.activeMetaphysicsSubcategory && adeSnapshot.activeMetaphysicsSubcategory !== 'all' ? adeSnapshot.activeMetaphysicsSubcategory : 'invocations');
+        seededFields.metaphysicsSubcategory = sub;
+      }
+      openCreator({
+        element: {
+          id: `elem_${Date.now()}`,
+          title: '',
+          type: nextType,
+          ...(seededFields.propertySubcategory ? { propertySubcategory: seededFields.propertySubcategory } : {}),
+          ...(seededFields.personaSubcategory ? { personaSubcategory: seededFields.personaSubcategory } : {}),
+          ...(seededFields.metaphysicsSubcategory ? { metaphysicsSubcategory: seededFields.metaphysicsSubcategory } : {}),
+          content: '',
+          fields: seededFields
+        },
+        mode: 'guided'
+      });
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.delete('create');
+      setSearchParams(nextParams, { replace: true });
+    }
+  }, [
+    elementIdParam,
+    typeParam,
+    createParam,
+    elementsCatalog,
+    dbData,
+    folioRoster,
+    personaRoster,
+    publicPersonas,
+    publicCatalog,
+    activeElementType,
+    isStoryReadOnly,
+    searchParams,
+    setSearchParams,
+    setActiveElementType
+  ]);
 
   // Two-way synchronization between URL search parameters and central adeStore
   useEffect(() => {
@@ -435,6 +534,21 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         />
       )}
 
+      {returnToParam === 'stage' && (
+        <div className="px-3 py-1 bg-purple-950/70 border-b border-purple-500/40 flex items-center justify-between text-xs font-mono shrink-0 z-30">
+          <button
+            type="button"
+            onClick={() => navigate(`/stage${mapIdParam ? `?mapId=${encodeURIComponent(mapIdParam)}` : ''}`)}
+            className="px-2.5 py-0.5 rounded-lg bg-purple-900/70 hover:bg-purple-800 text-purple-200 border border-purple-400/50 font-bold flex items-center gap-1.5 cursor-pointer transition-colors"
+          >
+            <span>← Return to Stage</span>
+          </button>
+          <span className="text-[10px] text-purple-300/80 hidden sm:inline">
+            Opened from Tactical Stage deep-link
+          </span>
+        </div>
+      )}
+
       {/* ── MAIN WORKSPACE VIEWPORT ── */}
       <div className="flex-1 flex flex-row overflow-hidden relative">
         {/* Dedicated ADE Studio Guidance Navigation Rail */}
@@ -583,12 +697,17 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         activeMap={activeMap}
         universeState={universeState}
         elementsCatalog={elementsCatalog}
+        dbData={dbData}
+        folioRoster={folioRoster?.length ? folioRoster : personaRoster}
+        publicPersonas={publicPersonas?.length ? publicPersonas : publicCatalog}
         cronicle={cronicle}
         getActiveGemsText={getActiveGemsText}
         updateSavedElement={updateSavedElement}
         deleteSavedElement={deleteSavedElement}
         saveEntry={saveEntry}
+        deleteEntry={deleteEntry}
         saveCurrentToRoster={saveCurrentToRoster}
+        isAdmin={Boolean(isAdmin)}
         showToast={showToast}
         addMap={addMap}
         updateMap={updateMap}
@@ -599,6 +718,10 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         setGalleryModifiers={setGalleryModifiers}
         updateCreativeState={updateCreativeState}
         updateCronicle={updateCronicle}
+        acceptPendingDelta={acceptPendingDelta}
+        acceptAllPendingDeltas={acceptAllPendingDeltas}
+        rejectPendingDelta={rejectPendingDelta}
+        clearPendingDeltas={clearPendingDeltas}
         onSwitchView={handleSwitchView}
         onToggleSplitView={() => useAdeStore.getState().toggleSplitView()}
         isStoryReadOnly={isStoryReadOnly}

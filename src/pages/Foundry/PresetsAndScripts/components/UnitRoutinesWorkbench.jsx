@@ -31,6 +31,15 @@ export const UnitRoutinesWorkbench = ({
     onUpdatePersonaScript?.(activePersona.id, updatedFields);
   };
 
+  const handleBatchFieldChange = async (patch = {}) => {
+    if (!activePersona || !patch || typeof patch !== 'object') return;
+    const updatedFields = {
+      ...(activePersona.fields || {}),
+      ...patch
+    };
+    onUpdatePersonaScript?.(activePersona.id, updatedFields);
+  };
+
   if (!activePersona) {
     return (
       <div className="h-full rounded-2xl bg-[#0c121e] border border-slate-800 p-8 flex flex-col items-center justify-center text-center space-y-3 font-sans">
@@ -102,8 +111,10 @@ export const UnitRoutinesWorkbench = ({
       {/* ── CORE NPC SCRIPT BUILDER ── */}
       <div className="flex-1">
         <NpcScriptBuilder
+          key={activePersona.id}
           fields={activePersona.fields || {}}
           onFieldChange={handleFieldChange}
+          onBatchFieldChange={handleBatchFieldChange}
           elementTitle={activePersona.title || activePersona.name}
         />
       </div>

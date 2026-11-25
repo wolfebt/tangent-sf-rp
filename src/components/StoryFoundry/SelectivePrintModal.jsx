@@ -136,8 +136,17 @@ export const SelectivePrintModal = ({
     includeCoverPage: selectedSections.cover,
     includeToc,
     includeGmSecrets: !operatorSafeMode,
+    includeSynopsis: selectedSections.synopsis,
+    includeBeats: selectedSections.beats,
+    includeProse: selectedSections.prose,
+    includeMapKeys: selectedSections.mapKeys,
+    includeWaypoints: selectedSections.waypoints,
+    includeReadAloud: selectedSections.readAloud,
+    includeStatBlocks: selectedSections.statBlocks,
+    includeHandouts: selectedSections.handouts,
     includeProps: selectedSections.props,
-    includeOsrSpread: selectedSections.osrSpread
+    includeOsrSpread: selectedSections.osrSpread,
+    printLayout
   });
 
   const handleDownloadEpub = () => {
@@ -172,9 +181,10 @@ export const SelectivePrintModal = ({
   // Resolved manuscript prose
   const rawProseText = activeScenario?.content || universeState?.creativeState?.storyDraft || '';
   const proseText = operatorSafeMode ? stripGmSecretHtmlBlocks(rawProseText) : rawProseText;
+  const rawReadAloud = activeScenario?.fields?.readAloud || activeScenario?.content || '';
   const readAloudSource = operatorSafeMode
-    ? stripGmSecretHtmlBlocks(activeScenario?.content || '')
-    : (activeScenario?.content || '');
+    ? stripGmSecretHtmlBlocks(rawReadAloud)
+    : rawReadAloud;
   const rawSynopsis = activeScenario?.fields?.summary || activeScenario?.fields?.goal || universeState?.creativeState?.storyOutline || '';
   const synopsisText = operatorSafeMode ? stripGmSecretHtmlBlocks(rawSynopsis) : rawSynopsis;
 

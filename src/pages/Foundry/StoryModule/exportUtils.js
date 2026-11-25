@@ -1,6 +1,6 @@
 import DOMPurify from 'dompurify';
 import { formatExportFilename } from '../../../context/CampaignContext';
-import { ELEMENT_SCHEMAS } from '../ElementForge/elementSchemas';
+import { ELEMENT_SCHEMAS, normalizeElementType } from '../ElementForge/elementSchemas';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { showToast } from '../../../context/ToastContext';
 import { showConfirm } from '../../../context/ConfirmContext';
@@ -109,10 +109,14 @@ export const exportElementJSON = (targetNode, universeState) => {
 };
 
 // Export Element as Markdown (.md)
-export const exportElementMarkdown = (targetNode, universeState) => {
+export const exportElementMarkdown = (targetNode, universeState, options = {}) => {
   if (!targetNode) return;
+  const operatorSafe = Boolean(options?.operatorSafe);
+  const rootNode = operatorSafe ? sanitizeScenarioForOperator(targetNode) : targetNode;
 
   const buildNodeMD = (node, depth = 1) => {
+    if (!node) return '';
+    if (operatorSafe && (node.isHidden || node.isGmOnly)) return '';
     const headingPrefix = '#'.repeat(Math.min(depth, 6));
     let md = `${headingPrefix} [${node.type || 'Element'}] ${node.title || 'Untitled'}\n\n`;
 
@@ -120,7 +124,8 @@ export const exportElementMarkdown = (targetNode, universeState) => {
       md += `![${node.title || 'Element Image'}](${node.imageUrl})\n\n`;
     }
 
-    const schema = ELEMENT_SCHEMAS[node.type];
+    const normalizedType = normalizeElementType(node.type);
+    const schema = ELEMENT_SCHEMAS[normalizedType] || ELEMENT_SCHEMAS[node.type];
     if ((schema && node.fields) || (node.customFields && node.customFields.length > 0)) {
       let fieldsMd = '';
       if (schema && node.fields) {
@@ -133,6 +138,7 @@ export const exportElementMarkdown = (targetNode, universeState) => {
       }
       if (node.customFields && Array.isArray(node.customFields)) {
         node.customFields.forEach(cf => {
+          if (operatorSafe && (cf?.isGmOnly || cf?.isHidden)) return;
           const valStr = formatFieldValue(cf?.value);
           if (cf?.label && valStr) {
             fieldsMd += `- **${cf.label}:** ${valStr}\n`;
@@ -145,7 +151,8 @@ export const exportElementMarkdown = (targetNode, universeState) => {
     }
 
     if (node.content) {
-      md += `${htmlToMarkdown(node.content)}\n\n`;
+      const safeContent = operatorSafe ? stripGmSecretHtmlBlocks(node.content) : node.content;
+      md += `${htmlToMarkdown(safeContent)}\n\n`;
     }
     if (node.children && node.children.length > 0) {
       node.children.forEach(child => {
@@ -155,13 +162,13 @@ export const exportElementMarkdown = (targetNode, universeState) => {
     return md;
   };
 
-  const fullMD = `# TANGENT SFF RPG — Story Module: ${universeState?.projectName || 'Campaign'}\n\n` + buildNodeMD(targetNode, 2);
+  const fullMD = `# TANGENT SFF RPG — Story Module: ${universeState?.projectName || 'Campaign'}\n\n` + buildNodeMD(rootNode, 2);
 
   const blob = new Blob([fullMD], { type: "text/markdown;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = formatExportFilename(targetNode.title || 'story', targetNode.type || 'module', 'md');
+  a.download = formatExportFilename(rootNode.title || 'story', rootNode.type || 'module', 'md');
   a.click();
   URL.revokeObjectURL(url);
 };
@@ -192,7 +199,8 @@ export const exportElementPDF = (targetNode, universeState, options = {}) => {
       html += `<div style="margin-bottom: 12px;"><img src="${safeImgSrc}" alt="${escapeHtml(node.title || 'Element Image')}" style="${imgStyle}" /></div>`;
     }
 
-    const schema = ELEMENT_SCHEMAS[node.type];
+    const normalizedType = normalizeElementType(node.type);
+    const schema = ELEMENT_SCHEMAS[normalizedType] || ELEMENT_SCHEMAS[node.type];
     if ((schema && node.fields) || (node.customFields && node.customFields.length > 0)) {
       let fieldsHTML = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 12px; font-size: 12px;">';
       let hasFields = false;

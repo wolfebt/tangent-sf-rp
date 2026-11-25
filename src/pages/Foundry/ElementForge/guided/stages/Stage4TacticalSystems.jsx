@@ -77,7 +77,7 @@ export default function Stage4TacticalSystems({
       onMergeFields?.({ costCr: '', craft_dc: '', creditValue: '', cost: '' });
       return;
     }
-    const crNum = Math.max(0, Math.min(60, Number(rawCr) || 0));
+    const crNum = Math.max(0, Math.min(80, Number(rawCr) || 0));
     const credits = calculateCreditValue(crNum);
     onMergeFields?.({
       costCr: String(crNum),
@@ -181,7 +181,7 @@ export default function Stage4TacticalSystems({
             <div className="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-[11px]">
               <span className="text-slate-400 uppercase font-bold">Physiology:</span>
               {['Organic', 'Synthetic'].map((phys) => {
-                const active = (fields.physiology || 'Organic') === phys;
+                const active = (fields.physiology || (fields.isSynthetic ? 'Synthetic' : 'Organic')) === phys;
                 return (
                   <button
                     key={phys}
@@ -189,8 +189,24 @@ export default function Stage4TacticalSystems({
                     onClick={() => {
                       const nextPatch =
                         phys === 'Synthetic'
-                          ? { physiology: 'Synthetic', vitality: '0', structure: fields.health || '60', health: fields.health || '60' }
-                          : { physiology: 'Organic', vitality: fields.vitality && fields.vitality !== '0' ? fields.vitality : '30', structure: '' };
+                          ? {
+                              physiology: 'Synthetic',
+                              isSynthetic: true,
+                              is_synthetic: true,
+                              vitality: '0',
+                              health: '0',
+                              structure: String(Math.max(60, Number(fields.structure || 60))),
+                              structurePoints: String(Math.max(60, Number(fields.structurePoints || fields.structure || 60)))
+                            }
+                          : {
+                              physiology: 'Organic',
+                              isSynthetic: false,
+                              is_synthetic: false,
+                              health: String(Math.max(30, Number(fields.health || 30))),
+                              vitality: String(fields.vitality && fields.vitality !== '0' ? fields.vitality : '30'),
+                              structure: '',
+                              structurePoints: ''
+                            };
                       onMergeFields?.(nextPatch);
                     }}
                     className={`px-2 py-0.5 rounded font-bold cursor-pointer ${
@@ -212,14 +228,13 @@ export default function Stage4TacticalSystems({
               onFieldChange={onChangeField}
               onBatchFieldChange={onMergeFields}
               elementTitle={draft.title}
-              onOpenAimeGuidance={onOpenAimeGuidance}
             />
           ) : (
             <NpcScriptBuilder
               fields={fields}
               onFieldChange={onChangeField}
+              onBatchFieldChange={onMergeFields}
               elementTitle={draft.title}
-              onOpenAimeGuidance={onOpenAimeGuidance}
             />
           )}
         </div>
@@ -417,7 +432,7 @@ export default function Stage4TacticalSystems({
               <input
                 type="number"
                 min="0"
-                max="60"
+                max="80"
                 value={fields.costCr ?? fields.craft_dc ?? ''}
                 onChange={(e) => handleCostCrChange(e.target.value)}
                 placeholder="e.g. 15"
@@ -441,7 +456,7 @@ export default function Stage4TacticalSystems({
           </div>
 
           {/* Subcategory Tactical Combat / Cyberware Fields */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-1">
             <div>
               <label className="block text-[10px] font-bold text-rose-300 uppercase mb-1">
                 Damage / Output
@@ -474,21 +489,27 @@ export default function Stage4TacticalSystems({
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold text-amber-300 uppercase mb-1">
-                      Armor DR / AP
+                      Armor DR
                     </label>
                     <input
-                      type="text"
-                      value={fields.dr ?? fields.ap ?? ''}
-                      onChange={(e) => {
-                        const raw = e.target.value;
-                        const apMatch = raw.match(/AP\s*[:=]?\s*(-?\d+(?:\.\d+)?)/i);
-                        if (apMatch && onMergeFields) {
-                          onMergeFields({ dr: raw, ap: Number(apMatch[1]) });
-                        } else {
-                          onChangeField?.('dr', raw);
-                        }
-                      }}
-                      placeholder="e.g. 6 (or DR 6 / AP 4)"
+                      type="number"
+                      min="0"
+                      value={fields.dr ?? ''}
+                      onChange={(e) => onChangeField?.('dr', e.target.value)}
+                      placeholder="e.g. 6"
+                      className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-orange-300 uppercase mb-1">
+                      Armor Piercing (AP)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={fields.ap ?? ''}
+                      onChange={(e) => onChangeField?.('ap', e.target.value)}
+                      placeholder="e.g. 4"
                       className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
                     />
                   </div>
@@ -762,7 +783,7 @@ export default function Stage4TacticalSystems({
             <>
               <div>
                 <label className="block text-[10px] font-bold text-violet-300 uppercase mb-1.5">
-                  Invocation / Ability Design DC
+                  Invocation / Ability Design CR
                 </label>
                 <input
                   type="number"
@@ -787,13 +808,13 @@ export default function Stage4TacticalSystems({
               </div>
               <div>
                 <label className="block text-[10px] font-bold text-amber-300 uppercase mb-1.5">
-                  Cast Time / AP &amp; Strain Cost
+                  Action Tier &amp; Strain Cost
                 </label>
                 <input
                   type="text"
                   value={fields.cast_time || ''}
                   onChange={(e) => onChangeField?.('cast_time', e.target.value)}
-                  placeholder="e.g. 2 AP • 2 Strain"
+                  placeholder="e.g. Trained Action • 2 Strain"
                   className="w-full bg-slate-950 border border-slate-800 text-amber-200 p-2.5 rounded-xl text-xs outline-none"
                 />
               </div>

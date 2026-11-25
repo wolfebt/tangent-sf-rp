@@ -27,6 +27,17 @@ export interface CompileOptions {
   includeCoverPage?: boolean;
   includeToc?: boolean;
   includeGmSecrets?: boolean;
+  includeSynopsis?: boolean;
+  includeBeats?: boolean;
+  includeProse?: boolean;
+  includeMapKeys?: boolean;
+  includeWaypoints?: boolean;
+  includeReadAloud?: boolean;
+  includeStatBlocks?: boolean;
+  includeHandouts?: boolean;
+  includeProps?: boolean;
+  includeOsrSpread?: boolean;
+  printLayout?: 'osr_module' | 'novel' | 'cards';
   pageSize?: 'letter' | 'a4';
   mapImages?: Array<{ title: string; dataUrl: string }>;
 }
@@ -91,6 +102,13 @@ export class PagedPdfCompilerService {
     const pageSize = options.pageSize === 'a4' ? 'a4' : 'letter';
     const includeGmSecrets = options.includeGmSecrets !== false;
     const includeToc = Boolean(options.includeToc);
+    const includeSynopsis = options.includeSynopsis !== false;
+    const includeBeats = options.includeBeats !== false;
+    const includeProse = options.includeProse !== false;
+    const includeReadAloud = options.includeReadAloud !== false;
+    const includeStatBlocks = options.includeStatBlocks !== false;
+    const includeMapKeys = options.includeMapKeys !== false;
+    const layoutClass = options.printLayout === 'novel' ? 'single-column' : 'two-columns';
 
     const pagedStyles = `
       <style>
@@ -137,6 +155,11 @@ export class PagedPdfCompilerService {
         .two-columns {
           columns: 2;
           column-gap: 8mm;
+        }
+
+        .single-column {
+          max-width: 160mm;
+          margin: 0 auto;
         }
 
         .sensory-box, blockquote.ade-read-aloud {
@@ -240,6 +263,9 @@ export class PagedPdfCompilerService {
     const collectTocEntries = (list: ScenarioExportNode[], depth = 0): Array<{ id: string; title: string; depth: number }> => {
       const items: Array<{ id: string; title: string; depth: number }> = [];
       for (const n of list || []) {
+        if (!includeGmSecrets && ((n as { isHidden?: boolean; isGmOnly?: boolean }).isHidden || (n as { isGmOnly?: boolean }).isGmOnly)) {
+          continue;
+        }
         const anchorId = `sec_${String(n.id || items.length).replace(/[^A-Za-z0-9_-]/g, '_')}`;
         items.push({ id: anchorId, title: n.title || 'Untitled Section', depth });
         if (Array.isArray(n.children) && n.children.length > 0) {
@@ -274,24 +300,24 @@ export class PagedPdfCompilerService {
       return `
         <div class="scenario-section" id="${escapeHtml(anchorId)}">
           <${headingTag}>${escapeHtml(node.title)}</${headingTag}>
-          <div class="two-columns">
-            ${rawSummary ? `<p><strong>Overview:</strong> ${escapeHtml(rawSummary)}</p>` : ''}
+          <div class="${layoutClass}">
+            ${includeSynopsis && rawSummary ? `<p><strong>Overview:</strong> ${escapeHtml(rawSummary)}</p>` : ''}
             
-            ${node.fields?.readAloud ? `
+            ${includeReadAloud && node.fields?.readAloud ? `
               <div class="sensory-box">
                 "${escapeHtml(node.fields.readAloud)}"
               </div>
             ` : ''}
 
-            ${rawContent ? `<div>${sanitizeRichHtml(rawContent)}</div>` : ''}
+            ${includeProse && rawContent ? `<div>${sanitizeRichHtml(rawContent)}</div>` : ''}
 
-            ${node.fields?.bulletPoints && node.fields.bulletPoints.length > 0 ? `
+            ${includeBeats && node.fields?.bulletPoints && node.fields.bulletPoints.length > 0 ? `
               <ul class="bullet-list">
                 ${node.fields.bulletPoints.map(b => `<li>${escapeHtml(b)}</li>`).join('')}
               </ul>
             ` : ''}
 
-            ${includeGmSecrets && node.fields?.threats && node.fields.threats.length > 0 ? `
+            ${includeGmSecrets && includeStatBlocks && node.fields?.threats && node.fields.threats.length > 0 ? `
               <div class="threat-matrix">
                 ${node.fields.threats.map(t => `
                   <div class="threat-card">
@@ -311,7 +337,7 @@ export class PagedPdfCompilerService {
       bodyHtml += renderNodeHtml(node, 2);
     }
 
-    if (Array.isArray(options.mapImages) && options.mapImages.length > 0) {
+    if (includeMapKeys && Array.isArray(options.mapImages) && options.mapImages.length > 0) {
       for (const mapImg of options.mapImages) {
         if (!mapImg?.dataUrl) continue;
         bodyHtml += `

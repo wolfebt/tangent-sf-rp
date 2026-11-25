@@ -9,6 +9,7 @@ import { OBJECT_TYPES } from '../services/interactiveObjectService.js';
 import { TRAP_TYPES } from '../services/reactiveVttService.js';
 import { inferPropertySubcategory, inferMetaphysicsSubcategory } from '../pages/Foundry/ElementForge/elementSchemas.js';
 import { buildVttUnitFromPersona } from './personaBridge.js';
+import { projectOmnicortexRecordToAdeElement } from './cortexAdeAssetBridge.js';
 
 /**
  * Normalizes an ADE story component element into a Stage VTT Token / Static Entity.
@@ -296,16 +297,26 @@ export function pullElementFromOmnicortexDBM(element, dbData) {
 
   if (!foundRecord) return null;
 
+  const projected = projectOmnicortexRecordToAdeElement(foundRecord, resolvedCategory) || {};
+  const rawContent = foundRecord.description || foundRecord.concept || foundRecord.notes || foundRecord.summary;
+
   return {
     ...element,
-    title: foundRecord.name || foundRecord.title || element.title,
-    content: foundRecord.description || foundRecord.concept || foundRecord.notes || foundRecord.summary || element.content,
+    title: projected.title || foundRecord.name || foundRecord.title || element.title,
+    content: rawContent || projected.content || element.content,
+    ...(projected.propertySubcategory ? { propertySubcategory: projected.propertySubcategory } : {}),
+    ...(projected.metaphysicsSubcategory ? { metaphysicsSubcategory: projected.metaphysicsSubcategory } : {}),
+    ...(projected.personaSubcategory ? { personaSubcategory: projected.personaSubcategory } : {}),
     dbmSyncStatus: 'synced',
     dbmLastSyncedAt: new Date().toISOString(),
+    dbmCategory: resolvedCategory,
+    dbmId: foundRecord.id,
     fields: {
       ...(element.fields || {}),
+      ...(projected.fields || {}),
       ...foundRecord,
       dbmRef: foundRecord.id,
+      dbmId: foundRecord.id,
       dbmCategory: resolvedCategory
     }
   };

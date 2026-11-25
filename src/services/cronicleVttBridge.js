@@ -73,14 +73,31 @@ export function createDeltaFromCombatEvent(eventType, payload = {}) {
       const hazardId = payload.objectId || payload.hazardId || 'hazard_emitter';
       const isActive = Boolean(payload.isActive);
       const hazardType = payload.hazardType || 'Environmental Hazard';
+      const activeLocId =
+        payload.locationId ||
+        payload.activeLocationId ||
+        (typeof payload.objectId === 'string' && payload.objectId.startsWith('loc_') ? payload.objectId : '');
+      if (activeLocId) {
+        return {
+          id: deltaId,
+          timestamp,
+          source: 'stage-combat',
+          entityId: activeLocId,
+          action: isActive ? 'add_hazard' : 'remove_hazard',
+          target: hazardType,
+          value: hazardType,
+          explanation: `Environmental hazard (${hazardType}) ${isActive ? 'activated' : 'vented/cleared'} on Stage.`,
+          rawEvent: payload
+        };
+      }
       return {
         id: deltaId,
         timestamp,
         source: 'stage-combat',
         entityId: hazardId,
-        action: isActive ? 'add_hazard' : 'remove_hazard',
-        target: hazardType,
-        value: hazardType,
+        action: 'add_timeline_event',
+        sceneTitle: 'Environmental Hazard State',
+        value: `Environmental hazard "${hazardType}" (${hazardId}) ${isActive ? 'activated' : 'vented/cleared'} on Stage.`,
         explanation: `Environmental hazard (${hazardType}) ${isActive ? 'activated' : 'vented/cleared'} on Stage.`,
         rawEvent: payload
       };
@@ -135,7 +152,7 @@ export function createDeltaFromCombatEvent(eventType, payload = {}) {
  * @param {Function} [options.onDeltaStaged] Optional callback fired when a delta is created
  * @returns {Function} Unsubscribe cleanup function
  */
-export function initCronicleVttBridge({ stageCronicleDeltas, onDeltaStaged, eventBus } = {}) {
+export function initCronicleVttBridge({ stageCronicleDeltas, onDeltaStaged, eventBus, getActiveLocationId } = {}) {
   if (typeof stageCronicleDeltas !== 'function') {
     console.warn('[CronicleVttBridge] stageCronicleDeltas function is required');
     return () => {};
@@ -155,7 +172,11 @@ export function initCronicleVttBridge({ stageCronicleDeltas, onDeltaStaged, even
   monitoredEvents.forEach(eventType => {
     const handleEvent = (payload) => {
       try {
-        const delta = createDeltaFromCombatEvent(eventType, payload);
+        const activeLocationId = typeof getActiveLocationId === 'function' ? getActiveLocationId() : undefined;
+        const enrichedPayload = activeLocationId && payload && typeof payload === 'object' && !payload.locationId
+          ? { ...payload, activeLocationId }
+          : payload;
+        const delta = createDeltaFromCombatEvent(eventType, enrichedPayload);
         if (delta) {
           stageCronicleDeltas([delta]);
           if (typeof onDeltaStaged === 'function') {

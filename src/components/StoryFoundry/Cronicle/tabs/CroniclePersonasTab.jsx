@@ -5,6 +5,7 @@ export default function CroniclePersonasTab({
   personas,
   availablePersonas = [],
   onPullUnifiedPersona,
+  isStoryReadOnly = false,
   newPersonaName,
   setNewPersonaName,
   newPersonaRole,
@@ -36,8 +37,9 @@ export default function CroniclePersonasTab({
           <div className="flex items-center gap-2 flex-1 min-w-[240px]">
             <select
               value={selectedUnifiedPersonaId}
+              disabled={isStoryReadOnly}
               onChange={(e) => setSelectedUnifiedPersonaId(e.target.value)}
-              className="flex-1 bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg font-mono outline-none focus:border-purple-400"
+              className="flex-1 bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg font-mono outline-none focus:border-purple-400 disabled:opacity-50"
             >
               <option value="">-- Select Folio or MCM Persona ({availablePersonas.length} available) --</option>
               {availablePersonas.map((p) => (
@@ -48,8 +50,9 @@ export default function CroniclePersonasTab({
             </select>
             <button
               type="button"
-              disabled={!selectedUnifiedPersonaId}
+              disabled={isStoryReadOnly || !selectedUnifiedPersonaId}
               onClick={() => {
+                if (isStoryReadOnly) return;
                 const found = availablePersonas.find((p) => String(p.id) === String(selectedUnifiedPersonaId));
                 if (found && onPullUnifiedPersona) {
                   onPullUnifiedPersona(found);
@@ -71,23 +74,26 @@ export default function CroniclePersonasTab({
           <input
             type="text"
             value={newPersonaName}
+            disabled={isStoryReadOnly}
             onChange={(e) => setNewPersonaName(e.target.value)}
             placeholder="New Persona Name (e.g. Elara Vex)..."
-            className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-cyan-400"
+            className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-cyan-400 disabled:opacity-50"
           />
         </div>
         <div className="w-48">
           <input
             type="text"
             value={newPersonaRole}
+            disabled={isStoryReadOnly}
             onChange={(e) => setNewPersonaRole(e.target.value)}
             placeholder="Role (e.g. Frontier Marshal)..."
-            className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-cyan-400"
+            className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-cyan-400 disabled:opacity-50"
           />
         </div>
         <button
           type="submit"
-          className="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold uppercase rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
+          disabled={isStoryReadOnly}
+          className="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 text-white text-xs font-bold uppercase rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
         >
           <Plus size={13} />
           <span>Add Persona</span>

@@ -27,8 +27,14 @@ import { AudioService } from '../../../../services/audioService';
 import { generateContent } from '../../../../services/aimeService';
 import { rollDice } from '../../../../services/diceService';
 import { useFolio } from '../../../../context/FolioContext';
+import { useStory } from '../../../../context/CampaignContext';
+import { useAdeStore } from '../../store/adeStore';
 
-export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceGems = '' }) {
+export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceGems = '', isStoryReadOnly: propIsReadOnly }) {
+  const { isStoryReadOnly: ctxReadOnly = false } = useStory() || {};
+  const perspectiveMode = useAdeStore((state) => state.perspectiveMode || 'architect');
+  const isStoryReadOnly = propIsReadOnly ?? ctxReadOnly;
+  const isOperatorMode = perspectiveMode === 'operator';
   const fields = activeNode?.fields || {};
   const readAloud = fields.readAloud || '';
   const bulletPoints = Array.isArray(fields.bulletPoints) ? fields.bulletPoints : [];
@@ -75,6 +81,7 @@ export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceG
   if (!activeNode) return null;
 
   const handleUpdateField = (fieldName, val) => {
+    if (isStoryReadOnly || !updateStory) return;
     updateStory(activeNode.id, {
       fields: {
         ...(activeNode.fields || {}),
@@ -644,40 +651,43 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
             </div>
 
             {/* Classified Architect Discoveries & Secrets */}
-            <div className="p-3.5 bg-slate-950/80 border border-purple-500/40 rounded-xl space-y-2 shadow-sm">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="font-bold text-purple-300 flex items-center gap-1.5 uppercase">
-                  <HelpCircle size={13} className="text-purple-400" />
-                  <span>Classified Architect Discovery / Complication</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={handleAiGenerateSecrets}
-                  disabled={isGeneratingSecrets}
-                  className="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 text-purple-200 border border-purple-500/40 text-[10px] font-mono font-bold flex items-center gap-1 transition-all disabled:opacity-50 cursor-pointer shadow-sm"
-                  title="Generate hidden Architect secrets and complications with AIME"
-                >
-                  {isGeneratingSecrets ? (
-                    <>
-                      <Loader2 size={10} className="animate-spin text-purple-400" />
-                      <span>Thinking...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles size={10} />
-                      <span>Generate</span>
-                    </>
-                  )}
-                </button>
-              </div>
+            {!isOperatorMode && (
+              <div className="p-3.5 bg-slate-950/80 border border-purple-500/40 rounded-xl space-y-2 shadow-sm">
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="font-bold text-purple-300 flex items-center gap-1.5 uppercase">
+                    <HelpCircle size={13} className="text-purple-400" />
+                    <span>Classified Architect Discovery / Complication</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleAiGenerateSecrets}
+                    disabled={isGeneratingSecrets || isStoryReadOnly}
+                    className="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 text-purple-200 border border-purple-500/40 text-[10px] font-mono font-bold flex items-center gap-1 transition-all disabled:opacity-50 cursor-pointer shadow-sm"
+                    title="Generate hidden Architect secrets and complications with AIME"
+                  >
+                    {isGeneratingSecrets ? (
+                      <>
+                        <Loader2 size={10} className="animate-spin text-purple-400" />
+                        <span>Thinking...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={10} />
+                        <span>Generate</span>
+                      </>
+                    )}
+                  </button>
+                </div>
 
-              <textarea
-                value={gmSecrets}
-                onChange={(e) => handleUpdateField('gmSecrets', e.target.value)}
-                placeholder="Author secret Architect discoveries, reinforcement timers, traps, or room twists..."
-                className="w-full h-20 p-2 bg-slate-950/90 border border-purple-500/30 rounded-lg font-mono text-xs text-purple-200 placeholder-slate-600 focus:outline-none focus:border-purple-500/60 resize-none leading-relaxed select-text"
-              />
-            </div>
+                <textarea
+                  value={gmSecrets}
+                  readOnly={isStoryReadOnly}
+                  onChange={(e) => handleUpdateField('gmSecrets', e.target.value)}
+                  placeholder="Author secret Architect discoveries, reinforcement timers, traps, or room twists..."
+                  className="w-full h-20 p-2 bg-slate-950/90 border border-purple-500/30 rounded-lg font-mono text-xs text-purple-200 placeholder-slate-600 focus:outline-none focus:border-purple-500/60 resize-none leading-relaxed select-text"
+                />
+              </div>
+            )}
 
           </div>
 

@@ -114,7 +114,8 @@ export default function ModuleMissionControl({
     setActiveScenarioId,
     setGalleryModifiers,
     updateCreativeState,
-    updateCronicle
+    updateCronicle,
+    confirmIfDirty
   } = useCampaign();
 
   // ADE Store
@@ -281,8 +282,9 @@ export default function ModuleMissionControl({
   };
 
   // Create new story module
-  const handleCreateNewStory = () => {
+  const handleCreateNewStory = async () => {
     setIsFileMenuOpen(false);
+    if (typeof confirmIfDirty === 'function' && !(await confirmIfDirty())) return;
     AudioService.playTerminalBeep(1200, 0.03);
     setNewStoryTitle('New Story Module');
     setIsNewStoryModalOpen(true);
@@ -713,7 +715,8 @@ export default function ModuleMissionControl({
                           >
                             <button
                               type="button"
-                              onClick={() => {
+                              onClick={async () => {
+                                if (s.id && s.id !== universeState?.id && typeof confirmIfDirty === 'function' && !(await confirmIfDirty())) return;
                                 AudioService.playTerminalBeep(1100, 0.02);
                                 if (s.id) openStory(s.id);
                                 setIsFileMenuOpen(false);

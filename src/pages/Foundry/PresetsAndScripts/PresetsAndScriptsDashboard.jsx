@@ -11,7 +11,7 @@
  * 6. Situational Combat Modifiers Deck (Rules, damage/stat modifiers, asset linkage)
  */
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { AudioService } from '../../../services/audioService';
@@ -19,6 +19,7 @@ import { stepNpcPatrols } from '../../../services/reactiveVttService';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { useEngineStore } from '../../../engine/state/VolatileSharder.ts';
 import { aggregateModuleAssets } from './utils/assetAggregator';
+import { normalizeElementType } from '../ElementForge/elementSchemas';
 
 // Modular Child Components
 import { AssetSelectionCatalogRail } from './components/AssetSelectionCatalogRail';
@@ -46,7 +47,8 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
     addGalleryModifier,
     updateGalleryModifier,
     deleteGalleryModifier,
-    toggleGalleryModifier
+    toggleGalleryModifier,
+    isStoryReadOnly = false
   } = useStory();
 
   // Active Studio Tab ('routines' | 'traps' | 'macros' | 'atmospherics' | 'modifiers')
@@ -59,10 +61,15 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
   // Selected Asset ID in the Catalog
   const [selectedAssetId, setSelectedAssetId] = useState(null);
 
-  // Custom Local Macros Cache
+  // Custom Local Macros Cache synced per project
   const [customMacros, setCustomMacros] = useState(() => {
     return universeState?.scripts || [];
   });
+
+  useEffect(() => {
+    setCustomMacros(Array.isArray(universeState?.scripts) ? universeState.scripts : []);
+    setSelectedAssetId(null);
+  }, [universeState?.id]);
 
   // Combine maps from universe and catalog
   const allMaps = useMemo(() => {
@@ -78,7 +85,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
 
   // Extract Personas for direct persona switcher
   const personaElements = useMemo(() => {
-    return elementsCatalog.filter(e => e.type === 'Persona');
+    return elementsCatalog.filter(e => normalizeElementType(e.type) === 'Persona');
   }, [elementsCatalog]);
 
   // Master Aggregated Module Assets Catalog
@@ -122,6 +129,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
 
   // Update Persona script in elementsCatalog & Firestore
   const handleUpdatePersonaScript = useCallback(async (personaId, updatedFields) => {
+    if (isStoryReadOnly) return;
     const target = elementsCatalog.find(e => e.id === personaId);
     if (!target) return;
     const updated = {
@@ -129,16 +137,17 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
       fields: updatedFields
     };
     await updateSavedElement(personaId, updated);
-  }, [elementsCatalog, updateSavedElement]);
+  }, [elementsCatalog, updateSavedElement, isStoryReadOnly]);
 
   // Update Map Objects (Traps, Hazards, Bulkheads)
   const handleUpdateMapObjects = useCallback((mapId, updatedObjects) => {
-    if (!updateMap) return;
+    if (isStoryReadOnly || !updateMap) return;
     updateMap(mapId, { objects: updatedObjects });
-  }, [updateMap]);
+  }, [updateMap, isStoryReadOnly]);
 
   // Save new or updated QuickJS Macro to module
   const handleSaveMacroToModule = useCallback((macro) => {
+    if (isStoryReadOnly) return;
     const existingIndex = customMacros.findIndex(m => m.id === macro.id);
     let updated;
     if (existingIndex >= 0) {
@@ -151,10 +160,11 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
     if (typeof updateUniverseMetadata === 'function') {
       updateUniverseMetadata({ scripts: updated });
     }
-  }, [customMacros, updateUniverseMetadata]);
+  }, [customMacros, updateUniverseMetadata, isStoryReadOnly]);
 
   // Attach QuickJS Macro to specific module asset
   const handleAttachMacroToAsset = useCallback(async (asset, macroCode) => {
+    if (isStoryReadOnly) return;
     if (asset.source === 'elementsCatalog') {
       const target = elementsCatalog.find(e => e.id === asset.rawId);
       if (!target) return;
@@ -168,11 +178,11 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
       await updateSavedElement(target.id, updated);
       AudioService.playTerminalBeep(1400, 0.08);
     }
-  }, [elementsCatalog, updateSavedElement]);
+  }, [elementsCatalog, updateSavedElement, isStoryReadOnly]);
 
   // Apply Atmospheric Profile to selected map
   const handleApplyAtmosphereToMap = useCallback((mapId, atmosphereConfig) => {
-    if (!updateMap) return;
+    if (isStoryReadOnly || !updateMap) return;
     const target = allMaps.find(m => m.id === mapId);
     if (!target) return;
 
@@ -185,7 +195,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
         fogDensity: atmosphereConfig.fogDensity
       }
     });
-  }, [allMaps, updateMap]);
+  }, [allMaps, updateMap, isStoryReadOnly]);
 
   // In-Situ Step Simulation Turn: advances NPC patrols across the active map on the Stage
   const handleStepSimulationTurn = useCallback(() => {
@@ -196,7 +206,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
     }
 
     const updatedTokens = stepNpcPatrols(activeMap.tokens, 25);
-    if (updateMap) {
+    if (updateMap && !isStoryReadOnly) {
       updateMap(activeMap.id, { tokens: updatedTokens });
     }
 
@@ -310,6 +320,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
               onDeleteModifier={deleteGalleryModifier}
               onToggleModifier={toggleGalleryModifier}
               selectedAsset={selectedAsset}
+              isStoryReadOnly={isStoryReadOnly}
             />
           )}
         </main>

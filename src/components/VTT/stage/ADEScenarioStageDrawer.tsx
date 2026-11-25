@@ -52,7 +52,8 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
     cronicle,
     acceptPendingDelta,
     rejectPendingDelta,
-    acceptAllPendingDeltas
+    acceptAllPendingDeltas,
+    isStoryReadOnly = false
   } = useCampaign();
 
   const pendingDeltas: CronicleDeltaRecord[] = cronicle?.pendingDeltas || [];
@@ -62,8 +63,13 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
   const activeScenario = scenarios.find((s: AdeScenarioRecord) => s.id === activeScenarioId) || scenarios[0] || null;
   const scenarioId = activeScenario?.id;
 
-  const rawLinked = activeScenario?.linkedElements || [];
-  const linkedElementIds: string[] = rawLinked.map((l: any) => typeof l === 'string' ? l : l?.assetId).filter(Boolean);
+  const rawLinked = [
+    ...(Array.isArray(activeScenario?.linkedElements) ? activeScenario.linkedElements : []),
+    ...(Array.isArray(activeScenario?.assetHub) ? activeScenario.assetHub : [])
+  ];
+  const linkedElementIds: string[] = Array.from(
+    new Set(rawLinked.map((l: any) => (typeof l === 'string' ? l : l?.assetId)).filter(Boolean))
+  );
   const linkedElements: AdeElementRecord[] = (elementsCatalog || []).filter((e: AdeElementRecord) => linkedElementIds.includes(e.id));
 
   // Parse beats from scenario fields or outline
@@ -130,7 +136,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
         } catch (e) {
           console.warn('[ADEScenarioStageDrawer] Failed to write local beats:', e);
         }
-        if (typeof updateScenario === 'function') {
+        if (!isStoryReadOnly && typeof updateScenario === 'function') {
           updateScenario(scenarioId, {
             completedBeats: arr,
             fields: {

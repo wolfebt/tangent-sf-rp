@@ -5,11 +5,14 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   ELEMENT_TYPES,
   PROPERTY_SUBCATEGORIES,
+  PERSONA_SUBCATEGORIES,
   METAPHYSICS_SUBCATEGORIES,
   getElementFileExtension,
   getTypePillStyle,
   normalizeElementType
 } from './elementSchemas';
+import DOMPurify from 'dompurify';
+import { formatAimeProseToHtml } from '../AIME/aimeTextUtils';
 import { downloadAimeAssetFile } from '../../../services/aimeAssetFileService';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -20,7 +23,8 @@ import { useStory } from '../../../context/CampaignContext';
 import { useDBM } from '../../../context/DBMContext';
 import { useFolio } from '../../../context/FolioContext';
 import { useAuth } from '../../../context/AuthContext';
-import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
+import { buildUnifiedAdeCatalog, resolveTargetCortexCollection } from '../../../utils/cortexAdeAssetBridge';
+import { uploadAdeImageAsset } from '../../../services/adeMediaStorageService';
 import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
 import GuidedForgeShell from '../../../components/StoryFoundry/GuidedForge/GuidedForgeShell';
 import AimeThreeTierStack from './components/AimeThreeTierStack';
@@ -31,6 +35,7 @@ import {
   GUIDED_ELEMENT_STAGE_IDS
 } from './guided/elementPlaybooks';
 import { buildArtistHubVisualBrief } from './guided/guidedElementAiService';
+import { buildArtistConceptPatch } from '../../../services/artistHubFramework';
 
 const ArtistHubModal = React.lazy(() =>
   import('../../../components/StoryFoundry/ArtistHubModal').then((m) => ({
@@ -53,7 +58,8 @@ import { lintCanonContent, applyAutoFix } from '../../../services/canonRulesLint
 import {
   listCustomTemplates,
   saveCustomTemplate,
-  applyCustomTemplate
+  applyCustomTemplate,
+  deleteCustomTemplate
 } from '../../../services/customElementTemplateService';
 import { useDirtyModalClose } from '../../../hooks/useDirtyModalClose';
 import {
@@ -114,6 +120,7 @@ const EditElementModal = ({
   element,
   onSave,
   onDelete,
+  onDeleteCortex,
   initialMode,
   initialSeedTab = 'spark',
   activeScenario = null,
@@ -129,7 +136,8 @@ const EditElementModal = ({
     mapsCatalog,
     cronicle,
     updateStory,
-    addGalleryModifier
+    addGalleryModifier,
+    isStoryReadOnly = false
   } = useStory();
   const { dbData = {} } = useDBM() || {};
   const {
@@ -140,7 +148,7 @@ const EditElementModal = ({
     saveCurrentToRoster,
     switchRosterCharacter
   } = useFolio() || {};
-  const { currentUser } = useAuth() || {};
+  const { currentUser, isAdmin = false } = useAuth() || {};
 
   const [editorMode, setEditorMode] = useState('guided'); // 'guided' | 'sheet'
   const [activeStageId, setActiveStageId] = useState('spark');
@@ -154,6 +162,7 @@ const EditElementModal = ({
   const [guidance, setGuidance] = useState({});
   const [assetHub, setAssetHub] = useState([]);
   const [dbmSyncStatus, setDbmSyncStatus] = useState('standalone');
+  const [isPublicElement, setIsPublicElement] = useState(false);
   const [activeTabIdx, setActiveTabIdx] = useState(0);
   const [narrativeSectionId, setNarrativeSectionId] = useState('profile');
 
@@ -165,7 +174,7 @@ const EditElementModal = ({
     if (!isOpen) return;
     const next = listCustomTemplates(universeState);
     setSavedTemplates((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
-  }, [isOpen, universeState?.customElementTemplates]);
+  }, [isOpen, universeState?.customTemplates]);
 
   const handleSaveAsTemplate = () => {
     const rawTags = typeof fields.tags === 'string'
@@ -176,6 +185,11 @@ const EditElementModal = ({
         name: `${(title || type || 'Element').trim()} Template`,
         type,
         description: fields.summary || '',
+        content,
+        imageUrl,
+        guidance,
+        assetHub,
+        customFields,
         attributes: { ...fields },
         tags: rawTags
       },
@@ -197,27 +211,60 @@ const EditElementModal = ({
     const merged = applyCustomTemplate(template, {
       type,
       description: fields.summary || '',
+      content,
+      imageUrl,
+      guidance,
+      assetHub,
+      customFields,
       attributes: { ...fields }
     });
     if (merged.type) setType(merged.type);
+    if (merged.content && !content) setContent(merged.content);
+    if (merged.imageUrl && !imageUrl) setImageUrl(merged.imageUrl);
+    if (merged.guidance) setGuidance(merged.guidance);
+    if (Array.isArray(merged.assetHub) && merged.assetHub.length > 0 && assetHub.length === 0) {
+      setAssetHub(merged.assetHub);
+    }
+    if (Array.isArray(merged.customFields) && merged.customFields.length > 0 && customFields.length === 0) {
+      setCustomFields(merged.customFields);
+    }
     if (merged.attributes) {
       setFields((prev) => ({ ...prev, ...merged.attributes }));
     }
     showToast({ type: 'info', text: `Applied template "${template.name}"` });
   };
 
+  const handleDeleteCustomTemplate = (templateId) => {
+    if (!templateId) return;
+    const next = deleteCustomTemplate(templateId, universeState, (nextTemplates) => {
+      setUniverseState?.((prev) => ({
+        ...prev,
+        customTemplates: nextTemplates
+      }));
+      setCampaignDirty?.(true);
+    });
+    setSavedTemplates(next);
+    showToast({ type: 'info', text: 'Deleted saved blueprint template.' });
+  };
+
   const [pendingType, setPendingType] = useState(null);
   const [showTypeConfirm, setShowTypeConfirm] = useState(false);
+  const [typeChangedFromOrigin, setTypeChangedFromOrigin] = useState(false);
 
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlInputValue, setUrlInputValue] = useState('');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
   const [isAimeGuidanceOpen, setIsAimeGuidanceOpen] = useState(false);
   const [isCanonOpen, setIsCanonOpen] = useState(false);
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [relationalSelectorState, setRelationalSelectorState] = useState(null);
+  const [pendingStage3Diffs, setPendingStage3Diffs] = useState([]);
+  const [pendingStage3ProseDiff, setPendingStage3ProseDiff] = useState('');
   const fileMenuRef = useRef(null);
   const fileInputRef = useRef(null);
+  const handleSubmitRef = useRef(null);
+  const lastHydratedKeyRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -230,34 +277,58 @@ const EditElementModal = ({
   }, []);
 
   useEffect(() => {
-    if (element) {
-      const normalizedType = normalizeElementType(element.type || 'Persona');
-      const incomingFields = element.fields || {};
-      const isBlankElement =
-        !element.title &&
-        !element.content &&
-        Object.keys(incomingFields).length === 0;
-
-      setType(normalizedType);
-      setTitle(element.title || '');
-      setContent(element.content || '');
-      setImageUrl(element.imageUrl || '');
-      setFields(incomingFields);
-      setCustomFields(Array.isArray(element.customFields) ? element.customFields : []);
-      setGuidance(element.guidance || {});
-      setAssetHub(element.assetHub || element.linkedElements || []);
-      setDbmSyncStatus(
-        element.dbmSyncStatus || (incomingFields.dbmRef ? 'synced' : 'standalone')
-      );
-      setActiveTabIdx(0);
-      setActiveStageId('spark');
-      setEditorMode(initialMode || (isBlankElement ? 'guided' : 'sheet'));
-      setLinkToActiveScenario(false);
-      setRegisterModifierOnSave(false);
-      setPendingType(null);
-      setShowTypeConfirm(false);
+    if (!isOpen) {
+      lastHydratedKeyRef.current = null;
+      setPendingStage3Diffs([]);
+      setPendingStage3ProseDiff('');
+      return;
     }
-  }, [element, isOpen, initialMode]);
+    if (!element) return;
+    const hydrationKey = `${element.id || 'new'}::${element.createdAt || ''}::${initialMode || ''}::${initialSeedTab || ''}`;
+    if (lastHydratedKeyRef.current === hydrationKey) {
+      return;
+    }
+    lastHydratedKeyRef.current = hydrationKey;
+
+    const normalizedType = normalizeElementType(element.type || 'Persona');
+    const incomingFields = element.fields || {};
+    const DEFAULT_SEED_KEYS = new Set([
+      'propertySubcategory',
+      'itemCategory',
+      'personaSubcategory',
+      'metaphysicsSubcategory'
+    ]);
+    const hasMeaningfulIncomingFields = Object.entries(incomingFields).some(
+      ([k, v]) => !DEFAULT_SEED_KEYS.has(k) && v !== undefined && v !== null && String(v).trim() !== ''
+    );
+    const isBlankElement =
+      !element.title &&
+      !element.content &&
+      !hasMeaningfulIncomingFields;
+
+    setType(normalizedType);
+    setTitle(element.title || '');
+    setContent(element.content || '');
+    setImageUrl(element.imageUrl || '');
+    setFields(incomingFields);
+    setCustomFields(Array.isArray(element.customFields) ? element.customFields : []);
+    setGuidance(element.guidance || {});
+    setAssetHub(element.assetHub || element.linkedElements || []);
+    setDbmSyncStatus(
+      element.dbmSyncStatus || (incomingFields.dbmRef ? 'synced' : 'standalone')
+    );
+    setIsPublicElement(Boolean(element.isPublic));
+    setActiveTabIdx(0);
+    setActiveStageId('spark');
+    setEditorMode(initialMode || (isBlankElement ? 'guided' : 'sheet'));
+    setLinkToActiveScenario(false);
+    setRegisterModifierOnSave(false);
+    setPendingType(null);
+    setShowTypeConfirm(false);
+    setTypeChangedFromOrigin(false);
+    setPendingStage3Diffs([]);
+    setPendingStage3ProseDiff('');
+  }, [element, isOpen, initialMode, initialSeedTab]);
 
   const isDirty = useMemo(() => {
     if (!element) return false;
@@ -266,20 +337,47 @@ const EditElementModal = ({
       normalizeElementType(type || 'Persona') !== normalizeElementType(element.type || 'Persona') ||
       (content || '') !== (element.content || '') ||
       (imageUrl || '') !== (element.imageUrl || '') ||
+      Boolean(isPublicElement) !== Boolean(element.isPublic) ||
       JSON.stringify(fields || {}) !== JSON.stringify(element.fields || {}) ||
       JSON.stringify(customFields || []) !== JSON.stringify(element.customFields || []) ||
       JSON.stringify(guidance || {}) !== JSON.stringify(element.guidance || {}) ||
       JSON.stringify(assetHub || []) !== JSON.stringify(element.assetHub || element.linkedElements || [])
     );
-  }, [element, title, type, content, imageUrl, fields, customFields, guidance, assetHub]);
+  }, [element, title, type, content, imageUrl, isPublicElement, fields, customFields, guidance, assetHub]);
 
   const { handleRequestClose, handleBackdropClick } = useDirtyModalClose({
-    isOpen,
+    isOpen: isOpen && !isArtistHubOpen && !isAimeGuidanceOpen && !relationalSelectorState && !showTypeConfirm,
     isDirty,
     onClose,
     title: 'Discard Element Edits?',
     message: `You have unsaved changes in "${title || element?.title || 'this element'}". Discard changes and close?`
   });
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        handleSubmitRef.current?.();
+        return;
+      }
+      if (e.key === 'Escape') {
+        if (showTypeConfirm) {
+          e.stopPropagation();
+          setPendingType(null);
+          setShowTypeConfirm(false);
+        } else if (isFileMenuOpen) {
+          e.stopPropagation();
+          setIsFileMenuOpen(false);
+        } else if (isCanonOpen) {
+          e.stopPropagation();
+          setIsCanonOpen(false);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown, true);
+    return () => window.removeEventListener('keydown', handleKeyDown, true);
+  }, [isOpen, showTypeConfirm, isFileMenuOpen, isCanonOpen]);
 
   const currentDraft = useMemo(
     () => ({
@@ -302,12 +400,36 @@ const EditElementModal = ({
   const canonDiagnostics = useMemo(
     () =>
       lintCanonContent({
-        text: `${content || ''} ${fields?.summary || ''}`,
+        text: [
+          content,
+          fields?.summary,
+          fields?.oneLinePitch,
+          fields?.description,
+          fields?.mechanic,
+          fields?.readAloud,
+          fields?.cast_time,
+          fields?.sceneBeats
+        ]
+          .filter(Boolean)
+          .join(' '),
         element: currentDraft,
         knownTitles: (elementsCatalog || []).map((e) => e?.title || e?.name).filter(Boolean),
-        isCreationPhase: true
+        isCreationPhase: Number(fields?.mcmTier ?? 1) <= 1 && !element?.updatedAt
       }),
-    [content, fields?.summary, currentDraft, elementsCatalog]
+    [
+      content,
+      fields?.summary,
+      fields?.oneLinePitch,
+      fields?.description,
+      fields?.mechanic,
+      fields?.readAloud,
+      fields?.cast_time,
+      fields?.sceneBeats,
+      fields?.mcmTier,
+      element?.updatedAt,
+      currentDraft,
+      elementsCatalog
+    ]
   );
 
   const allMapsList = useMemo(() => {
@@ -350,12 +472,46 @@ const EditElementModal = ({
     });
     showToast({
       type: 'success',
-      text: `Exported ${title || 'element'} as portable ${getElementFileExtension(type)} asset!`
+      text: `Exported ${title || 'element'} as portable ${getElementFileExtension(type, fields?.propertySubcategory)} asset!`
     });
     setIsFileMenuOpen(false);
   };
 
-  const handleDuplicateElement = () => {
+  const isFolioOrigin = Boolean(
+    !typeChangedFromOrigin &&
+      (element?.isFolioPersona ||
+        element?.personaSubcategory === 'folio' ||
+        element?.fields?.personaSubcategory === 'folio' ||
+        fields?.personaSubcategory === 'folio')
+  );
+  const isCortexOrigin = Boolean(
+    !typeChangedFromOrigin &&
+      !isFolioOrigin &&
+      (element?.isCortexAsset || element?.fields?.dbmRef || element?.dbmRef || element?.dbmId)
+  );
+  const isModulePinnedOrigin = Boolean(element?.isPinnedToModule || element?.moduleElementId);
+
+  const resolvedSaveDestination = useMemo(() => {
+    if (type === 'Persona' && isFolioOrigin) {
+      return { label: 'Persona Folio', tone: 'purple' };
+    }
+    const effectiveDraft = typeChangedFromOrigin
+      ? { ...currentDraft, isFolioPersona: false, isCortexAsset: false, dbmCategory: undefined, dbmId: undefined }
+      : { ...element, ...currentDraft };
+    const targetCol = resolveTargetCortexCollection(effectiveDraft);
+    if (targetCol) {
+      return isAdmin
+        ? { label: `OmniCortex Canon (${targetCol}) • Admin`, tone: 'cyan' }
+        : { label: 'Campaign Module (Local Override)', tone: 'amber' };
+    }
+    return { label: 'Campaign Story Module', tone: 'emerald' };
+  }, [type, isFolioOrigin, typeChangedFromOrigin, currentDraft, element, isAdmin]);
+
+  const handleDuplicateElement = async () => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before duplicating elements.' });
+      return;
+    }
     const deepClone = (val, fallback) => {
       try {
         return JSON.parse(JSON.stringify(val ?? fallback));
@@ -363,62 +519,168 @@ const EditElementModal = ({
         return fallback;
       }
     };
+    const clonedFields = deepClone(fields, {});
+    delete clonedFields.dbmRef;
+    delete clonedFields.dbmId;
+    delete clonedFields.dbmCategory;
+    delete clonedFields['character-doc-id'];
+    if (clonedFields.personaSubcategory === 'folio') {
+      clonedFields.personaSubcategory = 'story';
+    }
+
     const cloned = {
       ...element,
       id: `elem_${Date.now()}_${uuidv4().slice(0, 6)}`,
       title: `${title || element.title || 'Untitled'} (Copy)`,
       type,
-      fields: deepClone(fields, {}),
+      fields: clonedFields,
       content,
       customFields: deepClone(customFields, []),
       guidance: deepClone(guidance, {}),
       assetHub: deepClone(assetHub, []),
-      dbmSyncStatus: 'local_only',
+      dbmSyncStatus: 'standalone',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
     delete cloned.dbmRef;
+    delete cloned.dbmId;
+    delete cloned.dbmCategory;
+    delete cloned.cortexRaw;
+    delete cloned.isCortexAsset;
+    delete cloned.codexMatrixId;
+    delete cloned.isFolioPersona;
+    delete cloned.folioDocId;
+    delete cloned.personaData;
+    delete cloned.sourceOrigin;
     delete cloned.isPinnedToModule;
     delete cloned.moduleElementId;
-    if (cloned.fields) {
-      delete cloned.fields.dbmRef;
-      delete cloned.fields.dbmId;
+    if (cloned.personaSubcategory === 'folio') {
+      cloned.personaSubcategory = 'story';
     }
+
     const withCreator = attachCreatorTag(cloned, localStorage.getItem('userHandle'), currentUser);
-    if (onSave) {
-      onSave(withCreator);
-    }
-    showToast({ type: 'success', text: `Duplicated "${cloned.title}"!` });
+    const saved = onSave ? await onSave(withCreator, { closeAfter: false }) : withCreator;
+    if (saved === false || saved === null) return;
+    showToast({ type: 'success', text: `Duplicated "${cloned.title}" as a standalone Story Module element!` });
     setIsFileMenuOpen(false);
     onClose();
   };
 
   const handleDeleteElement = async () => {
     setIsFileMenuOpen(false);
+    if ((isCortexOrigin || isFolioOrigin) && isModulePinnedOrigin) {
+      if (isStoryReadOnly) {
+        showToast({ type: 'warning', text: 'Read-only story: unlock or clone project before unpinning elements.' });
+        return;
+      }
+      const targetModuleId = element.moduleElementId || element.id;
+      const ok = onDelete
+        ? await onDelete(targetModuleId)
+        : deleteSavedElement
+        ? await deleteSavedElement(targetModuleId)
+        : false;
+      if (ok !== false) {
+        showToast({ type: 'info', text: `Unpinned "${title || element.title}" from Story Module (canonical record preserved).` });
+        onClose();
+      }
+      return;
+    }
+
+    if (isCortexOrigin && !isModulePinnedOrigin) {
+      if (!isAdmin || typeof onDeleteCortex !== 'function') {
+        showToast({ type: 'warning', text: 'Admin clearance required to delete canonical OmniCortex entries.' });
+        return;
+      }
+      const targetName = title || element.title || 'Untitled Asset';
+      if (await confirmTypedDeletion(targetName, `canonical OmniCortex ${(element.dbmCategory || type || 'entry').toLowerCase()} (GLOBAL)`)) {
+        const ok = await onDeleteCortex(element);
+        if (ok !== false) {
+          showToast({ type: 'info', text: `Deleted canonical OmniCortex entry "${targetName}".` });
+          onClose();
+        }
+      }
+      return;
+    }
+
+    if (isFolioOrigin && !isModulePinnedOrigin) {
+      showToast({ type: 'info', text: 'Unpinned Persona Folio characters can only be removed from Persona Folio.' });
+      return;
+    }
+
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone project before deleting elements.' });
+      return;
+    }
     const targetName = title || element.title || 'Untitled Element';
     const itemDescriptor = type ? type.toLowerCase() : 'element';
     if (await confirmTypedDeletion(targetName, itemDescriptor)) {
-      if (onDelete) {
-        onDelete(element.id);
-      } else if (deleteSavedElement) {
-        deleteSavedElement(element.id);
+      const ok = onDelete
+        ? await onDelete(element.id)
+        : deleteSavedElement
+        ? await deleteSavedElement(element.id)
+        : false;
+      if (ok !== false) {
+        showToast({ type: 'info', text: `Deleted ${targetName}.` });
+        onClose();
       }
-      showToast({ type: 'info', text: `Deleted ${targetName}.` });
-      onClose();
     }
+  };
+
+  const UNIVERSAL_CROSS_TYPE_KEYS = [
+    'summary',
+    'tags',
+    'keywords',
+    'negative_keywords',
+    'primaryTriggers',
+    'secondaryTriggers',
+    'triggerRegex',
+    'triggerLogic',
+    'speakerFilter',
+    'loreScanPriority',
+    'loreBudgetTokens',
+    'loreRequireCondition',
+    'loreSuppressCondition'
+  ];
+
+  const buildPreservedFieldsOnTypeChange = (prevFields = {}, nextType) => {
+    const preserved = {};
+    for (const k of UNIVERSAL_CROSS_TYPE_KEYS) {
+      if (prevFields[k] !== undefined && prevFields[k] !== '') {
+        preserved[k] = prevFields[k];
+      }
+    }
+    if (nextType === 'Property') {
+      preserved.propertySubcategory = 'gear';
+      preserved.itemCategory = 'gear';
+    } else if (nextType === 'Metaphysics') {
+      preserved.metaphysicsSubcategory = 'invocations';
+    } else if (nextType === 'Persona') {
+      preserved.personaSubcategory = 'story';
+    }
+    return preserved;
   };
 
   const handleTypeSelectChange = (newType, options = {}) => {
     const normalizedNext = normalizeElementType(newType);
     if (normalizedNext === type) return;
 
-    const hasPopulatedFields = Object.values(fields || {}).some(
-      (v) => v !== undefined && v !== null && String(v).trim() !== ''
+    const DEFAULT_SEED_KEYS = new Set([
+      'propertySubcategory',
+      'itemCategory',
+      'personaSubcategory',
+      'metaphysicsSubcategory'
+    ]);
+    const hasPopulatedFields = Object.entries(fields || {}).some(
+      ([k, v]) => !DEFAULT_SEED_KEYS.has(k) && v !== undefined && v !== null && String(v).trim() !== ''
     );
 
     if (options.silent || !hasPopulatedFields) {
       setType(normalizedNext);
-      if (!options.silent) setFields({});
+      if (!options.silent || isCortexOrigin || isFolioOrigin) {
+        setFields((prev) => buildPreservedFieldsOnTypeChange(prev, normalizedNext));
+        setDbmSyncStatus('standalone');
+        setTypeChangedFromOrigin(true);
+      }
       setActiveTabIdx(0);
       return;
     }
@@ -430,7 +692,9 @@ const EditElementModal = ({
   const confirmTypeChange = () => {
     if (pendingType) {
       setType(pendingType);
-      setFields({});
+      setFields((prev) => buildPreservedFieldsOnTypeChange(prev, pendingType));
+      setDbmSyncStatus('standalone');
+      setTypeChangedFromOrigin(true);
       setActiveTabIdx(0);
     }
     setPendingType(null);
@@ -447,36 +711,41 @@ const EditElementModal = ({
       setContent(String(val ?? ''));
     } else if (key === 'guidance' && val && typeof val === 'object') {
       setGuidance(val);
-    } else if (key === 'customFields' && Array.isArray(val)) {
-      setCustomFields(val);
-    }
-    setFields((prev) => {
-      const next = { ...prev, [key]: val };
-      if (prev.dbmRef && key !== 'dbmRef' && key !== 'dbmCategory' && dbmSyncStatus === 'synced') {
+      if (fields?.dbmRef && dbmSyncStatus === 'synced') {
         setDbmSyncStatus('local_override');
       }
-      return next;
-    });
+      return;
+    } else if (key === 'customFields' && Array.isArray(val)) {
+      setCustomFields(val);
+      if (fields?.dbmRef && dbmSyncStatus === 'synced') {
+        setDbmSyncStatus('local_override');
+      }
+      return;
+    }
+    if (fields?.dbmRef && key !== 'dbmRef' && key !== 'dbmCategory' && dbmSyncStatus === 'synced') {
+      setDbmSyncStatus('local_override');
+    }
+    setFields((prev) => ({ ...prev, [key]: val }));
   };
 
   const handleMergeFields = (patch = {}) => {
     if (!patch || typeof patch !== 'object') return;
-    if (patch.content !== undefined || patch.narrativeProse !== undefined) {
-      setContent(String(patch.content ?? patch.narrativeProse ?? ''));
+    const { guidance: nextGuidance, customFields: nextCustomFields, ...fieldPatch } = patch;
+    if (fieldPatch.content !== undefined || fieldPatch.narrativeProse !== undefined) {
+      setContent(String(fieldPatch.content ?? fieldPatch.narrativeProse ?? ''));
     }
-    if (patch.guidance && typeof patch.guidance === 'object') {
-      setGuidance(patch.guidance);
+    if (nextGuidance && typeof nextGuidance === 'object') {
+      setGuidance(nextGuidance);
     }
-    if (Array.isArray(patch.customFields)) {
-      setCustomFields(patch.customFields);
+    if (Array.isArray(nextCustomFields)) {
+      setCustomFields(nextCustomFields);
     }
-    setFields((prev) => {
-      const next = { ...prev, ...patch };
-      if (prev.dbmRef && dbmSyncStatus === 'synced') {
-        setDbmSyncStatus('local_override');
-      }
-      return next;
-    });
+    if (fields?.dbmRef && dbmSyncStatus === 'synced') {
+      setDbmSyncStatus('local_override');
+    }
+    if (Object.keys(fieldPatch).length > 0) {
+      setFields((prev) => ({ ...prev, ...fieldPatch }));
+    }
   };
 
   const handleCustomFieldChange = (id, key, val) => {
@@ -491,32 +760,73 @@ const EditElementModal = ({
     setCustomFields((prev) => prev.filter((f) => f.id !== id));
   };
 
-  const handleImageFileChange = (e) => {
+  const handleImageFileChange = async (e) => {
     const file = e.target.files?.[0];
+    e.target.value = '';
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       showToast({ type: 'warning', text: 'Please select a valid image file.' });
       return;
     }
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      setImageUrl(event.target.result);
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
+    setIsUploadingImage(true);
+    try {
+      const uploaded = await uploadAdeImageAsset(file, {
+        userId: currentUser?.uid || null,
+        assetCategory: 'elements',
+        fileName: file.name
+      });
+      if (uploaded?.url) {
+        setImageUrl(uploaded.url);
+        if (uploaded.warning) {
+          showToast({ type: 'warning', text: uploaded.warning });
+        } else {
+          showToast({
+            type: 'success',
+            text: uploaded.offloaded ? 'Uploaded & optimized element image to Cloud Storage.' : 'Image sanitized & attached.'
+          });
+        }
+      }
+    } catch (err) {
+      showToast({
+        type: 'error',
+        text: err?.message || 'Blocked or invalid image file.'
+      });
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const isSafeImageUrl = (raw) => {
+    const trimmed = String(raw || '').trim();
+    if (!trimmed) return false;
+    if (/^data:image\/(?:png|jpe?g|webp|gif|avif);base64,/i.test(trimmed)) return true;
+    try {
+      const parsed = new URL(trimmed);
+      return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+    } catch {
+      return false;
+    }
   };
 
   const handleUrlSubmit = (e) => {
     e.preventDefault();
-    if (urlInputValue.trim()) {
-      setImageUrl(urlInputValue.trim());
-      setUrlInputValue('');
-      setShowUrlInput(false);
+    const trimmed = urlInputValue.trim();
+    if (!trimmed) return;
+    if (!isSafeImageUrl(trimmed)) {
+      showToast({ type: 'warning', text: 'Please enter a valid http(s):// URL or raster data:image/ URI.' });
+      return;
     }
+    setImageUrl(trimmed);
+    setUrlInputValue('');
+    setShowUrlInput(false);
   };
 
   const handleSubmit = async (e) => {
     if (e?.preventDefault) e.preventDefault();
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before saving elements.' });
+      return;
+    }
     if (!title.trim()) {
       showToast({ type: 'warning', text: 'Element title is required (Stage 1).' });
       if (editorMode === 'guided') setActiveStageId('spark');
@@ -529,33 +839,59 @@ const EditElementModal = ({
       .map((f) => ({ id: f.id || uuidv4(), label: f.label, value: f.value || '' }));
 
     const resolvedId = element?.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+    const cleanedFields = { ...(fields || {}) };
+    if (typeChangedFromOrigin) {
+      delete cleanedFields.dbmRef;
+      delete cleanedFields.dbmId;
+      delete cleanedFields.dbmCategory;
+      delete cleanedFields['character-doc-id'];
+    }
+    const baseElement = typeChangedFromOrigin
+      ? (() => {
+          const copy = { ...element };
+          delete copy.dbmRef;
+          delete copy.dbmId;
+          delete copy.dbmCategory;
+          delete copy.cortexRaw;
+          delete copy.isCortexAsset;
+          delete copy.codexMatrixId;
+          delete copy.isFolioPersona;
+          delete copy.folioDocId;
+          delete copy.personaData;
+          delete copy.sourceOrigin;
+          return copy;
+        })()
+      : { ...element };
+
     const rawUpdatedElement = {
-      ...element,
+      ...baseElement,
       id: resolvedId,
       type,
       ...(type === 'Property'
-        ? { propertySubcategory: fields.propertySubcategory || element.propertySubcategory || 'gear' }
+        ? { propertySubcategory: cleanedFields.propertySubcategory || baseElement.propertySubcategory || 'gear' }
         : {}),
       ...(type === 'Metaphysics'
-        ? { metaphysicsSubcategory: fields.metaphysicsSubcategory || element.metaphysicsSubcategory || 'invocations' }
+        ? { metaphysicsSubcategory: cleanedFields.metaphysicsSubcategory || baseElement.metaphysicsSubcategory || 'invocations' }
         : {}),
       ...(type === 'Persona'
-        ? { personaSubcategory: fields.personaSubcategory || element.personaSubcategory || 'story' }
+        ? { personaSubcategory: cleanedFields.personaSubcategory || baseElement.personaSubcategory || 'story' }
         : {}),
       title: title.trim(),
       content,
       imageUrl,
-      dbmSyncStatus,
-      fields,
+      dbmSyncStatus: typeChangedFromOrigin ? 'standalone' : dbmSyncStatus,
+      fields: cleanedFields,
       customFields: validCustomFields,
       guidance,
       assetHub,
       linkedElements: (assetHub || []).map((a) => a.assetId || a),
+      isPublic: Boolean(isPublicElement),
+      storyId: element?.storyId ?? universeState?.id ?? null,
       updatedAt: new Date().toISOString()
     };
     const updatedElement = attachCreatorTag(rawUpdatedElement, localStorage.getItem('userHandle'), currentUser);
 
-    const savedResult = typeof onSave === 'function' ? await onSave(updatedElement) : updatedElement;
+    const savedResult = typeof onSave === 'function' ? await onSave(updatedElement, { closeAfter: false }) : updatedElement;
     if (savedResult === false || savedResult === null) {
       return;
     }
@@ -566,7 +902,7 @@ const EditElementModal = ({
       let derivedMod = null;
       if (type === 'Persona') {
         derivedMod = ModifierService.createModifierFromPerson(finalElement);
-      } else if (type === 'Item' || type === 'Property') {
+      } else if (type === 'Item' || type === 'Property' || type === 'Metaphysics') {
         derivedMod = ModifierService.createModifierFromItem(finalElement);
       } else if (type === 'Setting') {
         derivedMod = ModifierService.createModifierFromLocation(finalElement);
@@ -582,6 +918,7 @@ const EditElementModal = ({
 
     // Optional Post-Save Bridge 2: Link directly to Active Weaver Scenario
     if (
+      !isStoryReadOnly &&
       linkToActiveScenario &&
       activeScenario?.id &&
       typeof updateStory === 'function'
@@ -619,6 +956,7 @@ const EditElementModal = ({
 
     onClose();
   };
+  handleSubmitRef.current = handleSubmit;
 
   // Guided Stages Descriptor Array
   const guidedStages = [
@@ -673,8 +1011,16 @@ const EditElementModal = ({
       fields.physiology === 'Synthetic'
         ? `T-${fields.mcmTier} ${fields.mcmChassis || ''} • ${fields.health || 60} SP`
         : `T-${fields.mcmTier} ${fields.mcmChassis || ''} • ${fields.vitality || 30} VP / ${fields.health || 30} HP`;
-  } else if (playbook.family === 'relic' && (fields.costCr || fields.techLevel || fields['tech-level'])) {
-    tacticalPreviewBadge = `TL-${fields['tech-level'] || 3} ${fields.rarity || ''} • CR ${fields.costCr || 12}`;
+  } else if (
+    playbook.family === 'relic' &&
+    (fields.costCr !== undefined ||
+      fields.techLevel !== undefined ||
+      fields['tech-level'] !== undefined ||
+      fields.tech_level !== undefined)
+  ) {
+    const resolvedTl = fields.techLevel ?? fields['tech-level'] ?? fields.tech_level ?? 3;
+    const resolvedCr = fields.costCr ?? fields.craft_dc ?? 12;
+    tacticalPreviewBadge = `TL-${resolvedTl} ${fields.rarity || ''} • CR ${resolvedCr}`;
   } else if (playbook.family === 'location' && (fields.hazardCr || fields.weatherPreset)) {
     tacticalPreviewBadge = `Hazard CR ${fields.hazardCr || 15}`;
   } else if (playbook.family === 'epistemic' && fields.analysisCr) {
@@ -701,9 +1047,12 @@ const EditElementModal = ({
   const modalNode = (
     <div
       onClick={handleBackdropClick}
-      className={`fixed inset-0 ${zIndexClass} flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-4 sm:pt-8 pb-6 overflow-y-auto select-none font-sans text-slate-200`}
+      className={`fixed inset-0 ${zIndexClass} flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-4 sm:pt-8 pb-6 overflow-y-auto font-sans text-slate-200`}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title ? `Edit ${title}` : `Edit ${type}`}
         onClick={(e) => e.stopPropagation()}
         className="bg-[#161b22] border-2 border-cyan-400/80 rounded-2xl w-[96vw] max-w-7xl h-[92vh] sm:h-[90dvh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden relative"
       >
@@ -732,16 +1081,6 @@ const EditElementModal = ({
                   {type === 'Property' && (fields.propertySubcategory || element.propertySubcategory)
                     ? ` • ${fields.propertySubcategory || element.propertySubcategory}`
                     : ''}
-                </span>
-                <span
-                  className={`text-[9px] font-mono px-2 py-0.2 rounded-full border font-bold uppercase ${
-                    canonDiagnostics.length > 0
-                      ? 'bg-amber-950/70 border-amber-500/50 text-amber-300'
-                      : 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
-                  }`}
-                  title={canonDiagnostics.map((d) => d.message).join('\n') || 'Conforms to Tangent v6 Canon'}
-                >
-                  Canon: {canonDiagnostics.length}
                 </span>
                 {type === 'Persona' && (
                   <div className="flex items-center gap-1.5">
@@ -908,7 +1247,7 @@ const EditElementModal = ({
                       className="w-full text-left px-3 py-1.5 hover:bg-amber-950/60 text-amber-300 hover:text-amber-200 flex items-center gap-2 transition-colors cursor-pointer"
                     >
                       <Download size={13} />
-                      <span>Export {getElementFileExtension(type)} Asset</span>
+                      <span>Export {getElementFileExtension(type, fields?.propertySubcategory)} Asset</span>
                     </button>
                     <button
                       type="button"
@@ -919,7 +1258,9 @@ const EditElementModal = ({
                       <span>Duplicate Element</span>
                     </button>
                   </div>
-                  {element && (element.id || element.title) && (
+                  {element &&
+                    (element.id || element.title) &&
+                    !((isFolioOrigin && !isModulePinnedOrigin) || (isCortexOrigin && !isModulePinnedOrigin && (!isAdmin || typeof onDeleteCortex !== 'function'))) && (
                     <div className="py-1">
                       <button
                         type="button"
@@ -927,7 +1268,13 @@ const EditElementModal = ({
                         className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer"
                       >
                         <Trash2 size={13} />
-                        <span>Delete Element</span>
+                        <span>
+                          {(isCortexOrigin || isFolioOrigin) && isModulePinnedOrigin
+                            ? 'Unpin from Story Module'
+                            : isCortexOrigin
+                            ? 'Delete from OmniCortex (Admin)'
+                            : 'Delete Element'}
+                        </span>
                       </button>
                     </div>
                   )}
@@ -955,7 +1302,27 @@ const EditElementModal = ({
             />
             <button
               type="button"
+              onClick={() => !isStoryReadOnly && setIsPublicElement((v) => !v)}
+              disabled={isStoryReadOnly}
+              className={`px-2.5 py-1.5 rounded-xl text-[11px] font-mono font-bold border transition-colors ${
+                isStoryReadOnly ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+              } ${
+                isPublicElement
+                  ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-200 hover:bg-emerald-900/70'
+                  : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-cyan-500/50 hover:text-cyan-200'
+              }`}
+              title={
+                isPublicElement
+                  ? 'Public / Shared: visible across stories & community browser (click to restrict to this project)'
+                  : 'Project Only: scoped to the current Story Module (click to share publicly)'
+              }
+            >
+              {isPublicElement ? '🌐 Public' : '🔒 Project'}
+            </button>
+            <button
+              type="button"
               onClick={handleRequestClose}
+              aria-label="Close modal"
               className="text-slate-400 hover:text-white text-2xl font-bold px-2 py-0.5 rounded hover:bg-slate-800 transition-colors cursor-pointer"
             >
               &times;
@@ -985,11 +1352,36 @@ const EditElementModal = ({
                     <button
                       type="button"
                       onClick={() => {
-                        setContent((prev) => applyAutoFix(prev || '', diag));
-                        if (fields?.summary) {
-                          handleFieldChange('summary', applyAutoFix(String(fields.summary), diag));
+                        const nextContent = applyAutoFix(content || '', diag);
+                        const contentChanged = nextContent !== (content || '');
+                        if (contentChanged) {
+                          setContent(nextContent);
                         }
-                        showToast({ type: 'success', text: `Auto-fixed "${diag.matchText || diag.ruleCode}"` });
+                        const lintedFieldKeys = ['summary', 'oneLinePitch', 'description', 'mechanic', 'readAloud', 'cast_time', 'sceneBeats'];
+                        let fieldsChanged = false;
+                        setFields((prev) => {
+                          const base = prev || {};
+                          const patch = {};
+                          for (const fk of lintedFieldKeys) {
+                            const rawVal = base[fk];
+                            if (typeof rawVal === 'string' && rawVal) {
+                              const fixedVal = applyAutoFix(rawVal, diag);
+                              if (fixedVal !== rawVal) {
+                                patch[fk] = fixedVal;
+                                fieldsChanged = true;
+                              }
+                            }
+                          }
+                          return fieldsChanged ? { ...base, ...patch } : base;
+                        });
+                        if (fields?.dbmRef && dbmSyncStatus === 'synced' && (contentChanged || fieldsChanged)) {
+                          setDbmSyncStatus('local_override');
+                        }
+                        if (contentChanged || fieldsChanged) {
+                          showToast({ type: 'success', text: `Auto-fixed "${diag.matchText || diag.ruleCode}"` });
+                        } else {
+                          showToast({ type: 'info', text: `No auto-fixable match found for "${diag.matchText || diag.ruleCode}".` });
+                        }
                       }}
                       className="px-2.5 py-1 rounded bg-amber-600 hover:bg-amber-500 text-black font-bold text-[10px] shrink-0 cursor-pointer"
                     >
@@ -1058,6 +1450,19 @@ const EditElementModal = ({
                 <span className="w-2 h-2 rounded-full bg-cyan-400 inline-block" />
                 <span>
                   Playbook: <strong className="text-slate-200">{playbook.familyLabel}</strong>
+                </span>
+                <span
+                  className={`px-2 py-0.5 rounded-full text-[10px] border font-bold ${
+                    resolvedSaveDestination.tone === 'cyan'
+                      ? 'bg-cyan-950/80 border-cyan-500/40 text-cyan-200'
+                      : resolvedSaveDestination.tone === 'amber'
+                      ? 'bg-amber-950/80 border-amber-500/40 text-amber-200'
+                      : resolvedSaveDestination.tone === 'purple'
+                      ? 'bg-purple-950/80 border-purple-500/40 text-purple-200'
+                      : 'bg-emerald-950/80 border-emerald-500/40 text-emerald-200'
+                  }`}
+                >
+                  Saves to {resolvedSaveDestination.label}
                 </span>
                 {isDirty && <span className="text-amber-400 font-bold">• Unsaved Changes</span>}
               </div>
@@ -1139,9 +1544,10 @@ const EditElementModal = ({
                   setEditorMode('sheet');
                   setActiveTabIdx(1); // Open Narrative Prose & Lore directly after Markdown Dump
                 }}
-                elementsCatalog={elementsCatalog || []}
+                elementsCatalog={unifiedAssetCatalog}
                 customTemplates={savedTemplates}
                 onApplyCustomTemplate={handleApplyCustomTemplate}
+                onDeleteCustomTemplate={handleDeleteCustomTemplate}
               />
             )}
 
@@ -1163,7 +1569,11 @@ const EditElementModal = ({
                 onMergeFields={handleMergeFields}
                 content={content}
                 onChangeContent={setContent}
-                elementsCatalog={elementsCatalog || []}
+                pendingDiffs={pendingStage3Diffs}
+                onChangePendingDiffs={setPendingStage3Diffs}
+                pendingProseDiff={pendingStage3ProseDiff}
+                onChangePendingProseDiff={setPendingStage3ProseDiff}
+                elementsCatalog={unifiedAssetCatalog}
                 projectName={universeState?.projectName || 'Tangent Universe'}
                 cronicle={universeState?.cronicle || cronicle || null}
               />
@@ -1190,8 +1600,19 @@ const EditElementModal = ({
                 onChangeAssetHub={setAssetHub}
                 elementsCatalog={unifiedAssetCatalog}
                 imageUrl={imageUrl}
-                onUploadImageClick={() => fileInputRef.current?.click()}
-                onSetImageUrl={setImageUrl}
+                onUploadImageClick={() => !isUploadingImage && fileInputRef.current?.click()}
+                onSetImageUrl={(nextUrl) => {
+                  const trimmed = String(nextUrl || '').trim();
+                  if (!trimmed) {
+                    setImageUrl('');
+                    return;
+                  }
+                  if (!isSafeImageUrl(trimmed)) {
+                    showToast({ type: 'warning', text: 'Please enter a valid http(s):// URL or raster data:image/ URI.' });
+                    return;
+                  }
+                  setImageUrl(trimmed);
+                }}
                 onOpenArtistHub={() => setIsArtistHubOpen(true)}
                 activeScenario={activeScenario}
                 linkToActiveScenario={linkToActiveScenario}
@@ -1281,16 +1702,39 @@ const EditElementModal = ({
                     </select>
                   </div>
                 )}
+                {type === 'Persona' && (
+                  <div className="flex-1">
+                    <label className="block text-[11px] font-bold text-cyan-400 uppercase tracking-wider mb-1">
+                      Persona Track
+                    </label>
+                    <select
+                      value={fields.personaSubcategory || element.personaSubcategory || 'story'}
+                      onChange={(e) =>
+                        handleMergeFields({
+                          personaSubcategory: e.target.value
+                        })
+                      }
+                      className="w-full bg-slate-950 border border-cyan-500/50 focus:border-cyan-400 text-cyan-200 p-2 rounded-lg text-xs font-bold outline-none cursor-pointer"
+                    >
+                      {PERSONA_SUBCATEGORIES.map((sub) => (
+                        <option key={sub.id} value={sub.id}>
+                          {sub.icon} {sub.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
 
               {/* Element Image Action */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
+                  disabled={isUploadingImage}
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider flex-1 flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider flex-1 flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
-                  🖼️ Upload
+                  {isUploadingImage ? '⏳ Uploading...' : '🖼️ Upload'}
                 </button>
                 <button
                   type="button"
@@ -1555,10 +1999,23 @@ const EditElementModal = ({
 
             {/* Footer Actions */}
             <div className="p-4 bg-[#0d1117] border-t border-[#0D5C63]/60 flex items-center justify-between gap-3">
-              <div className="text-xs text-slate-500 font-mono flex items-center gap-2">
+              <div className="text-xs text-slate-500 font-mono flex items-center gap-2 flex-wrap">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 inline-block" />
                 <span>
                   Type: <strong className="text-slate-300">{type}</strong>
+                </span>
+                <span
+                  className={`px-2 py-0.5 rounded-full text-[10px] border font-bold ${
+                    resolvedSaveDestination.tone === 'cyan'
+                      ? 'bg-cyan-950/80 border-cyan-500/40 text-cyan-200'
+                      : resolvedSaveDestination.tone === 'amber'
+                      ? 'bg-amber-950/80 border-amber-500/40 text-amber-200'
+                      : resolvedSaveDestination.tone === 'purple'
+                      ? 'bg-purple-950/80 border-purple-500/40 text-purple-200'
+                      : 'bg-emerald-950/80 border-emerald-500/40 text-emerald-200'
+                  }`}
+                >
+                  Saves to {resolvedSaveDestination.label}
                 </span>
                 {isDirty && <span className="text-amber-400 font-bold">• Unsaved Changes</span>}
               </div>
@@ -1597,11 +2054,15 @@ const EditElementModal = ({
             initialPrompt={buildArtistHubVisualBrief(currentDraft)}
             elementContext={currentDraft}
             onApplyAsset={(asset) => {
-              if (asset?.url || asset?.imageUrl) {
-                setImageUrl(asset.url || asset.imageUrl);
+              const patch = buildArtistConceptPatch(currentDraft, asset);
+              if (patch.imageUrl) {
+                setImageUrl(patch.imageUrl);
               }
-              if (asset?.prompt && !fields.summary) {
-                handleFieldChange('summary', asset.prompt.substring(0, 160));
+              if (patch.fields && Object.keys(patch.fields).length > 0) {
+                handleMergeFields(patch.fields);
+              }
+              if (!content && (patch.content || asset?.prompt)) {
+                setContent(patch.content || asset.prompt);
               }
             }}
           />
@@ -1614,9 +2075,17 @@ const EditElementModal = ({
             isOpen={isAimeGuidanceOpen}
             onClose={() => setIsAimeGuidanceOpen(false)}
             targetType={
-              currentTab.includes('Script')
+              editorMode === 'guided'
+                ? activeStageId === 'tactical' && type === 'Persona'
+                  ? 'VttScript'
+                  : activeStageId === 'web'
+                  ? 'Relations'
+                  : type === 'Persona'
+                  ? 'Persona'
+                  : 'Story'
+                : String(currentTab || '').includes('Script')
                 ? 'VttScript'
-                : currentTab.includes('Relations')
+                : String(currentTab || '').includes('Relations')
                 ? 'Relations'
                 : type === 'Persona'
                 ? 'Persona'
@@ -1629,15 +2098,26 @@ const EditElementModal = ({
               content
             }}
             onApplyGuidance={(suggestion) => {
-              if (!content) {
-                setContent(suggestion);
+              const rawText = String(suggestion || '').trim();
+              if (!rawText) return;
+              const sanitizedHtml = DOMPurify.sanitize(formatAimeProseToHtml(rawText));
+              if (!content || !String(content).replace(/<[^>]+>/g, '').trim()) {
+                setContent(sanitizedHtml);
+                if (type === 'Persona') {
+                  handleFieldChange('narrativeProse', sanitizedHtml);
+                }
                 showToast?.({ type: 'success', text: 'Applied AIME guidance to narrative body.' });
               } else if (!fields.summary) {
-                handleFieldChange('summary', suggestion.slice(0, 200));
+                const plainSummary = rawText.replace(/[#*_`>]/g, '').replace(/\s+/g, ' ').trim();
+                handleFieldChange('summary', plainSummary.slice(0, 200));
                 showToast?.({ type: 'success', text: 'Applied AIME guidance to summary.' });
               } else {
                 const base = String(content).trimEnd();
-                setContent(`${base}\n\n---\n### AIME Guidance\n${suggestion}`);
+                const appendedHtml = `${base}<hr /><h3>AIME Guidance</h3>${sanitizedHtml}`;
+                setContent(appendedHtml);
+                if (type === 'Persona') {
+                  handleFieldChange('narrativeProse', appendedHtml);
+                }
                 showToast?.({ type: 'success', text: 'Appended AIME guidance to narrative body.' });
               }
             }}

@@ -10,6 +10,7 @@ import { normalizeLinkedAssets } from '../pages/Foundry/ElementForge/components/
 import { scanDynamicLorebook } from './lorebookScanner.ts';
 import { extractAndResolveBracketContext, formatBracketContextForAI } from './hyperlinkResolver.js';
 import { formatCronicleContextForAIME } from './cronicleService.js';
+import { stripGmSecretHtmlBlocks } from '../utils/gmSecretSanitizer.js';
 
 /**
  * Builds the static, immutable KV prefix containing foundational BASTION rules,
@@ -59,8 +60,11 @@ function cleanText(str = '') {
 /**
  * Extracts and formats the primary traits of an asset based on its type.
  */
-function formatAssetSummary(asset, catalogItem) {
-  if (!catalogItem) return cleanText(asset.content || asset.description || '');
+function formatAssetSummary(asset, catalogItem, isOperatorSafe = false) {
+  if (!catalogItem) {
+    const raw = asset.content || asset.description || '';
+    return cleanText(isOperatorSafe ? stripGmSecretHtmlBlocks(raw) : raw);
+  }
 
   const fields = catalogItem.fields || {};
   const parts = [];
@@ -78,7 +82,8 @@ function formatAssetSummary(asset, catalogItem) {
     return parts.join(' | ');
   }
 
-  const raw = cleanText(catalogItem.content || catalogItem.description || '');
+  const rawSource = catalogItem.content || catalogItem.description || '';
+  const raw = cleanText(isOperatorSafe ? stripGmSecretHtmlBlocks(rawSource) : rawSource);
   return raw ? raw.slice(0, 300) : 'Contextual reference entity.';
 }
 
@@ -97,6 +102,7 @@ function formatAssetSummary(asset, catalogItem) {
  */
 export function synthesizeSuperPrompt({
   activeNode = null,
+  activeScenario = null,
   guidance = null,
   guidanceGems = null,
   assetHub = null,
@@ -110,11 +116,22 @@ export function synthesizeSuperPrompt({
   lorebookConfig = null,
   folioCharacter = null,
   dbData = null,
-  returnPrefixStructure = false
+  returnPrefixStructure = false,
+  operatorSafe = false,
+  excludeGmSecrets = false,
+  perspective = 'architect',
+  perspectiveMode = 'architect'
 } = {}) {
+  const resolvedActiveNode = activeNode || activeScenario || null;
+  const isOperatorSafe = Boolean(
+    operatorSafe ||
+    excludeGmSecrets ||
+    perspective === 'operator' ||
+    perspectiveMode === 'operator'
+  );
   const effectiveCatalog = (Array.isArray(catalog) && catalog.length > 0) ? catalog : (elementsCatalog || []);
   const effectiveTaskPrompt = taskPrompt || customPrompt || '';
-  const effectiveGuidance = guidance || guidanceGems || activeNode?.guidance || {};
+  const effectiveGuidance = guidance || guidanceGems || resolvedActiveNode?.guidance || {};
 
   const sections = [];
 
@@ -140,14 +157,16 @@ export function synthesizeSuperPrompt({
   }
 
   // ── LAYER 2: TRAITS (THE 'WHAT' — OBJECTIVE REALITY) ──
-  if (activeNode) {
+  if (resolvedActiveNode) {
     sections.push(`\n[LAYER 2: SUBJECT TRAITS — OBJECTIVE REALITY]`);
-    sections.push(`Subject: [${activeNode.type || 'Element'}] "${activeNode.title || 'Untitled'}"`);
+    sections.push(`Subject: [${resolvedActiveNode.type || 'Element'}] "${resolvedActiveNode.title || 'Untitled'}"`);
 
-    if (activeNode.fields && Object.keys(activeNode.fields).length > 0) {
+    if (resolvedActiveNode.fields && Object.keys(resolvedActiveNode.fields).length > 0) {
+      const GM_SECRET_KEYS = new Set(['gmSecrets', 'gmNotes', 'secrets', 'hiddenNotes', 'architectNotes', 'theSecret', 'theLie', 'theTruth', 'hiddenAgenda']);
       sections.push('Factual Subject Attributes (Single Source of Truth):');
-      for (const [key, val] of Object.entries(activeNode.fields)) {
+      for (const [key, val] of Object.entries(resolvedActiveNode.fields)) {
         if (!val || typeof val === 'object') continue;
+        if (isOperatorSafe && GM_SECRET_KEYS.has(key)) continue;
         const strVal = String(val).trim();
         if (strVal && strVal.length > 0) {
           // Format camelCase key into readable label
@@ -157,8 +176,11 @@ export function synthesizeSuperPrompt({
       }
     }
 
-    if (activeNode.content) {
-      const cleanContent = cleanText(activeNode.content);
+    if (resolvedActiveNode.content) {
+      const strippedHtml = isOperatorSafe
+        ? stripGmSecretHtmlBlocks(resolvedActiveNode.content)
+        : resolvedActiveNode.content;
+      const cleanContent = cleanText(strippedHtml);
       if (cleanContent) {
         sections.push(`Existing Narrative Grounding: ${cleanContent.slice(0, 600)}`);
       }
@@ -166,8 +188,12 @@ export function synthesizeSuperPrompt({
   }
 
   // ── LAYER 3: ASSET HUB (THE 'WHO / WHAT ELSE' — CONTEXTUAL WEB) ──
-  const rawHub = assetHub || activeNode?.assetHub || activeNode?.linkedElements || [];
-  const normalizedHub = normalizeLinkedAssets(rawHub, effectiveCatalog);
+  const rawHub = assetHub || resolvedActiveNode?.assetHub || resolvedActiveNode?.linkedElements || [];
+  const normalizedHub = normalizeLinkedAssets(rawHub, effectiveCatalog).filter((asset) => {
+    if (!isOperatorSafe) return true;
+    const item = effectiveCatalog.find(e => e.id === asset.assetId);
+    return !(item?.isGmOnly || item?.isHidden || item?.fields?.playerVisible === false);
+  });
 
   const highAssets = normalizedHub.filter(a => a.importance === 'high');
   const typicalAssets = normalizedHub.filter(a => a.importance === 'typical');
@@ -187,7 +213,7 @@ export function synthesizeSuperPrompt({
         if (asset.annotation) {
           sections.push(`    Directorial Note (The "Why"): "${asset.annotation}"`);
         }
-        sections.push(`    Traits: ${formatAssetSummary(asset, item)}`);
+        sections.push(`    Traits: ${formatAssetSummary(asset, item, isOperatorSafe)}`);
       }
     }
 
@@ -201,7 +227,7 @@ export function synthesizeSuperPrompt({
         if (asset.annotation) {
           sections.push(`    Directorial Note: "${asset.annotation}"`);
         }
-        sections.push(`    Summary: ${formatAssetSummary(asset, item)}`);
+        sections.push(`    Summary: ${formatAssetSummary(asset, item, isOperatorSafe)}`);
       }
     }
 
@@ -239,9 +265,10 @@ export function synthesizeSuperPrompt({
     try {
       const scanResult = scanDynamicLorebook({
         input: effectiveTaskPrompt,
-        activeScenario: activeNode,
+        activeScenario: resolvedActiveNode,
         catalog: effectiveCatalog,
         storyFlags: storyFlags || {},
+        excludeGmSecrets: isOperatorSafe,
         config: lorebookConfig || {}
       });
 
@@ -255,21 +282,31 @@ export function synthesizeSuperPrompt({
 
   // ── EXPLICIT BRACKETED REFERENCES & ENTITY HYDRATION (PHASE 2 INGESTION) ──
   try {
+    const bracketFields = isOperatorSafe && resolvedActiveNode?.fields
+      ? Object.fromEntries(
+          Object.entries(resolvedActiveNode.fields).filter(
+            ([k]) => !new Set(['gmSecrets', 'gmNotes', 'secrets', 'hiddenNotes', 'architectNotes', 'theSecret', 'theLie', 'theTruth', 'hiddenAgenda']).has(k)
+          )
+        )
+      : resolvedActiveNode?.fields;
+    const bracketContent = isOperatorSafe && resolvedActiveNode?.content
+      ? stripGmSecretHtmlBlocks(resolvedActiveNode.content)
+      : resolvedActiveNode?.content;
     const bracketEntities = extractAndResolveBracketContext(
       [
         effectiveTaskPrompt,
-        activeNode?.content,
-        activeNode?.description,
-        activeNode?.title,
-        activeNode?.fields,
+        bracketContent,
+        resolvedActiveNode?.description,
+        resolvedActiveNode?.title,
+        bracketFields,
         folioCharacter?.notes,
         folioCharacter?.backstory
       ],
-      { elementsCatalog: effectiveCatalog, dbData: dbData || {} }
+      { elementsCatalog: effectiveCatalog, dbData: dbData || {}, operatorSafe: isOperatorSafe }
     );
 
     if (bracketEntities.length > 0) {
-      const formattedBracketBlock = formatBracketContextForAI(bracketEntities);
+      const formattedBracketBlock = formatBracketContextForAI(bracketEntities, { operatorSafe: isOperatorSafe });
       if (formattedBracketBlock) {
         sections.push('\n' + formattedBracketBlock);
       }

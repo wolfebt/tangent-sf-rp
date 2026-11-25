@@ -6,12 +6,13 @@
  */
 
 import React, { useMemo } from 'react';
-import { Dices, SkipForward, RotateCcw, Clock, EyeOff, X } from 'lucide-react';
+import { Dices, SkipForward, RotateCcw, Clock, EyeOff, X, Bot } from 'lucide-react';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { useEngineStore } from '../../../engine/state/VolatileSharder';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { AudioService } from '../../../services/audioService';
+import { decideAutonomousAction } from '../../../services/unitBehaviorService';
 
 export interface StageTurnTrackerDrawerProps {
   isOpen: boolean;
@@ -56,6 +57,38 @@ export const StageTurnTrackerDrawer: React.FC<StageTurnTrackerDrawerProps> = ({
 
   const activeCombatant = orderedAll[currentTurnIndex] || null;
   const activeCombatantId = activeCombatant?.id || null;
+  const canRunAiTurn = Boolean(
+    isArchitectRole &&
+      activeCombatant &&
+      (activeCombatant.script ||
+        activeCombatant.behaviorProfile ||
+        activeCombatant.type === 'enemy' ||
+        activeCombatant.designation === 'Adversary')
+  );
+
+  const handleRunAiTurn = () => {
+    if (!canRunAiTurn || !activeCombatant) return;
+    AudioService.playTerminalBeep(1320, 0.04);
+    const heroTargets = orderedAll.filter(
+      (t) =>
+        t.id !== activeCombatant.id &&
+        (t.type === 'hero' || t.designation === 'Ally' || (!t.script && t.type !== 'enemy' && t.designation !== 'Adversary'))
+    );
+    const decision = decideAutonomousAction(activeCombatant, heroTargets, { allies: orderedAll });
+    const unitName = activeCombatant.name || activeCombatant.label || 'Autonomous Unit';
+    const card = {
+      id: `ai_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      timestamp: new Date().toISOString(),
+      sender: unitName,
+      visibility: 'public' as const,
+      kind: 'system' as const,
+      title: `AI Turn: ${unitName}`,
+      body: decision.flavorText || `Executed ${decision.actionType || 'tactical action'}.`
+    };
+    VttEventBus.emit('stage-chat-card', card);
+    VttEventBus.emit('stage-ai-decision', { tokenId: activeCombatant.id, decision });
+    getVttMultiplayerSync().broadcastChatCard(card);
+  };
 
   const handleRollAllInitiative = () => {
     if (!isArchitectRole || orderedAll.length === 0) return;
@@ -200,6 +233,17 @@ export const StageTurnTrackerDrawer: React.FC<StageTurnTrackerDrawerProps> = ({
             <SkipForward size={11} />
             <span>Next Turn</span>
           </button>
+          {canRunAiTurn && (
+            <button
+              type="button"
+              onClick={handleRunAiTurn}
+              className="px-2 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] flex items-center justify-center gap-1 cursor-pointer"
+              title="Execute autonomous FSM decision for active NPC unit"
+            >
+              <Bot size={11} />
+              <span>Run AI Turn</span>
+            </button>
+          )}
           <button
             type="button"
             onClick={handleResetTurns}

@@ -26,15 +26,45 @@ export default function AimeGuidanceDeck({
     ? (guidance.literaryDevices || guidance.devices || guidance["Literary Devices"])
     : (guidance.literaryDevices ? [guidance.literaryDevices] : []);
   const structure = guidance.structure || guidance.Structure || '';
+  const extendedKeys = Object.keys(EXTENDED_GEMS);
+  const activeExtendedEntries = extendedKeys
+    .map((k) => [k, guidance[k]])
+    .filter(([, val]) => (Array.isArray(val) ? val.length > 0 : Boolean(val)));
 
-  const activeCount = [genre, tone, pacing, pov, devices.length > 0 ? 'dev' : '', structure]
-    .filter(Boolean).length;
+  const activeCount = [
+    genre,
+    tone,
+    pacing,
+    pov,
+    devices.length > 0 ? 'dev' : '',
+    structure,
+    ...activeExtendedEntries.map(([k]) => k)
+  ].filter(Boolean).length;
+
+  const LEGACY_GEM_ALIASES = {
+    genre: ['Genre'],
+    tone: ['Tone'],
+    pacing: ['Pacing'],
+    pov: ['POV', 'Point of View'],
+    structure: ['Structure'],
+    literaryDevices: ['devices', 'Literary Devices']
+  };
+
+  const stripAliases = (obj, keys = []) => {
+    const next = { ...obj };
+    for (const k of keys) {
+      delete next[k];
+    }
+    return next;
+  };
 
   const handleSelectSingle = (gemKey, value) => {
-    const current = guidance[gemKey];
+    const aliases = LEGACY_GEM_ALIASES[gemKey] || [];
+    const current = guidance[gemKey] || aliases.map((k) => guidance[k]).find(Boolean) || '';
     const nextVal = current === value ? '' : value;
+    const cleaned = stripAliases(guidance, aliases);
     onChangeGuidance({
-      ...guidance,
+      ...cleaned,
       [gemKey]: nextVal
     });
   };
@@ -43,8 +73,9 @@ export default function AimeGuidanceDeck({
     const nextDevices = devices.includes(device)
       ? devices.filter(d => d !== device)
       : [...devices, device];
+    const cleaned = stripAliases(guidance, LEGACY_GEM_ALIASES.literaryDevices);
     onChangeGuidance({
-      ...guidance,
+      ...cleaned,
       literaryDevices: nextDevices
     });
   };
@@ -134,6 +165,11 @@ export default function AimeGuidanceDeck({
               Devices: {devices.join(', ')}
             </span>
           )}
+          {activeExtendedEntries.map(([k, val]) => (
+            <span key={k} className="text-[9px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-cyan-500/40">
+              {k}: {Array.isArray(val) ? val.join(', ') : val}
+            </span>
+          ))}
         </div>
       )}
 

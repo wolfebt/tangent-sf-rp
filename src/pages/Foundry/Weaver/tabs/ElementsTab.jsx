@@ -33,7 +33,8 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
   const { 
     elementsCatalog, 
     updateSavedElement,
-    deleteSavedElement 
+    deleteSavedElement,
+    isStoryReadOnly = false
   } = useStory();
   const { dbData } = useDBM() || { dbData: {} };
   const { personaRoster = [], publicCatalog = [] } = useFolio() || {};
@@ -87,6 +88,7 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
   };
 
   const handleCreateNewElement = () => {
+    if (isStoryReadOnly) return;
     const targetType = selectedType === 'All' ? 'Persona' : normalizeElementType(selectedType);
     const newElem = {
       id: uuidv4(),
@@ -138,8 +140,9 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
           {/* Create Button */}
           <button
             type="button"
+            disabled={isStoryReadOnly}
             onClick={handleCreateNewElement}
-            className="px-3 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-md transition-colors"
+            className="px-3 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-md transition-colors"
           >
             <Plus size={13} />
             <span>Forge Element</span>
@@ -247,26 +250,43 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
                       >
                         <Edit3 size={12} />
                       </button>
-                      <button
-                        type="button"
-                        onClick={async (e) => {
-                          e.stopPropagation();
-                          if (!deleteSavedElement) return;
-                          const confirmed = await showConfirm({
-                            title: 'Delete Element',
-                            message: `Delete "${elem.title}"?`,
-                            confirmText: 'Delete',
-                            danger: true
-                          });
-                          if (confirmed) {
-                            deleteSavedElement(elem.id);
-                          }
-                        }}
-                        className="p-1 rounded hover:bg-red-950/40 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
-                        title="Delete element"
-                      >
-                        <Trash2 size={12} />
-                      </button>
+                      {elem.isPinnedToModule && (elem.isCortexAsset || elem.isFolioPersona) ? (
+                        <button
+                          type="button"
+                          disabled={isStoryReadOnly}
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            if (isStoryReadOnly || !deleteSavedElement) return;
+                            await deleteSavedElement(elem.moduleElementId || elem.id);
+                          }}
+                          className="px-1.5 py-0.5 rounded bg-emerald-950/60 hover:bg-emerald-900/60 disabled:opacity-40 disabled:cursor-not-allowed border border-emerald-500/40 text-[9px] text-emerald-300 font-bold uppercase transition-colors cursor-pointer"
+                          title={isStoryReadOnly ? 'Read-only story' : 'Unpin from Story Module (canonical record preserved)'}
+                        >
+                          Unpin
+                        </button>
+                      ) : !elem.isCortexAsset && !elem.isFolioPersona && !elem.fields?.dbmRef ? (
+                        <button
+                          type="button"
+                          disabled={isStoryReadOnly}
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            if (isStoryReadOnly || !deleteSavedElement) return;
+                            const confirmed = await showConfirm({
+                              title: 'Delete Element',
+                              message: `Delete "${elem.title}"?`,
+                              confirmText: 'Delete',
+                              danger: true
+                            });
+                            if (confirmed) {
+                              deleteSavedElement(elem.id);
+                            }
+                          }}
+                          className="p-1 rounded hover:bg-red-950/40 disabled:opacity-40 disabled:cursor-not-allowed text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
+                          title={isStoryReadOnly ? 'Read-only story' : 'Delete Story Module Element'}
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      ) : null}
                     </div>
                   </div>
                 </div>

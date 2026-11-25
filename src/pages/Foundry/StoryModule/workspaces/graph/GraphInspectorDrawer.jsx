@@ -378,12 +378,12 @@ export const GraphInspectorDrawer = ({
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
                   <span>Sensory Read-Aloud Prose</span>
-                  <span className="text-slate-500 text-[9px]">Markdown</span>
+                  <span className="text-slate-500 text-[9px]">Boxed Text</span>
                 </label>
                 <textarea
                   rows={4}
-                  value={selectedNode.content || ''}
-                  onChange={(e) => handleSaveNodeField('content', e.target.value)}
+                  value={selectedNode.fields?.readAloud ?? ''}
+                  onChange={(e) => handleSaveCustomField('readAloud', e.target.value)}
                   placeholder="Atmospheric prose to read aloud when operators arrive..."
                   className="w-full p-2.5 bg-slate-900 border border-slate-750 focus:border-cyan-400 rounded-lg text-slate-200 font-sans text-xs leading-relaxed outline-none resize-y"
                 />
@@ -620,12 +620,12 @@ export const GraphInspectorDrawer = ({
               {/* Secrets & Clues */}
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">
-                  Hidden Secrets & Clues
+                  Hidden Secrets &amp; Clues
                 </label>
                 <textarea
                   rows={3}
-                  value={selectedNode.fields?.secrets || ''}
-                  onChange={(e) => handleSaveCustomField('secrets', e.target.value)}
+                  value={selectedNode.fields?.gmSecrets ?? selectedNode.fields?.secrets ?? ''}
+                  onChange={(e) => handleSaveCustomField('gmSecrets', e.target.value)}
                   placeholder="DC 14 Perception reveals hidden safe behind air vent..."
                   className="w-full p-2 bg-slate-900 border border-slate-750 rounded-lg text-slate-200 text-xs font-sans outline-none resize-y"
                 />
@@ -633,8 +633,16 @@ export const GraphInspectorDrawer = ({
 
               {/* Tactical Threats / Monsters */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase">
-                  Tactical Threats & NPCs
+                <label className="text-[10px] font-bold text-slate-400 uppercase flex items-center justify-between">
+                  <span>Tactical Threats &amp; NPCs</span>
+                  {Array.isArray(selectedNode.fields?.threats) && selectedNode.fields.threats.length > 0 && (
+                    <span
+                      className="px-1.5 py-0.5 rounded bg-rose-950/80 border border-rose-500/40 text-rose-300 text-[9px] font-mono"
+                      title={selectedNode.fields.threats.map((t) => t?.name || t?.title || t).join(', ')}
+                    >
+                      {selectedNode.fields.threats.length} Structured: {selectedNode.fields.threats.slice(0, 2).map((t) => t?.name || t?.title || t).join(', ')}
+                    </span>
+                  )}
                 </label>
                 <textarea
                   rows={3}

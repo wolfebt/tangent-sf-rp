@@ -240,17 +240,20 @@ export function applyCronicleDelta(currentCronicle, delta) {
       break;
     }
 
+    case 'set_relationship':
     case 'update_relationship': {
       if (resolvedPersonaKey && nextState.personas[resolvedPersonaKey] && target) {
         const p = nextState.personas[resolvedPersonaKey];
         const currentMatrix = p.relationship_matrix || {};
         const resolvedTargetKey = resolveCronicleEntityKey(nextState.personas, target) || target;
         const currentVal = Number(currentMatrix[resolvedTargetKey] ?? currentMatrix[target] ?? 0);
+        const numericVal = typeof value === 'number'
+          ? value
+          : (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value)) ? Number(value) : null);
         let newVal = currentVal;
-        if (typeof value === 'number') {
-          newVal = Math.max(-100, Math.min(100, currentVal + value));
-        } else if (typeof value === 'string' && !isNaN(Number(value))) {
-          newVal = Math.max(-100, Math.min(100, currentVal + Number(value)));
+        if (numericVal !== null && Number.isFinite(numericVal)) {
+          const isSetMode = action === 'set_relationship' || delta.mode === 'set';
+          newVal = Math.max(-100, Math.min(100, isSetMode ? numericVal : currentVal + numericVal));
         }
         nextState.personas[resolvedPersonaKey] = {
           ...p,
@@ -371,11 +374,25 @@ export function applyBatchDeltas(cronicleState, deltas = []) {
  * Tier 3 (Flavor - 20% budget):
  *   - Broader world state, economic modifiers, distant history summary
  */
+function truncateToCharBudget(text, maxChars) {
+  if (!text || text.length <= maxChars) return text;
+  if (maxChars <= 32) return text.slice(0, Math.max(0, maxChars));
+  return `${text.slice(0, maxChars - 18).trimEnd()}\n... [budget capped]`;
+}
+
 export function formatCronicleContextForAIME(cronicle, options = {}) {
   if (!cronicle) return '';
 
-  const { workingMemory, personas = {}, locations = {}, timeline = [] } = cronicle;
+  const { workingMemory, personas = {}, locations = {}, timeline = [], calendar } = cronicle;
   if (!workingMemory) return '';
+
+  const maxTokens = Number.isFinite(Number(options?.maxTokens)) && Number(options.maxTokens) > 0
+    ? Number(options.maxTokens)
+    : 1200;
+  const totalCharBudget = Math.max(400, Math.round(maxTokens * 4));
+  const tier1Budget = Math.floor(totalCharBudget * 0.5);
+  const tier2Budget = Math.floor(totalCharBudget * 0.3);
+  const tier3Budget = Math.max(120, totalCharBudget - tier1Budget - tier2Budget);
 
   const activeLocId = workingMemory.activeLocationId;
   const activePersonaIds = workingMemory.activePersonaIds || [];
@@ -392,6 +409,12 @@ export function formatCronicleContextForAIME(cronicle, options = {}) {
     `IMMEDIATE OBJECTIVE: "${workingMemory.immediateObjective || 'Engage narrative context.'}"`
   ];
 
+  if (calendar?.currentDate) {
+    const cd = calendar.currentDate;
+    const dateStr = `${cd.eraName ? `${cd.eraName} ` : ''}Year ${cd.year ?? 1}, Month ${cd.month ?? 1}, Day ${cd.day ?? 1}`;
+    tier1Lines.push(`CAMPAIGN DATE: ${dateStr}`);
+  }
+
   if (activeLocation) {
     tier1Lines.push(`ACTIVE LOCATION: "${activeLocation.name}" [State: ${activeLocation.current_geospatial_state.toUpperCase()}]`);
     if (activeLocation.environmental_hazards && activeLocation.environmental_hazards.length > 0) {
@@ -405,7 +428,8 @@ export function formatCronicleContextForAIME(cronicle, options = {}) {
   if (activePersonas.length > 0) {
     tier1Lines.push('ACTIVE ENTITIES PRESENT:');
     activePersonas.forEach(p => {
-      const statusAlert = p.current_status !== 'active' ? ` [CRITICAL STATUS: ${p.current_status.toUpperCase()}]` : '';
+      const rawStatus = String(p.current_status || p.current_condition_or_status || 'active');
+      const statusAlert = rawStatus !== 'active' ? ` [CRITICAL STATUS: ${rawStatus.toUpperCase()}]` : '';
       const injuries = p.acquired_physical_traits && p.acquired_physical_traits.length > 0
         ? ` | Physical Injuries/Conditions: [${p.acquired_physical_traits.join(', ')}]`
         : '';
@@ -423,7 +447,11 @@ export function formatCronicleContextForAIME(cronicle, options = {}) {
     tier1Lines.push(`UNRESOLVED IMMEDIATE CONFLICTS: ${workingMemory.unresolvedConflicts}`);
   }
 
-  sections.push(tier1Lines.join('\n'));
+  if (workingMemory.ephemeralNotes && String(workingMemory.ephemeralNotes).trim()) {
+    tier1Lines.push(`WORKING MEMORY NOTES: ${String(workingMemory.ephemeralNotes).trim()}`);
+  }
+
+  sections.push(truncateToCharBudget(tier1Lines.join('\n'), tier1Budget));
 
   // ══════════════════════════════════════════════════════════════════
   // TIER 2: RELEVANT DYNAMICS & RECENT CAUSALITY (30% Token Allocation)
@@ -460,7 +488,7 @@ export function formatCronicleContextForAIME(cronicle, options = {}) {
   }
 
   if (tier2Lines.length > 1) {
-    sections.push(tier2Lines.join('\n'));
+    sections.push(truncateToCharBudget(tier2Lines.join('\n'), tier2Budget));
   }
 
   // ══════════════════════════════════════════════════════════════════
@@ -476,10 +504,10 @@ export function formatCronicleContextForAIME(cronicle, options = {}) {
   }
 
   if (tier3Lines.length > 1) {
-    sections.push(tier3Lines.join('\n'));
+    sections.push(truncateToCharBudget(tier3Lines.join('\n'), tier3Budget));
   }
 
-  return sections.join('\n\n');
+  return truncateToCharBudget(sections.join('\n\n'), totalCharBudget);
 }
 
 /**

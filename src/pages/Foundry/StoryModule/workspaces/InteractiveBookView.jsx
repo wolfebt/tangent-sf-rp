@@ -36,12 +36,12 @@ function renderTextWithWikiLinks(text, onOpenLorebookDossier) {
       text={text} 
       inline 
       onLinkClick={(resolved) => {
-        if (resolved.targetType === 'catalog' && onOpenLorebookDossier && resolved.rawEntity) {
+        if ((resolved.targetType === 'catalog' || resolved.targetType === 'codex') && onOpenLorebookDossier && resolved.rawEntity) {
           onOpenLorebookDossier({
             ...resolved.rawEntity,
             title: resolved.title,
             name: resolved.title,
-            type: resolved.rawEntity.type || 'Element',
+            type: resolved.rawEntity.type || (resolved.targetType === 'codex' ? 'Codex' : 'Element'),
             rawElement: resolved.rawEntity,
             triggerMatched: `[[${resolved.title}]] Wiki Link`
           });
@@ -333,18 +333,31 @@ export default function InteractiveBookView({
                   📖 Canonical Story Branches:
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {preAuthoredBranches.map(branch => (
-                    <button
-                      key={branch.id}
-                      type="button"
-                      disabled={isGenerating}
-                      onClick={() => onAdvanceBeat(branch.text, branch.targetScenarioId)}
-                      className="p-3 rounded-xl bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/50 text-left text-xs font-sans text-purple-200 transition-all cursor-pointer flex items-center justify-between gap-2 shadow-sm disabled:opacity-50"
-                    >
-                      <span className="font-semibold">{branch.text}</span>
-                      <ChevronRight size={14} className="text-purple-400 shrink-0" />
-                    </button>
-                  ))}
+                  {preAuthoredBranches.map(branch => {
+                    const isLocked = branch.conditionMet === false;
+                    return (
+                      <button
+                        key={branch.id}
+                        type="button"
+                        disabled={isGenerating || isLocked}
+                        title={isLocked ? `Locked by condition: ${branch.condition}` : branch.text}
+                        onClick={() => onAdvanceBeat(branch.text, branch.targetScenarioId)}
+                        className={`p-3 rounded-xl border text-left text-xs font-sans transition-all flex items-center justify-between gap-2 shadow-sm disabled:opacity-50 ${
+                          isLocked
+                            ? 'bg-slate-900/60 border-slate-700 text-slate-400 cursor-not-allowed'
+                            : 'bg-purple-950/40 hover:bg-purple-900/60 border-purple-500/50 text-purple-200 cursor-pointer'
+                        }`}
+                      >
+                        <span className="font-semibold">
+                          {branch.text}
+                          {isLocked && branch.condition && (
+                            <span className="ml-2 text-[10px] font-mono text-amber-300">🔒 {branch.condition}</span>
+                          )}
+                        </span>
+                        <ChevronRight size={14} className="text-purple-400 shrink-0" />
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}

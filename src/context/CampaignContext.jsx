@@ -19,6 +19,8 @@ import {
 import { initCronicleVttBridge } from '../services/cronicleVttBridge.js';
 import { showToast } from './ToastContext';
 import { showConfirm } from './ConfirmContext';
+import { sanitizeElementDocId } from '../utils/adeElementPersistence';
+import { useAdeStore } from '../pages/Foundry/store/adeStore';
 import {
   moveNodeInTree,
   reorderNodeSiblings,
@@ -162,8 +164,8 @@ export const StoryProvider = ({ children }) => {
     return [];
   });
 
-  // Independent Elements Library Catalog State
-  const [elementsCatalog, setElementsCatalog] = useState(() => {
+  // Independent Elements Library Catalog State (raw store; derived `elementsCatalog` below is project-scoped + public)
+  const [allElementsCatalog, setAllElementsCatalog] = useState(() => {
     try {
       const saved = localStorage.getItem('tangent_elements_catalog');
       if (saved) {
@@ -177,8 +179,25 @@ export const StoryProvider = ({ children }) => {
     }
     return [];
   });
-  const elementsCatalogRef = useRef(elementsCatalog);
-  elementsCatalogRef.current = elementsCatalog;
+  const [publicElementsCatalog, setPublicElementsCatalog] = useState([]);
+  const allElementsCatalogRef = useRef(allElementsCatalog);
+  allElementsCatalogRef.current = allElementsCatalog;
+  const activeStoryScopeId = universeState?.id || null;
+  const elementsCatalog = useMemo(() => {
+    const merged = new Map();
+    for (const el of allElementsCatalog || []) {
+      if (!el || !el.id) continue;
+      if (!el.storyId || el.storyId === activeStoryScopeId || el.isPublic === true) {
+        merged.set(el.id, el);
+      }
+    }
+    for (const pub of publicElementsCatalog || []) {
+      if (pub && pub.id && pub.isPublic === true && !merged.has(pub.id)) {
+        merged.set(pub.id, pub);
+      }
+    }
+    return Array.from(merged.values());
+  }, [allElementsCatalog, publicElementsCatalog, activeStoryScopeId]);
 
   // Asynchronous StorageService hydration on initial mount
   useEffect(() => {
@@ -232,7 +251,7 @@ export const StoryProvider = ({ children }) => {
         }
 
         if (Array.isArray(cachedElements) && cachedElements.length > 0) {
-          setElementsCatalog(cachedElements.map(e => (e && e.type ? { ...e, type: normalizeElementType(e.type) } : e)));
+          setAllElementsCatalog(cachedElements.map(e => (e && e.type ? { ...e, type: normalizeElementType(e.type) } : e)));
         }
       } catch (err) {
         console.warn('[CampaignContext] Failed to hydrate local cache from StorageService:', err);
@@ -303,6 +322,13 @@ export const StoryProvider = ({ children }) => {
     mapsCatalogRef.current = mapsCatalog;
     currentUserRef.current = currentUser;
   }, [isDirty, isStoryReadOnly, isLocalOnlyPaused, universeState, storyCatalog, mapsCatalog, currentUser]);
+
+  useEffect(() => {
+    const scopeId = universeState?.id || 'default';
+    try {
+      useAdeStore.getState()?.setStoryScope?.(scopeId);
+    } catch {}
+  }, [universeState?.id]);
 
   const setLocalOnlyPausedState = useCallback((val) => {
     const resolved = Boolean(val);
@@ -409,7 +435,7 @@ export const StoryProvider = ({ children }) => {
     }
 
     // Update local elements catalog state (merging/upserting by ID)
-    setElementsCatalog(prev => {
+    setAllElementsCatalog(prev => {
       const map = new Map(prev.map(item => [item.id, item]));
       extractedElements.forEach(item => map.set(item.id, item));
       const updatedList = Array.from(map.values());
@@ -517,7 +543,7 @@ export const StoryProvider = ({ children }) => {
         return { ...data, id: d.id, ...(data?.type ? { type: normalizeElementType(data.type) } : {}) };
       });
       if (elems.length > 0) {
-        setElementsCatalog(prev => {
+        setAllElementsCatalog(prev => {
           const map = new Map(prev.map(e => [e.id, e]));
           elems.forEach(e => map.set(e.id, e));
           const merged = Array.from(map.values());
@@ -646,12 +672,21 @@ export const StoryProvider = ({ children }) => {
           if (storyData.isPublic || isOwner) {
             debouncedSaveRef.current?.cancel();
             treeHistoryRef.current?.reset(storyData.scenarios || []);
+            isSyncingFromFirestore.current = true;
+            lastSyncedCloudUpdatedAtRef.current = storyData.updatedAt || null;
+            universeStateRef.current = storyData;
             setUniverseState(storyData);
+            StorageService.setItem('tangent_universe_state', storyData);
             setIsDirty(false);
+            setLocalOnlyPausedState(false);
+            setSyncConflict(null);
             setStoryReadOnlyState(!isOwner);
             if (storyData.scenarios?.length > 0) {
               setActiveScenarioId(storyData.scenarios[0].id);
+            } else {
+              setActiveScenarioId(null);
             }
+            setActiveMapId(storyData.maps?.length > 0 ? storyData.maps[0].id : null);
           } else {
             showToast({ type: 'warning', text: 'This story project is private.' });
           }
@@ -709,10 +744,144 @@ export const StoryProvider = ({ children }) => {
     }
   }, []);
 
+  const loadPublicElements = useCallback(async () => {
+    try {
+      const publicElemsQuery = query(collection(db, 'story_elements'), where('isPublic', '==', true));
+      const snap = await getDocs(publicElemsQuery);
+      const publicElems = snap.docs
+        .map(d => {
+          const data = d.data();
+          return { ...data, id: d.id, ...(data?.type ? { type: normalizeElementType(data.type) } : {}) };
+        })
+        .filter(e => e.isPublic === true);
+      setPublicElementsCatalog(publicElems);
+      return publicElems;
+    } catch (err) {
+      console.warn('Failed to fetch public community elements:', err);
+      return [];
+    }
+  }, []);
+
+  const toggleElementVisibility = useCallback(async (elementId, targetIsPublic) => {
+    if (isStoryReadOnlyRef.current || !elementId) return false;
+    const safeId = sanitizeElementDocId(elementId);
+    const existing = (allElementsCatalogRef.current || []).find(e => e.id === safeId || e.id === elementId);
+    if (!existing) return false;
+    if (
+      existing.authorUid &&
+      existing.authorUid !== 'local' &&
+      (!currentUser || (existing.authorUid !== currentUser.uid && existing.creatorId !== currentUser.uid))
+    ) {
+      return false;
+    }
+    const nextPublic = Boolean(targetIsPublic);
+    const updatedElem = {
+      ...existing,
+      id: safeId,
+      isPublic: nextPublic,
+      storyId: existing.storyId ?? universeStateRef.current?.id ?? null,
+      updatedAt: new Date().toISOString()
+    };
+    setAllElementsCatalog(prev => {
+      const updated = prev.map(e => (e.id === safeId || e.id === elementId ? updatedElem : e));
+      StorageService.setItem('tangent_elements_catalog', updated);
+      return updated;
+    });
+    if (currentUser && db) {
+      try {
+        await setDoc(doc(db, 'story_elements', safeId), sanitizeFirestoreData({ isPublic: nextPublic, storyId: updatedElem.storyId, updatedAt: updatedElem.updatedAt }), { merge: true });
+      } catch (err) {
+        console.warn('Failed to update element visibility in cloud:', err);
+      }
+    }
+    return true;
+  }, [currentUser]);
+
   const clonePublicStory = useCallback((storyToClone) => {
     const source = storyToClone || universeState;
-    const newId = `proj_${Date.now()}`;
+    const newId = `proj_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
     const ownerUid = currentUser ? currentUser.uid : 'local';
+    const scenarioIdMap = {};
+    const elementIdMap = {};
+
+    // Clone project-scoped or embedded elements into new project scope with private default
+    const sourceElems = [
+      ...(Array.isArray(source.elements) ? source.elements : []),
+      ...(allElementsCatalogRef.current || []).filter(e => e && e.storyId && e.storyId === source.id)
+    ];
+    const clonedElements = [];
+    const seenSourceElIds = new Set();
+    for (const el of sourceElems) {
+      if (!el || !el.id || seenSourceElIds.has(el.id)) continue;
+      seenSourceElIds.add(el.id);
+      const clonedElId = `elem_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+      elementIdMap[el.id] = clonedElId;
+      clonedElements.push(attachCreatorTag({
+        ...el,
+        id: clonedElId,
+        storyId: newId,
+        isPublic: false,
+        authorUid: ownerUid,
+        creatorId: ownerUid,
+        updatedAt: new Date().toISOString()
+      }, localStorage.getItem('userHandle'), currentUser));
+    }
+
+    const remapHubEntry = (entry) => {
+      if (typeof entry === 'string') return elementIdMap[entry] || entry;
+      if (entry && typeof entry === 'object') {
+        const mapped = elementIdMap[entry.assetId] || entry.assetId;
+        return { ...entry, assetId: mapped };
+      }
+      return entry;
+    };
+
+    const cloneScenarioTree = (nodes) => {
+      if (!Array.isArray(nodes)) return [];
+      return nodes.map(sc => {
+        if (!sc) return sc;
+        const clonedScId = `scen_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        scenarioIdMap[sc.id] = clonedScId;
+        return {
+          ...sc,
+          id: clonedScId,
+          storyId: newId,
+          ownerId: ownerUid,
+          createdBy: ownerUid,
+          ...(Array.isArray(sc.linkedElements)
+            ? { linkedElements: sc.linkedElements.map(id => elementIdMap[id] || id) }
+            : {}),
+          ...(Array.isArray(sc.assetHub)
+            ? { assetHub: sc.assetHub.map(remapHubEntry) }
+            : {}),
+          ...(Array.isArray(sc.children)
+            ? { children: cloneScenarioTree(sc.children) }
+            : {})
+        };
+      });
+    };
+
+    const clonedScenarios = cloneScenarioTree(source.scenarios);
+    const clonedMaps = Array.isArray(source.maps)
+      ? source.maps.map(m => m ? {
+          ...m,
+          id: `map_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+          storyId: newId,
+          ownerId: ownerUid,
+          createdBy: ownerUid,
+          creatorId: ownerUid,
+          authorUid: ownerUid
+        } : m)
+      : [];
+
+    const sourceCreative = source.creativeState || {};
+    const clonedCreative = {
+      ...sourceCreative,
+      ...(Array.isArray(sourceCreative.linkedElements)
+        ? { linkedElements: sourceCreative.linkedElements.map(remapHubEntry) }
+        : {})
+    };
+
     const rawStory = {
       ...source,
       id: newId,
@@ -722,22 +891,41 @@ export const StoryProvider = ({ children }) => {
       createdBy: ownerUid,
       authorId: ownerUid,
       gmId: ownerUid,
-      scenarios: Array.isArray(source.scenarios)
-        ? source.scenarios.map(sc => sc ? { ...sc, ownerId: ownerUid, createdBy: ownerUid } : sc)
-        : [],
-      maps: Array.isArray(source.maps)
-        ? source.maps.map(m => m ? { ...m, ownerId: ownerUid, createdBy: ownerUid, creatorId: ownerUid, authorUid: ownerUid } : m)
-        : [],
+      scenarios: clonedScenarios,
+      maps: clonedMaps,
+      creativeState: clonedCreative,
       updatedAt: new Date().toISOString()
     };
+    delete rawStory.elements;
     const newStory = attachCreatorTag(rawStory, localStorage.getItem('userHandle'), currentUser);
+
+    if (clonedElements.length > 0) {
+      setAllElementsCatalog(prev => {
+        const updated = [...clonedElements, ...prev];
+        StorageService.setItem('tangent_elements_catalog', updated);
+        return updated;
+      });
+    }
 
     debouncedSaveRef.current?.cancel();
     treeHistoryRef.current?.reset(newStory.scenarios || []);
     isSyncingFromFirestore.current = false;
+    lastSyncedCloudUpdatedAtRef.current = newStory.updatedAt;
+    universeStateRef.current = newStory;
     setUniverseState(newStory);
+    StorageService.setItem('tangent_universe_state', newStory);
     setStoryReadOnlyState(false);
     setIsDirty(false);
+    setLocalOnlyPausedState(false);
+    setSyncConflict(null);
+    setActiveScenarioId(clonedScenarios[0]?.id || null);
+    setActiveMapId(clonedMaps[0]?.id || null);
+    try {
+      const store = useAdeStore.getState();
+      store?.closeAllModals?.();
+      store?.setEditingElement?.(null);
+      store?.setStoryScope?.(newId);
+    } catch {}
 
     setStoryCatalog(prev => {
       const updated = [newStory, ...prev.filter(s => s.id !== newId)];
@@ -755,7 +943,7 @@ export const StoryProvider = ({ children }) => {
     }
 
     showToast({ type: 'success', text: `Successfully cloned "${source.projectName}" to your ADE Studio catalog.` });
-  }, [universeState, currentUser, setStoryReadOnlyState]);
+  }, [universeState, currentUser, setStoryReadOnlyState, setLocalOnlyPausedState]);
 
   const offloadScenarioTree = useCallback(async (nodes = [], userId) => {
     return Promise.all(
@@ -1148,6 +1336,10 @@ export const StoryProvider = ({ children }) => {
 
   // Save individual Story Element to Cloud DB collection ('story_elements')
   const saveElementToCloud = async (elementNode) => {
+    if (isStoryReadOnlyRef.current) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before saving elements to Cloud DB.' });
+      return false;
+    }
     if (!currentUser) {
       showToast({ type: 'warning', text: "Please login to save elements to Cloud DB." });
       return false;
@@ -1163,7 +1355,17 @@ export const StoryProvider = ({ children }) => {
     }
     try {
       setCloudSyncStatus('syncing');
-      const taggedNode = attachCreatorTag(elementNode, localStorage.getItem('userHandle'), currentUser);
+      const safeId = sanitizeElementDocId(elementNode.id);
+      const taggedNode = attachCreatorTag(
+        {
+          ...elementNode,
+          id: safeId,
+          storyId: elementNode.storyId !== undefined ? elementNode.storyId : (universeStateRef.current?.id || null),
+          isPublic: Boolean(elementNode.isPublic)
+        },
+        localStorage.getItem('userHandle'),
+        currentUser
+      );
       const offloadedNode = await offloadElementBinaryFields(taggedNode, { userId: currentUser.uid });
       const payload = {
         ...offloadedNode,
@@ -1172,7 +1374,7 @@ export const StoryProvider = ({ children }) => {
         authorUid: currentUser.uid,
         creatorId: offloadedNode.creatorId || currentUser.uid
       };
-      await setDoc(doc(db, 'story_elements', elementNode.id), sanitizeFirestoreData(payload));
+      await setDoc(doc(db, 'story_elements', safeId), sanitizeFirestoreData(payload));
       setCloudSyncStatus('synced');
       showToast({ type: 'success', text: `Story Element "${elementNode.title || 'Untitled'}" saved to Cloud DB collection.` });
       return true;
@@ -1293,8 +1495,27 @@ export const StoryProvider = ({ children }) => {
           };
           debouncedSaveRef.current?.cancel();
           treeHistoryRef.current?.reset(loadedStories);
+          setSyncConflict?.(null);
+          if (typeof isLocalOnlyPausedRef !== 'undefined') isLocalOnlyPausedRef.current = false;
+          if (typeof lastSyncedCloudUpdatedAtRef !== 'undefined') {
+            lastSyncedCloudUpdatedAtRef.current = loadedData.updatedAt || null;
+          }
           setUniverseState(nextUniverse);
           setStoryReadOnlyState(false);
+          const embeddedElements = Array.isArray(loadedData.elements)
+            ? loadedData.elements
+            : (Array.isArray(loadedData.elementsCatalog) ? loadedData.elementsCatalog : []);
+          if (embeddedElements.length > 0 && typeof setAllElementsCatalog === 'function') {
+            setAllElementsCatalog((prev) => {
+              const map = new Map((prev || []).map((el) => [el.id, el]));
+              embeddedElements.forEach((el) => {
+                if (!el || typeof el !== 'object') return;
+                const eid = sanitizeElementDocId(el.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`);
+                map.set(eid, { ...el, id: eid, storyId: nextUniverse.id });
+              });
+              return Array.from(map.values());
+            });
+          }
           if (loadedData.maps?.length > 0) setActiveMapId(loadedData.maps[0].id);
           if (loadedStories.length > 0) setActiveScenarioId(loadedStories[0].id);
           setIsDirty(false);
@@ -1886,9 +2107,13 @@ export const StoryProvider = ({ children }) => {
   const stageCronicleDeltasRef = useRef(stageCronicleDeltas);
   stageCronicleDeltasRef.current = stageCronicleDeltas;
 
+  const activeCronicleLocationIdRef = useRef('');
+  activeCronicleLocationIdRef.current = universeState?.cronicle?.workingMemory?.activeLocationId || '';
+
   useEffect(() => {
     const cleanup = initCronicleVttBridge({
       stageCronicleDeltas: (deltas) => stageCronicleDeltasRef.current(deltas),
+      getActiveLocationId: () => activeCronicleLocationIdRef.current,
       onDeltaStaged: (delta) => {
         showToast(`⚡ CRONICLE Delta Proposed: ${delta.explanation || delta.action}`);
       }
@@ -2003,6 +2228,8 @@ export const StoryProvider = ({ children }) => {
       title: `${name || 'Story'} Overview`,
       type: 'Scenario',
       content: '<p>Welcome to your new story project. Add elements to build your narrative universe.</p>',
+      linkedElements: [],
+      assetHub: [],
       children: []
     }, localStorage.getItem('userHandle'), currentUser);
 
@@ -2013,7 +2240,19 @@ export const StoryProvider = ({ children }) => {
       scenarios: [overviewElem],
       maps: [],
       customAssets: { terrains: [], objects: [], chunks: [] },
+      creativeState: {
+        gems: [],
+        storyCards: [],
+        storyOutline: '',
+        sceneBeats: '',
+        storyDraft: '',
+        linkedElements: []
+      },
       cronicle: createDefaultCronicleState(name || 'Untitled Story Project'),
+      galleryModifiers: [],
+      scripts: [],
+      customTemplates: [],
+      isPublic: false,
       updatedAt: new Date().toISOString()
     };
     const newStory = attachCreatorTag(rawStory, localStorage.getItem('userHandle'), currentUser);
@@ -2031,6 +2270,12 @@ export const StoryProvider = ({ children }) => {
     setIsDirty(false);
     setLocalOnlyPausedState(false);
     setSyncConflict(null);
+    try {
+      const store = useAdeStore.getState();
+      store?.closeAllModals?.();
+      store?.setEditingElement?.(null);
+      store?.setStoryScope?.(newId);
+    } catch {}
 
     setStoryCatalog(prev => {
       const updated = [newStory, ...prev.filter(s => s.id !== newId)];
@@ -2064,6 +2309,12 @@ export const StoryProvider = ({ children }) => {
       setLocalOnlyPausedState(false);
       setSyncConflict(null);
       setStoryReadOnlyState(!isOwner);
+      try {
+        const store = useAdeStore.getState();
+        store?.closeAllModals?.();
+        store?.setEditingElement?.(null);
+        store?.setStoryScope?.(target.id);
+      } catch {}
       if (target.scenarios?.length > 0) {
         setActiveScenarioId(target.scenarios[0].id);
       } else {
@@ -2109,15 +2360,23 @@ export const StoryProvider = ({ children }) => {
       debouncedSaveRef.current?.cancel();
     }
 
-    // 3. Remove from storyCatalog and handle active story fallback
+    // 3. Remove project-owned elements & remove project from storyCatalog
+    setAllElementsCatalog(prev => {
+      const next = (prev || []).filter(el => el?.storyId !== storyId && el?.projectId !== storyId);
+      StorageService.setItem('tangent_elements_catalog', next);
+      return next;
+    });
+
     const remaining = currentCatalog.filter(s => s.id !== storyId);
 
     if (isDeletingActive) {
+      useAdeStore.getState().closeAllModals?.();
       if (remaining.length > 0) {
         const nextStory = remaining[0];
         const isNextLocal = !nextStory.ownerId || nextStory.ownerId === 'local';
         const isOwner = user ? (isNextLocal || nextStory.ownerId === user.uid) : isNextLocal;
         treeHistoryRef.current?.reset(nextStory.scenarios || []);
+        useAdeStore.getState().setStoryScope?.(nextStory.id);
         isSyncingFromFirestore.current = true;
         lastSyncedCloudUpdatedAtRef.current = nextStory.updatedAt || null;
         universeStateRef.current = nextStory;
@@ -2139,6 +2398,7 @@ export const StoryProvider = ({ children }) => {
             ? `proj_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
             : defaultIdForUser;
         unmarkStoryIdDeleted(freshDefaultId);
+        useAdeStore.getState().setStoryScope?.(freshDefaultId);
         const fallback = {
           ...DEFAULT_UNIVERSE_STATE,
           id: freshDefaultId,
@@ -2188,6 +2448,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteSavedMap = useCallback(async (mapId) => {
+    if (isStoryReadOnlyRef.current) return false;
     const targetMap = (mapsCatalogRef.current || []).find(m => m.id === mapId);
     if (
       targetMap &&
@@ -2301,7 +2562,11 @@ export const StoryProvider = ({ children }) => {
   }, [universeState?.maps, isStoryReadOnly, currentUser, publishSpectatorMap]);
 
   const deleteSavedElement = useCallback(async (elementId) => {
-    const targetEl = (elementsCatalogRef.current || []).find(e => e.id === elementId);
+    if (isStoryReadOnlyRef.current) {
+      return false;
+    }
+    const safeId = sanitizeElementDocId(elementId);
+    const targetEl = (allElementsCatalogRef.current || []).find(e => e.id === safeId || e.id === elementId);
     if (
       targetEl &&
       targetEl.authorUid &&
@@ -2311,15 +2576,73 @@ export const StoryProvider = ({ children }) => {
       return false;
     }
 
-    setElementsCatalog(prev => {
-      const updated = prev.filter(e => e.id !== elementId);
+    const removedIds = new Set([elementId, safeId].filter(Boolean));
+
+    setAllElementsCatalog(prev => {
+      const updated = prev.filter(e => !removedIds.has(e.id));
       StorageService.setItem('tangent_elements_catalog', updated);
       return updated;
     });
+    setPublicElementsCatalog(prev => prev.filter(e => !removedIds.has(e.id)));
+
+    // Clean up dangling references from the active story's scenarios & creativeState
+    if (!isStoryReadOnlyRef.current) {
+      let modifiedUniverse = false;
+      const stripHubEntries = (arr) => {
+        if (!Array.isArray(arr)) return arr;
+        const filtered = arr.filter(entry => {
+          const eid = typeof entry === 'string' ? entry : entry?.assetId;
+          return !removedIds.has(eid);
+        });
+        if (filtered.length !== arr.length) modifiedUniverse = true;
+        return filtered;
+      };
+      const stripNodeLinks = (nodes) => {
+        if (!Array.isArray(nodes)) return nodes;
+        return nodes.map(node => {
+          if (!node) return node;
+          const nextLinked = Array.isArray(node.linkedElements) ? stripHubEntries(node.linkedElements) : node.linkedElements;
+          const nextHub = Array.isArray(node.assetHub) ? stripHubEntries(node.assetHub) : node.assetHub;
+          const nextChildren = Array.isArray(node.children) ? stripNodeLinks(node.children) : node.children;
+          return {
+            ...node,
+            ...(nextLinked !== undefined ? { linkedElements: nextLinked } : {}),
+            ...(nextHub !== undefined ? { assetHub: nextHub } : {}),
+            ...(nextChildren !== undefined ? { children: nextChildren } : {})
+          };
+        });
+      };
+
+      setUniverseState(prev => {
+        if (!prev) return prev;
+        const nextScenarios = Array.isArray(prev.scenarios) ? stripNodeLinks(prev.scenarios) : prev.scenarios;
+        const prevCreative = prev.creativeState || {};
+        const nextCreativeLinked = Array.isArray(prevCreative.linkedElements)
+          ? stripHubEntries(prevCreative.linkedElements)
+          : prevCreative.linkedElements;
+        const nextAssetLinks = Array.isArray(prev.assetLinks)
+          ? prev.assetLinks.filter(l => l && !removedIds.has(l.source || l.fromId) && !removedIds.has(l.target || l.toId))
+          : prev.assetLinks;
+        if (Array.isArray(prev.assetLinks) && nextAssetLinks.length !== prev.assetLinks.length) {
+          modifiedUniverse = true;
+        }
+        if (!modifiedUniverse) return prev;
+        return {
+          ...prev,
+          scenarios: nextScenarios,
+          ...(nextCreativeLinked !== prevCreative.linkedElements
+            ? { creativeState: { ...prevCreative, linkedElements: nextCreativeLinked } }
+            : {}),
+          ...(nextAssetLinks !== prev.assetLinks ? { assetLinks: nextAssetLinks } : {}),
+          updatedAt: new Date().toISOString()
+        };
+      });
+      if (modifiedUniverse) setIsDirty(true);
+    }
 
     if (currentUser) {
       try {
-        await deleteDoc(doc(db, 'story_elements', elementId));
+        await deleteDoc(doc(db, 'story_elements', safeId));
       } catch (e) {
         console.warn('Failed to delete element from Firestore:', e);
       }
@@ -2328,7 +2651,11 @@ export const StoryProvider = ({ children }) => {
   }, [currentUser]);
 
   const updateSavedElement = async (elementId, updates) => {
-    const existingElem = (elementsCatalogRef.current || []).find(e => e.id === elementId);
+    if (isStoryReadOnlyRef.current || !elementId || !updates) {
+      return null;
+    }
+    const safeId = sanitizeElementDocId(elementId);
+    const existingElem = (allElementsCatalogRef.current || []).find(e => e.id === safeId || e.id === elementId);
     if (
       existingElem &&
       existingElem.authorUid &&
@@ -2337,26 +2664,38 @@ export const StoryProvider = ({ children }) => {
     ) {
       return null;
     }
+    const resolvedStoryId =
+      updates.storyId !== undefined
+        ? updates.storyId
+        : (existingElem?.storyId !== undefined ? existingElem.storyId : (universeStateRef.current?.id || null));
+    const resolvedIsPublic =
+      updates.isPublic !== undefined ? Boolean(updates.isPublic) : Boolean(existingElem?.isPublic);
+
     const taggedUpdates = attachCreatorTag(updates, localStorage.getItem('userHandle'), currentUser);
     const updatedElem = existingElem
       ? attachCreatorTag({
           ...existingElem,
           ...taggedUpdates,
+          id: safeId,
+          storyId: resolvedStoryId,
+          isPublic: resolvedIsPublic,
           updatedAt: new Date().toISOString()
         }, localStorage.getItem('userHandle'), currentUser)
       : attachCreatorTag({
-          id: elementId,
           ...taggedUpdates,
+          id: safeId,
+          storyId: resolvedStoryId,
+          isPublic: resolvedIsPublic,
           updatedAt: new Date().toISOString(),
           authorHandle: currentUser ? getEffectiveUserHandle(currentUser) : 'Local User',
           authorUid: currentUser?.uid || 'local',
           creatorId: taggedUpdates.creatorId || currentUser?.uid || 'local'
         }, localStorage.getItem('userHandle'), currentUser);
 
-    setElementsCatalog(prev => {
-      const exists = prev.some(e => e.id === elementId);
+    setAllElementsCatalog(prev => {
+      const exists = prev.some(e => e.id === safeId || e.id === elementId);
       const updated = exists
-        ? prev.map(e => (e.id === elementId ? updatedElem : e))
+        ? prev.map(e => (e.id === safeId || e.id === elementId ? updatedElem : e))
         : [updatedElem, ...prev];
       StorageService.setItem('tangent_elements_catalog', updated);
       return updated;
@@ -2366,7 +2705,7 @@ export const StoryProvider = ({ children }) => {
     if (!isStoryReadOnlyRef.current) {
       const containsId = (nodes) => {
         for (let n of nodes) {
-          if (n.id === elementId) return true;
+          if (n.id === safeId || n.id === elementId) return true;
           if (n.children && containsId(n.children)) return true;
         }
         return false;
@@ -2376,8 +2715,8 @@ export const StoryProvider = ({ children }) => {
         setUniverseState(prev => {
           const updateTree = (nodes) => {
             return nodes.map(node => {
-              if (node.id === elementId) {
-                return { ...node, ...updates };
+              if (node.id === safeId || node.id === elementId) {
+                return { ...node, ...updates, id: safeId };
               }
               if (node.children && node.children.length > 0) {
                 return { ...node, children: updateTree(node.children) };
@@ -2397,7 +2736,7 @@ export const StoryProvider = ({ children }) => {
     if (currentUser && updatedElem) {
       try {
         const preparedElem = await offloadElementBinaryFields(updatedElem, { userId: currentUser.uid });
-        await setDoc(doc(db, 'story_elements', elementId), sanitizeFirestoreData(preparedElem), { merge: true });
+        await setDoc(doc(db, 'story_elements', safeId), sanitizeFirestoreData(preparedElem), { merge: true });
       } catch (e) {
         console.warn('Failed to update element in Firestore:', e);
       }
@@ -2549,6 +2888,8 @@ export const StoryProvider = ({ children }) => {
     toggleStoryVisibility,
     loadPublicStories,
     clonePublicStory,
+    loadPublicElements,
+    toggleElementVisibility,
     setSaveStatus,
     triggerSave,
     forceSaveNow,
@@ -2642,6 +2983,8 @@ export const StoryProvider = ({ children }) => {
     toggleStoryVisibility: (...args) => actionsRef.current.toggleStoryVisibility(...args),
     loadPublicStories: (...args) => actionsRef.current.loadPublicStories(...args),
     clonePublicStory: (...args) => actionsRef.current.clonePublicStory(...args),
+    loadPublicElements: (...args) => actionsRef.current.loadPublicElements(...args),
+    toggleElementVisibility: (...args) => actionsRef.current.toggleElementVisibility(...args),
     setSaveStatus: (...args) => actionsRef.current.setSaveStatus(...args),
     triggerSave: (...args) => actionsRef.current.triggerSave(...args),
     forceSaveNow: (...args) => actionsRef.current.forceSaveNow(...args),
@@ -2658,6 +3001,8 @@ export const StoryProvider = ({ children }) => {
     galleryModifiers,
     storyCatalog,
     elementsCatalog,
+    allElementsCatalog,
+    publicElementsCatalog,
     mapsCatalog,
     lastCloudSavedAt,
     isDirty,
@@ -2680,6 +3025,8 @@ export const StoryProvider = ({ children }) => {
     galleryModifiers,
     storyCatalog,
     elementsCatalog,
+    allElementsCatalog,
+    publicElementsCatalog,
     mapsCatalog,
     lastCloudSavedAt,
     isDirty,

@@ -15,12 +15,11 @@ import { ELEMENT_TYPES, getTypePillStyle, normalizeElementType } from '../../Ele
 export const ADE_ELEMENT_SLOTS = [
   { id: 'Scene', label: 'Scenes & Rooms', icon: MapPin, color: 'text-rose-400', category: 'Scene' },
   { id: 'Persona', label: 'Personas, Folio & MCM', icon: User, color: 'text-purple-400', category: 'Persona' },
-  { id: 'Encounter', label: 'Tactical Encounters', icon: Swords, color: 'text-red-400', category: 'Encounter' },
+  { id: 'Encounter', label: 'Tactical Encounters & Traps', icon: Swords, color: 'text-red-400', category: 'Encounter' },
   { id: 'Property', label: 'Property, Gear & Tech', icon: Gem, color: 'text-amber-400', category: 'Property' },
   { id: 'Setting', label: 'Settings & Locations', icon: MapPin, color: 'text-emerald-400', category: 'Setting' },
   { id: 'Clue', label: 'Clues & Evidence', icon: Search, color: 'text-amber-400', category: 'Clue' },
   { id: 'Handout', label: 'Operator Handouts', icon: FileText, color: 'text-sky-400', category: 'Handout' },
-  { id: 'Hazard', label: 'Traps & Hazards', icon: Flame, color: 'text-orange-400', category: 'Hazard' },
   { id: 'Faction', label: 'Factions & Outposts', icon: Shield, color: 'text-indigo-400', category: 'Faction' },
   { id: 'Story Arc', label: 'Story Arcs & Acts', icon: Compass, color: 'text-amber-300', category: 'Story Arc' },
   { id: 'Adventure', label: 'Adventure Modules', icon: BookOpen, color: 'text-yellow-400', category: 'Adventure' },
@@ -42,7 +41,7 @@ export const StoryElementsDrawer = ({
   onSummonElement,
   onInspectElement
 }) => {
-  const { elementsCatalog, universeState, saveElementToCloud, updateSavedElement } = useStory();
+  const { elementsCatalog, universeState, saveElementToCloud, updateSavedElement, isStoryReadOnly = false } = useStory();
   const { dbData = EMPTY_OBJ } = useDBM() || EMPTY_OBJ;
   const { roster: folioRoster = EMPTY_ARRAY, personaRoster = EMPTY_ARRAY, publicPersonas = EMPTY_ARRAY } = useFolio() || EMPTY_OBJ;
   const [activeSlot, setActiveSlot] = useState('Scene');
@@ -132,23 +131,30 @@ export const StoryElementsDrawer = ({
   }, [allStoryElements, activeSlot, searchQuery]);
 
   // Quick preset creator for empty slots
-  const handleCreateQuickPreset = (type) => {
-    const newId = `elem_${type.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${Date.now()}`;
+  const handleCreateQuickPreset = async (type) => {
+    if (isStoryReadOnly) {
+      AudioService.playTerminalBeep(420, 0.08);
+      return;
+    }
+    const normalizedType = normalizeElementType(type);
+    const newId = `elem_${normalizedType.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${Date.now()}`;
     const newElement = {
       id: newId,
-      name: `New ${type}`,
-      type: type,
-      summary: `Authored ${type} element for ADE narrative & tactical VTT placement.`,
-      tags: `ADE, ${type}`,
+      title: `New ${normalizedType}`,
+      name: `New ${normalizedType}`,
+      type: normalizedType,
+      summary: `Authored ${normalizedType} element for ADE narrative & tactical VTT placement.`,
+      tags: `ADE, ${normalizedType}`,
+      fields: type === 'Hazard' ? { isTrap: true } : {},
       dc: 14,
       damage: '2d10',
       createdAt: new Date().toISOString()
     };
 
     if (updateSavedElement) {
-      updateSavedElement(newElement);
+      await updateSavedElement(newId, newElement);
     } else if (saveElementToCloud) {
-      saveElementToCloud(newElement);
+      await saveElementToCloud(newElement);
     }
 
     AudioService.playTerminalBeep(920, 0.1);

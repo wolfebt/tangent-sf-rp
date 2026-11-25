@@ -67,6 +67,16 @@ export default function AssetHubDeck({
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [typeFilter, setTypeFilter] = useState('all');
+  const [scopeFilter, setScopeFilter] = useState('all'); // 'all' | 'module'
+  const [candidateLimit, setCandidateLimit] = useState(20);
+
+  const elementByIdMap = useMemo(() => {
+    const map = new Map();
+    for (const el of availableElements || []) {
+      if (el?.id) map.set(el.id, el);
+    }
+    return map;
+  }, [availableElements]);
 
   const normalizedHub = useMemo(() => {
     return normalizeLinkedAssets(assetHub, availableElements);
@@ -78,9 +88,16 @@ export default function AssetHubDeck({
 
   // Elements available to be linked (excluding self and already linked)
   const candidateElements = useMemo(() => {
-    return availableElements.filter(el => {
+    return (availableElements || []).filter(el => {
+      if (!el?.id) return false;
       if (el.id === currentElementId) return false;
       if (linkedIds.has(el.id)) return false;
+      if (
+        scopeFilter === 'module' &&
+        (el.isCortexAsset || el.isFolioPersona || el.sourceOrigin === 'omnicortex' || el.sourceOrigin === 'folio')
+      ) {
+        return false;
+      }
       if (typeFilter !== 'all' && normalizeElementType(el.type) !== typeFilter) return false;
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
@@ -91,7 +108,7 @@ export default function AssetHubDeck({
       }
       return true;
     });
-  }, [availableElements, currentElementId, linkedIds, typeFilter, searchQuery]);
+  }, [availableElements, currentElementId, linkedIds, scopeFilter, typeFilter, searchQuery]);
 
   const handleLinkElement = (elem) => {
     const newEntry = {
@@ -160,7 +177,10 @@ export default function AssetHubDeck({
         <div className="flex items-center gap-2 shrink-0">
           <button
             type="button"
-            onClick={() => setIsSearchOpen(prev => !prev)}
+            onClick={() => {
+              setIsOpen(true);
+              setIsSearchOpen((prev) => (isOpen ? !prev : true));
+            }}
             className="px-2.5 py-1 rounded-xl bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/60 text-indigo-300 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
           >
             <Plus size={12} />
@@ -194,18 +214,24 @@ export default function AssetHubDeck({
                 </button>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <input
                   type="text"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCandidateLimit(20);
+                  }}
                   placeholder="Search by title, archetype, or keywords..."
-                  className="flex-1 bg-slate-900 border border-slate-700 focus:border-indigo-400 text-xs text-white p-2 rounded-lg outline-none font-mono"
+                  className="flex-1 min-w-[160px] bg-slate-900 border border-slate-700 focus:border-indigo-400 text-xs text-white p-2 rounded-lg outline-none font-mono"
                   autoFocus
                 />
                 <select
                   value={typeFilter}
-                  onChange={(e) => setTypeFilter(e.target.value)}
+                  onChange={(e) => {
+                    setTypeFilter(e.target.value);
+                    setCandidateLimit(20);
+                  }}
                   className="bg-slate-900 border border-slate-700 text-slate-300 text-xs p-2 rounded-lg outline-none cursor-pointer"
                 >
                   <option value="all">All Types</option>
@@ -215,42 +241,76 @@ export default function AssetHubDeck({
                     </option>
                   ))}
                 </select>
+                <select
+                  value={scopeFilter}
+                  onChange={(e) => {
+                    setScopeFilter(e.target.value);
+                    setCandidateLimit(20);
+                  }}
+                  className="bg-slate-900 border border-slate-700 text-slate-300 text-xs p-2 rounded-lg outline-none cursor-pointer"
+                  aria-label="Asset search scope"
+                >
+                  <option value="all">All Ecosystem</option>
+                  <option value="module">Module Only</option>
+                </select>
               </div>
 
               {/* Candidate Results */}
-              <div className="max-h-48 overflow-y-auto space-y-1 scrollbar-thin pt-1">
+              <div className="max-h-56 overflow-y-auto space-y-1 scrollbar-thin pt-1">
                 {candidateElements.length === 0 ? (
                   <div className="p-3 text-center text-xs text-slate-500 italic">
                     {searchQuery ? 'No matching assets found.' : 'All available assets already linked.'}
                   </div>
                 ) : (
-                  candidateElements.slice(0, 10).map(elem => (
-                    <div
-                      key={elem.id}
-                      className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-indigo-500/60 flex items-center justify-between gap-2 transition-colors"
-                    >
-                      <div className="flex items-center gap-2 min-w-0 flex-1">
-                        <span className={`text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded border ${getTypePillStyle(elem.type)}`}>
-                          {elem.type}
-                        </span>
-                        <span className="text-xs font-bold text-slate-200 truncate">
-                          {elem.title || elem.name || 'Untitled'}
-                        </span>
-                        {elem.fields?.archetype && (
-                          <span className="text-[10px] text-slate-400 truncate hidden sm:inline">
-                            • {elem.fields.archetype}
-                          </span>
-                        )}
-                      </div>
+                  <>
+                    {candidateElements.slice(0, candidateLimit).map(elem => {
+                      const originLabel =
+                        elem.isCortexAsset || elem.sourceOrigin === 'omnicortex'
+                          ? 'Cortex'
+                          : elem.isFolioPersona || elem.sourceOrigin === 'folio'
+                          ? 'Folio'
+                          : 'Module';
+                      return (
+                        <div
+                          key={elem.id}
+                          className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-indigo-500/60 flex items-center justify-between gap-2 transition-colors"
+                        >
+                          <div className="flex items-center gap-2 min-w-0 flex-1">
+                            <span className={`text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded border ${getTypePillStyle(elem.type)}`}>
+                              {elem.type}
+                            </span>
+                            <span className="text-[8px] font-bold uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                              {originLabel}
+                            </span>
+                            <span className="text-xs font-bold text-slate-200 truncate">
+                              {elem.title || elem.name || 'Untitled'}
+                            </span>
+                            {elem.fields?.archetype && (
+                              <span className="text-[10px] text-slate-400 truncate hidden sm:inline">
+                                • {elem.fields.archetype}
+                              </span>
+                            )}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleLinkElement(elem)}
+                            className="px-2 py-1 bg-indigo-950 hover:bg-indigo-900 border border-indigo-500/60 text-indigo-300 text-[10px] font-bold rounded-md uppercase tracking-wider flex items-center gap-1 cursor-pointer shrink-0"
+                          >
+                            <Plus size={10} /> Link
+                          </button>
+                        </div>
+                      );
+                    })}
+                    {candidateElements.length > candidateLimit && (
                       <button
                         type="button"
-                        onClick={() => handleLinkElement(elem)}
-                        className="px-2 py-1 bg-indigo-950 hover:bg-indigo-900 border border-indigo-500/60 text-indigo-300 text-[10px] font-bold rounded-md uppercase tracking-wider flex items-center gap-1 cursor-pointer shrink-0"
+                        onClick={() => setCandidateLimit((prev) => prev + 20)}
+                        className="w-full py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-indigo-300 text-[10px] font-bold uppercase tracking-wider cursor-pointer"
                       >
-                        <Plus size={10} /> Link
+                        Show more ({candidateElements.length - candidateLimit} remaining)
                       </button>
-                    </div>
-                  ))
+                    )}
+                  </>
                 )}
               </div>
             </div>
@@ -277,7 +337,7 @@ export default function AssetHubDeck({
           ) : (
             <div className="space-y-2.5">
               {normalizedHub.map((asset) => {
-                const foundCatalogItem = availableElements.find(e => e.id === asset.assetId);
+                const foundCatalogItem = elementByIdMap.get(asset.assetId);
 
                 return (
                   <div

@@ -56,7 +56,8 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
     toggleGalleryModifier,
     setActiveMapId,
     deleteMap,
-    deleteSavedMap
+    deleteSavedMap,
+    isStoryReadOnly = false
   } = useStory();
 
   const [activeTab, setActiveTab] = useState('elements'); // 'elements' | 'maps' | 'modifiers'
@@ -130,6 +131,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
 
   const handleDeleteMap = async (e, map) => {
     e.stopPropagation();
+    if (isStoryReadOnly) return;
     const ok = await confirm({
       title: 'Delete Tactical Map',
       message: `Are you sure you want to delete "${map.title || map.name || 'Untitled Sector'}"?`,
@@ -202,7 +204,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
 
   const handleSaveModifier = (e) => {
     e.preventDefault();
-    if (!modName.trim()) return;
+    if (isStoryReadOnly || !modName.trim()) return;
     AudioService.playTerminalBeep(1400, 0.04);
 
     const newMod = ModifierService.createModifier({
@@ -574,7 +576,9 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
 
                           <button
                             type="button"
+                            disabled={isStoryReadOnly}
                             onClick={() => {
+                              if (isStoryReadOnly) return;
                               AudioService.playTerminalBeep(1100, 0.02);
                               toggleGalleryModifier(mod.id);
                             }}
@@ -647,7 +651,9 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
 
                       <button
                         type="button"
+                        disabled={isStoryReadOnly}
                         onClick={() => {
+                          if (isStoryReadOnly) return;
                           AudioService.playTerminalBeep(900, 0.03);
                           deleteGalleryModifier(mod.id);
                         }}

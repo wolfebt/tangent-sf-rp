@@ -109,6 +109,8 @@ export interface ADEStoreState {
   modals: Record<AdeModalKey, boolean>;
 
   // Story Flag Ledger & Dynamic Lorebook Architecture
+  activeStoryScopeId: string;
+  storyFlagsByStory: Record<string, Record<string, StoryFlagRecord>>;
   storyFlags: Record<string, StoryFlagRecord>;
   lorebookConfig: LorebookConfig;
 
@@ -149,6 +151,7 @@ export interface ADEStoreState {
   closeAllModals: () => void;
 
   // Story Flag Ledger & Dynamic Lorebook Actions
+  setStoryScope: (storyId?: string | null) => void;
   setStoryFlag: (key: string, value: boolean | number | string, scope?: 'global' | 'scenario' | 'operative', scenarioId?: string) => void;
   getStoryFlag: (key: string, defaultValue?: any) => any;
   incrementStoryFlag: (key: string, delta?: number) => void;
@@ -282,6 +285,8 @@ export const useADEStore = create<ADEStoreState>()(
           moduleImport: false,
           commandPalette: false
         },
+        activeStoryScopeId: 'default',
+        storyFlagsByStory: {},
         storyFlags: {},
         lorebookConfig: {
           maxTokens: 1200,
@@ -391,8 +396,27 @@ export const useADEStore = create<ADEStoreState>()(
         })),
 
         // Story Flag Ledger & Dynamic Lorebook Actions
-        setStoryFlag: (key, value, scope = 'global', scenarioId) => set((state) => ({
-          storyFlags: {
+        setStoryScope: (storyId) => set((state) => {
+          const nextScopeId = (typeof storyId === 'string' && storyId.trim()) ? storyId.trim() : 'default';
+          if (state.activeStoryScopeId === nextScopeId) return {};
+          const prevFlags = state.storyFlags || {};
+          const updatedByStory = {
+            ...(state.storyFlagsByStory || {}),
+            ...(Object.keys(prevFlags).length > 0 || state.storyFlagsByStory?.[state.activeStoryScopeId]
+              ? { [state.activeStoryScopeId]: prevFlags }
+              : {})
+          };
+          const nextFlags = updatedByStory[nextScopeId] || {};
+          return {
+            activeStoryScopeId: nextScopeId,
+            storyFlagsByStory: updatedByStory,
+            storyFlags: nextFlags
+          };
+        }),
+
+        setStoryFlag: (key, value, scope = 'global', scenarioId) => set((state) => {
+          const scopeId = state.activeStoryScopeId || 'default';
+          const nextFlags = {
             ...state.storyFlags,
             [key]: {
               key,
@@ -401,8 +425,15 @@ export const useADEStore = create<ADEStoreState>()(
               ...(scenarioId !== undefined ? { scenarioId } : {}),
               lastUpdated: Date.now()
             }
-          }
-        })),
+          };
+          return {
+            storyFlags: nextFlags,
+            storyFlagsByStory: {
+              ...(state.storyFlagsByStory || {}),
+              [scopeId]: nextFlags
+            }
+          };
+        }),
 
         getStoryFlag: (key, defaultValue = undefined) => {
           const entry = get().storyFlags[key];
@@ -410,36 +441,56 @@ export const useADEStore = create<ADEStoreState>()(
         },
 
         incrementStoryFlag: (key, delta = 1) => set((state) => {
+          const scopeId = state.activeStoryScopeId || 'default';
           const current = state.storyFlags[key];
           const prevVal = typeof current?.value === 'number' ? current.value : 0;
+          const nextFlags = {
+            ...state.storyFlags,
+            [key]: {
+              key,
+              value: prevVal + delta,
+              scope: current?.scope || 'global',
+              ...(current?.scenarioId !== undefined ? { scenarioId: current.scenarioId } : {}),
+              lastUpdated: Date.now()
+            }
+          };
           return {
-            storyFlags: {
-              ...state.storyFlags,
-              [key]: {
-                key,
-                value: prevVal + delta,
-                scope: current?.scope || 'global',
-                ...(current?.scenarioId !== undefined ? { scenarioId: current.scenarioId } : {}),
-                lastUpdated: Date.now()
-              }
+            storyFlags: nextFlags,
+            storyFlagsByStory: {
+              ...(state.storyFlagsByStory || {}),
+              [scopeId]: nextFlags
             }
           };
         }),
 
         removeStoryFlag: (key) => set((state) => {
+          const scopeId = state.activeStoryScopeId || 'default';
           const next = { ...state.storyFlags };
           delete next[key];
-          return { storyFlags: next };
+          return {
+            storyFlags: next,
+            storyFlagsByStory: {
+              ...(state.storyFlagsByStory || {}),
+              [scopeId]: next
+            }
+          };
         }),
 
         resetScenarioFlags: (scenarioId) => set((state) => {
+          const scopeId = state.activeStoryScopeId || 'default';
           const next = { ...state.storyFlags };
           for (const [k, v] of Object.entries(next)) {
             if (v.scenarioId === scenarioId) {
               delete next[k];
             }
           }
-          return { storyFlags: next };
+          return {
+            storyFlags: next,
+            storyFlagsByStory: {
+              ...(state.storyFlagsByStory || {}),
+              [scopeId]: next
+            }
+          };
         }),
 
         evaluateStoryCondition: (conditionExpr) => {
@@ -463,6 +514,8 @@ export const useADEStore = create<ADEStoreState>()(
           viewportSplit: state.viewportSplit,
           perspectiveMode: state.perspectiveMode,
           activeCockpitDeck: state.activeCockpitDeck,
+          activeStoryScopeId: state.activeStoryScopeId,
+          storyFlagsByStory: state.storyFlagsByStory,
           storyFlags: state.storyFlags,
           lorebookConfig: state.lorebookConfig,
         }),

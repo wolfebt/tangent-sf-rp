@@ -38,6 +38,10 @@ import {
   resolveTargetCortexCollection,
   consolidateAdeElementToCortexPayload
 } from '../../src/utils/cortexAdeAssetBridge.js';
+import {
+  persistAdeElement,
+  sanitizeElementDocId
+} from '../../src/utils/adeElementPersistence.js';
 
 test('Phase 1: OmniCortex CATEGORY_CONFIG consolidates ADE fields across Species, Factions, 8 Property subcategories, MCM, and World/Narrative categories', () => {
   assert.ok(ADE_CONSOLIDATED_LOREBOOK_FIELDS.oneLinePitch);
@@ -511,4 +515,152 @@ test('Phase 3 & 4: consolidateAdeElementToCortexPayload produces valid DBM entri
     publicPersonas: emptyPublic
   });
   assert.equal(secondCatalog, firstCatalog, 'buildUnifiedAdeCatalog must return cached array reference when input references are unchanged');
+});
+
+test('EF-1 Bridge Hardening: preferField non-empty override, zero double-append on Faction/Setting round-trips, disciplines metadata, HTML escape, and parseNumericLevel', () => {
+  // 1. Faction round-trip must NOT double-append government/leadership or resources/economy
+  const initialFaction = {
+    id: 'fac_1',
+    name: 'Iron Syndicate',
+    government_type: 'Oligarchy',
+    leadership: 'High Council',
+    primary_exports: 'Refined Titanium',
+    economic_model: 'Free Market'
+  };
+  const projFaction = projectOmnicortexRecordToAdeElement(initialFaction, 'factions');
+  projFaction.fields.government = 'Updated Oligarchy Council';
+  projFaction.fields.resources = 'Orbital Deuterium';
+  const pass1 = consolidateAdeElementToCortexPayload(projFaction);
+  assert.equal(pass1.payload.government_type, 'Updated Oligarchy Council');
+  assert.equal(pass1.payload.leadership, '');
+  assert.equal(pass1.payload.primary_exports, 'Orbital Deuterium');
+  assert.equal(pass1.payload.economic_model, '');
+
+  const reprojectedFaction = projectOmnicortexRecordToAdeElement(pass1.payload, 'factions');
+  const pass2 = consolidateAdeElementToCortexPayload(reprojectedFaction);
+  assert.equal(pass2.payload.government_type, 'Updated Oligarchy Council');
+  assert.equal(pass2.payload.primary_exports, 'Orbital Deuterium');
+
+  // 2. Setting round-trip preserves landmarksSecrets without double-append
+  const projSetting = projectOmnicortexRecordToAdeElement(
+    { id: 'set_1', name: 'Port Vesper', pointsOfInterest: 'Dock 9', secretsPlotHooks: 'Hidden Vault' },
+    'setting'
+  );
+  const consolidatedSetting = consolidateAdeElementToCortexPayload(projSetting);
+  assert.equal(consolidatedSetting.payload.pointsOfInterest, 'Dock 9\nHidden Vault');
+  assert.equal(consolidatedSetting.payload.secretsPlotHooks, '');
+  const reprojectedSetting = projectOmnicortexRecordToAdeElement(consolidatedSetting.payload, 'setting');
+  const consolidatedSettingPass2 = consolidateAdeElementToCortexPayload(reprojectedSetting);
+  assert.equal(consolidatedSettingPass2.payload.pointsOfInterest, 'Dock 9\nHidden Vault');
+
+  // 3. Metaphysics disciplines preserves discipline_skills alongside scalar meta_level / design_dc
+  const adeDiscipline = {
+    id: 'elem_disc_kinetic',
+    title: 'Kinetic Weaving',
+    type: 'Metaphysics',
+    metaphysicsSubcategory: 'disciplines',
+    fields: {
+      metaphysicsSubcategory: 'disciplines',
+      meta_skill: 'Telekinesis, Gravity Control',
+      meta_level: 'ML-3',
+      design_dc: '18'
+    }
+  };
+  const discConsolidated = consolidateAdeElementToCortexPayload(adeDiscipline);
+  assert.equal(discConsolidated.targetCollection, 'disciplines');
+  assert.deepEqual(discConsolidated.payload.discipline_skills, ['Telekinesis', 'Gravity Control']);
+  assert.equal(discConsolidated.payload.meta_level, 3);
+  assert.equal(discConsolidated.payload.design_dc, '18');
+
+  // 4. Projected HTML summary escapes untrusted markup
+  const xssRecord = {
+    id: 'itm_xss',
+    name: 'Glitch Blade',
+    description: '<script>alert("xss")</script> & <b>sharp</b>'
+  };
+  const projXss = projectOmnicortexRecordToAdeElement(xssRecord, 'weaponry');
+  assert.ok(!projXss.content.includes('<script>'));
+  assert.ok(projXss.content.includes('&lt;script&gt;'));
+});
+
+test('EF-1 Strict OmniCortex Write Gate & sanitizeElementDocId', async () => {
+  assert.equal(sanitizeElementDocId('../../users/evil/doc'), '____users_evil_doc');
+  assert.ok(!sanitizeElementDocId('../a/b').includes('/'));
+  assert.ok(!sanitizeElementDocId('../a/b').includes('..'));
+
+  const sampleCortexEl = {
+    id: 'pin_test_1',
+    title: 'Valkyrie Rifle',
+    type: 'Property',
+    propertySubcategory: 'weaponry',
+    isCortexAsset: true,
+    dbmCategory: 'weaponry',
+    dbmId: 'wpn_valk',
+    fields: { dbmRef: 'wpn_valk', dbmId: 'wpn_valk', dbmCategory: 'weaponry', oneLinePitch: 'Custom mod' },
+    content: 'Modified barrel'
+  };
+
+  let savedToModule = null;
+  let savedToCortex = null;
+  const mockUpdateSavedElement = async (id, obj) => {
+    savedToModule = { id, obj };
+    return obj;
+  };
+  const mockSaveEntry = async (payload, cat) => {
+    savedToCortex = { cat, payload };
+    return { id: payload.id || 'wpn_valk' };
+  };
+
+  // A. Read-only blocks all mutations
+  const roRes = await persistAdeElement({
+    element: sampleCortexEl,
+    elementsCatalog: [],
+    updateSavedElement: mockUpdateSavedElement,
+    saveEntry: mockSaveEntry,
+    isStoryReadOnly: true,
+    fromEditModal: true,
+    isAdmin: true
+  });
+  assert.equal(roRes, null);
+  assert.equal(savedToModule, null);
+  assert.equal(savedToCortex, null);
+
+  // B. Non-modal call even with isAdmin MUST NOT mutate OmniCortex; saves local_override
+  await persistAdeElement({
+    element: sampleCortexEl,
+    elementsCatalog: [],
+    updateSavedElement: mockUpdateSavedElement,
+    saveEntry: mockSaveEntry,
+    fromEditModal: false,
+    isAdmin: true
+  });
+  assert.equal(savedToCortex, null, 'Non-modal call must NEVER call saveEntry');
+  assert.equal(savedToModule.obj.dbmSyncStatus, 'local_override');
+
+  // C. EditModal call WITHOUT isAdmin MUST NOT mutate OmniCortex; saves local_override
+  savedToModule = null;
+  await persistAdeElement({
+    element: sampleCortexEl,
+    elementsCatalog: [],
+    updateSavedElement: mockUpdateSavedElement,
+    saveEntry: mockSaveEntry,
+    fromEditModal: true,
+    isAdmin: false
+  });
+  assert.equal(savedToCortex, null, 'Non-admin modal edit must NEVER call saveEntry');
+  assert.equal(savedToModule.obj.dbmSyncStatus, 'local_override');
+
+  // D. EditModal call WITH isAdmin DOES write canonical OmniCortex and marks synced
+  savedToModule = null;
+  const adminRes = await persistAdeElement({
+    element: sampleCortexEl,
+    elementsCatalog: [],
+    updateSavedElement: mockUpdateSavedElement,
+    saveEntry: mockSaveEntry,
+    fromEditModal: true,
+    isAdmin: true
+  });
+  assert.ok(savedToCortex, 'Admin modal edit must invoke saveEntry');
+  assert.equal(savedToCortex.cat, 'weaponry');
+  assert.equal(adminRes.dbmSyncStatus, 'synced');
 });

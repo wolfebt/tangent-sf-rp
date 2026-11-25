@@ -25,6 +25,7 @@ import { AudioService } from '../../../services/audioService';
 import { formatCronicleContextForAIME } from '../../../services/cronicleService';
 import { generateStoryScratchbook, findElementsUsed } from '../../../pages/Foundry/StoryModule/scratchbookService';
 import { useToast } from '../../../context/ToastContext';
+import { useAdeStore } from '../../../pages/Foundry/store/adeStore';
 
 // Extracted Sub-Tabs
 import CronicleWorkingMemoryTab from './tabs/CronicleWorkingMemoryTab';
@@ -47,6 +48,7 @@ export default function CronicleDeckModal({
   const {
     universeState,
     elementsCatalog = [],
+    mapsCatalog = [],
     cronicle,
     updateCronicle,
     updateWorkingMemory,
@@ -57,8 +59,11 @@ export default function CronicleDeckModal({
     clearPendingDeltas,
     cloneElementToCronicle,
     updateCreativeState,
-    triggerStorySave
+    triggerStorySave,
+    isStoryReadOnly = false
   } = useStory();
+  const perspectiveMode = useAdeStore((s) => s.perspectiveMode || 'architect');
+  const isOperatorMode = perspectiveMode === 'operator';
   const { dbData } = useDBM() || { dbData: {} };
   const { personaRoster = [], publicCatalog = [] } = useFolio() || {};
 
@@ -170,8 +175,8 @@ export default function CronicleDeckModal({
   // Find all elements used across scenarios and project hierarchy
   const elementsUsed = useMemo(() => {
     if (!isOpen) return [];
-    return findElementsUsed(universeState, elementsCatalog);
-  }, [isOpen, universeState, elementsCatalog]);
+    return findElementsUsed(universeState, elementsCatalog, { operatorSafe: isOperatorMode });
+  }, [isOpen, universeState, elementsCatalog, isOperatorMode]);
 
   // Dynamically compile the full Scratchbook Markdown
   const compiledScratchbookMarkdown = useMemo(() => {
@@ -179,10 +184,12 @@ export default function CronicleDeckModal({
     return generateStoryScratchbook({
       universeState,
       elementsCatalog,
+      mapsCatalog,
       customNotes: scratchNotes,
-      beatsLedger: beats
+      beatsLedger: beats,
+      operatorSafe: isOperatorMode
     });
-  }, [isOpen, universeState, elementsCatalog, scratchNotes, beats]);
+  }, [isOpen, universeState, elementsCatalog, mapsCatalog, scratchNotes, beats, isOperatorMode]);
 
   // Computed Context Injection Preview for Living Memory
   const contextPreview = useMemo(() => {
@@ -233,6 +240,10 @@ export default function CronicleDeckModal({
   };
 
   const handleCloneAggregatedElement = (element) => {
+    if (isStoryReadOnly) {
+      toast?.({ type: 'warning', text: 'Read-only project: clone this module to import elements into Cronicle.' });
+      return;
+    }
     if (!element) return;
     AudioService.playTerminalBeep(1300, 0.06);
     cloneElementToCronicle(element);
@@ -245,6 +256,10 @@ export default function CronicleDeckModal({
   // ── LIVING MEMORY: PERSONA HANDLERS ──
   const handleCreatePersona = (e) => {
     e.preventDefault();
+    if (isStoryReadOnly) {
+      toast?.({ type: 'warning', text: 'Read-only project: clone this module to add Cronicle personas.' });
+      return;
+    }
     if (!newPersonaName.trim()) return;
     AudioService.playTerminalBeep(1200, 0.04);
     const prefix = cronicle?.storyPrefix || 'story';
@@ -274,6 +289,10 @@ export default function CronicleDeckModal({
   };
 
   const handlePullUnifiedPersona = (personaElem) => {
+    if (isStoryReadOnly) {
+      toast?.({ type: 'warning', text: 'Read-only project: clone this module to pull personas into Cronicle.' });
+      return;
+    }
     if (!personaElem) return;
     AudioService.playTerminalBeep(1250, 0.05);
     const vttUnit = personaElem.vttUnitData || buildVttUnitFromPersona(personaElem, { uniqueInstance: false });
@@ -373,13 +392,15 @@ export default function CronicleDeckModal({
     });
   };
 
-  const handleUpdateRelationship = (personaId, targetId, deltaScore) => {
+  const handleUpdateRelationship = (personaId, targetId, targetScore) => {
+    const parsedScore = parseInt(targetScore, 10);
     applyCronicleDelta({
       id: `man_${Date.now()}`,
       entityId: personaId,
       action: 'update_relationship',
+      mode: 'set',
       target: targetId,
-      value: parseInt(deltaScore, 10)
+      value: Number.isNaN(parsedScore) ? 0 : parsedScore
     });
   };
 
@@ -800,6 +821,7 @@ export default function CronicleDeckModal({
               personas={personas}
               availablePersonas={unifiedPersonaList}
               onPullUnifiedPersona={handlePullUnifiedPersona}
+              isStoryReadOnly={isStoryReadOnly}
               newPersonaName={newPersonaName}
               setNewPersonaName={setNewPersonaName}
               newPersonaRole={newPersonaRole}
@@ -885,6 +907,8 @@ export default function CronicleDeckModal({
             <CronicleScratchbookDocTab
               compiledScratchbookMarkdown={compiledScratchbookMarkdown}
               displayedMarkdown={displayedMarkdown}
+              docSearchQuery={docSearchQuery}
+              setDocSearchQuery={setDocSearchQuery}
               elementsCount={elementsUsed.length}
               scenariosCount={universeState?.scenarios?.length || 0}
               copiedDoc={copiedDoc}

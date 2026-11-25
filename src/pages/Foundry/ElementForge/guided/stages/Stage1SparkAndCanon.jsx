@@ -4,7 +4,8 @@
  * (both Structured Spine Seeding & 1-Click Quick Markdown Dump), and Omnicortex Canon DBM Seeding.
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import DOMPurify from 'dompurify';
 import {
   Sparkles,
   BookOpen,
@@ -31,27 +32,46 @@ import { synthesizeQuickBlueprintMarkdown } from '../guidedElementAiService';
 import { useDBM } from '../../../../../context/DBMContext';
 import { showToast } from '../../../../../context/ToastContext';
 import { AudioService } from '../../../../../services/audioService';
+import { projectOmnicortexRecordToAdeElement } from '../../../../../utils/cortexAdeAssetBridge';
 
 function formatMarkdownToQuillHtml(mdText = '') {
   const raw = String(mdText || '').trim();
   if (!raw) return '';
-  if (raw.startsWith('<p>') || raw.startsWith('<h')) return raw;
+  if (raw.startsWith('<p>') || raw.startsWith('<h')) {
+    return DOMPurify.sanitize(raw);
+  }
 
-  return raw
+  const formatInline = (txt) =>
+    txt
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  const html = raw
     .split(/\n{2,}/)
     .map((block) => {
       const trimmed = block.trim();
-      if (trimmed.startsWith('### ')) return `<h3>${trimmed.slice(4)}</h3>`;
-      if (trimmed.startsWith('## ')) return `<h2>${trimmed.slice(3)}</h2>`;
-      if (trimmed.startsWith('# ')) return `<h1>${trimmed.slice(2)}</h1>`;
-      if (trimmed.startsWith('> ')) return `<blockquote>${trimmed.slice(2)}</blockquote>`;
-      const withBold = trimmed
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.+?)\*/g, '<em>$1</em>')
-        .replace(/\n/g, '<br/>');
-      return `<p>${withBold}</p>`;
+      if (!trimmed) return '';
+      if (trimmed.startsWith('#### ')) return `<h4>${formatInline(trimmed.slice(5))}</h4>`;
+      if (trimmed.startsWith('### ')) return `<h3>${formatInline(trimmed.slice(4))}</h3>`;
+      if (trimmed.startsWith('## ')) return `<h2>${formatInline(trimmed.slice(3))}</h2>`;
+      if (trimmed.startsWith('# ')) return `<h1>${formatInline(trimmed.slice(2))}</h1>`;
+      if (trimmed.startsWith('> ')) return `<blockquote>${formatInline(trimmed.slice(2))}</blockquote>`;
+      const lines = trimmed.split('\n');
+      if (lines.every((l) => /^\s*[-*]\s+/.test(l))) {
+        return `<ul>${lines.map((l) => `<li>${formatInline(l.replace(/^\s*[-*]\s+/, ''))}</li>`).join('')}</ul>`;
+      }
+      if (lines.every((l) => /^\s*\d+\.\s+/.test(l))) {
+        return `<ol>${lines.map((l) => `<li>${formatInline(l.replace(/^\s*\d+\.\s+/, ''))}</li>`).join('')}</ol>`;
+      }
+      return `<p>${lines.map(formatInline).join('<br/>')}</p>`;
     })
+    .filter(Boolean)
     .join('');
+
+  return DOMPurify.sanitize(html);
 }
 
 export default function Stage1SparkAndCanon({
@@ -71,7 +91,8 @@ export default function Stage1SparkAndCanon({
   onSwitchToSheet,
   elementsCatalog = [],
   customTemplates = [],
-  onApplyCustomTemplate
+  onApplyCustomTemplate,
+  onDeleteCustomTemplate
 }) {
   const playbook = useMemo(() => getPlaybookForType(type), [type]);
   const { dbData = {} } = useDBM() || {};
@@ -82,6 +103,15 @@ export default function Stage1SparkAndCanon({
   const [blueprintDirectives, setBlueprintDirectives] = useState('');
   const [isSynthesizingDump, setIsSynthesizingDump] = useState(false);
   const [dbmSearch, setDbmSearch] = useState('');
+  const dumpRequestIdRef = useRef(0);
+  const dumpAbortRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      dumpRequestIdRef.current += 1;
+      dumpAbortRef.current?.abort();
+    };
+  }, []);
 
   useEffect(() => {
     if (initialSeedTab) {
@@ -168,6 +198,11 @@ export default function Stage1SparkAndCanon({
       return;
     }
 
+    const reqId = ++dumpRequestIdRef.current;
+    dumpAbortRef.current?.abort();
+    const controller = new AbortController();
+    dumpAbortRef.current = controller;
+
     setIsSynthesizingDump(true);
     AudioService.playTerminalBeep(1250, 0.04);
 
@@ -177,13 +212,28 @@ export default function Stage1SparkAndCanon({
       }
       const targetPlaybook = getPlaybookForType(activeBlueprint.elementType || type);
 
-      const generatedMd = await synthesizeQuickBlueprintMarkdown({
+      const res = await synthesizeQuickBlueprintMarkdown({
         blueprint: activeBlueprint,
         title: title.trim(),
         directives: blueprintDirectives,
         catalog: elementsCatalog,
-        guidance
+        guidance,
+        keywords: fields.keywords || '',
+        negative_keywords: fields.negative_keywords || '',
+        signal: controller.signal
       });
+      if (dumpRequestIdRef.current !== reqId) return;
+
+      const generatedMd = typeof res === 'string' ? res : res?.text || '';
+      const usedFallback = typeof res === 'object' && Boolean(res?.usedFallback);
+
+      if (usedFallback) {
+        showToast({
+          type: 'warning',
+          text: 'Offline AIME stub detected — configure Gemini or Local AI before running Quick Markdown Dump.'
+        });
+        return;
+      }
 
       onSetContent?.(formatMarkdownToQuillHtml(generatedMd));
       onMergeFields?.({
@@ -208,16 +258,30 @@ export default function Stage1SparkAndCanon({
       });
       onSwitchToSheet?.();
     } catch (err) {
+      if (err?.name === 'AbortError' || dumpRequestIdRef.current !== reqId) return;
       showToast({
         type: 'error',
         text: `Blueprint synthesis failed: ${err?.message || 'Unknown error'}`
       });
     } finally {
-      setIsSynthesizingDump(false);
+      if (dumpRequestIdRef.current === reqId) {
+        setIsSynthesizingDump(false);
+      }
     }
   };
 
   const handleSeedFromDbmItem = (item) => {
+    const projected = projectOmnicortexRecordToAdeElement(item, item.dbmCategory);
+    const projectedType = projected?.type;
+    if (projectedType && projectedType !== type) {
+      onRequestTypeChange?.(projectedType, { silent: false });
+      showToast({
+        type: 'info',
+        text: `Canonical record "${item.displayTitle}" belongs to ${projectedType}. Confirm type change or pick a ${type} entry.`
+      });
+      return;
+    }
+
     AudioService.playCriticalChime(true);
     if (!title.trim()) {
       onChangeTitle?.(item.displayTitle);
@@ -227,11 +291,16 @@ export default function Stage1SparkAndCanon({
     const ml = item.ml ?? item.meta_level ?? item['meta-level'];
 
     const patch = {
+      ...(projected?.fields || {}),
       dbmRef: item.id,
       dbmId: item.id,
       dbmCategory: item.dbmCategory,
-      [playbook.pitchKey]: fields[playbook.pitchKey] || item.displaySummary || `${item.displayTitle} (${item.dbmCategory})`,
-      summary: fields.summary || item.displaySummary || ''
+      [playbook.pitchKey]:
+        fields[playbook.pitchKey] ||
+        projected?.fields?.[playbook.pitchKey] ||
+        item.displaySummary ||
+        `${item.displayTitle} (${item.dbmCategory})`,
+      summary: fields.summary || projected?.fields?.summary || item.displaySummary || ''
     };
 
     if (tl !== undefined) {
@@ -259,6 +328,9 @@ export default function Stage1SparkAndCanon({
     }
 
     onMergeFields?.(patch);
+    if (projected?.content) {
+      onSetContent?.(projected.content);
+    }
     onSetDbmSyncStatus?.('synced');
 
     showToast({
@@ -326,15 +398,30 @@ export default function Stage1SparkAndCanon({
             <span className="text-[10px] font-mono font-bold text-indigo-300 uppercase tracking-wider">
               Saved Blueprints:
             </span>
-            {customTemplates.slice(0, 6).map((tpl) => (
-              <button
+            {customTemplates.map((tpl) => (
+              <div
                 key={tpl.id}
-                type="button"
-                onClick={() => onApplyCustomTemplate(tpl)}
-                className="px-2.5 py-1 rounded-lg bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-500/40 text-[11px] font-mono text-indigo-200 cursor-pointer transition-colors"
+                className="inline-flex items-center rounded-lg bg-indigo-950/70 border border-indigo-500/40 text-[11px] font-mono text-indigo-200 overflow-hidden"
               >
-                + {tpl.name}
-              </button>
+                <button
+                  type="button"
+                  onClick={() => onApplyCustomTemplate(tpl)}
+                  className="px-2.5 py-1 hover:bg-indigo-900 cursor-pointer transition-colors"
+                >
+                  + {tpl.name}
+                </button>
+                {onDeleteCustomTemplate && (
+                  <button
+                    type="button"
+                    onClick={() => onDeleteCustomTemplate(tpl.id)}
+                    aria-label={`Delete template ${tpl.name}`}
+                    title={`Delete template "${tpl.name}"`}
+                    className="px-1.5 py-1 hover:bg-rose-900/70 text-indigo-300 hover:text-rose-200 border-l border-indigo-500/30 cursor-pointer transition-colors"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
             ))}
           </div>
         )}
@@ -538,18 +625,20 @@ export default function Stage1SparkAndCanon({
                     className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 p-2.5 rounded-xl text-xs outline-none font-mono"
                   />
                 </div>
-                <div>
-                  <label className="block text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-1.5">
-                    Short Catalog Summary (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={fields.summary || ''}
-                    onChange={(e) => onChangeField?.('summary', e.target.value)}
-                    placeholder="Displayed on Element Forge gallery cards..."
-                    className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 p-2.5 rounded-xl text-xs outline-none"
-                  />
-                </div>
+                {playbook.pitchKey !== 'summary' && (
+                  <div>
+                    <label className="block text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                      Short Catalog Summary (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={fields.summary || ''}
+                      onChange={(e) => onChangeField?.('summary', e.target.value)}
+                      placeholder="Displayed on Element Forge gallery cards..."
+                      className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 p-2.5 rounded-xl text-xs outline-none"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/90 text-xs text-slate-400 leading-relaxed flex items-start gap-3">
@@ -697,7 +786,11 @@ export default function Stage1SparkAndCanon({
                 )}
               </div>
 
-              {dbmSearch.trim() && (
+              {!dbmSearch.trim() ? (
+                <div className="p-4 text-center rounded-xl bg-slate-950/50 border border-dashed border-slate-800 text-xs text-slate-400 font-mono">
+                  Search across {Object.keys(dbData || {}).filter((k) => Array.isArray(dbData[k]) && dbData[k].length > 0).length} live OmniCortex Canon collections (prioritizing {(playbook.dbmCategories || []).join(', ') || 'all categories'}).
+                </div>
+              ) : (
                 dbmCandidates.length === 0 ? (
                   <div className="p-6 text-center rounded-xl bg-slate-950/60 border border-dashed border-slate-800 text-xs text-slate-500 font-mono">
                     No matching Omnicortex Canon entries found for &ldquo;{dbmSearch.trim()}&rdquo;.

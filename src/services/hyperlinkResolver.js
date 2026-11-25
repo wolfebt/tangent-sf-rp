@@ -15,6 +15,7 @@ import {
   getCachedCompendiumSeed,
   ensureCompendiumSeedPrefetched
 } from '../utils/compendiumSeedLoader.js';
+import { stripGmSecretHtmlBlocks } from '../utils/gmSecretSanitizer.js';
 
 /**
  * Platform Section dictionary with aliases, paths, badges, and descriptions.
@@ -226,7 +227,7 @@ export function matchPlatformSection(term) {
 }
 
 /**
- * Searches elementsCatalog for an element by title or id.
+ * Searches elementsCatalog for an element by title, id, or aliases.
  */
 export function matchElementsCatalog(term, elementsCatalog = []) {
   if (!term || !Array.isArray(elementsCatalog) || elementsCatalog.length === 0) return null;
@@ -238,12 +239,48 @@ export function matchElementsCatalog(term, elementsCatalog = []) {
   );
   if (found) return found;
 
-  // 2. Contains match
+  // 2. Alias match (elem.aliases / elem.fields.aliases / elem.fields.alias)
+  found = elementsCatalog.find((el) => {
+    const rawAliases = el.aliases || el.fields?.aliases || el.fields?.alias;
+    const aliasList = Array.isArray(rawAliases)
+      ? rawAliases
+      : typeof rawAliases === 'string'
+        ? rawAliases.split(',')
+        : [];
+    return aliasList.some((a) => String(a || '').trim().toLowerCase() === clean);
+  });
+  if (found) return found;
+
+  // 3. Contains match
   found = elementsCatalog.find(
     el => (el.title && el.title.toLowerCase().includes(clean)) ||
           (clean.length > 3 && el.title && clean.includes(el.title.toLowerCase()))
   );
   return found || null;
+}
+
+function matchScenarioTree(term, scenarios = []) {
+  if (!term || !Array.isArray(scenarios) || scenarios.length === 0) return null;
+  const clean = term.replace(/^chapter:\s*/i, '').trim().toLowerCase();
+  if (!clean) return null;
+  const stack = [...scenarios];
+  while (stack.length > 0) {
+    const node = stack.shift();
+    if (!node) continue;
+    const title = String(node.title || node.name || '').trim().toLowerCase();
+    if (title === clean || String(node.id || '').toLowerCase() === clean) return node;
+    if (Array.isArray(node.children)) stack.push(...node.children);
+  }
+  return null;
+}
+
+function sanitizeDescriptionForOperator(text = '', operatorSafe = false) {
+  if (!text) return '';
+  let str = String(text);
+  if (operatorSafe) {
+    str = str.replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '');
+  }
+  return str.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 /**
@@ -733,8 +770,17 @@ export function matchCodexEntry(term, dbData = {}) {
  * @param {Object} [context.dbData] - from useDBM()
  * @returns {Object} Structured resolution result
  */
-export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData = {} } = {}) {
+export function resolveHyperlinkTarget(
+  rawToken,
+  { elementsCatalog = [], dbData = {}, scenarios = [], operatorSafe = false } = {}
+) {
   const { displayLabel, targetSpec, prefix, identifier } = parseBracketToken(rawToken);
+  const safeCatalog = operatorSafe
+    ? (elementsCatalog || []).filter((el) => el && !el.isHidden && !el.isGmOnly && el.fields?.playerVisible !== false)
+    : (elementsCatalog || []);
+  const safeScenarios = operatorSafe
+    ? (scenarios || []).filter((sc) => sc && !sc.isHidden && !sc.isGmOnly)
+    : (scenarios || []);
 
   // 1. Handle EXPLICIT PREFIXES
   if (prefix === 'section') {
@@ -745,7 +791,7 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
   }
 
   if (prefix === 'catalog' || prefix === 'element') {
-    const matchedElement = matchElementsCatalog(identifier, elementsCatalog);
+    const matchedElement = matchElementsCatalog(identifier, safeCatalog);
     if (matchedElement) {
       return {
         targetType: 'catalog',
@@ -753,13 +799,36 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
         displayLabel,
         url: `/foundry?view=elements&id=${encodeURIComponent(matchedElement.id)}`,
         badge: `CATALOG: ${(matchedElement.type || 'ASSET').toUpperCase()}`,
-        description: matchedElement.fields?.summary || matchedElement.fields?.description || matchedElement.description || 'No description available.',
-        tags: [matchedElement.type || 'Element', ...(matchedElement.tags || [])],
+        description: sanitizeDescriptionForOperator(
+          matchedElement.fields?.summary || matchedElement.fields?.description || matchedElement.description || matchedElement.content || 'No description available.',
+          operatorSafe
+        ) || 'No description available.',
+        tags: [matchedElement.type || 'Element', ...(Array.isArray(matchedElement.tags) ? matchedElement.tags : [])],
         colorTheme: 'cyan',
         icon: 'Layers',
         exists: true,
         actionLabel: 'Inspect in Catalog',
         rawEntity: matchedElement
+      };
+    }
+  }
+
+  if (prefix === 'chapter' || prefix === 'scenario') {
+    const matchedScenario = matchScenarioTree(identifier, safeScenarios);
+    if (matchedScenario) {
+      return {
+        targetType: 'scenario',
+        title: matchedScenario.title || identifier,
+        displayLabel,
+        url: `/foundry?view=scenarios&scenarioId=${encodeURIComponent(matchedScenario.id)}`,
+        badge: `SCENARIO: ${(matchedScenario.type || 'SCENE').toUpperCase()}`,
+        description: sanitizeDescriptionForOperator(matchedScenario.fields?.summary || matchedScenario.content || 'Story scenario node.', operatorSafe) || 'Story scenario node.',
+        tags: [matchedScenario.type || 'Scenario'],
+        colorTheme: 'cyan',
+        icon: 'Compass',
+        exists: true,
+        actionLabel: 'Open Scenario',
+        rawEntity: matchedScenario
       };
     }
   }
@@ -810,7 +879,7 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
   }
 
   // Priority 3: Check Elements Catalog
-  const matchedElement = matchElementsCatalog(identifier, elementsCatalog);
+  const matchedElement = matchElementsCatalog(identifier, safeCatalog);
   if (matchedElement) {
     return {
       targetType: 'catalog',
@@ -818,13 +887,35 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
       displayLabel,
       url: `/foundry?view=elements&id=${encodeURIComponent(matchedElement.id)}`,
       badge: `CATALOG: ${(matchedElement.type || 'ASSET').toUpperCase()}`,
-      description: matchedElement.fields?.summary || matchedElement.fields?.description || matchedElement.description || 'No description available.',
-      tags: [matchedElement.type || 'Element', ...(matchedElement.tags || [])],
+      description: sanitizeDescriptionForOperator(
+        matchedElement.fields?.summary || matchedElement.fields?.description || matchedElement.description || matchedElement.content || 'No description available.',
+        operatorSafe
+      ) || 'No description available.',
+      tags: [matchedElement.type || 'Element', ...(Array.isArray(matchedElement.tags) ? matchedElement.tags : [])],
       colorTheme: 'cyan',
       icon: 'Layers',
       exists: true,
       actionLabel: 'Inspect in Catalog',
       rawEntity: matchedElement
+    };
+  }
+
+  // Priority 3B: Check Scenarios Hierarchy
+  const matchedScenarioFallback = matchScenarioTree(identifier, safeScenarios);
+  if (matchedScenarioFallback) {
+    return {
+      targetType: 'scenario',
+      title: matchedScenarioFallback.title || identifier,
+      displayLabel,
+      url: `/foundry?view=scenarios&scenarioId=${encodeURIComponent(matchedScenarioFallback.id)}`,
+      badge: `SCENARIO: ${(matchedScenarioFallback.type || 'SCENE').toUpperCase()}`,
+      description: sanitizeDescriptionForOperator(matchedScenarioFallback.fields?.summary || matchedScenarioFallback.content || 'Story scenario node.', operatorSafe) || 'Story scenario node.',
+      tags: [matchedScenarioFallback.type || 'Scenario'],
+      colorTheme: 'cyan',
+      icon: 'Compass',
+      exists: true,
+      actionLabel: 'Open Scenario',
+      rawEntity: matchedScenarioFallback
     };
   }
 
@@ -929,7 +1020,7 @@ function collectAllStrings(source, collected = []) {
  * @param {Object} [options.dbData] - from useDBM()
  * @returns {Array<Object>} Resolved entity descriptors
  */
-export function extractAndResolveBracketContext(contentSource, { elementsCatalog = [], dbData = {} } = {}) {
+export function extractAndResolveBracketContext(contentSource, { elementsCatalog = [], dbData = {}, operatorSafe = false } = {}) {
   const strings = collectAllStrings(contentSource);
   if (strings.length === 0) return [];
 
@@ -945,7 +1036,8 @@ export function extractAndResolveBracketContext(contentSource, { elementsCatalog
   const seenKeys = new Set();
 
   for (const token of allTokens) {
-    const resolved = resolveHyperlinkTarget(token, { elementsCatalog, dbData });
+    const resolved = resolveHyperlinkTarget(token, { elementsCatalog, dbData, operatorSafe });
+    if (operatorSafe && !resolved.exists) continue;
     const dedupeKey = `${resolved.targetType}:${resolved.title?.toLowerCase()}`;
     if (!seenKeys.has(dedupeKey)) {
       seenKeys.add(dedupeKey);
@@ -961,9 +1053,11 @@ export function extractAndResolveBracketContext(contentSource, { elementsCatalog
  * prompt context block for AI ingestion (AIME, Gemini, Local LLM).
  *
  * @param {Array<Object>} resolvedList - Output from extractAndResolveBracketContext
+ * @param {Object} [options]
+ * @param {boolean} [options.operatorSafe]
  * @returns {string} Formatted markdown prompt context
  */
-export function formatBracketContextForAI(resolvedList = []) {
+export function formatBracketContextForAI(resolvedList = [], { operatorSafe = false } = {}) {
   if (!Array.isArray(resolvedList) || resolvedList.length === 0) {
     return '';
   }
@@ -975,6 +1069,9 @@ export function formatBracketContextForAI(resolvedList = []) {
   ];
 
   for (const item of resolvedList) {
+    if (operatorSafe && (item.rawEntity?.isGmOnly || item.rawEntity?.isHidden || item.rawEntity?.fields?.playerVisible === false)) {
+      continue;
+    }
     if (item.targetType === 'catalog' && item.rawEntity) {
       const elem = item.rawEntity;
       const fields = elem.fields || {};
@@ -994,7 +1091,8 @@ export function formatBracketContextForAI(resolvedList = []) {
         lines.push(`  - Meta Level: ML ${fields.metaLevel ?? fields['magic-level']}`);
       }
       if (elem.content) {
-        const cleanContent = elem.content.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
+        const safeRaw = operatorSafe ? stripGmSecretHtmlBlocks(elem.content) : elem.content;
+        const cleanContent = safeRaw.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
         if (cleanContent) {
           lines.push(`  - Canonical Narrative Lore: ${cleanContent.slice(0, 400)}`);
         }

@@ -557,6 +557,7 @@ export const DBMProvider = ({ children }) => {
       'other',
       'augmentations',
       'invocations',
+      'disciplines',
       'technology',
       'modular_characters',
       'companions',

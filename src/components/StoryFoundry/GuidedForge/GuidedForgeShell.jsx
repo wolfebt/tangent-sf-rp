@@ -79,7 +79,7 @@ export default function GuidedForgeShell({
       : 'from-amber-500 to-orange-500';
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden bg-[#090d16] text-slate-100 select-none">
+    <div className="flex-1 flex flex-col overflow-hidden bg-[#090d16] text-slate-100">
       {/* ── 1. NON-BLOCKING INTERACTIVE HORIZONTAL STEPPER ── */}
       <div className="px-4 py-2.5 bg-[#0b101b] border-b border-slate-800/90 flex items-center justify-between gap-2 shrink-0 overflow-x-auto">
         <nav aria-label="Guided Creation Stages" className="flex items-center gap-1.5 sm:gap-2 min-w-max">
@@ -186,7 +186,7 @@ export default function GuidedForgeShell({
 
         {/* Right Collapsible Live Dossier & Readiness Telemetry Rail */}
         {isTelemetryOpen && (
-          <aside className="hidden lg:flex w-80 xl:w-88 shrink-0 border-l border-slate-800/90 bg-[#0b101b]/95 flex-col overflow-y-auto p-4 space-y-4 font-mono">
+          <aside className="hidden lg:flex w-80 xl:w-[22rem] shrink-0 border-l border-slate-800/90 bg-[#0b101b]/95 flex-col overflow-y-auto p-4 space-y-4 font-mono">
             {/* Live Assembling Dossier Card */}
             <div className="rounded-2xl border border-slate-800 bg-[#090d16] overflow-hidden shadow-lg">
               {dossierPreview.imageUrl ? (

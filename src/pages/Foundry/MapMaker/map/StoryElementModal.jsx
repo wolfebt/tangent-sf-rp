@@ -18,7 +18,8 @@ export const StoryElementModal = ({
   onBroadcastHandout,
   onAwardRewards,
   scale = 1,
-  position = { x: 0, y: 0 }
+  position = { x: 0, y: 0 },
+  isStoryReadOnly = false
 }) => {
   const [activeTab, setActiveTab] = useState('dossier'); // 'dossier' | 'actions' | 'reactive_config'
   const [skillBonus, setSkillBonus] = useState(3);
@@ -26,7 +27,7 @@ export const StoryElementModal = ({
   const [isRevealedToPlayers, setIsRevealedToPlayers] = useState(false);
 
   // Trap / Reactive settings state
-  const isTrapOrHazard = element?.type === 'Hazard' || element?.type === 'Trap' || mapObjectNode?.isTrap || !!mapObjectNode?.hazard;
+  const isTrapOrHazard = element?.type === 'Hazard' || element?.type === 'Trap' || Boolean(element?.fields?.isTrap) || mapObjectNode?.isTrap || !!mapObjectNode?.hazard;
   const [trapDc, setTrapDc] = useState(mapObjectNode?.saveCr || element?.dc || 14);
   const [trapDamage, setTrapDamage] = useState(mapObjectNode?.damageDice || element?.damage || '2d10');
   const [trapState, setTrapState] = useState(mapObjectNode?.trapState || 'armed'); // 'armed' | 'disarmed' | 'triggered'
@@ -82,6 +83,7 @@ export const StoryElementModal = ({
   };
 
   const handleSaveTrapConfig = () => {
+    if (isStoryReadOnly) return;
     AudioService.playTerminalBeep(880, 0.1);
     if (mapObjectNode && onUpdateMapObject) {
       onUpdateMapObject(mapObjectNode.id, {

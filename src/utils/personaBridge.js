@@ -1267,6 +1267,9 @@ export const buildVttUnitFromPersona = (personaOrElement = {}, options = {}) => 
       ? (raw.tactical_behaviors || raw.tacticalBehaviors || fields.tacticalBehaviors)
       : [],
     vtt_script: raw.vttScript || fields.vttScript || pData.vttScript || '',
+    elementId: raw.id || fields.id || null,
+    isPlayerVisible: fields.playerVisible !== false && !raw.isHidden && !raw.isGmOnly,
+    isHidden: Boolean(raw.isHidden || raw.isGmOnly),
     storySummary: raw.summary || fields.summary || pData.summary || raw.content || '',
     dialogueHook: fields.plotHooks || fields.dialogue || pData.plotHooks || '',
     conditions: Array.isArray(raw.conditions || raw.active_conditions) ? (raw.conditions || raw.active_conditions) : [],
@@ -1557,7 +1560,7 @@ export const convertPersonaElementToFolio = (element) => {
   const folioResult = {
     ...attachedFolio,
     'character-doc-id': attachedFolio['character-doc-id'] || rawElement.folioDocId || rawElement.id || `char_${Date.now()}`,
-    isPublic: Boolean(attachedFolio.isPublic),
+    isPublic: rawElement.isPublic !== undefined ? Boolean(rawElement.isPublic) : Boolean(attachedFolio.isPublic),
     authorHandle: rawElement.authorHandle || attachedFolio.authorHandle || '',
     contributors: attachedFolio.contributors || [],
     ownerUid: rawElement.ownerUid || attachedFolio.ownerUid || '',

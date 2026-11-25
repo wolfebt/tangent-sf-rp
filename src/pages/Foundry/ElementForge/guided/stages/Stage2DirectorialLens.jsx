@@ -48,7 +48,8 @@ export default function Stage2DirectorialLens({
       ...guidance,
       ...combo.guidance
     });
-    if (combo.keywords && !fields.keywords) {
+    const isUsingPresetKeywords = QUICK_STYLE_COMBOS.some((c) => c.keywords === fields.keywords);
+    if (combo.keywords && (!fields.keywords || isUsingPresetKeywords)) {
       onChangeField?.('keywords', combo.keywords);
     }
     showToast({
@@ -148,9 +149,9 @@ export default function Stage2DirectorialLens({
           />
           {positiveChips.length > 0 && (
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {positiveChips.map((kw) => (
+              {positiveChips.map((kw, idx) => (
                 <span
-                  key={kw}
+                  key={`${kw}-${idx}`}
                   className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300"
                 >
                   +{kw}
@@ -180,9 +181,9 @@ export default function Stage2DirectorialLens({
           />
           {negativeChips.length > 0 && (
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {negativeChips.map((nk) => (
+              {negativeChips.map((nk, idx) => (
                 <span
-                  key={nk}
+                  key={`${nk}-${idx}`}
                   className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950/70 border border-rose-500/40 text-rose-300"
                 >
                   −{nk}

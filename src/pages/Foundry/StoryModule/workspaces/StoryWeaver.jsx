@@ -23,6 +23,7 @@ import { AudioService } from '../../../../services/audioService';
 import ChatParser from '../../../../components/UI/ChatParser';
 import { generateContent, streamContent } from '../../../../services/aimeService';
 import { extractNarrativeDeltas } from '../../../../services/cronicleService';
+import { parseBracketToken } from '../../../../services/hyperlinkResolver';
 import crdtCollabService from '../../../../services/crdtCollabService';
 import { GUIDANCE_GEMS } from '../guidanceGemsConfig';
 import StoryElementExtractorModal from '../StoryElementExtractorModal';
@@ -220,7 +221,7 @@ export default function StoryWeaver({
     isStoryReadOnly = false
   } = useStory();
 
-  const { currentUser, userHandle } = useAuth();
+  const { currentUser, userHandle, isAdmin = false } = useAuth() || {};
   const { activeRoom = null, participants = [] } = useVoiceChat() || {};
   const navigate = useNavigate();
 
@@ -270,8 +271,6 @@ export default function StoryWeaver({
     return allAvailableMaps.find(m => m.id === activeNode.mapId) || null;
   }, [activeNode?.mapId, allAvailableMaps]);
 
-  // Live Stage Event Stream
-  const [tacticalEvents, setTacticalEvents] = useState([]);
   const [isGeneratingTacticalProse, setIsGeneratingTacticalProse] = useState(false);
 
   // Manuscript / Prose State
@@ -289,10 +288,6 @@ export default function StoryWeaver({
   const [sceneBeats, setSceneBeats] = useState(activeNode?.fields?.sceneBeats || universeState?.creativeState?.sceneBeats || '');
   const [isGeneratingOutline, setIsGeneratingOutline] = useState(false);
   const [isGeneratingBeats, setIsGeneratingBeats] = useState(false);
-
-  // Creative Genesis & Premise State
-  const [premisePrompt, setPremisePrompt] = useState('');
-  const [isBrainstorming, setIsBrainstorming] = useState(false);
 
   // Architect Ideation & Epistemic Interaction State
   const [isIdeationModalOpen, setIsIdeationModalOpen] = useState(false);
@@ -364,21 +359,27 @@ export default function StoryWeaver({
     setEditingWikiElement(newElem);
   };
 
-  const handleSaveWikiElement = async (saved) => {
+  const handleSaveWikiElement = async (saved, options = {}) => {
     const res = await persistAdeElement({
       element: saved,
       elementsCatalog,
       updateSavedElement,
       saveEntry,
       saveCurrentToRoster,
-      showToast: (payload) => showToast(typeof payload === 'string' ? payload : (payload?.text || `✓ Saved "${saved?.title || 'element'}"`))
+      showToast: (payload) => showToast(typeof payload === 'string' ? payload : (payload?.text || `✓ Saved "${saved?.title || 'element'}"`)),
+      isStoryReadOnly: Boolean(isStoryReadOnly),
+      fromEditModal: true,
+      isAdmin: Boolean(isAdmin)
     });
     if (!res) return null;
-    setEditingWikiElement(null);
+    if (options?.closeAfter !== false) {
+      setEditingWikiElement(null);
+    }
     return res;
   };
 
   const handleDeleteWikiElement = (id) => {
+    if (isStoryReadOnly) return;
     if (typeof deleteSavedElement === 'function' && id) {
       deleteSavedElement(id);
       showToast('✓ Deleted element');
@@ -398,6 +399,10 @@ export default function StoryWeaver({
     const plainText = e.dataTransfer.getData('text/plain');
 
     if (wikiElementData) {
+      if (isStoryReadOnly) {
+        showToast('Read-only story: unlock or clone this project before dropping elements into prose.', 'warning');
+        return;
+      }
       try {
         const elem = JSON.parse(wikiElementData);
         if (elem?.title) {
@@ -412,6 +417,25 @@ export default function StoryWeaver({
             }
           } else {
             handleContentChange((content || '') + ` ${wikiTag}`, null, 'user');
+          }
+          if (elem.id && activeNode?.id && typeof updateStory === 'function') {
+            const existingLinked = Array.isArray(activeNode.linkedElements) ? activeNode.linkedElements : [];
+            const existingHub = Array.isArray(activeNode.assetHub) ? activeNode.assetHub : [];
+            const nextLinked = existingLinked.includes(elem.id) ? existingLinked : [...existingLinked, elem.id];
+            const inHub = existingHub.some((entry) => (typeof entry === 'string' ? entry === elem.id : entry?.assetId === elem.id));
+            const nextHub = inHub
+              ? existingHub
+              : [
+                  ...existingHub,
+                  {
+                    assetId: elem.id,
+                    assetTitle: elem.title,
+                    assetType: elem.type || 'Element',
+                    importance: 'typical',
+                    annotation: 'Dropped onto Story Canvas'
+                  }
+                ];
+            updateStory(activeNode.id, { linkedElements: nextLinked, assetHub: nextHub });
           }
           setRecentlyDroppedElement(elem);
           showToast(`✓ Inserted [[${elem.title}]] into Story Canvas`);
@@ -551,10 +575,12 @@ export default function StoryWeaver({
         const closeIdx = after.indexOf(']]');
         if (openIdx !== -1 && closeIdx !== -1 && !before.slice(openIdx).includes(']]')) {
           const fullInner = text.slice(openIdx + 2, offset + closeIdx).trim();
-          const [targetName] = fullInner.split('|').map(s => s.trim());
+          const { identifier, displayLabel } = parseBracketToken(fullInner);
+          const candidateName = (identifier || displayLabel || '').toLowerCase();
           const found = (elementsCatalog || []).find(el => 
-            (el.title && el.title.toLowerCase() === targetName.toLowerCase()) ||
-            (el.name && el.name.toLowerCase() === targetName.toLowerCase())
+            (el.id && el.id.toLowerCase() === candidateName) ||
+            (el.title && el.title.toLowerCase() === candidateName) ||
+            (el.name && el.name.toLowerCase() === candidateName)
           );
           if (found) {
             e.preventDefault();
@@ -1070,47 +1096,9 @@ Format each beat on its own line:
     AudioService.playTerminalBeep(1200, 0.02);
   };
 
-  // ── CREATIVE GENESIS BRAINSTORMING ──
-  const handleBrainstormPremise = async () => {
-    if (!premisePrompt.trim()) return;
-    setIsBrainstorming(true);
-    AudioService.playTerminalBeep(1100, 0.04);
-    const prompt = `Brainstorm 3 compelling story premises and dramatic narrative conflicts based on this prompt:
-Prompt: "${premisePrompt}"
-Guidance: ${guidanceGems || 'Sci-Fi'}
-Provide rich atmospheric hooks, faction entanglements, and high-stakes choices for the operators.`;
-
-    try {
-      const result = await generateContent({ prompt, context: activeNode });
-      if (result) {
-        const nextOutline = `${outline ? outline + '\n\n' : ''}### Brainstormed Premises\n${result}`;
-        setOutline(nextOutline);
-        if (activeNode?.id && typeof updateStory === 'function') {
-          updateStory(activeNode.id, {
-            fields: { ...(activeNode.fields || {}), storyOutline: nextOutline }
-          });
-        }
-        showToast('✓ Premises synthesized into outline');
-      }
-    } catch (err) {
-      console.warn('Premise brainstorm failed:', err);
-      showToast('Failed to brainstorm premises');
-    } finally {
-      setIsBrainstorming(false);
-    }
-  };
-
   // Listen to real-time events from The Stage interactive objects
   useEffect(() => {
     const handleStoryTrigger = (e) => {
-      const eventDetail = e.detail || {};
-      const newEntry = {
-        id: Date.now() + Math.random(),
-        time: new Date().toLocaleTimeString(),
-        type: e.type,
-        detail: eventDetail
-      };
-      setTacticalEvents(prev => [newEntry, ...prev].slice(0, 30));
       showToast(`⚡ Stage Event: ${e.type.replace(/-/g, ' ')}`);
     };
 
@@ -1236,11 +1224,11 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
 
   // Link or create map helper
   const handleCreateMapForScenario = () => {
-    if (!activeNode) return;
+    if (isStoryReadOnly) return;
     const newMapId = uuidv4();
     const newMap = {
       id: newMapId,
-      title: `${activeNode.title || 'Untitled'} Encounter Map`,
+      title: `${activeNode?.title || 'Tactical Sector'} Encounter Map`,
       gridMode: 'hex',
       gridType: 'hex',
       lines: [],
@@ -1251,8 +1239,11 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
       fog: []
     };
     if (typeof addMap === 'function') addMap(newMap);
-    if (typeof updateStory === 'function') updateStory(activeNode.id, { mapId: newMapId });
+    if (activeNode?.id && typeof updateStory === 'function') updateStory(activeNode.id, { mapId: newMapId });
     if (typeof setActiveMapId === 'function') setActiveMapId(newMapId);
+    if (!activeNode?.id && typeof onSelectScenarioWorkspaceTab === 'function') {
+      onSelectScenarioWorkspaceTab('map');
+    }
     showToast('✓ New encounter map created and linked');
   };
 
@@ -1983,6 +1974,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
               elementsCatalog={elementsCatalog}
               guidanceGems={guidanceGems}
               activePov={activePov}
+              isStoryReadOnly={isStoryReadOnly}
               onApplySculpt={handleContentChange}
               onShowToast={showToast}
             />
@@ -2183,6 +2175,8 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
           isOpen={isEpistemicPanelOpen}
           onClose={() => setIsEpistemicPanelOpen(false)}
           activeOperative={characterData}
+          activeNode={activeNode}
+          elementsCatalog={elementsCatalog || []}
           onInsertToProse={handleInsertEpistemicToProse}
         />
       )}

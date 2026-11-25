@@ -50,10 +50,28 @@ export default function ArchitectIdeationModal({
   const [selectedWeather, setSelectedWeather] = useState(ATMOSPHERIC_PRESETS[3]?.id || 'cyberpunk_neon_rain');
   const activeWeatherObj = ATMOSPHERIC_PRESETS.find(w => w.id === selectedWeather) || ATMOSPHERIC_PRESETS[0];
 
-  // Folio Status Conditions extraction
-  const operativeConditions = folioCharacter?.conditions || 
-    folioCharacter?.fields?.conditions || 
-    (folioCharacter?.vitals?.shields === 0 ? ['Depleted Shields'] : ['Operational Vitals']);
+  // Folio Status Conditions extraction (supports both Folio hyphenated keys and legacy vitals)
+  const rawConditions = Array.isArray(folioCharacter?.active_conditions) && folioCharacter.active_conditions.length > 0
+    ? folioCharacter.active_conditions
+    : (Array.isArray(folioCharacter?.conditions) && folioCharacter.conditions.length > 0
+      ? folioCharacter.conditions
+      : (Array.isArray(folioCharacter?.fields?.conditions) && folioCharacter.fields.conditions.length > 0
+        ? folioCharacter.fields.conditions
+        : null));
+  const hpVal = Number(folioCharacter?.current_health ?? folioCharacter?.['current-hp'] ?? folioCharacter?.vitals?.health);
+  const vitVal = Number(folioCharacter?.current_vitality ?? folioCharacter?.['current-vitality'] ?? folioCharacter?.vitals?.vitality);
+  const structVal = Number(folioCharacter?.current_structure ?? folioCharacter?.['current-structure'] ?? folioCharacter?.vitals?.structure);
+  const operativeConditions = rawConditions
+    ? rawConditions
+    : Number.isFinite(hpVal) && hpVal <= 0
+    ? ['Critical Health / Incapacitated']
+    : Number.isFinite(vitVal) && vitVal <= 0
+    ? ['Fatigued / Depleted Vitality']
+    : Number.isFinite(structVal) && structVal <= 0
+    ? ['Chassis Compromised']
+    : folioCharacter?.vitals?.shields === 0
+    ? ['Depleted Shields']
+    : ['Operational Vitals'];
 
   // AIME Flavor generation state
   const [isGeneratingFlavor, setIsGeneratingFlavor] = useState(false);

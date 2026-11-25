@@ -13,6 +13,7 @@ import { DEFAULT_WEAPONRY } from '../../../data/weaponryData';
 import { DEFAULT_ARMORING } from '../../../data/armoringData';
 import { DEFAULT_FACTIONS } from '../../../data/factionsData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
+import { normalizeElementType } from '../../../pages/Foundry/ElementForge/elementSchemas';
 import type { CatalogCategory } from '../store/uiLayoutStore';
 import { ModuleCatalogRail } from './ModuleCatalogRail';
 import { CatalogSearchFilter } from './CatalogSearchFilter';
@@ -51,10 +52,14 @@ export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
 
     const rosterCount = folio?.personaRoster?.length || (character?.name ? 1 : 0);
     const mcmPersonasCount = (dbData?.modular_characters || []).length;
-    const adePersonasCount = (elementsCatalog || []).filter((e: any) => e.type === 'Persona').length;
-    const adeItemsCount = (elementsCatalog || []).filter((e: any) => e.type === 'Item').length;
-    const adeFactionsCount = (elementsCatalog || []).filter((e: any) => e.type === 'Faction').length;
-    const adeLoreCount = (elementsCatalog || []).filter((e: any) => ['Clue', 'Lore', 'Document', 'Location', 'Quest'].includes(e.type)).length;
+    const adePersonasCount = (elementsCatalog || []).filter((e: any) => normalizeElementType(e.type) === 'Persona').length;
+    const adeItemsCount = (elementsCatalog || []).filter((e: any) => normalizeElementType(e.type) === 'Property').length;
+    const adeFactionsCount = (elementsCatalog || []).filter((e: any) => normalizeElementType(e.type) === 'Faction').length;
+    const adeLoreCount = (elementsCatalog || []).filter((e: any) =>
+      ['Clue', 'Handout', 'Setting', 'World', 'Universe', 'Philosophy', 'Species', 'Metaphysics', 'Lore', 'Document', 'Location', 'Quest'].includes(
+        normalizeElementType(e.type)
+      )
+    ).length;
 
     const scenarioEncountersCount = scenarios.reduce((acc: number, s: any) => acc + (s.encounters?.length || 0), 0);
     const bestiaryCount = dbData?.bestiary?.length || dbData?.species?.length || DEFAULT_SPECIES.length;

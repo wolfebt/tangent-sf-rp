@@ -10,6 +10,23 @@
 
 import { generateContent } from '../../../../services/aimeService.js';
 import { calculateCreditValue, calculateCRFromCredits } from '../../../../engines/tangentEconEngine.js';
+import { calculateNPCCombatBlock } from '../../../../engines/tangentEntityEngines.js';
+import {
+  resolveCompetencyRoleKey,
+  resolveBossTypeKey,
+  resolveDesignationKey
+} from '../../../../utils/personaBridge.js';
+
+function parseBoundedLevel(val: any, fallback: number, min = 0, max = 5): number {
+  if (val === undefined || val === null || val === '') return fallback;
+  if (typeof val === 'number') {
+    return Number.isFinite(val) ? Math.max(min, Math.min(max, Math.round(val))) : fallback;
+  }
+  const match = String(val).match(/\d+/);
+  if (!match) return fallback;
+  const parsed = Number(match[0]);
+  return Number.isFinite(parsed) ? Math.max(min, Math.min(max, parsed)) : fallback;
+}
 
 const callAimeGenerate = generateContent as unknown as (params: {
   prompt: string;
@@ -88,13 +105,15 @@ export async function draftStructuredElementTraits({
   catalog = [],
   campaignName = 'Tangent Universe',
   cronicle = null,
-  dbData = null
+  dbData = null,
+  signal
 }: {
   draft: GuidedElementDraft;
   catalog?: any[];
   campaignName?: string;
   cronicle?: any;
   dbData?: any;
+  signal?: AbortSignal;
 }): Promise<{
   mergedFields: Record<string, any>;
   appliedKeys: string[];
@@ -129,13 +148,16 @@ export async function draftStructuredElementTraits({
 
   const title = draft.title?.trim() || `New ${draft.type}`;
   const pitch = draft.fields?.[playbook.pitchKey] || draft.fields?.summary || '';
+  const posKeywords = draft.fields?.keywords
+    ? `\nPOSITIVE THEMATIC KEYWORDS (WEAVE NATURALLY): ${draft.fields.keywords}`
+    : '';
   const negRailguards = draft.fields?.negative_keywords
     ? `\nSTRICT NEGATIVE RAILGUARDS (DO NOT INCLUDE): ${draft.fields.negative_keywords}`
     : '';
 
   const prompt = `Draft structured Layer 2 Objective Reality traits for the [${draft.type}] element "${title}".
 Concept / Pitch: "${pitch || 'Synthesize an evocative Tangent Science Fantasy concept.'}"
-Playbook Family: ${playbook.familyLabel}${negRailguards}
+Playbook Family: ${playbook.familyLabel}${posKeywords}${negRailguards}
 
 Return a JSON object populating each trait concisely (1–3 crisp, sensory-rich sentences per field) plus "narrativeProse". Do not invent contradictory mechanics; honor Canonical v6 Tech/Meta Levels (TL 0-5 / ML 0-5).`;
 
@@ -144,6 +166,9 @@ Return a JSON object populating each trait concisely (1–3 crisp, sensory-rich 
   let usedFallback = false;
 
   try {
+    if (signal?.aborted) {
+      throw new DOMException('Drafting aborted', 'AbortError');
+    }
     const rawResponse = await callAimeGenerate({
       prompt,
       context: {
@@ -165,11 +190,27 @@ Return a JSON object populating each trait concisely (1–3 crisp, sensory-rich 
       responseSchema
     });
 
+    if (signal?.aborted) {
+      throw new DOMException('Drafting aborted', 'AbortError');
+    }
+
     const cleaned = String(rawResponse || '')
       .replace(/```json/gi, '')
       .replace(/```/g, '')
       .trim();
-    const parsed = JSON.parse(cleaned);
+
+    let parsed: any = null;
+    try {
+      parsed = JSON.parse(cleaned);
+    } catch {
+      const firstBrace = cleaned.indexOf('{');
+      const lastBrace = cleaned.lastIndexOf('}');
+      if (firstBrace >= 0 && lastBrace > firstBrace) {
+        parsed = JSON.parse(cleaned.slice(firstBrace, lastBrace + 1));
+      } else {
+        throw new Error('Response did not contain valid JSON object.');
+      }
+    }
 
     if (parsed && typeof parsed === 'object' && !parsed.gate) {
       const { narrativeProse, ...rest } = parsed;
@@ -181,7 +222,11 @@ Return a JSON object populating each trait concisely (1–3 crisp, sensory-rich 
       proposedFields = fb.proposedFields;
       proposedProse = fb.proposedProse;
     }
-  } catch (_err) {
+  } catch (err: any) {
+    if (err?.name === 'AbortError') {
+      throw err;
+    }
+    console.warn('[guidedElementAiService] Falling back to deterministic Stage 3 traits:', err);
     usedFallback = true;
     const fb = buildDeterministicTraitFallback(draft);
     proposedFields = fb.proposedFields;
@@ -212,18 +257,29 @@ export async function synthesizeQuickBlueprintMarkdown({
   title,
   directives = '',
   catalog = [],
-  guidance = {}
+  guidance = {},
+  keywords = '',
+  negative_keywords = '',
+  signal
 }: {
   blueprint: BlueprintTemplateConfig;
   title: string;
   directives?: string;
   catalog?: any[];
   guidance?: Record<string, any>;
-}): Promise<string> {
+  keywords?: string;
+  negative_keywords?: string;
+  signal?: AbortSignal;
+}): Promise<{ text: string; usedFallback: boolean }> {
+  if (signal?.aborted) {
+    throw new DOMException('Blueprint synthesis aborted', 'AbortError');
+  }
   const cleanTitle = title.trim() || blueprint.name;
   const rawTemplate = blueprint.promptTemplate.replace('{title}', cleanTitle);
+  const kwBlock = keywords ? `\nPositive Keywords (weave naturally): ${keywords}` : '';
+  const negBlock = negative_keywords ? `\nBanned Tropes (exclude): ${negative_keywords}` : '';
   const prompt = `${rawTemplate}
-Additional Context / Specific Directives: "${directives.trim() || 'High sci-fi / cyberpunk science fantasy RPG tone.'}"
+Additional Context / Specific Directives: "${directives.trim() || 'High sci-fi / cyberpunk science fantasy RPG tone.'}"${kwBlock}${negBlock}
 
 Output Format: Provide structured markdown with rich sections, atmospheric read-aloud boxes, Architect secrets, Canonical v6 2d10 stat notes, and tactical hooks.`;
 
@@ -243,7 +299,15 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
     customCatalog: catalog
   };
 
-  return callAimeGenerate({ prompt, context });
+  const text = await callAimeGenerate({ prompt, context });
+  if (signal?.aborted) {
+    throw new DOMException('Blueprint synthesis aborted', 'AbortError');
+  }
+  const isOfflineStub = String(text || '').trim().startsWith('[AIME LOCAL COGNITION]');
+  return {
+    text: String(text || ''),
+    usedFallback: isOfflineStub
+  };
 }
 
 /**
@@ -274,68 +338,94 @@ export function calibrateElementWithBastion({
     .join(' ')
     .toLowerCase();
 
-  // 1. Persona Calibration (MCM + Canonical v6 Vitals)
+  // 1. Persona Calibration (Canonical calculateNPCCombatBlock + v6 Vitals)
   if (draft.type === 'Persona') {
     const isBoss = /\b(boss|warlord|archon|commander|overlord|prime|leviathan)\b/.test(corpus);
     const isElite = /\b(elite|veteran|assassin|inquisitor|captain|cyborg|enforcer)\b/.test(corpus);
-    const tier = Number(fields.mcmTier) || (isBoss ? 8 : isElite ? 4 : 2);
+    const tier = parseBoundedLevel(fields.mcmTier, isBoss ? 8 : isElite ? 4 : 2, 0, 20);
 
     const isSlicer = /\b(hacker|slicer|engineer|scientist|medic|doctor|tech|analyst)\b/.test(corpus);
     const isSocial = /\b(diplomat|fixer|broker|ambassador|noble|merchant|envoy)\b/.test(corpus);
     const chassis = fields.mcmChassis || (isSlicer ? 'Specialist' : isSocial ? 'Socialite' : 'Combatant');
-    const role =
+    const rawRole =
       fields.mcmRole ||
       (isBoss
-        ? 'Sector Boss / Commander'
+        ? 'Leader'
         : isSlicer
-        ? 'Slicer / Tech Operative'
+        ? 'Technician'
         : isSocial
-        ? 'Tactical / Commando'
-        : 'Bruiser / Vanguard');
+        ? 'Buffer'
+        : 'Brute');
+    const roleKey = resolveCompetencyRoleKey(rawRole);
+    const bossType = resolveBossTypeKey(fields.mcmBossType || fields.bossType || (isBoss ? 'Boss' : 'Standard'));
+    const designation = resolveDesignationKey(fields.mcmDesignation || fields['char-role'] || 'Adversary');
+    const speciesSize = fields.speciesSize || fields['char-size'] || 'Medium';
 
-    const isSynthetic = /\b(synthetic|android|droid|automaton|construct|mekan|ai|robot)\b/.test(
-      `${fields['char-species'] || ''} ${corpus}`
-    );
+    const isSynthetic =
+      Boolean(fields.isSynthetic || fields.is_synthetic) ||
+      fields.physiology === 'Synthetic' ||
+      /\b(synthetic|android|droid|automaton|construct|mekan|ai|robot)\b/.test(
+        `${fields['char-species'] || ''} ${corpus}`
+      );
 
-    const roleHealthBonus = isBoss ? 30 : role.includes('Bruiser') ? 10 : 5;
-    const roleDefBonus = isBoss ? 5 : 3;
-    const agi = chassis === 'Combatant' ? 2 : 1;
-    const primaryAttr = 3;
+    const combatBlock = calculateNPCCombatBlock({
+      tier,
+      role: roleKey,
+      bossType,
+      size: speciesSize,
+      designation,
+      isSynthetic
+    });
 
-    const health = (isSynthetic ? 60 : 30) + Math.max(0, tier - 1) * 6 + roleHealthBonus;
-    const vitality = isSynthetic ? 0 : 30 + Math.max(0, tier - 1) * 4;
-    const defense = 10 + agi + roleDefBonus + Math.floor(tier / 2);
-    const attackBonus = primaryAttr + tier + 2;
+    const structurePoints = combatBlock.structurePoints ?? (isSynthetic ? 60 : 0);
+    const health = isSynthetic ? structurePoints : (combatBlock.health ?? 30);
+    const vitality = isSynthetic ? 0 : (combatBlock.vitality ?? 30);
+    const defenseDc = combatBlock.defenseDC ?? 12;
+    const attackBonus = combatBlock.attackBonus ?? 4;
+    const armorDR = combatBlock.expectedDR ?? 0;
+    const actionsPerRound = combatBlock.actionsPerRound ?? 1;
 
-    const tl = Number(fields['tech-level'] ?? 3);
+    const tl = parseBoundedLevel(fields['tech-level'] ?? fields.techLevel ?? fields.tech_level, 3, 0, 5);
     const weapons = Array.isArray(dbData?.weaponry) ? dbData.weaponry : [];
     const matchedWeapon =
       fields.weapon ||
-      weapons.find((w: any) => Number(w.tl ?? w.tech_level ?? 3) === tl)?.name ||
+      weapons.find((w: any) => parseBoundedLevel(w.tl ?? w.tech_level, 3) === tl)?.name ||
       'Plasma Carbine';
 
     const calibratedFields = {
       ...fields,
       mcmTier: String(tier),
-      mcmDesignation: fields.mcmDesignation || 'Adversary',
+      mcmDesignation: designation,
       mcmChassis: chassis,
-      mcmRole: role,
+      mcmRole: roleKey,
+      mcmBossType: bossType,
+      bossType,
+      speciesSize,
       physiology: isSynthetic ? 'Synthetic' : 'Organic',
+      isSynthetic,
+      is_synthetic: isSynthetic,
       health: String(health),
       vitality: String(vitality),
-      structure: isSynthetic ? String(health) : '',
-      defense: String(defense),
+      structure: isSynthetic ? String(structurePoints) : '',
+      structurePoints: String(structurePoints),
+      armorDR: String(armorDR),
+      defense: String(defenseDc),
+      defense_dc: String(defenseDc),
       attackBonus: String(attackBonus),
+      attack_bonus: String(attackBonus),
+      actions: String(actionsPerRound),
+      actionsPerRound: String(actionsPerRound),
       'tech-level': String(tl),
+      techLevel: String(tl),
       weapon: matchedWeapon
     };
 
     return {
       calibratedFields,
       summaryBadge: isSynthetic
-        ? `T-${tier} ${chassis} • ${health} SP • Def ${defense} • +${attackBonus} Atk`
-        : `T-${tier} ${chassis} • ${vitality} VP / ${health} HP • Def ${defense} • +${attackBonus} Atk`,
-      rationale: `BASTION sealed Canonical v6 ${isSynthetic ? 'Synthetic (60 SP base)' : 'Organic (30 VP / 30 HP base)'} MCM profile at Threat Tier ${tier}.`
+        ? `T-${tier} ${roleKey} • ${structurePoints} SP • Def ${defenseDc} • +${attackBonus} Atk`
+        : `T-${tier} ${roleKey} • ${vitality} VP / ${health} HP • Def ${defenseDc} • +${attackBonus} Atk`,
+      rationale: `BASTION sealed Canonical v6 ${isSynthetic ? 'Synthetic (60 SP base)' : 'Organic (30 VP / 30 HP base)'} MCM profile at Threat Tier ${tier} (${roleKey}).`
     };
   }
 
@@ -343,18 +433,17 @@ export function calibrateElementWithBastion({
   if (playbook.family === 'relic') {
     const isPrecursor = /\b(precursor|progenitor|relic|artifact|singularity|ancient)\b/.test(corpus);
     const isPrototype = /\b(prototype|hard-light|nanotech|experimental|quantum|masterwork)\b/.test(corpus);
-    const rawTlStr = String(fields.techLevel || fields['tech-level'] || '').replace(/[^0-9]/g, '');
-    const tl = rawTlStr !== '' ? Number(rawTlStr) : (isPrecursor ? 5 : isPrototype ? 4 : 3);
-    const ml = Number(fields.metaLevel ?? fields['meta-level'] ?? (/\b(psionic|aether|rune|awakened|soul)\b/.test(corpus) ? 3 : 0));
+    const tl = parseBoundedLevel(fields.techLevel ?? fields['tech-level'] ?? fields.tech_level, isPrecursor ? 5 : isPrototype ? 4 : 3);
+    const ml = parseBoundedLevel(fields.metaLevel ?? fields['meta-level'] ?? fields.meta_level, /\b(psionic|aether|rune|awakened|soul)\b/.test(corpus) ? 3 : 0);
     const rarity = fields.rarity || (isPrecursor ? 'Artifact' : isPrototype ? 'Prototype' : 'Standard');
 
     const defaultCr = isPrecursor ? 25 : isPrototype ? 18 : 12;
     const rawCrField = fields.costCr !== undefined && fields.costCr !== '' ? fields.costCr : fields.craft_dc;
     const rawCreditField = fields.creditValue !== undefined && fields.creditValue !== '' ? fields.creditValue : fields.cost;
     const costCr = rawCrField !== undefined && rawCrField !== ''
-      ? Number(rawCrField)
+      ? Math.max(0, Math.min(80, Number(rawCrField) || defaultCr))
       : rawCreditField
-      ? calculateCRFromCredits(Number(rawCreditField))
+      ? calculateCRFromCredits(Number(rawCreditField) || 0)
       : defaultCr;
     const creditValue = calculateCreditValue(costCr);
 
@@ -362,8 +451,10 @@ export function calibrateElementWithBastion({
       ...fields,
       techLevel: String(tl),
       'tech-level': String(tl),
+      tech_level: String(tl),
       metaLevel: String(ml),
       'meta-level': String(ml),
+      meta_level: String(ml),
       rarity,
       costCr: String(costCr),
       craft_dc: String(costCr),
@@ -384,9 +475,17 @@ export function calibrateElementWithBastion({
   // 3. Locations, Scenes, Encounters & Maps
   if (playbook.family === 'location') {
     const preset =
-      ATMOSPHERIC_PRESETS.find((p) => corpus.includes(p.category.toLowerCase()) || corpus.includes(p.id.split('_')[0])) ||
-      ATMOSPHERIC_PRESETS[3]; // Cyberpunk Neon Rain default
-    const cr = Number(fields.hazardCr || 15);
+      ATMOSPHERIC_PRESETS.find((p) => corpus.includes(p.category.toLowerCase()) || corpus.includes(p.id.split('_')[0] || '')) ||
+      ATMOSPHERIC_PRESETS[3] ||
+      ATMOSPHERIC_PRESETS[0] || {
+        id: 'neon_rain',
+        icon: '🌧️',
+        name: 'Neon Rain',
+        visualFX: 'Wet neon reflections under overcast habitat domes.',
+        sensoryAudio: 'Low thunder and steady stormwash.',
+        rule: 'Standard visibility'
+      };
+    const cr = Number(fields.hazardCr || 15) || 15;
     const title = draft.title?.trim() || 'Active Sector';
 
     const calibratedFields = {
@@ -412,7 +511,7 @@ export function calibrateElementWithBastion({
   if (playbook.family === 'epistemic') {
     const isCyber = /\b(encrypted|terminal|log|datapad|comms|cipher|code)\b/.test(corpus);
     const skill = fields.analysisSkill || (isCyber ? 'Slicing / Computers' : 'Perception / Forensics');
-    const cr = Number(fields.analysisCr || 15);
+    const cr = Number(fields.analysisCr || 15) || 15;
 
     const calibratedFields = {
       ...fields,
@@ -430,9 +529,94 @@ export function calibrateElementWithBastion({
     };
   }
 
-  // 5. Macro-Lore (World, Universe, Philosophy, Story Arc, Adventure, Species, Faction)
-  const tl = Number(fields['tech-level'] ?? 3);
-  const ml = Number(fields['meta-level'] ?? 3);
+  // 5A. Metaphysics (Invocations, Disciplines, Special Abilities)
+  if (draft.type === 'Metaphysics') {
+    const tl = parseBoundedLevel(fields['tech-level'] ?? fields.techLevel ?? fields.tech_level, 3);
+    const ml = parseBoundedLevel(fields.meta_level ?? fields['meta-level'] ?? fields.metaLevel, 3);
+    const designCr = Number(String(fields.design_dc || '').match(/\d+/)?.[0]) || (12 + ml * 3);
+    const metaSkill = fields.meta_skill || fields.discipline || 'Meta-Psionics';
+    const castTime = fields.cast_time || `Trained Action • ${Math.max(1, ml)} Strain`;
+
+    const calibratedFields = {
+      ...fields,
+      'tech-level': String(tl),
+      techLevel: String(tl),
+      tech_level: String(tl),
+      meta_level: String(ml),
+      'meta-level': String(ml),
+      metaLevel: String(ml),
+      design_dc: String(designCr),
+      meta_skill: metaSkill,
+      cast_time: castTime
+    };
+
+    return {
+      calibratedFields,
+      summaryBadge: `ML-${ml} • ${metaSkill} • CR ${designCr}`,
+      rationale: `Calibrated Metaphysics at ML-${ml} (${metaSkill}), Invocation Design CR ${designCr}, Action Cost "${castTime}".`
+    };
+  }
+
+  // 5B. Species Baseline
+  if (draft.type === 'Species') {
+    const isSynthetic =
+      Boolean(fields.isSynthetic || fields.is_synthetic) ||
+      fields.physiology === 'Synthetic' ||
+      /\b(synthetic|android|droid|automaton|construct|mekan|ai|robot)\b/.test(corpus);
+    const physiology = fields.physiology || (isSynthetic ? 'Synthetic' : 'Organic');
+    const tl = parseBoundedLevel(fields['tech-level'] ?? fields.techLevel ?? fields.tech_level, 3);
+    const ml = parseBoundedLevel(fields['meta-level'] ?? fields.metaLevel ?? fields.meta_level, 1);
+
+    const calibratedFields = {
+      ...fields,
+      physiology,
+      isSynthetic,
+      is_synthetic: isSynthetic,
+      'tech-level': String(tl),
+      techLevel: String(tl),
+      tech_level: String(tl),
+      'meta-level': String(ml),
+      metaLevel: String(ml),
+      meta_level: String(ml)
+    };
+
+    return {
+      calibratedFields,
+      summaryBadge: `${physiology} • TL-${tl} / ML-${ml}`,
+      rationale: `Calibrated Species physiology (${physiology}) with baseline TL-${tl} / ML-${ml}.`
+    };
+  }
+
+  // 5C. Faction Baseline
+  if (draft.type === 'Faction') {
+    const tl = parseBoundedLevel(fields['tech-level'] ?? fields.techLevel ?? fields.tech_level, 3);
+    const ml = parseBoundedLevel(fields['meta-level'] ?? fields.metaLevel ?? fields.meta_level, 1);
+    const disposition = fields.disposition || 'Neutral';
+    const titleSlug = (draft.title || 'faction').trim();
+    const clockGoal = fields.clockGoal || `[6-Segment Clock] Advance ${titleSlug} strategic mandate`;
+
+    const calibratedFields = {
+      ...fields,
+      disposition,
+      'tech-level': String(tl),
+      techLevel: String(tl),
+      tech_level: String(tl),
+      'meta-level': String(ml),
+      metaLevel: String(ml),
+      meta_level: String(ml),
+      clockGoal
+    };
+
+    return {
+      calibratedFields,
+      summaryBadge: `${disposition} • TL-${tl} / ML-${ml} • Clock Ready`,
+      rationale: `Calibrated Faction posture (${disposition}), TL-${tl}/ML-${ml}, and 6-Segment Campaign Clock.`
+    };
+  }
+
+  // 5D. Macro-Lore (World, Universe, Philosophy, Story Arc, Adventure)
+  const tl = parseBoundedLevel(fields['tech-level'] ?? fields.techLevel ?? fields.tech_level, 3);
+  const ml = parseBoundedLevel(fields['meta-level'] ?? fields.metaLevel ?? fields.meta_level, 3);
   const safeSlug = (draft.title || draft.type || 'module')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
@@ -441,7 +625,11 @@ export function calibrateElementWithBastion({
   const calibratedFields = {
     ...fields,
     'tech-level': String(tl),
+    techLevel: String(tl),
+    tech_level: String(tl),
     'meta-level': String(ml),
+    metaLevel: String(ml),
+    meta_level: String(ml),
     storyFlagKey: fields.storyFlagKey || `${safeSlug}_active`
   };
 
@@ -483,7 +671,10 @@ export function deriveLorebookTriggersFromDraft(draft: GuidedElementDraft): {
     .split(/\s+/)
     .filter((w) => w.length >= 4 && !/^(the|and|for|sector|outpost|lord|lady|doctor|captain)$/i.test(w));
   if (titleParts.length > 1) {
-    primarySet.add(titleParts[titleParts.length - 1]);
+    const lastWord = titleParts[titleParts.length - 1];
+    if (lastWord) {
+      primarySet.add(lastWord);
+    }
   }
 
   addTokens(secondarySet, fields.archetype);

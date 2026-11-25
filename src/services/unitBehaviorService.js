@@ -134,7 +134,11 @@ export function decideAutonomousAction(adversaryToken, heroTokens = [], mapConte
   const hpRatio = maxHp > 0 ? (currentHp / maxHp) : 1;
 
   // Morale Check (Retreat / Surrender)
-  if (hpRatio <= profile.moraleThreshold && profile.id !== 'boss') {
+  const moraleThreshold =
+    adversaryToken.moraleThreshold ??
+    adversaryToken.script?.moraleThreshold ??
+    profile.moraleThreshold;
+  if (hpRatio <= moraleThreshold && profile.id !== 'boss') {
     return {
       status: 'morale_broken',
       actionType: 'retreat_or_surrender',

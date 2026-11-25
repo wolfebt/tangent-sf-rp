@@ -20,14 +20,15 @@ const CONTENT = {
         The <strong className="text-purple-300 font-mono">ADE Studio</strong> (Adventure Development Environment) is the unified narrative development suite and Virtual Tabletop for Tangent Science Fantasy Roleplay.
       </p>
       <div className="bg-slate-800/60 border border-purple-500/30 rounded-xl p-4 space-y-2">
-        <h4 className="text-purple-400 font-bold uppercase text-xs font-mono tracking-wider">Five Integrated Sub-Modules</h4>
+        <h4 className="text-purple-400 font-bold uppercase text-xs font-mono tracking-wider">Unified ADE Workspaces</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-2 text-xs">
           {[
-            { icon: '📖', label: 'Story Weaver', desc: 'Hierarchical scenario tree with rich element editing and push/pull sync.' },
-            { icon: '🗺️', label: 'Tactical Map Maker', desc: 'PixiJS v8 grid canvas, terrain painting, token summoning & combat tracker.' },
-            { icon: '✨', label: 'AIME Manuscript Suite', desc: '3-stage AI prose weaver (Brainstorm, Outline, Draft) with floating toolbar.' },
-            { icon: '🧩', label: 'Element Forge', desc: 'Schema-driven lore database for characters, planets, factions & relics.' },
-            { icon: '🚀', label: 'Launcher & Catalog', desc: 'Project switcher, map library, and cloud-synced element asset catalog.' },
+            { icon: '📖', label: 'Story Weaver', desc: 'Rich scenario manuscript editor with WikiLinks, slash commands, revision snapshots & AIME pair-authoring.' },
+            { icon: '🕸️', label: 'Visual Story Graph', desc: 'Node-and-wire branching DAG canvas with live playhead simulator & Story-Flag conditions.' },
+            { icon: '🎮', label: 'Interactive Play Studio', desc: 'Canon 2d10 solo/director play loop, saved session checkpoints & Epistemic interrogation.' },
+            { icon: '🗺️', label: 'Stage VTT & Map Maker', desc: 'Grid tactical canvas with dynamic walls/lighting, token summoning, AI turns & turn tracker.' },
+            { icon: '🧩', label: 'Element Forge', desc: 'Guided & Sheet schema editor for all 17 element types synced with OmniCortex & Persona Folio.' },
+            { icon: '🧠', label: 'CRONICLE Memory', desc: 'Living campaign memory with delta staging, entity state, timeline & Scratchbook dossier export.' },
           ].map(m => (
             <div key={m.label} className="bg-slate-900/60 border border-slate-700/50 rounded-xl p-3 text-center space-y-1">
               <div className="text-2xl">{m.icon}</div>
@@ -174,6 +175,18 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview
       setActiveSection(initialTab);
     }
   }, [isOpen, initialTab]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onEsc = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 

@@ -356,10 +356,20 @@ const WORLD_ANVIL_SCHEMA = [
   { tab: 'Core Traits', key: 'majorFactions', aliasKeys: ['factions', 'species'], label: 'Major Factions & Powers', type: 'textarea', placeholder: 'Significant organized groups (guilds, kingdoms, megacorps, syndicates) that shape the world...' },
   { tab: 'Core Traits', key: 'historyTimeline', aliasKeys: ['history', 'cataclysms'], label: 'History & Lore Timeline', type: 'textarea', placeholder: 'Chronological sequence of significant events and cataclysms that shaped the world...' },
   { tab: 'Core Traits', key: 'cosmologyPhysics', aliasKeys: ['laws', 'cosmology', 'magic'], label: 'Cosmology & Unique Physics', type: 'textarea', placeholder: 'Fundamental rules of your world, including magic/psionics systems and laws of nature...' },
-  // Extended Lore & Geography
+  // Extended Lore & Geography (ELEMENTS.md parity)
   { tab: 'Geography & Astronomy', key: 'starSystem', label: 'Star System & Planetary Bodies', type: 'textarea', placeholder: 'Star system, celestial bodies, orbital coordinates...' },
   { tab: 'Geography & Astronomy', key: 'continents', label: 'Continents, Oceans & Climate', type: 'textarea', placeholder: 'Physical geography, major regions, biomes...' },
-  { tab: 'Culture & Themes', key: 'themes', label: 'Themes & Aesthetic Inspirations', type: 'textarea', placeholder: 'Central philosophical themes, motifs, visual styles...' },
+  { tab: 'Geography & Astronomy', key: 'cataclysms', label: 'Historical Cataclysms & Fallen Empires', type: 'textarea', placeholder: 'Extinction events, precursor ruins, and tectonic shifts...' },
+  { tab: 'Culture & Themes', key: 'demographics', label: 'Sentient Species & Demographics', type: 'textarea', placeholder: 'Population ratios, dominant lineages, and diaspora hubs...' },
+  { tab: 'Culture & Themes', key: 'techLevel', aliasKeys: ['tech_level'], label: 'Baseline Tech Level (TL 0-5)', type: 'text', placeholder: '3' },
+  { tab: 'Culture & Themes', key: 'magic', label: 'Metaphysics / Psionics System', type: 'textarea', placeholder: 'How anomalous or psionic forces manifest in society...' },
+  { tab: 'Culture & Themes', key: 'pantheons', label: 'Pantheons, Ideologies & Myths', type: 'textarea', placeholder: 'Major faiths, legendary figures, and cosmic archetypes...' },
+  { tab: 'Culture & Themes', key: 'themes', label: 'Themes & Central Tensions', type: 'textarea', placeholder: 'Central philosophical themes and recurring dramatic questions...' },
+  { tab: 'Culture & Themes', key: 'inspirations', label: 'Aesthetic & Media Inspirations', type: 'textarea', placeholder: 'Touchstone visual styles, architectural tones, and genre influences...' },
+  { tab: 'Tactical & VTT', key: 'pairedMapId', label: 'Paired Tactical Map ID', type: 'text', placeholder: 'Linked VTT map identifier...' },
+  { tab: 'Tactical & VTT', key: 'weatherPreset', label: 'Atmospheric Weather Preset', type: 'text', placeholder: 'Neon Rain, Orbital Vacuum, Ash Storm...' },
+  { tab: 'Tactical & VTT', key: 'hazardCr', label: 'Environmental Hazard CR', type: 'text', placeholder: '14' },
+  { tab: 'Tactical & VTT', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Hidden world secrets...' },
   ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
   ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
@@ -412,13 +422,20 @@ const SETTING_ARCHITECT_SCHEMA = [
   // Canonical AIME Core Traits
   { tab: 'Core Traits', key: 'settingName', aliasKeys: ['title', 'name'], label: 'Setting Name', type: 'text', placeholder: 'Specific identifier for the location (e.g. "Aethelgard", "Neon Sector 4")...' },
   { tab: 'Core Traits', key: 'parentWorld', aliasKeys: ['world', 'system'], label: 'Parent World', type: 'text', placeholder: 'The larger world, system, or planet this setting exists within...' },
+  { tab: 'Core Traits', key: 'scale', label: 'Scale', type: 'text', placeholder: 'Continent, Megacity, Orbital Station, District, Facility...' },
+  { tab: 'Core Traits', key: 'genreTech', label: 'Genre & Tech Tone', type: 'text', placeholder: 'TL-3 Hard Sci-Fi, Cyberpunk Noir, Space Opera...' },
   { tab: 'Core Traits', key: 'geographyArchitecture', aliasKeys: ['terrain', 'architecture', 'scale'], label: 'Geography & Architecture', type: 'textarea', placeholder: 'Natural landscape, climate, structure styles, spatial layout...' },
   { tab: 'Core Traits', key: 'populationDemographics', aliasKeys: ['demographics', 'inhabitants'], label: 'Population & Demographics', type: 'textarea', placeholder: 'Number of inhabitants, dominant species, cultural groups, social strata...' },
   { tab: 'Core Traits', key: 'functionPurpose', aliasKeys: ['coreConcept', 'primaryConflict'], label: 'Function & Purpose', type: 'textarea', placeholder: 'Primary role (e.g. "Capital City", "Trading Hub", "Precursor Research Vault")...' },
+  { tab: 'Core Traits', key: 'primaryConflict', label: 'Primary Conflict & Tension', type: 'textarea', placeholder: 'Active power struggle, embargo, siege, or looming disaster...' },
   // Extended Environment & Atmosphere
   { tab: 'Atmosphere & Hazards', key: 'climateWeather', aliasKeys: ['climate', 'weather'], label: 'Climate & Weather Patterns', type: 'textarea', placeholder: 'Atmospheric pressure, radiation, seasonal storms...' },
   { tab: 'Atmosphere & Hazards', key: 'sensoryDetails', aliasKeys: ['soundsSmells', 'dominantSights'], label: 'Sensory Acoustics & Smells', type: 'textarea', placeholder: 'Industrial hum, ozone odor, void echoes...' },
   { tab: 'Atmosphere & Hazards', key: 'landmarksSecrets', aliasKeys: ['majorLandmarks', 'hiddenLocations'], label: 'Landmarks & Hidden Locations', type: 'textarea', placeholder: 'Key points of interest, smuggler caches, safehouses...' },
+  { tab: 'Tactical & VTT', key: 'pairedMapId', label: 'Paired Tactical Map ID', type: 'text', placeholder: 'Linked VTT map identifier...' },
+  { tab: 'Tactical & VTT', key: 'weatherPreset', label: 'Atmospheric Weather Preset', type: 'text', placeholder: 'Neon Rain, Orbital Vacuum, Ash Storm...' },
+  { tab: 'Tactical & VTT', key: 'hazardCr', label: 'Environmental Hazard CR', type: 'text', placeholder: '14' },
+  { tab: 'Tactical & VTT', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Hidden sector hooks & secrets...' },
   ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
   ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
@@ -440,6 +457,9 @@ const SPECIES_CREATOR_SCHEMA = [
   { tab: 'Cortex Mechanics', key: 'tech_level', label: 'Baseline Tech Level (TL 0-5)', type: 'text', placeholder: '3' },
   { tab: 'Cortex Mechanics', key: 'meta_level', label: 'Baseline Meta Level (ML 0-5)', type: 'text', placeholder: '0' },
   { tab: 'Cortex Mechanics', key: 'movement', label: 'Locomotion Modes', type: 'text', placeholder: 'Ground 30ft, Flight, Zero-G...' },
+  // Relations & Tactical Calibration
+  { tab: 'Cortex Mechanics', key: 'disposition', label: 'Default Disposition', type: 'text', placeholder: 'Hostile / Suspicious / Neutral / Friendly / Allied' },
+  { tab: 'Cortex Mechanics', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Secret evolutionary traits or plots...' },
   // Extended Cloud DBM Links
   { tab: 'Cloud DBM Links', key: 'dbmSpeciesRef', label: 'Species Record (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
   { tab: 'Cloud DBM Links', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' },
@@ -496,7 +516,14 @@ const TECHNOLOGY_FORGE_SCHEMA = PROPERTY_SCHEMA;
 const METAPHYSICS_SCHEMA = [
   // Core Traits
   { tab: 'Core Traits', key: 'name', aliasKeys: ['title', 'invocationName'], label: 'Invocation / Discipline / Power Name', type: 'text', placeholder: 'Gravity Singularity, Telekinesis, Astral Severance...' },
-  { tab: 'Core Traits', key: 'metaphysicsSubcategory', label: 'Metaphysics Subcategory', type: 'text', placeholder: 'invocations / disciplines / special_abilities' },
+  {
+    tab: 'Core Traits',
+    key: 'metaphysicsSubcategory',
+    label: 'Metaphysics Subcategory',
+    type: 'select',
+    options: ['invocations', 'disciplines', 'special_abilities'],
+    placeholder: 'Select Metaphysics category...'
+  },
   { tab: 'Core Traits', key: 'discipline', label: 'Metaphysical Discipline / Sphere', type: 'text', placeholder: 'Elemental, Dimensional, Psionic, Entropic, Biometabolic...' },
   { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['summary', 'concept'], label: 'One-Line Pitch / Core Effect', type: 'textarea', placeholder: 'Concise overview of how this invocation, discipline, or metaphysical ability alters reality...' },
   { tab: 'Core Traits', key: 'description', label: 'Detailed Metaphysical Overview', type: 'textarea', placeholder: 'Phenomenology, channeler requirements, and in-universe behavior...' },
@@ -504,8 +531,8 @@ const METAPHYSICS_SCHEMA = [
   // OmniCortex & Codex Invocation / Ability Parameters
   { tab: 'Invocation & Rules', key: 'meta_skill', label: 'Governing Meta Skill', type: 'text', placeholder: 'Meta-Elemental, Meta-Psionics, Meta-Dimensional...' },
   { tab: 'Invocation & Rules', key: 'meta_level', aliasKeys: ['metaLevel', 'ml'], label: 'Meta Level (ML 0–5)', type: 'text', placeholder: '3' },
-  { tab: 'Invocation & Rules', key: 'design_dc', aliasKeys: ['craft_dc', 'dc'], label: 'Design / Invocation DC', type: 'text', placeholder: '18' },
-  { tab: 'Invocation & Rules', key: 'cast_time', label: 'Cast Time / Action Cost', type: 'text', placeholder: '2 AP / Reaction / 1 Minute Ritual...' },
+  { tab: 'Invocation & Rules', key: 'design_dc', aliasKeys: ['craft_dc', 'dc'], label: 'Design / Invocation CR', type: 'text', placeholder: '18' },
+  { tab: 'Invocation & Rules', key: 'cast_time', label: 'Action Tier & Strain Cost', type: 'text', placeholder: 'Trained Action / Reaction / 1 Minute Ritual...' },
   { tab: 'Invocation & Rules', key: 'duration', label: 'Duration', type: 'text', placeholder: 'Instantaneous / Concentration (1 min) / Scene...' },
   { tab: 'Invocation & Rules', key: 'range', label: 'Effective Range', type: 'text', placeholder: 'Touch / Short (15m) / Medium (45m) / Line of Sight...' },
   { tab: 'Invocation & Rules', key: 'area', label: 'Area Pattern', type: 'text', placeholder: 'Single Target / 6m Sphere / 10m Cone / 20m Line...' },
@@ -524,13 +551,18 @@ const METAPHYSICS_SCHEMA = [
 const PHILOSOPHY_SCRIBE_SCHEMA = [
   // Canonical AIME Core Traits
   { tab: 'Core Traits', key: 'philosophyName', aliasKeys: ['name', 'title', 'category'], label: 'Belief System / Philosophy Name', type: 'text', placeholder: 'Official or common name of the religion or belief system...' },
+  { tab: 'Core Traits', key: 'coreQuestion', label: 'Central Guiding Question', type: 'textarea', placeholder: 'The existential question this belief system attempts to answer...' },
   { tab: 'Core Traits', key: 'coreTenets', aliasKeys: ['tenet', 'tenets', 'beliefs'], label: 'Core Tenets & Beliefs', type: 'textarea', placeholder: 'Foundational principles, doctrines, worldview, and ontological truth...' },
   { tab: 'Core Traits', key: 'ritualsPractices', aliasKeys: ['rituals', 'practices'], label: 'Rituals & Practices', type: 'textarea', placeholder: 'Ceremonies, daily traditions, regular sacraments, and taboos...' },
   { tab: 'Core Traits', key: 'symbolsIconography', aliasKeys: ['symbols', 'iconography'], label: 'Symbols & Iconography', type: 'textarea', placeholder: 'Key emblems, sacred colors, holy objects, and visual motifs...' },
   { tab: 'Core Traits', key: 'influenceSociety', aliasKeys: ['society', 'influence'], label: 'Influence & Role in Society', type: 'textarea', placeholder: 'Impact on culture, laws, social hierarchy, and politics...' },
-  // Extended Ethics & Metaphysics
+  // Extended Ethics & Metaphysics (ELEMENTS.md parity)
+  { tab: 'Ethics & Cosmogony', key: 'freeWill', label: 'Free Will vs Determinism', type: 'textarea', placeholder: 'Stance on agency, predestination, or cosmic algorithms...' },
+  { tab: 'Ethics & Cosmogony', key: 'truthEpistemology', aliasKeys: ['truth'], label: 'Nature of Truth & Knowledge', type: 'textarea', placeholder: 'Empiricism, revelation, neural consensus, or heretical gnosis...' },
   { tab: 'Ethics & Cosmogony', key: 'ethics', label: 'Moral Compass & Virtues/Vices', type: 'textarea', placeholder: 'Virtues rewarded, sins condemned, handling of outsiders...' },
   { tab: 'Ethics & Cosmogony', key: 'cosmology', label: 'Deity, Origin & Afterlife', type: 'textarea', placeholder: 'Divine entities, cosmic creation, fate of the soul...' },
+  { tab: 'Ethics & Cosmogony', key: 'disposition', label: 'Default Disposition Toward Outsiders', type: 'text', placeholder: 'Missionary / Secretive / Militant / Open' },
+  { tab: 'Ethics & Cosmogony', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Schisms, heretical sects, hidden patrons...' },
   ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
   ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
@@ -538,6 +570,8 @@ const PHILOSOPHY_SCRIBE_SCHEMA = [
 const SCENE_BUILDER_SCHEMA = [
   // Canonical AIME Core Traits
   { tab: 'Core Traits', key: 'sceneName', aliasKeys: ['slugline', 'title', 'sceneTitle'], label: 'Scene Name / Slugline', type: 'text', placeholder: 'Formal slugline (e.g. "INT. COFFEE SHOP - DAY", "EXT. DOCKING BAY 9 - NIGHT")...' },
+  { tab: 'Core Traits', key: 'scenePurpose', aliasKeys: ['goal', 'purpose'], label: 'Scene Goal & Dramatic Purpose', type: 'textarea', placeholder: 'What must shift in characters, plot, or stakes during this scene...' },
+  { tab: 'Core Traits', key: 'stateChange', label: 'Beginning → Ending State Polarity Shift', type: 'text', placeholder: 'e.g. Alliance → Betrayal, Quarantine → Breach...' },
   { tab: 'Core Traits', key: 'location', aliasKeys: ['locationType', 'setting'], label: 'Location Description', type: 'text', placeholder: 'Precise description of where the scene unfolds...' },
   { tab: 'Core Traits', key: 'sensoryDetails', aliasKeys: ['soundsSmells', 'atmosphere'], label: 'Sensory Details', type: 'textarea', placeholder: 'Sights, sounds, smells, temperature, lighting, and tactile details to bring it to life...' },
   { tab: 'Core Traits', key: 'moodAtmosphere', aliasKeys: ['atmosphere', 'mood'], label: 'Mood & Atmosphere', type: 'textarea', placeholder: 'Overall emotional, dramatic, and psychological tension level...' },
@@ -545,6 +579,10 @@ const SCENE_BUILDER_SCHEMA = [
   // Extended Tactical & Beats
   { tab: 'Tactical & Beats', key: 'sceneBeats', label: 'Tactical Scene Beats', type: 'textarea', placeholder: 'Sequential beats: 1. Infiltration, 2. Confrontation, 3. Climax, 4. Extraction...' },
   { tab: 'Tactical & Beats', key: 'readAloud', label: 'Architect Read-Aloud Narration', type: 'textarea', placeholder: 'Sensory immersion text to read aloud to operators...' },
+  { tab: 'Tactical & Beats', key: 'pairedMapId', label: 'Paired Tactical Map ID', type: 'text', placeholder: 'Linked VTT map identifier...' },
+  { tab: 'Tactical & VTT', key: 'weatherPreset', label: 'Atmospheric Weather Preset', type: 'text', placeholder: 'Neon Rain, Orbital Vacuum, Ash Storm...' },
+  { tab: 'Tactical & VTT', key: 'hazardCr', label: 'Environmental Hazard CR', type: 'text', placeholder: '14' },
+  { tab: 'Tactical & VTT', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Hidden ambush triggers and twists...' },
   ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
   ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
@@ -606,14 +644,26 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Overview', key: 'antagonist', label: 'Key Antagonist', type: 'text', placeholder: 'Main opposing force or entity...' },
     { tab: 'Overview', key: 'linkedFaction', label: 'Linked Faction (Cloud DB)', type: 'relational', dbSource: 'factions', placeholder: 'Select Cloud DBM Faction...' },
     { tab: 'Overview', key: 'resolution', label: 'Resolution', type: 'textarea', placeholder: 'How the arc concludes...' },
-    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Classification tags (e.g. Cyberpunk, Sector-7, Psi)...' }
+    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Classification tags (e.g. Cyberpunk, Sector-7, Psi)...' },
+    { tab: 'Tactical & Clocks', key: 'storyFlagKey', label: 'Tracked Story Flag Key', type: 'text', placeholder: 'arc_syndicate_truce' },
+    { tab: 'Tactical & Clocks', key: 'clockGoal', label: 'Countdown Clock Segments', type: 'text', placeholder: '6' },
+    { tab: 'Tactical & Clocks', key: 'hazardCr', label: 'Arc Escalation CR', type: 'text', placeholder: '14' },
+    { tab: 'Tactical & Clocks', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Hidden climax branches...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+    ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ],
   'Adventure': [
     { tab: 'Overview', key: 'hook', label: 'Hook', type: 'textarea', placeholder: 'How players are drawn into the adventure...' },
     { tab: 'Overview', key: 'goal', label: 'Goal', type: 'text', placeholder: 'Primary objective...' },
     { tab: 'Overview', key: 'stakes', label: 'Stakes', type: 'textarea', placeholder: 'Consequences of failure...' },
     { tab: 'Overview', key: 'resolution', label: 'Resolution', type: 'textarea', placeholder: 'How the adventure might end...' },
-    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Gameplay tags (e.g. Investigation, Combat, Heist)...' }
+    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Gameplay tags (e.g. Investigation, Combat, Heist)...' },
+    { tab: 'Tactical & Clocks', key: 'storyFlagKey', label: 'Tracked Story Flag Key', type: 'text', placeholder: 'adv_station_saved' },
+    { tab: 'Tactical & Clocks', key: 'clockGoal', label: 'Mission Timer Clock', type: 'text', placeholder: '4' },
+    { tab: 'Tactical & Clocks', key: 'hazardCr', label: 'Baseline Encounter CR', type: 'text', placeholder: '13' },
+    { tab: 'Tactical & Clocks', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Secret antagonists and extraction twists...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+    ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ],
   'Faction': [
     { tab: 'Core Traits', key: 'name', aliasKeys: ['title'], label: 'Faction Name', type: 'text', placeholder: 'Coalition of Independent Worlds, Radiant Impyrium...' },
@@ -635,6 +685,8 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Cortex Mechanics', key: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'text', placeholder: '1' },
     { tab: 'Cortex Mechanics', key: 'prominent_species', label: 'Prominent Species', type: 'text', placeholder: 'Humans, Draconic Descendants, Synthetics...' },
     { tab: 'Cortex Mechanics', key: 'mechanic', label: 'Faction Perks & Reputation Mechanics', type: 'textarea', placeholder: 'Skill packages, faction traits, and mechanical bonuses...' },
+    { tab: 'Cortex Mechanics', key: 'disposition', label: 'Default Stance / Disposition', type: 'text', placeholder: 'Hostile / Suspicious / Neutral / Friendly / Allied' },
+    { tab: 'Cortex Mechanics', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Covert black-ops agendas & double agents...' },
     { tab: 'Overview', key: 'dbmFactionRef', label: 'Faction Record (Cloud DB)', type: 'relational', dbSource: 'factions', placeholder: 'Link Cloud DBM Faction...' },
     ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
     ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
@@ -644,24 +696,61 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Overview', key: 'setup', label: 'Setup', type: 'textarea', placeholder: 'How the encounter begins...' },
     { tab: 'Overview', key: 'resolution', label: 'Resolution', type: 'textarea', placeholder: 'Possible outcomes and rewards...' },
     { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Special rules, timers, or hazards...' },
-    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+    { tab: 'Tactical & Clocks', key: 'storyFlagKey', label: 'Outcome Story Flag Key', type: 'text', placeholder: 'enc_bridge_secured' },
+    { tab: 'Tactical & Clocks', key: 'clockGoal', label: 'Reinforcement / Hazard Clock', type: 'text', placeholder: '4' },
+    { tab: 'Tactical & Clocks', key: 'hazardCr', label: 'Encounter CR', type: 'text', placeholder: '14' },
+    { tab: 'Tactical & Clocks', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Morale thresholds and hidden ambushes...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+    ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ],
   'Item': PROPERTY_SCHEMA,
   'Clue': [
     { tab: 'Overview', key: 'information', label: 'Information Revealed', type: 'textarea', placeholder: 'What this clue reveals...' },
     { tab: 'Overview', key: 'locationFound', label: 'Location Found', type: 'text', placeholder: 'Where or how it is discovered...' },
-    { tab: 'Overview', key: 'conclusion', label: 'Operator Conclusion', type: 'textarea', placeholder: 'What operators should realize...' }
+    { tab: 'Overview', key: 'conclusion', label: 'Operator Conclusion', type: 'textarea', placeholder: 'What operators should realize...' },
+    { tab: 'Epistemic & Analysis', key: 'analysisSkill', label: 'Analysis Skill Required', type: 'text', placeholder: 'Tech / Investigation / Perception / Psionics' },
+    { tab: 'Epistemic & Analysis', key: 'analysisCr', label: 'Analysis CR', type: 'text', placeholder: '13' },
+    { tab: 'Epistemic & Analysis', key: 'highDegreeBonus', label: 'High-Degree Margin Bonus', type: 'textarea', placeholder: 'Extra telemetry or hidden frequency unlocked on +4 margin...' },
+    { tab: 'Epistemic & Analysis', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'False leads, red herrings, and true culprit links...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+    ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ],
   'Map': [
-    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Map tags (e.g. Grid-Square, Sector-A)...' }
+    { tab: 'Overview', key: 'dimensions', label: 'Grid Dimensions (Width × Height)', type: 'text', placeholder: '2400 x 1800 px (48 x 36 hexes)' },
+    { tab: 'Overview', key: 'gridScale', label: 'Tactical Scale & Snap', type: 'text', placeholder: '50px / 1.5m per grid cell (Square / Hex)' },
+    { tab: 'Overview', key: 'terrainBiomes', label: 'Terrain Biomes & Elevation', type: 'textarea', placeholder: 'Zero-G bulkheads, catwalks, toxic coolant trenches...' },
+    { tab: 'Overview', key: 'lightingConditions', label: 'Lighting & Visibility Profile', type: 'textarea', placeholder: 'Emergency strobes, hard dynamic shadows, thermal smoke...' },
+    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Map tags (e.g. Grid-Square, Sector-A)...' },
+    { tab: 'Tactical & VTT', key: 'pairedMapId', label: 'Linked VTT Map Asset ID', type: 'text', placeholder: 'map_sector_alpha' },
+    { tab: 'Tactical & VTT', key: 'weatherPreset', label: 'Atmospheric Weather Preset', type: 'text', placeholder: 'Decompression Frost, Ion Storm...' },
+    { tab: 'Tactical & VTT', key: 'hazardCr', label: 'Environmental Hazard CR', type: 'text', placeholder: '14' },
+    { tab: 'Tactical & VTT', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Secret doors, reinforcement spawns, and trap triggers...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+    ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ],
   'Handout': [
-    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Handout tags (e.g. Document, Cipher, Letter)...' }
+    { tab: 'Overview', key: 'handoutType', label: 'Handout Format', type: 'text', placeholder: 'Encrypted Log / Corporate Memo / Star Chart / Cipher' },
+    { tab: 'Overview', key: 'sourceOrigin', label: 'In-Universe Origin / Author', type: 'text', placeholder: 'Helios Orbital Security, Intercepted Packet #88...' },
+    { tab: 'Overview', key: 'inUniverseText', label: 'In-Universe Document Transcript', type: 'textarea', placeholder: 'Verbatim memo, intercepted message, or cipher text handed to operators...' },
+    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Handout tags (e.g. Document, Cipher, Letter)...' },
+    { tab: 'Epistemic & Analysis', key: 'analysisSkill', label: 'Decryption / Forensics Skill', type: 'text', placeholder: 'Slicing / Etiquette / Linguistics / Forensics' },
+    { tab: 'Epistemic & Analysis', key: 'analysisCr', label: 'Decryption / Verification CR', type: 'text', placeholder: '14' },
+    { tab: 'Epistemic & Analysis', key: 'highDegreeBonus', label: 'High-Degree Margin Bonus', type: 'textarea', placeholder: 'Reveals hidden watermark or metadata signature...' },
+    { tab: 'Epistemic & Analysis', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Counterfeit tells and hidden truth...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+    ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ],
   'Universe': [
     { tab: 'Core Concept & Metaphysics', key: 'designation', label: 'Universe Designation & Pitch', type: 'textarea', placeholder: 'Designation...' },
     { tab: 'Core Concept & Metaphysics', key: 'ontological', label: 'Ontological Premise & The Source', type: 'textarea', placeholder: 'Premise...' },
     { tab: 'Universal Laws & Structure', key: 'lawsPhysics', label: 'Laws of Physics & Metaphysics', type: 'textarea', placeholder: 'Laws...' },
+    { tab: 'Universal Laws & Structure', key: 'natureMagic', label: 'Nature of Metaphysics & Cosmic Energy', type: 'textarea', placeholder: 'How psionics, entropy, or dimensional resonance function...' },
+    { tab: 'Universal Laws & Structure', key: 'cosmological', label: 'Cosmological Scale & Topology', type: 'textarea', placeholder: 'Galactic clusters, slipspace corridors, folded dimensions...' },
+    { tab: 'Universal Laws & Structure', key: 'creation', label: 'Mythos of Creation & First Epoch', type: 'textarea', placeholder: 'How the cosmos originated or splintered...' },
+    { tab: 'Universal Laws & Structure', key: 'entities', label: 'Cosmic Entities & Precursor Intelligences', type: 'textarea', placeholder: 'Elder AIs, extradimensional architects, leviathans...' },
+    { tab: 'Universal Laws & Structure', key: 'interplanar', label: 'Inter-Planar & FTL Transit Laws', type: 'textarea', placeholder: 'Drift gates, wormhole anchors, temporal shear rules...' },
+    { tab: 'Universal Laws & Structure', key: 'centralQuestion', label: 'Central Thematic Question', type: 'textarea', placeholder: 'What moral or existential question defines every campaign here?' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
     ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ]
 };
@@ -673,7 +762,7 @@ export const SCENARIO_GUIDE_MODULES = [
     category: 'Tactical',
     elementType: 'Scene',
     icon: '⚔️',
-    promptTemplate: 'Design a tactical Combat & Trap Encounter titled "{title}". Include terrain features, cover, environmental hazards, enemy statblocks, tactics, and AP/CP rewards.'
+    promptTemplate: 'Design a tactical Combat & Trap Encounter titled "{title}". Include terrain features, cover, environmental hazards, enemy statblocks, tactics, and 2d10 Challenge Ratings / XP rewards.'
   },
   {
     id: 'sg_npc',
@@ -748,3 +837,24 @@ export const SCENARIO_GUIDE_MODULES = [
     promptTemplate: 'Generate a detailed Custom Lorebook / Codex Entry for "{title}". Include in-universe background, classification, key facts, sensory aesthetics, and story hooks.'
   }
 ];
+
+/**
+ * Resolves a schema field's active value from `fields`, checking canonical `key`
+ * first and falling back through any declared `aliasKeys`.
+ */
+export function resolveSchemaFieldValue(fields = {}, fieldDef = {}) {
+  if (!fieldDef || !fieldDef.key) return '';
+  const source = fields && typeof fields === 'object' ? fields : {};
+  const candidates = [
+    fieldDef.key,
+    ...(Array.isArray(fieldDef.aliasKeys) ? fieldDef.aliasKeys : [])
+  ];
+  for (const key of candidates) {
+    const val = source[key];
+    if (val !== undefined && val !== null && val !== '') {
+      return val;
+    }
+  }
+  const primary = source[fieldDef.key];
+  return primary !== undefined && primary !== null ? primary : '';
+}

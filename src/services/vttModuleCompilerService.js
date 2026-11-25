@@ -8,6 +8,8 @@
  * and automations are derived directly from authored scenario nodes and live Omnicortex DBM records.
  */
 
+import { normalizeElementType } from '../pages/Foundry/ElementForge/elementSchemas.js';
+
 export class VttModuleCompilerService {
   /**
    * Compiles an authored scenario, linked map, and relevant elements into a complete VTT package.
@@ -20,6 +22,7 @@ export class VttModuleCompilerService {
     galleryModifiers = [],
     universeState = null,
     dbData = {},
+    operatorSafe: topOperatorSafe = false,
     options = {}
   }) {
     if (!scenario && !activeMap && (!mapsCatalog || mapsCatalog.length === 0)) {
@@ -29,8 +32,13 @@ export class VttModuleCompilerService {
     const packageId = `pkg_vtt_${scenario?.id || activeMap?.id || Date.now()}_${Math.floor(Math.random() * 1000)}`;
     const timestamp = new Date().toISOString();
 
+    const operatorSafe = Boolean(topOperatorSafe || options?.operatorSafe || options?.spectatorSafe);
+    const scopedElements = operatorSafe
+      ? (elementsCatalog || []).filter(el => el && !el.isHidden && !el.isGmOnly && el.fields?.playerVisible !== false)
+      : (elementsCatalog || []);
+
     // 1. Compile Story Functions & Narrative Automations
-    const compiledStory = this.compileStoryAutomations(scenario, elementsCatalog);
+    const compiledStory = this.compileStoryAutomations(scenario, scopedElements);
 
     // 2. Compile Primary Map Functions & Spatial Reactive Automations
     const effectiveActiveMap = activeMap || (mapsCatalog && mapsCatalog[0]) || (universeState?.maps && universeState.maps[0]) || null;
@@ -38,10 +46,11 @@ export class VttModuleCompilerService {
 
     // 3. Compile Element Functions, Modular Characters & Autonomous Scripts
     const { compiledTokens, compiledObjects } = this.compileElementAutomations({
-      elementsCatalog,
+      elementsCatalog: scopedElements,
       activeMap: effectiveActiveMap,
       scenario,
-      dbData
+      dbData,
+      operatorSafe
     });
 
     // Merge compiled objects with existing map objects
@@ -93,13 +102,13 @@ export class VttModuleCompilerService {
           reactiveTraps: reactiveTraps.length,
           wallVectors: (compiledMap.walls || []).length,
           totalMaps: compiledGalleryMaps.length,
-          totalElements: elementsCatalog.length,
+          totalElements: scopedElements.length,
           totalModifiers: compiledModifiers.length
         }
       },
       gallery: {
         maps: compiledGalleryMaps,
-        elements: elementsCatalog,
+        elements: scopedElements,
         modifiers: compiledModifiers
       },
       story: compiledStory,
@@ -141,11 +150,17 @@ export class VttModuleCompilerService {
     const triggers = [];
     const fields = scenario.fields || {};
 
+    const linkedIds = new Set([
+      ...(Array.isArray(scenario.linkedElements) ? scenario.linkedElements : []),
+      ...(Array.isArray(scenario.assetHub) ? scenario.assetHub.map(e => (typeof e === 'string' ? e : e?.assetId)) : [])
+    ].filter(Boolean));
+
     // Ingest Clues or Handouts linked to this scenario
-    const linkedClues = elementsCatalog.filter(el => 
-      (el.type === 'Clue' || el.type === 'Handout') &&
-      (el.fields?.scenarioId === scenario.id || scenario.content?.includes(el.title))
-    );
+    const linkedClues = (elementsCatalog || []).filter(el => {
+      const nType = normalizeElementType(el.type);
+      return (nType === 'Clue' || nType === 'Handout') &&
+        (linkedIds.has(el.id) || el.fields?.scenarioId === scenario.id || scenario.content?.includes(el.title));
+    });
 
     linkedClues.forEach(clue => {
       triggers.push({
@@ -210,12 +225,25 @@ export class VttModuleCompilerService {
   /**
    * Compiles Modular Personas (MCM) into hydrated VTT tokens with scripts and relational directives.
    */
-  compileElementAutomations({ elementsCatalog, activeMap, scenario, dbData }) {
-    const compiledTokens = [...(activeMap?.tokens || [])];
+  compileElementAutomations({ elementsCatalog = [], activeMap, scenario, dbData, operatorSafe = false }) {
+    const compiledTokens = [...(activeMap?.tokens || [])].filter(
+      (t) => !operatorSafe || (t && t.type === 'hero') || (t?.isPlayerVisible !== false && !t?.isHidden)
+    );
     const compiledObjects = [];
 
-    // Filter Personas linked to this scenario or map
-    const relevantPersonas = elementsCatalog.filter(el => el.type === 'Persona');
+    const linkedElementIds = new Set([
+      ...(Array.isArray(scenario?.linkedElements) ? scenario.linkedElements : []),
+      ...(Array.isArray(scenario?.assetHub) ? scenario.assetHub.map(e => (typeof e === 'string' ? e : (e?.assetId || e?.id))) : []),
+      ...(Array.isArray(activeMap?.tokens) ? activeMap.tokens.map(t => t?.storyElementId || t?.elementId || t?.linkedElementId) : []),
+      ...(Array.isArray(activeMap?.objects) ? activeMap.objects.map(o => o?.storyElementId || o?.elementId || o?.linkedElementId) : [])
+    ].filter(Boolean));
+
+    // Filter Personas linked to this scenario or map (fall back to all catalog Personas if none explicitly linked)
+    const allPersonas = (elementsCatalog || []).filter(el => normalizeElementType(el.type) === 'Persona');
+    const linkedPersonas = allPersonas.filter(p =>
+      linkedElementIds.has(p.id) || p.fields?.scenarioId === scenario?.id || (activeMap?.id && p.fields?.pairedMapId === activeMap.id)
+    );
+    const relevantPersonas = linkedPersonas.length > 0 ? linkedPersonas : allPersonas;
 
     relevantPersonas.forEach(persona => {
       const pFields = persona.fields || {};
@@ -223,12 +251,13 @@ export class VttModuleCompilerService {
 
       // Check if already placed on map as a token
       const existingTokenIndex = compiledTokens.findIndex(t => 
-        t.storyElementId === personaId || t.linkedElementId === personaId || t.id === personaId
+        t.storyElementId === personaId || t.elementId === personaId || t.linkedElementId === personaId || t.id === personaId
       );
 
-      // Parse autonomous VTT script
+      // Parse autonomous VTT script (explicitly disarmed when vttScriptActive === 'false' or false)
+      const isScriptDisabled = pFields.vttScriptActive === 'false' || pFields.vttScriptActive === false;
       let parsedScript = null;
-      if (pFields.vttScriptActive === 'true' || pFields.vttScript) {
+      if (!isScriptDisabled && (pFields.vttScriptActive === 'true' || pFields.vttScriptActive === true || pFields.vttScript)) {
         if (typeof pFields.vttScript === 'object' && pFields.vttScript !== null) {
           parsedScript = pFields.vttScript;
         } else if (typeof pFields.vttScript === 'string') {
@@ -240,8 +269,8 @@ export class VttModuleCompilerService {
         }
       }
 
-      // Default script fallback if none defined
-      if (!parsedScript) {
+      // Default script fallback if none defined and not explicitly disabled
+      if (!isScriptDisabled && !parsedScript) {
         parsedScript = {
           type: 'dialogue_bark',
           behaviorProfile: pFields.mcmRole?.toLowerCase() || 'tactical',
@@ -250,14 +279,22 @@ export class VttModuleCompilerService {
         };
       }
 
-      // Calculate vitals from Modular Character Matrix
+      // Calculate vitals from Modular Character Matrix respecting biological vs synthetic physiology
       const tier = parseInt(pFields.mcmTier || '1', 10) || 1;
+      const isSynth = Boolean(
+        pFields.is_synthetic ||
+        pFields.isSynthetic ||
+        String(pFields.physiology || '').toLowerCase() === 'synthetic' ||
+        String(pFields['char-species'] || pFields.species || '').toLowerCase().includes('synthetic')
+      );
       const healthMax = parseInt(pFields.health || String(30 + tier * 8), 10);
-      const vitalityMax = parseInt(pFields.vitality || String(30 + tier * 5), 10);
+      const vitalityMax = isSynth ? 0 : parseInt(pFields.vitality || String(30 + tier * 5), 10);
+      const structureMax = isSynth ? parseInt(pFields.structure || String(60 + tier * 8), 10) : 0;
       const defenseDc = parseInt(pFields.defense || String(12 + Math.floor(tier / 2)), 10);
 
       const tokenPayload = {
         id: `tok_${personaId}`,
+        elementId: personaId,
         storyElementId: personaId,
         label: pFields['char-name'] || persona.title || 'NPC Operative',
         name: pFields['char-name'] || persona.title || 'NPC Operative',
@@ -267,15 +304,18 @@ export class VttModuleCompilerService {
         radius: 35,
         fill: pFields.mcmDesignation === 'Ally' ? '#10b981' : (pFields.mcmDesignation === 'Adversary' ? '#ef4444' : '#a855f7'),
         layerId: 'layer_tokens',
+        is_synthetic: isSynth,
         health: { current: healthMax, max: healthMax },
         vitality: { current: vitalityMax, max: vitalityMax },
+        structure: { current: structureMax, max: structureMax },
+        isPlayerVisible: pFields.playerVisible !== false && !persona.isHidden && !persona.isGmOnly,
         defense: defenseDc,
         armor: pFields.armor || 'Standard Armor',
         weapon: pFields.weapon || 'Plasma Carbine',
         designation: pFields.mcmDesignation || 'Adversary',
         role: pFields.mcmRole || 'Tactical',
-        behaviorProfile: parsedScript.behaviorProfile || pFields.mcmRole?.toLowerCase() || 'tactical',
-        moraleThreshold: parsedScript.moraleThreshold ?? 0.25,
+        behaviorProfile: parsedScript?.behaviorProfile || pFields.mcmRole?.toLowerCase() || 'tactical',
+        moraleThreshold: parsedScript?.moraleThreshold ?? 0.25,
         script: parsedScript,
         relations: {
           stance: pFields.relationsStance || 'Hostile',
@@ -294,6 +334,53 @@ export class VttModuleCompilerService {
         // If not already on map, stage it for placement
         compiledTokens.push(tokenPayload);
       }
+    });
+
+    // Compile interactive Property / Hazard elements linked to this scenario or map
+    const interactiveElements = (elementsCatalog || []).filter(el => {
+      if (!el) return false;
+      const nType = normalizeElementType(el.type);
+      const ef = el.fields || {};
+      const isInteractiveType = nType === 'Property' || nType === 'Hazard';
+      const hasInteractiveProps = Boolean(
+        ef.interactiveType && ef.interactiveType !== 'none'
+      ) || Boolean(ef.hazardCr || ef.trap || ef.trapType || ef.isTrap);
+      if (!isInteractiveType || (!hasInteractiveProps && !linkedElementIds.has(el.id))) return false;
+      const isLinked =
+        linkedElementIds.has(el.id) ||
+        ef.scenarioId === scenario?.id ||
+        (activeMap?.id && ef.pairedMapId === activeMap.id);
+      if (linkedElementIds.size > 0 && !isLinked) return false;
+      if (operatorSafe && (el.isHidden || el.isGmOnly || ef.isTrap || ef.trap || ef.isSecret || ef.playerVisible === false)) {
+        return false;
+      }
+      return true;
+    });
+
+    interactiveElements.forEach((el, idx) => {
+      const ef = el.fields || {};
+      const existingObj = (activeMap?.objects || []).find(
+        o => o.storyElementId === el.id || o.elementId === el.id || o.id === `obj_${el.id}`
+      );
+      if (existingObj) return;
+      const isTrap = Boolean(ef.isTrap || ef.trap || ef.trapType || normalizeElementType(el.type) === 'Hazard' || ef.interactiveType === 'hazard');
+      compiledObjects.push({
+        id: `obj_${el.id}`,
+        elementId: el.id,
+        storyElementId: el.id,
+        name: el.title || ef.name || 'Interactive Object',
+        label: el.title || ef.name || 'Interactive Object',
+        type: ef.interactiveType && ef.interactiveType !== 'none'
+          ? ef.interactiveType
+          : (isTrap ? 'hazard' : 'prop'),
+        isTrap,
+        ...(ef.trapType ? { trapType: ef.trapType } : {}),
+        dc: parseInt(String(ef.vttInteractionDC || ef.hazardCr || ef.craft_dc || 12), 10) || 12,
+        lootTable: ef.lootTable || '',
+        isPlayerVisible: ef.playerVisible !== false && !el.isHidden && !el.isGmOnly,
+        x: 240 + (idx % 5) * 90,
+        y: 240 + Math.floor(idx / 5) * 90
+      });
     });
 
     return {

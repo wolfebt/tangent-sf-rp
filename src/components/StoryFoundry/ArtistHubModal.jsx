@@ -732,14 +732,13 @@ export const ArtistHubModal = ({
                         if (currentUser?.uid && typeof dataUrl === 'string' && dataUrl.startsWith('data:image/')) {
                           try {
                             const safeName = `${(elementContext?.title || 'token').toLowerCase().replace(/[^a-z0-9_-]+/g, '_')}_${Date.now().toString(36)}`;
-                            const uploadedUrl = await uploadAdeImageAsset({
-                              dataUrl,
+                            const uploaded = await uploadAdeImageAsset(dataUrl, {
                               userId: currentUser.uid,
-                              fileName: safeName,
-                              folder: 'tokens'
+                              assetCategory: 'tokens',
+                              fileName: safeName
                             });
-                            if (uploadedUrl) {
-                              setFramedTokenUrl(uploadedUrl);
+                            if (uploaded?.url) {
+                              setFramedTokenUrl(uploaded.url);
                             }
                           } catch (err) {
                             console.warn('[ArtistHubModal] Token storage offload failed, keeping local snapshot:', err);

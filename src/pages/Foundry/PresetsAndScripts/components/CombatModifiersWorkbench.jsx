@@ -26,7 +26,8 @@ export const CombatModifiersWorkbench = ({
   onUpdateModifier,
   onDeleteModifier,
   onToggleModifier,
-  selectedAsset = null
+  selectedAsset = null,
+  isStoryReadOnly = false
 }) => {
   const [filterCategory, setFilterCategory] = useState('all');
 
@@ -36,6 +37,7 @@ export const CombatModifiersWorkbench = ({
   }, [galleryModifiers, filterCategory]);
 
   const handleApplyPreset = (preset) => {
+    if (isStoryReadOnly) return;
     AudioService.playTerminalBeep(1200, 0.03);
     onAddModifier?.({
       ...preset,

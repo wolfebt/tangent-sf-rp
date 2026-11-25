@@ -30,6 +30,9 @@ import {
   buildArtistHubVisualBrief
 } from '../../src/pages/Foundry/ElementForge/guided/guidedElementAiService.ts';
 import { calculateCreditValue } from '../../src/engines/tangentEconEngine.js';
+import { formatAimeGuidanceDirective } from '../../src/pages/Foundry/StoryModule/guidanceGemsConfig.js';
+import { normalizeLinkedAssets } from '../../src/pages/Foundry/ElementForge/components/assetHubUtils.js';
+import { parseAimeAssetFile } from '../../src/services/aimeAssetFileService.js';
 
 test('Playbooks: All 17 canonical ELEMENT_TYPES (with Property consolidating Item & Technology, and Metaphysics separated from Philosophy) resolve to valid 5-family playbooks', () => {
   const validFamilies = new Set(['entity', 'location', 'relic', 'macro', 'epistemic']);
@@ -318,4 +321,129 @@ test('searchOmnicortexCanonRecords: Returns empty when query is blank and search
   const entariForFaction = searchOmnicortexCanonRecords(sampleDbData, 'entari', ['factions']);
   assert.equal(entariForFaction.length, 2);
   assert.equal(entariForFaction[0].dbmCategory, 'factions');
+});
+
+test('Wave EF-2/EF-3: calibrateElementWithBastion covers Persona (Synthetic vs Organic), Metaphysics, Species, and Faction', () => {
+  const synthRes = calibrateElementWithBastion({
+    draft: {
+      id: 'el_syn',
+      title: 'Unit 734',
+      type: 'Persona',
+      content: '',
+      customFields: [],
+      guidance: {},
+      assetHub: [],
+      fields: { physiology: 'Synthetic', mcmTier: '2', mcmRole: 'Operative', mcmChassis: 'Android' }
+    }
+  });
+  assert.equal(synthRes.calibratedFields.vitality, '0');
+  assert.ok(Number(synthRes.calibratedFields.health) >= 60);
+  assert.ok(synthRes.summaryBadge.includes('SP'));
+
+  const organicRes = calibrateElementWithBastion({
+    draft: {
+      id: 'el_org',
+      title: 'Renn',
+      type: 'Persona',
+      content: '',
+      customFields: [],
+      guidance: {},
+      assetHub: [],
+      fields: { physiology: 'Organic', mcmTier: '2', mcmRole: 'Bruiser', mcmChassis: 'Standard' }
+    }
+  });
+  assert.ok(Number(organicRes.calibratedFields.vitality) >= 30);
+  assert.ok(organicRes.summaryBadge.includes('VP'));
+
+  const metaRes = calibrateElementWithBastion({
+    draft: {
+      id: 'el_meta',
+      title: 'Void Lance',
+      type: 'Metaphysics',
+      content: '',
+      customFields: [],
+      guidance: {},
+      assetHub: [],
+      fields: { meta_level: '3', meta_skill: 'Meta-Temporal' }
+    }
+  });
+  assert.ok(Number(metaRes.calibratedFields.design_dc) >= 15);
+  assert.ok(String(metaRes.calibratedFields.cast_time || '').includes('Strain'));
+
+  const speciesRes = calibrateElementWithBastion({
+    draft: {
+      id: 'el_sp',
+      title: 'Aetherian',
+      type: 'Species',
+      content: '',
+      customFields: [],
+      guidance: {},
+      assetHub: [],
+      fields: { techLevel: '4' }
+    }
+  });
+  assert.equal(speciesRes.calibratedFields.techLevel, '4');
+  assert.equal(speciesRes.calibratedFields.physiology, 'Organic');
+  assert.ok(speciesRes.summaryBadge.includes('TL-4'));
+
+  const factionRes = calibrateElementWithBastion({
+    draft: {
+      id: 'el_fac',
+      title: 'Vanguard Consortium',
+      type: 'Faction',
+      content: '',
+      customFields: [],
+      guidance: {},
+      assetHub: [],
+      fields: { techLevel: '4', disposition: 'Hostile' }
+    }
+  });
+  assert.equal(factionRes.calibratedFields.disposition, 'Hostile');
+  assert.ok(String(factionRes.calibratedFields.clockGoal || '').includes('Vanguard Consortium'));
+});
+
+test('Wave EF-3/EF-4: formatAimeGuidanceDirective includes Extended Gems, normalizeLinkedAssets deduplicates, and parseAimeAssetFile sanitizes imports', () => {
+  const directive = formatAimeGuidanceDirective({
+    genre: 'Sci-Fi',
+    tone: 'Serious',
+    Mood: 'Gritty & Bleak',
+    Theme: 'Survival vs Identity',
+    Conflict: 'Person vs System',
+    'Setting Style': 'Cyberpunk Megacity'
+  });
+  assert.ok(directive.includes('Mood: Gritty & Bleak'));
+  assert.ok(directive.includes('Theme: Survival vs Identity'));
+  assert.ok(directive.includes('Conflict Focus: Person vs System'));
+  assert.ok(directive.includes('Setting Style: Cyberpunk Megacity'));
+
+  const normalizedHub = normalizeLinkedAssets(
+    [
+      null,
+      'el_1',
+      { assetId: 'el_1', importance: 'high' },
+      { assetId: 'el_2', assetTitle: 'Custom', importance: 'low' }
+    ],
+    [{ id: 'el_1', title: 'Alpha Station', type: 'Setting' }]
+  );
+  assert.equal(normalizedHub.length, 2);
+  assert.equal(normalizedHub[0].assetTitle, 'Alpha Station');
+  assert.equal(normalizedHub[1].assetId, 'el_2');
+
+  const imported = parseAimeAssetFile(
+    JSON.stringify({
+      aimeVersion: '1.0',
+      assetType: 'Persona',
+      title: 'Imported Rogue',
+      isCortexAsset: true,
+      isPinnedToModule: true,
+      dbmRef: 'secret_dbm_1',
+      traits: { dbmRef: 'secret_dbm_1', dbmCategory: 'modular_characters', archetype: 'Infiltrator' }
+    }),
+    'rogue.persona'
+  );
+  assert.equal(imported.dbmSyncStatus, 'standalone');
+  assert.equal(imported.isCortexAsset, undefined);
+  assert.equal(imported.isPinnedToModule, undefined);
+  assert.equal(imported.fields.dbmRef, undefined);
+  assert.equal(imported.fields.archetype, 'Infiltrator');
 });

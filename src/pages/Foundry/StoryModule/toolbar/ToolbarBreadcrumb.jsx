@@ -265,7 +265,7 @@ export default function ToolbarBreadcrumb({
           <ChevronRight size={10} className="text-slate-600 shrink-0" />
           <div className="flex items-center gap-1 px-1.5 py-0.2 rounded bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 font-bold text-[11px] truncate max-w-[140px] md:max-w-[200px] shadow-xs">
             <Hammer size={10} className="text-emerald-400 shrink-0" />
-            <span className="truncate">{activeElement.name || 'Untitled Element'}</span>
+            <span className="truncate">{activeElement.title || activeElement.name || 'Untitled Element'}</span>
           </div>
         </>
       )}

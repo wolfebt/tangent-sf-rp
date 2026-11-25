@@ -34,6 +34,7 @@
     "src/services/mapWorkerExportService.ts",
     "src/services/artistHubImageService.ts",
     "src/services/customElementTemplateService.ts",
+    "src/pages/Foundry/ElementForge/guided/guidedElementAiService.ts",
     "src/workers/mapExportWorker.ts",
     "src/components/VTT/stage/StageTopHudBar.tsx",
     "src/engine/network/FirestoreDebouncer.ts",

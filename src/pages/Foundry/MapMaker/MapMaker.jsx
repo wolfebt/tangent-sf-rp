@@ -27,6 +27,7 @@ import MapAssetManagerModal from './map/MapAssetManagerModal';
 import OmnicortexAssetDrawer from './map/OmnicortexAssetDrawer';
 import StoryElementsDrawer from './map/StoryElementsDrawer';
 import StoryElementModal from './map/StoryElementModal';
+import { normalizeElementType } from '../ElementForge/elementSchemas';
 import { DBMItemModal } from '../../../components/DBM/DBMItemModal';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { useFolio } from '../../../context/FolioContext';
@@ -136,7 +137,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     deleteCustomObject,
     addCustomChunk,
     updateCustomChunk,
-    deleteCustomChunk
+    deleteCustomChunk,
+    isStoryReadOnly = false
   } = useCampaign();
 
   // Bi-directional synchronization with ?mapId= URL parameter
@@ -937,12 +939,17 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   };
 
   const handleSummonStoryElement = (element, targetPos = null) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone project before placing elements onto the map.' });
+      return;
+    }
     if (!currentMap || !element) return;
 
     const posX = targetPos?.x !== undefined ? targetPos.x : Math.round((-position.x + stageSize.width / 2) / scale);
     const posY = targetPos?.y !== undefined ? targetPos.y : Math.round((-position.y + stageSize.height / 2) / scale);
 
-    const type = element.type || 'Scene';
+    const rawType = element.type || 'Scene';
+    const type = element.fields?.isTrap || rawType === 'Hazard' ? 'Hazard' : normalizeElementType(rawType);
     recordHistory();
 
     if (type === 'Persona') {
@@ -2073,8 +2080,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             isOpen={!!inspectingStoryElement}
             onClose={() => setInspectingStoryElement(null)}
             element={inspectingStoryElement}
+            isStoryReadOnly={isStoryReadOnly}
             mapObjectNode={objects.find(o => o.id === inspectingStoryElement.id || o.storyElementId === inspectingStoryElement.id)}
             onUpdateMapObject={(objId, updates) => {
+              if (isStoryReadOnly) return;
               recordHistory();
               const nextObjs = objects.map(o => o.id === objId ? { ...o, ...updates } : o);
               updateMap(activeMapId, { objects: nextObjs });

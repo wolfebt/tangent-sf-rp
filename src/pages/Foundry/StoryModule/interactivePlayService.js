@@ -12,6 +12,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { rollDice } from '../../../services/diceService.js';
 import { resolveSubAttrScore, calculateSubAttrBase, SUB_ATTRIBUTE_PAIRS } from '../../../utils/attributeUtils.js';
+import { normalizeElementType } from '../ElementForge/elementSchemas.js';
 import { DEFAULT_MODIFIERS } from '../../../data/supportingCatalogsData.js';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData.js';
 import { MODIFIER_PRESETS } from '../../../services/modifierService.ts';
@@ -239,7 +240,8 @@ export const loadDatabasePersonas = ({
   characterData = null,
   elementsCatalog = [],
   activeScenario = null,
-  dbArchetypes = []
+  dbArchetypes = [],
+  excludeGmSecrets = false
 }) => {
   const result = [];
   const seenIds = new Set();
@@ -266,7 +268,11 @@ export const loadDatabasePersonas = ({
 
   // 2. Story Foundry Persona Elements from elementsCatalog
   if (Array.isArray(elementsCatalog) && elementsCatalog.length > 0) {
-    const personaElements = elementsCatalog.filter(e => e.type === 'Persona' || e.category === 'Persona');
+    const personaElements = elementsCatalog.filter(e =>
+      e &&
+      (normalizeElementType(e.type) === 'Persona' || e.category === 'Persona') &&
+      (!excludeGmSecrets || (!e.isHidden && !e.isGmOnly && e.fields?.playerVisible !== false))
+    );
     for (const elem of personaElements) {
       const op = createOperativeFromDatabasePersona(elem, 'foundry');
       if (op && !seenIds.has(op.id)) {

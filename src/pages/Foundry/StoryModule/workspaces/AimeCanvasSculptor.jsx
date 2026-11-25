@@ -22,6 +22,8 @@ import { AIME_CANONICAL_GEMS } from '../guidanceGemsConfig';
 import { generateContent } from '../../../../services/aimeService';
 import { synthesizeSuperPrompt } from '../../../../services/superPromptSynthesizer';
 import { AudioService } from '../../../../services/audioService';
+import { useAdeStore } from '../../store/adeStore';
+import { useStory } from '../../../../context/CampaignContext';
 
 /**
  * Computes a lightweight word-level diff for visual comparison.
@@ -79,9 +81,13 @@ export default function AimeCanvasSculptor({
   elementsCatalog = [],
   guidanceGems = '',
   activePov = '',
+  isStoryReadOnly: propIsReadOnly,
   onApplySculpt,
   onShowToast
 }) {
+  const { isStoryReadOnly: ctxReadOnly = false } = useStory() || {};
+  const perspectiveMode = useAdeStore((state) => state.perspectiveMode || 'architect');
+  const isStoryReadOnly = propIsReadOnly ?? ctxReadOnly;
   const [selection, setSelection] = useState(null); // { range, text, bounds }
   const [isWorking, setIsWorking] = useState(false);
   const [activeAction, setActiveAction] = useState('');
@@ -232,9 +238,12 @@ export default function AimeCanvasSculptor({
       // Synthesize prompt through super-prompt synthesizer to embed Guidance, Traits, and Asset Hub
       const synthesizedPrompt = synthesizeSuperPrompt({
         activeNode,
+        assetHub: activeNode?.assetHub || activeNode?.linkedElements || [],
         customPrompt: systemInstruction,
         guidanceGems,
-        elementsCatalog
+        elementsCatalog,
+        perspectiveMode,
+        operatorSafe: perspectiveMode === 'operator'
       });
 
       const response = await generateContent({
@@ -269,6 +278,10 @@ export default function AimeCanvasSculptor({
 
   // Accept and Replace in Quill
   const handleAcceptReplace = () => {
+    if (isStoryReadOnly) {
+      onShowToast?.('Read-only story: unlock or clone project before applying prose edits.');
+      return;
+    }
     if (!proposal || !quillRef?.current) return;
     const editor = quillRef.current.getEditor();
     if (editor) {
@@ -288,6 +301,10 @@ export default function AimeCanvasSculptor({
 
   // Append Proposal After Selection
   const handleAppend = () => {
+    if (isStoryReadOnly) {
+      onShowToast?.('Read-only story: unlock or clone project before appending prose.');
+      return;
+    }
     if (!proposal || !quillRef?.current) return;
     const editor = quillRef.current.getEditor();
     if (editor) {

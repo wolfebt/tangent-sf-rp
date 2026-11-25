@@ -48,7 +48,8 @@ const FoundryAppInner = () => {
     universeState,
     elementsCatalog,
     setActiveScenarioId,
-    setActiveMapId
+    setActiveMapId,
+    isStoryReadOnly = false
   } = useCampaign();
   const location = useLocation();
   const navigate = useNavigate();
@@ -138,13 +139,14 @@ const FoundryAppInner = () => {
           onClose={() => setAdeModal('commandPalette', false)}
           universeState={universeState}
           elementsCatalog={elementsCatalog}
+          isStoryReadOnly={isStoryReadOnly}
           onSelectScenario={(scId) => {
             setActiveScenarioId?.(scId);
             navigate(`/foundry?view=scenarios&tab=write&scenarioId=${encodeURIComponent(scId)}`);
           }}
           onEditElement={(el) => {
             useAdeStore.getState().openGuidedElementCreator({ element: el, mode: 'sheet' });
-            navigate('/foundry?view=elements');
+            navigate(`/foundry?view=elements${el?.id ? `&elementId=${encodeURIComponent(el.id)}` : ''}`);
           }}
           onOpenNewElement={() => {
             useAdeStore.getState().openGuidedElementCreator({ mode: 'guided' });

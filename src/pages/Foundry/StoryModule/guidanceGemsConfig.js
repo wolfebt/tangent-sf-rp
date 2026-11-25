@@ -182,6 +182,10 @@ export const formatAimeGuidanceDirective = (guidance = {}) => {
   const pov = guidance.pov || guidance.POV || guidance["Point of View"];
   const devices = guidance.literaryDevices || guidance.devices || guidance["Literary Devices"];
   const structure = guidance.structure || guidance.Structure;
+  const mood = guidance.Mood || guidance.mood;
+  const theme = guidance.Theme || guidance.theme;
+  const conflict = guidance.Conflict || guidance.conflict;
+  const settingStyle = guidance["Setting Style"] || guidance.settingStyle;
 
   if (genre) lines.push(`- Genre: ${Array.isArray(genre) ? genre.join(', ') : genre}`);
   if (tone) lines.push(`- Tone: ${Array.isArray(tone) ? tone.join(', ') : tone}`);
@@ -189,6 +193,10 @@ export const formatAimeGuidanceDirective = (guidance = {}) => {
   if (pov) lines.push(`- Point of View: ${Array.isArray(pov) ? pov.join(', ') : pov}`);
   if (devices && devices.length > 0) lines.push(`- Literary Devices: ${Array.isArray(devices) ? devices.join(', ') : devices}`);
   if (structure) lines.push(`- Narrative Structure: ${Array.isArray(structure) ? structure.join(', ') : structure}`);
+  if (mood) lines.push(`- Mood: ${Array.isArray(mood) ? mood.join(', ') : mood}`);
+  if (theme) lines.push(`- Theme: ${Array.isArray(theme) ? theme.join(', ') : theme}`);
+  if (conflict) lines.push(`- Conflict Focus: ${Array.isArray(conflict) ? conflict.join(', ') : conflict}`);
+  if (settingStyle) lines.push(`- Setting Style: ${Array.isArray(settingStyle) ? settingStyle.join(', ') : settingStyle}`);
 
   return lines.length > 0 ? lines.join('\n') : '';
 };

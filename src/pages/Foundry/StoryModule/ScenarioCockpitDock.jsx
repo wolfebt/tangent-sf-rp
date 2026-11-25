@@ -12,7 +12,6 @@ import { isHalfPageElement } from './exportUtils';
 import { showToast } from '../../../context/ToastContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { ElementSelectorModal as UnifiedRelationalSelectorModal } from '../ElementForge/ElementSelectorModal';
-import { ModularCharacterAssembler } from '../ElementForge/components/ModularCharacterAssembler';
 import { NpcScriptBuilder } from '../ElementForge/components/NpcScriptBuilder';
 import AimeThreeTierStack from '../ElementForge/components/AimeThreeTierStack';
 import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
@@ -438,7 +437,7 @@ export const ScenarioCockpitDockPanel = ({
   onSwitchView,
   universeState
 }) => {
-  const { isStoryReadOnly = false } = useStory();
+  const { isStoryReadOnly = false, getActiveGemsText, mapsCatalog = [], cronicle } = useStory();
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const fileMenuRef = useRef(null);
 
@@ -552,7 +551,12 @@ export const ScenarioCockpitDockPanel = ({
                           type="button"
                           onClick={() => {
                             setIsFileMenuOpen(false);
-                            setEditingModalElement?.(activeNode);
+                            const { dbmRef: _dr, dbmId: _di, dbmCategory: _dc, isCortexAsset: _ica, ...safeNode } = activeNode || {};
+                            setEditingModalElement?.({
+                              ...safeNode,
+                              isScenarioNode: true,
+                              dbmSyncStatus: 'standalone'
+                            });
                             setIsEditElementModalOpen(true);
                           }}
                           className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 transition-colors cursor-pointer"
@@ -953,7 +957,7 @@ export const ScenarioCockpitDockPanel = ({
               embedded={true}
               onClose={() => setDockTab('inspector')}
               activeNode={activeNode}
-              cronicle={universeState?.cronicle}
+              cronicle={cronicle || universeState?.cronicle}
               onInsertText={handleInsertAimeText}
               contextData={{
                 universeState,
@@ -963,8 +967,13 @@ export const ScenarioCockpitDockPanel = ({
                   title: activeNode.title,
                   type: activeNode.type,
                   content: activeNode.content,
-                  fields: activeNode.fields
+                  fields: activeNode.fields,
+                  linkedElements: activeNode.linkedElements || [],
+                  assetHub: activeNode.assetHub || []
                 } : null,
+                guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Standard',
+                mapsCatalog,
+                cronicle: cronicle || universeState?.cronicle,
                 customCatalog: elementsCatalog || []
               }}
             />

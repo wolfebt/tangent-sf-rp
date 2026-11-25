@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { useDBM } from '../../../../context/DBMContext';
+import { useAuth } from '../../../../context/AuthContext';
 import { showToast } from '../../../../context/ToastContext';
 import { AudioService } from '../../../../services/audioService';
 import { generateContent } from '../../../../services/aimeService';
@@ -21,15 +21,12 @@ import {
   buildVttUnitFromPersona,
   resolveCompetencyRoleKey,
   resolveBossTypeKey,
-  resolveDesignationKey,
-  FOLIO_NARRATIVE_SECTIONS
+  resolveDesignationKey
 } from '../../../../utils/personaBridge';
-import { NpcScriptBuilder } from './NpcScriptBuilder';
-import AimeGuidanceDeck from './AimeGuidanceDeck';
 import {
-  Shield, Swords, Zap, Heart, Activity,
-  Sparkles, Check, RefreshCw, Wand2, User, Crosshair,
-  ExternalLink, Plus, Trash2, BookOpen, Cpu
+  Shield, Zap, Heart, Activity,
+  Sparkles, Check, User, Crosshair,
+  ExternalLink
 } from 'lucide-react';
 
 const PRIMARY_ATTR_SCHEMA = [
@@ -48,15 +45,42 @@ const CHASSIS_PRESETS = {
   balanced: { name: 'Balanced', label: '+1 All Attributes', str: 1, agi: 1, sta: 1, int: 1, wis: 1, cha: 1 }
 };
 
+function parseExistingArray(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (typeof raw === 'string' && raw.trim().startsWith('[')) {
+    try {
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
+function mergeSlotIntoArray(existingRaw, selectedName, catalogObj, fallbackFactory) {
+  const existing = parseExistingArray(existingRaw);
+  const cleanName = typeof selectedName === 'string' ? selectedName.trim() : '';
+  if (!cleanName) return existing;
+  const alreadyPresent = existing.some(
+    (item) =>
+      String(typeof item === 'string' ? item : item?.name || item?.title || '')
+        .trim()
+        .toLowerCase() === cleanName.toLowerCase()
+  );
+  if (alreadyPresent) return existing;
+  return [catalogObj || fallbackFactory(cleanName), ...existing];
+}
+
 export const ModularCharacterAssembler = ({
   fields = {},
   onFieldChange,
   onBatchFieldChange,
-  elementTitle = '',
-  onOpenAimeGuidance = null
+  elementTitle = ''
 }) => {
   const navigate = useNavigate();
   const { dbData, saveEntry } = useDBM() || { dbData: {} };
+  const { isAdmin = false } = useAuth() || {};
 
   // Live collections from Omnicortex DBM
   const speciesList = dbData?.species || [];
@@ -65,7 +89,17 @@ export const ModularCharacterAssembler = ({
   const originsList = dbData?.origins || [];
   const factionsList = dbData?.factions || [];
   const featuresList = dbData?.features || [];
-  const traitsList = dbData?.traits || [];
+  const traitsList = useMemo(() => {
+    const merged = [...(dbData?.traits || []), ...(dbData?.trait || [])];
+    const seen = new Set();
+    return merged.filter((item) => {
+      if (!item || typeof item !== 'object') return false;
+      const k = String(item.id || item.name || item.title || '').toLowerCase();
+      if (!k || seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+  }, [dbData?.traits, dbData?.trait]);
   const disadvantagesList = dbData?.disadvantages || [];
   const augmentationsList = dbData?.augmentations || [];
   const metaphysicsList = dbData?.invocations || [];
@@ -75,36 +109,7 @@ export const ModularCharacterAssembler = ({
   const mcmPresetsList = dbData?.modular_characters || [];
 
   const [selectedMcmPresetId, setSelectedMcmPresetId] = useState('');
-  const [activeTab, setActiveTab] = useState('matrix'); // 'matrix' | 'attributes' | 'aspects' | 'loadout' | 'narrative' | 'scripting' | 'custom-fields'
-  const [activeNarrativeSec, setActiveNarrativeSec] = useState('profile');
-
-  const customFields = useMemo(() => {
-    const raw = fields.customFields;
-    if (Array.isArray(raw)) return raw;
-    if (typeof raw === 'string' && raw.trim().startsWith('[')) {
-      try {
-        return JSON.parse(raw);
-      } catch {
-        return [];
-      }
-    }
-    return [];
-  }, [fields.customFields]);
-
-  const handleAddCustomField = () => {
-    const next = [...customFields, { id: uuidv4(), label: '', value: '' }];
-    onFieldChange?.('customFields', next);
-  };
-
-  const handleUpdateCustomField = (id, key, val) => {
-    const next = customFields.map((cf) => (cf.id === id ? { ...cf, [key]: val } : cf));
-    onFieldChange?.('customFields', next);
-  };
-
-  const handleRemoveCustomField = (id) => {
-    const next = customFields.filter((cf) => cf.id !== id);
-    onFieldChange?.('customFields', next);
-  };
+  const [activeTab, setActiveTab] = useState('matrix'); // 'matrix' | 'attributes' | 'aspects' | 'loadout'
 
   // Canonical MCM Core Configuration (Tiers 0-20)
   const [tier, setTier] = useState(() => {
@@ -114,7 +119,7 @@ export const ModularCharacterAssembler = ({
   const [designation, setDesignation] = useState(() => resolveDesignationKey(fields.mcmDesignation || fields['char-role'] || 'Adversary'));
   const [chassisKey, setChassisKey] = useState(fields.mcmChassis?.toLowerCase() || 'combatant');
   const [roleKey, setRoleKey] = useState(() => resolveCompetencyRoleKey(fields.mcmRole || 'Tank'));
-  const [bossType, setBossType] = useState(() => resolveBossTypeKey(fields.mcmBossType || fields.bossType || 'STANDARD', parseInt(fields.mcmTier ?? '1', 10) || 1));
+  const [bossType, setBossType] = useState(() => resolveBossTypeKey(fields.mcmBossType || fields.bossType || 'STANDARD'));
   const [speciesSize, setSpeciesSize] = useState(fields.speciesSize || fields['char-size'] || 'Medium');
 
   // 5-Pillar Identity
@@ -144,21 +149,64 @@ export const ModularCharacterAssembler = ({
   });
 
   // Loadout & Aspects
-  const [selectedWeapon, setSelectedWeapon] = useState(fields.weapon || '');
-  const [selectedArmor, setSelectedArmor] = useState(fields.armor || '');
+  const [selectedWeapon, setSelectedWeapon] = useState(() => {
+    if (typeof fields.weapon === 'string' && fields.weapon.trim()) return fields.weapon;
+    const arr = parseExistingArray(fields.weapons);
+    return arr[0]?.name || arr[0]?.title || '';
+  });
+  const [selectedArmor, setSelectedArmor] = useState(() => {
+    if (typeof fields.selectedArmor === 'string' && fields.selectedArmor.trim()) return fields.selectedArmor;
+    if (typeof fields.armor === 'string' && fields.armor.trim() && !fields.armor.trim().startsWith('[')) {
+      return fields.armor;
+    }
+    const arr = parseExistingArray(fields.armor);
+    return arr[0]?.name || arr[0]?.title || '';
+  });
   const [selectedGear, setSelectedGear] = useState(() => {
     if (typeof fields.selectedGear === 'string') return fields.selectedGear;
     if (typeof fields.gear === 'string' && !fields.gear.trim().startsWith('[')) return fields.gear;
-    return '';
+    const arr = parseExistingArray(fields.gear);
+    return arr[0]?.name || arr[0]?.title || '';
   });
-  const [selectedFeature, setSelectedFeature] = useState(fields.selectedFeature || '');
-  const [selectedTrait, setSelectedTrait] = useState(fields.selectedTrait || '');
-  const [selectedDisadvantage, setSelectedDisadvantage] = useState(fields.selectedDisadvantage || '');
-  const [selectedAugmentation, setSelectedAugmentation] = useState(fields.selectedAugmentation || '');
-  const [selectedInvocation, setSelectedInvocation] = useState(fields.selectedInvocation || '');
+  const [selectedFeature, setSelectedFeature] = useState(() => {
+    if (typeof fields.selectedFeature === 'string' && fields.selectedFeature.trim()) return fields.selectedFeature;
+    const arr = parseExistingArray(fields.features);
+    return arr[0]?.name || arr[0]?.title || '';
+  });
+  const [selectedTrait, setSelectedTrait] = useState(() => {
+    if (typeof fields.selectedTrait === 'string' && fields.selectedTrait.trim()) return fields.selectedTrait;
+    const arr = parseExistingArray(fields.traits);
+    return arr[0]?.name || arr[0]?.title || '';
+  });
+  const [selectedDisadvantage, setSelectedDisadvantage] = useState(() => {
+    if (typeof fields.selectedDisadvantage === 'string' && fields.selectedDisadvantage.trim()) return fields.selectedDisadvantage;
+    const arr = parseExistingArray(fields.disadvantages);
+    return arr[0]?.name || arr[0]?.title || '';
+  });
+  const [selectedAugmentation, setSelectedAugmentation] = useState(() => {
+    if (typeof fields.selectedAugmentation === 'string' && fields.selectedAugmentation.trim()) return fields.selectedAugmentation;
+    const arr = parseExistingArray(fields.augmentations);
+    return arr[0]?.name || arr[0]?.title || '';
+  });
+  const [selectedInvocation, setSelectedInvocation] = useState(() => {
+    if (typeof fields.selectedInvocation === 'string' && fields.selectedInvocation.trim()) return fields.selectedInvocation;
+    const arr = parseExistingArray(fields.invocations);
+    return arr[0]?.name || arr[0]?.title || '';
+  });
 
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [appliedNotification, setAppliedNotification] = useState(false);
+  const didAutoSyncMountRef = useRef(false);
+  const appliedTimerRef = useRef(null);
+  const fieldsRef = useRef(fields);
+  fieldsRef.current = fields;
+  const pendingPresetArraysRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (appliedTimerRef.current) clearTimeout(appliedTimerRef.current);
+    };
+  }, []);
 
   // Sync local controls if external BASTION Auto-Calibrate mutates fields
   useEffect(() => {
@@ -175,8 +223,7 @@ export const ModularCharacterAssembler = ({
     }
     const incomingBoss = fields.mcmBossType || fields.bossType;
     if (incomingBoss) {
-      const parsedTier = parseInt(fields.mcmTier ?? '1', 10) || 1;
-      const resolvedBoss = resolveBossTypeKey(incomingBoss, parsedTier);
+      const resolvedBoss = resolveBossTypeKey(incomingBoss);
       setBossType((prev) => (prev === resolvedBoss ? prev : resolvedBoss));
     }
     if (fields.mcmDesignation) {
@@ -190,6 +237,7 @@ export const ModularCharacterAssembler = ({
   }, [fields.mcmTier, fields.mcmRole, fields.mcmBossType, fields.bossType, fields.mcmDesignation, fields.speciesSize, fields['char-size']]);
 
   const isSyntheticSpecies =
+    Boolean(fields.isSynthetic || fields.is_synthetic) ||
     fields.physiology === 'Synthetic' ||
     String(selectedSpecies || '').toLowerCase().includes('synthetic') ||
     String(selectedSpecies || '').toLowerCase().includes('automata');
@@ -230,7 +278,13 @@ export const ModularCharacterAssembler = ({
   const calculatedToughness = customAttrs.sta !== undefined && customAttrs.sta !== ''
     ? Number(customAttrs.sta)
     : (combatBlock.attributes?.sta ?? combatBlock.attributeBonus ?? 0);
-  const effectiveArmorDR = selectedArmorObj?.dr !== undefined ? armorDRValue : (combatBlock.expectedDR ?? armorDRValue);
+  const hasCustomArmorDR = Boolean(
+    selectedArmorObj &&
+      (selectedArmorObj.dr !== undefined ||
+        selectedArmorObj.dr_rating !== undefined ||
+        selectedArmorObj.armor_dr !== undefined)
+  );
+  const effectiveArmorDR = hasCustomArmorDR ? armorDRValue : (combatBlock.expectedDR ?? armorDRValue);
   const calculatedBaseDamageDice = combatBlock.baseDamageDice || (tier >= 10 ? '3d8+4' : tier >= 5 ? '2d8+2' : '2d6+1');
   const calculatedTierTitle = combatBlock.narrativeRank || `Tier ${tier}`;
   const calculatedDefense = combatBlock.defenseDC ?? 10;
@@ -246,8 +300,25 @@ export const ModularCharacterAssembler = ({
     const augObj = augmentationsList.find((a) => (a.name || a.title) === selectedAugmentation);
     const invObj = metaphysicsList.find((m) => (m.name || m.title) === selectedInvocation);
 
+    const latestFields = fieldsRef.current || {};
+    const presetArrays = pendingPresetArraysRef.current;
+    pendingPresetArraysRef.current = null;
+
+    const mergedWeapons = mergeSlotIntoArray(
+      presetArrays ? presetArrays.weapons : latestFields.weapons,
+      selectedWeapon,
+      weapObj,
+      (name) => ({ id: 'wpn_1', name, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' })
+    );
+    const mergedArmor = mergeSlotIntoArray(
+      presetArrays ? presetArrays.armor : latestFields.armor,
+      selectedArmor,
+      selectedArmorObj,
+      (name) => ({ id: 'arm_1', name, dr: effectiveArmorDR, equipped: true })
+    );
+
     return {
-      id: fields.dbmId || `mcm_${Date.now()}`,
+      id: latestFields.dbmId || `mcm_${Date.now()}`,
       name: (elementTitle || `${designation} ${activeRoleObj.name}`).trim(),
       threatTier: tier,
       competencyRole: roleKey,
@@ -277,35 +348,62 @@ export const ModularCharacterAssembler = ({
         cha: customAttrs.cha !== undefined && customAttrs.cha !== '' ? Number(customAttrs.cha) : (combatBlock.attributes?.cha ?? 0)
       },
       skills: skillRanks,
-      weapons: selectedWeapon
-        ? [weapObj || { id: 'wpn_1', name: selectedWeapon, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' }]
+      weapons: mergedWeapons.length > 0
+        ? mergedWeapons
         : [{ id: 'wpn_default', name: `${activeRoleObj.name} Armament`, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' }],
-      armor: selectedArmor
-        ? [selectedArmorObj || { id: 'arm_1', name: selectedArmor, dr: effectiveArmorDR, equipped: true }]
-        : effectiveArmorDR > 0
-          ? [{ id: 'arm_default', name: 'Tactical Plating', dr: effectiveArmorDR, equipped: true }]
-          : [],
-      gear: selectedGear ? [gearObj || { id: 'gear_1', name: selectedGear }] : [],
-      features: selectedFeature ? [featObj || { id: 'feat_1', name: selectedFeature }] : [],
-      traits: selectedTrait ? [traitObj || { id: 'trait_1', name: selectedTrait }] : [],
-      disadvantages: selectedDisadvantage ? [disObj || { id: 'dis_1', name: selectedDisadvantage }] : [],
-      augmentations: selectedAugmentation ? [augObj || { id: 'aug_1', name: selectedAugmentation }] : [],
-      invocations: selectedInvocation ? [invObj || { id: 'inv_1', name: selectedInvocation }] : [],
-      concept: fields['char-concept'] || `${calculatedTierTitle} ${activeRoleObj.name} (${designation})`,
-      motive: fields['char-motive'] || '',
-      conflict: fields['char-conflict'] || '',
-      theLie: fields.theLie || '',
-      theTruth: fields.theTruth || '',
-      definingTrauma: fields.definingTrauma || '',
-      appearance: fields.appearance || '',
-      voiceProfile: fields.voiceProfile || '',
-      mannerisms: fields.mannerisms || ''
+      armor: mergedArmor.length > 0
+        ? mergedArmor
+        : (effectiveArmorDR > 0 ? [{ id: 'arm_default', name: 'Tactical Plating', dr: effectiveArmorDR, equipped: true }] : []),
+      gear: mergeSlotIntoArray(
+        presetArrays ? presetArrays.gear : latestFields.gear,
+        selectedGear,
+        gearObj,
+        (name) => ({ id: 'gear_1', name })
+      ),
+      features: mergeSlotIntoArray(
+        presetArrays ? presetArrays.features : latestFields.features,
+        selectedFeature,
+        featObj,
+        (name) => ({ id: 'feat_1', name })
+      ),
+      traits: mergeSlotIntoArray(
+        presetArrays ? presetArrays.traits : latestFields.traits,
+        selectedTrait,
+        traitObj,
+        (name) => ({ id: 'trait_1', name })
+      ),
+      disadvantages: mergeSlotIntoArray(
+        presetArrays ? presetArrays.disadvantages : latestFields.disadvantages,
+        selectedDisadvantage,
+        disObj,
+        (name) => ({ id: 'dis_1', name })
+      ),
+      augmentations: mergeSlotIntoArray(
+        presetArrays ? presetArrays.augmentations : latestFields.augmentations,
+        selectedAugmentation,
+        augObj,
+        (name) => ({ id: 'aug_1', name })
+      ),
+      invocations: mergeSlotIntoArray(
+        presetArrays ? presetArrays.invocations : latestFields.invocations,
+        selectedInvocation,
+        invObj,
+        (name) => ({ id: 'inv_1', name })
+      ),
+      concept: latestFields['char-concept'] || `${calculatedTierTitle} ${activeRoleObj.name} (${designation})`,
+      motive: latestFields['char-motive'] || '',
+      conflict: latestFields['char-conflict'] || '',
+      theLie: latestFields.theLie || '',
+      theTruth: latestFields.theTruth || '',
+      definingTrauma: latestFields.definingTrauma || '',
+      appearance: latestFields.appearance || '',
+      voiceProfile: latestFields.voiceProfile || '',
+      mannerisms: latestFields.mannerisms || ''
     };
   };
 
-  // Apply all calculated values and full Persona Folio structure to parent Element form
-  const handleApplyToElement = () => {
-    AudioService.playTerminalBeep(1150, 0.1);
+  // Build batched parent field patch (shared by automatic live sync and manual Re-sync)
+  const buildMcmBatchPatch = () => {
     const fullConfig = buildFullMcmConfig();
     const folioPersona = convertMcmToFolioPersona(fullConfig);
     const vttUnit = buildVttUnitFromPersona(folioPersona, { uniqueInstance: false });
@@ -315,13 +413,14 @@ export const ModularCharacterAssembler = ({
       mcmTier: String(tier),
       mcmDesignation: designation,
       mcmChassis: activeChassis.name,
-      mcmRole: activeRoleObj.name,
+      mcmRole: roleKey,
       mcmBossType: bossType,
       bossType,
       speciesSize,
       'char-size': speciesSize,
       physiology: isSyntheticSpecies ? 'Synthetic' : 'Organic',
       isSynthetic: isSyntheticSpecies,
+      is_synthetic: isSyntheticSpecies,
       health: String(calculatedHealth),
       vitality: String(calculatedVitality),
       structure: String(combatBlock.structurePoints ?? 0),
@@ -341,7 +440,7 @@ export const ModularCharacterAssembler = ({
       ...(selectedOrigin ? { 'char-origin': selectedOrigin } : {}),
       ...(selectedFaction ? { 'char-faction': selectedFaction } : {}),
       ...(selectedWeapon ? { weapon: selectedWeapon } : {}),
-      ...(selectedArmor ? { armor: selectedArmor } : {}),
+      ...(selectedArmor ? { selectedArmor } : {}),
       ...(selectedGear ? { selectedGear } : {}),
       ...(selectedFeature ? { selectedFeature } : {}),
       ...(selectedTrait ? { selectedTrait } : {}),
@@ -354,6 +453,7 @@ export const ModularCharacterAssembler = ({
       augmentations: folioPersona.augmentations,
       invocations: folioPersona.invocations,
       weapons: folioPersona.weapons,
+      armor: folioPersona.armor,
       gear: folioPersona.gear,
       attacks: folioPersona.attacks,
       vttUnitData: vttUnit,
@@ -374,14 +474,61 @@ export const ModularCharacterAssembler = ({
       batchPatch[`skill-${sk.id}-rank`] = folioPersona[`skill-${sk.id}-rank`] ?? 0;
     });
 
+    return { fullConfig, folioPersona, vttUnit, batchPatch };
+  };
+
+  const flushPatchToParent = (batchPatch) => {
     if (typeof onBatchFieldChange === 'function') {
       onBatchFieldChange(batchPatch);
     } else if (typeof onFieldChange === 'function') {
       Object.entries(batchPatch).forEach(([k, v]) => onFieldChange(k, v));
     }
+  };
 
+  // Auto-sync MCM edits directly to parent Element state so switching modes/tabs or saving never loses edits
+  useEffect(() => {
+    if (!didAutoSyncMountRef.current) {
+      didAutoSyncMountRef.current = true;
+      return;
+    }
+    const { batchPatch } = buildMcmBatchPatch();
+    flushPatchToParent(batchPatch);
     setAppliedNotification(true);
-    setTimeout(() => setAppliedNotification(false), 2500);
+    if (appliedTimerRef.current) clearTimeout(appliedTimerRef.current);
+    appliedTimerRef.current = setTimeout(() => setAppliedNotification(false), 2000);
+  }, [
+    tier,
+    designation,
+    chassisKey,
+    roleKey,
+    bossType,
+    speciesSize,
+    isSyntheticSpecies,
+    selectedSpecies,
+    selectedArchetype,
+    selectedOccupation,
+    selectedOrigin,
+    selectedFaction,
+    customAttrs,
+    skillRanks,
+    selectedWeapon,
+    selectedArmor,
+    selectedGear,
+    selectedFeature,
+    selectedTrait,
+    selectedDisadvantage,
+    selectedAugmentation,
+    selectedInvocation
+  ]);
+
+  // Apply all calculated values and full Persona Folio structure to parent Element form
+  const handleApplyToElement = () => {
+    AudioService.playTerminalBeep(1150, 0.1);
+    const { fullConfig, folioPersona, vttUnit, batchPatch } = buildMcmBatchPatch();
+    flushPatchToParent(batchPatch);
+    setAppliedNotification(true);
+    if (appliedTimerRef.current) clearTimeout(appliedTimerRef.current);
+    appliedTimerRef.current = setTimeout(() => setAppliedNotification(false), 2500);
     return { fullConfig, folioPersona, vttUnit };
   };
 
@@ -417,13 +564,13 @@ Current Tier: ${tier}
 
 Select the most thematic configuration from:
 1. Chassis: combatant, specialist, socialite, or balanced
-2. Tactical Role: BRUTE, SOLDIER, SKIRMISHER, ARTILLERY, CONTROLLER, LURKER, DEFENDER, LEADER, SUPPORT, or MINION
+2. Tactical Role: Tank, Brute, MeleeDPS, RangedDPS, Sniper, MobilitySpecialist, Flank, CombativeMetaUser, Buffer, Leader, Debuffer, or Technician
 3. Suggest a live Omnicortex weapon and armor matching Tech Level 3.
 
 Respond in JSON format:
 {
   "chassis": "combatant",
-  "role": "SOLDIER",
+  "role": "Tank",
   "suggestedWeapon": "Plasma Carbine",
   "suggestedArmor": "Tactical Combat Vest",
   "rationale": "Brief 1-sentence tactical explanation"
@@ -450,6 +597,10 @@ Respond in JSON format:
       AudioService.playTerminalBeep(1200, 0.12);
     } catch (err) {
       console.warn('AIME auto-assemble fallback:', err);
+      showToast({
+        type: 'warning',
+        text: 'AIME Auto-Assemble could not parse a live suggestion; kept current MCM loadout.'
+      });
     } finally {
       setIsSynthesizing(false);
     }
@@ -521,24 +672,58 @@ Respond in JSON format:
               const preset = mcmPresetsList.find((m) => String(m.id) === id);
               if (preset) {
                 const nextTier = Number(preset.threatTier ?? preset.threat_tier ?? 1) || 1;
-                const nextRole = resolveCompetencyRoleKey(preset.competencyRole || preset.role || 'SKIRMISHER');
+                const nextRole = resolveCompetencyRoleKey(preset.competencyRole || preset.role || 'Tank');
                 const nextDes = resolveDesignationKey(preset.designation || 'Adversary');
-                const nextBoss = resolveBossTypeKey(preset.bossType || 'STANDARD', nextTier);
+                const nextBoss = resolveBossTypeKey(preset.bossType || preset.boss_type || 'Standard');
                 setTier(nextTier);
                 setRoleKey(nextRole);
                 setDesignation(nextDes);
                 setBossType(nextBoss);
+                setSpeciesSize(preset.speciesSize || preset.size || 'Medium');
                 if (preset.species) setSelectedSpecies(preset.species);
                 if (preset.archetype) setSelectedArchetype(preset.archetype);
                 if (preset.occupation) setSelectedOccupation(preset.occupation);
                 if (preset.origin) setSelectedOrigin(preset.origin);
                 if (preset.faction) setSelectedFaction(preset.faction);
-                onFieldChange?.('mcmTier', String(nextTier));
-                onFieldChange?.('mcmDesignation', nextDes);
-                onFieldChange?.('mcmRole', COMPETENCY_ROLES[nextRole]?.name || nextRole);
-                onFieldChange?.('health', String(preset.healthPoints ?? 30));
-                onFieldChange?.('vitality', String(preset.vitalityPoints ?? 30));
-                onFieldChange?.('personaSubcategory', 'mcm');
+                if (preset.attributes && typeof preset.attributes === 'object') {
+                  setCustomAttrs({
+                    str: preset.attributes.str,
+                    agi: preset.attributes.agi,
+                    sta: preset.attributes.sta,
+                    int: preset.attributes.int,
+                    wis: preset.attributes.wis,
+                    cha: preset.attributes.cha
+                  });
+                }
+                if (preset.skills && typeof preset.skills === 'object') {
+                  setSkillRanks({ ...preset.skills });
+                }
+                const firstWeaponName = Array.isArray(preset.weapons) ? (preset.weapons[0]?.name || preset.weapons[0]?.title || '') : (preset.weapon || '');
+                const firstArmorName = Array.isArray(preset.armor) ? (preset.armor[0]?.name || preset.armor[0]?.title || '') : (preset.armorName || '');
+                const firstGearName = Array.isArray(preset.gear) ? (preset.gear[0]?.name || preset.gear[0]?.title || '') : '';
+                const firstFeatureName = Array.isArray(preset.features) ? (preset.features[0]?.name || preset.features[0]?.title || '') : '';
+                const firstTraitName = Array.isArray(preset.traits) ? (preset.traits[0]?.name || preset.traits[0]?.title || '') : '';
+                const firstDisName = Array.isArray(preset.disadvantages) ? (preset.disadvantages[0]?.name || preset.disadvantages[0]?.title || '') : '';
+                const firstAugName = Array.isArray(preset.augmentations) ? (preset.augmentations[0]?.name || preset.augmentations[0]?.title || '') : '';
+                const firstInvName = Array.isArray(preset.invocations) ? (preset.invocations[0]?.name || preset.invocations[0]?.title || '') : '';
+                pendingPresetArraysRef.current = {
+                  weapons: Array.isArray(preset.weapons) ? preset.weapons : [],
+                  armor: Array.isArray(preset.armor) ? preset.armor : [],
+                  gear: Array.isArray(preset.gear) ? preset.gear : [],
+                  features: Array.isArray(preset.features) ? preset.features : [],
+                  traits: Array.isArray(preset.traits) ? preset.traits : [],
+                  disadvantages: Array.isArray(preset.disadvantages) ? preset.disadvantages : [],
+                  augmentations: Array.isArray(preset.augmentations) ? preset.augmentations : [],
+                  invocations: Array.isArray(preset.invocations) ? preset.invocations : []
+                };
+                if (firstWeaponName) setSelectedWeapon(firstWeaponName);
+                if (firstArmorName) setSelectedArmor(firstArmorName);
+                if (firstGearName) setSelectedGear(firstGearName);
+                if (firstFeatureName) setSelectedFeature(firstFeatureName);
+                if (firstTraitName) setSelectedTrait(firstTraitName);
+                if (firstDisName) setSelectedDisadvantage(firstDisName);
+                if (firstAugName) setSelectedAugmentation(firstAugName);
+                if (firstInvName) setSelectedInvocation(firstInvName);
               }
             }}
             className="flex-1 bg-slate-950 border border-slate-700 text-slate-200 p-1.5 rounded-lg text-xs font-mono outline-none focus:border-purple-400"
@@ -552,7 +737,7 @@ Respond in JSON format:
           </select>
         </div>
 
-        {typeof saveEntry === 'function' && (
+        {isAdmin && typeof saveEntry === 'function' && (
           <button
             type="button"
             onClick={async () => {
@@ -594,16 +779,13 @@ Respond in JSON format:
         )}
       </div>
 
-      {/* Section Tabs */}
+      {/* Section Tabs (1-4 Canonical Mechanical Assembly — Narrative/Scripting/Custom live in parent Forge) */}
       <div className="flex flex-wrap gap-1.5 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
         {[
           { id: 'matrix', label: '1. Matrix & 5-Pillars' },
           { id: 'attributes', label: '2. Attributes & Skills' },
           { id: 'aspects', label: '3. Features, Traits & Augs' },
-          { id: 'loadout', label: '4. Weapons, Armor & Gear' },
-          { id: 'narrative', label: '5. Narrative, Prose & Lore' },
-          { id: 'scripting', label: '6. Scripting & AI Guidance' },
-          { id: 'custom-fields', label: `7. Custom Fields${customFields.length > 0 ? ` (${customFields.length})` : ''}` }
+          { id: 'loadout', label: '4. Weapons, Armor & Gear' }
         ].map((t) => (
           <button
             key={t.id}
@@ -961,162 +1143,7 @@ Respond in JSON format:
         </div>
       )}
 
-      {/* TAB 5: NARRATIVE, PROSE & LORE (ALL PERSONA FOLIO NARRATIVE SECTIONS) */}
-      {activeTab === 'narrative' && (
-        <div className="p-3 bg-slate-900/90 border border-slate-800 rounded-xl space-y-3">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
-            <span className="text-[10px] font-mono font-bold uppercase text-cyan-300">
-              Persona Folio Narrative Sections &amp; Lore
-            </span>
-            <div className="flex flex-wrap gap-1">
-              {FOLIO_NARRATIVE_SECTIONS.map((sec) => (
-                <button
-                  key={sec.id}
-                  type="button"
-                  onClick={() => setActiveNarrativeSec(sec.id)}
-                  className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase transition-colors cursor-pointer ${
-                    activeNarrativeSec === sec.id
-                      ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/50'
-                      : 'bg-slate-950 text-slate-400 border border-slate-800 hover:text-slate-200'
-                  }`}
-                >
-                  {sec.title}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {(() => {
-            const activeSec =
-              FOLIO_NARRATIVE_SECTIONS.find((s) => s.id === activeNarrativeSec) ||
-              FOLIO_NARRATIVE_SECTIONS[0];
-            return (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {activeSec.fields.map((nf) => {
-                  const val =
-                    fields[nf.id] ||
-                    (nf.aliasKeys || []).map((k) => fields[k]).find(Boolean) ||
-                    '';
-                  return (
-                    <div key={nf.id} className={nf.span2 ? 'sm:col-span-2' : ''}>
-                      <label className="text-[10px] font-mono font-bold uppercase text-slate-400 block mb-1">
-                        {nf.label}
-                      </label>
-                      <textarea
-                        rows={nf.span2 ? 2 : 1}
-                        value={val}
-                        onChange={(e) => {
-                          const nextVal = e.target.value;
-                          onFieldChange?.(nf.id, nextVal);
-                          (nf.aliasKeys || []).forEach((aliasKey) => {
-                            onFieldChange?.(aliasKey, nextVal);
-                          });
-                        }}
-                        placeholder={nf.placeholder}
-                        className="w-full bg-slate-950 border border-slate-700 text-slate-200 p-1.5 rounded-lg text-xs font-mono outline-none focus:border-cyan-400"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })()}
-
-          <div className="pt-2 border-t border-slate-800 space-y-1">
-            <label className="text-[10px] font-mono font-bold uppercase text-cyan-300 block">
-              Detailed Description, Narrative Prose &amp; Lore
-            </label>
-            <textarea
-              rows={3}
-              value={fields.narrativeProse || fields.content || ''}
-              onChange={(e) => {
-                onFieldChange?.('narrativeProse', e.target.value);
-                onFieldChange?.('content', e.target.value);
-              }}
-              placeholder="Write extended narrative prose, lore notes, or character dossier exposition..."
-              className="w-full bg-slate-950 border border-slate-700 text-slate-200 p-2 rounded-lg text-xs font-mono outline-none focus:border-cyan-400"
-            />
-          </div>
-        </div>
-      )}
-
-      {/* TAB 6: SCRIPTING & AI GUIDANCE */}
-      {activeTab === 'scripting' && (
-        <div className="space-y-3">
-          <NpcScriptBuilder
-            fields={fields}
-            onFieldChange={onFieldChange}
-            elementTitle={elementTitle || fields['char-name'] || 'MCM Unit'}
-            onOpenAimeGuidance={onOpenAimeGuidance}
-          />
-          <AimeGuidanceDeck
-            guidance={fields.guidance || {}}
-            onChangeGuidance={(nextGuidance) => onFieldChange?.('guidance', nextGuidance)}
-            isCollapsedByDefault={false}
-          />
-        </div>
-      )}
-
-      {/* TAB 7: CUSTOM FIELDS & KEY-VALUE ATTRIBUTES */}
-      {activeTab === 'custom-fields' && (
-        <div className="p-3 bg-slate-900/90 border border-slate-800 rounded-xl space-y-3">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-            <span className="text-[10px] font-mono font-bold uppercase text-cyan-300">
-              Custom Fields &amp; Key-Value Attributes
-            </span>
-            <button
-              type="button"
-              onClick={handleAddCustomField}
-              className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-mono font-bold uppercase rounded-lg flex items-center gap-1 cursor-pointer"
-            >
-              <Plus size={11} />
-              <span>Add Custom Field</span>
-            </button>
-          </div>
-
-          {customFields.length === 0 ? (
-            <div className="p-4 text-center text-slate-500 text-xs italic bg-slate-950/60 rounded-xl border border-dashed border-slate-800">
-              No custom fields defined yet. Click &quot;+ Add Custom Field&quot; to attach custom attributes.
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {customFields.map((cf, idx) => (
-                <div
-                  key={cf.id || idx}
-                  className="p-2.5 bg-slate-950/80 border border-slate-800 rounded-xl flex flex-col gap-1.5"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <input
-                      type="text"
-                      value={cf.label || ''}
-                      onChange={(e) => handleUpdateCustomField(cf.id, 'label', e.target.value)}
-                      placeholder="Field Label (e.g. Bounty Value, Clearance)"
-                      className="bg-slate-900 border border-slate-700 text-cyan-300 p-1.5 rounded text-xs font-bold outline-none focus:border-cyan-400 flex-1 font-mono"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveCustomField(cf.id)}
-                      className="text-slate-400 hover:text-red-400 text-xs px-2 py-1 rounded font-bold flex items-center gap-1 cursor-pointer"
-                    >
-                      <Trash2 size={11} />
-                      <span>Remove</span>
-                    </button>
-                  </div>
-                  <textarea
-                    rows={2}
-                    value={cf.value || ''}
-                    onChange={(e) => handleUpdateCustomField(cf.id, 'value', e.target.value)}
-                    placeholder="Field value / description..."
-                    className="w-full bg-slate-900 border border-slate-700 text-slate-100 p-1.5 rounded text-xs font-mono outline-none focus:border-cyan-400"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Real-Time Calculated Vitals Strip & Apply Action */}
+      {/* Real-Time Calculated Vitals Strip & Auto-Sync Status */}
       <div className="p-3 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-cyan-500/50 rounded-xl flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-4 flex-wrap">
           {/* Health / Structure */}
@@ -1164,18 +1191,16 @@ Respond in JSON format:
         </div>
 
         <div className="flex items-center gap-2">
-          {appliedNotification && (
-            <span className="text-[10px] font-mono text-emerald-400 font-bold animate-pulse flex items-center gap-1">
-              <Check size={12} /> Synced to Persona & VTT!
-            </span>
-          )}
+          <span className={`text-[10px] font-mono font-bold flex items-center gap-1 ${appliedNotification ? 'text-emerald-300 animate-pulse' : 'text-emerald-400/80'}`}>
+            <Check size={12} /> {appliedNotification ? 'Synced to Persona & VTT!' : 'Auto-Synced to Persona & VTT'}
+          </span>
           <button
             type="button"
             onClick={handleApplyToElement}
             className="px-3.5 py-1.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Check size={13} />
-            <span>Apply Modular Stats</span>
+            <span>Re-Sync Stats</span>
           </button>
         </div>
       </div>

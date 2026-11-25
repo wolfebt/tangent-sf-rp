@@ -29,6 +29,7 @@ import { useConfirm } from '../../../../context/ConfirmContext';
 import { AudioService } from '../../../../services/audioService';
 import { generateContent } from '../../../../services/aimeService';
 import { getMergedGems } from '../../StoryModule/guidanceGemsConfig';
+import { normalizeElementType } from '../../ElementForge/elementSchemas';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function BrainstormTab({ activeNode, updateStory, onInsertProse }) {
@@ -39,7 +40,8 @@ export default function BrainstormTab({ activeNode, updateStory, onInsertProse }
     updateGems,
     updateCreativeState,
     getActiveGemsText,
-    triggerStorySave
+    triggerStorySave,
+    isStoryReadOnly = false
   } = useStory();
   const confirm = useConfirm();
 
@@ -115,6 +117,7 @@ export default function BrainstormTab({ activeNode, updateStory, onInsertProse }
   }, [mergedGems, selectedGemCategory, gemSearchQuery]);
 
   const handleToggleGem = (gem, category) => {
+    if (isStoryReadOnly) return;
     AudioService.playTerminalBeep(920, 0.03);
     // If clicking an Archetype option, also sync selectedFocus for generation context
     const matchedPreset = [...storyPresets, ...elementPresets].find(p => p.label === gem);
@@ -131,6 +134,7 @@ export default function BrainstormTab({ activeNode, updateStory, onInsertProse }
 
   const handleAddCustomGem = (e) => {
     if (e) e.preventDefault();
+    if (isStoryReadOnly) return;
     const val = customGemInput.trim();
     if (!val) return;
 
@@ -158,6 +162,7 @@ export default function BrainstormTab({ activeNode, updateStory, onInsertProse }
   };
 
   const handleRemoveCustomGem = (category, gemToRemove) => {
+    if (isStoryReadOnly) return;
     AudioService.playTerminalBeep(600, 0.05);
     const currentCategoryCustom = customGems[category] || [];
     const updatedCustom = {
@@ -173,6 +178,7 @@ export default function BrainstormTab({ activeNode, updateStory, onInsertProse }
   };
 
   const handleClearAllGems = async () => {
+    if (isStoryReadOnly) return;
     if (confirm) {
       const ok = await confirm({
         title: 'Deselect Guidance Gems',
@@ -187,6 +193,7 @@ export default function BrainstormTab({ activeNode, updateStory, onInsertProse }
   };
 
   const handleGenerate = async () => {
+    if (isStoryReadOnly) return;
     setIsGenerating(true);
     AudioService.playTerminalBeep(980, 0.03);
 
@@ -278,7 +285,7 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
   };
 
   const handleInsertIntoStory = (idea) => {
-    if (!activeNode) return;
+    if (isStoryReadOnly || !activeNode) return;
     const addition = `\n\n### ${idea.title}\n${idea.body}\n`;
     const newContent = (activeNode.content || '') + addition;
     updateStory(activeNode.id, { content: newContent });
@@ -289,10 +296,26 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
   };
 
   const handleSaveAsElement = (idea) => {
+    if (isStoryReadOnly) return;
+    const focusTypeMap = {
+      persona: 'Persona',
+      faction: 'Faction',
+      location: 'Setting',
+      anomaly: 'Property',
+      lore: 'Custom',
+      plot_twist: 'Custom',
+      scene_hook: 'Scene',
+      conflict: 'Custom',
+      sensory: 'Scene',
+      beats: 'Scene'
+    };
+    const resolvedElementType = normalizeElementType(
+      focusTypeMap[selectedFocus] || (scope === 'elements' ? selectedFocus : 'Custom')
+    );
     const newElement = {
       id: uuidv4(),
       title: idea.title,
-      type: scope === 'elements' ? (selectedFocus.charAt(0).toUpperCase() + selectedFocus.slice(1)) : 'Lore',
+      type: resolvedElementType,
       content: idea.body,
       fields: {
         description: idea.body.slice(0, 300),
@@ -553,9 +576,9 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
             <button
               type="button"
               onClick={handleGenerate}
-              disabled={isGenerating}
+              disabled={isGenerating || isStoryReadOnly}
               className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-lg shrink-0 ${
-                isGenerating
+                isGenerating || isStoryReadOnly
                   ? 'bg-slate-800 text-slate-400 cursor-not-allowed'
                   : (scope === 'story' ? 'bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white' : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white')
               }`}
@@ -620,9 +643,10 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
                 <div className="flex items-center gap-1.5 pt-2 border-t border-slate-800/80">
                   <button
                     type="button"
+                    disabled={isStoryReadOnly}
                     onClick={() => handleInsertIntoStory(idea)}
-                    className="px-2.5 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer transition-colors"
-                    title="Append into active Story scenario"
+                    className="px-2.5 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 disabled:opacity-40 disabled:cursor-not-allowed border border-cyan-500/40 text-cyan-300 text-[10px] font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer transition-colors"
+                    title={isStoryReadOnly ? 'Read-only story' : 'Append into active Story scenario'}
                   >
                     {copiedId === idea.id ? <Check size={11} className="text-emerald-400" /> : <Plus size={11} />}
                     <span>Insert into Story</span>
@@ -630,9 +654,10 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
 
                   <button
                     type="button"
+                    disabled={isStoryReadOnly}
                     onClick={() => handleSaveAsElement(idea)}
-                    className="px-2.5 py-1 rounded-lg bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[10px] font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer transition-colors"
-                    title="Save as a persistent World Element in Element Forge"
+                    className="px-2.5 py-1 rounded-lg bg-purple-950/80 hover:bg-purple-900 disabled:opacity-40 disabled:cursor-not-allowed border border-purple-500/40 text-purple-300 text-[10px] font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer transition-colors"
+                    title={isStoryReadOnly ? 'Read-only story' : 'Save as a persistent World Element in Element Forge'}
                   >
                     {addedElementId === idea.id ? <Check size={11} className="text-emerald-400" /> : <Bookmark size={11} />}
                     <span>Save as Element</span>

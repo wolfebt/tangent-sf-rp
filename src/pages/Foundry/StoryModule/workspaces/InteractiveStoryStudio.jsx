@@ -16,6 +16,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import Split from 'react-split';
 import { useCampaign, useStory } from '../../../../context/CampaignContext';
+import { useAuth } from '../../../../context/AuthContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { useDBM } from '../../../../context/DBMContext';
 import { showConfirm } from '../../../../context/ConfirmContext';
@@ -33,7 +34,7 @@ import {
   adjudicateActionCheck, 
   formatMandateForPrompt 
 } from '../../../../services/ade/adeEngineBridge.ts';
-import { useAdeStore } from '../../store/adeStore.ts';
+import { useAdeStore, evaluateConditionExpression } from '../../store/adeStore.ts';
 import { 
   Sparkles, 
   Play, 
@@ -72,7 +73,10 @@ import {
   AlertTriangle,
   XCircle,
   ChevronDown,
-  Download
+  Download,
+  Trash2,
+  History,
+  Copy
 } from 'lucide-react';
 
 import TacticalStageViewport from '../panels/TacticalStageViewport';
@@ -116,8 +120,10 @@ export const InteractiveStoryStudio = ({
     handleCreateNewMapForElement,
     getActiveGemsText,
     updateSavedElement,
-    deleteSavedElement
+    deleteSavedElement,
+    isStoryReadOnly = false
   } = campaign;
+  const { isAdmin = false } = useAuth() || {};
 
   // Folio Context
   const folio = useFolio() || {};
@@ -154,6 +160,8 @@ export const InteractiveStoryStudio = ({
   const [selectedScenarioId, setSelectedScenarioId] = useState(
     propActiveNode?.id || allFoundryScenarios[0]?.id || ''
   );
+  const [directorMode, setDirectorMode] = useState('solo');
+  const storyFlags = useAdeStore((s) => s.storyFlags);
 
   useEffect(() => {
     if (propActiveNode?.id && propActiveNode.id !== selectedScenarioId) {
@@ -190,6 +198,9 @@ export const InteractiveStoryStudio = ({
     for (const conn of graphConnections) {
       const targetId = conn?.targetScenarioId || conn?.targetId || conn?.targetNodeId;
       if (!targetId) continue;
+      const condition = String(conn?.condition || conn?.requireCondition || '').trim();
+      const conditionMet = !condition || evaluateConditionExpression(condition, storyFlags);
+      if (!conditionMet && directorMode !== 'director') continue;
       const target = allFoundryScenarios.find(s => s.id === targetId);
       if (target && !branches.some(b => b.targetScenarioId === target.id)) {
         const edgeLabel = conn.label || conn.text;
@@ -198,12 +209,16 @@ export const InteractiveStoryStudio = ({
           targetScenarioId: target.id,
           text: edgeLabel ? `${edgeLabel} ➔ ${target.title}` : `Branch to: ${target.title}`,
           type: target.type || 'Scene',
-          readAloud: target.fields?.readAloud || target.content || ''
+          readAloud: target.fields?.readAloud || target.content || '',
+          condition,
+          conditionMet,
+          checkDc: conn.checkDc,
+          attribute: conn.attribute
         });
       }
     }
     return branches;
-  }, [activeScenario, allFoundryScenarios]);
+  }, [activeScenario, allFoundryScenarios, storyFlags, directorMode]);
 
   // ── DATABASE OPERATIVES AGGREGATION (ZERO MOCK / ZERO HARDCODED) ──
   const allDatabasePersonas = useMemo(() => {
@@ -292,7 +307,7 @@ export const InteractiveStoryStudio = ({
   }, [splitRatio]);
 
   // ── DIRECTOR MODE VS SOLO OPERATIVE MODE ──
-  const [directorMode, setDirectorMode] = useState('solo');
+  // (state declared before preAuthoredBranches memo above)
 
   // ── PARTY CONFIGURATION: SOLO (DEFAULT) VS GROUP ──
   const [partyMode, setPartyMode] = useState('solo');
@@ -426,6 +441,7 @@ export const InteractiveStoryStudio = ({
   // ── SESSION MANAGEMENT & PERSISTENCE ──
   const [currentSessionId, setCurrentSessionId] = useState(() => `ips_${Date.now()}`);
   const [savedSessions, setSavedSessions] = useState(() => loadAllSessions());
+  const [isSessionsDrawerOpen, setIsSessionsDrawerOpen] = useState(false);
 
   const syncSessionToStorage = useCallback((sessionData) => {
     const all = loadAllSessions();
@@ -440,6 +456,81 @@ export const InteractiveStoryStudio = ({
     persistAllSessions(next);
     setSavedSessions(next);
   }, []);
+
+  const handleCreateNewSession = () => {
+    const fresh = createInteractiveSession({
+      storyId: universeState?.id || 'default_story',
+      activeScenarioId: activeScenario?.id || '',
+      activeScenarioTitle: activeScenario?.title || 'Untitled Scenario',
+      mode: directorMode,
+      partyMode,
+      operatives,
+      activeOperativeId,
+      activeModifiers
+    });
+    setCurrentSessionId(fresh.id);
+    setBeats([]);
+    setActiveStreamingText('');
+    setSkillCheckRoll(null);
+    syncSessionToStorage(fresh);
+    setIsSessionsDrawerOpen(false);
+    showToast('✓ Started new interactive session');
+  };
+
+  const handleResumeSession = (session) => {
+    if (!session) return;
+    setCurrentSessionId(session.id);
+    setBeats(Array.isArray(session.beats) ? session.beats : []);
+    setActiveStreamingText('');
+    setSkillCheckRoll(null);
+    if (session.mode === 'solo' || session.mode === 'director') {
+      setDirectorMode(session.mode);
+    }
+    if (session.activeScenarioId) {
+      setSelectedScenarioId(session.activeScenarioId);
+      if (typeof onSelectScenario === 'function') onSelectScenario(session.activeScenarioId);
+      if (typeof setActiveScenarioId === 'function') setActiveScenarioId(session.activeScenarioId);
+    }
+    setIsSessionsDrawerOpen(false);
+    showToast(`✓ Resumed session (${(session.beats || []).length} beats)`);
+  };
+
+  const handleForkSession = (session) => {
+    if (!session) return;
+    const forked = {
+      ...session,
+      id: `ips_${Date.now()}`,
+      activeScenarioTitle: `${session.activeScenarioTitle || activeScenario?.title || 'Scenario'} (Fork)`,
+      beats: Array.isArray(session.beats) ? [...session.beats] : [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    syncSessionToStorage(forked);
+    setCurrentSessionId(forked.id);
+    setBeats(forked.beats);
+    setActiveStreamingText('');
+    setIsSessionsDrawerOpen(false);
+    showToast(`✓ Forked checkpoint "${forked.activeScenarioTitle}"`);
+  };
+
+  const handleDeleteSession = (sessionId) => {
+    const all = loadAllSessions();
+    const next = all.filter(s => s.id !== sessionId);
+    persistAllSessions(next);
+    setSavedSessions(next);
+    if (sessionId === currentSessionId) {
+      const replacement = next[0] || null;
+      if (replacement) {
+        setCurrentSessionId(replacement.id);
+        setBeats(Array.isArray(replacement.beats) ? replacement.beats : []);
+      } else {
+        setCurrentSessionId(`ips_${Date.now()}`);
+        setBeats([]);
+      }
+      setActiveStreamingText('');
+    }
+    showToast('✓ Deleted saved session');
+  };
 
   // ── STORY BEATS TIMELINE FEED ──
   const [beats, setBeats] = useState([]);
@@ -549,6 +640,10 @@ export const InteractiveStoryStudio = ({
   // ── ADVANCE STORY BEAT ──
   const handleAdvanceBeat = async (selectedOptionText, targetScenarioId = null) => {
     if (isGenerating) return;
+    if (isStoryReadOnly) {
+      showToast('Read-only story: AI beat generation is disabled.');
+      return;
+    }
     const chosenAction = (selectedOptionText || customActionInput || '').trim();
     if (!chosenAction) return;
 
@@ -676,6 +771,7 @@ Guidance: ${typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci
         activeScenario,
         catalog: elementsCatalog || [],
         storyFlags: adeState.storyFlags || {},
+        excludeGmSecrets: true,
         config: lorebookCfg
       });
       if (loreResult && loreResult.injectedEntries?.length > 0) {
@@ -719,7 +815,9 @@ FORMAT YOUR OUTPUT AS VALID JSON:
           catalog: elementsCatalog || [],
           storyFlags: useAdeStore.getState().storyFlags || {},
           folioCharacter: activeOperative,
-          guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci-Fi Action'
+          guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci-Fi Action',
+          operatorSafe: true,
+          excludeGmSecrets: true
         },
         mandate,
         enforceJson: true,
@@ -803,6 +901,10 @@ FORMAT YOUR OUTPUT AS VALID JSON:
   // ── PHASE 4: EPISTEMIC INTERROGATION & DEDUCTION HANDLER ──
   const handleExecuteEpistemicInterrogation = async () => {
     if (!epistemicQuery.trim() || isEpistemicSubmitting) return;
+    if (isStoryReadOnly) {
+      showToast('Read-only story: epistemic interrogation is disabled.');
+      return;
+    }
     setIsEpistemicSubmitting(true);
     AudioService.playTerminalBeep(1100, 0.05);
 
@@ -875,6 +977,10 @@ Respond in 2-3 concise in-character sentences.`;
   };
 
   const handleCommitToStoryWeaver = () => {
+    if (isStoryReadOnly) {
+      showToast('Read-only story: cannot commit beats to Story Weaver.');
+      return;
+    }
     if (beats.length === 0 || !activeScenario?.id) return;
     const beatTexts = beats.map(b => `<p><strong>[Beat #${b.beatIndex} - ${b.protagonistName}]:</strong> ${b.text}</p>`).join('');
     const existing = activeScenario.content || '';
@@ -1258,7 +1364,7 @@ Respond in 2-3 concise in-character sentences.`;
                   </span>
                   <button
                     type="button"
-                    disabled={beats.length === 0}
+                    disabled={beats.length === 0 || isStoryReadOnly}
                     onClick={() => {
                       setIsEngineMenuOpen(false);
                       handleCommitToStoryWeaver();
@@ -1295,6 +1401,25 @@ Respond in 2-3 concise in-character sentences.`;
               </div>
             )}
           </div>
+
+          {/* 6. Saved Interactive Sessions Drawer Trigger */}
+          <button
+            type="button"
+            onClick={() => {
+              setIsOperativeMenuOpen(false);
+              setIsEngineMenuOpen(false);
+              setIsSessionsDrawerOpen(prev => !prev);
+            }}
+            className={`px-2.5 py-1 rounded-xl text-xs font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+              isSessionsDrawerOpen
+                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/60'
+                : 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
+            }`}
+            title="Manage Saved Interactive Play Sessions (Resume, Fork Checkpoint, Delete)"
+          >
+            <History size={12} className="text-emerald-400" />
+            <span>Sessions ({savedSessions.length})</span>
+          </button>
         </div>
 
         {/* Right Cluster: Ambient Audio, Reset & Stage Handoff */}
@@ -1550,18 +1675,31 @@ Respond in 2-3 concise in-character sentences.`;
                       <span>Author-Scripted Story Branches:</span>
                     </span>
                     <div className="flex gap-2 flex-wrap">
-                      {preAuthoredBranches.map((branch) => (
-                        <button
-                          key={branch.id}
-                          type="button"
-                          disabled={isGenerating}
-                          onClick={() => handleAdvanceBeat(branch.text, branch.targetScenarioId)}
-                          className="px-3 py-1.5 rounded-xl bg-purple-950/70 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-sm disabled:opacity-50"
-                        >
-                          <ChevronRight size={12} className="text-purple-400" />
-                          <span>{branch.text}</span>
-                        </button>
-                      ))}
+                      {preAuthoredBranches.map((branch) => {
+                        const isLocked = branch.conditionMet === false;
+                        return (
+                          <button
+                            key={branch.id}
+                            type="button"
+                            disabled={isGenerating || isLocked}
+                            title={isLocked ? `Locked by condition: ${branch.condition}` : branch.text}
+                            onClick={() => handleAdvanceBeat(branch.text, branch.targetScenarioId)}
+                            className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm disabled:opacity-50 ${
+                              isLocked
+                                ? 'bg-slate-900 border-slate-700 text-slate-400 cursor-not-allowed'
+                                : 'bg-purple-950/70 hover:bg-purple-900 border-purple-500/50 hover:border-purple-400 text-purple-200 cursor-pointer'
+                            }`}
+                          >
+                            <ChevronRight size={12} className="text-purple-400" />
+                            <span>{branch.text}</span>
+                            {isLocked && branch.condition && (
+                              <span className="px-1.5 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-300 text-[9px]">
+                                🔒 {branch.condition}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -1868,17 +2006,29 @@ Respond in 2-3 concise in-character sentences.`;
               <div className="border-t border-slate-800 bg-slate-950 p-3 shrink-0 space-y-2">
                 {preAuthoredBranches.length > 0 && (
                   <div className="flex gap-1.5 flex-wrap pb-1 border-b border-slate-850">
-                    {preAuthoredBranches.map(branch => (
-                      <button
-                        key={branch.id}
-                        type="button"
-                        onClick={() => handleAdvanceBeat(branch.text, branch.targetScenarioId)}
-                        className="px-2 py-1 rounded-lg bg-purple-950/70 border border-purple-500/50 text-purple-200 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
-                      >
-                        <ChevronRight size={10} />
-                        <span className="truncate max-w-[140px]">{branch.text}</span>
-                      </button>
-                    ))}
+                    {preAuthoredBranches.map(branch => {
+                      const isLocked = branch.conditionMet === false;
+                      return (
+                        <button
+                          key={branch.id}
+                          type="button"
+                          disabled={isGenerating || isLocked}
+                          title={isLocked ? `Locked by condition: ${branch.condition}` : branch.text}
+                          onClick={() => handleAdvanceBeat(branch.text, branch.targetScenarioId)}
+                          className={`px-2 py-1 rounded-lg border text-[10px] font-bold flex items-center gap-1 disabled:opacity-50 ${
+                            isLocked
+                              ? 'bg-slate-900 border-slate-700 text-slate-400 cursor-not-allowed'
+                              : 'bg-purple-950/70 border-purple-500/50 text-purple-200 cursor-pointer'
+                          }`}
+                        >
+                          <ChevronRight size={10} />
+                          <span className="truncate max-w-[140px]">{branch.text}</span>
+                          {isLocked && branch.condition && (
+                            <span className="text-[9px] text-amber-300">🔒 {branch.condition}</span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
 
@@ -2091,6 +2241,106 @@ Respond in 2-3 concise in-character sentences.`;
         )}
       </div>
 
+      {/* Saved Sessions & Checkpoint Fork Drawer */}
+      {isSessionsDrawerOpen && (
+        <div
+          className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs"
+          onClick={() => setIsSessionsDrawerOpen(false)}
+        >
+          <div
+            className="w-full max-w-md h-full bg-[#0b101b] border-l border-emerald-500/40 shadow-2xl flex flex-col p-4 space-y-3 font-mono text-xs"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <div className="flex items-center gap-2 text-emerald-300 font-bold uppercase tracking-wider">
+                <History size={14} />
+                <span>Saved Play Sessions ({savedSessions.length})</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleCreateNewSession}
+                  className="px-2.5 py-1 rounded-lg bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-200 font-bold flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus size={12} />
+                  <span>New Session</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsSessionsDrawerOpen(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto space-y-2 pr-1">
+              {savedSessions.length === 0 ? (
+                <div className="text-center py-8 text-slate-500 space-y-2">
+                  <p>No saved interactive sessions yet.</p>
+                  <p className="text-[10px]">Advance a story beat or click New Session above to create a checkpoint.</p>
+                </div>
+              ) : (
+                savedSessions.map((sess) => {
+                  const isCurrent = sess.id === currentSessionId;
+                  const beatCount = Array.isArray(sess.beats) ? sess.beats.length : 0;
+                  return (
+                    <div
+                      key={sess.id}
+                      className={`p-3 rounded-xl border space-y-2 ${
+                        isCurrent
+                          ? 'bg-emerald-950/30 border-emerald-500/50'
+                          : 'bg-slate-900/80 border-slate-800'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <div className="text-slate-100 font-bold truncate">
+                            {sess.activeScenarioTitle || 'Interactive Session'}
+                          </div>
+                          <div className="text-[10px] text-slate-400">
+                            {beatCount} {beatCount === 1 ? 'beat' : 'beats'} • {sess.mode === 'director' ? 'Director' : 'Solo'}
+                            {isCurrent ? ' • Active' : ''}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => handleResumeSession(sess)}
+                          className="px-2 py-1 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-200 font-bold flex items-center gap-1 cursor-pointer"
+                        >
+                          <Play size={10} />
+                          <span>Resume</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleForkSession(sess)}
+                          className="px-2 py-1 rounded-lg bg-purple-950 hover:bg-purple-900 border border-purple-500/40 text-purple-200 font-bold flex items-center gap-1 cursor-pointer"
+                        >
+                          <Copy size={10} />
+                          <span>Fork Checkpoint</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteSession(sess.id)}
+                          aria-label={`Delete session ${sess.activeScenarioTitle || sess.id}`}
+                          className="px-2 py-1 rounded-lg bg-rose-950/60 hover:bg-rose-900 border border-rose-500/40 text-rose-300 font-bold flex items-center gap-1 cursor-pointer ml-auto"
+                        >
+                          <Trash2 size={10} />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Lorebook Dossier Inspector Modal */}
       <LorebookDossierModal
         isOpen={!!selectedLoreEntry}
@@ -2105,25 +2355,32 @@ Respond in 2-3 concise in-character sentences.`;
           isOpen={!!editingElement}
           element={editingElement}
           onClose={() => setEditingElement(null)}
-          onSave={async (saved) => {
+          onSave={async (saved, options = {}) => {
             const res = await persistAdeElement({
               element: saved,
               elementsCatalog,
               updateSavedElement,
               saveEntry,
               saveCurrentToRoster,
-              showToast: (payload) => showToast(typeof payload === 'string' ? payload : (payload?.text || `✓ Saved "${saved?.title || 'element'}"`))
+              showToast: (payload) => showToast(typeof payload === 'string' ? payload : (payload?.text || `✓ Saved "${saved?.title || 'element'}"`)),
+              isStoryReadOnly: Boolean(isStoryReadOnly),
+              fromEditModal: true,
+              isAdmin: Boolean(isAdmin)
             });
             if (!res) return null;
-            setEditingElement(null);
+            if (options?.closeAfter !== false) {
+              setEditingElement(null);
+            }
             return res;
           }}
           onDelete={(id) => {
+            if (isStoryReadOnly) return false;
             if (typeof deleteSavedElement === 'function' && id) {
               deleteSavedElement(id);
               showToast('✓ Deleted element');
             }
             setEditingElement(null);
+            return true;
           }}
         />
       )}

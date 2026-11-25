@@ -31,6 +31,7 @@ export interface LorebookScanOptions {
   storyFlags?: Record<string, any>;
   userHandle?: string;
   targetCharName?: string;
+  excludeGmSecrets?: boolean;
   config?: {
     maxTokens?: number;
     maxRecursionPasses?: number;
@@ -124,24 +125,29 @@ export function compileTriggerRegex(
 }
 
 /**
- * Strips HTML formatting and normalizes whitespace.
+ * Strips HTML formatting (and optional GM-secret blocks) and normalizes whitespace.
  */
-function sanitizeText(str: string = ''): string {
+function sanitizeText(str: string = '', excludeGmSecrets: boolean = false): string {
   if (!str) return '';
-  return str.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
+  let text = String(str);
+  if (excludeGmSecrets) {
+    text = text.replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, ' ');
+  }
+  return text.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
 }
 
 /**
  * Returns all matching keywords from a trigger list found within the scanned text.
  */
-export function testKeywordList(keywords: string[] = [], textToScan: string = ''): string[] {
+export function testKeywordList(keywords: string[] = [], textToScan: string = '', caseSensitive: boolean = false): string[] {
   if (!keywords || keywords.length === 0 || !textToScan) return [];
   const matches: string[] = [];
+  const flags = caseSensitive ? '' : 'i';
 
   for (const trig of keywords) {
     if (!trig) continue;
     const escaped = trig.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`\\b${escaped}\\b`, 'i');
+    const regex = new RegExp(`\\b${escaped}\\b`, flags);
     if (regex.test(textToScan)) {
       matches.push(trig);
     }
@@ -245,7 +251,12 @@ export function testKeywordTriggers(triggerListStr: string = '', textToScan: str
 /**
  * Extracts a concise, high-density lore snippet from an element based on its type and fields.
  */
-export function extractLoreSnippet(elem: any, maxTokens: number = 250): { snippet: string; tokens: number } {
+export function extractLoreSnippet(
+  elem: any,
+  maxTokens: number = 250,
+  options: { excludeGmSecrets?: boolean } = {}
+): { snippet: string; tokens: number } {
+  const { excludeGmSecrets = false } = options;
   const fields = elem.fields || {};
   const parts: string[] = [];
 
@@ -253,7 +264,11 @@ export function extractLoreSnippet(elem: any, maxTokens: number = 250): { snippe
   if (fields.oneLinePitch) parts.push(`Concept: "${fields.oneLinePitch}"`);
   if (fields.corePremise) parts.push(`Premise: ${fields.corePremise}`);
   if (fields.archetype) parts.push(`Archetype: ${fields.archetype}`);
-  if (fields.techLevel) parts.push(`Tech Level: ${fields.techLevel}`);
+  if (fields.techLevel || fields['tech-level']) parts.push(`Tech Level: ${fields.techLevel || fields['tech-level']}`);
+  if (fields.metaLevel || fields['magic-level']) parts.push(`Meta Level: ${fields.metaLevel || fields['magic-level']}`);
+  if (fields.aspect) parts.push(`Aspect: ${fields.aspect}`);
+  if (fields.gearClass || fields.itemCategory) parts.push(`Class: ${fields.gearClass || fields.itemCategory}`);
+  if (fields.rarity) parts.push(`Rarity: ${fields.rarity}`);
   if (fields.functionPurpose) parts.push(`Function: ${fields.functionPurpose}`);
   if (fields.coreTenets) parts.push(`Tenets: ${fields.coreTenets}`);
   if (fields.sensoryDetails) parts.push(`Sensory: ${fields.sensoryDetails}`);
@@ -261,13 +276,13 @@ export function extractLoreSnippet(elem: any, maxTokens: number = 250): { snippe
   if (fields.historyTimeline) parts.push(`Lore: ${fields.historyTimeline.slice(0, 180)}`);
   if (fields.category) parts.push(`Category: ${fields.category}`);
   if (fields.summary) parts.push(`Summary: ${fields.summary}`);
-  if (fields.description) parts.push(`Details: ${sanitizeText(fields.description).slice(0, 200)}`);
+  if (fields.description) parts.push(`Details: ${sanitizeText(fields.description, excludeGmSecrets).slice(0, 200)}`);
   if (fields.tags) parts.push(`Tags: ${fields.tags}`);
 
   // Dynamic user-defined custom fields from EditElementModal
   if (Array.isArray(elem.customFields) && elem.customFields.length > 0) {
     const customSummary = elem.customFields
-      .filter((cf: any) => cf && cf.label && cf.value)
+      .filter((cf: any) => cf && cf.label && cf.value && (!excludeGmSecrets || (!cf.isGmOnly && !cf.isHidden)))
       .map((cf: any) => `${cf.label}: ${cf.value}`)
       .slice(0, 3)
       .join(', ');
@@ -277,7 +292,7 @@ export function extractLoreSnippet(elem: any, maxTokens: number = 250): { snippe
   let text = parts.join(' | ');
 
   if (!text) {
-    const rawContent = sanitizeText(elem.content || elem.description || '');
+    const rawContent = sanitizeText(elem.content || elem.description || '', excludeGmSecrets);
     text = rawContent.slice(0, maxTokens * 4);
   }
 
@@ -301,13 +316,34 @@ function matchCandidateAgainstText(
     elem: any;
     primaryTriggers: string[];
     secondaryTriggers: string[];
+    negativeTriggers?: string[];
+    caseSensitive?: boolean;
+    alwaysActive?: boolean;
     triggerLogic: LoreTriggerLogic;
     regexPattern: string;
     compiledRegex: RegExp | null;
   },
   textToScan: string
 ): string | null {
-  const { elem, primaryTriggers, secondaryTriggers, triggerLogic, regexPattern, compiledRegex } = candidate;
+  const {
+    elem,
+    primaryTriggers,
+    secondaryTriggers,
+    negativeTriggers = [],
+    caseSensitive = false,
+    alwaysActive = false,
+    triggerLogic,
+    regexPattern,
+    compiledRegex
+  } = candidate;
+
+  if (negativeTriggers.length > 0 && testKeywordList(negativeTriggers, textToScan, caseSensitive).length > 0) {
+    return null;
+  }
+
+  if (alwaysActive) {
+    return 'Always Active / Auto-Inject';
+  }
 
   // 1. Test regex
   let regexMatched = false;
@@ -366,6 +402,7 @@ export function scanDynamicLorebook({
   storyFlags = {},
   userHandle = 'Operator',
   targetCharName = '',
+  excludeGmSecrets = false,
   config = {}
 }: LorebookScanOptions): LorebookScanResult {
   const maxTokens = typeof config.maxTokens === 'number' && config.maxTokens > 0 
@@ -387,6 +424,9 @@ export function scanDynamicLorebook({
     elem: any;
     primaryTriggers: string[];
     secondaryTriggers: string[];
+    negativeTriggers: string[];
+    caseSensitive: boolean;
+    alwaysActive: boolean;
     triggerLogic: LoreTriggerLogic;
     regexPattern: string;
     compiledRegex: RegExp | null;
@@ -397,6 +437,10 @@ export function scanDynamicLorebook({
 
   for (const elem of validCatalog) {
     if (!elem || !elem.id) continue;
+    if (excludeGmSecrets && (elem.isHidden || elem.isGmOnly || elem.fields?.playerVisible === false)) {
+      suppressedCount++;
+      continue;
+    }
     candidateCount++;
 
     const fields = elem.fields || {};
@@ -417,8 +461,11 @@ export function scanDynamicLorebook({
     }
 
     // Parse triggers and metadata from lorebook config or fields fallback
-    const primaryTriggers = normalizeTriggers(lorebook.primaryTriggers || fields.primaryTriggers);
+    const primaryTriggers = normalizeTriggers(lorebook.primaryTriggers || fields.primaryTriggers || elem.keywords || fields.keywords);
     const secondaryTriggers = normalizeTriggers(lorebook.secondaryTriggers || fields.secondaryTriggers);
+    const negativeTriggers = normalizeTriggers(lorebook.negativeKeywords || fields.negative_keywords || fields.negativeKeywords);
+    const caseSensitive = Boolean(lorebook.caseSensitive ?? fields.loreCaseSensitive);
+    const alwaysActive = Boolean(lorebook.alwaysActive ?? fields.loreAlwaysActive ?? fields.loreAutoInject);
     const triggerLogic: LoreTriggerLogic = lorebook.triggerLogic || fields.triggerLogic || 'OR';
     const regexPattern = lorebook.triggerRegex || fields.triggerRegex || '';
     const compiledRegex = compileTriggerRegex(regexPattern, userHandle, resolvedCharName);
@@ -430,6 +477,9 @@ export function scanDynamicLorebook({
       elem,
       primaryTriggers,
       secondaryTriggers,
+      negativeTriggers,
+      caseSensitive,
+      alwaysActive,
       triggerLogic,
       regexPattern,
       compiledRegex,
@@ -447,7 +497,7 @@ export function scanDynamicLorebook({
   const scenarioSurface = [
     activeScenario?.title,
     activeScenario?.fields?.readAloud,
-    activeScenario?.content ? sanitizeText(activeScenario.content).slice(0, 500) : ''
+    activeScenario?.content ? sanitizeText(activeScenario.content, excludeGmSecrets).slice(0, 500) : ''
   ].filter(Boolean).join(' ');
 
   const surfaceScanText = `${input} ${scenarioSurface}`.trim();
@@ -464,7 +514,7 @@ export function scanDynamicLorebook({
     const matchedTrigger = matchCandidateAgainstText(candidate, targetSurfaceText);
 
     if (matchedTrigger) {
-      const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens);
+      const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens, { excludeGmSecrets });
       matchedSet.set(candidate.elem.id, {
         id: candidate.elem.id,
         title: candidate.elem.title || 'Untitled Element',
@@ -495,7 +545,7 @@ export function scanDynamicLorebook({
       const matchedTrigger = matchCandidateAgainstText(candidate, pass1Text);
 
       if (matchedTrigger) {
-        const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens);
+        const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens, { excludeGmSecrets });
         matchedSet.set(candidate.elem.id, {
           id: candidate.elem.id,
           title: candidate.elem.title || 'Untitled Element',
@@ -525,7 +575,7 @@ export function scanDynamicLorebook({
           const matchedTrigger = matchCandidateAgainstText(candidate, pass2Text);
 
           if (matchedTrigger) {
-            const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens);
+            const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens, { excludeGmSecrets });
             matchedSet.set(candidate.elem.id, {
               id: candidate.elem.id,
               title: candidate.elem.title || 'Untitled Element',

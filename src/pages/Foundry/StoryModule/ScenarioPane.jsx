@@ -59,6 +59,8 @@ export default function ScenarioPane({
     mapsCatalog,
     updateSavedElement,
     deleteSavedElement,
+    applyCronicleDelta,
+    cronicle,
     isStoryReadOnly = false
   } = useStory();
 
@@ -249,9 +251,17 @@ export default function ScenarioPane({
     activeScenario: activeNode,
     flatScenarios,
     setActiveScenarioId,
-    storyContext: { universeState, activeScenario: activeNode, linkedMap },
+    storyContext: { universeState, activeScenario: activeNode, linkedMap, cronicle },
+    applyCronicleDelta,
+    openFloatingAimeWithPrompt: (promptText) => {
+      useAdeStore.getState().setModal('floatingAime', true);
+      if (promptText && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('aime-prefill-prompt', { detail: { prompt: promptText } }));
+      }
+    },
     studioMode,
     enableProximityInDev: scenarioWorkspaceTab === 'stage',
+    isStoryReadOnly,
     liveTokens
   });
 
@@ -270,7 +280,9 @@ export default function ScenarioPane({
     addStory,
     setActiveScenarioId,
     localContent,
-    setLocalContent
+    setLocalContent,
+    isStoryReadOnly,
+    elementsCatalog
   });
 
   const handleOpenAddModal = (targetParentId = null) => {
@@ -439,6 +451,8 @@ export default function ScenarioPane({
           onSwitchView={onSwitchView}
           updateSavedElement={updateSavedElement}
           addStory={addStory}
+          isStoryReadOnly={isStoryReadOnly}
+          perspectiveMode={perspectiveMode}
         />
       )}
 

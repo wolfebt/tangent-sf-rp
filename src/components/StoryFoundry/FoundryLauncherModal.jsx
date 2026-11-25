@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useStory } from '../../context/CampaignContext';
 import { useDBM } from '../../context/DBMContext';
 import { useFolio } from '../../context/FolioContext';
+import { useAuth } from '../../context/AuthContext';
 import { persistAdeElement } from '../../utils/adeElementPersistence';
 import { exportElementJSON, exportElementMarkdown, exportElementPDF } from '../../pages/Foundry/StoryModule/exportUtils';
 import EditElementModal from '../../pages/Foundry/ElementForge/EditElementModal';
@@ -17,6 +18,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   const { toast } = useToast();
   const { saveEntry } = useDBM() || {};
   const { saveCurrentToRoster } = useFolio() || {};
+  const { isAdmin = false } = useAuth() || {};
   const {
     storyCatalog,
     elementsCatalog,
@@ -35,6 +37,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     isStoryReadOnly = false,
     setIsStoryReadOnly,
     setGalleryModifiers,
+    updateCreativeState,
+    updateCronicle,
     handleSaveLocal,
     confirmIfDirty,
     toggleStoryVisibility,
@@ -113,7 +117,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     setIsEditModalOpen(true);
   };
 
-  const handleSaveEditElement = async (updatedElem) => {
+  const handleSaveEditElement = async (updatedElem, options = {}) => {
     const tagged = attachCreatorTag(updatedElem, localStorage.getItem('userHandle'));
     const res = await persistAdeElement({
       element: tagged,
@@ -121,11 +125,16 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
       updateSavedElement,
       saveEntry,
       saveCurrentToRoster,
-      showToast: (payload) => toast(typeof payload === 'string' ? { type: 'info', text: payload } : payload)
+      showToast: (payload) => toast(typeof payload === 'string' ? { type: 'info', text: payload } : payload),
+      isStoryReadOnly: Boolean(isStoryReadOnly),
+      fromEditModal: true,
+      isAdmin: Boolean(isAdmin)
     });
     if (!res) return null;
-    setIsEditModalOpen(false);
-    setEditingElement(null);
+    if (options?.closeAfter !== false) {
+      setIsEditModalOpen(false);
+      setEditingElement(null);
+    }
     return res;
   };
 
@@ -300,6 +309,10 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
   const handleImportElementToWorkingStory = (elem) => {
     if (!elem) return;
+    if (isStoryReadOnly) {
+      toast({ type: 'warning', text: 'Current story is read-only. Create or clone an editable story before importing elements.' });
+      return;
+    }
     const importedNode = {
       ...elem,
       id: `elem_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
@@ -312,6 +325,10 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
   const handleImportMapToWorkingStory = (mapElem) => {
     if (!mapElem) return;
+    if (isStoryReadOnly) {
+      toast({ type: 'warning', text: 'Current story is read-only. Create or clone an editable story before importing maps.' });
+      return;
+    }
     const importedNode = {
       ...mapElem,
       id: `map_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
@@ -349,6 +366,11 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
             updateMap,
             addStory,
             updateStory,
+            updateCreativeState,
+            updateCronicle,
+            existingMaps: universeState?.maps || [],
+            existingScenarios: universeState?.scenarios || [],
+            existingElements: elementsCatalog || [],
             addSavedElement: (el) => {
               const eid = el?.id || `elem_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
               return updateSavedElement?.(eid, { ...el, id: eid });
@@ -377,6 +399,13 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
             data.scenarios ||
             data.stories)
         ) {
+          if (isStoryReadOnly) {
+            toast({
+              type: 'warning',
+              text: 'Current story is read-only. Create or open an editable story before importing a story file.'
+            });
+            return;
+          }
           const loaded = data.data || data;
           const loadedScenarios = Array.isArray(loaded.scenarios || loaded.stories)
             ? (loaded.scenarios || loaded.stories)
@@ -855,7 +884,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                             </button>
                           ) : (
                             <button
-                              onClick={() => {
+                              onClick={async () => {
+                                if (typeof confirmIfDirty === 'function' && !(await confirmIfDirty())) return;
                                 openStory(story.id);
                                 onClose();
                               }}
@@ -945,7 +975,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                                   </button>
                                 )}
                                 <button
-                                  onClick={() => {
+                                  onClick={async () => {
+                                    if (typeof confirmIfDirty === 'function' && !(await confirmIfDirty())) return;
                                     openStory(story.id);
                                     onClose();
                                   }}
@@ -1323,7 +1354,10 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
           }}
           element={editingElement}
           onSave={handleSaveEditElement}
-          onDelete={deleteSavedElement}
+          onDelete={(id) => {
+            if (isStoryReadOnly) return false;
+            return deleteSavedElement?.(id);
+          }}
         />
       </div>
     </div>

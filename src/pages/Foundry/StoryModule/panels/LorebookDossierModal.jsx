@@ -139,7 +139,17 @@ export default function LorebookDossierModal({ isOpen, onClose, entry, onNavigat
               <span>Canonical Dossier & Narrative Text</span>
             </span>
             <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-xs font-sans leading-relaxed whitespace-pre-wrap select-text">
-              {description}
+              {String(description || '')
+                .replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '')
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<\/p>/gi, '\n\n')
+                .replace(/<[^>]+>/g, '')
+                .replace(/&nbsp;/gi, ' ')
+                .replace(/&amp;/gi, '&')
+                .replace(/&lt;/gi, '<')
+                .replace(/&gt;/gi, '>')
+                .replace(/&quot;/gi, '"')
+                .trim() || 'No canonical description recorded.'}
             </div>
           </div>
 

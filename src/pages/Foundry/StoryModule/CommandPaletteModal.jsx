@@ -14,6 +14,7 @@ export default function CommandPaletteModal({
   onClose,
   universeState = {},
   elementsCatalog = [],
+  isStoryReadOnly = false,
   onSelectScenario,
   onEditElement,
   onOpenNewElement,
@@ -26,6 +27,8 @@ export default function CommandPaletteModal({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
   const storyFlags = useAdeStore((s) => s.storyFlags);
+  const perspectiveMode = useAdeStore((s) => s.perspectiveMode || 'architect');
+  const isOperatorMode = perspectiveMode === 'operator';
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -50,14 +53,14 @@ export default function CommandPaletteModal({
 
     // 1. Studio Quick Actions
     items.push(
-      {
+      ...(!isStoryReadOnly ? [{
         id: 'act_new_elem',
         category: 'Action',
         title: 'Create New Story Element',
         subtitle: 'Launch Guided Element Forge',
         icon: Sparkles,
         run: () => onOpenNewElement?.()
-      },
+      }] : []),
       {
         id: 'act_cronicle',
         category: 'Action',
@@ -104,6 +107,7 @@ export default function CommandPaletteModal({
     const walkScenarios = (nodes, depth = 0) => {
       for (const n of nodes || []) {
         if (!n) continue;
+        if (isOperatorMode && (n.isHidden || n.isGmOnly)) continue;
         items.push({
           id: `sc_${n.id}`,
           category: 'Scenario',
@@ -123,6 +127,7 @@ export default function CommandPaletteModal({
     // 3. Elements
     for (const el of elementsCatalog || []) {
       if (!el) continue;
+      if (isOperatorMode && (el.isHidden || el.isGmOnly || el.fields?.playerVisible === false)) continue;
       items.push({
         id: `el_${el.id}`,
         category: el.type || 'Element',

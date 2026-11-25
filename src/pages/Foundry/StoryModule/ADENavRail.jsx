@@ -42,13 +42,15 @@ import {
   PERSONA_SUBCATEGORIES,
   METAPHYSICS_SUBCATEGORIES,
   normalizeElementType,
+  inferPropertySubcategory,
+  inferMetaphysicsSubcategory,
   getTypePillStyle
 } from '../ElementForge/elementSchemas';
 import { useAdeStore } from '../store/adeStore';
 import { useStory } from '../../../context/CampaignContext';
 import { useDBM } from '../../../context/DBMContext';
 import { useFolio } from '../../../context/FolioContext';
-import { ADE_TYPE_TO_CORTEX_COLLECTIONS } from '../../../utils/cortexAdeAssetBridge';
+import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
 
 const EMPTY_ARRAY = [];
 const EMPTY_OBJ = {};
@@ -91,33 +93,44 @@ export const ADENavRail = ({
   const activeElementType = normalizeElementType(propActiveElementType || storeActiveElementType || ELEMENT_TYPES[0]);
   const liveFolioList = Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : EMPTY_ARRAY);
 
-  const { categoryCountsMap, storyPersonaCount } = useMemo(() => {
-    const modCounts = {};
-    let sPersonaCount = 0;
-    for (const e of elementsCatalog) {
-      if (!e) continue;
-      const t = normalizeElementType(e.type);
-      modCounts[t] = (modCounts[t] || 0) + 1;
-      if (t === 'Persona' && !e.isFolioPersona && e.dbmCategory !== 'modular_characters') {
-        sPersonaCount++;
-      }
-    }
+  const unifiedCatalog = useMemo(
+    () =>
+      buildUnifiedAdeCatalog({
+        elementsCatalog: elementsCatalog || EMPTY_ARRAY,
+        dbData: dbData || EMPTY_OBJ,
+        folioRoster: liveFolioList
+      }),
+    [elementsCatalog, dbData, liveFolioList]
+  );
 
+  const { categoryCountsMap, propertySubCounts, metaphysicsSubCounts, personaSubCounts, unifiedTotalCount } = useMemo(() => {
     const counts = {};
-    for (const elType of ELEMENT_TYPES) {
-      const moduleCount = modCounts[elType] || 0;
-      const cortexCols = ADE_TYPE_TO_CORTEX_COLLECTIONS[elType] || EMPTY_ARRAY;
-      let cortexCount = 0;
-      for (const col of cortexCols) {
-        if (Array.isArray(dbData?.[col])) {
-          cortexCount += dbData[col].length;
-        }
+    const pSub = {};
+    const mSub = {};
+    const perSub = {};
+    for (const el of unifiedCatalog) {
+      if (!el) continue;
+      const t = normalizeElementType(el.type);
+      counts[t] = (counts[t] || 0) + 1;
+      if (t === 'Property') {
+        const sub = el.propertySubcategory || inferPropertySubcategory(el);
+        pSub[sub] = (pSub[sub] || 0) + 1;
+      } else if (t === 'Metaphysics') {
+        const sub = el.metaphysicsSubcategory || inferMetaphysicsSubcategory(el);
+        mSub[sub] = (mSub[sub] || 0) + 1;
+      } else if (t === 'Persona') {
+        const track = el.personaSubcategory || (el.isFolioPersona ? 'folio' : el.dbmCategory === 'modular_characters' ? 'mcm' : 'story');
+        perSub[track] = (perSub[track] || 0) + 1;
       }
-      const folioCount = elType === 'Persona' ? liveFolioList.length : 0;
-      counts[elType] = moduleCount + cortexCount + folioCount;
     }
-    return { categoryCountsMap: counts, storyPersonaCount: sPersonaCount };
-  }, [elementsCatalog, dbData, liveFolioList]);
+    return {
+      categoryCountsMap: counts,
+      propertySubCounts: pSub,
+      metaphysicsSubCounts: mSub,
+      personaSubCounts: perSub,
+      unifiedTotalCount: unifiedCatalog.length
+    };
+  }, [unifiedCatalog]);
 
   const getCategoryAssetCount = (elType) => categoryCountsMap[elType] || 0;
 
@@ -735,7 +748,7 @@ export const ADENavRail = ({
                                 <span>All Property</span>
                               </button>
                               {PROPERTY_SUBCATEGORIES.map((sub) => {
-                                const subCount = Array.isArray(dbData?.[sub.dbmCollection]) ? dbData[sub.dbmCollection].length : 0;
+                                const subCount = propertySubCounts[sub.id] || 0;
                                 const isSubActive = activePropertySubcategory === sub.id;
                                 return (
                                   <button
@@ -780,7 +793,7 @@ export const ADENavRail = ({
                                 <span>All Metaphysics</span>
                               </button>
                               {METAPHYSICS_SUBCATEGORIES.map((sub) => {
-                                const subCount = Array.isArray(dbData?.[sub.dbmCollection]) ? dbData[sub.dbmCollection].length : 0;
+                                const subCount = metaphysicsSubCounts[sub.id] || 0;
                                 const isSubActive = activeMetaphysicsSubcategory === sub.id;
                                 return (
                                   <button
@@ -825,11 +838,7 @@ export const ADENavRail = ({
                                 <span>All Personas</span>
                               </button>
                               {PERSONA_SUBCATEGORIES.map((sub) => {
-                                const subCount = sub.id === 'folio'
-                                  ? liveFolioList.length
-                                  : sub.id === 'mcm'
-                                  ? (Array.isArray(dbData?.modular_characters) ? dbData.modular_characters.length : 0)
-                                  : storyPersonaCount;
+                                const subCount = personaSubCounts[sub.id] || 0;
                                 const isSubActive = activePersonaSource === sub.id;
                                 return (
                                   <button

@@ -9,7 +9,8 @@ import {
   ELEMENT_TYPES,
   ELEMENT_SCHEMAS,
   SCENARIO_GUIDE_MODULES,
-  normalizeElementType
+  normalizeElementType,
+  resolveSchemaFieldValue
 } from '../elementSchemas.js';
 import { AIME_CANONICAL_GEMS, EXTENDED_GEMS } from '../../StoryModule/guidanceGemsConfig.js';
 
@@ -272,11 +273,47 @@ export const ARCHETYPE_BLUEPRINTS = [
     category: 'Metaphysics',
     elementType: 'Metaphysics',
     icon: '🔥',
-    summary: 'Psionic, dimensional, or arcane invocation with discipline, Design DC, range/area, and Strain backlash.',
-    promptTemplate: 'Design a canonical Metaphysics Invocation dossier for "{title}". Include governing discipline, Meta Skill, Meta Level, Design DC, cast time, range, area, mechanical 2d10 effect, and overchanneling backlash.',
+    summary: 'Psionic, dimensional, or arcane invocation with discipline, Design CR, range/area, and Strain backlash.',
+    promptTemplate: 'Design a canonical Metaphysics Invocation dossier for "{title}". Include governing discipline, Meta Skill, Meta Level, Design CR, Action Tier cost, range, area, mechanical 2d10 effect, and overchanneling backlash.',
     seedGuidance: { genre: 'Sci-Fi', tone: 'Serious' },
     seedFields: { metaphysicsSubcategory: 'invocations', meta_level: '3', 'meta-level': '3', design_dc: '18' },
     seedTags: 'Metaphysics, Invocation, Psionics'
+  },
+  {
+    id: 'bp_encounter_tactical',
+    name: 'Tactical Encounter / Hazard',
+    category: 'Tactical',
+    elementType: 'Encounter',
+    icon: '⚔️',
+    summary: 'Multi-wave tactical encounter with environmental hazards, adversary deployment, and resolution rewards.',
+    promptTemplate: 'Design a tactical Encounter brief titled "{title}". Include setup, enemy positions, cover/terrain hazards, 2d10 CR gates, and outcomes.',
+    seedGuidance: { genre: 'Action', tone: 'Serious', pacing: 'Urgent', Mood: 'High-Octane & Kinetic' },
+    seedFields: { encounterType: 'Tactical Combat & Environmental Hazard' },
+    seedTags: 'Encounter, Tactical, VTT'
+  },
+  {
+    id: 'bp_adventure_brief',
+    name: 'Operation / Adventure Module',
+    category: 'Campaign',
+    elementType: 'Adventure',
+    icon: '🧭',
+    summary: 'Self-contained adventure mission with inciting hook, operational goal, escalating stakes, and exfil outcomes.',
+    promptTemplate: 'Architect a Tangent SF RP Adventure Module brief for "{title}". Include inciting hook, mission goal, escalating stakes, and branching outcomes.',
+    seedGuidance: { genre: 'Adventure', tone: 'Serious', pacing: 'Fast-paced', structure: 'Linear' },
+    seedFields: { tags: 'Adventure, Mission Brief, Operations' },
+    seedTags: 'Adventure, Mission, Operations'
+  },
+  {
+    id: 'bp_universe_cosmos',
+    name: 'Cosmos / Universe Architecture',
+    category: 'Cosmos',
+    elementType: 'Universe',
+    icon: '🌌',
+    summary: 'Foundational ontological cosmology, dimensional laws, and campaign-wide tech/meta physics constants.',
+    promptTemplate: 'Author a Universe cosmology specification for "{title}". Include ontological premise, dimensional architecture, and laws of physics & metaphysics.',
+    seedGuidance: { genre: 'Sci-Fi', tone: 'Formal', Mood: 'Wonder & Exploration' },
+    seedFields: { tags: 'Universe, Cosmology, Canon Baseline' },
+    seedTags: 'Universe, Cosmology, Physics'
   }
 ];
 
@@ -458,9 +495,10 @@ const PLAYBOOK_MAP = {
     pitchLabel: 'Core Invocation / Metaphysical Effect',
     pitchPlaceholder: 'e.g. Collapses local gravity into a 6m singularity pulling hostile units inward...',
     stage3Title: 'Discipline, Manifestation & Invocation Parameters',
-    stage3Subtitle: 'Subcategory (Invocation, Discipline, Special Ability), range, area, cast time, and sensory signature.',
-    stage4Title: 'Meta Level, Design DC & Strain Calibration',
-    stage4Subtitle: 'Calibrate Meta Level (ML 0–5), Invocation Design DC, governing Meta Skill, and Strain/AP cost.',
+    stage3Subtitle: 'Subcategory (Invocation, Discipline, Special Ability), range, area, action tier, and sensory signature.',
+    stage4Title: 'Meta Level, Design CR & Strain Calibration',
+    stage4Subtitle: 'Calibrate Meta Level (ML 0–5), Invocation Design CR, governing Meta Skill, and Action Tier / Strain cost.',
+    supportsSituationalModifier: true,
     dbmCategories: ['invocations', 'disciplines', 'special_abilities']
   },
   'Story Arc': {
@@ -631,7 +669,12 @@ const NON_STAGE3_TABS = new Set([
   'Tactical & Beats',
   'Lorebook & Triggers',
   'Dynamic Lorebook',
-  'Guidance & Directives'
+  'Guidance & Directives',
+  'Cortex Specs',
+  'Cortex Mechanics',
+  'Invocation & Rules',
+  'Engineering & VTT',
+  'User Data & Mechanics'
 ]);
 
 /**
@@ -778,6 +821,9 @@ export function computeGuidedElementReadiness(draft = {}) {
     Array.isArray(guidance.literaryDevices) && guidance.literaryDevices.length > 0 ? 'dev' : '',
     guidance.structure || guidance.Structure,
     guidance.Mood,
+    guidance.Theme,
+    guidance.Conflict,
+    guidance['Setting Style'],
     fields.keywords
   ].filter(Boolean).length;
   const lensStatus = activeGemCount >= 2 ? 'complete' : activeGemCount === 1 ? 'partial' : 'optional';
@@ -785,7 +831,7 @@ export function computeGuidedElementReadiness(draft = {}) {
   // Stage 3: Core Traits & Prose
   const stage3Fields = getCoreSchemaFieldsForStage3(type);
   const filledStage3Count = stage3Fields.filter((f) => {
-    const v = fields[f.key];
+    const v = resolveSchemaFieldValue(fields, f);
     return v !== undefined && v !== null && String(v).trim().length > 0;
   }).length;
   const requiredTraitsTarget = Math.min(3, Math.max(1, stage3Fields.length));
@@ -850,6 +896,9 @@ export function computeGuidedElementReadiness(draft = {}) {
       hasVal(fields['meta-level']) ||
       hasVal(fields.metaLevel) ||
       hasVal(fields.meta_level) ||
+      hasVal(fields.design_dc) ||
+      hasVal(fields.meta_skill) ||
+      hasVal(fields.cast_time) ||
       hasVal(fields.storyFlagKey)
     ) {
       tacticalStatus = 'complete';

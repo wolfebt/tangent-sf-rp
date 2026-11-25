@@ -26,9 +26,8 @@ import {
 import { AudioService } from '../../../services/audioService';
 import { generateContent } from '../../../services/aimeService';
 import { useStory } from '../../../context/CampaignContext';
-import { useDBM } from '../../../context/DBMContext';
 import { useToast } from '../../../context/ToastContext';
-import { syncElementToOmnicortexDBM } from '../../../utils/storyAssetAdapter';
+import { normalizeElementType } from '../ElementForge/elementSchemas';
 
 export default function StoryElementExtractorModal({
   isOpen,
@@ -37,8 +36,7 @@ export default function StoryElementExtractorModal({
   activeNode = null,
   onCreated = null
 }) {
-  const { updateSavedElement, updateStory } = useStory();
-  const dbm = useDBM();
+  const { updateSavedElement, updateStory, isStoryReadOnly = false } = useStory();
   const { toast } = useToast();
 
   const [type, setType] = useState('Persona'); // 'Persona' | 'Item' | 'Smart Prop' | 'Hazard' | 'Clue' | 'Faction'
@@ -46,7 +44,6 @@ export default function StoryElementExtractorModal({
   const [content, setContent] = useState('');
   const [isAiWorking, setIsAiWorking] = useState(false);
   const [linkToScenario, setLinkToScenario] = useState(true);
-  const [syncToOmnicortex, setSyncToOmnicortex] = useState(true);
 
   // Type-specific game context mechanics fields
   // 1. Persona
@@ -231,13 +228,32 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
       fields = { description: content };
     }
 
+    if (isStoryReadOnly) {
+      toast?.({ type: 'warning', text: 'Current story is read-only. Clone or create an editable story before saving elements.' });
+      return;
+    }
+
+    const normalizedType = normalizeElementType(
+      type === 'Smart Prop' || type === 'Item'
+        ? 'Property'
+        : type === 'Hazard'
+          ? 'Encounter'
+          : type
+    );
+    const resolvedFields =
+      type === 'Hazard'
+        ? { ...fields, isTrap: true }
+        : type === 'Smart Prop'
+          ? { ...fields, propertySubcategory: 'smart_prop' }
+          : fields;
+
     const newElement = {
       id: newId,
       title: title.trim(),
-      type: type === 'Smart Prop' ? 'Item' : type,
+      type: normalizedType,
       content,
       icon,
-      fields,
+      fields: resolvedFields,
       createdAt: new Date().toISOString()
     };
 
@@ -247,16 +263,11 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
     // 2. Link to active scenario node if selected
     if (linkToScenario && activeNode?.id && updateStory) {
       const existingLinked = activeNode.linkedElements || [];
-      if (!existingLinked.includes(newId)) {
-        updateStory(activeNode.id, {
-          linkedElements: [...existingLinked, newId]
-        });
-      }
-    }
-
-    // 3. Sync to Omnicortex DBM if selected
-    if (syncToOmnicortex && dbm) {
-      syncElementToOmnicortexDBM(newElement, dbm);
+      const existingHub = activeNode.assetHub || [];
+      updateStory(activeNode.id, {
+        linkedElements: existingLinked.includes(newId) ? existingLinked : [...existingLinked, newId],
+        assetHub: existingHub.includes(newId) ? existingHub : [...existingHub, newId]
+      });
     }
 
     AudioService.playCriticalChime(true);
@@ -278,7 +289,7 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
               <h3 className="font-bold text-sm text-cyan-200 tracking-wider flex items-center gap-2">
                 <span>CREATE STORY ELEMENT COMPONENT</span>
                 <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-                  OMNICORTEX SYNC
+                  STORY MODULE
                 </span>
               </h3>
               <p className="text-[10px] text-slate-400">
@@ -606,19 +617,6 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
               />
               <span className="text-[11px]">
                 Link directly to active Scenario ({activeNode?.title || 'Current Scenario'})
-              </span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer text-slate-300">
-              <input
-                type="checkbox"
-                checked={syncToOmnicortex}
-                onChange={e => setSyncToOmnicortex(e.target.checked)}
-                className="rounded border-slate-700 bg-slate-900 text-purple-500 focus:ring-0"
-              />
-              <span className="text-[11px] flex items-center gap-1 text-purple-300">
-                <Database size={11} />
-                <span>Sync to Omnicortex DBM (Canonical Repository)</span>
               </span>
             </label>
           </div>

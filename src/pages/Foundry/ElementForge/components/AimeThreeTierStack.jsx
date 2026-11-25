@@ -8,7 +8,7 @@
  */
 
 import React, { useState } from 'react';
-import { ELEMENT_SCHEMAS, getTypePillStyle } from '../elementSchemas';
+import { ELEMENT_SCHEMAS, getTypePillStyle, resolveSchemaFieldValue } from '../elementSchemas';
 import AimeGuidanceDeck from './AimeGuidanceDeck';
 import AssetHubDeck from './AssetHubDeck';
 import { ModularCharacterAssembler } from './ModularCharacterAssembler';
@@ -34,6 +34,8 @@ export default function AimeThreeTierStack({
 }) {
   const [isRpgSystemsOpen, setIsRpgSystemsOpen] = useState(false);
   const [activeRpgTab, setActiveRpgTab] = useState('Modular Assembly (MCM)');
+  const [jsonDrafts, setJsonDrafts] = useState({});
+  const [jsonErrors, setJsonErrors] = useState({});
 
   const schema = ELEMENT_SCHEMAS[elementType] || [];
   
@@ -49,11 +51,169 @@ export default function AimeThreeTierStack({
   const isCoreField = (f) => !f.tab || CORE_TAB_NAMES.has(f.tab) || (fallbackPrimaryTab && f.tab === fallbackPrimaryTab);
 
   const coreFields = schema.filter(isCoreField);
+  // Deduplicate schema lorebook tabs (e.g., "Lorebook & Triggers") in favor of canonical "Dynamic Lorebook"
   const rpgTabs = Array.from(new Set([
-    ...schema.filter(f => f.tab && !isCoreField(f)).map(f => f.tab),
+    ...schema.filter(f => f.tab && !isCoreField(f) && !/lorebook/i.test(f.tab)).map(f => f.tab),
     'Dynamic Lorebook'
   ]));
   const currentRpgTab = rpgTabs.includes(activeRpgTab) ? activeRpgTab : (rpgTabs[0] || 'Dynamic Lorebook');
+
+  const renderSchemaField = (f, variant = 'core') => {
+    const isCore = variant === 'core';
+    const rawVal = resolveSchemaFieldValue(fields, f);
+    const isJsonField = f.tab === 'Mechanics: JSON' || f.key === 'customProperties';
+    const externalDisplayVal =
+      rawVal === undefined || rawVal === null
+        ? ''
+        : typeof rawVal === 'object'
+        ? JSON.stringify(rawVal, null, isJsonField ? 2 : 0)
+        : String(rawVal);
+    const displayVal = isJsonField && Object.prototype.hasOwnProperty.call(jsonDrafts, f.key)
+      ? jsonDrafts[f.key]
+      : externalDisplayVal;
+    const isRelational = f.type === 'relational' || f.dbSource;
+    const focusBorder = isCore ? 'focus:border-purple-400' : 'focus:border-amber-400';
+    const inputClass = isCore
+      ? `w-full bg-slate-950/90 border border-slate-800 ${focusBorder} text-slate-100 p-2 rounded-xl text-xs outline-none transition-all font-sans placeholder-slate-600`
+      : `w-full bg-slate-950 border border-slate-800 ${focusBorder} text-slate-100 p-2 rounded-lg text-xs outline-none font-sans`;
+
+    const handleJsonDraftChange = (nextText) => {
+      setJsonDrafts((prev) => ({ ...prev, [f.key]: nextText }));
+      const trimmed = nextText.trim();
+      if (!trimmed) {
+        setJsonErrors((prev) => {
+          const next = { ...prev };
+          delete next[f.key];
+          return next;
+        });
+        onChangeField(f.key, '');
+        return;
+      }
+      try {
+        const parsed = JSON.parse(trimmed);
+        setJsonErrors((prev) => {
+          const next = { ...prev };
+          delete next[f.key];
+          return next;
+        });
+        onChangeField(f.key, parsed);
+      } catch (err) {
+        setJsonErrors((prev) => ({ ...prev, [f.key]: err?.message || 'Invalid JSON' }));
+      }
+    };
+
+    return (
+      <div
+        key={f.key}
+        className={`${isCore ? 'space-y-1.5' : 'space-y-1'} ${f.type === 'textarea' || isJsonField ? 'md:col-span-2' : ''}`}
+      >
+        <div className="flex items-center justify-between gap-2">
+          <label
+            className={
+              isCore
+                ? 'text-[11px] font-extrabold text-slate-300 uppercase tracking-wider flex items-center gap-1.5'
+                : 'text-[10px] font-bold text-amber-300 uppercase tracking-wider block'
+            }
+          >
+            <span>{f.label}</span>
+          </label>
+
+          {f.dbSource && onOpenRelationalSelector && (
+            <button
+              type="button"
+              onClick={() => onOpenRelationalSelector(f)}
+              className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9px] font-bold uppercase tracking-wider transition-colors"
+            >
+              ☁️ Cloud DBM
+            </button>
+          )}
+        </div>
+
+        {isRelational && externalDisplayVal && (
+          <div className={`flex items-center gap-1.5 bg-cyan-950/60 border border-cyan-500/40 ${isCore ? 'px-2.5 py-1 text-xs' : 'px-2 py-0.5 text-[11px]'} rounded-lg`}>
+            <span className="text-cyan-400 font-bold">☁️ DBM:</span>
+            <span className="text-white font-semibold flex-1 truncate">{externalDisplayVal}</span>
+            <button
+              type="button"
+              onClick={() => onChangeField(f.key, '')}
+              className="text-slate-400 hover:text-red-400 font-bold px-1"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+
+        {isJsonField ? (
+          <div className="space-y-1">
+            <textarea
+              rows={isCore ? 4 : 3}
+              value={displayVal}
+              onChange={(e) => handleJsonDraftChange(e.target.value)}
+              onBlur={() => {
+                if (!jsonErrors[f.key]) {
+                  setJsonDrafts((prev) => {
+                    const next = { ...prev };
+                    delete next[f.key];
+                    return next;
+                  });
+                }
+              }}
+              placeholder={f.placeholder || '{ "key": "value" }'}
+              className={`w-full bg-slate-950 border ${
+                jsonErrors[f.key] ? 'border-rose-500/80' : 'border-slate-800 focus:border-amber-400'
+              } text-cyan-200 p-2.5 rounded-lg text-xs outline-none font-mono leading-relaxed`}
+            />
+            {jsonErrors[f.key] && (
+              <div className="text-[10px] font-mono text-rose-400">
+                JSON syntax error (valid value preserved until fixed): {jsonErrors[f.key]}
+              </div>
+            )}
+          </div>
+        ) : f.type === 'textarea' ? (
+          <textarea
+            rows={isCore ? 3 : 2}
+            value={displayVal}
+            onChange={(e) => onChangeField(f.key, e.target.value)}
+            placeholder={f.placeholder || `Enter ${f.label}...`}
+            className={`${inputClass} ${isCore ? 'p-2.5 leading-relaxed' : ''}`}
+          />
+        ) : f.type === 'select' ? (
+          <select
+            value={displayVal}
+            onChange={(e) => onChangeField(f.key, e.target.value)}
+            className={`${inputClass} cursor-pointer`}
+          >
+            <option value="">{f.placeholder || `Select ${f.label}...`}</option>
+            {(Array.isArray(f.options) ? f.options : []).map((opt) => {
+              const optVal = typeof opt === 'object' ? (opt.value ?? opt.label) : opt;
+              const optLabel = typeof opt === 'object' ? (opt.label ?? opt.value) : opt;
+              return (
+                <option key={String(optVal)} value={optVal}>
+                  {optLabel}
+                </option>
+              );
+            })}
+          </select>
+        ) : f.type === 'number' ? (
+          <input
+            type="number"
+            value={displayVal}
+            onChange={(e) => onChangeField(f.key, e.target.value)}
+            placeholder={f.placeholder || `Enter ${f.label}...`}
+            className={inputClass}
+          />
+        ) : (
+          <input
+            type="text"
+            value={displayVal}
+            onChange={(e) => onChangeField(f.key, e.target.value)}
+            placeholder={f.placeholder || `Enter ${f.label}...`}
+            className={inputClass}
+          />
+        )}
+      </div>
+    );
+  };
 
 
   return (
@@ -105,91 +265,7 @@ export default function AimeThreeTierStack({
         {/* Core Traits Form Body */}
         <div className="p-4 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {coreFields.map((f) => {
-              const val = fields[f.key] !== undefined ? fields[f.key] : '';
-              const isRelational = f.type === 'relational' || f.dbSource;
-
-              return (
-                <div 
-                  key={f.key} 
-                  className={`space-y-1.5 ${f.type === 'textarea' ? 'md:col-span-2' : ''}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <span>{f.label}</span>
-                    </label>
-
-                    {f.dbSource && onOpenRelationalSelector && (
-                      <button
-                        type="button"
-                        onClick={() => onOpenRelationalSelector(f)}
-                        className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9px] font-bold uppercase tracking-wider transition-colors"
-                      >
-                        ☁️ Cloud DBM
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Relational Linked Badge */}
-                  {isRelational && val && (
-                    <div className="flex items-center gap-1.5 bg-cyan-950/60 border border-cyan-500/40 px-2.5 py-1 rounded-lg text-xs">
-                      <span className="text-cyan-400 font-bold">☁️ DBM:</span>
-                      <span className="text-white font-semibold flex-1 truncate">{val}</span>
-                      <button
-                        type="button"
-                        onClick={() => onChangeField(f.key, '')}
-                        className="text-slate-400 hover:text-red-400 font-bold px-1"
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  )}
-
-                  {f.type === 'textarea' ? (
-                    <textarea
-                      rows={3}
-                      value={val}
-                      onChange={(e) => onChangeField(f.key, e.target.value)}
-                      placeholder={f.placeholder || `Enter ${f.label}...`}
-                      className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2.5 rounded-xl text-xs outline-none transition-all leading-relaxed font-sans placeholder-slate-600"
-                    />
-                  ) : f.type === 'select' ? (
-                    <select
-                      value={val}
-                      onChange={(e) => onChangeField(f.key, e.target.value)}
-                      className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2 rounded-xl text-xs outline-none transition-all font-sans cursor-pointer"
-                    >
-                      <option value="">{f.placeholder || `Select ${f.label}...`}</option>
-                      {(Array.isArray(f.options) ? f.options : []).map((opt) => {
-                        const optVal = typeof opt === 'object' ? (opt.value ?? opt.label) : opt;
-                        const optLabel = typeof opt === 'object' ? (opt.label ?? opt.value) : opt;
-                        return (
-                          <option key={String(optVal)} value={optVal}>
-                            {optLabel}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  ) : f.type === 'number' ? (
-                    <input
-                      type="number"
-                      value={val}
-                      onChange={(e) => onChangeField(f.key, e.target.value)}
-                      placeholder={f.placeholder || `Enter ${f.label}...`}
-                      className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2 rounded-xl text-xs outline-none transition-all font-sans placeholder-slate-600"
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      value={val}
-                      onChange={(e) => onChangeField(f.key, e.target.value)}
-                      placeholder={f.placeholder || `Enter ${f.label}...`}
-                      className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2 rounded-xl text-xs outline-none transition-all font-sans placeholder-slate-600"
-                    />
-                  )}
-                </div>
-              );
-            })}
+            {coreFields.map((f) => renderSchemaField(f, 'core'))}
           </div>
 
           {/* Optional RPG Systems & Tactical Tray */}
@@ -234,6 +310,7 @@ export default function AimeThreeTierStack({
                 <NpcScriptBuilder
                   fields={fields}
                   onFieldChange={onChangeField}
+                  onBatchFieldChange={onMergeFields}
                   elementTitle={elementTitle || fields.name || fields.title}
                   onOpenAimeGuidance={onOpenAimeGuidance}
                 />
@@ -427,87 +504,7 @@ export default function AimeThreeTierStack({
               {/* Generic Schema Fields for Active RPG Tab */}
               {currentRpgTab !== 'Modular Assembly (MCM)' && currentRpgTab !== 'Relations & Scripting' && currentRpgTab !== 'Dynamic Lorebook' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {schema.filter(f => f.tab === currentRpgTab).map(f => {
-                    const rawVal = fields[f.key];
-                    const displayVal =
-                      rawVal === undefined || rawVal === null
-                        ? ''
-                        : (typeof rawVal === 'object' ? JSON.stringify(rawVal) : rawVal);
-                    const isRelational = f.type === 'relational' || f.dbSource;
-                    return (
-                      <div key={f.key} className={`space-y-1 ${f.type === 'textarea' ? 'md:col-span-2' : ''}`}>
-                        <div className="flex items-center justify-between gap-2">
-                          <label className="text-[10px] font-bold text-amber-300 uppercase tracking-wider block">
-                            {f.label}
-                          </label>
-                          {f.dbSource && onOpenRelationalSelector && (
-                            <button
-                              type="button"
-                              onClick={() => onOpenRelationalSelector(f)}
-                              className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9px] font-bold uppercase tracking-wider transition-colors"
-                            >
-                              ☁️ Cloud DBM
-                            </button>
-                          )}
-                        </div>
-                        {isRelational && displayVal && (
-                          <div className="flex items-center gap-1.5 bg-cyan-950/60 border border-cyan-500/40 px-2 py-0.5 rounded-lg text-[11px]">
-                            <span className="text-cyan-400 font-bold">☁️ DBM:</span>
-                            <span className="text-white font-semibold flex-1 truncate">{String(displayVal)}</span>
-                            <button
-                              type="button"
-                              onClick={() => onChangeField(f.key, '')}
-                              className="text-slate-400 hover:text-red-400 font-bold px-1"
-                            >
-                              &times;
-                            </button>
-                          </div>
-                        )}
-                        {f.type === 'textarea' ? (
-                          <textarea
-                            rows={2}
-                            value={displayVal}
-                            onChange={(e) => onChangeField(f.key, e.target.value)}
-                            placeholder={f.placeholder}
-                            className="w-full bg-slate-950 border border-slate-800 focus:border-amber-400 text-slate-100 p-2 rounded-lg text-xs outline-none font-sans"
-                          />
-                        ) : f.type === 'select' ? (
-                          <select
-                            value={displayVal}
-                            onChange={(e) => onChangeField(f.key, e.target.value)}
-                            className="w-full bg-slate-950 border border-slate-800 focus:border-amber-400 text-slate-100 p-2 rounded-lg text-xs outline-none font-sans cursor-pointer"
-                          >
-                            <option value="">{f.placeholder || `Select ${f.label}...`}</option>
-                            {(Array.isArray(f.options) ? f.options : []).map((opt) => {
-                              const optVal = typeof opt === 'object' ? (opt.value ?? opt.label) : opt;
-                              const optLabel = typeof opt === 'object' ? (opt.label ?? opt.value) : opt;
-                              return (
-                                <option key={String(optVal)} value={optVal}>
-                                  {optLabel}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        ) : f.type === 'number' ? (
-                          <input
-                            type="number"
-                            value={displayVal}
-                            onChange={(e) => onChangeField(f.key, e.target.value)}
-                            placeholder={f.placeholder}
-                            className="w-full bg-slate-950 border border-slate-800 focus:border-amber-400 text-slate-100 p-2 rounded-lg text-xs outline-none font-sans"
-                          />
-                        ) : (
-                          <input
-                            type="text"
-                            value={displayVal}
-                            onChange={(e) => onChangeField(f.key, e.target.value)}
-                            placeholder={f.placeholder}
-                            className="w-full bg-slate-950 border border-slate-800 focus:border-amber-400 text-slate-100 p-2 rounded-lg text-xs outline-none font-sans"
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
+                  {schema.filter(f => f.tab === currentRpgTab).map(f => renderSchemaField(f, 'rpg'))}
                 </div>
               )}
             </div>

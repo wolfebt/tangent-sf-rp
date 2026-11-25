@@ -114,6 +114,7 @@ export const CATEGORY_META = {
 export function classifyAssetCategory(type = '', isScenario = false) {
   if (isScenario) return 'Scenario';
   const norm = String(type).toLowerCase();
+  if (norm.includes('encounter')) return 'Scenario';
   if (norm.includes('persona') || norm.includes('character') || norm.includes('species')) {
     return 'Persona';
   }
@@ -130,6 +131,7 @@ export function classifyAssetCategory(type = '', isScenario = false) {
     return 'Location';
   }
   if (
+    norm.includes('property') ||
     norm.includes('item') ||
     norm.includes('tech') ||
     norm.includes('object') ||
@@ -137,6 +139,9 @@ export function classifyAssetCategory(type = '', isScenario = false) {
     norm.includes('handout')
   ) {
     return 'Item';
+  }
+  if (norm.includes('metaphysics') || norm.includes('invocation')) {
+    return 'Lore';
   }
   return 'Lore';
 }
@@ -338,10 +343,13 @@ export function extractConfirmedConnections({ catalogAssets = [], rawLinks = [],
     });
   };
 
-  // 2. AIME Layer 3 Asset Hub Links
+  // 2. AIME Layer 3 Asset Hub + Linked Elements (merged so empty assetHub never shadows linkedElements)
   for (const asset of catalogAssets) {
-    const rawHub = asset.raw?.assetHub || asset.raw?.linkedElements;
-    if (!Array.isArray(rawHub) || rawHub.length === 0) continue;
+    const rawHub = [
+      ...(Array.isArray(asset.raw?.assetHub) ? asset.raw.assetHub : []),
+      ...(Array.isArray(asset.raw?.linkedElements) ? asset.raw.linkedElements : [])
+    ];
+    if (rawHub.length === 0) continue;
     for (const entry of rawHub) {
       const targetId = typeof entry === 'string' ? entry : entry?.assetId || entry?.id;
       const resolved = resolveRef(targetId) || (entry?.assetTitle ? resolveRef(entry.assetTitle) : null);
@@ -359,7 +367,7 @@ export function extractConfirmedConnections({ catalogAssets = [], rawLinks = [],
     }
   }
 
-  // 3. Story Prose [[Wiki]] Mentions (across scenarios of the active story project)
+  // 3. Story Prose [[Wiki]] Mentions (supports [[Display|Target]] pipe syntax)
   const wikiRegex = /\[\[(?:Chapter:\s*)?([^\]]+)\]\]/gi;
   for (const sc of scenariosFlat || []) {
     if (!sc?.id || !byId.has(sc.id)) continue;
@@ -371,7 +379,17 @@ export function extractConfirmedConnections({ catalogAssets = [], rawLinks = [],
     wikiRegex.lastIndex = 0;
     let match;
     while ((match = wikiRegex.exec(combinedText)) !== null) {
-      const target = resolveRef(match[1]);
+      const inner = String(match[1] || '').trim();
+      let candidateTarget = inner;
+      if (inner.includes('|')) {
+        const pipeParts = inner.split('|').map(s => s.trim()).filter(Boolean);
+        if (pipeParts.length >= 2) {
+          const leftPrefixed = /^(section|codex|catalog|folio|element|compendium|rule|rules|wiki|chapter|scenario):/i.test(pipeParts[0]);
+          candidateTarget = leftPrefixed ? pipeParts[0] : pipeParts[1];
+        }
+      }
+      candidateTarget = candidateTarget.replace(/^(catalog|element|chapter|scenario):/i, '').trim();
+      const target = resolveRef(candidateTarget);
       if (target && target.id !== sc.id) {
         addAutoLink(sc.id, target.id, 'mentioned', 'prose', `Mentioned as [[${target.title}]] in scenario`);
       }

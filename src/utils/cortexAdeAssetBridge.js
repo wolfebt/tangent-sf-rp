@@ -711,6 +711,15 @@ function buildPlainTextPreview(rawContent = '') {
     .slice(0, 140);
 }
 
+function escapeHtml(str = '') {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function buildSearchHaystack(el) {
   return [
     el.title,
@@ -824,10 +833,14 @@ export function projectOmnicortexRecordToAdeElement(record, collectionKey, optio
       description: record.description || synthesis.summaryText || '',
       ideology: record.core_beliefs || record.attitude || '',
       goals: record.publicAgenda || record.goals || record.driving_mandate || '',
-      government: [record.government_type, record.leadership].filter(Boolean).join(' — '),
+      government: (record.government_type && record.leadership && String(record.government_type).includes(String(record.leadership)))
+        ? String(record.government_type)
+        : [record.government_type, record.leadership].filter(Boolean).join(' — '),
       alliesEnemies: record.alliesEnemies || record.relationship_to_others || record.outsider_view || '',
       territory: record.territoriesAssets || record.capital_world || '',
-      resources: [record.primary_exports, record.economic_model].filter(Boolean).join(' | '),
+      resources: (record.primary_exports && record.economic_model && String(record.primary_exports).includes(String(record.economic_model)))
+        ? String(record.primary_exports)
+        : [record.primary_exports, record.economic_model].filter(Boolean).join(' | '),
       military_doctrine: record.military_doctrine || record.key_units || '',
       architecture: record.architecture || synthesis.architectureText || '',
       gear_aesthetic: record.gear_aesthetic || synthesis.attireText || '',
@@ -950,7 +963,9 @@ export function projectOmnicortexRecordToAdeElement(record, collectionKey, optio
       functionPurpose: record.functionPurpose || record.oneLinePitch || '',
       climateWeather: record.climateWeather || '',
       sensoryDetails: record.sensoryAtmosphere || synthesis.sceneryText || synthesis.summaryText || '',
-      landmarksSecrets: [record.pointsOfInterest || record.points_of_interest, record.secretsPlotHooks].filter(Boolean).join('\n')
+      landmarksSecrets: (record.pointsOfInterest || record.points_of_interest) && record.secretsPlotHooks && String(record.pointsOfInterest || record.points_of_interest).includes(String(record.secretsPlotHooks))
+        ? String(record.pointsOfInterest || record.points_of_interest)
+        : [record.pointsOfInterest || record.points_of_interest, record.secretsPlotHooks].filter(Boolean).join('\n')
     };
   } else if (collectionKey === 'scene') {
     fields = {
@@ -1014,7 +1029,7 @@ export function projectOmnicortexRecordToAdeElement(record, collectionKey, optio
     record.mechanic ||
     '';
 
-  const baseContent = record.body || record.full_text || (summaryText ? `<p>${summaryText}</p>` : '');
+  const baseContent = record.body || record.full_text || (summaryText ? `<p>${escapeHtml(summaryText)}</p>` : '');
   const enrichedContent = appendSynthesisToContent(baseContent, synthesis.markdownSection);
   const previewText = fields.oneLinePitch || fields.summary || buildPlainTextPreview(summaryText || baseContent);
 
@@ -1202,12 +1217,13 @@ export function normalizeStoryModuleElement(el, options = {}) {
     };
   }
 
+  const synthType = next.type || canonicalType;
   const synthContextKey =
-    canonicalType === 'Faction'
+    synthType === 'Faction'
       ? 'factions'
-      : canonicalType === 'Property'
+      : synthType === 'Property'
       ? (next.propertySubcategory || 'gear')
-      : canonicalType.toLowerCase();
+      : synthType.toLowerCase();
   const synthesis = resolveSynthesisDescriptorsForAsset(
     { ...next, ...(next.fields || {}) },
     synthContextKey,
@@ -1306,7 +1322,7 @@ export function buildUnifiedAdeCatalog({
 
     if (pinned) {
       consumedModuleIds.add(pinned.id);
-      unified.push({
+      const mergedFolio = {
         ...projected,
         ...pinned,
         id: pinned.id,
@@ -1321,7 +1337,9 @@ export function buildUnifiedAdeCatalog({
         content: pinned.content || projected.content,
         previewText: pinned.previewText || projected.previewText,
         fields: mergePreferNonEmptyFields(projected.fields, pinned.fields)
-      });
+      };
+      mergedFolio.searchHaystack = buildSearchHaystack(mergedFolio);
+      unified.push(mergedFolio);
     } else {
       unified.push(projected);
     }
@@ -1357,7 +1375,7 @@ export function buildUnifiedAdeCatalog({
 
       if (pinned) {
         consumedModuleIds.add(pinned.id);
-        unified.push({
+        const mergedCortex = {
           ...projected,
           ...pinned,
           id: pinned.id,
@@ -1376,7 +1394,9 @@ export function buildUnifiedAdeCatalog({
           content: pinned.content || projected.content,
           previewText: pinned.previewText || projected.previewText,
           fields: mergePreferNonEmptyFields(projected.fields, pinned.fields)
-        });
+        };
+        mergedCortex.searchHaystack = buildSearchHaystack(mergedCortex);
+        unified.push(mergedCortex);
       } else {
         unified.push(projected);
       }
@@ -1412,7 +1432,7 @@ export function buildUnifiedAdeCatalog({
  * or Folio-backed Personas.
  */
 export function resolveTargetCortexCollection(element) {
-  if (!element || typeof element !== 'object') return null;
+  if (!element || typeof element !== 'object' || element.isScenarioNode) return null;
   const canonicalType = normalizeElementType(element.type || '');
   const fields = element.fields || {};
 
@@ -1454,7 +1474,7 @@ export function resolveTargetCortexCollection(element) {
 function parseNumericLevel(val, fallback) {
   if (val === undefined || val === null || val === '') return fallback;
   if (typeof val === 'number') return Number.isFinite(val) ? val : fallback;
-  const cleaned = String(val).replace(/^(?:TL|ML)[\s:-]*/i, '').trim();
+  const cleaned = String(val).replace(/^(?:TL|ML|DC|CR|Tier|DR|AP)[\s:-]*/i, '').trim();
   if (!cleaned) return fallback;
   const n = Number(cleaned);
   return Number.isFinite(n) ? n : fallback;
@@ -1517,16 +1537,17 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
     id: resolvedId,
     name: cleanTitle,
     title: cleanTitle,
+    ...(element.isPublic !== undefined ? { isPublic: Boolean(element.isPublic) } : {}),
     content: element.content ?? rawBase.content ?? '',
     customFields: Array.isArray(element.customFields) ? element.customFields : (rawBase.customFields || []),
     imageUrl: element.imageUrl !== undefined ? element.imageUrl : (rawBase.imageUrl || ''),
     guidance: element.guidance || fields.guidance || rawBase.guidance || undefined,
     assetHub: Array.isArray(element.assetHub) ? element.assetHub : (rawBase.assetHub || []),
-    oneLinePitch: fields.oneLinePitch ?? rawBase.oneLinePitch ?? '',
-    primaryTriggers: fields.primaryTriggers ?? rawBase.primaryTriggers ?? '',
-    secondaryTriggers: fields.secondaryTriggers ?? rawBase.secondaryTriggers ?? '',
-    triggerRegex: fields.triggerRegex ?? rawBase.triggerRegex ?? '',
-    loreSnippet: fields.loreSnippet ?? rawBase.loreSnippet ?? '',
+    oneLinePitch: preferField(fields.oneLinePitch, rawBase.oneLinePitch, ''),
+    primaryTriggers: preferField(fields.primaryTriggers, rawBase.primaryTriggers, ''),
+    secondaryTriggers: preferField(fields.secondaryTriggers, rawBase.secondaryTriggers, ''),
+    triggerRegex: preferField(fields.triggerRegex, rawBase.triggerRegex, ''),
+    loreSnippet: preferField(fields.loreSnippet, rawBase.loreSnippet, ''),
     injectionPriority: resolvedScanPriority,
     loreScanPriority: resolvedScanPriority,
     conditionExpression: resolvedRequireCond,
@@ -1534,7 +1555,7 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
     triggerLogic: fields.triggerLogic ?? rawBase.triggerLogic ?? undefined,
     speakerFilter: fields.speakerFilter ?? rawBase.speakerFilter ?? undefined,
     loreBudgetTokens: parseOptionalFiniteNumber(fields.loreBudgetTokens ?? rawBase.loreBudgetTokens),
-    loreSuppressCondition: fields.loreSuppressCondition ?? rawBase.loreSuppressCondition ?? undefined,
+    loreSuppressCondition: preferField(fields.loreSuppressCondition, rawBase.loreSuppressCondition, undefined),
     loreAutoInject: fields.loreAutoInject ?? rawBase.loreAutoInject ?? undefined,
     loreAlwaysActive: fields.loreAlwaysActive ?? rawBase.loreAlwaysActive ?? undefined,
     loreCaseSensitive: fields.loreCaseSensitive ?? rawBase.loreCaseSensitive ?? undefined,
@@ -1548,8 +1569,8 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
     ...((fields.threatLevel ?? rawBase.threatLevel) !== undefined && (fields.threatLevel ?? rawBase.threatLevel) !== '' ? { threatLevel: fields.threatLevel ?? rawBase.threatLevel } : {}),
     ...(fields.costCr ?? rawBase.costCr ? { costCr: parseOptionalFiniteNumber(fields.costCr ?? rawBase.costCr) } : {}),
     ...(fields.creditValue ?? rawBase.creditValue ? { creditValue: parseOptionalFiniteNumber(fields.creditValue ?? rawBase.creditValue) } : {}),
-    keywords: fields.keywords ?? rawBase.keywords ?? '',
-    negative_keywords: fields.negative_keywords ?? rawBase.negative_keywords ?? '',
+    keywords: preferField(fields.keywords, rawBase.keywords, ''),
+    negative_keywords: preferField(fields.negative_keywords, rawBase.negative_keywords, ''),
     updatedAt: new Date().toISOString()
   };
   for (const k of ['pairedMapId', 'weatherPreset', 'hazardCr', 'clockGoal', 'disposition', 'factionStanding', 'sensoryTag', 'threatLevel']) {
@@ -1561,18 +1582,18 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
       targetCollection,
       payload: {
         ...commonConsolidated,
-        parent_species: fields.parent_species || rawBase.parent_species || 'Independent',
-        type: fields.classification ?? rawBase.type ?? rawBase.species_type ?? 'Humanoid',
-        species_type: fields.classification ?? rawBase.species_type ?? rawBase.type ?? 'Humanoid',
-        movement: fields.movement ?? rawBase.movement ?? '',
-        stigma: fields.stigma || fields.oneLinePitch || rawBase.stigma || '',
-        homeworld: fields.habitatOrigin || fields.homeworld || rawBase.homeworld || '',
-        description: fields.physicalDescription || fields.description || rawBase.description || '',
-        physiologyBiology: fields.physicalDescription || fields.physiologyBiology || rawBase.physiologyBiology || '',
-        cultureSociety: fields.behaviorDiet || fields.cultureSociety || rawBase.cultureSociety || '',
-        roleInSetting: fields.roleInWorld || fields.roleInSetting || rawBase.roleInSetting || '',
-        mechanic: fields.abilitiesPowers || fields.mechanic || rawBase.mechanic || '',
-        size: fields.size || rawBase.size || 'Medium',
+        parent_species: preferField(fields.parent_species, rawBase.parent_species, 'Independent'),
+        type: preferField(fields.classification, rawBase.type ?? rawBase.species_type, 'Humanoid'),
+        species_type: preferField(fields.classification, rawBase.species_type ?? rawBase.type, 'Humanoid'),
+        movement: preferField(fields.movement, rawBase.movement, ''),
+        stigma: preferField(fields.oneLinePitch, preferField(fields.stigma, rawBase.stigma, ''), ''),
+        homeworld: preferField(fields.habitatOrigin, preferField(fields.homeworld, rawBase.homeworld, ''), ''),
+        description: preferField(fields.physicalDescription, preferField(fields.description, rawBase.description, ''), ''),
+        physiologyBiology: preferField(fields.physicalDescription, preferField(fields.physiologyBiology, rawBase.physiologyBiology, ''), ''),
+        cultureSociety: preferField(fields.behaviorDiet, preferField(fields.cultureSociety, rawBase.cultureSociety, ''), ''),
+        roleInSetting: preferField(fields.roleInWorld, preferField(fields.roleInSetting, rawBase.roleInSetting, ''), ''),
+        mechanic: preferField(fields.abilitiesPowers, preferField(fields.mechanic, rawBase.mechanic, ''), ''),
+        size: preferField(fields.size, rawBase.size, 'Medium'),
         cp: parseNumericLevel(fields.cp ?? rawBase.cp, 0),
         tech_level: parseNumericLevel(fields.techLevel ?? fields['tech-level'] ?? fields.tech_level ?? rawBase.tech_level, 3),
         meta_level: parseNumericLevel(fields.metaLevel ?? fields['meta-level'] ?? fields.meta_level ?? rawBase.meta_level, 0)
@@ -1594,11 +1615,13 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
         publicAgenda: preferField(fields.goals, preferField(fields.publicAgenda, rawBase.publicAgenda, ''), ''),
         goals: preferField(fields.goals, rawBase.goals, ''),
         government_type: preferField(fields.government, preferField(fields.government_type, rawBase.government_type, ''), ''),
+        ...(fields.government !== undefined ? { leadership: '' } : {}),
         alliesEnemies: preferField(fields.alliesEnemies, rawBase.alliesEnemies, ''),
         relationship_to_others: preferField(fields.alliesEnemies, rawBase.relationship_to_others, ''),
         capital_world: preferField(fields.territory, preferField(fields.capital_world, rawBase.capital_world, ''), ''),
         territoriesAssets: preferField(fields.territory, preferField(fields.territoriesAssets, rawBase.territoriesAssets, ''), ''),
         primary_exports: preferField(fields.resources, rawBase.primary_exports, ''),
+        ...(fields.resources !== undefined ? { economic_model: '' } : {}),
         military_doctrine: preferField(fields.military_doctrine, rawBase.military_doctrine, ''),
         architecture: preferField(fields.architecture, rawBase.architecture, ''),
         gear_aesthetic: preferField(fields.gear_aesthetic, rawBase.gear_aesthetic, ''),
@@ -1632,9 +1655,9 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
       propertySubcategory: targetCollection,
       tech_level: parseNumericLevel(fields.techLevel ?? fields['tech-level'] ?? fields.tech_level ?? rawBase.tech_level, 3),
       meta_level: parseNumericLevel(fields.metaLevel ?? fields['meta-level'] ?? fields.meta_level ?? rawBase.meta_level, 0),
-      availability: fields.rarity || fields.availability || rawBase.availability || 'Common',
-      description: fields.functionPurpose || fields.description || rawBase.description || '',
-      aestheticForm: fields.aestheticForm || rawBase.aestheticForm || '',
+      availability: preferField(fields.rarity, preferField(fields.availability, rawBase.availability, 'Common'), 'Common'),
+      description: preferField(fields.functionPurpose, preferField(fields.description, rawBase.description, ''), ''),
+      aestheticForm: preferField(fields.aestheticForm, rawBase.aestheticForm, ''),
       craft_dc: dcVal,
       design_dc: dcVal,
       cost: costVal,
@@ -1643,14 +1666,14 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
         credits: costVal
       },
       weight: weightNum !== undefined ? weightNum : (rawBase.weight ?? 1),
-      mechanic: fields.mechanic || rawBase.mechanic || '',
-      mechanismPowerSource: fields.mechanismPowerSource || rawBase.mechanismPowerSource || '',
-      societalImpact: fields.socialEconomicImpact || fields.societalImpact || rawBase.societalImpact || '',
-      limitationsCosts: fields.weaknesses || fields.limitationsCosts || rawBase.limitationsCosts || '',
-      originHistory: fields.originContext || fields.originHistory || rawBase.originHistory || '',
-      interactiveType: fields.interactiveType || rawBase.interactiveType || 'none',
+      mechanic: preferField(fields.mechanic, rawBase.mechanic, ''),
+      mechanismPowerSource: preferField(fields.mechanismPowerSource, rawBase.mechanismPowerSource, ''),
+      societalImpact: preferField(fields.socialEconomicImpact, preferField(fields.societalImpact, rawBase.societalImpact, ''), ''),
+      limitationsCosts: preferField(fields.weaknesses, preferField(fields.limitationsCosts, rawBase.limitationsCosts, ''), ''),
+      originHistory: preferField(fields.originContext, preferField(fields.originHistory, rawBase.originHistory, ''), ''),
+      interactiveType: preferField(fields.interactiveType, rawBase.interactiveType, 'none'),
       vttInteractionDC: vttDcNum !== undefined ? vttDcNum : (rawBase.vttInteractionDC ?? undefined),
-      lootTable: fields.lootTable || rawBase.lootTable || ''
+      lootTable: preferField(fields.lootTable, rawBase.lootTable, '')
     };
     if (fields.damage !== undefined) {
       if (fields.damage) propPayload.damage = fields.damage;
@@ -1697,14 +1720,14 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
   if (targetCollection === 'modular_characters') {
     const folioEquivalent = convertPersonaElementToFolio(element) || convertMcmToFolioPersona({ ...rawBase, ...fields, title: cleanTitle });
     const fullMcmPayload = convertFolioToMcmRecord(folioEquivalent, { id: resolvedId }) || {};
-    const tier = Number(fields.mcmTier ?? fullMcmPayload.threatTier ?? rawBase.threatTier ?? 3);
+    const tier = parseNumericLevel(fields.mcmTier ?? fullMcmPayload.threatTier ?? rawBase.threatTier, 3);
     const role = fields.mcmRole || fullMcmPayload.competencyRole || rawBase.competencyRole || 'Tank';
     const bossType = fields.mcmBossType || fields.mcmChassis || fullMcmPayload.bossType || rawBase.bossType || 'Standard';
     const designation = fields.mcmDesignation || fields.roleInStory || fullMcmPayload.designation || rawBase.designation || 'Adversary';
     const numOr = (candidate, fallback) => {
       if (candidate === undefined || candidate === null || candidate === '') return fallback;
-      const parsed = Number(candidate);
-      return Number.isFinite(parsed) ? parsed : fallback;
+      const parsed = parseOptionalFiniteNumber(candidate);
+      return parsed !== undefined ? parsed : fallback;
     };
     const resolvedVit = numOr(fields.vitality ?? fullMcmPayload.vitality ?? rawBase.vitalityPoints, 30);
     const resolvedHp = numOr(fields.health ?? fullMcmPayload.health ?? rawBase.healthPoints, 30);
@@ -1768,13 +1791,13 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
         actions_per_round: resolvedActions,
         tech_level: parseNumericLevel(fields.techLevel ?? fields['tech-level'] ?? fields.tech_level ?? fullMcmPayload.tech_level ?? rawBase.tech_level, 3),
         meta_level: parseNumericLevel(fields.metaLevel ?? fields['meta-level'] ?? fields['magic-level'] ?? fields.meta_level ?? fullMcmPayload.meta_level ?? rawBase.meta_level, 0),
-        appearance: fields.physicalDescription || fields.appearance || fullMcmPayload.appearance || rawBase.appearance || '',
-        voiceMannerisms: fields.personalityMannerisms || fields.mannerisms || fullMcmPayload.mannerisms || rawBase.voiceMannerisms || '',
-        motivationsGoals: fields.goalsMotivations || fields['char-motive'] || fullMcmPayload['char-motive'] || rawBase.motivationsGoals || '',
-        relationships: fields.relationships || fields.keyRelationships || fullMcmPayload.keyRelationships || rawBase.relationships || '',
-        npcRoutine: fields.vttScript || fields.npcRoutine || rawBase.npcRoutine || '',
-        description: fields.summary || fields.physicalDescription || rawBase.description || '',
-        mechanic: fields.mechanic || rawBase.mechanic || '',
+        appearance: preferField(fields.physicalDescription, preferField(fields.appearance, fullMcmPayload.appearance || rawBase.appearance || '', ''), ''),
+        voiceMannerisms: preferField(fields.personalityMannerisms, preferField(fields.mannerisms, fullMcmPayload.mannerisms || rawBase.voiceMannerisms || '', ''), ''),
+        motivationsGoals: preferField(fields.goalsMotivations, preferField(fields['char-motive'], fullMcmPayload['char-motive'] || rawBase.motivationsGoals || '', ''), ''),
+        relationships: preferField(fields.relationships, preferField(fields.keyRelationships, fullMcmPayload.keyRelationships || rawBase.relationships || '', ''), ''),
+        npcRoutine: preferField(fields.vttScript, preferField(fields.npcRoutine, rawBase.npcRoutine || '', ''), ''),
+        description: preferField(fields.summary, preferField(fields.physicalDescription, rawBase.description || '', ''), ''),
+        mechanic: preferField(fields.mechanic, rawBase.mechanic, ''),
         personaData: folioEquivalent,
         vttUnitData: fullMcmPayload.vttUnitData
       }
@@ -1786,15 +1809,15 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
       targetCollection,
       payload: {
         ...commonConsolidated,
-        highConcept: fields.corePremise || fields.oneLinePitch || rawBase.highConcept || '',
-        description: fields.corePremise || rawBase.description || '',
-        planetaryGeography: fields.continents || rawBase.planetaryGeography || '',
-        geography: fields.continents || rawBase.geography || '',
-        societiesGovernance: fields.majorFactions || rawBase.societiesGovernance || '',
-        culture: fields.majorFactions || rawBase.culture || '',
-        historicalTimeline: fields.historyTimeline || rawBase.historicalTimeline || '',
-        physicsMetaphysics: fields.cosmologyPhysics || rawBase.physicsMetaphysics || '',
-        adventureHooks: fields.themes ?? rawBase.adventureHooks ?? ''
+        highConcept: preferField(fields.corePremise, preferField(fields.oneLinePitch, rawBase.highConcept, ''), ''),
+        description: preferField(fields.corePremise, rawBase.description, ''),
+        planetaryGeography: preferField(fields.continents, rawBase.planetaryGeography, ''),
+        geography: preferField(fields.continents, rawBase.geography, ''),
+        societiesGovernance: preferField(fields.majorFactions, rawBase.societiesGovernance, ''),
+        culture: preferField(fields.majorFactions, rawBase.culture, ''),
+        historicalTimeline: preferField(fields.historyTimeline, rawBase.historicalTimeline, ''),
+        physicsMetaphysics: preferField(fields.cosmologyPhysics, rawBase.physicsMetaphysics, ''),
+        adventureHooks: preferField(fields.themes, rawBase.adventureHooks, '')
       }
     };
   }
@@ -1804,10 +1827,10 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
       targetCollection,
       payload: {
         ...commonConsolidated,
-        description: fields.ontological || rawBase.description || '',
-        cosmologyDimensions: fields.ontological || rawBase.cosmologyDimensions || '',
-        laws_of_physics: fields.lawsPhysics || rawBase.laws_of_physics || '',
-        fundamentalLaws: fields.lawsPhysics || rawBase.fundamentalLaws || ''
+        description: preferField(fields.ontological, rawBase.description, ''),
+        cosmologyDimensions: preferField(fields.ontological, rawBase.cosmologyDimensions, ''),
+        laws_of_physics: preferField(fields.lawsPhysics, rawBase.laws_of_physics, ''),
+        fundamentalLaws: preferField(fields.lawsPhysics, rawBase.fundamentalLaws, '')
       }
     };
   }
@@ -1827,7 +1850,8 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
         inhabitants: preferField(fields.populationDemographics, rawBase.inhabitants || ''),
         inhabitantsDenizens: preferField(fields.populationDemographics, rawBase.inhabitantsDenizens || ''),
         points_of_interest: preferField(fields.landmarksSecrets, rawBase.points_of_interest || ''),
-        pointsOfInterest: preferField(fields.landmarksSecrets, rawBase.pointsOfInterest || '')
+        pointsOfInterest: preferField(fields.landmarksSecrets, rawBase.pointsOfInterest || ''),
+        ...(fields.landmarksSecrets !== undefined ? { secretsPlotHooks: '' } : {})
       }
     };
   }
@@ -1837,13 +1861,13 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
       targetCollection,
       payload: {
         ...commonConsolidated,
-        setting_location: fields.location || rawBase.setting_location || '',
-        sensoryDetails: fields.sensoryDetails || rawBase.sensoryDetails || '',
-        lightingAtmosphere: fields.moodAtmosphere || rawBase.lightingAtmosphere || '',
-        rewards_loot: fields.keyObjects || rawBase.rewards_loot || '',
-        sceneBeats: fields.sceneBeats || rawBase.sceneBeats || '',
-        description: fields.sceneBeats || rawBase.description || '',
-        readAloud: fields.readAloud || rawBase.readAloud || ''
+        setting_location: preferField(fields.location, rawBase.setting_location, ''),
+        sensoryDetails: preferField(fields.sensoryDetails, rawBase.sensoryDetails, ''),
+        lightingAtmosphere: preferField(fields.moodAtmosphere, rawBase.lightingAtmosphere, ''),
+        rewards_loot: preferField(fields.keyObjects, rawBase.rewards_loot, ''),
+        sceneBeats: preferField(fields.sceneBeats, rawBase.sceneBeats, ''),
+        description: preferField(fields.sceneBeats, rawBase.description, ''),
+        readAloud: preferField(fields.readAloud, rawBase.readAloud, '')
       }
     };
   }
@@ -1853,16 +1877,16 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
       targetCollection,
       payload: {
         ...commonConsolidated,
-        description: fields.coreTenets || rawBase.description || '',
-        coreDogmaTenets: fields.coreTenets || rawBase.coreDogmaTenets || '',
-        coreTenet: fields.coreTenets ?? rawBase.coreTenet ?? rawBase.coreDogmaTenets ?? '',
-        symbolsIconography: fields.symbolsIconography ?? rawBase.symbolsIconography ?? '',
-        institutionalStructure: fields.influenceSociety ?? rawBase.institutionalStructure ?? '',
-        practices: fields.ritualsPractices || rawBase.practices || '',
-        ritualsPractices: fields.ritualsPractices || rawBase.ritualsPractices || '',
-        moralCodeTaboos: fields.ethics || rawBase.moralCodeTaboos || '',
-        origin: fields.cosmology || rawBase.origin || '',
-        cosmologyWorldview: fields.cosmology || rawBase.cosmologyWorldview || ''
+        description: preferField(fields.coreTenets, rawBase.description, ''),
+        coreDogmaTenets: preferField(fields.coreTenets, rawBase.coreDogmaTenets, ''),
+        coreTenet: preferField(fields.coreTenets, fields.coreTenet ?? rawBase.coreTenet ?? rawBase.coreDogmaTenets ?? '', ''),
+        symbolsIconography: preferField(fields.symbolsIconography, rawBase.symbolsIconography, ''),
+        institutionalStructure: preferField(fields.influenceSociety, rawBase.institutionalStructure, ''),
+        practices: preferField(fields.ritualsPractices, rawBase.practices, ''),
+        ritualsPractices: preferField(fields.ritualsPractices, rawBase.ritualsPractices, ''),
+        moralCodeTaboos: preferField(fields.ethics, rawBase.moralCodeTaboos, ''),
+        origin: preferField(fields.cosmology, rawBase.origin, ''),
+        cosmologyWorldview: preferField(fields.cosmology, rawBase.cosmologyWorldview, '')
       }
     };
   }
@@ -1873,10 +1897,11 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
       1
     );
     const designDcVal =
-      fields.design_dc !== undefined && fields.design_dc !== ''
+      fields.design_dc !== undefined
         ? String(fields.design_dc)
         : (rawBase.design_dc !== undefined ? String(rawBase.design_dc) : '');
     const toListIfText = (val, fallback) => {
+      if (val === '') return [];
       if (Array.isArray(val)) return val;
       if (typeof val === 'string' && val.trim()) {
         return val.split(',').map(s => s.trim()).filter(Boolean);
@@ -1889,27 +1914,26 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
       payload: {
         ...commonConsolidated,
         metaphysicsSubcategory: targetCollection,
-        description: fields.description || fields.oneLinePitch || rawBase.description || '',
-        mechanic: fields.mechanic || rawBase.mechanic || '',
+        description: preferField(fields.description, preferField(fields.oneLinePitch, rawBase.description, ''), ''),
+        mechanic: preferField(fields.mechanic, rawBase.mechanic, ''),
         ...(targetCollection === 'disciplines'
           ? {
               discipline_skills: toListIfText(fields.meta_skill, rawBase.discipline_skills)
             }
-          : {
-              discipline: fields.discipline || fields.meta_skill || rawBase.discipline || '',
-              meta_skill: fields.meta_skill || fields.discipline || rawBase.meta_skill || '',
-              meta_level: mlVal,
-              design_dc: designDcVal,
-              cast_time: fields.cast_time || rawBase.cast_time || '',
-              duration: fields.duration || rawBase.duration || '',
-              range: toListIfText(fields.range, rawBase.range),
-              area: toListIfText(fields.area, rawBase.area),
-              target: toListIfText(fields.target, rawBase.target),
-              effect: toListIfText(fields.effect, rawBase.effect)
-            }),
-        strainBacklash: fields.strainBacklash || rawBase.strainBacklash || '',
-        manifestationSensory: fields.manifestationSensory || rawBase.manifestationSensory || '',
-        originLore: fields.originLore || rawBase.originLore || ''
+          : {}),
+        discipline: preferField(fields.discipline, preferField(fields.meta_skill, rawBase.discipline, ''), ''),
+        meta_skill: preferField(fields.meta_skill, preferField(fields.discipline, rawBase.meta_skill, ''), ''),
+        meta_level: mlVal,
+        design_dc: designDcVal,
+        cast_time: preferField(fields.cast_time, rawBase.cast_time, ''),
+        duration: preferField(fields.duration, rawBase.duration, ''),
+        range: toListIfText(fields.range, rawBase.range),
+        area: toListIfText(fields.area, rawBase.area),
+        target: toListIfText(fields.target, rawBase.target),
+        effect: toListIfText(fields.effect, rawBase.effect),
+        strainBacklash: preferField(fields.strainBacklash, rawBase.strainBacklash, ''),
+        manifestationSensory: preferField(fields.manifestationSensory, rawBase.manifestationSensory, ''),
+        originLore: preferField(fields.originLore, rawBase.originLore, '')
       }
     };
   }
