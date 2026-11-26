@@ -84,6 +84,9 @@ export function sanitizeScenarioForOperator(node) {
   const copy = {
     ...node,
     ...(typeof node.content === 'string' ? { content: stripGmSecretHtmlBlocks(node.content) } : {}),
+    ...(Array.isArray(node.customFields)
+      ? { customFields: node.customFields.filter((cf) => cf && !cf.isGmOnly && !cf.isHidden) }
+      : {}),
     fields
   };
   delete copy.gmNotes;

@@ -70,6 +70,18 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
   const [modifierFilterCategory, setModifierFilterCategory] = useState('all');
   const [isNewModifierModalOpen, setIsNewModifierModalOpen] = useState(false);
 
+  useEffect(() => {
+    if (!isNewModifierModalOpen) return undefined;
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        setIsNewModifierModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isNewModifierModalOpen]);
+
   // New Modifier Form State
   const [modName, setModName] = useState('');
   const [modCategory, setModCategory] = useState('metaphysic');
@@ -456,8 +468,9 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
                         </button>
                         <button
                           type="button"
+                          disabled={isStoryReadOnly}
                           onClick={(e) => handleDeleteMap(e, map)}
-                          className="p-1 text-slate-500 hover:text-red-400 hover:bg-red-950/40 rounded border border-transparent hover:border-red-500/40 transition-colors cursor-pointer"
+                          className="p-1 text-slate-500 hover:text-red-400 hover:bg-red-950/40 rounded border border-transparent hover:border-red-500/40 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                           title="Delete Tactical Map"
                         >
                           <Trash2 size={12} />
@@ -521,11 +534,13 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
 
                 <button
                   type="button"
+                  disabled={isStoryReadOnly}
                   onClick={() => {
+                    if (isStoryReadOnly) return;
                     AudioService.playTerminalBeep(1200, 0.03);
                     setIsNewModifierModalOpen(true);
                   }}
-                  className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <Plus size={13} />
                   <span>Add Modifier</span>
@@ -543,8 +558,9 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
                 </p>
                 <button
                   type="button"
-                  onClick={() => setIsNewModifierModalOpen(true)}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl cursor-pointer"
+                  disabled={isStoryReadOnly}
+                  onClick={() => !isStoryReadOnly && setIsNewModifierModalOpen(true)}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Create First Modifier
                 </button>
@@ -673,8 +689,17 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
 
       {/* CREATE MODIFIER MODAL */}
       {isNewModifierModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#0b0f19] border border-purple-500/50 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col text-slate-200 overflow-hidden font-mono text-xs">
+        <div
+          onClick={() => setIsNewModifierModalOpen(false)}
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Add Story Gallery Situational Modifier"
+            onClick={(e) => e.stopPropagation()}
+            className="bg-[#0b0f19] border border-purple-500/50 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col text-slate-200 overflow-hidden font-mono text-xs"
+          >
             <div className="px-5 py-3.5 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900 border-b border-purple-500/40 flex items-center justify-between">
               <h3 className="font-bold text-xs uppercase tracking-wider text-purple-300 flex items-center gap-2">
                 <Sliders size={14} />

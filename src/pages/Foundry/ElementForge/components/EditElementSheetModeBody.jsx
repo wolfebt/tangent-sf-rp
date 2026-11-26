@@ -85,6 +85,7 @@ export default function EditElementSheetModeBody({
   handleRemoveCustomField,
   resolvedSaveDestination,
   isDirty,
+  isStoryReadOnly = false,
   handleSaveAsTemplate,
   handleRequestClose
 }) {
@@ -487,8 +488,9 @@ export default function EditElementSheetModeBody({
         <div className="flex items-center gap-3">
           <button
             type="button"
+            disabled={isStoryReadOnly}
             onClick={handleSaveAsTemplate}
-            className="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-indigo-500/50 text-indigo-200 text-xs font-bold uppercase rounded-lg transition-colors cursor-pointer"
+            className="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-indigo-500/50 text-indigo-200 text-xs font-bold uppercase rounded-lg transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Save Template
           </button>

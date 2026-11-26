@@ -18,6 +18,8 @@ import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanc
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { downloadAimeAssetFile } from '../../../services/aimeAssetFileService';
 import { AudioService } from '../../../services/audioService';
+import { uploadAdeImageAsset } from '../../../services/adeMediaStorageService';
+import { useAuth } from '../../../context/AuthContext';
 import { useStory } from '../../../context/CampaignContext';
 import { useAdeStore } from '../store/adeStore';
 import { formatAimeProseToHtml } from '../AIME/aimeTextUtils';
@@ -64,41 +66,92 @@ export const AutoResizingTextarea = ({ value, onChange, placeholder, className }
   );
 };
 
+const isSafeDockImageUrl = (raw) => {
+  const trimmed = String(raw || '').trim();
+  if (!trimmed) return false;
+  if (/^data:image\/(?:png|jpe?g|webp|gif|avif);base64,/i.test(trimmed)) return true;
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+  } catch {
+    return false;
+  }
+};
+
 // ── COMPACT ELEMENT IMAGE UPLOADER (For Right Cockpit Dock) ──
-export const ElementImageUploader = ({ activeNode, updateStory }) => {
+export const ElementImageUploader = ({ activeNode, updateStory, isStoryReadOnly = false }) => {
+  const { currentUser } = useAuth() || {};
   const fileInputRef = useRef(null);
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlInputValue, setUrlInputValue] = useState('');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const isHalfPage = isHalfPageElement(activeNode.type);
 
-  const handleImageFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleImageFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
     if (!file) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only or Operator perspective: editing is locked.' });
+      return;
+    }
 
     if (!file.type.startsWith('image/')) {
       showToast({ type: 'warning', text: 'Please select a valid image file.' });
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      updateStory(activeNode.id, { imageUrl: event.target.result });
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
+    setIsUploadingImage(true);
+    try {
+      const uploaded = await uploadAdeImageAsset(file, {
+        userId: currentUser?.uid || null,
+        assetCategory: 'elements',
+        fileName: file.name
+      });
+      if (uploaded?.url) {
+        updateStory(activeNode.id, { imageUrl: uploaded.url });
+        if (uploaded.warning) {
+          showToast({ type: 'warning', text: uploaded.warning });
+        } else {
+          showToast({
+            type: 'success',
+            text: uploaded.offloaded ? 'Uploaded & optimized element image to Cloud Storage.' : 'Image sanitized & attached.'
+          });
+        }
+      }
+    } catch (err) {
+      showToast({
+        type: 'error',
+        text: err?.message || 'Blocked or invalid image file.'
+      });
+    } finally {
+      setIsUploadingImage(false);
+    }
   };
 
   const handleUrlSubmit = (e) => {
     e.preventDefault();
-    if (urlInputValue.trim()) {
-      updateStory(activeNode.id, { imageUrl: urlInputValue.trim() });
-      setUrlInputValue('');
-      setShowUrlInput(false);
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only or Operator perspective: editing is locked.' });
+      return;
     }
+    const trimmed = urlInputValue.trim();
+    if (!trimmed) return;
+    if (!isSafeDockImageUrl(trimmed)) {
+      showToast({ type: 'warning', text: 'Please enter a valid http(s):// URL or raster data:image/ URI.' });
+      return;
+    }
+    updateStory(activeNode.id, { imageUrl: trimmed });
+    setUrlInputValue('');
+    setShowUrlInput(false);
   };
 
   const handleClearImage = () => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only or Operator perspective: editing is locked.' });
+      return;
+    }
     updateStory(activeNode.id, { imageUrl: null });
   };
 
@@ -128,32 +181,42 @@ export const ElementImageUploader = ({ activeNode, updateStory }) => {
             alt={activeNode.title || 'Element Image'}
             className="w-full h-32 object-cover"
           />
-          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="px-2 py-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500 text-cyan-200 text-[10px] font-bold rounded uppercase cursor-pointer"
-            >
-              Replace
-            </button>
-            <button
-              onClick={handleClearImage}
-              className="px-2 py-1 bg-red-950/90 hover:bg-red-900 border border-red-500 text-red-200 text-[10px] font-bold rounded uppercase cursor-pointer"
-            >
-              Remove
-            </button>
-          </div>
+          {!isStoryReadOnly && (
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+              <button
+                type="button"
+                disabled={isUploadingImage}
+                onClick={() => fileInputRef.current?.click()}
+                className="px-2 py-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500 text-cyan-200 text-[10px] font-bold rounded uppercase cursor-pointer disabled:opacity-50"
+              >
+                {isUploadingImage ? 'Uploading...' : 'Replace'}
+              </button>
+              <button
+                type="button"
+                disabled={isUploadingImage}
+                onClick={handleClearImage}
+                className="px-2 py-1 bg-red-950/90 hover:bg-red-900 border border-red-500 text-red-200 text-[10px] font-bold rounded uppercase cursor-pointer disabled:opacity-50"
+              >
+                Remove
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex gap-2">
           <button
+            type="button"
+            disabled={isStoryReadOnly || isUploadingImage}
             onClick={() => fileInputRef.current?.click()}
-            className="flex-1 py-1.5 px-2 bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
+            className="flex-1 py-1.5 px-2 bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <span>📥</span> Upload
+            <span>📥</span> {isUploadingImage ? 'Uploading...' : 'Upload'}
           </button>
           <button
+            type="button"
+            disabled={isStoryReadOnly || isUploadingImage}
             onClick={() => setShowUrlInput(!showUrlInput)}
-            className="py-1.5 px-2.5 bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-colors cursor-pointer"
+            className="py-1.5 px-2.5 bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             🔗 URL
           </button>
@@ -439,6 +502,8 @@ export const ScenarioCockpitDockPanel = ({
   universeState
 }) => {
   const { isStoryReadOnly = false, getActiveGemsText, mapsCatalog = [], cronicle } = useStory();
+  const perspectiveMode = useAdeStore((s) => s?.perspectiveMode);
+  const isEditingLocked = Boolean(isStoryReadOnly || perspectiveMode === 'operator');
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const fileMenuRef = useRef(null);
 
@@ -481,6 +546,10 @@ export const ScenarioCockpitDockPanel = ({
   const handleDeleteActive = async () => {
     if (!activeNode) return;
     setIsFileMenuOpen(false);
+    if (isEditingLocked) {
+      showToast?.({ type: 'warning', text: 'Read-only or Operator perspective: deleting elements is locked.' });
+      return;
+    }
     if (handleDeleteElement) {
       handleDeleteElement(activeNode.id, activeNode.title);
     } else if (deleteSavedElement) {
@@ -570,8 +639,9 @@ export const ScenarioCockpitDockPanel = ({
                     <div className="py-1">
                       <button
                         type="button"
+                        disabled={isEditingLocked}
                         onClick={handleDeleteActive}
-                        className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer"
+                        className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         <Trash2 size={12} />
                         <span>Delete Element...</span>
@@ -600,7 +670,7 @@ export const ScenarioCockpitDockPanel = ({
             {activeNode ? (
               <>
                 {/* Image Uploader Card */}
-                <ElementImageUploader activeNode={activeNode} updateStory={updateStory} />
+                <ElementImageUploader activeNode={activeNode} updateStory={updateStory} isStoryReadOnly={isEditingLocked} />
 
                 {/* Linked Entities Pill Bar */}
                 <div className="p-3 bg-slate-950/40 border-b border-slate-800 space-y-1.5 font-mono">
@@ -897,14 +967,19 @@ export const ScenarioCockpitDockPanel = ({
                           )}
                           <button
                             type="button"
+                            disabled={isEditingLocked}
                             onClick={async () => {
+                              if (isEditingLocked) {
+                                showToast?.({ type: 'warning', text: 'Read-only or Operator perspective: deleting elements is locked.' });
+                                return;
+                              }
                               if (!deleteSavedElement) return;
                               const ok = await confirmTypedDeletion(elem.title || 'world element', 'world element');
                               if (ok) {
                                 deleteSavedElement(elem.id);
                               }
                             }}
-                            className="text-slate-500 hover:text-rose-400 p-0.5 rounded transition-colors cursor-pointer"
+                            className="text-slate-500 hover:text-rose-400 p-0.5 rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                             title="Delete element"
                           >
                             <Trash2 size={11} />
@@ -921,17 +996,29 @@ export const ScenarioCockpitDockPanel = ({
             <div className="p-2 border-t border-slate-800 bg-slate-950/80 flex gap-2 shrink-0">
               <button
                 type="button"
+                disabled={isEditingLocked}
                 onClick={() => {
-                  setEditingModalElement({
+                  if (isEditingLocked) {
+                    showToast?.({ type: 'warning', text: 'Read-only or Operator perspective: creating elements is locked.' });
+                    return;
+                  }
+                  const draftElem = {
                     id: uuidv4(),
                     type: 'Persona',
-                    title: 'New World Element',
-                    fields: {},
+                    title: '',
+                    personaSubcategory: 'story',
+                    fields: { personaSubcategory: 'story' },
                     content: ''
-                  });
-                  setIsEditElementModalOpen(true);
+                  };
+                  const openCreator = useAdeStore.getState?.()?.openGuidedElementCreator;
+                  if (typeof openCreator === 'function') {
+                    openCreator({ element: draftElem, mode: 'guided' });
+                  } else {
+                    setEditingModalElement?.(draftElem);
+                    setIsEditElementModalOpen?.(true);
+                  }
                 }}
-                className="flex-1 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-xl uppercase tracking-wider transition-colors flex items-center justify-center gap-1 shadow cursor-pointer"
+                className="flex-1 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-xl uppercase tracking-wider transition-colors flex items-center justify-center gap-1 shadow cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <Plus size={13} />
                 <span>New Element</span>

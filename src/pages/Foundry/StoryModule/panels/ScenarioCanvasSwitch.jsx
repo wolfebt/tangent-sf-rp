@@ -22,6 +22,7 @@ import { useAdeStore } from '../../store/adeStore';
 import { useShallow } from 'zustand/react/shallow';
 import { VttEventBus } from '../../../../utils/vttEventBus';
 import { AudioService } from '../../../../services/audioService';
+import { stripGmSecretHtmlBlocks } from '../../../../utils/gmSecretSanitizer';
 
 export default function ScenarioCanvasSwitch({
   activeNode,
@@ -128,7 +129,9 @@ export default function ScenarioCanvasSwitch({
     ? rawBeats.split('\n').map(b => b.trim()).filter(b => b.length > 0)
     : [];
 
-  const rawReadAloud = activeNode?.content ? activeNode.content.replace(/<[^>]+>/g, ' ').trim() : '';
+  const rawReadAloud = activeNode?.content
+    ? stripGmSecretHtmlBlocks(activeNode.content).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+    : '';
   const readAloudSnippet = rawReadAloud.slice(0, 280);
 
   const handleBroadcastReadAloud = () => {
@@ -181,8 +184,8 @@ export default function ScenarioCanvasSwitch({
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] relative min-w-0 font-mono">
       {operatorPerspectiveBanner}
-      {/* ── LIVE SESSION COCKPIT HUD (Shown only in studioMode === 'live_session' when not in full stage) ── */}
-      {!isFullStage && studioMode === 'live_session' && (
+      {/* ── LIVE SESSION COCKPIT HUD (Shown only in studioMode === 'live_session' when not in full stage or operator mode) ── */}
+      {!isFullStage && studioMode === 'live_session' && !isOperatorPerspective && (
         <div className="bg-gradient-to-r from-rose-950/40 via-slate-950 to-purple-950/40 border-b border-rose-500/40 p-2.5 px-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shrink-0 text-xs shadow-lg">
           {/* Left: Architect Read-Aloud Prompt */}
           <div className="flex-1 min-w-0 flex items-start gap-2.5">

@@ -1440,7 +1440,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
               saveCurrentToRoster,
               showToast,
               isStoryReadOnly: Boolean(isStoryReadOnly),
-              fromEditModal: true,
+              fromEditModal: false,
               isAdmin: Boolean(isAdmin)
             });
             if (persisted) {

@@ -185,6 +185,8 @@ export const exportElementPDF = (targetNode, universeState, optionsOrHandle = {}
   const locationPath = getBreadcrumbPath(universeState?.scenarios || [], rootNode.id);
 
   const buildNodeHTML = (node, depth = 2) => {
+    if (!node) return '';
+    if (options?.operatorSafe && (node.isHidden || node.isGmOnly)) return '';
     const headingTag = `h${Math.min(depth, 6)}`;
     let html = `<div style="margin-bottom: 24px; page-break-inside: avoid;">`;
     html += `<${headingTag} style="color: #0284c7; border-bottom: 2px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 8px;">`;
@@ -218,6 +220,7 @@ export const exportElementPDF = (targetNode, universeState, optionsOrHandle = {}
       }
       if (node.customFields && Array.isArray(node.customFields)) {
         node.customFields.forEach(cf => {
+          if (options?.operatorSafe && (cf?.isGmOnly || cf?.isHidden)) return;
           const valStr = formatFieldValue(cf?.value);
           if (cf?.label && valStr) {
             hasFields = true;

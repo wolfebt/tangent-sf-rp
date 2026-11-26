@@ -299,6 +299,11 @@ export default function ScenarioPane({
   };
 
   const handleMapFileImport = (e) => {
+    if (isStoryReadOnly) {
+      toast({ type: 'warning', text: 'Read-only story: unlock or clone this project before modifying maps.' });
+      e.target.value = '';
+      return;
+    }
     const file = e.target.files[0];
     if (!file || !activeNode) return;
 
@@ -358,6 +363,10 @@ export default function ScenarioPane({
   };
 
   const handleCreateNewMapForElement = () => {
+    if (isStoryReadOnly) {
+      toast({ type: 'warning', text: 'Read-only story: unlock or clone this project before modifying maps.' });
+      return;
+    }
     if (!activeNode) return;
     const newMap = createBlankCanvas({
       title: `${activeNode.title || 'Untitled'} Encounter Sector`,

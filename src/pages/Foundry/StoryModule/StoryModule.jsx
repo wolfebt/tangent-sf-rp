@@ -132,7 +132,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       setEditingModalElement: state.setEditingElement,
       elementEditorMode: state.elementEditorMode,
       elementEditorInitialSeed: state.elementEditorInitialSeed,
-      isSplitView: state.isSplitView
+      isSplitView: state.isSplitView,
+      perspectiveMode: state.perspectiveMode
     }))
   );
 

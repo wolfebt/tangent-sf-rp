@@ -17,6 +17,10 @@ import {
   applyOutpostPerimeterWall
 } from '../../src/pages/Foundry/MapMaker/components/pcgGridHelpers.ts';
 import * as cortexBridge from '../../src/utils/cortexAdeAssetBridge.js';
+import {
+  sanitizeScenarioForOperator,
+  stripGmSecretHtmlBlocks
+} from '../../src/utils/gmSecretSanitizer.js';
 
 function createEmptyGrid(rows, cols, floorInit = false) {
   return Array.from({ length: rows }, () =>
@@ -263,4 +267,35 @@ test('C1: cortexAdeAssetBridge maintains exact 21-export facade parity and proje
   const consolidated = cortexBridge.consolidateAdeElementToCortexPayload(projected);
   assert.equal(consolidated.targetCollection, 'gear');
   assert.equal(consolidated.payload.name, 'Arc Projector');
+});
+
+test('Audit: sanitizeScenarioForOperator strips GM customFields and secret HTML blocks while keeping public fields', () => {
+  const dirtyScenario = {
+    id: 'scen_audit_1',
+    title: 'Reactor Vault',
+    content:
+      '<p>Cold air hisses from the vent.</p><div class="ade-gm-secret"><p>Ambush behind pylon 3.</p></div><blockquote data-gm-secret="true">Secret code: 9912</blockquote>',
+    customFields: [
+      { id: 'cf_pub', label: 'Gravity', value: '0.8 G', isGmOnly: false },
+      { id: 'cf_sec', label: 'Trap Override', value: 'Code 44B', isGmOnly: true },
+      { id: 'cf_hid', label: 'Hidden Exit', value: 'Shaft 9', isHidden: true }
+    ],
+    fields: {
+      readAloud: 'Step onto the catwalk.',
+      gmNotes: 'Boss enters on round 2.'
+    }
+  };
+
+  const sanitized = sanitizeScenarioForOperator(dirtyScenario);
+  assert.equal(sanitized.fields.readAloud, 'Step onto the catwalk.');
+  assert.equal(sanitized.fields.gmNotes, undefined);
+  assert.equal(sanitized.customFields.length, 1);
+  assert.equal(sanitized.customFields[0].id, 'cf_pub');
+  assert.match(sanitized.content, /Cold air hisses from the vent/);
+  assert.doesNotMatch(sanitized.content, /Ambush behind pylon 3/);
+  assert.doesNotMatch(sanitized.content, /Secret code: 9912/);
+  assert.equal(
+    stripGmSecretHtmlBlocks('<p>Safe</p><p data-gm-secret="true">Hidden</p>'),
+    '<p>Safe</p>'
+  );
 });

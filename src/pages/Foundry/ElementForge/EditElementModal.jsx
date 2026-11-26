@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import {
   getTypePillStyle,
+  getElementFileExtension,
   normalizeElementType
 } from './elementSchemas';
 import DOMPurify from 'dompurify';
@@ -125,6 +126,10 @@ const EditElementModal = ({
   }, [isOpen, universeState?.customTemplates]);
 
   const handleSaveAsTemplate = () => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before modifying blueprint templates.' });
+      return;
+    }
     const rawTags = typeof fields.tags === 'string'
       ? fields.tags.split(',').map((s) => s.trim()).filter(Boolean)
       : [];
@@ -183,6 +188,10 @@ const EditElementModal = ({
   };
 
   const handleDeleteCustomTemplate = (templateId) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Read-only story: unlock or clone this project before modifying blueprint templates.' });
+      return;
+    }
     if (!templateId) return;
     const next = deleteCustomTemplate(templateId, universeState, (nextTemplates) => {
       setUniverseState?.((prev) => ({
@@ -1142,8 +1151,9 @@ const EditElementModal = ({
 
                 <button
                   type="button"
+                  disabled={isStoryReadOnly}
                   onClick={handleSaveAsTemplate}
-                  className="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-indigo-500/50 text-indigo-200 text-xs font-mono font-bold uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
+                  className="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-indigo-500/50 text-indigo-200 text-xs font-mono font-bold uppercase tracking-wider rounded-xl transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                   title="Save current element configuration as a reusable Custom Blueprint Template"
                 >
                   Save Template
@@ -1298,6 +1308,7 @@ const EditElementModal = ({
             handleRemoveCustomField={handleRemoveCustomField}
             resolvedSaveDestination={resolvedSaveDestination}
             isDirty={isDirty}
+            isStoryReadOnly={isStoryReadOnly}
             handleSaveAsTemplate={handleSaveAsTemplate}
             handleRequestClose={handleRequestClose}
           />
