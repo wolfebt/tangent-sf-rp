@@ -41,11 +41,13 @@ import {
 export interface Stage3DViewportProps {
   onSwitchTo2D?: () => void;
   activeTool?: string;
+  isArchitectRole?: boolean;
 }
 
 export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
   onSwitchTo2D,
-  activeTool = 'select'
+  activeTool = 'select',
+  isArchitectRole = true
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rendererContextRef = useRef<Stage3DRendererContext | null>(null);
@@ -110,7 +112,7 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
     });
 
     // Initial map sync
-    compositor.syncFromMap(currentMap, tokens, selectedTokenId, targetTokenId, cameraRig.camera);
+    compositor.syncFromMap(currentMap, tokens, selectedTokenId, targetTokenId, cameraRig.camera, isArchitectRole);
 
     // Render loop
     const unbindRender = renderer.onRender((delta, elapsed) => {
@@ -201,8 +203,8 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
     const cameraRig = cameraRigRef.current;
     if (!compositor || !currentMap) return;
 
-    compositor.syncFromMap(currentMap, tokens, selectedTokenId, targetTokenId, cameraRig?.camera);
-  }, [currentMap, currentMap?.walls, currentMap?.terrains, currentMap?.lights, currentMap?.background_url]);
+    compositor.syncFromMap(currentMap, tokens, selectedTokenId, targetTokenId, cameraRig?.camera, isArchitectRole);
+  }, [currentMap, currentMap?.walls, currentMap?.terrains, currentMap?.lights, currentMap?.background_url, isArchitectRole]);
 
   // Sync token changes (positions, health bars, conditions, selection)
   useEffect(() => {
@@ -210,7 +212,7 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
     const cameraRig = cameraRigRef.current;
     if (!compositor) return;
 
-    compositor.syncTokens(tokens, selectedTokenId, targetTokenId, cameraRig?.camera);
+    compositor.syncTokens(tokens, selectedTokenId, targetTokenId, cameraRig?.camera, isArchitectRole);
 
     // Evaluate 3D Line-of-Sight between selected token and target
     const attacker = tokens.find(t => t.id === selectedTokenId);
@@ -253,9 +255,12 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
         setTargetTokenId(hitToken.id);
         AudioService.playCriticalChime(false);
       } else {
-        // Normal click selects token and begins drag
+        // Normal click selects token and begins drag only when authorized
         setSelectedTokenId(hitToken.id);
-        setDraggingTokenId(hitToken.id);
+        const canDrag = isArchitectRole || getVttMultiplayerSync().canMoveToken(hitToken.id);
+        if (canDrag) {
+          setDraggingTokenId(hitToken.id);
+        }
       }
       return;
     }
@@ -272,7 +277,7 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
           hitWall.originalWall?.isDynamic ||
           String(hitWall.originalWall?.wallType || '').toLowerCase().includes('door'))
     );
-    if (isHitDoor) {
+    if (isHitDoor && (isArchitectRole || (!hitWall.originalWall?.isSecret && !hitWall.originalWall?.isLocked))) {
       const wallId = hitWall.wallId;
       let toggledDoor: any = null;
       const updatedWalls = (currentMap.walls || []).map((w: any) => {
@@ -346,35 +351,65 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
     }
   }, [draggingTokenId, activeTool, tokens, updatePosition, setElevation]);
 
-  const handlePointerUp = useCallback(() => {
-    if (draggingTokenId) {
-      const movedToken = selectAllFusedTokens(useEngineStore.getState()).find(t => t.id === draggingTokenId);
+  const persistAndBroadcastTokenState = useCallback(
+    (tokenId: string, nextX: number, nextY: number, nextElevationFt: number) => {
+      const activeMap = currentMapRef.current;
       if (
-        movedToken &&
-        currentMap?.id &&
+        activeMap?.id &&
         typeof updateMap === 'function' &&
-        Array.isArray(currentMap.tokens)
+        Array.isArray(activeMap.tokens)
       ) {
-        const existing = currentMap.tokens.find((t: any) => t.id === draggingTokenId);
+        const existing = activeMap.tokens.find((t: any) => t.id === tokenId);
         if (
           existing &&
-          (existing.x !== movedToken.x ||
-            existing.y !== movedToken.y ||
-            (existing.elevation_ft ?? 0) !== (movedToken.elevation_ft ?? 0))
+          (existing.x !== nextX ||
+            existing.y !== nextY ||
+            (existing.elevation_ft ?? 0) !== nextElevationFt)
         ) {
-          const updatedTokens = currentMap.tokens.map((t: any) =>
-            t.id === draggingTokenId
+          const updatedTokens = activeMap.tokens.map((t: any) =>
+            t.id === tokenId
               ? {
                   ...t,
-                  x: movedToken.x,
-                  y: movedToken.y,
-                  elevation_ft: movedToken.elevation_ft ?? t.elevation_ft ?? 0
+                  x: nextX,
+                  y: nextY,
+                  elevation_ft: nextElevationFt
                 }
               : t
           );
-          updateMap(currentMap.id, { tokens: updatedTokens });
+          updateMap(activeMap.id, { tokens: updatedTokens });
         }
-        getVttMultiplayerSync().broadcastTokenMove(
+      }
+      getVttMultiplayerSync().broadcastTokenMove(
+        tokenId,
+        nextX,
+        nextY,
+        nextElevationFt
+      );
+    },
+    [updateMap]
+  );
+
+    const handleAdjustElevation = useCallback(
+    (token: any, deltaFt: number) => {
+      if (!token?.id) return;
+      if (!isArchitectRole && !getVttMultiplayerSync().canMoveToken(token)) return;
+      const nextElev = Math.max(0, (token.elevation_ft || 0) + deltaFt);
+      setElevation(token.id, nextElev);
+      persistAndBroadcastTokenState(
+        token.id,
+        Number(token.x ?? 0),
+        Number(token.y ?? 0),
+        nextElev
+      );
+    },
+    [setElevation, persistAndBroadcastTokenState, isArchitectRole]
+  );
+
+  const handlePointerUp = useCallback(() => {
+    if (draggingTokenId) {
+      const movedToken = selectAllFusedTokens(useEngineStore.getState()).find(t => t.id === draggingTokenId);
+      if (movedToken) {
+        persistAndBroadcastTokenState(
           draggingTokenId,
           movedToken.x,
           movedToken.y,
@@ -386,7 +421,7 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
     if (activeTool === 'ruler') {
       // Keep ruler visible until cleared or new click
     }
-  }, [draggingTokenId, activeTool, currentMap, updateMap]);
+  }, [draggingTokenId, activeTool, persistAndBroadcastTokenState]);
 
   const selectedToken = tokens.find(t => t.id === selectedTokenId);
   const targetToken = tokens.find(t => t.id === targetTokenId);
@@ -504,14 +539,14 @@ export const Stage3DViewport: React.FC<Stage3DViewportProps> = ({
               <span className="text-[11px] text-cyan-300">{selectedToken.elevation_ft || 0} FT</span>
               <div className="flex flex-col ml-1">
                 <button
-                  onClick={() => setElevation(selectedToken.id, (selectedToken.elevation_ft || 0) + 5)}
+                  onClick={() => handleAdjustElevation(selectedToken, 5)}
                   className="text-[9px] text-cyan-400 hover:text-cyan-200 leading-none"
                   title="Climb +5ft"
                 >
                   ▲
                 </button>
                 <button
-                  onClick={() => setElevation(selectedToken.id, Math.max(0, (selectedToken.elevation_ft || 0) - 5))}
+                  onClick={() => handleAdjustElevation(selectedToken, -5)}
                   className="text-[9px] text-cyan-400 hover:text-cyan-200 leading-none"
                   title="Descend -5ft"
                 >

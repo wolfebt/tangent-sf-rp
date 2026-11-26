@@ -40,6 +40,10 @@ export interface CompileOptions {
   printLayout?: 'osr_module' | 'novel' | 'cards';
   pageSize?: 'letter' | 'a4';
   mapImages?: Array<{ title: string; dataUrl: string }>;
+  waypoints?: Array<{ label?: string; name?: string; triggerAction?: string; x?: number; y?: number }>;
+  handouts?: Array<{ title?: string; name?: string; content?: string; summary?: string }>;
+  props?: Array<{ name?: string; label?: string; type?: string; description?: string }>;
+  personas?: Array<{ title?: string; name?: string; archetype?: string; fields?: Record<string, any> }>;
 }
 
 function escapeHtml(val: unknown): string {
@@ -108,7 +112,16 @@ export class PagedPdfCompilerService {
     const includeReadAloud = options.includeReadAloud !== false;
     const includeStatBlocks = options.includeStatBlocks !== false;
     const includeMapKeys = options.includeMapKeys !== false;
-    const layoutClass = options.printLayout === 'novel' ? 'single-column' : 'two-columns';
+    const includeWaypoints = options.includeWaypoints !== false;
+    const includeHandouts = options.includeHandouts !== false;
+    const includeProps = options.includeProps !== false;
+    const includeOsrSpread = options.includeOsrSpread !== false;
+    const layoutClass =
+      options.printLayout === 'novel'
+        ? 'single-column'
+        : options.printLayout === 'cards'
+          ? 'cards-grid'
+          : 'two-columns';
 
     const pagedStyles = `
       <style>
@@ -160,6 +173,20 @@ export class PagedPdfCompilerService {
         .single-column {
           max-width: 160mm;
           margin: 0 auto;
+        }
+
+        .cards-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 6mm;
+        }
+
+        .cards-grid > * {
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          padding: 8px 10px;
+          break-inside: avoid;
+          background: #ffffff;
         }
 
         .sensory-box, blockquote.ade-read-aloud {
@@ -335,6 +362,43 @@ export class PagedPdfCompilerService {
 
     for (const node of nodes || []) {
       bodyHtml += renderNodeHtml(node, 2);
+    }
+
+    if (includeOsrSpread && includeStatBlocks && Array.isArray(options.personas) && options.personas.length > 0) {
+      bodyHtml += `<section class="osr-spread-section"><h2>Operative &amp; Threat Reference Cards</h2><div class="${layoutClass}">`;
+      for (const p of options.personas) {
+        const pTitle = escapeHtml(p.title || p.name || 'Operative');
+        const pHp = escapeHtml(p.fields?.health ?? p.fields?.hp ?? '30');
+        const pDef = escapeHtml(p.fields?.defense_dc ?? p.fields?.defense ?? '15');
+        bodyHtml += `<div class="threat-card"><div class="threat-title"><span>${pTitle}</span><span>${escapeHtml(p.archetype || p.fields?.mcmRole || 'Persona')}</span></div><div>HP: ${pHp} &bull; Defense DC: ${pDef}</div></div>`;
+      }
+      bodyHtml += `</div></section>`;
+    }
+
+    if (includeWaypoints && Array.isArray(options.waypoints) && options.waypoints.length > 0) {
+      bodyHtml += `<section class="waypoints-section"><h2>Tactical Map Waypoints</h2><ul class="bullet-list">`;
+      for (const wp of options.waypoints) {
+        bodyHtml += `<li><strong>${escapeHtml(wp.label || wp.name || 'Waypoint')}</strong> (${escapeHtml(wp.triggerAction || 'REVEAL_BEAT')})</li>`;
+      }
+      bodyHtml += `</ul></section>`;
+    }
+
+    if (includeProps && Array.isArray(options.props) && options.props.length > 0) {
+      bodyHtml += `<section class="props-section"><h2>Interactive Props &amp; Terminals</h2><ul class="bullet-list">`;
+      for (const pr of options.props) {
+        bodyHtml += `<li><strong>${escapeHtml(pr.name || pr.label || 'Prop')}</strong> [${escapeHtml(pr.type || 'Object')}]${pr.description ? ` &mdash; ${escapeHtml(pr.description)}` : ''}</li>`;
+      }
+      bodyHtml += `</ul></section>`;
+    }
+
+    if (includeHandouts && Array.isArray(options.handouts) && options.handouts.length > 0) {
+      bodyHtml += `<section class="handouts-section"><h2>Player Handouts &amp; Clues</h2><div class="${layoutClass}">`;
+      for (const h of options.handouts) {
+        const rawHandout = h.content || h.summary || '';
+        const cleanedHandout = includeGmSecrets ? rawHandout : stripGmSecretMarkup(rawHandout);
+        bodyHtml += `<div class="sensory-box"><strong>${escapeHtml(h.title || h.name || 'Handout')}</strong><div>${sanitizeRichHtml(cleanedHandout)}</div></div>`;
+      }
+      bodyHtml += `</div></section>`;
     }
 
     if (includeMapKeys && Array.isArray(options.mapImages) && options.mapImages.length > 0) {

@@ -47,7 +47,15 @@ export function useStageRaycast({
   };
 
   useEffect(() => {
-    if (!isMultiplayerSimActive || isSimulationPaused) {
+    const hasAutonomousUnits = (currentMapTokensRef.current || []).some(
+      (t: any) =>
+        t?.script &&
+        (t.script.type === 'patrol' || t.script.type === 'sentry') &&
+        t.vttScriptActive !== 'false' &&
+        t.vttScriptActive !== false
+    );
+
+    if (isSimulationPaused || (!hasAutonomousUnits && !isMultiplayerSimActive)) {
       if (npcTickRef.current) {
         clearInterval(npcTickRef.current);
         npcTickRef.current = null;
@@ -136,7 +144,7 @@ export function useStageRaycast({
         npcTickRef.current = null;
       }
     };
-  }, [isMultiplayerSimActive, isSimulationPaused]);
+  }, [isMultiplayerSimActive, isSimulationPaused, currentMapTokens]);
 
   /**
    * Automatically calculates Line of Sight Cover per 3.00 COMBAT.md:

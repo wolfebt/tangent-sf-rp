@@ -22,6 +22,7 @@ export interface StageModalsContainerProps {
   isLandmassModalOpen: boolean;
   setIsLandmassModalOpen: (open: boolean) => void;
   handleCommitLandmass: (payload: any) => void;
+  handleApplyStageDecorations?: (entities: any[], atmosphere?: any, lights?: any[], doors?: any[]) => void;
   terrainRenderMode: any;
 
   isUvttModalOpen: boolean;
@@ -87,6 +88,7 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
   isLandmassModalOpen,
   setIsLandmassModalOpen,
   handleCommitLandmass,
+  handleApplyStageDecorations,
   terrainRenderMode,
 
   isUvttModalOpen,
@@ -202,7 +204,16 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
             <PcgAiStudioTab
               isModal={true}
               onCloseModal={() => setIsLandmassModalOpen(false)}
+              currentMap={currentMap}
+              mapWidthCells={currentMap?.gridWidth || 40}
+              mapHeightCells={currentMap?.gridHeight || 30}
+              gridSize={currentMap?.gridSize || 50}
               terrainRenderMode={terrainRenderMode}
+              onApplyDecorations={handleApplyStageDecorations}
+              onApplyPcgTerrain={(terrains, replaceExisting) => {
+                handleCommitLandmass({ terrains, replaceExisting });
+                setIsLandmassModalOpen(false);
+              }}
               onCommitPcgSector={(payload) => {
                 handleCommitLandmass(payload);
                 setIsLandmassModalOpen(false);

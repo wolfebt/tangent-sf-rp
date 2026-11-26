@@ -178,8 +178,9 @@ export const HALF_PAGE_ELEMENT_TYPES = ['Map', 'Clue', 'Handout'];
 export const isHalfPageElement = (type) => HALF_PAGE_ELEMENT_TYPES.includes(type);
 
 // Export Element as Printable PDF
-export const exportElementPDF = (targetNode, universeState, options = {}) => {
+export const exportElementPDF = (targetNode, universeState, optionsOrHandle = {}) => {
   if (!targetNode) return;
+  const options = typeof optionsOrHandle === 'object' && optionsOrHandle !== null ? optionsOrHandle : {};
   const rootNode = options?.operatorSafe ? sanitizeScenarioForOperator(targetNode) : targetNode;
   const locationPath = getBreadcrumbPath(universeState?.scenarios || [], rootNode.id);
 

@@ -206,7 +206,17 @@ export function formatContext(context, promptQuery = '') {
     // CRONICLE Persistent Memory Context Injection (3-Tier Reality Constraints)
     if (context.cronicle) {
       try {
-        const cronicleBlock = formatCronicleContextForAIME(context.cronicle);
+        const sanitizedCronicle = isOperatorSafe
+          ? {
+              ...context.cronicle,
+              ephemeralNotes: '',
+              gmNotes: '',
+              locations: Array.isArray(context.cronicle.locations)
+                ? context.cronicle.locations.map((loc) => ({ ...loc, gmNotes: '', secrets: '' }))
+                : []
+            }
+          : context.cronicle;
+        const cronicleBlock = formatCronicleContextForAIME(sanitizedCronicle);
         if (cronicleBlock) {
           out += `\n${cronicleBlock}\n`;
         }

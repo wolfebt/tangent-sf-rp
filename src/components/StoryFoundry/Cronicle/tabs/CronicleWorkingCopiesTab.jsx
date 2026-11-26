@@ -18,7 +18,8 @@ export default function CronicleWorkingCopiesTab({
   availableElementTypes = [],
   filteredElements = [],
   clonedFeedback = {},
-  handleCloneAggregatedElement
+  handleCloneAggregatedElement,
+  isStoryReadOnly = false
 }) {
   return (
     <div className="flex flex-col gap-6">
@@ -34,8 +35,9 @@ export default function CronicleWorkingCopiesTab({
         <div className="flex flex-wrap items-center gap-2 mt-2">
           <select
             value={selectedElementToClone || ''}
+            disabled={isStoryReadOnly}
             onChange={(e) => setSelectedElementToClone(e.target.value)}
-            className="flex-1 min-w-[240px] bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none"
+            className="flex-1 min-w-[240px] bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none disabled:opacity-50"
           >
             <option value="">-- Select Source Element to Clone --</option>
             {elementsCatalog.map(elem => (
@@ -46,8 +48,10 @@ export default function CronicleWorkingCopiesTab({
           </select>
           <button
             type="button"
-            onClick={handleCloneSelectedElement}
-            disabled={!selectedElementToClone}
+            onClick={() => {
+              if (!isStoryReadOnly) handleCloneSelectedElement?.();
+            }}
+            disabled={isStoryReadOnly || !selectedElementToClone}
             className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white text-xs font-bold uppercase rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <Plus size={13} />
@@ -70,8 +74,11 @@ export default function CronicleWorkingCopiesTab({
                 </span>
                 <button
                   type="button"
-                  onClick={() => handleDeleteWorkingCopy(copy.id)}
-                  className="text-slate-500 hover:text-red-400 p-0.5 transition-colors cursor-pointer"
+                  disabled={isStoryReadOnly}
+                  onClick={() => {
+                    if (!isStoryReadOnly) handleDeleteWorkingCopy?.(copy.id);
+                  }}
+                  className="text-slate-500 hover:text-red-400 disabled:opacity-40 p-0.5 transition-colors cursor-pointer"
                   title="Discard working copy"
                 >
                   <Trash2 size={13} />

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { BVHBuilder, type WallSegment } from '../../../engine/vision/BVHBuilder.ts';
 import { InteractiveObjectManager } from '../../../engine/assets/InteractiveObjectManager.ts';
@@ -23,9 +23,11 @@ import { type PaletteItem } from '../ArchitectDesignPalette';
 import { AudioService } from '../../../services/audioService';
 import { createTacticalPing } from '../../../services/mapPingService';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
-import { expandWallsForGeometry } from '../../../schemas/vttWallSchema.js';
+import { expandWallsForGeometry, createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../schemas/vttWallSchema.js';
 import { DEFAULT_LAYERS } from '../../../pages/Foundry/MapMaker/map/MapConstants';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { disarmTrap, TRAP_TYPES } from '../../../services/reactiveVttService';
+import { executeStageAiDecision } from './stageAiDecisionExecutor';
 
 export interface UseStageActionsAndSummonsParams {
   bvhBuilderRef: React.MutableRefObject<BVHBuilder>;
@@ -69,6 +71,7 @@ export interface UseStageActionsAndSummonsParams {
   setIsMoveModeActive: React.Dispatch<React.SetStateAction<boolean>>;
   setActiveTab: React.Dispatch<React.SetStateAction<any>>;
   handleExecuteCombatStrike: () => void;
+  isArchitectRole?: boolean;
 }
 
 /**
@@ -115,19 +118,67 @@ export const useStageActionsAndSummons = ({
   setActiveStance,
   setIsMoveModeActive,
   setActiveTab,
-  handleExecuteCombatStrike
+  handleExecuteCombatStrike,
+  isArchitectRole = true
 }: UseStageActionsAndSummonsParams) => {
+  const aiContextRef = useRef({
+    tokens,
+    currentMap,
+    updateMap,
+    isArchitectRole
+  });
+  aiContextRef.current = {
+    tokens,
+    currentMap,
+    updateMap,
+    isArchitectRole
+  };
+
+  useEffect(() => {
+    const offAi = VttEventBus.on('stage-ai-decision', ({ tokenId, decision }) => {
+      const ctx = aiContextRef.current;
+      const sync = getVttMultiplayerSync();
+      executeStageAiDecision({
+        tokenId,
+        decision,
+        tokens: ctx.tokens,
+        currentMap: ctx.currentMap,
+        engineStore: useEngineStore.getState(),
+        updateMap: ctx.updateMap,
+        broadcastTokenMove: (id, x, y, elev) => sync.broadcastTokenMove(id, x, y, elev),
+        broadcastTokenVitals: (id, vitals) => sync.broadcastTokenVitals(id, vitals),
+        broadcastChatCard: (card) => sync.broadcastChatCard(card),
+        emitChatCard: (card) => VttEventBus.emit('stage-chat-card', card),
+        setCombatLog,
+        isArchitectRole: ctx.isArchitectRole
+      });
+    });
+    return () => {
+      offAi();
+    };
+  }, [setCombatLog]);
   // ── Batch Multi-Asset Selection Actions ──
   const handleBatchDelete = useCallback(() => {
     if (selectedAssetIds.length === 0) return;
     recordHistory(`Delete ${selectedAssetIds.length} Assets`);
 
+    const engineStore = useEngineStore.getState();
     const nextObjects = localObjects.filter(o => !selectedAssetIds.includes(o.id));
     const nextWalls = localWalls.filter(w => !selectedAssetIds.includes(w.id));
     const nextLights = localLights.filter(l => !selectedAssetIds.includes(l.id));
     const nextTexts = (currentMap?.texts || []).filter((t: any) => !selectedAssetIds.includes(t.id));
     const nextLines = (currentMap?.lines || []).filter((l: any) => !selectedAssetIds.includes(l.id));
     const nextTerrains = (currentMap?.terrains || []).filter((t: any) => !selectedAssetIds.includes(t.id));
+
+    const matchedTokenIds = Object.keys(engineStore.staticData).filter((tokId) =>
+      selectedAssetIds.includes(tokId)
+    );
+    matchedTokenIds.forEach((tokId) => {
+      engineStore.removeEntity(tokId);
+    });
+    const nextTokens = Array.isArray(currentMap?.tokens)
+      ? currentMap.tokens.filter((t: any) => !selectedAssetIds.includes(t?.id))
+      : undefined;
 
     setLocalObjects(nextObjects);
     setLocalWalls(nextWalls);
@@ -142,7 +193,8 @@ export const useStageActionsAndSummons = ({
         lights: nextLights,
         texts: nextTexts,
         lines: nextLines,
-        terrains: nextTerrains
+        terrains: nextTerrains,
+        ...(nextTokens !== undefined ? { tokens: nextTokens } : {})
       });
     }
 
@@ -157,6 +209,7 @@ export const useStageActionsAndSummons = ({
 
     const offset = gridSnap ? 70 : 25;
     const newSelectedIds: string[] = [];
+    const engineStore = useEngineStore.getState();
 
     // Duplicate Objects
     const clonedObjects: SceneInteractiveObject[] = [];
@@ -204,9 +257,44 @@ export const useStageActionsAndSummons = ({
       }
     });
 
+    // Duplicate Tokens
+    const baseTokens = Array.isArray(currentMap?.tokens) ? currentMap.tokens : [];
+    const clonedTokens: any[] = [];
+    const selectedTokenIds = Object.keys(engineStore.staticData).filter((tokId) =>
+      selectedAssetIds.includes(tokId)
+    );
+    selectedTokenIds.forEach((tokId, idx) => {
+      const srcMapTok = baseTokens.find((t: any) => t?.id === tokId);
+      const srcStatic = engineStore.staticData[tokId];
+      const srcEph = engineStore.ephemeralData[tokId];
+      const baseTok = srcMapTok || srcStatic;
+      if (!baseTok) return;
+      const cloneId = `tok_dup_${Date.now()}_${idx}_${Math.floor(Math.random() * 1000)}`;
+      const nextX = Number(srcEph?.x ?? baseTok.x ?? 140) + offset;
+      const nextY = Number(srcEph?.y ?? baseTok.y ?? 140) + offset;
+      const clonedTok = {
+        ...baseTok,
+        id: cloneId,
+        name: `${baseTok.name || 'Operative'} (Copy)`,
+        x: nextX,
+        y: nextY
+      };
+      clonedTokens.push(clonedTok);
+      if (srcStatic) {
+        engineStore.loadStaticEntity({
+          ...srcStatic,
+          id: cloneId,
+          name: clonedTok.name
+        });
+        engineStore.updatePosition(cloneId, nextX, nextY, Number(srcEph?.elevation_ft ?? srcEph?.z ?? 0) || 0);
+      }
+      newSelectedIds.push(cloneId);
+    });
+
     const nextObjects = [...localObjects, ...clonedObjects];
     const nextWalls = [...localWalls, ...clonedWalls];
     const nextLights = [...localLights, ...clonedLights];
+    const nextTokens = clonedTokens.length > 0 ? [...baseTokens, ...clonedTokens] : undefined;
 
     setLocalObjects(nextObjects);
     setLocalWalls(nextWalls);
@@ -218,7 +306,8 @@ export const useStageActionsAndSummons = ({
       updateMap(currentMap.id, {
         objects: nextObjects,
         walls: nextWalls,
-        lights: nextLights
+        lights: nextLights,
+        ...(nextTokens !== undefined ? { tokens: nextTokens } : {})
       });
     }
     setSelectedAssetIds(newSelectedIds);
@@ -237,6 +326,28 @@ export const useStageActionsAndSummons = ({
     } : w);
     const nextLights = localLights.map(l => selectedAssetIds.includes(l.id) ? { ...l, x: l.x + dx, y: l.y + dy } : l);
 
+    const engineStore = useEngineStore.getState();
+    const sync = getVttMultiplayerSync();
+    const nudgedTokenIds = Object.keys(engineStore.staticData).filter((tokId) =>
+      selectedAssetIds.includes(tokId)
+    );
+    nudgedTokenIds.forEach((tokId) => {
+      const eph = engineStore.ephemeralData[tokId];
+      if (!eph) return;
+      const nextX = eph.x + dx;
+      const nextY = eph.y + dy;
+      engineStore.updatePosition(tokId, nextX, nextY);
+      sync.broadcastTokenMove(tokId, nextX, nextY, eph.elevation_ft ?? 0);
+    });
+    const nextTokens =
+      nudgedTokenIds.length > 0 && Array.isArray(currentMap?.tokens)
+        ? currentMap.tokens.map((t: any) =>
+            selectedAssetIds.includes(t?.id)
+              ? { ...t, x: Number(t.x ?? 0) + dx, y: Number(t.y ?? 0) + dy }
+              : t
+          )
+        : undefined;
+
     setLocalObjects(nextObjects);
     setLocalWalls(nextWalls);
     setLocalLights(nextLights);
@@ -244,7 +355,12 @@ export const useStageActionsAndSummons = ({
     bvhBuilderRef.current.build(expandWallsForGeometry(nextWalls) as any);
 
     if (currentMap && updateMap) {
-      updateMap(currentMap.id, { objects: nextObjects, walls: nextWalls, lights: nextLights });
+      updateMap(currentMap.id, {
+        objects: nextObjects,
+        walls: nextWalls,
+        lights: nextLights,
+        ...(nextTokens !== undefined ? { tokens: nextTokens } : {})
+      });
     }
   }, [selectedAssetIds, localObjects, localWalls, localLights, currentMap, updateMap]);
 
@@ -466,6 +582,28 @@ export const useStageActionsAndSummons = ({
     if (res.success) {
       persistInteractiveState(objId);
       const targetObj = interactiveObjMgrRef.current.getObject(objId);
+      const mapObj = currentMap?.objects?.find((o: any) => o?.id === objId);
+      const attachedMacro = (mapObj as any)?.macroScript || (targetObj as any)?.macroScript;
+      if (attachedMacro && typeof attachedMacro === 'string' && attachedMacro.trim()) {
+        Promise.all([
+          import('../../../engine/scripting/QuickJSSandbox'),
+          import('../../../services/stageMacroDispatcher')
+        ])
+          .then(async ([{ QuickJSSandbox }, { dispatchStageMacroActions }]) => {
+            const sandbox = new QuickJSSandbox();
+            const { actions } = await sandbox.executeWithActions(attachedMacro, {
+              targetAsset: { id: objId, title: mapObj?.name || targetObj?.name || objId, type: mapObj?.type || targetObj?.type },
+              timestamp: Date.now()
+            });
+            if (Array.isArray(actions) && actions.length > 0) {
+              dispatchStageMacroActions(actions, {
+                role: isArchitectRole ? 'architect' : 'operative',
+                allowedTokenIds: selectedTokenId ? [selectedTokenId] : []
+              });
+            }
+          })
+          .catch((err) => console.warn('[Stage] Attached macro execution failed:', err));
+      }
       if (targetObj?.bvhWallId) {
         getVttMultiplayerSync().broadcastDoorToggle(
           targetObj.bvhWallId,
@@ -639,6 +777,140 @@ export const useStageActionsAndSummons = ({
     ]);
   };
 
+  const handleApplyStageDecorations = (entities: any[] = [], atmosphere: any = null, lights: any[] = [], doors: any[] = []) => {
+    if (!currentMap) return;
+    recordHistory('Spatial Decorator');
+    const gridSize = Number(currentMap.gridSize || 50) || 50;
+    const baseObjects = Array.isArray(currentMap.objects) ? currentMap.objects : localObjects;
+    const baseWalls = Array.isArray(currentMap.walls) ? currentMap.walls : localWalls;
+    const baseLights = Array.isArray(currentMap.lights) ? currentMap.lights : localLights;
+
+    const newObjects = (entities || []).map((e: any) => ({
+      id: e.id || `entity-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      name: e.unit_name || e.name || 'Decorated Prop',
+      label: e.unit_name || e.name || 'Decorated Prop',
+      unit_id: e.unit_id,
+      x: (e.col || 0) * gridSize,
+      y: (e.row || 0) * gridSize,
+      width: (e.width || 1) * gridSize,
+      height: (e.height || 1) * gridSize,
+      category: e.category || 'Decor',
+      type: e.category === 'token' ? 'npc' : 'prop',
+      isHazard: Boolean(e.isHazard),
+      hazardDamage: e.hazardDamage,
+      isCover: Boolean(e.isCover),
+      coverRating: e.coverRating,
+      isDecal: Boolean(e.isDecal),
+      decalType: e.decalType
+    }));
+
+    const newDoorObjects: any[] = [];
+    const newWalls: any[] = [];
+    (doors || []).forEach((d: any) => {
+      const isBarricaded = Boolean(d.isBarricaded);
+      const doorName = isBarricaded
+        ? 'Barricaded Blast Door'
+        : (d.doorType === 'airlock' ? 'Airlock Blast Door' : 'Security Bulkhead');
+      newDoorObjects.push({
+        id: `portal-${Date.now()}-${d.col}-${d.row}`,
+        name: doorName,
+        label: isBarricaded ? 'Barricaded Door' : (d.doorType === 'airlock' ? 'Airlock' : 'Door'),
+        x: (d.col || 0) * gridSize + gridSize / 2,
+        y: (d.row || 0) * gridSize + gridSize / 2,
+        width: gridSize,
+        height: gridSize,
+        category: 'door',
+        type: 'portal',
+        color: isBarricaded ? '#ef4444' : (d.doorType === 'airlock' ? '#38bdf8' : '#f59e0b'),
+        isOpen: false,
+        isLocked: isBarricaded || Boolean(d.isLocked),
+        isBarricaded
+      });
+      newWalls.push(
+        createWallSegment(
+          { x: (d.col || 0) * gridSize, y: (d.row || 0) * gridSize + gridSize / 2 },
+          { x: ((d.col || 0) + 1) * gridSize, y: (d.row || 0) * gridSize + gridSize / 2 },
+          WALL_TYPES.DOOR,
+          {
+            id: `wall-door-${Date.now()}-${d.col}-${d.row}`,
+            label: doorName,
+            doorState: isBarricaded ? DOOR_STATES.LOCKED : DOOR_STATES.CLOSED,
+            breachHp: isBarricaded ? 80 : 40,
+            athleticsDc: isBarricaded ? 22 : 16,
+            hackDc: isBarricaded ? 18 : 14,
+            color: isBarricaded ? '#ef4444' : (d.doorType === 'airlock' ? '#38bdf8' : '#f59e0b')
+          }
+        )
+      );
+    });
+
+    const newLights: SceneLightSource[] = (lights || []).map((lt: any) => ({
+      id: lt.id || `light-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      label: lt.animation === 'flicker' ? 'Flickering Luminary' : lt.animation === 'pulse' ? 'Warning Beacon' : 'Tactical Luminary',
+      x: (lt.col || 0) * gridSize + gridSize / 2,
+      y: (lt.row || 0) * gridSize + gridSize / 2,
+      radius: (lt.radius || 3.5) * gridSize,
+      color: lt.color || '#f59e0b',
+      intensity: lt.intensity ?? 0.85,
+      falloff: 'smooth',
+      castShadows: true,
+      animation: lt.animation === 'steady' ? 'none' : (lt.animation || 'none')
+    }));
+
+    const updatedWalls = [...baseWalls, ...newWalls];
+    const updatedLights = [...baseLights, ...newLights];
+    const mergedRawObjects = [...baseObjects, ...newObjects, ...newDoorObjects];
+    const preservedObjects: SceneInteractiveObject[] = mergedRawObjects.map((obj: any) => ({
+      ...obj,
+      id: obj.id,
+      name: obj.name || obj.label || 'Decorated Prop',
+      type: (obj.type || 'prop') as any,
+      x: obj.x ?? 100,
+      y: obj.y ?? 100,
+      storyElementId: obj.storyElementId || obj.id
+    }));
+
+    const updatePayload: Record<string, any> = {
+      objects: preservedObjects,
+      walls: updatedWalls,
+      lights: updatedLights
+    };
+    if (atmosphere?.ambient_color) {
+      updatePayload.ambientLight = atmosphere.ambient_color;
+      updatePayload.ambientLightColor = atmosphere.ambient_color;
+    }
+    if (atmosphere?.weather) {
+      updatePayload.weatherFx = atmosphere.weather;
+      updatePayload.atmosphericWeather = atmosphere.weather;
+      updatePayload.atmosphericPresetId = atmosphere.weather;
+    }
+    if (atmosphere?.ambient_color || atmosphere?.weather) {
+      updatePayload.lighting = {
+        ...(currentMap.lighting || {}),
+        ...(atmosphere?.ambient_color ? { tint: atmosphere.ambient_color, ambientColor: atmosphere.ambient_color } : {}),
+        ...(atmosphere?.weather ? { presetId: atmosphere.weather } : {})
+      };
+    }
+
+    if (updateMap) {
+      updateMap(currentMap.id, updatePayload);
+    }
+
+    bvhBuilderRef.current.build(expandWallsForGeometry(updatedWalls) as any);
+    setLocalWalls(updatedWalls);
+    lightSourceMgrRef.current.clearLights();
+    updatedLights.forEach((l: any) => lightSourceMgrRef.current.addLight(l));
+    setLocalLights(updatedLights);
+    interactiveObjMgrRef.current.loadObjects(preservedObjects);
+    setLocalObjects(preservedObjects);
+
+    AudioService.playCriticalChime(true);
+    setCombatLog(prev => [
+      `[SPATIAL DECORATOR] Injected ${newObjects.length} entities, ${newLights.length} lights, and ${newDoorObjects.length} doors.`,
+      ...prev.slice(0, 8)
+    ]);
+  };
+
   // Commit UVTT Import
   const handleImportCompleteUvtt = (importedMap: any) => {
     recordHistory();
@@ -790,6 +1062,66 @@ export const useStageActionsAndSummons = ({
     return (distPx / 70) * 5 <= 5;
   }, [selectedToken, targetToken]);
 
+  const nearbyArmedTrap = useMemo(() => {
+    if (!selectedToken) return null;
+    const allObjs = localObjects.length > 0 ? localObjects : interactiveObjMgrRef.current.getAllObjects();
+    return (
+      allObjs.find((o: any) => {
+        const isTrapObj =
+          Boolean(o?.isTrap) ||
+          o?.type === 'hazard' ||
+          o?.category === 'hazard' ||
+          Boolean((TRAP_TYPES as Record<string, any>)[o?.trapType || o?.type]);
+        if (!isTrapObj) return false;
+        if (o?.trapState === 'disarmed') return false;
+        if (o?.trapState === 'triggered' && !o?.isRepeating) return false;
+        const cx = (o.x || 0) + (o.width ? o.width / 2 : 0);
+        const cy = (o.y || 0) + (o.height ? o.height / 2 : 0);
+        return Math.hypot(cx - selectedToken.x, cy - selectedToken.y) <= 120;
+      }) || null
+    );
+  }, [selectedToken, localObjects]);
+
+  const handleDisarmTrap = useCallback(
+    (trapObj: any) => {
+      if (!trapObj) return null;
+      const intStat = Number((selectedToken as any)?.attributes?.int ?? (selectedToken as any)?.intellect ?? 0);
+      const operativeBonus = Number.isFinite(intStat) && intStat !== 0 ? 2 + intStat * 2 : 4;
+      const res = disarmTrap(trapObj, operativeBonus);
+      const actorName = selectedToken?.name || (selectedToken as any)?.label || 'Operator';
+      const trapLabel = trapObj.label || trapObj.name || 'Armed Hazard';
+
+      if (res.success) {
+        recordHistory(`Disarm Trap: ${trapLabel}`);
+        const baseObjects = localObjects.length > 0 ? localObjects : (currentMap?.objects || []);
+        const nextObjects = baseObjects.map((o: any) =>
+          o?.id === trapObj.id ? { ...o, trapState: 'disarmed', isTriggered: true } : o
+        );
+        setLocalObjects(nextObjects);
+        interactiveObjMgrRef.current.loadObjects(nextObjects);
+        if (currentMap?.id && updateMap) {
+          updateMap(currentMap.id, { objects: nextObjects });
+        }
+        AudioService.playCriticalChime(true);
+      }
+
+      const card = {
+        id: `trap_disarm_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        timestamp: new Date().toISOString(),
+        sender: actorName,
+        visibility: 'public' as const,
+        kind: 'system' as const,
+        title: res.success ? `Trap Disarmed: ${trapLabel}` : `Disarm Failed: ${trapLabel}`,
+        body: res.message
+      };
+      VttEventBus.emit('stage-chat-card', card);
+      getVttMultiplayerSync().broadcastChatCard(card);
+      setCombatLog((prev) => [res.message, ...prev.slice(0, 8)]);
+      return res;
+    },
+    [selectedToken, localObjects, currentMap, updateMap, recordHistory, setLocalObjects, setCombatLog]
+  );
+
   // Handle Action Selected from Token Radial Menu
   const handleRadialSelectAction = (actionId: string) => {
     if (!selectedToken) return;
@@ -834,6 +1166,10 @@ export const useStageActionsAndSummons = ({
       if (nearbyInteractiveObj) {
         handleToggleBulkhead(nearbyInteractiveObj.id);
       }
+    } else if (actionId === 'disarm_trap') {
+      if (nearbyArmedTrap) {
+        handleDisarmTrap(nearbyArmedTrap);
+      }
     } else if (actionId === 'vehicle_dismount') {
       if (selectedToken?.parent_vehicle_id) {
         useEngineStore.getState().dismountPassenger(selectedToken.parent_vehicle_id, selectedToken.id);
@@ -873,6 +1209,7 @@ export const useStageActionsAndSummons = ({
     handleToggleMultiplayerSim,
     handleDropTacticalPing,
     handleCommitLandmass,
+    handleApplyStageDecorations,
     handleImportCompleteUvtt,
     handleSummonHeroToken,
     handleSummonOmnicortexAsset,
@@ -880,8 +1217,10 @@ export const useStageActionsAndSummons = ({
     toggleLayerLock,
     downedAllyNearby,
     nearbyInteractiveObj,
+    nearbyArmedTrap,
     nearbyVehicle,
     isPointBlankTarget,
+    handleDisarmTrap,
     handleRadialSelectAction
   };
 };

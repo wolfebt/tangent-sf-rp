@@ -107,6 +107,7 @@ export interface ADEStoreState {
   cronicleInitialMode: CronicleDeckMode;
   preflightTelemetry: PreflightTelemetry;
   modals: Record<AdeModalKey, boolean>;
+  pendingAimePrefillPrompt: string | null;
 
   // Story Flag Ledger & Dynamic Lorebook Architecture
   activeStoryScopeId: string;
@@ -149,6 +150,8 @@ export interface ADEStoreState {
   setModal: (key: AdeModalKey, open: boolean) => void;
   toggleModal: (key: AdeModalKey) => void;
   closeAllModals: () => void;
+  setPendingAimePrefillPrompt: (prompt: string | null) => void;
+  consumePendingAimePrefillPrompt: () => string | null;
 
   // Story Flag Ledger & Dynamic Lorebook Actions
   setStoryScope: (storyId?: string | null) => void;
@@ -157,6 +160,7 @@ export interface ADEStoreState {
   incrementStoryFlag: (key: string, delta?: number) => void;
   removeStoryFlag: (key: string) => void;
   resetScenarioFlags: (scenarioId: string) => void;
+  clearActiveStoryFlags: (storyId?: string | null) => void;
   evaluateStoryCondition: (conditionExpr?: string) => boolean;
   setLorebookConfig: (config: Partial<LorebookConfig>) => void;
 }
@@ -285,6 +289,7 @@ export const useADEStore = create<ADEStoreState>()(
           moduleImport: false,
           commandPalette: false
         },
+        pendingAimePrefillPrompt: null,
         activeStoryScopeId: 'default',
         storyFlagsByStory: {},
         storyFlags: {},
@@ -394,6 +399,12 @@ export const useADEStore = create<ADEStoreState>()(
             return acc;
           }, {} as Record<AdeModalKey, boolean>)
         })),
+        setPendingAimePrefillPrompt: (prompt) => set({ pendingAimePrefillPrompt: prompt || null }),
+        consumePendingAimePrefillPrompt: () => {
+          const val = get().pendingAimePrefillPrompt;
+          if (val !== null) set({ pendingAimePrefillPrompt: null });
+          return val;
+        },
 
         // Story Flag Ledger & Dynamic Lorebook Actions
         setStoryScope: (storyId) => set((state) => {
@@ -490,6 +501,20 @@ export const useADEStore = create<ADEStoreState>()(
               ...(state.storyFlagsByStory || {}),
               [scopeId]: next
             }
+          };
+        }),
+
+        clearActiveStoryFlags: (storyId) => set((state) => {
+          const targetScopeId =
+            typeof storyId === 'string' && storyId.trim()
+              ? storyId.trim()
+              : (state.activeStoryScopeId || 'default');
+          const nextByStory = { ...(state.storyFlagsByStory || {}) };
+          delete nextByStory[targetScopeId];
+          const isCurrentScope = targetScopeId === (state.activeStoryScopeId || 'default');
+          return {
+            storyFlagsByStory: nextByStory,
+            ...(isCurrentScope ? { storyFlags: {} } : {})
           };
         }),
 

@@ -10,10 +10,11 @@ export default function CronicleTimelineTab({
   newTimelineEntities,
   setNewTimelineEntities,
   handleAddTimelineEvent,
-  handleDeleteTimelineEvent
+  handleDeleteTimelineEvent,
+  isStoryReadOnly = false
 }) {
   return (
-    <div className="flex flex-col gap-5">
+    <fieldset disabled={isStoryReadOnly} className={`flex flex-col gap-5 border-0 p-0 m-0 ${isStoryReadOnly ? 'opacity-70' : ''}`}>
       {/* Add Milestone Form */}
       <form onSubmit={handleAddTimelineEvent} className="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex flex-col gap-3">
         <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-2">
@@ -100,6 +101,6 @@ export default function CronicleTimelineTab({
           </div>
         )}
       </div>
-    </div>
+    </fieldset>
   );
 }

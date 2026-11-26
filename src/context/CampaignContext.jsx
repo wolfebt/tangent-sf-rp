@@ -311,6 +311,7 @@ export const StoryProvider = ({ children }) => {
   const lastAutoSaveErrorToastRef = useRef({ at: 0, msg: '' });
   const universeStateRef = useRef(universeState);
   const storyCatalogRef = useRef(storyCatalog);
+  const publicStoryCatalogRef = useRef(publicStoryCatalog);
   const mapsCatalogRef = useRef(mapsCatalog);
   const currentUserRef = useRef(currentUser);
   useEffect(() => {
@@ -319,9 +320,10 @@ export const StoryProvider = ({ children }) => {
     isLocalOnlyPausedRef.current = isLocalOnlyPaused;
     universeStateRef.current = universeState;
     storyCatalogRef.current = storyCatalog;
+    publicStoryCatalogRef.current = publicStoryCatalog;
     mapsCatalogRef.current = mapsCatalog;
     currentUserRef.current = currentUser;
-  }, [isDirty, isStoryReadOnly, isLocalOnlyPaused, universeState, storyCatalog, mapsCatalog, currentUser]);
+  }, [isDirty, isStoryReadOnly, isLocalOnlyPaused, universeState, storyCatalog, publicStoryCatalog, mapsCatalog, currentUser]);
 
   useEffect(() => {
     const scopeId = universeState?.id || 'default';
@@ -1413,6 +1415,7 @@ export const StoryProvider = ({ children }) => {
     debouncedSaveRef.current?.cancel();
     setLocalOnlyPausedState(false);
     treeHistoryRef.current?.reset(DEFAULT_UNIVERSE_STATE.scenarios || []);
+    useAdeStore.getState()?.clearActiveStoryFlags?.(currentProjectId);
     await StorageService.removeItem('tangent_universe_state');
     const resetState = {
       ...DEFAULT_UNIVERSE_STATE,
@@ -2293,7 +2296,8 @@ export const StoryProvider = ({ children }) => {
 
   const openStory = useCallback((storyId) => {
     const currentCatalog = Array.isArray(storyCatalogRef.current) ? storyCatalogRef.current : storyCatalog;
-    const target = currentCatalog.find(s => s.id === storyId) || publicStoryCatalog.find(s => s.id === storyId);
+    const currentPublicCatalog = Array.isArray(publicStoryCatalogRef.current) ? publicStoryCatalogRef.current : publicStoryCatalog;
+    const target = currentCatalog.find(s => s.id === storyId) || currentPublicCatalog.find(s => s.id === storyId);
     if (target) {
       const user = currentUserRef.current;
       const isLocalDoc = !target.ownerId || target.ownerId === 'local';
@@ -2328,7 +2332,7 @@ export const StoryProvider = ({ children }) => {
       return true;
     }
     return false;
-  }, [publicStoryCatalog, storyCatalog, setStoryReadOnlyState]);
+  }, [setStoryReadOnlyState]);
 
   const closeStory = () => {
     if (isStoryReadOnlyRef.current) return true;
@@ -2746,17 +2750,23 @@ export const StoryProvider = ({ children }) => {
 
   // Story Gallery Situational & Temporary Modifier Management
   const addGalleryModifier = (modifier) => {
-    if (isStoryReadOnlyRef.current) return;
+    if (isStoryReadOnlyRef.current || !modifier || typeof modifier !== 'object') return;
+    const normalizedModifier = modifier.id
+      ? modifier
+      : {
+          ...modifier,
+          id: `mod_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
+        };
     setUniverseState(prev => {
       const current = prev.galleryModifiers || [];
-      const updated = [...current, modifier];
+      const updated = [...current, normalizedModifier];
       return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
     });
     setIsDirty(true);
   };
 
   const updateGalleryModifier = (modifierId, patch) => {
-    if (isStoryReadOnlyRef.current) return;
+    if (isStoryReadOnlyRef.current || !modifierId) return;
     setUniverseState(prev => {
       const current = prev.galleryModifiers || [];
       const updated = current.map(m => (m.id === modifierId ? { ...m, ...patch } : m));
@@ -2766,7 +2776,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteGalleryModifier = (modifierId) => {
-    if (isStoryReadOnlyRef.current) return;
+    if (isStoryReadOnlyRef.current || !modifierId) return;
     setUniverseState(prev => {
       const current = prev.galleryModifiers || [];
       const updated = current.filter(m => m.id !== modifierId);
@@ -2776,7 +2786,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const toggleGalleryModifier = (modifierId) => {
-    if (isStoryReadOnlyRef.current) return;
+    if (isStoryReadOnlyRef.current || !modifierId) return;
     setUniverseState(prev => {
       const current = prev.galleryModifiers || [];
       const updated = current.map(m => (m.id === modifierId ? { ...m, isActive: !m.isActive } : m));

@@ -9,7 +9,7 @@
 
 import * as Y from 'yjs';
 import { useEngineStore } from '../engine/state/VolatileSharder.ts';
-import { YjsProviderBridge } from '../engine/network/YjsProviderBridge.ts';
+import { YjsProviderBridge, encodeSanitizedYjsUpdate } from '../engine/network/YjsProviderBridge.ts';
 import { FirestoreDebouncer } from '../engine/network/FirestoreDebouncer.ts';
 import { VttEventBus } from '../utils/vttEventBus.ts';
 
@@ -445,6 +445,8 @@ export class VttMultiplayerSyncService {
       active_effects?: any[];
     }
   ): void {
+    if (this.role !== 'architect' && !this.canMoveToken(tokenId)) return;
+    if (this.role !== 'architect' && vitalsPayload?.is_hidden === true) return;
     this.doc.transact(() => {
       this.tokenVitalsMap.set(tokenId, {
         ...vitalsPayload,
@@ -461,6 +463,7 @@ export class VttMultiplayerSyncService {
     currentTurnIndex: number;
     initiativeScores?: Record<string, number>;
   }): void {
+    if (this.role !== 'architect') return;
     this.doc.transact(() => {
       this.turnStateMap.set('current', {
         ...state,
@@ -553,6 +556,7 @@ export class VttMultiplayerSyncService {
     sender?: string;
     targetOperativeIds?: string[];
   }): void {
+    if (this.role !== 'architect') return;
     this.doc.transact(() => {
       this.handoutsMap.set(handout.id, {
         ...handout,
@@ -570,6 +574,7 @@ export class VttMultiplayerSyncService {
     title?: string;
     volume?: number;
   }): void {
+    if (this.role !== 'architect') return;
     this.doc.transact(() => {
       this.audioStateMap.set(audioCue.bus, {
         ...audioCue,
@@ -580,6 +585,7 @@ export class VttMultiplayerSyncService {
   }
 
   public broadcastFogExplored(mapId: string, exploredAreas: any[], fogEnabled?: boolean, hiddenAreas?: any[]): void {
+    if (this.role !== 'architect') return;
     this.doc.transact(() => {
       this.fogStateMap.set(mapId, {
         mapId,
@@ -649,6 +655,7 @@ export class VttMultiplayerSyncService {
   }
 
   public broadcastFogUpdate(mapId: string, fogEnabled: boolean, fog?: any[]): void {
+    if (this.role !== 'architect') return;
     const payload = { type: 'fog_update', mapId, fogEnabled, ...(fog !== undefined ? { fog } : {}) };
     if (this.broadcastChannel) {
       this.broadcastChannel.postMessage(payload);
@@ -663,12 +670,13 @@ export class VttMultiplayerSyncService {
 
     if (data.type === 'SYNC_REQUEST' && data.actorId && data.actorId !== this.actorId) {
       if (this.broadcastChannel) {
+        const safeState = encodeSanitizedYjsUpdate(this.doc, data.actorId);
         this.broadcastChannel.postMessage({
           type: 'SYNC_STATE',
           targetActorId: data.actorId,
           actorId: this.actorId,
           epoch: Number(this.sessionMetaMap.get('epoch') || 0),
-          state: Array.from(Y.encodeStateAsUpdate(this.doc)),
+          state: Array.from(safeState),
           timestamp: Date.now()
         });
       }

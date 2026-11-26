@@ -6,7 +6,7 @@
  * OSR Two-Page Control Panel, and Fiction Manuscript Studio.
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import ScenarioPane from './ScenarioPane';
 import StoryGallery from './workspaces/StoryGallery';
@@ -106,7 +106,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     setEditingModalElement,
     elementEditorMode,
     elementEditorInitialSeed,
-    isSplitView
+    isSplitView,
+    perspectiveMode
   } = useAdeStore(
     useShallow((state) => ({
       activeView: state.activeView,
@@ -157,11 +158,21 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   const isModuleExportOpen = modals.moduleExport;
   const isModuleImportOpen = modals.moduleImport;
 
+  const lastOpenedStoryIdRef = useRef(null);
+
   useEffect(() => {
-    if (storyIdParam) {
-      openStory(storyIdParam);
+    if (!storyIdParam) {
+      lastOpenedStoryIdRef.current = null;
+      return;
     }
-  }, [storyIdParam, openStory]);
+    if (lastOpenedStoryIdRef.current === storyIdParam && universeState?.id === storyIdParam) {
+      return;
+    }
+    const opened = openStory(storyIdParam);
+    if (opened) {
+      lastOpenedStoryIdRef.current = storyIdParam;
+    }
+  }, [storyIdParam, openStory, universeState?.id]);
 
   // Synchronize scenarioId and mapId from URL params if present
   useEffect(() => {
@@ -463,10 +474,11 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   }, [activeNode, mapsCatalog, universeState?.maps, activeMapId]);
 
   useEffect(() => {
-    const handleExportMdEvent = () => exportElementMarkdown(activeNode, universeState);
+    const handleExportMdEvent = () =>
+      exportElementMarkdown(activeNode, universeState, { operatorSafe: perspectiveMode === 'operator' });
     window.addEventListener('export-scenario-markdown', handleExportMdEvent);
     return () => window.removeEventListener('export-scenario-markdown', handleExportMdEvent);
-  }, [activeNode, universeState]);
+  }, [activeNode, universeState, perspectiveMode]);
 
   // Register Foundry ADE workspace context with BASTION so Alt+B rules/canon queries know the active scenario
   useEffect(() => {
@@ -508,11 +520,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           onTogglePrintModal={setIsPrintModalOpen}
           isArtistHubOpen={isArtistHubOpen}
           onToggleArtistHub={setIsArtistHubOpen}
-          isCatalogOpen={isCatalogOpen}
-          onToggleCatalog={setIsCatalogOpen}
-          isGuideOpen={isGuideOpen}
           onToggleGuide={setIsGuideOpen}
-          isSettingsOpen={isSettingsOpen}
           onToggleSettings={setIsSettingsOpen}
           isCronicleOpen={isCronicleOpen}
           onToggleCronicle={(open) => {
@@ -529,8 +537,12 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           onSelectCockpitDeck={setActiveCockpitDeck}
           activeNode={activeNode}
           activeElement={editingModalElement}
-          onExportMarkdown={() => exportElementMarkdown(activeNode, universeState)}
-          onExportPDF={() => exportElementPDF(activeNode, universeState, userHandle, currentUser)}
+          onExportMarkdown={() =>
+            exportElementMarkdown(activeNode, universeState, { operatorSafe: perspectiveMode === 'operator' })
+          }
+          onExportPDF={() =>
+            exportElementPDF(activeNode, universeState, { operatorSafe: perspectiveMode === 'operator', userHandle, currentUser })
+          }
         />
       )}
 
@@ -608,8 +620,12 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               onOpenGuide={() => setIsGuideOpen(true)}
               onOpenSettings={() => setIsSettingsOpen(true)}
               onOpenCompiler={() => setIsCompilerOpen(true)}
-              onExportMarkdown={() => exportElementMarkdown(activeNode, universeState)}
-              onExportPDF={() => exportElementPDF(activeNode, universeState, userHandle, currentUser)}
+              onExportMarkdown={() =>
+                exportElementMarkdown(activeNode, universeState, { operatorSafe: perspectiveMode === 'operator' })
+              }
+              onExportPDF={() =>
+                exportElementPDF(activeNode, universeState, { operatorSafe: perspectiveMode === 'operator', userHandle, currentUser })
+              }
             />
           </div>
         )}

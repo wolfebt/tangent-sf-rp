@@ -366,21 +366,26 @@ export default function InteractiveBookView({
             {activeBeat?.gate?.options && activeBeat.gate.options.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
                 {activeBeat.gate.options.map((opt, i) => (
-                  <button
+                  <div
                     key={opt.id || i}
-                    type="button"
-                    disabled={isGenerating}
-                    onClick={() => onAdvanceBeat(opt.text)}
-                    className="p-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-850 hover:border-amber-500/60 border border-slate-800 text-left transition-all cursor-pointer flex flex-col justify-between gap-2 shadow-sm disabled:opacity-50 group"
+                    role="group"
+                    className={`p-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-850 hover:border-amber-500/60 border border-slate-800 text-left transition-all flex flex-col justify-between gap-2 shadow-sm ${
+                      isGenerating ? 'opacity-50 pointer-events-none' : ''
+                    } group`}
                   >
-                    <div className="flex items-start gap-2">
+                    <button
+                      type="button"
+                      disabled={isGenerating}
+                      onClick={() => onAdvanceBeat(opt.text)}
+                      className="flex items-start gap-2 text-left w-full cursor-pointer"
+                    >
                       <span className="text-[10px] font-bold text-amber-400 bg-amber-950/80 px-1.5 py-0.5 rounded border border-amber-500/40 shrink-0 font-mono">
                         #{i + 1}
                       </span>
                       <span className="text-xs font-sans text-slate-200 group-hover:text-amber-200 leading-snug">
                         {opt.text}
                       </span>
-                    </div>
+                    </button>
 
                     {(opt.skillCheck || opt.skill) && (() => {
                       const optSkill = opt.skillCheck || opt.skill;
@@ -391,10 +396,8 @@ export default function InteractiveBookView({
                           <span className="truncate">{optSkill}</span>
                           <button
                             type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onRollCheck(optSkill, parsedDc);
-                            }}
+                            disabled={isGenerating}
+                            onClick={() => onRollCheck(optSkill, parsedDc)}
                             className="px-1.5 py-0.5 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[9px] font-bold uppercase transition-colors shrink-0 ml-1 cursor-pointer"
                           >
                             🎲 2d10
@@ -402,7 +405,7 @@ export default function InteractiveBookView({
                         </div>
                       );
                     })()}
-                  </button>
+                  </div>
                 ))}
               </div>
             )}

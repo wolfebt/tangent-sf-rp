@@ -136,8 +136,11 @@ export function useStageMultiplayerBridge({
     setSyncStatus(sync.getSyncStatus());
 
     return () => {
-      if (!activeRoom && !skipSessionInit) {
+      if (activeRoom) {
         sync.detachLiveKitRoom();
+      }
+      if (!skipSessionInit) {
+        sync.detachPersistence();
       }
     };
   }, [skipSessionInit, activeRoom, campaignId, currentUser?.uid, currentMap?.id, userRole, collectionRoot]);

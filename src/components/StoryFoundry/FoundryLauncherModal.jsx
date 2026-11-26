@@ -13,8 +13,11 @@ import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { useToast } from '../../context/ToastContext';
 import { hydrateModuleIntoCampaign } from '../../services/modulePackageService';
 import { createDefaultCronicleState } from '../../services/cronicleService';
+import { useAdeStore } from '../../pages/Foundry/store/adeStore';
 
 const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
+  const perspectiveMode = useAdeStore((s) => s.perspectiveMode || 'architect');
+  const isOperatorSafe = perspectiveMode === 'operator';
   const { toast } = useToast();
   const { saveEntry } = useDBM() || {};
   const { saveCurrentToRoster } = useFolio() || {};
@@ -1116,7 +1119,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                                   <button
                                     onClick={() => {
                                       setOpenElementMenuId(null);
-                                      exportElementMarkdown(elem, universeState);
+                                      exportElementMarkdown(elem, universeState, { operatorSafe: isOperatorSafe });
                                     }}
                                     className="w-full text-left px-3 py-1.5 hover:bg-slate-800 hover:text-cyan-300 flex items-center gap-2 transition-colors"
                                   >
@@ -1125,7 +1128,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                                   <button
                                     onClick={() => {
                                       setOpenElementMenuId(null);
-                                      exportElementPDF(elem, universeState);
+                                      exportElementPDF(elem, universeState, { operatorSafe: isOperatorSafe });
                                     }}
                                     className="w-full text-left px-3 py-1.5 hover:bg-slate-800 hover:text-cyan-300 flex items-center gap-2 transition-colors"
                                   >

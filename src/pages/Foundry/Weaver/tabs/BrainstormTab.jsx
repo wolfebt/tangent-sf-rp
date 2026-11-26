@@ -30,6 +30,7 @@ import { AudioService } from '../../../../services/audioService';
 import { generateContent } from '../../../../services/aimeService';
 import { getMergedGems } from '../../StoryModule/guidanceGemsConfig';
 import { normalizeElementType } from '../../ElementForge/elementSchemas';
+import { formatAimeProseToHtml } from '../../AIME/aimeTextUtils';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function BrainstormTab({ activeNode, updateStory, onInsertProse }) {
@@ -286,8 +287,9 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
 
   const handleInsertIntoStory = (idea) => {
     if (isStoryReadOnly || !activeNode) return;
-    const addition = `\n\n### ${idea.title}\n${idea.body}\n`;
-    const newContent = (activeNode.content || '') + addition;
+    const htmlAddition = formatAimeProseToHtml(`### ${idea.title}\n${idea.body}`);
+    const base = String(activeNode.content || '').trim();
+    const newContent = base ? `${base}${htmlAddition}` : htmlAddition;
     updateStory(activeNode.id, { content: newContent });
     if (triggerStorySave) triggerStorySave();
     AudioService.playCriticalChime(true);

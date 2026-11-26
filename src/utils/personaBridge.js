@@ -1766,11 +1766,20 @@ export const convertPersonaElementToFolio = (element) => {
 
 export const sendMcmToFolioRoster = (mcmEntry, options = {}) => {
   if (!mcmEntry) return null;
-  const folioPersona = convertMcmToFolioPersona(mcmEntry, {
-    targetFolio: true,
-    newDocId: options.createCopy !== false,
-    isLocked: Boolean(options.lockForVtt)
-  });
+  const folioPersona =
+    options.preserveOrigin && (mcmEntry['character-doc-id'] || mcmEntry.id)
+      ? {
+          ...mcmEntry,
+          'character-doc-id': mcmEntry['character-doc-id'] || mcmEntry.id,
+          id: mcmEntry.id || mcmEntry['character-doc-id'],
+          isMcmOrigin: Boolean(mcmEntry.isMcmOrigin),
+          is_locked: Boolean(options.lockForVtt)
+        }
+      : convertMcmToFolioPersona(mcmEntry, {
+          targetFolio: true,
+          newDocId: options.createCopy !== false,
+          isLocked: Boolean(options.lockForVtt)
+        });
   if (!folioPersona) return null;
 
   folioPersona.folio_phase = options.lockForVtt ? 'tactical' : 'development';

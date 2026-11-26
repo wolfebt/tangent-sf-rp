@@ -16,7 +16,8 @@ import {
 
 export default function CronicleCalendarTab({
   calendarState,
-  onUpdateCalendar
+  onUpdateCalendar,
+  isStoryReadOnly = false
 }) {
   const cal = calendarState?.config ? calendarState : createDefaultCalendarState('galactic_standard');
   const [eventTitle, setEventTitle] = useState('');
@@ -32,6 +33,7 @@ export default function CronicleCalendarTab({
   const activeHolidays = getHolidaysForDate(cal.currentDate, cal.config);
 
   const handlePresetChange = (presetId) => {
+    if (isStoryReadOnly) return;
     const fresh = createDefaultCalendarState(presetId);
     onUpdateCalendar?.({
       ...cal,
@@ -41,6 +43,7 @@ export default function CronicleCalendarTab({
   };
 
   const handleAdvanceDays = (delta) => {
+    if (isStoryReadOnly) return;
     const nextDate = advanceCalendarDate(cal.currentDate, delta, cal.config);
     onUpdateCalendar?.({
       ...cal,
@@ -50,6 +53,7 @@ export default function CronicleCalendarTab({
 
   const handleAddEvent = (e) => {
     e.preventDefault();
+    if (isStoryReadOnly) return;
     if (!eventTitle.trim()) return;
     const evt = {
       id: `cal_evt_${Date.now()}`,
@@ -67,6 +71,7 @@ export default function CronicleCalendarTab({
   };
 
   const handleDeleteEvent = (id) => {
+    if (isStoryReadOnly) return;
     onUpdateCalendar?.({
       ...cal,
       events: (cal.events || []).filter((ev) => ev.id !== id)

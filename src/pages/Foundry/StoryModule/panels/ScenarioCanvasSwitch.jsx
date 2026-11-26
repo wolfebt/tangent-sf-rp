@@ -14,7 +14,6 @@ import {
   Circle
 } from 'lucide-react';
 import { getTypePillStyle } from '../../ElementForge/elementSchemas';
-import StoryWeaver from '../workspaces/StoryWeaver';
 import OsrControlPanelDeck from '../workspaces/OsrControlPanelDeck';
 const InteractiveStoryStudio = lazyWithRetry(() => import('../workspaces/InteractiveStoryStudio'));
 import TacticalStageViewport from './TacticalStageViewport';
@@ -257,11 +256,15 @@ export default function ScenarioCanvasSwitch({
                 />
               </div>
             ) : (
-              <StoryWeaver
+              <WeaverWorkspace
                 activeNode={activeNode}
                 updateStory={updateStory}
-                guidanceGems={formatGemsText()}
-                onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+                activeTab={scenarioWorkspaceTab === 'stage' ? 'write' : scenarioWorkspaceTab}
+                onSelectTab={setScenarioWorkspaceTab}
+                onSwitchView={onSwitchView}
+                linkedMap={linkedMap}
+                allAvailableMaps={allAvailableMaps}
+                setActiveScenarioId={setActiveScenarioId}
                 isSplitView={isSplitView}
                 setIsSplitView={setIsSplitView}
                 viewportSplit={viewportSplit}
@@ -312,11 +315,15 @@ export default function ScenarioCanvasSwitch({
                 />
               </div>
             ) : (
-              <StoryWeaver
+              <WeaverWorkspace
                 activeNode={activeNode}
                 updateStory={updateStory}
-                guidanceGems={formatGemsText()}
-                onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+                activeTab={scenarioWorkspaceTab === 'stage' ? 'write' : scenarioWorkspaceTab}
+                onSelectTab={setScenarioWorkspaceTab}
+                onSwitchView={onSwitchView}
+                linkedMap={linkedMap}
+                allAvailableMaps={allAvailableMaps}
+                setActiveScenarioId={setActiveScenarioId}
                 isSplitView={isSplitView}
                 setIsSplitView={setIsSplitView}
                 viewportSplit={viewportSplit}

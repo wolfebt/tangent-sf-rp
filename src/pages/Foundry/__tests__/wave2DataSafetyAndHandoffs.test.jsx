@@ -663,7 +663,7 @@ describe('Wave 2 — Data Safety, Sync & Cross-Tool Handoffs', () => {
     fireEvent.click(applyBtn);
 
     expect(hoisted.campaignState.updateStory).toHaveBeenCalledWith('sc_append_1', {
-      content: expect.stringMatching(/^Existing scene text\n\n---\n### AIME Guidance\nTactical infiltration note from AIME\./)
+      content: expect.stringMatching(/^Existing scene text<hr \/>.*AIME Guidance.*Tactical infiltration note from AIME\./)
     });
     expect(hoisted.showToastMock).toHaveBeenCalledWith(
       expect.objectContaining({ type: 'success', text: expect.stringContaining('Appended') })

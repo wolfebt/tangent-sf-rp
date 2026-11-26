@@ -254,7 +254,11 @@ export default function ScenarioPane({
     storyContext: { universeState, activeScenario: activeNode, linkedMap, cronicle },
     applyCronicleDelta,
     openFloatingAimeWithPrompt: (promptText) => {
-      useAdeStore.getState().setModal('floatingAime', true);
+      const store = useAdeStore.getState();
+      if (promptText && typeof promptText === 'string' && promptText.trim()) {
+        store.setPendingAimePrefillPrompt?.(promptText);
+      }
+      store.setModal('floatingAime', true);
       if (promptText && typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('aime-prefill-prompt', { detail: { prompt: promptText } }));
       }

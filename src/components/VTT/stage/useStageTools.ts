@@ -12,12 +12,14 @@ export interface UseStageToolsProps {
   setActiveDesignTool?: (tool: any) => void;
   setIsDesignModeActive?: (setter: (prev: boolean) => boolean) => void;
   rendererContextRef?: React.MutableRefObject<any>;
+  isArchitectRole?: boolean;
 }
 
 export function useStageTools({
   setActiveDesignTool,
   setIsDesignModeActive,
-  rendererContextRef
+  rendererContextRef,
+  isArchitectRole = true
 }: UseStageToolsProps = {}) {
   const [zoom, setZoom] = useState<number>(1.0);
   const [pan, setPan] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -51,6 +53,7 @@ export function useStageTools({
     });
 
     const unsubTool = VttEventBus.on('arm-stage-tool', (payload) => {
+      if (!isArchitectRole) return;
       if (payload?.tool && setToolRef.current && setDesignRef.current) {
         setToolRef.current(payload.tool);
         setDesignRef.current(() => true);
@@ -58,6 +61,10 @@ export function useStageTools({
     });
 
     const unsubToggleDesign = VttEventBus.on('toggle-stage-design-mode', (payload) => {
+      if (!isArchitectRole) {
+        if (setDesignRef.current) setDesignRef.current(() => false);
+        return;
+      }
       if (setDesignRef.current) {
         setDesignRef.current(prev => payload?.active !== undefined ? payload.active : !prev);
       }
@@ -68,7 +75,7 @@ export function useStageTools({
       unsubTool();
       unsubToggleDesign();
     };
-  }, [rendererContextRef]);
+  }, [rendererContextRef, isArchitectRole]);
 
   const handleZoomIn = useCallback(() => {
     AudioService.playTerminalBeep(1200, 0.02);

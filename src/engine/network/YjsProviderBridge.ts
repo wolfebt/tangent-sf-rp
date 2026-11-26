@@ -19,6 +19,41 @@ export interface YjsBridgeOptions {
   whisperPrefix?: number;
 }
 
+/**
+ * Encodes a public-safe Yjs state update excluding hidden token vitals stats
+ * and private handouts not addressed to the target peer.
+ */
+export function encodeSanitizedYjsUpdate(
+  sourceDoc: Y.Doc,
+  targetPeerId?: string
+): Uint8Array {
+  const shadow = new Y.Doc();
+  Y.applyUpdate(shadow, Y.encodeStateAsUpdate(sourceDoc), 'sanitize');
+  const vitals = shadow.getMap('token_vitals');
+  vitals.forEach((val: any, key: string) => {
+    if (val && val.is_hidden === true) {
+      vitals.set(key, {
+        tokenId: key,
+        is_hidden: true,
+        timestamp: val.timestamp || Date.now()
+      });
+    }
+  });
+  const handouts = shadow.getMap('handouts');
+  handouts.forEach((val: any, key: string) => {
+    if (
+      Array.isArray(val?.targetOperativeIds) &&
+      val.targetOperativeIds.length > 0 &&
+      (!targetPeerId || !val.targetOperativeIds.includes(targetPeerId))
+    ) {
+      handouts.delete(key);
+    }
+  });
+  const encoded = Y.encodeStateAsUpdate(shadow);
+  shadow.destroy();
+  return encoded;
+}
+
 export class YjsProviderBridge {
   private doc: Y.Doc;
   private ownsDoc: boolean;
@@ -154,11 +189,6 @@ export class YjsProviderBridge {
     }
   }
 
-  public broadcastStateVector() {
-    const fullStateUpdate = Y.encodeStateAsUpdate(this.doc);
-    this.broadcastYjsUpdate(fullStateUpdate);
-  }
-
   /**
    * Sends a targeted encrypted/reliable whisper payload (0x04) over LiveKit to explicit recipient identities
    * (or all participants with GM/Architect metadata when destinationIdentities is omitted).
@@ -195,6 +225,11 @@ export class YjsProviderBridge {
       console.error('[Yjs Bridge] Failed to broadcast whisper packet:', error);
       return false;
     }
+  }
+
+  public broadcastStateVector(targetPeerId?: string) {
+    const publicStateUpdate = encodeSanitizedYjsUpdate(this.doc, targetPeerId);
+    this.broadcastYjsUpdate(publicStateUpdate);
   }
 
   private decodeAndApplyYjsPayload(payload: Uint8Array, senderIdentity?: string) {

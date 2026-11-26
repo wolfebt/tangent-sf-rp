@@ -191,10 +191,12 @@ export const useEngineStore = create<EngineState>()(
         // Initialize ephemeral state if it doesn't exist
         if (!draft.ephemeralData[entity.id]) {
           const staScore = entity.attributes?.sta ?? entity.attributes?.stamina ?? 0;
+          const initialElev = Number((entity as any).elevation_ft ?? (entity as any).z ?? 0) || 0;
+          const initialHidden = Boolean((entity as any).is_hidden || (entity as any).isHidden || (entity as any).isGmOnly);
           draft.ephemeralData[entity.id] = {
             x: 0,
             y: 0,
-            z: 0,
+            z: initialElev,
             current_hp: isSynth ? baseStructure : baseHealth,
             current_health: baseHealth,
             current_vitality: baseVitality,
@@ -202,9 +204,9 @@ export const useEngineStore = create<EngineState>()(
             stability_points: staScore + 5,
             active_conditions: [],
             is_selected: false,
-            elevation_ft: 0,
+            elevation_ft: initialElev,
             facing_degrees: 0,
-            is_hidden: false
+            is_hidden: initialHidden
           };
         }
       }),
@@ -238,10 +240,12 @@ export const useEngineStore = create<EngineState>()(
           draft.staticData[entity.id] = normalizedEntity;
           if (!draft.ephemeralData[entity.id]) {
             const staScore = entity.attributes?.sta ?? entity.attributes?.stamina ?? 0;
+            const initialElev = Number((entity as any).elevation_ft ?? (entity as any).z ?? 0) || 0;
+            const initialHidden = Boolean((entity as any).is_hidden || (entity as any).isHidden || (entity as any).isGmOnly);
             draft.ephemeralData[entity.id] = {
               x: 0,
               y: 0,
-              z: 0,
+              z: initialElev,
               current_hp: isSynth ? baseStructure : baseHealth,
               current_health: baseHealth,
               current_vitality: baseVitality,
@@ -249,20 +253,23 @@ export const useEngineStore = create<EngineState>()(
               stability_points: staScore + 5,
               active_conditions: [],
               is_selected: false,
-              elevation_ft: 0,
+              elevation_ft: initialElev,
               facing_degrees: 0,
-              is_hidden: false
+              is_hidden: initialHidden
             };
           }
         }
       }),
 
-      updatePosition: (id, x, y, z = 0) => set((draft) => {
+      updatePosition: (id, x, y, z) => set((draft) => {
         const eph = draft.ephemeralData[id];
         if (eph) {
           eph.x = x;
           eph.y = y;
-          eph.z = z;
+          if (typeof z === 'number' && !Number.isNaN(z)) {
+            eph.z = z;
+            eph.elevation_ft = z;
+          }
         }
 
         // If updated entity is a registered vehicle, translate childed passengers synchronously
@@ -624,6 +631,7 @@ export const useEngineStore = create<EngineState>()(
         const token = draft.ephemeralData[id];
         if (token) {
           token.elevation_ft = elevation;
+          token.z = elevation;
         }
       }),
 

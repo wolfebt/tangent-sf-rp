@@ -7,12 +7,13 @@ export default function CronicleDeltaReviewTab({
   acceptPendingDelta,
   rejectPendingDelta,
   acceptAllPendingDeltas,
-  clearPendingDeltas
+  clearPendingDeltas,
+  isStoryReadOnly = false
 }) {
   const count = pendingDeltas.length;
 
   return (
-    <div className="flex flex-col gap-4">
+    <fieldset disabled={isStoryReadOnly} className={`flex flex-col gap-4 border-0 p-0 m-0 ${isStoryReadOnly ? 'opacity-70' : ''}`}>
       {/* Header Banner */}
       <div className="p-4 bg-amber-950/30 border border-amber-500/50 rounded-xl flex flex-wrap items-center justify-between gap-3 shadow-lg">
         <div className="flex items-center gap-3">
@@ -134,6 +135,6 @@ export default function CronicleDeltaReviewTab({
           </div>
         )}
       </div>
-    </div>
+    </fieldset>
   );
 }

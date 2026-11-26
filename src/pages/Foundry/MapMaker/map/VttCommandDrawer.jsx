@@ -34,7 +34,8 @@ const VttCommandDrawer = ({
   onDropPing,
   onApplyEnvironmentPreset,
   onBatchTokenAction,
-  onBroadcastMessage
+  onBroadcastMessage,
+  onPublishSpectator
 }) => {
   const [activeTab, setActiveTab] = useState('settings'); // 'settings' | 'teams' | 'environment' | 'pings'
   const [selectedUserId, setSelectedUserId] = useState('player_1');
@@ -71,6 +72,9 @@ const VttCommandDrawer = ({
 
   const handleCopySpectatorLink = () => {
     AudioService.playTerminalBeep(1200, 0.05);
+    if (onPublishSpectator) {
+      onPublishSpectator();
+    }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(spectatorUrl).then(() => {
         setCopiedLink(true);

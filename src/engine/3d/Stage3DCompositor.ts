@@ -102,7 +102,8 @@ export class Stage3DCompositor {
     tokens: FusedToken[],
     selectedTokenId: string | null = null,
     targetTokenId: string | null = null,
-    camera?: THREE.Camera
+    camera?: THREE.Camera,
+    isArchitectRole: boolean = true
   ) {
     if (!map) return;
 
@@ -132,7 +133,7 @@ export class Stage3DCompositor {
 
     // 3. Sync Extruded Walls & Doors
     this.disposeGroupChildren(this.wallsGroup, false);
-    const walls = this.wallExtruder.buildWallsGroup(map.walls || []);
+    const walls = this.wallExtruder.buildWallsGroup(map.walls || [], isArchitectRole);
     this.wallsGroup.add(walls);
 
     // 4. Sync Dynamic Lighting & Atmospheric Mode
@@ -151,6 +152,9 @@ export class Stage3DCompositor {
     if (Array.isArray(map.objects)) {
       for (const obj of map.objects) {
         if (obj.x === undefined || obj.y === undefined) continue;
+        if (!isArchitectRole && (obj.isHidden || obj.is_hidden || obj.isGmOnly || obj.isPlayerVisible === false)) {
+          continue;
+        }
         const propHeight = obj.height || 24;
         const propRadius = (obj.size || 28) / 2;
         const propGeo = new THREE.CylinderGeometry(propRadius * 0.85, propRadius, propHeight, 8);
@@ -171,7 +175,7 @@ export class Stage3DCompositor {
     }
 
     // 6. Sync Tokens & Standees
-    this.syncTokens(tokens, selectedTokenId, targetTokenId, camera);
+    this.syncTokens(tokens, selectedTokenId, targetTokenId, camera, isArchitectRole);
     this.sliceDirty = true;
   }
 
@@ -186,11 +190,18 @@ export class Stage3DCompositor {
     tokens: FusedToken[],
     selectedTokenId: string | null,
     targetTokenId: string | null,
-    camera?: THREE.Camera
+    camera?: THREE.Camera,
+    isArchitectRole: boolean = true
   ) {
     this.disposeGroupChildren(this.tokensGroup, false);
 
     for (const token of tokens) {
+      if (
+        !isArchitectRole &&
+        (token.is_hidden || (token as any).isHidden || (token as any).isGmOnly || (token as any).isPlayerVisible === false)
+      ) {
+        continue;
+      }
       const isSelected = token.id === selectedTokenId;
       const isTarget = token.id === targetTokenId;
       const tokenMesh = this.tokenStandees.createTokenGroup(token, isSelected, isTarget, camera);

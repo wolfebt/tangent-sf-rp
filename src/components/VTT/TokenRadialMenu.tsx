@@ -35,6 +35,7 @@ export interface TokenRadialMenuProps {
   mortalityAllyName?: string;
   isAdjacentToInteractiveObj?: boolean;
   interactiveObjName?: string;
+  nearbyArmedTrap?: any;
   nearbyVehicle?: any;
   isPointBlankRange?: boolean;
   onSelectAction: (actionId: string, payload?: any) => void;
@@ -50,6 +51,7 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
   mortalityAllyName = 'Allied Operator',
   isAdjacentToInteractiveObj = false,
   interactiveObjName = 'Bulkhead / Console',
+  nearbyArmedTrap,
   nearbyVehicle,
   isPointBlankRange = false,
   onSelectAction
@@ -125,6 +127,14 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
       activeColor: 'border-slate-700 bg-slate-900/90 text-slate-300 hover:bg-slate-800',
       badge: null
     },
+    ...(nearbyArmedTrap ? [{
+      id: 'disarm_trap',
+      label: 'Disarm Trap',
+      sub: nearbyArmedTrap.label || nearbyArmedTrap.name || 'Armed Hazard',
+      icon: Terminal,
+      activeColor: 'border-amber-400 bg-amber-950/90 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.5)]',
+      badge: `CR${nearbyArmedTrap.disarmDc || 13}`
+    }] : []),
     ...(token.parent_vehicle_id ? [{
       id: 'vehicle_dismount',
       label: 'Dismount Vehicle',

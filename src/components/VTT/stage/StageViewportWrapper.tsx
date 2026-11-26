@@ -181,6 +181,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDraggingOver(false);
+    if (!isArchitectRole) return;
 
     try {
       // 1. Check if files were dropped from OS desktop / file explorer
@@ -479,21 +480,23 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
               ))}
             </select>
 
-            <button
-              type="button"
-              onClick={() => {
-                if (addMap) {
-                  const newMap = createBlankCanvas({ title: `Tactical Sector ${availableMaps.length + 1}` });
-                  addMap(newMap);
-                  if (setActiveMapId) setActiveMapId(newMap.id);
-                  AudioService.playCriticalChime(true);
-                }
-              }}
-              className="p-1 rounded bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cursor-pointer"
-              title="Spawn fresh blank tactical canvas"
-            >
-              <Plus size={12} />
-            </button>
+            {isArchitectRole && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (addMap) {
+                    const newMap = createBlankCanvas({ title: `Tactical Sector ${availableMaps.length + 1}` });
+                    addMap(newMap);
+                    if (setActiveMapId) setActiveMapId(newMap.id);
+                    AudioService.playCriticalChime(true);
+                  }
+                }}
+                className="p-1 rounded bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cursor-pointer"
+                title="Spawn fresh blank tactical canvas"
+              >
+                <Plus size={12} />
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -533,6 +536,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
               <Stage3DViewport
                 onSwitchTo2D={() => setViewportMode('2d')}
                 activeTool={activeArchitectTool}
+                isArchitectRole={isArchitectRole}
               />
             </Suspense>
           ) : (
@@ -558,7 +562,16 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           )}
 
           {/* Floating Contextual Action Pill (Fitts's Law on-canvas token HUD) */}
-          <TokenContextualPill isArchitectRole={isArchitectRole} />
+          <TokenContextualPill
+            isArchitectRole={isArchitectRole}
+            onPersistTokenElevation={(tokenId, nextElev) => {
+              if (!currentMap?.id || typeof updateMap !== 'function' || !Array.isArray(currentMap.tokens)) return;
+              const updatedTokens = currentMap.tokens.map((t: any) =>
+                t?.id === tokenId ? { ...t, elevation_ft: nextElev, z: nextElev } : t
+              );
+              updateMap(currentMap.id, { tokens: updatedTokens });
+            }}
+          />
 
           {/* Empty Stage Quick-Start Fallback Overlay */}
           {(!currentMap || availableMaps.length === 0) && (

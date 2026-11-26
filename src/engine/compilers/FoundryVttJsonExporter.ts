@@ -164,6 +164,29 @@ export class FoundryVttJsonExporterService {
         width: mapWidthPx,
         height: mapHeightPx,
         grid: { size: mapGridSize, type: map.gridMode === 'hex' ? 2 : 1 },
+        background: { src: map.background_url || map.imageUrl || '' },
+        tokens: (Array.isArray(map.tokens) ? map.tokens : []).map((t: any) => ({
+          _id: t.id || this.generateFoundryId(),
+          name: t.name || t.label || 'Token',
+          x: Number(t.x ?? 0),
+          y: Number(t.y ?? 0),
+          elevation: Number(t.elevation_ft ?? t.z ?? 0),
+          hidden: Boolean(t.is_hidden || t.isHidden || t.isGmOnly),
+          texture: { src: t.image_url || t.imageUrl || '' },
+          width: 1,
+          height: 1
+        })),
+        lights: (Array.isArray(map.lights) ? map.lights : []).map((l: any) => ({
+          _id: l.id || this.generateFoundryId(),
+          x: Number(l.x ?? 0),
+          y: Number(l.y ?? 0),
+          config: {
+            dim: Number(l.radius ?? 200),
+            bright: Math.round(Number(l.radius ?? 200) * 0.5),
+            color: l.color || '#f59e0b',
+            alpha: Number(l.intensity ?? 0.5)
+          }
+        })),
         walls: expandWallsForGeometry(map.walls || []).map((w: any) => {
           const isDoor = w.type === 'door' || w.wallType === 'door' || w.isDoor === true || w.isDynamic === true;
           const isWindow = w.type === 'window' || w.wallType === 'window' || w.isTransparent === true;

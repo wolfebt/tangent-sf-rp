@@ -199,6 +199,7 @@ export default function CronicleDeckModal({
 
   // ── SCRATCHBOOK ACTIONS ──
   const handleSaveScratchNotes = () => {
+    if (isStoryReadOnly) return;
     AudioService.playTerminalBeep(1100, 0.06);
     if (updateCreativeState) {
       updateCreativeState({ scratchbookNotes: scratchNotes });
@@ -340,6 +341,7 @@ export default function CronicleDeckModal({
   };
 
   const handleDeletePersona = (personaId) => {
+    if (isStoryReadOnly) return;
     AudioService.playCombatHit(false);
     const nextPersonas = { ...personas };
     delete nextPersonas[personaId];
@@ -347,6 +349,7 @@ export default function CronicleDeckModal({
   };
 
   const handleAddPersonaTrait = (personaId, type = 'physical') => {
+    if (isStoryReadOnly) return;
     const val = (traitInputs[`${personaId}_${type}`] || '').trim();
     if (!val) return;
     AudioService.playTerminalBeep(1100, 0.03);
@@ -361,6 +364,7 @@ export default function CronicleDeckModal({
   };
 
   const handleRemovePersonaTrait = (personaId, traitValue, type = 'physical') => {
+    if (isStoryReadOnly) return;
     applyCronicleDelta({
       id: `man_${Date.now()}`,
       entityId: personaId,
@@ -371,6 +375,7 @@ export default function CronicleDeckModal({
   };
 
   const handleAddInventoryItem = (personaId) => {
+    if (isStoryReadOnly) return;
     const val = (inventoryInputs[personaId] || '').trim();
     if (!val) return;
     AudioService.playTerminalBeep(1100, 0.03);
@@ -384,6 +389,7 @@ export default function CronicleDeckModal({
   };
 
   const handleRemoveInventoryItem = (personaId, item) => {
+    if (isStoryReadOnly) return;
     applyCronicleDelta({
       id: `man_${Date.now()}`,
       entityId: personaId,
@@ -393,6 +399,7 @@ export default function CronicleDeckModal({
   };
 
   const handleUpdateRelationship = (personaId, targetId, targetScore) => {
+    if (isStoryReadOnly) return;
     const parsedScore = parseInt(targetScore, 10);
     applyCronicleDelta({
       id: `man_${Date.now()}`,
@@ -407,6 +414,7 @@ export default function CronicleDeckModal({
   // ── LIVING MEMORY: LOCATION HANDLERS ──
   const handleCreateLocation = (e) => {
     e.preventDefault();
+    if (isStoryReadOnly) return;
     if (!newLocationName.trim()) return;
     AudioService.playTerminalBeep(1200, 0.04);
     const prefix = cronicle?.storyPrefix || 'story';
@@ -434,6 +442,7 @@ export default function CronicleDeckModal({
   };
 
   const handleDeleteLocation = (locationId) => {
+    if (isStoryReadOnly) return;
     AudioService.playCombatHit(false);
     const nextLocs = { ...locations };
     delete nextLocs[locationId];
@@ -441,6 +450,7 @@ export default function CronicleDeckModal({
   };
 
   const handleAddHazard = (locationId) => {
+    if (isStoryReadOnly) return;
     const val = (hazardInputs[locationId] || '').trim();
     if (!val) return;
     AudioService.playTerminalBeep(1100, 0.03);
@@ -454,6 +464,7 @@ export default function CronicleDeckModal({
   };
 
   const handleRemoveHazard = (locationId, hazard) => {
+    if (isStoryReadOnly) return;
     applyCronicleDelta({
       id: `man_${Date.now()}`,
       entityId: locationId,
@@ -465,6 +476,7 @@ export default function CronicleDeckModal({
   // ── LIVING MEMORY: TIMELINE HANDLERS ──
   const handleAddTimelineEvent = (e) => {
     e.preventDefault();
+    if (isStoryReadOnly) return;
     if (!newTimelineTitle.trim()) return;
     AudioService.playTerminalBeep(1200, 0.04);
 
@@ -487,6 +499,7 @@ export default function CronicleDeckModal({
   };
 
   const handleDeleteTimelineEvent = (eventId) => {
+    if (isStoryReadOnly) return;
     AudioService.playCombatHit(false);
     updateCronicle({
       timeline: timeline.filter(t => t.id !== eventId)
@@ -803,6 +816,7 @@ export default function CronicleDeckModal({
               isNotesSaved={isNotesSaved}
               handleSaveScratchNotes={handleSaveScratchNotes}
               handleInsertSnippet={handleInsertSnippet}
+              isStoryReadOnly={isStoryReadOnly}
             />
           )}
 
@@ -813,6 +827,7 @@ export default function CronicleDeckModal({
               rejectPendingDelta={rejectPendingDelta}
               acceptAllPendingDeltas={acceptAllPendingDeltas}
               clearPendingDeltas={clearPendingDeltas}
+              isStoryReadOnly={isStoryReadOnly}
             />
           )}
 
@@ -858,6 +873,7 @@ export default function CronicleDeckModal({
               setHazardInputs={setHazardInputs}
               handleAddHazard={handleAddHazard}
               handleRemoveHazard={handleRemoveHazard}
+              isStoryReadOnly={isStoryReadOnly}
             />
           )}
 
@@ -872,13 +888,17 @@ export default function CronicleDeckModal({
               setNewTimelineEntities={setNewTimelineEntities}
               handleAddTimelineEvent={handleAddTimelineEvent}
               handleDeleteTimelineEvent={handleDeleteTimelineEvent}
+              isStoryReadOnly={isStoryReadOnly}
             />
           )}
 
           {memoryTab === 'calendar' && (
             <CronicleCalendarTab
               calendarState={cronicle?.calendar || null}
-              onUpdateCalendar={(nextCalendar) => updateCronicle?.({ calendar: nextCalendar })}
+              onUpdateCalendar={(nextCalendar) => {
+                if (!isStoryReadOnly) updateCronicle?.({ calendar: nextCalendar });
+              }}
+              isStoryReadOnly={isStoryReadOnly}
             />
           )}
 
@@ -900,6 +920,7 @@ export default function CronicleDeckModal({
               filteredElements={filteredElements}
               clonedFeedback={clonedFeedback}
               handleCloneAggregatedElement={handleCloneAggregatedElement}
+              isStoryReadOnly={isStoryReadOnly}
             />
           )}
 

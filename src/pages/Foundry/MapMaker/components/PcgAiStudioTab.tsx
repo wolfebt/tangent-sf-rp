@@ -58,6 +58,12 @@ import { createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../../schemas/
 import type { AssetUnit } from '../../../../schemas/assetUnitSchema';
 import coreSeedUnits from '../../../../data/seed_units/science_fantasy_core.json';
 import { generateLandmassGrid, convertGridToMapElements, BIOME_PALETTES, createPRNG } from '../map/landmassGenerator';
+import {
+  applyStarshipSymmetryAndTheme,
+  applyMiningBranchesAndRails,
+  applyOutpostPerimeterWall,
+  resolveStarshipThemeStyle
+} from './pcgGridHelpers';
 
 export type PcgMapType = 
   | 'planetary' 
@@ -210,6 +216,7 @@ interface TacticalCell {
   isBreach?: boolean;
   isCarbonScoring?: boolean;
   isFrozen?: boolean;
+  deckTheme?: string;
 }
 
 export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
@@ -368,6 +375,8 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
   // Master Active Tactical Grid (for non-planetary map types)
   const [tacticalGrid, setTacticalGrid] = useState<TacticalCell[][]>([]);
+  const tacticalGridRef = useRef<TacticalCell[][]>([]);
+  tacticalGridRef.current = tacticalGrid;
 
   // Marching Squares Mode toggle for organic beveled contours vs blocky tiles
   const [useMarchingSquares, setUseMarchingSquares] = useState<boolean>(true);
@@ -475,15 +484,8 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       }
     }
 
-    // Apply bilateral symmetry if enabled
-    if (ssSymmetry === 'bilateral') {
-      for (let r = 0; r < midY; r++) {
-        const mirrorR = rows - 1 - r;
-        for (let c = 0; c < cols; c++) {
-          grid[mirrorR][c] = { ...grid[r][c] };
-        }
-      }
-    }
+    // Apply bilateral or fore_aft symmetry & deck theme styling
+    applyStarshipSymmetryAndTheme(grid, ssSymmetry, ssTheme);
 
     // Place Airlocks on outer perimeter
     let airlocksPlaced = 0;
@@ -506,7 +508,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
     }
 
     setTacticalGrid(grid);
-  }, [seed, widthCells, heightCells, ssDepth, ssSymmetry, ssCorridorWidth, ssHullArmor, ssAirlockCount]);
+  }, [seed, widthCells, heightCells, ssDepth, ssSymmetry, ssCorridorWidth, ssHullArmor, ssAirlockCount, ssTheme]);
 
   // B. Generate Caverns & Hives
   const runGenerateCaverns = useCallback(() => {
@@ -625,15 +627,8 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       }
     }
 
-    // Overlay rail tracks & floodlights along main shafts
-    for (let r = 1; r < rows - 1; r++) {
-      for (let c = 1; c < cols - 1; c++) {
-        if (grid[r][c].isFloor && (r % 6 === 0 || c % 8 === 0) && rng() < 0.2) {
-          grid[r][c].isLight = true;
-          grid[r][c].lightColor = '#eab308';
-        }
-      }
-    }
+    // Carve side drift branches & optional mining rail tracks
+    applyMiningBranchesAndRails(grid, dwBranches, dwRailTracks, rng);
 
     setTacticalGrid(grid);
   }, [seed, widthCells, heightCells, dwFloorRatio, dwStraightBias, dwBranches, dwChambers, dwRailTracks]);
@@ -694,6 +689,9 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
         }
       }
     }
+
+    // Apply optional perimeter security wall ring & gate airlocks
+    applyOutpostPerimeterWall(grid, opPerimeterWall, modulesY, mSize);
 
     setTacticalGrid(grid);
   }, [seed, widthCells, heightCells, opModuleSize, opOpenRatio, opPerimeterWall, opBlastDoors]);
@@ -828,7 +826,9 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
         runGenerateNodeGraph();
         break;
       case 'decorator':
-        runGenerateStarship(); // fallback background for decorator
+        if (tacticalGridRef.current.length === 0) {
+          runGenerateStarship(); // fallback background only when grid is empty
+        }
         break;
     }
   }, [
@@ -1540,10 +1540,14 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                 bitmask8Bit: bitmask8,
                 edgeLines,
                 isLiquid: cell.isLiquid,
-                biomeType: cell.isLiquid ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge') : biomeTheme,
+                biomeType: cell.isLiquid
+                  ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge')
+                  : (cell.deckTheme ? resolveStarshipThemeStyle(cell.deckTheme).biomeType : biomeTheme),
                 color: cell.isLiquid 
                   ? (cell.liquidType === 'magma' ? '#ea580c' : cell.liquidType === 'acid' ? '#65a30d' : '#0284c7') 
-                  : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b')
+                  : cell.deckTheme
+                    ? resolveStarshipThemeStyle(cell.deckTheme).floorColor
+                    : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b')
               });
             } else {
               const edgeLines = MarchingSquaresAutoTiler.getEdgeLines(x, y, cellSizePx, cellSizePx, bitmask);
@@ -1557,10 +1561,14 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                 bitmask4Bit: bitmask,
                 edgeLines,
                 isLiquid: cell.isLiquid,
-                biomeType: cell.isLiquid ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge') : biomeTheme,
+                biomeType: cell.isLiquid
+                  ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge')
+                  : (cell.deckTheme ? resolveStarshipThemeStyle(cell.deckTheme).biomeType : biomeTheme),
                 color: cell.isLiquid 
                   ? (cell.liquidType === 'magma' ? '#ea580c' : cell.liquidType === 'acid' ? '#65a30d' : '#0284c7') 
-                  : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b')
+                  : cell.deckTheme
+                    ? resolveStarshipThemeStyle(cell.deckTheme).floorColor
+                    : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b')
               });
             }
           }

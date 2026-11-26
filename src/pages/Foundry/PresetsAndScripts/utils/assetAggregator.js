@@ -92,7 +92,11 @@ export function aggregateModuleAssets({
         scriptSummary: isScripted
           ? `${scriptObj?.type ? scriptObj.type.toUpperCase() : 'ROUTINE'} (${scriptObj?.behaviorProfile || elem.fields?.mcmRole || 'Tactical'})`
           : 'Idle (No Script)',
-        scriptData: scriptObj,
+        scriptData: {
+          ...(scriptObj || {}),
+          macroScript: elem.fields?.macroScript || '',
+          code: elem.fields?.macroScript || ''
+        },
         source: 'elementsCatalog',
         raw: elem,
         fields: elem.fields || {},
@@ -232,7 +236,10 @@ export function aggregateModuleAssets({
         isScripted: hasMacro,
         scriptType: hasMacro ? 'item_macro' : null,
         scriptSummary: hasMacro ? 'Has Activation Macro' : 'Passive Equipment',
-        scriptData: { macroScript: elem.fields?.macroScript },
+        scriptData: {
+          macroScript: elem.fields?.macroScript || '',
+          code: elem.fields?.macroScript || elem.fields?.onUseScript || ''
+        },
         source: 'elementsCatalog',
         raw: elem,
         fields: elem.fields || {}

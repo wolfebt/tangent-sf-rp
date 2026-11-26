@@ -16,10 +16,11 @@ export default function CronicleWorldTab({
   hazardInputs,
   setHazardInputs,
   handleAddHazard,
-  handleRemoveHazard
+  handleRemoveHazard,
+  isStoryReadOnly = false
 }) {
   return (
-    <div className="flex flex-col gap-5">
+    <fieldset disabled={isStoryReadOnly} className={`flex flex-col gap-5 border-0 p-0 m-0 ${isStoryReadOnly ? 'opacity-70' : ''}`}>
       {/* Add New Location Form */}
       <form onSubmit={handleCreateLocation} className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex flex-wrap items-center gap-3">
         <div className="flex-1 min-w-[200px]">
@@ -171,6 +172,6 @@ export default function CronicleWorldTab({
           </div>
         ))}
       </div>
-    </div>
+    </fieldset>
   );
 }

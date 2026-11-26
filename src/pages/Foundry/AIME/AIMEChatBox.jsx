@@ -75,10 +75,22 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
   const effectiveContext = React.useMemo(() => {
     if (contextData) {
       if (typeof contextData === 'string') {
-        let text = contextData;
+        let text = isOperatorSafe
+          ? String(contextData).replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '')
+          : contextData;
         if (activeCronicle) {
           try {
-            const cronicleText = formatCronicleContextForAIME(activeCronicle, 2500);
+            const safeCronicle = isOperatorSafe
+              ? {
+                  ...activeCronicle,
+                  ephemeralNotes: '',
+                  gmNotes: '',
+                  locations: Array.isArray(activeCronicle.locations)
+                    ? activeCronicle.locations.map((loc) => ({ ...loc, gmNotes: '', secrets: '' }))
+                    : []
+                }
+              : activeCronicle;
+            const cronicleText = formatCronicleContextForAIME(safeCronicle, 2500);
             if (cronicleText) {
               text = `${text}\n\n${cronicleText}`;
             }
@@ -91,7 +103,10 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
       return {
         ...contextData,
         cronicle: contextData.cronicle || activeCronicle,
-        customCatalog: filteredCatalog
+        customCatalog: filteredCatalog,
+        operatorSafe: isOperatorSafe,
+        excludeGmSecrets: isOperatorSafe,
+        perspectiveMode
       };
     }
     const sanitizedNodeContent = activeNode?.content
@@ -169,11 +184,17 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
     }
   }, [messages, isMinimized]);
 
-  // Listen for cross-system prompt prefills (e.g., Waypoint TRIGGER_AIME)
+  // Listen for cross-system prompt prefills (e.g., Waypoint TRIGGER_AIME) and consume queued prompt on mount
   useEffect(() => {
+    const queued = useAdeStore.getState()?.consumePendingAimePrefillPrompt?.();
+    if (typeof queued === 'string' && queued.trim()) {
+      setInputValue(queued);
+      setIsMinimized(false);
+    }
     const handlePrefillPrompt = (event) => {
       const promptText = event?.detail?.prompt;
       if (typeof promptText === 'string' && promptText.trim()) {
+        useAdeStore.getState()?.setPendingAimePrefillPrompt?.(null);
         setInputValue(promptText);
         setIsMinimized(false);
       }

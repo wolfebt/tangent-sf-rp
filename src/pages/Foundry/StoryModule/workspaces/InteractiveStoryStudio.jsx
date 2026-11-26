@@ -162,6 +162,15 @@ export const InteractiveStoryStudio = ({
   );
   const [directorMode, setDirectorMode] = useState('solo');
   const storyFlags = useAdeStore((s) => s.storyFlags);
+  const perspectiveMode = useAdeStore((s) => s.perspectiveMode || 'architect');
+  const isOperatorSafe = perspectiveMode === 'operator';
+  const effectiveDirectorMode = isOperatorSafe ? 'solo' : directorMode;
+
+  useEffect(() => {
+    if (isOperatorSafe && directorMode === 'director') {
+      setDirectorMode('solo');
+    }
+  }, [isOperatorSafe, directorMode]);
 
   useEffect(() => {
     if (propActiveNode?.id && propActiveNode.id !== selectedScenarioId) {
@@ -200,9 +209,9 @@ export const InteractiveStoryStudio = ({
       if (!targetId) continue;
       const condition = String(conn?.condition || conn?.requireCondition || '').trim();
       const conditionMet = !condition || evaluateConditionExpression(condition, storyFlags);
-      if (!conditionMet && directorMode !== 'director') continue;
+      if (!conditionMet && effectiveDirectorMode !== 'director') continue;
       const target = allFoundryScenarios.find(s => s.id === targetId);
-      if (target && !branches.some(b => b.targetScenarioId === target.id)) {
+      if (target && ( !isOperatorSafe || (!target.isHidden && !target.isGmOnly) ) && !branches.some(b => b.targetScenarioId === target.id)) {
         const edgeLabel = conn.label || conn.text;
         branches.push({
           id: `conn_${target.id}`,
@@ -227,9 +236,10 @@ export const InteractiveStoryStudio = ({
       characterData,
       elementsCatalog,
       activeScenario,
-      dbArchetypes: dbData.archetypes || []
+      dbArchetypes: dbData.archetypes || [],
+      excludeGmSecrets: isOperatorSafe
     });
-  }, [roster, characterData, elementsCatalog, activeScenario, dbData.archetypes]);
+  }, [roster, characterData, elementsCatalog, activeScenario, dbData.archetypes, isOperatorSafe]);
 
   // ── DATABASE MODIFIERS AGGREGATION (ZERO HARDCODED PRESETS) ──
   const availableDatabaseModifiers = useMemo(() => {
@@ -439,9 +449,14 @@ export const InteractiveStoryStudio = ({
   }, [activeOperative, updateCharacterHealth, updateCharacterVitality, updateCharacterStructure]);
 
   // ── SESSION MANAGEMENT & PERSISTENCE ──
+  const activeStoryScopeId = universeState?.id || null;
   const [currentSessionId, setCurrentSessionId] = useState(() => `ips_${Date.now()}`);
-  const [savedSessions, setSavedSessions] = useState(() => loadAllSessions());
+  const [savedSessions, setSavedSessions] = useState(() => loadAllSessions(activeStoryScopeId));
   const [isSessionsDrawerOpen, setIsSessionsDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    setSavedSessions(loadAllSessions(activeStoryScopeId));
+  }, [activeStoryScopeId]);
 
   const syncSessionToStorage = useCallback((sessionData) => {
     const all = loadAllSessions();
@@ -454,8 +469,8 @@ export const InteractiveStoryStudio = ({
       next = [sessionData, ...all];
     }
     persistAllSessions(next);
-    setSavedSessions(next);
-  }, []);
+    setSavedSessions(activeStoryScopeId ? next.filter(s => !s.storyId || s.storyId === activeStoryScopeId) : next);
+  }, [activeStoryScopeId]);
 
   const handleCreateNewSession = () => {
     const fresh = createInteractiveSession({
@@ -486,6 +501,21 @@ export const InteractiveStoryStudio = ({
     if (session.mode === 'solo' || session.mode === 'director') {
       setDirectorMode(session.mode);
     }
+    if (session.partyMode === 'solo' || session.partyMode === 'group') {
+      setPartyMode(session.partyMode);
+    }
+    if (Array.isArray(session.operatives) && session.operatives.length > 0) {
+      setOperatives(session.operatives);
+      const nextActiveOpId = session.activeOperativeId || session.operatives[0]?.id || '';
+      if (nextActiveOpId) {
+        setSelectedOperativeId(nextActiveOpId);
+        setActiveOperativeId(nextActiveOpId);
+      }
+    } else if (session.activeOperativeId) {
+      setSelectedOperativeId(session.activeOperativeId);
+      setActiveOperativeId(session.activeOperativeId);
+    }
+    setActiveModifiers(Array.isArray(session.activeModifiers) ? session.activeModifiers : []);
     if (session.activeScenarioId) {
       setSelectedScenarioId(session.activeScenarioId);
       if (typeof onSelectScenario === 'function') onSelectScenario(session.activeScenarioId);
@@ -500,6 +530,7 @@ export const InteractiveStoryStudio = ({
     const forked = {
       ...session,
       id: `ips_${Date.now()}`,
+      storyId: session.storyId || universeState?.id || 'default_story',
       activeScenarioTitle: `${session.activeScenarioTitle || activeScenario?.title || 'Scenario'} (Fork)`,
       beats: Array.isArray(session.beats) ? [...session.beats] : [],
       createdAt: new Date().toISOString(),
@@ -517,9 +548,10 @@ export const InteractiveStoryStudio = ({
     const all = loadAllSessions();
     const next = all.filter(s => s.id !== sessionId);
     persistAllSessions(next);
-    setSavedSessions(next);
+    const scopedNext = activeStoryScopeId ? next.filter(s => !s.storyId || s.storyId === activeStoryScopeId) : next;
+    setSavedSessions(scopedNext);
     if (sessionId === currentSessionId) {
-      const replacement = next[0] || null;
+      const replacement = scopedNext[0] || null;
       if (replacement) {
         setCurrentSessionId(replacement.id);
         setBeats(Array.isArray(replacement.beats) ? replacement.beats : []);
@@ -941,7 +973,10 @@ Respond in 2-3 concise in-character sentences.`;
           catalog: elementsCatalog || [],
           storyFlags: useAdeStore.getState().storyFlags || {},
           folioCharacter: activeOperative,
-          guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci-Fi Action'
+          guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci-Fi Action',
+          operatorSafe: isOperatorSafe,
+          excludeGmSecrets: isOperatorSafe,
+          perspectiveMode
         },
         tierKey: selectedLodTier
       });
@@ -1258,12 +1293,18 @@ Respond in 2-3 concise in-character sentences.`;
                     </button>
                     <button
                       type="button"
-                      onClick={() => setDirectorMode('director')}
-                      className={`py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
-                        directorMode === 'director'
-                          ? 'bg-rose-950 text-rose-300 border-rose-500/60'
-                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                      disabled={isOperatorSafe}
+                      onClick={() => {
+                        if (!isOperatorSafe) setDirectorMode('director');
+                      }}
+                      className={`py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition-all ${
+                        isOperatorSafe
+                          ? 'bg-slate-950 border-slate-800/60 text-slate-600 cursor-not-allowed opacity-50'
+                          : directorMode === 'director'
+                            ? 'bg-rose-950 text-rose-300 border-rose-500/60 cursor-pointer'
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white cursor-pointer'
                       }`}
+                      title={isOperatorSafe ? 'Locked in Operator Safe Mode' : 'Switch to Architect Director mode'}
                     >
                       <Radio size={11} />
                       <span>Architect Director</span>
@@ -1620,7 +1661,7 @@ Respond in 2-3 concise in-character sentences.`;
                           <button
                             key={entry.id}
                             type="button"
-                            onClick={() => setSelectedLoreEntry(entry)}
+                            onClick={() => handleOpenLorebookDossier(entry)}
                             className={`px-2 py-0.5 rounded-lg border text-[10px] font-bold flex items-center gap-1 cursor-pointer hover:scale-105 transition-all shadow-xs ${getTypePillStyle(entry.type)}`}
                             title={`Inspect ${entry.title} (${entry.triggerMatched || 'Matched Lore'})`}
                           >

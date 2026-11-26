@@ -98,9 +98,12 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
   }, [activeScenario]);
 
   const spotlightCast = useMemo(() => {
-    if (tokens.length > 0) return tokens.slice(0, 6);
+    const visibleTokens = isArchitect
+      ? tokens
+      : tokens.filter((t: any) => !t?.is_hidden && !t?.isHidden && !t?.isGmOnly && t?.isPlayerVisible !== false);
+    if (visibleTokens.length > 0) return visibleTokens.slice(0, 6);
     return (elementsCatalog || [])
-      .filter((e: any) => e?.type === 'Persona')
+      .filter((e: any) => e?.type === 'Persona' && (isArchitect || (!e?.isHidden && !e?.isGmOnly && e?.fields?.playerVisible !== false)))
       .slice(0, 6)
       .map((e: any) => ({
         id: e.id,
@@ -109,7 +112,7 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
         image_url: e.fields?.imageUrl || e.imageUrl,
         is_persona: true
       }));
-  }, [tokens, elementsCatalog]);
+  }, [tokens, elementsCatalog, isArchitect]);
 
   const handleQuick2d10 = () => {
     const res = resolveTangent2d10Check({ modifier: 4, targetCR: 15, isOpposed: false });
@@ -240,7 +243,7 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
 
       {/* Bottom Cast Spotlight Cards & Active Story Flags */}
       <div className="relative z-10 px-4 py-3 space-y-2.5">
-        {Object.keys(storyFlags || {}).length > 0 && (
+        {isArchitect && Object.keys(storyFlags || {}).length > 0 && (
           <div className="flex items-center gap-1.5 flex-wrap font-mono text-[10px]">
             <Flag size={11} className="text-cyan-400" />
             {Object.entries(storyFlags).slice(0, 6).map(([key, rec]) => (

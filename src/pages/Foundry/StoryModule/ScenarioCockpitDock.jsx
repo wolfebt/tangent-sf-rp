@@ -390,15 +390,16 @@ export const ElementFieldsEditor = ({ activeNode, updateStory, elementsCatalog =
           targetType={currentTab.includes('Script') ? 'VttScript' : (currentTab.includes('Relations') ? 'Relations' : (activeNode.type === 'Persona' ? 'Persona' : 'Story'))}
           contextData={activeNode}
           onApplyGuidance={(sug) => {
+            const htmlBlock = formatAimeProseToHtml(`### AIME Guidance\n${sug}`);
             if (!activeNode.content) {
-              updateStory(activeNode.id, { content: sug });
+              updateStory(activeNode.id, { content: formatAimeProseToHtml(sug) });
               showToast?.({ type: 'success', text: 'Applied AIME guidance to scene content.' });
             } else if (!fields.summary) {
               handleChange('summary', sug.slice(0, 180));
               showToast?.({ type: 'success', text: 'Applied AIME guidance to scene summary.' });
             } else {
               const base = String(activeNode.content).trimEnd();
-              updateStory(activeNode.id, { content: `${base}\n\n---\n### AIME Guidance\n${sug}` });
+              updateStory(activeNode.id, { content: `${base}<hr />${htmlBlock}` });
               showToast?.({ type: 'success', text: 'Appended AIME guidance to scene content.' });
             }
           }}

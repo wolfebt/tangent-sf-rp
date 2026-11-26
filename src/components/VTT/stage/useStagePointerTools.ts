@@ -385,7 +385,7 @@ export const useStagePointerTools = ({
       const engine = coordEngineRef.current;
       const snapped = gridSnap ? engine.snapPixelToGrid(worldPos) : worldPos;
 
-      if (isDesignModeActive) {
+      if (isDesignModeActive && effectiveIsArchitectRole) {
         if (activeDesignTool === 'pan') {
           setIsDraggingPan(true);
           setDragStartPos({ x: e.clientX, y: e.clientY });
@@ -932,8 +932,11 @@ export const useStagePointerTools = ({
       : { x: Math.round(worldPos.x), y: Math.round(worldPos.y) };
 
     const engineStore = useEngineStore.getState();
+    const preservedElev = Number(
+      selectedToken?.elevation_ft ?? engineStore.ephemeralData[selectedTokenId]?.elevation_ft ?? 0
+    ) || 0;
     engineStore.updatePosition(selectedTokenId, snapped.x, snapped.y);
-    sync.broadcastTokenMove(selectedTokenId, snapped.x, snapped.y);
+    sync.broadcastTokenMove(selectedTokenId, snapped.x, snapped.y, preservedElev);
 
     if (currentMap?.id && updateMap && Array.isArray(currentMap.tokens)) {
       const nextTokens = currentMap.tokens.map((t: any) =>
@@ -963,19 +966,61 @@ export const useStagePointerTools = ({
     const trapEvents = evaluateTrapTriggers(movedToken, objectsOnMap, fusedTokens);
 
     if (trapEvents && trapEvents.length > 0) {
+      const triggeredTrapIds = new Set<string>();
+      const sync = getVttMultiplayerSync();
+      let vitalsChanged = false;
+
       trapEvents.forEach((evt: any) => {
         setCombatLog(prev => [
           evt.logMessage,
           ...prev.slice(0, 8)
         ]);
+        const trapCard = {
+          id: `trap_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          timestamp: new Date().toISOString(),
+          sender: evt.trapName || 'Tactical Hazard',
+          visibility: 'public' as const,
+          kind: 'effect' as const,
+          title: evt.isSaveSuccess ? `Trap Evaded: ${evt.trapName}` : `Trap Triggered: ${evt.trapName}`,
+          body: evt.logMessage
+        };
+        VttEventBus.emit('stage-chat-card', trapCard);
+        sync.broadcastChatCard(trapCard);
+
         if (evt.damage > 0) {
           engineStore.applyDamage(selectedTokenId, evt.damage, !evt.isSaveSuccess);
-          const updatedTrapEph = useEngineStore.getState().ephemeralData[selectedTokenId];
-          if (updatedTrapEph) {
-            getVttMultiplayerSync().broadcastTokenVitals(selectedTokenId, updatedTrapEph);
-          }
+          vitalsChanged = true;
+        }
+        if (evt.condition) {
+          engineStore.addCondition(selectedTokenId, String(evt.condition));
+          vitalsChanged = true;
+        }
+
+        const matchedTrap = objectsOnMap.find((o: any) => o?.id === evt.trapId);
+        if (matchedTrap && !matchedTrap.isRepeating && evt.trapId) {
+          triggeredTrapIds.add(String(evt.trapId));
         }
       });
+
+      if (vitalsChanged) {
+        const updatedTrapEph = useEngineStore.getState().ephemeralData[selectedTokenId];
+        if (updatedTrapEph) {
+          sync.broadcastTokenVitals(selectedTokenId, updatedTrapEph);
+        }
+      }
+
+      if (triggeredTrapIds.size > 0) {
+        const nextObjects = objectsOnMap.map((o: any) =>
+          o?.id && triggeredTrapIds.has(String(o.id))
+            ? { ...o, trapState: 'triggered', isTriggered: true }
+            : o
+        );
+        setLocalObjects(nextObjects);
+        interactiveObjMgrRef.current.loadObjects(nextObjects);
+        if (currentMap?.id && updateMap) {
+          updateMap(currentMap.id, { objects: nextObjects });
+        }
+      }
     }
 
     // ── Evaluate Objective Waypoint Triggers on Token Move ──

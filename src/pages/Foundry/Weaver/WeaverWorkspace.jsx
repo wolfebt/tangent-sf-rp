@@ -82,11 +82,12 @@ export default function WeaverWorkspace({
         {/* TAB 2: WRITE & AUTHOR (Text Canvas with AIME Co-Pilot & Drag-and-Drop) */}
         {currentTab === 'write' && (
           <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#090d16]">
-            <StoryWeaver
+              <StoryWeaver
               activeNode={activeNode}
               updateStory={updateStory}
               guidanceGems={typeof getActiveGemsText === 'function' ? getActiveGemsText() : ''}
               onSelectScenarioWorkspaceTab={onSelectTab}
+              onSwitchView={onSwitchView}
               isSplitView={isSplitView}
               setIsSplitView={setIsSplitView}
               viewportSplit={viewportSplit}

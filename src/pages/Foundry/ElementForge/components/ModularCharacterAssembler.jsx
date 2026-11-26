@@ -317,6 +317,8 @@ export const ModularCharacterAssembler = ({
       (name) => ({ id: 'arm_1', name, dr: effectiveArmorDR, equipped: true })
     );
 
+    const existingAttacks = parseExistingArray(latestFields.attacks);
+
     return {
       id: latestFields.dbmId || `mcm_${Date.now()}`,
       name: (elementTitle || `${designation} ${activeRoleObj.name}`).trim(),
@@ -348,6 +350,7 @@ export const ModularCharacterAssembler = ({
         cha: customAttrs.cha !== undefined && customAttrs.cha !== '' ? Number(customAttrs.cha) : (combatBlock.attributes?.cha ?? 0)
       },
       skills: skillRanks,
+      ...(existingAttacks.length > 0 ? { attacks: existingAttacks } : {}),
       weapons: mergedWeapons.length > 0
         ? mergedWeapons
         : [{ id: 'wpn_default', name: `${activeRoleObj.name} Armament`, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' }],
@@ -398,12 +401,37 @@ export const ModularCharacterAssembler = ({
       definingTrauma: latestFields.definingTrauma || '',
       appearance: latestFields.appearance || '',
       voiceProfile: latestFields.voiceProfile || '',
-      mannerisms: latestFields.mannerisms || ''
+      mannerisms: latestFields.mannerisms || '',
+      content: latestFields.content ?? '',
+      narrativeProse: latestFields.narrativeProse ?? latestFields.content ?? '',
+      imageUrl: latestFields.imageUrl || latestFields.portrait || '',
+      tokenUrl: latestFields.tokenUrl || latestFields.token || latestFields.imageUrl || '',
+      guidance: latestFields.guidance,
+      assetHub: latestFields.assetHub,
+      customFields: latestFields.customFields,
+      summary: latestFields.summary || '',
+      backstory: latestFields.backstory || '',
+      worldview: latestFields.worldview || '',
+      goals: latestFields.goals || '',
+      stakes: latestFields.stakes || '',
+      plotHooks: latestFields.plotHooks || '',
+      primaryTriggers: latestFields.primaryTriggers || '',
+      secondaryTriggers: latestFields.secondaryTriggers || '',
+      vttScript: latestFields.vttScript || '',
+      vttScriptActive: latestFields.vttScriptActive,
+      relationsStance: latestFields.relationsStance || 'Hostile',
+      vipTarget: latestFields.vipTarget || '',
+      rivalTarget: latestFields.rivalTarget || '',
+      keyRelationships: latestFields.keyRelationships || '',
+      tags: latestFields.tags || '',
+      keywords: latestFields.keywords || '',
+      negative_keywords: latestFields.negative_keywords || ''
     };
   };
 
   // Build batched parent field patch (shared by automatic live sync and manual Re-sync)
   const buildMcmBatchPatch = () => {
+    const latestFields = fieldsRef.current || {};
     const fullConfig = buildFullMcmConfig();
     const folioPersona = convertMcmToFolioPersona(fullConfig);
     const vttUnit = buildVttUnitFromPersona(folioPersona, { uniqueInstance: false });
@@ -455,7 +483,10 @@ export const ModularCharacterAssembler = ({
       weapons: folioPersona.weapons,
       armor: folioPersona.armor,
       gear: folioPersona.gear,
-      attacks: folioPersona.attacks,
+      attacks:
+        parseExistingArray(latestFields.attacks).length > 0
+          ? latestFields.attacks
+          : folioPersona.attacks,
       vttUnitData: vttUnit,
       isReadyForVtt: true
     };
@@ -742,9 +773,26 @@ Respond in JSON format:
             type="button"
             onClick={async () => {
               const { folioPersona } = handleApplyToElement();
-              const mcmRecord = convertFolioToMcmRecord(folioPersona, {
-                id: fields.dbmId || `mcm_${Date.now()}`
+              const targetMcmId = fields.dbmId || `mcm_${Date.now()}`;
+              const existingMcm = mcmPresetsList.find((m) => String(m.id) === String(targetMcmId));
+              const rawMcmRecord = convertFolioToMcmRecord(folioPersona, {
+                id: targetMcmId
               });
+              const mcmRecord = existingMcm
+                ? {
+                    ...existingMcm,
+                    ...Object.fromEntries(
+                      Object.entries(rawMcmRecord).filter(([, v]) => {
+                        if (v === '' || v === null || v === undefined) return false;
+                        if (Array.isArray(v) && v.length === 0) return false;
+                        if (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0) return false;
+                        return true;
+                      })
+                    ),
+                    id: targetMcmId,
+                    updatedAt: rawMcmRecord.updatedAt
+                  }
+                : rawMcmRecord;
               const res = await saveEntry(mcmRecord, 'modular_characters');
               if (res === false || res?.ok === false) {
                 showToast({

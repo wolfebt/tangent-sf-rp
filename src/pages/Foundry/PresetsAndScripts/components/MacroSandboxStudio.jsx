@@ -37,23 +37,44 @@ export { MACRO_TEMPLATES, STAGE_API_MACRO_TEMPLATES };
 export const MacroSandboxStudio = ({
   selectedAsset = null,
   onSaveMacroToModule,
+  onDeleteMacroFromModule,
   onAttachMacroToAsset
 }) => {
   const [activeCode, setActiveCode] = useState(
-    selectedAsset?.scriptData?.code || MACRO_TEMPLATES[0].code
+    selectedAsset?.scriptData?.code ||
+      selectedAsset?.scriptData?.macroScript ||
+      selectedAsset?.scriptData?.onEnterMacro ||
+      MACRO_TEMPLATES[0].code
   );
   const [macroName, setMacroName] = useState(
     selectedAsset?.type === 'Macro' ? selectedAsset.title : 'Custom Sector Routine'
   );
 
   useEffect(() => {
-    if (selectedAsset?.scriptData?.code) {
-      setActiveCode(selectedAsset.scriptData.code);
+    if (!selectedAsset) {
+      setActiveCode(MACRO_TEMPLATES[0].code);
+      setMacroName('Custom Sector Routine');
+      return;
+    }
+    const hydratedCode =
+      selectedAsset?.scriptData?.code ||
+      selectedAsset?.scriptData?.macroScript ||
+      selectedAsset?.scriptData?.onEnterMacro ||
+      '';
+    if (hydratedCode) {
+      setActiveCode(hydratedCode);
     }
     if (selectedAsset?.type === 'Macro' && selectedAsset?.title) {
       setMacroName(selectedAsset.title);
     }
-  }, [selectedAsset?.id, selectedAsset?.type, selectedAsset?.title, selectedAsset?.scriptData?.code]);
+  }, [
+    selectedAsset?.id,
+    selectedAsset?.type,
+    selectedAsset?.title,
+    selectedAsset?.scriptData?.code,
+    selectedAsset?.scriptData?.macroScript,
+    selectedAsset?.scriptData?.onEnterMacro
+  ]);
   const [macroCategory, setMacroCategory] = useState('Game Logic');
   const [executionLogs, setExecutionLogs] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
@@ -249,6 +270,17 @@ export const MacroSandboxStudio = ({
           >
             {copySuccess ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
           </button>
+
+          {selectedAsset?.type === 'Macro' && typeof onDeleteMacroFromModule === 'function' && (
+            <button
+              type="button"
+              onClick={() => onDeleteMacroFromModule(selectedAsset.rawId)}
+              className="px-2.5 py-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900 border border-rose-500/40 text-rose-300 text-xs font-mono transition-colors cursor-pointer"
+              title="Delete saved macro"
+            >
+              <Trash2 size={14} />
+            </button>
+          )}
 
           <button
             type="button"

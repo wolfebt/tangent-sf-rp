@@ -364,15 +364,17 @@ export const loadDatabaseModifiers = ({
 };
 
 /**
- * Safely parses all interactive play sessions from local storage
+ * Safely parses all interactive play sessions from local storage, optionally filtered by storyId
  */
-export const loadAllSessions = () => {
+export const loadAllSessions = (storyId = null) => {
   if (typeof window === 'undefined') return [];
   try {
     const raw = localStorage.getItem(INTERACTIVE_SESSIONS_STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const list = Array.isArray(parsed) ? parsed : [];
+    if (!storyId) return list;
+    return list.filter((s) => s && (!s.storyId || s.storyId === storyId));
   } catch (err) {
     console.warn('Failed to load interactive play sessions from localStorage:', err);
     return [];
@@ -397,24 +399,29 @@ export const persistAllSessions = (sessions) => {
 export const createInteractiveSession = ({
   storyId,
   scenarioId,
-  scenarioTitle = 'Tactical Scenario',
+  activeScenarioId,
+  scenarioTitle,
+  activeScenarioTitle,
   mode = 'solo', // 'solo' | 'director'
   partyMode = 'solo', // 'solo' | 'group'
   operatives = [],
-  activeOperativeId = null
+  activeOperativeId = null,
+  activeModifiers = []
 }) => {
+  const resolvedScenarioId = activeScenarioId || scenarioId || '';
+  const resolvedScenarioTitle = activeScenarioTitle || scenarioTitle || 'Tactical Scenario';
   const activeId = activeOperativeId || operatives[0]?.id || 'operative_lead';
 
   const session = {
     id: `ips_${Date.now()}_${uuidv4().slice(0, 6)}`,
     storyId: storyId || 'default_story',
-    activeScenarioId: scenarioId || '',
-    activeScenarioTitle: scenarioTitle,
+    activeScenarioId: resolvedScenarioId,
+    activeScenarioTitle: resolvedScenarioTitle,
     mode,
     partyMode, // Solo by default, with option for group
     operatives,
     activeOperativeId: activeId,
-    activeModifiers: [], // Live Tracked Modifiers Ledger
+    activeModifiers: Array.isArray(activeModifiers) ? [...activeModifiers] : [], // Live Tracked Modifiers Ledger
     beats: [],
     worldFlags: {},
     createdAt: new Date().toISOString(),

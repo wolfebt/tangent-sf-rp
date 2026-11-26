@@ -85,7 +85,7 @@ export interface UseDesignModeControllerReturn {
   selectedRegionType: string;
 }
 
-export function useDesignModeController(): UseDesignModeControllerReturn {
+export function useDesignModeController(isArchitectRole: boolean = true): UseDesignModeControllerReturn {
   // Store values
   const activeArchitectTool = useUILayoutStore(s => s.activeArchitectTool);
   const storeWallType = useUILayoutStore(s => s.selectedWallType);
@@ -150,13 +150,17 @@ export function useDesignModeController(): UseDesignModeControllerReturn {
 
   // Synchronize active architect tool from Right Rail with WebGPU canvas
   useEffect(() => {
+    if (!isArchitectRole) {
+      setIsDesignModeActive(false);
+      return;
+    }
     if (activeArchitectTool) {
       setActiveDesignTool(activeArchitectTool as ArchitectDesignTool);
       if (activeArchitectTool !== 'select') {
         setIsDesignModeActive(true);
       }
     }
-  }, [activeArchitectTool]);
+  }, [activeArchitectTool, isArchitectRole]);
 
   useEffect(() => {
     if (storeWallType) setSelectedWallType(storeWallType);
@@ -218,6 +222,7 @@ export function useDesignModeController(): UseDesignModeControllerReturn {
   }, [storeTextSize]);
 
   useEffect(() => {
+    if (!isArchitectRole) return;
     if (storeObjectType && typeof storeObjectType === 'object') {
       const propObj = storeObjectType as any;
       const stampItem: PaletteItem = {
@@ -242,7 +247,7 @@ export function useDesignModeController(): UseDesignModeControllerReturn {
       setSelectedStamp(stampItem);
       setIsDesignModeActive(true);
     }
-  }, [storeObjectType]);
+  }, [storeObjectType, isArchitectRole]);
 
   useEffect(() => {
     if (storeRulerAp !== undefined) setRulerAvailableAp(storeRulerAp);

@@ -192,6 +192,7 @@ export default function StoryWeaver({
   updateStory, 
   guidanceGems = '', 
   onSelectScenarioWorkspaceTab,
+  onSwitchView,
   isSplitView,
   setIsSplitView,
   viewportSplit,
@@ -1241,8 +1242,12 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
     if (typeof addMap === 'function') addMap(newMap);
     if (activeNode?.id && typeof updateStory === 'function') updateStory(activeNode.id, { mapId: newMapId });
     if (typeof setActiveMapId === 'function') setActiveMapId(newMapId);
-    if (!activeNode?.id && typeof onSelectScenarioWorkspaceTab === 'function') {
-      onSelectScenarioWorkspaceTab('map');
+    if (!activeNode?.id) {
+      if (typeof onSwitchView === 'function') {
+        onSwitchView('map');
+      } else if (typeof onSelectScenarioWorkspaceTab === 'function') {
+        onSelectScenarioWorkspaceTab('stage');
+      }
     }
     showToast('✓ New encounter map created and linked');
   };

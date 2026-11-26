@@ -36,7 +36,11 @@ export default function ADETopToolbar({
   onSelectCockpitDeck,
   // Node level context
   activeNode,
-  activeElement
+  activeElement,
+  onToggleGuide,
+  onToggleSettings,
+  onExportMarkdown,
+  onExportPDF
 }) {
   const { universeState, elementsCatalog, cronicle, activeMapId, isDirty, cloudSyncStatus } = useStory();
   const {
@@ -79,8 +83,49 @@ export default function ADETopToolbar({
 
   return (
     <header className="relative z-40 bg-slate-950/98 border-b border-cyan-500/30 px-2 sm:px-3 py-1.5 flex items-center justify-between gap-1.5 sm:gap-3 select-none shadow-xl backdrop-blur-2xl font-mono shrink-0 h-12 overflow-x-auto no-scrollbar">
-      {/* ── ZONE 1: LEFT BALANCING SPACER ── */}
-      <div className="hidden md:flex items-center shrink-0" />
+      {/* ── ZONE 1: NODE EXPORT & STUDIO PREF SHORTCUTS ── */}
+      <div className="hidden md:flex items-center gap-1 shrink-0">
+        {activeNode && onExportMarkdown && (
+          <button
+            type="button"
+            onClick={onExportMarkdown}
+            className="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-[10px] font-bold text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer"
+            title="Export active node as Markdown (.md)"
+          >
+            MD
+          </button>
+        )}
+        {activeNode && onExportPDF && (
+          <button
+            type="button"
+            onClick={onExportPDF}
+            className="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-[10px] font-bold text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer"
+            title="Export active node as PDF"
+          >
+            PDF
+          </button>
+        )}
+        {onToggleGuide && (
+          <button
+            type="button"
+            onClick={() => onToggleGuide(true)}
+            className="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-[10px] font-bold text-slate-400 hover:text-white transition-colors cursor-pointer"
+            title="Open ADE Studio Guide"
+          >
+            Guide
+          </button>
+        )}
+        {onToggleSettings && (
+          <button
+            type="button"
+            onClick={() => onToggleSettings(true)}
+            className="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 text-[10px] font-bold text-slate-400 hover:text-white transition-colors cursor-pointer"
+            title="Open Studio Settings"
+          >
+            Settings
+          </button>
+        )}
+      </div>
 
       {/* ── ZONE 2: INTERACTIVE BREADCRUMB & HIERARCHY NAVIGATION (Center) ── */}
       <div className="flex-1 flex items-center justify-start md:justify-center min-w-0 px-0.5 sm:px-2">

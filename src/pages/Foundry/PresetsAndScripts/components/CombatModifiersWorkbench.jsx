@@ -39,8 +39,10 @@ export const CombatModifiersWorkbench = ({
   const handleApplyPreset = (preset) => {
     if (isStoryReadOnly) return;
     AudioService.playTerminalBeep(1200, 0.03);
+    const id = preset?.id || `mod_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
     onAddModifier?.({
       ...preset,
+      id,
       isActive: true,
       appliedAt: new Date().toISOString(),
       sourceAssetId: selectedAsset?.id || null,

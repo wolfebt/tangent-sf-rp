@@ -27,6 +27,7 @@ import { useUILayoutStore } from '../store/uiLayoutStore';
 
 export interface TokenContextualPillProps {
   isArchitectRole?: boolean;
+  onPersistTokenElevation?: (tokenId: string, nextElevationFt: number) => void;
 }
 
 const QUICK_CONDITIONS = [
@@ -36,7 +37,10 @@ const QUICK_CONDITIONS = [
   { id: 'stunned', label: 'Stun', icon: <Zap size={10} />, color: 'border-purple-500/60 text-purple-300' }
 ];
 
-export const TokenContextualPill: React.FC<TokenContextualPillProps> = ({ isArchitectRole }) => {
+export const TokenContextualPill: React.FC<TokenContextualPillProps> = ({
+  isArchitectRole,
+  onPersistTokenElevation
+}) => {
   const storeRole = useUILayoutStore((s) => s.userRole);
   const effectiveIsArchitect =
     typeof isArchitectRole === 'boolean'
@@ -136,6 +140,7 @@ export const TokenContextualPill: React.FC<TokenContextualPillProps> = ({ isArch
     const current = elevation_ft || 0;
     const nextElev = Math.max(0, current + delta);
     useEngineStore.getState().setElevation(id, nextElev);
+    onPersistTokenElevation?.(id, nextElev);
     getVttMultiplayerSync().broadcastTokenMove(id, selectedToken.x, selectedToken.y, nextElev);
   };
 

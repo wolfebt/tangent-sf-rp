@@ -313,8 +313,8 @@ export function pullElementFromOmnicortexDBM(element, dbData) {
     dbmId: foundRecord.id,
     fields: {
       ...(element.fields || {}),
-      ...(projected.fields || {}),
       ...foundRecord,
+      ...(projected.fields || {}),
       dbmRef: foundRecord.id,
       dbmId: foundRecord.id,
       dbmCategory: resolvedCategory

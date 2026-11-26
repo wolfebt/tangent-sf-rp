@@ -16,6 +16,7 @@ export interface StageTokenLayerProps {
   targetToken: any;
   downedAllyNearby?: any;
   nearbyInteractiveObj?: any;
+  nearbyArmedTrap?: any;
   nearbyVehicle?: any;
   isPointBlankTarget?: boolean;
   onSelectAction: (actionKey: string) => void;
@@ -27,6 +28,7 @@ export const StageTokenLayer: React.FC<StageTokenLayerProps> = ({
   targetToken,
   downedAllyNearby,
   nearbyInteractiveObj,
+  nearbyArmedTrap,
   nearbyVehicle,
   isPointBlankTarget = false,
   onSelectAction
@@ -44,6 +46,7 @@ export const StageTokenLayer: React.FC<StageTokenLayerProps> = ({
       mortalityAllyName={downedAllyNearby?.name || 'Allied Operator'}
       isAdjacentToInteractiveObj={Boolean(nearbyInteractiveObj)}
       interactiveObjName={nearbyInteractiveObj?.name || 'Bulkhead / Terminal'}
+      nearbyArmedTrap={nearbyArmedTrap}
       nearbyVehicle={nearbyVehicle}
       isPointBlankRange={isPointBlankTarget}
       onSelectAction={onSelectAction}

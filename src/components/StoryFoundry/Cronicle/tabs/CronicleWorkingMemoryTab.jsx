@@ -11,13 +11,14 @@ export default function CronicleWorkingMemoryTab({
   setScratchNotes,
   isNotesSaved = false,
   handleSaveScratchNotes,
-  handleInsertSnippet
+  handleInsertSnippet,
+  isStoryReadOnly = false
 }) {
   return (
     <div className="flex flex-col gap-5 h-full">
       <div className="flex flex-col lg:flex-row gap-5">
         {/* Left Column: Form Settings */}
-        <div className="flex-1 flex flex-col gap-4 max-w-xl">
+        <fieldset disabled={isStoryReadOnly} className={`flex-1 flex flex-col gap-4 max-w-xl border-0 p-0 m-0 ${isStoryReadOnly ? 'opacity-70' : ''}`}>
           <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
               <MapPin size={14} /> Active Location for Current Scene
@@ -109,7 +110,7 @@ export default function CronicleWorkingMemoryTab({
               />
             </div>
           </div>
-        </div>
+        </fieldset>
 
         {/* Right Column: Live Context Injection Preview */}
         <div className="flex-1 bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col overflow-hidden min-h-[320px]">

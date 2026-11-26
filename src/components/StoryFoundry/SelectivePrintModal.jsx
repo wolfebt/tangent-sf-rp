@@ -31,6 +31,7 @@ import {
   sanitizeScenarioForOperator,
   stripGmSecretHtmlBlocks
 } from '../../utils/gmSecretSanitizer';
+import { normalizeElementType } from '../../pages/Foundry/ElementForge/elementSchemas';
 
 export const SelectivePrintModal = ({
   isOpen,
@@ -146,7 +147,11 @@ export const SelectivePrintModal = ({
     includeHandouts: selectedSections.handouts,
     includeProps: selectedSections.props,
     includeOsrSpread: selectedSections.osrSpread,
-    printLayout
+    printLayout,
+    waypoints,
+    handouts: clues,
+    props: propsOnMap,
+    personas
   });
 
   const handleDownloadEpub = () => {
@@ -174,22 +179,27 @@ export const SelectivePrintModal = ({
     triggerDownload(blob, `${slug}${operatorSafeMode ? '_operator' : ''}.rtf`);
   };
 
+  const visibleActiveScenario =
+    operatorSafeMode && activeScenario && (activeScenario.isHidden || activeScenario.isGmOnly)
+      ? null
+      : (operatorSafeMode && activeScenario ? sanitizeScenarioForOperator(activeScenario) : activeScenario);
+
   // Resolved scene beats
-  const beatsRaw = activeScenario?.fields?.sceneBeats || universeState?.creativeState?.sceneBeats || '';
+  const beatsRaw = visibleActiveScenario?.fields?.sceneBeats || universeState?.creativeState?.sceneBeats || '';
   const beatsList = beatsRaw.split('\n').map(b => b.trim()).filter(Boolean);
 
   // Resolved manuscript prose
-  const rawProseText = activeScenario?.content || universeState?.creativeState?.storyDraft || '';
+  const rawProseText = visibleActiveScenario?.content || universeState?.creativeState?.storyDraft || '';
   const proseText = operatorSafeMode ? stripGmSecretHtmlBlocks(rawProseText) : rawProseText;
-  const rawReadAloud = activeScenario?.fields?.readAloud || activeScenario?.content || '';
+  const rawReadAloud = visibleActiveScenario?.fields?.readAloud || visibleActiveScenario?.content || '';
   const readAloudSource = operatorSafeMode
     ? stripGmSecretHtmlBlocks(rawReadAloud)
     : rawReadAloud;
-  const rawSynopsis = activeScenario?.fields?.summary || activeScenario?.fields?.goal || universeState?.creativeState?.storyOutline || '';
+  const rawSynopsis = visibleActiveScenario?.fields?.summary || visibleActiveScenario?.fields?.goal || universeState?.creativeState?.storyOutline || '';
   const synopsisText = operatorSafeMode ? stripGmSecretHtmlBlocks(rawSynopsis) : rawSynopsis;
 
   // Personas & Adversaries (Operator Safe hides hidden/GM-only tokens and traps)
-  const rawPersonas = elementsCatalog.filter(e => e.type === 'Persona');
+  const rawPersonas = elementsCatalog.filter(e => normalizeElementType(e?.type) === 'Persona');
   const personas = operatorSafeMode
     ? rawPersonas.filter((e) => !e.isHidden && !e.isGmOnly && e.fields?.playerVisible !== false)
     : rawPersonas;
@@ -203,7 +213,10 @@ export const SelectivePrintModal = ({
   const propsOnMap = operatorSafeMode
     ? rawPropsOnMap.filter((o) => o && !o.isHidden && !o.isGmOnly && !o.isTrap && !o.secret && !o.isSecret)
     : rawPropsOnMap;
-  const rawClues = elementsCatalog.filter(e => e.type === 'Clue' || e.type === 'Handout');
+  const rawClues = elementsCatalog.filter((e) => {
+    const nt = normalizeElementType(e?.type);
+    return nt === 'Clue' || nt === 'Handout';
+  });
   const clues = operatorSafeMode
     ? rawClues.filter((c) => c && !c.isHidden && !c.isGmOnly && c.fields?.playerVisible !== false)
     : rawClues;

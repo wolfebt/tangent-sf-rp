@@ -161,6 +161,16 @@ export function useMapIngestion({
       if (mapTokens.length > 0) {
         const staticBatch: StaticEntity[] = mapTokens.map((t: any) => {
           const isSynth = Boolean(t.is_synthetic || t.isSynthetic || String(t.species || '').toLowerCase().includes('synthetic'));
+          const isExplicitPersona =
+            t.is_persona === true ||
+            (t.is_persona !== false &&
+              (t.type === 'hero' ||
+                t.type === 'player' ||
+                t.designation === 'Ally' ||
+                t.designation === 'Player' ||
+                Boolean(t.folioDocId) ||
+                String(t.id || '').startsWith('folio_')));
+          const isHiddenToken = Boolean(t.is_hidden || t.isHidden || t.isGmOnly);
           return {
             ...t,
             id: t.id,
@@ -184,9 +194,11 @@ export function useMapIngestion({
             speed_ft: t.speed_ft || 30,
             species: t.species || 'Human',
             archetype: t.archetype || 'Operator',
-            is_persona: t.is_persona !== false,
-            isPlayerVisible: t.isPlayerVisible !== false && !t.isHidden && !t.isGmOnly,
-            isHidden: Boolean(t.isHidden || t.isGmOnly)
+            is_persona: isExplicitPersona,
+            isPlayerVisible: t.isPlayerVisible !== false && !isHiddenToken,
+            is_hidden: isHiddenToken,
+            isHidden: isHiddenToken,
+            elevation_ft: Number(t.elevation_ft ?? t.z ?? 0) || 0
           };
         });
 

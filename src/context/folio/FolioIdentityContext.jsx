@@ -1452,11 +1452,13 @@ export const FolioIdentitySliceProvider = ({ children }) => {
         ...DEFAULT_CHARACTER,
         ...detail.persona
       }));
-      setCharacterData(sanitized);
-      setIsCharacterSelected(true);
-      setViewMode(detail.options?.lockForVtt ? 'play' : 'builder');
-      setActiveTab(detail.options?.activeTab || 'identity');
       await saveCurrentToRoster(sanitized);
+      if (detail.options?.activateInFolio !== false && detail.options?.openInFolio !== false) {
+        setCharacterData(sanitized);
+        setIsCharacterSelected(true);
+        setViewMode(detail.options?.lockForVtt ? 'play' : 'builder');
+        setActiveTab(detail.options?.activeTab || 'identity');
+      }
     };
 
     window.addEventListener('tangent-import-mcm-to-folio', handleMcmImportEvent);

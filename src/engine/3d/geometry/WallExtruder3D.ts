@@ -107,7 +107,7 @@ export class WallExtruder3D {
   /**
    * Builds a complete Three.js Group containing all 3D walls for a scene.
    */
-  public buildWallsGroup(walls: any[]): THREE.Group {
+  public buildWallsGroup(walls: any[], isArchitectRole: boolean = true): THREE.Group {
     const group = new THREE.Group();
     group.name = 'Walls3DGroup';
 
@@ -117,7 +117,7 @@ export class WallExtruder3D {
 
     const expanded = expandWallsForGeometry(walls, 8);
     for (const wall of expanded) {
-      const wallMesh = this.createWallMesh(wall);
+      const wallMesh = this.createWallMesh(wall, isArchitectRole);
       if (wallMesh) {
         group.add(wallMesh);
       }
@@ -133,7 +133,7 @@ export class WallExtruder3D {
    * 2D Y -> 3D Z (ground plane depth)
    * Wall Height -> 3D Y (vertical height)
    */
-  public createWallMesh(wall: any): THREE.Group | null {
+  public createWallMesh(wall: any, isArchitectRole: boolean = true): THREE.Group | null {
     if (!wall.p1 || !wall.p2) return null;
 
     const p1x = wall.p1.x;
@@ -160,11 +160,13 @@ export class WallExtruder3D {
     wallGroup.rotation.y = -angle; // Rotate to align with segment vector
 
     const rawType = String(wall.type || wall.wallType || '').toLowerCase();
+    const isSecretClosedDoor = Boolean(wall.isSecret) && !wall.isOpen && wall.doorState !== DOOR_STATES.OPEN;
     const isDoor =
-      rawType === WALL_TYPES.DOOR ||
-      rawType.includes('door') ||
-      Boolean(wall.isDoor) ||
-      Boolean(wall.isDynamic);
+      (isArchitectRole || !isSecretClosedDoor) &&
+      (rawType === WALL_TYPES.DOOR ||
+        rawType.includes('door') ||
+        Boolean(wall.isDoor) ||
+        Boolean(wall.isDynamic));
     const isEthereal =
       !isDoor &&
       (rawType === WALL_TYPES.ETHEREAL || rawType.includes('ethereal') || rawType === 'energy_shield');

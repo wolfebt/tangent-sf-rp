@@ -14,6 +14,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
+import { showToast } from '../../../context/ToastContext';
 import { AudioService } from '../../../services/audioService';
 import { stepNpcPatrols } from '../../../services/reactiveVttService';
 import { VttEventBus } from '../../../utils/vttEventBus';
@@ -100,6 +101,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
 
   // Selected Asset Object
   const selectedAsset = useMemo(() => {
+    if (selectedAssetId === '__new_macro__') return null;
     if (!selectedAssetId) return moduleAssets[0] || null;
     return moduleAssets.find(a => a.id === selectedAssetId) || moduleAssets[0] || null;
   }, [moduleAssets, selectedAssetId]);
@@ -160,11 +162,24 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
     if (typeof updateUniverseMetadata === 'function') {
       updateUniverseMetadata({ scripts: updated });
     }
+    setSelectedAssetId(`macro-${macro.id}`);
   }, [customMacros, updateUniverseMetadata, isStoryReadOnly]);
 
-  // Attach QuickJS Macro to specific module asset
+  const handleDeleteMacroFromModule = useCallback((macroId) => {
+    if (isStoryReadOnly || !macroId) return;
+    const updated = customMacros.filter(m => m.id !== macroId);
+    setCustomMacros(updated);
+    if (typeof updateUniverseMetadata === 'function') {
+      updateUniverseMetadata({ scripts: updated });
+    }
+    setSelectedAssetId('__new_macro__');
+    AudioService.playTerminalBeep(550, 0.05);
+    showToast?.({ type: 'info', text: 'Macro deleted from module.' });
+  }, [customMacros, updateUniverseMetadata, isStoryReadOnly]);
+
+  // Attach QuickJS Macro to specific module asset (elements, maps, scenarios, map objects)
   const handleAttachMacroToAsset = useCallback(async (asset, macroCode) => {
-    if (isStoryReadOnly) return;
+    if (isStoryReadOnly || !asset) return;
     if (asset.source === 'elementsCatalog') {
       const target = elementsCatalog.find(e => e.id === asset.rawId);
       if (!target) return;
@@ -177,8 +192,35 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
       };
       await updateSavedElement(target.id, updated);
       AudioService.playTerminalBeep(1400, 0.08);
+      showToast?.({ type: 'success', text: `Attached macro to "${asset.title}".` });
+    } else if (asset.source === 'mapsCatalog' && updateMap) {
+      await updateMap(asset.rawId, { macroScript: macroCode, script: macroCode });
+      AudioService.playTerminalBeep(1400, 0.08);
+      showToast?.({ type: 'success', text: `Attached macro to map "${asset.title}".` });
+    } else if (asset.source === 'map_object' && asset.mapId && updateMap) {
+      const targetMap = allMaps.find(m => m.id === asset.mapId);
+      if (!targetMap) return;
+      const updatedObjects = (targetMap.objects || []).map((obj) =>
+        obj.id === asset.rawId ? { ...obj, macroScript: macroCode } : obj
+      );
+      await updateMap(targetMap.id, { objects: updatedObjects });
+      AudioService.playTerminalBeep(1400, 0.08);
+      showToast?.({ type: 'success', text: `Attached macro to map object "${asset.title}".` });
+    } else if (asset.source === 'scenarios' && typeof updateStory === 'function') {
+      const patchNodeTree = (nodes) =>
+        (nodes || []).map((node) => {
+          if (!node) return node;
+          const patchedChildren = Array.isArray(node.children) ? patchNodeTree(node.children) : node.children;
+          if (node.id === asset.rawId) {
+            return { ...node, script: macroCode, onEnterMacro: macroCode, children: patchedChildren };
+          }
+          return patchedChildren !== node.children ? { ...node, children: patchedChildren } : node;
+        });
+      await updateStory({ scenarios: patchNodeTree(universeState?.scenarios || []) });
+      AudioService.playTerminalBeep(1400, 0.08);
+      showToast?.({ type: 'success', text: `Attached macro to scenario "${asset.title}".` });
     }
-  }, [elementsCatalog, updateSavedElement, isStoryReadOnly]);
+  }, [elementsCatalog, updateSavedElement, updateMap, allMaps, updateStory, universeState?.scenarios, isStoryReadOnly]);
 
   // Apply Atmospheric Profile to selected map
   const handleApplyAtmosphereToMap = useCallback((mapId, atmosphereConfig) => {
@@ -262,6 +304,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
           activeCategory={activeCatalogCategory}
           onSelectCategory={setActiveCatalogCategory}
           onCreateNewMacro={() => {
+            setSelectedAssetId('__new_macro__');
             setActiveTab('macros');
             setActiveCatalogCategory('macros');
           }}
@@ -289,6 +332,13 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
               selectedMapId={selectedMapId}
               onSelectMapId={setSelectedMapId}
               onUpdateMapObjects={handleUpdateMapObjects}
+              onUpdateHazardElement={(elemId, updatedFields) => {
+                if (isStoryReadOnly) return;
+                const target = elementsCatalog.find(e => e.id === elemId);
+                if (target) {
+                  updateSavedElement(elemId, { ...target, fields: { ...(target.fields || {}), ...updatedFields } });
+                }
+              }}
             />
           )}
 
@@ -297,6 +347,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
             <MacroSandboxStudio
               selectedAsset={selectedAsset}
               onSaveMacroToModule={handleSaveMacroToModule}
+              onDeleteMacroFromModule={handleDeleteMacroFromModule}
               onAttachMacroToAsset={handleAttachMacroToAsset}
             />
           )}

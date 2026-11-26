@@ -138,6 +138,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     addCustomChunk,
     updateCustomChunk,
     deleteCustomChunk,
+    publishSpectatorMap,
     isStoryReadOnly = false
   } = useCampaign();
 
@@ -338,9 +339,19 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
     if (atmosphere?.ambient_color) {
       updatePayload.ambientLight = atmosphere.ambient_color;
+      updatePayload.ambientLightColor = atmosphere.ambient_color;
     }
     if (atmosphere?.weather) {
       updatePayload.weatherFx = atmosphere.weather;
+      updatePayload.atmosphericWeather = atmosphere.weather;
+      updatePayload.atmosphericPresetId = atmosphere.weather;
+    }
+    if (atmosphere?.ambient_color || atmosphere?.weather) {
+      updatePayload.lighting = {
+        ...(currentMap.lighting || {}),
+        ...(atmosphere?.ambient_color ? { tint: atmosphere.ambient_color, ambientColor: atmosphere.ambient_color } : {}),
+        ...(atmosphere?.weather ? { presetId: atmosphere.weather } : {})
+      };
     }
 
     updateMap(activeMapId, updatePayload);
@@ -422,8 +433,9 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   // Handler to drop tactical radar pings
   const handleDropTacticalPing = (pingType, targetX = null, targetY = null) => {
-    const px = targetX !== null ? targetX : (position.x + stageSize.width / 2);
-    const py = targetY !== null ? targetY : (position.y + stageSize.height / 2);
+    const safeScale = scale || 1;
+    const px = targetX !== null ? targetX : Math.round((-position.x + stageSize.width / 2) / safeScale);
+    const py = targetY !== null ? targetY : Math.round((-position.y + stageSize.height / 2) / safeScale);
     const newPing = createTacticalPing(px, py, pingType, null, vttRole === 'operative' ? 'Operator' : 'Architect', '#06b6d4');
     setActivePings(prev => [...prev, newPing]);
     AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
@@ -1496,12 +1508,19 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       );
     } else if (action === 'heal_party') {
       nextTokens = list.map(t => {
-        const maxVit = t.base_vitality ?? t.maxVitality ?? t.base_health ?? t.maxHp ?? 30;
-        const maxStruct = t.base_structure ?? t.maxStructure ?? 10;
-        const maxHp = t.base_health ?? t.baseHp ?? t.maxHp ?? maxVit;
+        const maxVit = t.base_vitality ?? t.maxVitality ?? t.vitality?.max ?? t.base_health ?? t.maxHp ?? 30;
+        const maxStruct = t.base_structure ?? t.maxStructure ?? (t.is_synthetic ? 60 : 10);
+        const maxHp =
+          t.base_health ??
+          t.baseHp ??
+          (typeof t.health === 'object' && t.health !== null ? t.health.max : undefined) ??
+          (typeof t.hp === 'object' && t.hp !== null ? t.hp.max : undefined) ??
+          t.maxHp ??
+          maxVit;
         return {
           ...t,
-          hp: maxHp,
+          hp: typeof t.hp === 'object' && t.hp !== null ? { ...t.hp, current: maxHp, max: maxHp } : maxHp,
+          health: typeof t.health === 'object' && t.health !== null ? { ...t.health, current: maxHp, max: maxHp } : t.health,
           current_health: maxHp,
           current_hp: maxHp,
           current_vitality: maxVit,
@@ -2635,6 +2654,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         onDropPing={(pingType) => handleDropTacticalPing(pingType)}
         onApplyEnvironmentPreset={handleApplyEnvironmentPreset}
         onBatchTokenAction={handleBatchTokenAction}
+        onBroadcastMessage={(msg) => showToast({ type: 'info', text: msg })}
+        onPublishSpectator={() => {
+          if (publishSpectatorMap && activeMapId) {
+            publishSpectatorMap(activeMapId);
+          }
+        }}
       />
 
       <UnifiedRelationalSelectorModal

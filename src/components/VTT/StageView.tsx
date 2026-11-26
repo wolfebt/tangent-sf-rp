@@ -255,7 +255,7 @@ export const StageView: React.FC<StageViewProps> = ({
     storeTerrain,
     storeTokenLabel,
     selectedRegionType
-  } = useDesignModeController();
+  } = useDesignModeController(effectiveIsArchitectRole);
 
   const [isSimulationPaused, setIsSimulationPaused] = useState<boolean>(false);
   const [localWalls, setLocalWalls] = useState<WallSegment[]>([]);
@@ -296,7 +296,8 @@ export const StageView: React.FC<StageViewProps> = ({
     updateMap,
     activeSensorMode,
     tokens,
-    selectedToken
+    selectedToken,
+    isArchitectRole: effectiveIsArchitectRole
   });
 
   const isDynamicLightingRef = useRef<boolean>(isDynamicLightingEnabled);
@@ -565,7 +566,8 @@ export const StageView: React.FC<StageViewProps> = ({
   } = useStageTools({
     setActiveDesignTool: (t) => setActiveDesignTool(t),
     setIsDesignModeActive: (fn) => setIsDesignModeActive(fn),
-    rendererContextRef
+    rendererContextRef,
+    isArchitectRole: effectiveIsArchitectRole
   });
 
   // Keep viewport transform in a ref before initRenderer so device-loss recovery can restore pan/zoom
@@ -816,6 +818,7 @@ export const StageView: React.FC<StageViewProps> = ({
     handleObjectClick,
     handleDropTacticalPing,
     handleCommitLandmass,
+    handleApplyStageDecorations,
     handleImportCompleteUvtt,
     handleSummonHeroToken,
     handleSummonOmnicortexAsset,
@@ -823,6 +826,7 @@ export const StageView: React.FC<StageViewProps> = ({
     toggleLayerLock,
     downedAllyNearby,
     nearbyInteractiveObj,
+    nearbyArmedTrap,
     nearbyVehicle,
     isPointBlankTarget,
     handleRadialSelectAction
@@ -867,7 +871,8 @@ export const StageView: React.FC<StageViewProps> = ({
     setActiveStance,
     setIsMoveModeActive,
     setActiveTab,
-    handleExecuteCombatStrike
+    handleExecuteCombatStrike,
+    isArchitectRole: effectiveIsArchitectRole
   });
 
   // Subscribe to EventBus tactical ping & Architect Fog toggle requests (used by docked rails)
@@ -1201,6 +1206,7 @@ export const StageView: React.FC<StageViewProps> = ({
           targetToken={targetToken}
           downedAllyNearby={downedAllyNearby}
           nearbyInteractiveObj={nearbyInteractiveObj}
+          nearbyArmedTrap={nearbyArmedTrap}
           nearbyVehicle={nearbyVehicle}
           isPointBlankTarget={isPointBlankTarget}
           onSelectAction={handleRadialSelectAction}
@@ -1212,6 +1218,7 @@ export const StageView: React.FC<StageViewProps> = ({
         isLandmassModalOpen={isLandmassModalOpen}
         setIsLandmassModalOpen={setIsLandmassModalOpen}
         handleCommitLandmass={handleCommitLandmass}
+        handleApplyStageDecorations={handleApplyStageDecorations}
         terrainRenderMode={terrainRenderMode}
 
         isUvttModalOpen={isUvttModalOpen}

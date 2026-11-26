@@ -28,8 +28,12 @@ export const TrapsAndHazardsWorkbench = ({
   allMaps = [],
   selectedMapId = null,
   onSelectMapId,
-  onUpdateMapObjects
+  onUpdateMapObjects,
+  onUpdateHazardElement
 }) => {
+  const isSelectedCatalogHazard =
+    selectedAsset?.source === 'elementsCatalog' && selectedAsset?.catalogCategory === 'props_traps';
+
   // If selectedAsset is a map or a map object, resolve target map
   const activeMapId = selectedAsset?.catalogCategory === 'maps'
     ? selectedAsset.rawId
@@ -67,12 +71,29 @@ export const TrapsAndHazardsWorkbench = ({
   }, [selectedAsset?.catalogCategory, selectedAsset?.rawId]);
 
   const activeObject = useMemo(() => {
+    if (isSelectedCatalogHazard && selectedAsset) {
+      const f = selectedAsset.fields || selectedAsset.scriptData || {};
+      return {
+        id: selectedAsset.rawId,
+        name: selectedAsset.title,
+        label: selectedAsset.title,
+        type: 'hazard',
+        isTrap: true,
+        isCatalogElement: true,
+        ...f
+      };
+    }
     return reactiveObjects.find(o => o.id === selectedObjectId) || reactiveObjects[0] || null;
-  }, [reactiveObjects, selectedObjectId]);
+  }, [isSelectedCatalogHazard, selectedAsset, reactiveObjects, selectedObjectId]);
 
   // Handle atomic multi-field object patch (avoids stale-closure overwrites across sequential calls)
   const handlePatchObject = (objId, patch) => {
-    if (!activeMap || !onUpdateMapObjects || !patch) return;
+    if (!patch) return;
+    if (isSelectedCatalogHazard && activeObject?.isCatalogElement && typeof onUpdateHazardElement === 'function') {
+      onUpdateHazardElement(objId, patch);
+      return;
+    }
+    if (!activeMap || !onUpdateMapObjects) return;
     const nextObjects = mapObjects.map(o => {
       if (o.id === objId) {
         return { ...o, ...patch };
@@ -132,7 +153,7 @@ export const TrapsAndHazardsWorkbench = ({
     }
   };
 
-  if (!activeMap) {
+  if (!activeMap && !isSelectedCatalogHazard) {
     return (
       <div className="h-full rounded-2xl bg-[#0c121e] border border-slate-800 p-8 flex flex-col items-center justify-center text-center space-y-3 font-sans">
         <ShieldAlert size={36} className="text-rose-400 opacity-60" />
@@ -343,20 +364,98 @@ export const TrapsAndHazardsWorkbench = ({
                 </div>
               </div>
 
+              {/* Terminal / Bulkhead Specific Controls */}
+              {(activeObject.objectType === 'security_terminal' || activeObject.objectType === 'blast_door') && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-950/70 border border-cyan-500/30 rounded-xl font-mono">
+                  {activeObject.objectType === 'security_terminal' && (
+                    <>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-cyan-300">
+                          ICE Hack DC (Slicing)
+                        </label>
+                        <input
+                          type="number"
+                          value={activeObject.hackDc ?? 13}
+                          onChange={(e) => {
+                            const parsed = parseInt(e.target.value, 10);
+                            handleUpdateObject(activeObject.id, 'hackDc', Number.isNaN(parsed) ? 13 : parsed);
+                          }}
+                          className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-cyan-400"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-cyan-300">
+                          Unlocked Clue / Payload Text
+                        </label>
+                        <input
+                          type="text"
+                          value={activeObject.clueText ?? ''}
+                          onChange={(e) => handleUpdateObject(activeObject.id, 'clueText', e.target.value)}
+                          placeholder="Decrypted intel revealed on breach..."
+                          className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-cyan-400"
+                        />
+                      </div>
+                    </>
+                  )}
+                  {activeObject.objectType === 'blast_door' && (
+                    <>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-amber-300">
+                          Forced Breach Strength DC
+                        </label>
+                        <input
+                          type="number"
+                          value={activeObject.strengthDc ?? 15}
+                          onChange={(e) => {
+                            const parsed = parseInt(e.target.value, 10);
+                            handleUpdateObject(activeObject.id, 'strengthDc', Number.isNaN(parsed) ? 15 : parsed);
+                          }}
+                          className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-amber-400"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase text-amber-300">
+                          Bulkhead Door State
+                        </label>
+                        <select
+                          value={activeObject.doorState ?? 'closed'}
+                          onChange={(e) => {
+                            const nextState = e.target.value;
+                            handlePatchObject(activeObject.id, {
+                              doorState: nextState,
+                              isOpen: nextState === 'open' || nextState === 'breached'
+                            });
+                          }}
+                          className="w-full bg-slate-950 border border-slate-700 text-xs text-amber-200 p-2 rounded-lg outline-none focus:border-amber-400"
+                        >
+                          <option value="closed">Closed</option>
+                          <option value="open">Open</option>
+                          <option value="locked">Locked / Mag-Sealed</option>
+                          <option value="breached">Breached</option>
+                        </select>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
               {/* Sliders: Trigger Radius, Save CR, Base Damage */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-xl font-mono">
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px] font-bold uppercase text-slate-400">
                     <span>Trigger Radius</span>
-                    <span className="text-cyan-300">{activeObject.triggerRadius || 60}px</span>
+                    <span className="text-cyan-300">{activeObject.triggerRadius ?? 60}px</span>
                   </div>
                   <input
                     type="range"
                     min="30"
                     max="150"
                     step="10"
-                    value={activeObject.triggerRadius || 60}
-                    onChange={(e) => handleUpdateObject(activeObject.id, 'triggerRadius', parseInt(e.target.value, 10))}
+                    value={activeObject.triggerRadius ?? 60}
+                    onChange={(e) => {
+                      const parsed = parseInt(e.target.value, 10);
+                      handleUpdateObject(activeObject.id, 'triggerRadius', Number.isNaN(parsed) ? 60 : parsed);
+                    }}
                     className="w-full accent-cyan-400 cursor-pointer"
                   />
                 </div>
@@ -364,15 +463,18 @@ export const TrapsAndHazardsWorkbench = ({
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px] font-bold uppercase text-slate-400">
                     <span>Save DC</span>
-                    <span className="text-amber-300">DC {activeObject.saveCr || 14}</span>
+                    <span className="text-amber-300">DC {activeObject.saveCr ?? 14}</span>
                   </div>
                   <input
                     type="range"
                     min="10"
                     max="20"
                     step="1"
-                    value={activeObject.saveCr || 14}
-                    onChange={(e) => handleUpdateObject(activeObject.id, 'saveCr', parseInt(e.target.value, 10))}
+                    value={activeObject.saveCr ?? 14}
+                    onChange={(e) => {
+                      const parsed = parseInt(e.target.value, 10);
+                      handleUpdateObject(activeObject.id, 'saveCr', Number.isNaN(parsed) ? 14 : parsed);
+                    }}
                     className="w-full accent-amber-400 cursor-pointer"
                   />
                 </div>
@@ -380,15 +482,18 @@ export const TrapsAndHazardsWorkbench = ({
                 <div className="space-y-1">
                   <div className="flex justify-between text-[10px] font-bold uppercase text-slate-400">
                     <span>Base Damage</span>
-                    <span className="text-rose-400">{activeObject.baseDamage || 15} HP</span>
+                    <span className="text-rose-400">{activeObject.baseDamage ?? 15} HP</span>
                   </div>
                   <input
                     type="range"
                     min="0"
                     max="40"
                     step="2"
-                    value={activeObject.baseDamage || 15}
-                    onChange={(e) => handleUpdateObject(activeObject.id, 'baseDamage', parseInt(e.target.value, 10))}
+                    value={activeObject.baseDamage ?? 15}
+                    onChange={(e) => {
+                      const parsed = parseInt(e.target.value, 10);
+                      handleUpdateObject(activeObject.id, 'baseDamage', Number.isNaN(parsed) ? 15 : parsed);
+                    }}
                     className="w-full accent-rose-400 cursor-pointer"
                   />
                 </div>
@@ -419,8 +524,11 @@ export const TrapsAndHazardsWorkbench = ({
                   </label>
                   <input
                     type="number"
-                    value={activeObject.disarmDc || 13}
-                    onChange={(e) => handleUpdateObject(activeObject.id, 'disarmDc', parseInt(e.target.value, 10) || 10)}
+                    value={activeObject.disarmDc ?? 13}
+                    onChange={(e) => {
+                      const parsed = parseInt(e.target.value, 10);
+                      handleUpdateObject(activeObject.id, 'disarmDc', Number.isNaN(parsed) ? 10 : parsed);
+                    }}
                     className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-cyan-400"
                   />
                 </div>

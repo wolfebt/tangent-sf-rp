@@ -74,9 +74,13 @@ export async function persistAdeElement({
           (normalized.moduleElementId && e.id === normalized.moduleElementId))
     );
 
+  const explicitPersonaTrack = normalized.fields?.personaSubcategory || normalized.personaSubcategory;
+  const isSwitchedAwayFromFolio = explicitPersonaTrack === 'mcm' || explicitPersonaTrack === 'story';
+
   // 1. Persona Folio Character Synchronization
   if (
     normalized.type === 'Persona' &&
+    !isSwitchedAwayFromFolio &&
     (normalized.isFolioPersona ||
       normalized.personaSubcategory === 'folio' ||
       normalized.fields?.personaSubcategory === 'folio')
@@ -171,28 +175,38 @@ export async function persistAdeElement({
       // persist purely as a Campaign-local override in elementsCatalog.
       const existingModuleNode = findExistingModuleElement();
       const targetModuleId = existingModuleNode?.id || normalized.moduleElementId || normalized.id;
-      const resolvedDbmId =
+      const prefixedCortexId = String(normalized.id || '').startsWith(`cortex_${targetCortexCollection}_`)
+        ? String(normalized.id).slice(`cortex_${targetCortexCollection}_`.length)
+        : '';
+      const rawExistingCortexId =
         normalized.dbmId ||
         normalized.fields?.dbmId ||
         normalized.fields?.dbmRef ||
         normalized.cortexRaw?.id ||
-        (String(normalized.id || '').startsWith(`cortex_${targetCortexCollection}_`)
-          ? String(normalized.id).slice(`cortex_${targetCortexCollection}_`.length)
-          : normalized.id);
-      const localOverrideRecord = {
-        ...normalized,
-        id: targetModuleId,
-        isPinnedToModule: true,
-        dbmCategory: targetCortexCollection,
-        dbmId: resolvedDbmId,
-        dbmSyncStatus: 'local_override',
-        fields: {
-          ...(normalized.fields || {}),
-          dbmRef: resolvedDbmId,
-          dbmId: resolvedDbmId,
-          dbmCategory: targetCortexCollection
-        }
-      };
+        prefixedCortexId;
+      const hasExistingCortexRef = Boolean(rawExistingCortexId || normalized.isCortexAsset);
+      const localOverrideRecord = hasExistingCortexRef
+        ? {
+            ...normalized,
+            id: targetModuleId,
+            isPinnedToModule: true,
+            dbmCategory: targetCortexCollection,
+            dbmId: rawExistingCortexId,
+            dbmSyncStatus: 'local_override',
+            fields: {
+              ...(normalized.fields || {}),
+              dbmRef: rawExistingCortexId,
+              dbmId: rawExistingCortexId,
+              dbmCategory: targetCortexCollection
+            }
+          }
+        : {
+            ...normalized,
+            id: targetModuleId,
+            isPinnedToModule: true,
+            isCortexAsset: false,
+            dbmSyncStatus: 'local_only'
+          };
       if (typeof updateSavedElement === 'function') {
         const savedLocal = await updateSavedElement(targetModuleId, localOverrideRecord);
         if (savedLocal === false || savedLocal === null) {

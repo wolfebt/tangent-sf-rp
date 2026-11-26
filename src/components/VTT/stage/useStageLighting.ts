@@ -35,6 +35,7 @@ export interface UseStageLightingProps {
   activeSensorMode?: SensorModeId;
   tokens?: FusedToken[];
   selectedToken?: FusedToken | null;
+  isArchitectRole?: boolean;
 }
 
 /**
@@ -61,7 +62,8 @@ export function useStageLighting({
   updateMap,
   activeSensorMode = 'standard_optical',
   tokens = [],
-  selectedToken = null
+  selectedToken = null,
+  isArchitectRole = true
 }: UseStageLightingProps) {
   const [atmosphericWeather, setAtmosphericWeather] = useState<AtmosphericWeatherType>('clear');
   const [customAtmosphereOverride, setCustomAtmosphereOverride] = useState<{ tint?: string; fogDensity?: number } | null>(null);
@@ -334,6 +336,9 @@ export function useStageLighting({
 
       tokens.forEach((tok) => {
         if (tok.id === observer.id) return;
+        if (!isArchitectRole && (tok.is_hidden || (tok as any).isHidden || (tok as any).isGmOnly || (tok as any).isPlayerVisible === false)) {
+          return;
+        }
         const vis = checkTargetVisibility(observer, tok, activeSensorMode, mapEnv);
         if (!vis.visible) return;
 
@@ -359,7 +364,7 @@ export function useStageLighting({
     }
 
     container.addChild(g);
-  }, [isCanvasReady, canvasGeneration, activeSensorMode, sensorOverlayRef, selectedToken, tokens, currentMap?.width, currentMap?.height, atmosphericWeather]);
+  }, [isCanvasReady, canvasGeneration, activeSensorMode, sensorOverlayRef, selectedToken, tokens, currentMap?.width, currentMap?.height, atmosphericWeather, isArchitectRole]);
 
   // Dynamic Lighting toggle handler
   const handleToggleDynamicLighting = () => {
