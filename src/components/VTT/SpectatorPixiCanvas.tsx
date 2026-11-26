@@ -441,27 +441,60 @@ export const SpectatorPixiCanvas: React.FC<SpectatorPixiCanvasProps> = ({
       }
     }
 
-    // Dynamic Lights & Atmospheric Weather Tint
+    // Dynamic Lights & Atmospheric Weather Tint + Weather Particles
     if (lightLayer && fxLayer) {
       clearPixiContainer(lightLayer);
       clearPixiContainer(fxLayer);
       const lights = Array.isArray(mapData?.lights) ? mapData.lights : [];
-      if (lights.length > 0) {
-        const lg = new Graphics();
-        lights.forEach((l: any) => {
-          const col = parseHexColor(l.color, 0xf59e0b);
-          const rad = l.radius || 180;
-          lg.circle(l.x || 0, l.y || 0, rad);
-          lg.fill({ color: col, alpha: 0.14 });
-        });
+      const lightingCfg = mapData?.lighting || {};
+      const ambientIntensity = typeof lightingCfg.ambientIntensity === 'number'
+        ? lightingCfg.ambientIntensity
+        : (typeof lightingCfg.ambientLight === 'number' ? lightingCfg.ambientLight : 1.0);
+      const darknessAlpha = lightingCfg.globalIllumination
+        ? 0
+        : Math.max(0, Math.min(0.82, 1 - ambientIntensity));
+
+      const lg = new Graphics();
+      if (darknessAlpha > 0.05) {
+        lg.rect(0, 0, worldWidth, worldHeight);
+        lg.fill({ color: parseHexColor(lightingCfg.ambientColor, 0x020617), alpha: darknessAlpha });
+        if (typeof lg.cut === 'function') {
+          lights.forEach((l: any) => {
+            lg.circle(l.x || 0, l.y || 0, l.radius || 180);
+            lg.cut();
+          });
+        }
+      }
+      lights.forEach((l: any) => {
+        const col = parseHexColor(l.color, 0xf59e0b);
+        const rad = l.radius || 180;
+        lg.circle(l.x || 0, l.y || 0, rad);
+        lg.fill({ color: col, alpha: 0.14 });
+        lg.circle(l.x || 0, l.y || 0, rad * 0.45);
+        lg.fill({ color: col, alpha: 0.22 });
+      });
+      if (lights.length > 0 || darknessAlpha > 0.05) {
         lightLayer.addChild(lg);
       }
 
-      const preset = resolveAtmosphericPreset(mapData?.atmosphericWeather || mapData?.lightingMode || 'clear');
-      if (preset.tintAlpha > 0) {
+      const weatherKey = mapData?.atmosphericWeather || mapData?.atmosphericPresetId || mapData?.weather?.presetId || mapData?.lightingMode || lightingCfg.mode || 'clear';
+      const preset = resolveAtmosphericPreset(weatherKey);
+      const overrideFogDensity = typeof lightingCfg.fogDensity === 'number' ? lightingCfg.fogDensity : preset.tintAlpha;
+      const effectiveTint = lightingCfg.tint ? parseHexColor(lightingCfg.tint, preset.tintHex) : preset.tintHex;
+      if (overrideFogDensity > 0 || preset.tintAlpha > 0) {
         const ag = new Graphics();
         ag.rect(0, 0, worldWidth, worldHeight);
-        ag.fill({ color: preset.tintHex, alpha: preset.tintAlpha });
+        ag.fill({ color: effectiveTint, alpha: Math.max(overrideFogDensity, preset.tintAlpha) });
+        if (weatherKey !== 'clear' && weatherKey !== 'normal') {
+          const streakCol = weatherKey.includes('acid') ? 0x84cc16 : (weatherKey.includes('storm') ? 0x38bdf8 : 0xfef08a);
+          for (let i = 0; i < 42; i++) {
+            const px = ((i * 211) % Math.max(400, worldWidth));
+            const py = ((i * 157) % Math.max(300, worldHeight));
+            ag.moveTo(px, py);
+            ag.lineTo(px - 6, py + 14);
+          }
+          ag.stroke({ width: 1.5, color: streakCol, alpha: 0.45 });
+        }
         fxLayer.addChild(ag);
       }
     }

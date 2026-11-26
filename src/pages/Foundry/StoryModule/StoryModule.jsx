@@ -62,6 +62,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     updateMap,
     addStory,
     setGalleryModifiers,
+    saveStageManifest,
     updateCreativeState,
     updateCronicle,
     acceptPendingDelta,
@@ -467,7 +468,9 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   }, [universeState, activeScenarioId]);
 
   const activeMap = useMemo(() => {
-    const allMaps = [...(mapsCatalog || []), ...(universeState?.maps || [])];
+    const projectMaps = universeState?.maps || [];
+    const catalogOnly = (mapsCatalog || []).filter(cm => !projectMaps.some(pm => pm.id === cm.id));
+    const allMaps = [...projectMaps, ...catalogOnly];
     if (activeNode?.mapId) {
       return allMaps.find(m => m.id === activeNode.mapId) || allMaps[0] || null;
     }
@@ -733,6 +736,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         setActiveMapId={setActiveMapId}
         setActiveScenarioId={setActiveScenarioId}
         setGalleryModifiers={setGalleryModifiers}
+        saveStageManifest={saveStageManifest}
         updateCreativeState={updateCreativeState}
         updateCronicle={updateCronicle}
         acceptPendingDelta={acceptPendingDelta}

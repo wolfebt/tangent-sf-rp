@@ -12,6 +12,7 @@ import {
   type VehicleEntity, 
   type ChildedPassengerPosition 
 } from '../rules/MechaSocketManager.ts';
+import { VttEventBus } from '../../utils/vttEventBus.ts';
 
 // --- DOMAIN MODELS ---
 
@@ -128,6 +129,7 @@ export interface EngineState {
   setStabilityPoints: (id: string, points: number) => void;
   stabilizeEntity: (id: string) => void;
   addCondition: (id: string, condition: string) => void;
+  removeCondition: (id: string, condition: string) => void;
   toggleCondition: (id: string, condition: string) => void;
   addActiveEffect: (id: string, effect: ActiveEffectRecord) => void;
   removeActiveEffect: (id: string, effectId: string) => void;
@@ -294,58 +296,83 @@ export const useEngineStore = create<EngineState>()(
         }
       }),
 
-      applyDamage: (id, payload, isLethalOverride) => set((draft) => {
-        const eph = draft.ephemeralData[id];
-        const stat = draft.staticData[id];
-        if (!eph || !stat) return;
+      applyDamage: (id, payload, isLethalOverride) => {
+        let defeatedEvent: any = null;
+        set((draft) => {
+          const eph = draft.ephemeralData[id];
+          const stat = draft.staticData[id];
+          if (!eph || !stat) return;
 
-        const amount = typeof payload === 'number' ? payload : (payload.amount || 0);
-        const isLethal = isLethalOverride !== undefined
-          ? isLethalOverride
-          : (typeof payload === 'number' ? true : (payload.isLethal !== false));
+          const wasAlive = stat.is_synthetic
+            ? (eph.current_structure ?? eph.current_hp ?? 60) > 0
+            : (eph.current_health ?? eph.current_hp ?? 30) > 0;
 
-        if (stat.is_synthetic) {
-          // Synthetics only have Structure and do NOT suffer non-lethal damage
-          if (!isLethal) return;
-          const currentStruct = eph.current_structure ?? eph.current_hp ?? 60;
-          const nextStruct = Math.max(0, currentStruct - amount);
-          eph.current_structure = nextStruct;
-          eph.current_hp = nextStruct;
-        } else {
-          // Organics: Separate Vitality (non-lethal) and Health (lethal)
-          const curVit = eph.current_vitality ?? stat.base_vitality ?? 30;
-          const curHp = eph.current_health ?? eph.current_hp ?? stat.base_health ?? 30;
+          const amount = typeof payload === 'number' ? payload : (payload.amount || 0);
+          const isLethal = isLethalOverride !== undefined
+            ? isLethalOverride
+            : (typeof payload === 'number' ? true : (payload.isLethal !== false));
 
-          if (!isLethal) {
-            // Non-lethal damage applies to Vitality first
-            if (amount <= curVit) {
-              eph.current_vitality = curVit - amount;
+          if (stat.is_synthetic) {
+            // Synthetics only have Structure and do NOT suffer non-lethal damage
+            if (!isLethal) return;
+            const currentStruct = eph.current_structure ?? eph.current_hp ?? 60;
+            const nextStruct = Math.max(0, currentStruct - amount);
+            eph.current_structure = nextStruct;
+            eph.current_hp = nextStruct;
+          } else {
+            // Organics: Separate Vitality (non-lethal) and Health (lethal)
+            const curVit = eph.current_vitality ?? stat.base_vitality ?? 30;
+            const curHp = eph.current_health ?? eph.current_hp ?? stat.base_health ?? 30;
+
+            if (!isLethal) {
+              // Non-lethal damage applies to Vitality first
+              if (amount <= curVit) {
+                eph.current_vitality = curVit - amount;
+              } else {
+                // Excess spills over to Health as lethal damage
+                const spillover = amount - curVit;
+                eph.current_vitality = 0;
+                const nextHp = Math.max(0, curHp - spillover);
+                eph.current_health = nextHp;
+                eph.current_hp = nextHp;
+              }
             } else {
-              // Excess spills over to Health as lethal damage
-              const spillover = amount - curVit;
-              eph.current_vitality = 0;
-              const nextHp = Math.max(0, curHp - spillover);
+              // Lethal damage applies directly to Health
+              const nextHp = Math.max(0, curHp - amount);
               eph.current_health = nextHp;
               eph.current_hp = nextHp;
             }
-          } else {
-            // Lethal damage applies directly to Health
-            const nextHp = Math.max(0, curHp - amount);
-            eph.current_health = nextHp;
-            eph.current_hp = nextHp;
+
+            // Check Mortality State (0 Health)
+            if ((eph.current_health ?? 0) <= 0) {
+              if (!eph.active_conditions.includes('status_incapacitated')) {
+                eph.active_conditions.push('status_incapacitated');
+              }
+              if (!eph.active_conditions.includes('status_bleeding_out')) {
+                eph.active_conditions.push('status_bleeding_out');
+              }
+            }
           }
 
-          // Check Mortality State (0 Health)
-          if ((eph.current_health ?? 0) <= 0) {
-            if (!eph.active_conditions.includes('status_incapacitated')) {
-              eph.active_conditions.push('status_incapacitated');
-            }
-            if (!eph.active_conditions.includes('status_bleeding_out')) {
-              eph.active_conditions.push('status_bleeding_out');
-            }
+          const isNowZero = stat.is_synthetic
+            ? (eph.current_structure ?? 0) <= 0
+            : (eph.current_health ?? 0) <= 0;
+          if (wasAlive && isNowZero) {
+            defeatedEvent = {
+              tokenId: id,
+              entityId: id,
+              name: stat.name || id,
+              tokenName: stat.name || id,
+              type: stat.is_persona ? 'persona' : 'npc',
+              isSynthetic: Boolean(stat.is_synthetic),
+              timestamp: new Date().toISOString()
+            };
           }
+        });
+        if (defeatedEvent) {
+          VttEventBus.emit('token-defeated', defeatedEvent);
         }
-      }),
+      },
 
       healVitality: (id, amount) => set((draft) => {
         const eph = draft.ephemeralData[id];
@@ -420,34 +447,57 @@ export const useEngineStore = create<EngineState>()(
         }
       }),
 
-      setHealth: (id, value) => set((draft) => {
-        const eph = draft.ephemeralData[id];
-        const stat = draft.staticData[id];
-        if (!eph || !stat) return;
-        if (stat.is_synthetic) {
-          const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
-          const next = Math.max(0, Math.min(maxStruct, Number(value) || 0));
-          eph.current_structure = next;
-          eph.current_hp = next;
-          return;
-        }
-        const maxHp = stat.base_health ?? stat.base_hp ?? 30;
-        const next = Math.max(0, Math.min(maxHp, Number(value) || 0));
-        eph.current_health = next;
-        eph.current_hp = next;
-        if (next <= 0) {
-          if (!eph.active_conditions.includes('status_incapacitated')) {
-            eph.active_conditions.push('status_incapacitated');
+      setHealth: (id, value) => {
+        let defeatedEvent: any = null;
+        set((draft) => {
+          const eph = draft.ephemeralData[id];
+          const stat = draft.staticData[id];
+          if (!eph || !stat) return;
+          const wasAlive = stat.is_synthetic
+            ? (eph.current_structure ?? eph.current_hp ?? 60) > 0
+            : (eph.current_health ?? eph.current_hp ?? 30) > 0;
+          if (stat.is_synthetic) {
+            const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
+            const next = Math.max(0, Math.min(maxStruct, Number(value) || 0));
+            eph.current_structure = next;
+            eph.current_hp = next;
+          } else {
+            const maxHp = stat.base_health ?? stat.base_hp ?? 30;
+            const next = Math.max(0, Math.min(maxHp, Number(value) || 0));
+            eph.current_health = next;
+            eph.current_hp = next;
+            if (next <= 0) {
+              if (!eph.active_conditions.includes('status_incapacitated')) {
+                eph.active_conditions.push('status_incapacitated');
+              }
+              if (!eph.active_conditions.includes('status_bleeding_out')) {
+                eph.active_conditions.push('status_bleeding_out');
+              }
+            } else {
+              eph.active_conditions = eph.active_conditions.filter(
+                c => c !== 'status_incapacitated' && c !== 'status_bleeding_out'
+              );
+            }
           }
-          if (!eph.active_conditions.includes('status_bleeding_out')) {
-            eph.active_conditions.push('status_bleeding_out');
+          const isNowZero = stat.is_synthetic
+            ? (eph.current_structure ?? 0) <= 0
+            : (eph.current_health ?? 0) <= 0;
+          if (wasAlive && isNowZero) {
+            defeatedEvent = {
+              tokenId: id,
+              entityId: id,
+              name: stat.name || id,
+              tokenName: stat.name || id,
+              type: stat.is_persona ? 'persona' : 'npc',
+              isSynthetic: Boolean(stat.is_synthetic),
+              timestamp: new Date().toISOString()
+            };
           }
-        } else {
-          eph.active_conditions = eph.active_conditions.filter(
-            c => c !== 'status_incapacitated' && c !== 'status_bleeding_out'
-          );
+        });
+        if (defeatedEvent) {
+          VttEventBus.emit('token-defeated', defeatedEvent);
         }
-      }),
+      },
 
       setVitality: (id, value) => set((draft) => {
         const eph = draft.ephemeralData[id];
@@ -457,15 +507,33 @@ export const useEngineStore = create<EngineState>()(
         eph.current_vitality = Math.max(0, Math.min(maxVit, Number(value) || 0));
       }),
 
-      setStructure: (id, value) => set((draft) => {
-        const eph = draft.ephemeralData[id];
-        const stat = draft.staticData[id];
-        if (!eph || !stat || !stat.is_synthetic) return;
-        const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
-        const next = Math.max(0, Math.min(maxStruct, Number(value) || 0));
-        eph.current_structure = next;
-        eph.current_hp = next;
-      }),
+      setStructure: (id, value) => {
+        let defeatedEvent: any = null;
+        set((draft) => {
+          const eph = draft.ephemeralData[id];
+          const stat = draft.staticData[id];
+          if (!eph || !stat || !stat.is_synthetic) return;
+          const wasAlive = (eph.current_structure ?? eph.current_hp ?? 60) > 0;
+          const maxStruct = stat.base_structure ?? stat.base_hp ?? 60;
+          const next = Math.max(0, Math.min(maxStruct, Number(value) || 0));
+          eph.current_structure = next;
+          eph.current_hp = next;
+          if (wasAlive && next <= 0) {
+            defeatedEvent = {
+              tokenId: id,
+              entityId: id,
+              name: stat.name || id,
+              tokenName: stat.name || id,
+              type: stat.is_persona ? 'persona' : 'npc',
+              isSynthetic: true,
+              timestamp: new Date().toISOString()
+            };
+          }
+        });
+        if (defeatedEvent) {
+          VttEventBus.emit('token-defeated', defeatedEvent);
+        }
+      },
 
       healHP: (id, amount) => set((draft) => {
         const eph = draft.ephemeralData[id];
@@ -523,6 +591,13 @@ export const useEngineStore = create<EngineState>()(
         }
       }),
 
+      removeCondition: (id, condition) => set((draft) => {
+        const token = draft.ephemeralData[id];
+        if (token && Array.isArray(token.active_conditions)) {
+          token.active_conditions = token.active_conditions.filter((c) => c !== condition);
+        }
+      }),
+
       toggleCondition: (id, condition) => set((draft) => {
         const token = draft.ephemeralData[id];
         if (token) {
@@ -556,12 +631,16 @@ export const useEngineStore = create<EngineState>()(
         const ticked: ActiveEffectRecord[] = [];
         const expired: ActiveEffectRecord[] = [];
         let totalDamage = 0;
+        let defeatedEvent: any = null;
         set((draft) => {
           const eph = draft.ephemeralData[id];
           const stat = draft.staticData[id];
           if (!eph || !stat || !Array.isArray(eph.active_effects) || eph.active_effects.length === 0) {
             return;
           }
+          const wasAlive = stat.is_synthetic
+            ? (eph.current_structure ?? eph.current_hp ?? 60) > 0
+            : (eph.current_health ?? eph.current_hp ?? 30) > 0;
           const remaining: ActiveEffectRecord[] = [];
           for (const effect of eph.active_effects) {
             const dmg = Math.max(0, Number(effect.tickDamage || 0));
@@ -609,7 +688,24 @@ export const useEngineStore = create<EngineState>()(
             }
           }
           eph.active_effects = remaining;
+          const isNowZero = stat.is_synthetic
+            ? (eph.current_structure ?? 0) <= 0
+            : (eph.current_health ?? 0) <= 0;
+          if (wasAlive && isNowZero) {
+            defeatedEvent = {
+              tokenId: id,
+              entityId: id,
+              name: stat.name || id,
+              tokenName: stat.name || id,
+              type: stat.is_persona ? 'persona' : 'npc',
+              isSynthetic: Boolean(stat.is_synthetic),
+              timestamp: new Date().toISOString()
+            };
+          }
         });
+        if (defeatedEvent) {
+          VttEventBus.emit('token-defeated', defeatedEvent);
+        }
         return { ticked, expired, totalDamage };
       },
 

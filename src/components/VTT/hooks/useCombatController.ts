@@ -21,6 +21,7 @@ import { showToast } from '../../../context/ToastContext';
 import { AimeAgent } from '../../../engine/ai/AimeAgent';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
+import { computeActiveGalleryModifiers, ModifierService } from '../../../services/modifierService';
 
 export interface UseCombatControllerOptions {
   selectedToken: any;
@@ -30,6 +31,8 @@ export interface UseCombatControllerOptions {
   isSimulationPaused: boolean;
   selectedTokenId: string | null;
   setSelectedTokenId: (id: string | null) => void;
+  galleryModifiers?: any[];
+  setGalleryModifiers?: (mods: any[]) => void;
 }
 
 export interface UseCombatControllerReturn {
@@ -69,7 +72,9 @@ export function useCombatController({
   bvhBuilderRef,
   isSimulationPaused,
   selectedTokenId,
-  setSelectedTokenId
+  setSelectedTokenId,
+  galleryModifiers = [],
+  setGalleryModifiers
 }: UseCombatControllerOptions): UseCombatControllerReturn {
   const combatArbRef = useRef<CombatArbitrator>(new CombatArbitrator());
   const damagePipeRef = useRef<DamagePipeline>(new DamagePipeline());
@@ -166,7 +171,10 @@ export function useCombatController({
     const activeEffectAttackMod = Array.isArray(selectedToken.active_effects)
       ? selectedToken.active_effects.reduce((sum: number, eff: any) => sum + Number(eff?.modifierBonus || 0), 0)
       : 0;
-    toHit.finalTarget += coverCheck.coverMod + activeEffectAttackMod;
+    const gallerySummary = computeActiveGalleryModifiers(galleryModifiers, {
+      targetTokenId: selectedToken?.id
+    });
+    toHit.finalTarget += coverCheck.coverMod + activeEffectAttackMod + gallerySummary.totalRollBonus;
 
     const targetDefenseDC = Number(
       targetToken.defense_dc ?? (targetToken as any).defense ?? CANONICAL_DEFAULT_DEFENSE_CR
@@ -235,7 +243,7 @@ export function useCombatController({
       baseDamage += Math.floor(Math.random() * 8) + 1;
     }
 
-    const stanceDmg = activeStance === 'overcharge' ? 6 : 0;
+    const stanceDmg = (activeStance === 'overcharge' ? 6 : 0) + gallerySummary.totalDamageBonus;
     const ap = attackWeapon === 'plasma' ? 6 : attackWeapon === 'laser' ? 4 : 2;
     const isCalled = targetedLimb !== 'torso';
     const targetLoc = targetedLimb === 'head'
@@ -319,7 +327,9 @@ export function useCombatController({
       visibility: 'public' as const,
       kind: 'attack' as const,
       title: `${attackWeapon.toUpperCase()} Hit (${targetedLimb.toUpperCase()}) -> ${targetToken.name}`,
-      body: hitNarration.narrativeText,
+      body: gallerySummary.breakdown.length > 0
+        ? `${hitNarration.narrativeText} [${gallerySummary.breakdown.join(', ')}]`
+        : hitNarration.narrativeText,
       diceBreakdown: {
         d1,
         d2,
@@ -406,6 +416,11 @@ export function useCombatController({
     if (nextIndex === 0) {
       nextRound = roundNumber + 1;
       setRoundNumber(nextRound);
+      VttEventBus.emit('stage-round-advanced', { roundNumber: nextRound });
+      if (Array.isArray(galleryModifiers) && galleryModifiers.length > 0 && typeof setGalleryModifiers === 'function') {
+        const { updatedModifiers } = ModifierService.tickModifiers(galleryModifiers);
+        setGalleryModifiers(updatedModifiers);
+      }
       essenceTrackerRef.current.processRoundDegradation([]);
       const entropyRoll = Math.floor(Math.random() * 10) + 1;
       setCombatLog(prev => [
@@ -455,7 +470,7 @@ export function useCombatController({
       currentTurnIndex: nextIndex,
       initiativeScores
     });
-  }, [tokens, currentTurnIndex, roundNumber, initiativeScores, setSelectedTokenId]);
+  }, [tokens, currentTurnIndex, roundNumber, initiativeScores, setSelectedTokenId, galleryModifiers, setGalleryModifiers]);
 
   const handleRollAllInitiative = useCallback(() => {
     AudioService.playTerminalBeep(1200, 0.04);

@@ -20,7 +20,8 @@ import {
   renderFogLayer,
   renderForegroundOverlayLayer,
   type ActiveDragPayload,
-  type LayerRenderCallbacks
+  type LayerRenderCallbacks,
+  type LiveDragPreview
 } from './mapMakerLayerRenderers.ts';
 import { renderMapMakerFallback2D, hitTestMapMakerFallback } from './mapMakerCanvas2DFallback.ts';
 import type { Point2D } from './mapMakerPixiHelpers.ts';
@@ -76,6 +77,8 @@ export interface MapMakerPixiCanvasProps {
   selectedWallType: string;
   paintRoofLayer: boolean;
   measurementUnit?: string;
+  rulerSelectedPace?: string;
+  isStoryReadOnly?: boolean;
   isLayerVisible: (layerId: string) => boolean;
   isLayerLocked: (layerId: string) => boolean;
   onWheel: (payload: MapMakerPointerPayload) => void;
@@ -132,6 +135,8 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     selectedWallType,
     paintRoofLayer,
     measurementUnit = 'meters',
+    rulerSelectedPace,
+    isStoryReadOnly = false,
     isLayerVisible,
     isLayerLocked,
     onWheel,
@@ -159,6 +164,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
   const [isPixiReady, setIsPixiReady] = useState(false);
   const [useCanvas2DFallback, setUseCanvas2DFallback] = useState(false);
   const [textureRevision, setTextureRevision] = useState(0);
+  const [liveDragPreview, setLiveDragPreview] = useState<LiveDragPreview | null>(null);
 
   const claimedPointerRef = useRef(false);
   const lastClickRef = useRef<{ id: string; time: number }>({ id: '', time: 0 });
@@ -325,6 +331,43 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
         drag.target.y = nextY;
       }
 
+      if (drag.kind === 'wall-p1' && drag.item?.p2) {
+        setLiveDragPreview({
+          kind: 'wall-edit',
+          wallId: drag.id,
+          p1: { x: Math.round(nextX), y: Math.round(nextY) },
+          p2: drag.item.p2,
+          bezierControl: drag.item.bezierControl || null
+        });
+      } else if (drag.kind === 'wall-p2' && drag.item?.p1) {
+        setLiveDragPreview({
+          kind: 'wall-edit',
+          wallId: drag.id,
+          p1: drag.item.p1,
+          p2: { x: Math.round(nextX), y: Math.round(nextY) },
+          bezierControl: drag.item.bezierControl || null
+        });
+      } else if (drag.kind === 'wall-bezier' && drag.item?.p1 && drag.item?.p2) {
+        setLiveDragPreview({
+          kind: 'wall-edit',
+          wallId: drag.id,
+          p1: drag.item.p1,
+          p2: drag.item.p2,
+          bezierControl: { x: Math.round(nextX), y: Math.round(nextY) }
+        });
+      } else if (drag.kind === 'object-resize') {
+        const halfW = Math.max(10, Math.abs(Math.round(nextX)));
+        const halfH = Math.max(10, Math.abs(Math.round(nextY)));
+        setLiveDragPreview({
+          kind: 'object-resize',
+          id: drag.id,
+          x: drag.item?.x || 0,
+          y: drag.item?.y || 0,
+          width: halfW * 2,
+          height: halfH * 2
+        });
+      }
+
       if (drag.kind === 'token') {
         latestCallbacksRef.current.onTokenDragMove?.({ x: Math.round(nextX), y: Math.round(nextY) }, drag.item, evt);
       }
@@ -335,6 +378,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
         activePanDragRef.current = null;
       }
 
+      setLiveDragPreview(null);
       const drag = activeItemDragRef.current;
       if (!drag) return;
       activeItemDragRef.current = null;
@@ -392,6 +436,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
       claimedPointerRef.current = true;
     },
     startItemDrag: (payload) => {
+      if (latestCallbacksRef.current.isStoryReadOnly) return;
       activeItemDragRef.current = {
         ...payload,
         lastWorldX: payload.startX,
@@ -401,8 +446,14 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     },
     onSelect: (id) => latestCallbacksRef.current.onSelect(id),
     onSelectToken: (id) => latestCallbacksRef.current.onSelectToken(id),
-    onErase: (id) => latestCallbacksRef.current.onErase(id),
-    onToggleDoor: (wallId) => latestCallbacksRef.current.onToggleDoor(wallId),
+    onErase: (id) => {
+      if (latestCallbacksRef.current.isStoryReadOnly) return;
+      latestCallbacksRef.current.onErase(id);
+    },
+    onToggleDoor: (wallId) => {
+      if (latestCallbacksRef.current.isStoryReadOnly) return;
+      latestCallbacksRef.current.onToggleDoor(wallId);
+    },
     onObjectDoubleClick: (obj) => latestCallbacksRef.current.onObjectDoubleClick(obj),
     onTokenDoubleClick: (token) => latestCallbacksRef.current.onTokenDoubleClick(token),
     checkDoubleClick: (key: string) => {
@@ -416,6 +467,14 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     },
     onTextureReady: () => setTextureRevision((r) => r + 1)
   }), []);
+
+  const effectiveIsLayerLocked = React.useCallback(
+    (layerId: string) => Boolean(isStoryReadOnly) || isLayerLocked(layerId),
+    [isStoryReadOnly, isLayerLocked]
+  );
+
+  const isLodOut = scale < 0.65;
+  const handleScaleBucket = selectedId ? Math.round(Math.max(0.25, Math.min(4, scale)) * 4) / 4 : 1;
 
   const buildSceneData = (viewportScale: number, viewportX: number, viewportY: number) => ({
     viewport: { x: viewportX, y: viewportY, width, height, scale: viewportScale },
@@ -436,6 +495,8 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     activePings,
     rulerWaypoints,
     rulerPointer,
+    rulerSelectedPace,
+    liveDragPreview,
     chunkGhostPreviewData,
     chunkCaptureMarquee,
     activeTool,
@@ -447,7 +508,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     paintRoofLayer,
     measurementUnit,
     isLayerVisible,
-    isLayerLocked
+    isLayerLocked: effectiveIsLayerLocked
   });
 
   // 4a. Headless/Canvas2D fallback render loop (only when WebGL/WebGPU is unavailable)
@@ -498,8 +559,10 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     selectedWallType,
     paintRoofLayer,
     measurementUnit,
+    rulerSelectedPace,
+    liveDragPreview,
     isLayerVisible,
-    isLayerLocked
+    effectiveIsLayerLocked
   ]);
 
   // 4b. PixiJS Background & Grid Layer (camera-culled without rebuilding world assets)
@@ -566,8 +629,10 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     selectedId,
     selectedWallType,
     paintRoofLayer,
+    isLodOut,
+    handleScaleBucket,
     isLayerVisible,
-    isLayerLocked,
+    effectiveIsLayerLocked,
     layerCallbacks
   ]);
 
@@ -596,6 +661,8 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     selectedWallType,
     rulerWaypoints,
     rulerPointer,
+    rulerSelectedPace,
+    liveDragPreview,
     measurementUnit,
     activePings,
     chunkGhostPreviewData,
@@ -641,17 +708,19 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
       texts,
       regions,
       selectedId,
-      isLayerLocked,
+      isLayerLocked: effectiveIsLayerLocked,
       isLayerVisible
     });
     if (!hit) return false;
 
     if (activeTool === 'eraser') {
+      if (isStoryReadOnly) return true;
       onErase(hit.id);
       return true;
     }
 
     if (hit.kind === 'door') {
+      if (isStoryReadOnly) return true;
       onToggleDoor(hit.id);
       return true;
     }
@@ -661,6 +730,8 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     }
     if (hit.kind === 'token') onSelectToken(hit.id);
     else onSelect(hit.id);
+
+    if (isStoryReadOnly) return true;
 
     const dummyTarget = { x: worldPos.x, y: worldPos.y, destroyed: true } as unknown as Container;
     const startX =

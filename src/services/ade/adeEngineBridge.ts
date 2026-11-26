@@ -508,6 +508,15 @@ export function adjudicateActionCheck({
       outcomes.bulkheadToggled = { id: targetEntity?.id || 'bulkhead_sec_4', state: 'unlocked' };
       outcomes.vttEventEmitted = 'stage-cyberdeck-breach';
       outcomes.flagUpdates = { alarm_suppressed: true, sector_breached: true };
+      VttEventBus.emit('stage-cyberdeck-breach', {
+        unlockedBulkheadId: outcomes.bulkheadToggled.id,
+        bulkheadId: outcomes.bulkheadToggled.id,
+        objectId: outcomes.bulkheadToggled.id,
+        isOpen: true,
+        operativeId: operative?.id,
+        initiator: initiatorName,
+        actionText: effectiveActionText
+      });
     } else {
       outcomes.damageDealt = computeCombatDamage(24);
       outcomes.conditionsApplied = ['Target Stunned', 'Armor Shredded'];
@@ -519,6 +528,16 @@ export function adjudicateActionCheck({
       outcomes.bulkheadToggled = { id: targetEntity?.id || 'bulkhead_sec_4', state: 'unlocked' };
       outcomes.vttEventEmitted = 'stage-bulkhead-toggled';
       outcomes.flagUpdates = { sector_breached: true };
+      VttEventBus.emit('stage-bulkhead-toggled', {
+        bulkheadId: outcomes.bulkheadToggled.id,
+        wallId: outcomes.bulkheadToggled.id,
+        objectId: outcomes.bulkheadToggled.id,
+        isOpen: true,
+        doorState: 'open',
+        operativeId: operative?.id,
+        initiator: initiatorName,
+        actionText: effectiveActionText
+      });
     } else {
       outcomes.damageDealt = computeCombatDamage(12 + Math.max(0, margin));
     }

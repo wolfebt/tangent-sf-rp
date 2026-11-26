@@ -43,7 +43,7 @@ export interface VttEventMap {
     isCompleted?: boolean;
     completedBeats?: number[];
   };
-  'stage-cyberdeck-breach': { targetNode?: any; timestamp?: number; unlockedBulkheadId?: string };
+  'stage-cyberdeck-breach': { targetNode?: any; timestamp?: number; unlockedBulkheadId?: string; bulkheadId?: string; objectId?: string; isOpen?: boolean; operativeId?: string; [key: string]: any };
   'pan-stage-to': { x: number; y: number; zoom?: number };
   'story-waypoint-tripped': {
     waypoint: any;
@@ -66,8 +66,15 @@ export interface VttEventMap {
   'toggle-stage-handout-push': { open?: boolean } | void;
   'request-tactical-ping': { type?: string };
   'toggle-stage-fog': { enabled: boolean };
-  'token-defeated': { token?: any; entityId?: string; name?: string; type?: string; status?: string; excessDamage?: number; killer?: string; [key: string]: any };
-  'stage-bulkhead-toggled': { bulkheadId?: string; objectId?: string; isOpen?: boolean; operativeId?: string; storyElementId?: string; [key: string]: any };
+  'token-defeated': { token?: any; tokenId?: string; entityId?: string; name?: string; tokenName?: string; type?: string; status?: string; excessDamage?: number; killer?: string; [key: string]: any };
+  'stage-bulkhead-toggled': { bulkheadId?: string; wallId?: string; objectId?: string; isOpen?: boolean; doorState?: string; operativeId?: string; storyElementId?: string; [key: string]: any };
+  'stage-round-advanced': { roundNumber: number };
+  'open-chunk-studio': void;
+  'vtt-object-interacted': { objectId?: string; id?: string; storyElementId?: string; [key: string]: any };
+  'stage-audio-cue': { track?: string; volume?: number; loop?: boolean; triggerId?: string };
+  'vtt-status-condition-applied': { condition: string; value?: number; targetId?: string; [key: string]: any };
+  'vtt-status-condition-removed': { condition: string; targetId?: string; [key: string]: any };
+  'vtt-token-vitals-updated': { tokenId?: string; hp?: number; vitality?: number; structure?: number; [key: string]: any };
   'stage-hazard-toggled': { hazardId?: string; objectId?: string; isActive?: boolean; hazardType?: string; [key: string]: any };
   'omnicortex-loot-dispensed': { omnicortexGearId?: string; operativeId?: string; containerId?: string; objectId?: string; itemName?: string; [key: string]: any };
   'story-foundry-node-triggered': { action?: string; nodeId?: string; objectId?: string; storyElementId?: string; operativeId?: string; [key: string]: any };

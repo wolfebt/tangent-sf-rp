@@ -60,6 +60,7 @@ export default function TacticalStageViewport({
               sceneId={effectiveMap.id}
               defaultRole={perspectiveMode === 'operator' ? 'operative' : 'architect'}
               onSwitchToWeaver={onSwitchToWeaver}
+              disableInternalWaypointEngine={true}
             />
             <WaypointPromptChip
               promptData={waypointPromptData}

@@ -29,7 +29,7 @@ export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
   onSelectMap,
   isArchitectRole = true
 }) => {
-  const { universeState, elementsCatalog } = useCampaign();
+  const { universeState, allMaps, elementsCatalog } = useCampaign();
   const folio = (useFolio() || {}) as any;
   const dbm = (useDBM() || {}) as any;
   const dbData = dbm.dbData || {};
@@ -39,7 +39,7 @@ export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
 
   // Compute live counts for each taxonomy category
   const categoryCounts = useMemo<Partial<Record<CatalogCategory, number>>>(() => {
-    const maps = universeState?.maps || [];
+    const maps = (Array.isArray(allMaps) && allMaps.length > 0 ? allMaps : universeState?.maps) || [];
     const scenarios = universeState?.scenarios || [];
     const character = folio?.characterData;
     const storyCards = universeState?.creativeState?.storyCards || [];

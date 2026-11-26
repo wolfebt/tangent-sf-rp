@@ -104,8 +104,11 @@ export function adeElementToInteractiveObject(element, position = { x: 400, y: 3
   }
 
   const baseConfig = OBJECT_TYPES[objectType] || OBJECT_TYPES.security_terminal;
+  const imageUrl = element.imageUrl || fields.imageUrl || fields.textureUrl || element.avatarUrl || '';
+  const shape = elemType === 'Hazard' ? 'circle' : (elemType === 'Clue' || elemType === 'Item' ? 'star' : 'rect');
+  const defaultColor = elemType === 'Hazard' ? '#ef4444' : (elemType === 'Item' ? '#10b981' : (elemType === 'Clue' ? '#f59e0b' : '#3b82f6'));
 
-  return {
+  return normalizeMapObject({
     id: `obj-${element.id || uuidv4()}-${Date.now()}`,
     name: element.title || 'Interactive Node',
     label: element.title || 'Interactive Node',
@@ -114,16 +117,24 @@ export function adeElementToInteractiveObject(element, position = { x: 400, y: 3
     icon: element.icon || icon || baseConfig.icon,
     x: position.x,
     y: position.y,
-    width: 60,
-    height: 60,
+    width: Number(fields.width) || 60,
+    height: Number(fields.height) || 60,
+    shape,
+    color: fields.color || element.color || defaultColor,
+    imageUrl,
+    textureUrl: imageUrl,
+    customization: element.customization || fields.customization || null,
     structure: parseInt(fields.structure || baseConfig.maxStructure || 20, 10),
     maxStructure: parseInt(fields.structure || baseConfig.maxStructure || 20, 10),
     hackDc: parseInt(fields.hackDc || baseConfig.hackDc || 13, 10),
     strengthDc: parseInt(fields.strengthDc || baseConfig.strengthDc || 16, 10),
     clueText: fields.information || fields.conclusion || element.content || '',
+    readAloudText: fields.information || element.content || fields.description || '',
     description: element.content || fields.description || baseConfig.description || '',
     doorState: objectType === 'blast_door' ? 'closed' : undefined,
     isHacked: false,
+    storyElementId: element.id,
+    storyElementType: elemType,
     adeStoryElementId: element.id,
     lootPayload: (elemType === 'Item' || elemType === 'Property') ? [adeElementToFolioItem(element)] : (fields.lootPayload || []),
     // Reactive hazard attributes if applicable
@@ -133,6 +144,45 @@ export function adeElementToInteractiveObject(element, position = { x: 400, y: 3
     damageDice: fields.damageDice || '2d10',
     baseDamage: parseInt(fields.baseDamage || 15, 10),
     appliedCondition: fields.appliedCondition || 'Burning'
+  });
+}
+
+/**
+ * Normalizes any interactive map object (from MapMaker, Story Foundry drop, or VTT Stage)
+ * into a unified canonical object schema with backward-compatible field aliases.
+ */
+export function normalizeMapObject(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const width = Number(raw.width) > 0 ? Number(raw.width) : (Number(raw.radius) > 0 ? Number(raw.radius) * 2 : 50);
+  const height = Number(raw.height) > 0 ? Number(raw.height) : width;
+  const imageUrl = raw.imageUrl || raw.textureUrl || raw.url || '';
+  const name = raw.name || raw.label || 'Interactive Object';
+  const label = raw.label || raw.name || 'Interactive Object';
+  const storyElementId = raw.storyElementId || raw.adeStoryElementId || raw.elementId || undefined;
+
+  return {
+    ...raw,
+    id: String(raw.id || `obj-${Date.now()}-${Math.floor(Math.random() * 1000)}`),
+    name,
+    label,
+    type: raw.type || raw.objectType || 'sensor_beacon',
+    objectType: raw.objectType || raw.type || 'sensor_beacon',
+    x: Number.isFinite(Number(raw.x)) ? Number(raw.x) : 400,
+    y: Number.isFinite(Number(raw.y)) ? Number(raw.y) : 300,
+    width,
+    height,
+    radius: Number.isFinite(Number(raw.radius)) ? Number(raw.radius) : Math.max(width, height) / 2,
+    rotation: Number.isFinite(Number(raw.rotation)) ? Number(raw.rotation) : 0,
+    color: raw.color || '#f59e0b',
+    shape: raw.shape || 'rect',
+    imageUrl,
+    textureUrl: raw.textureUrl || imageUrl,
+    customization: raw.customization || null,
+    ...(storyElementId ? { storyElementId, adeStoryElementId: storyElementId } : {}),
+    isOpen: Boolean(raw.isOpen || raw.doorState === 'open'),
+    isTriggerZone: Boolean(raw.isTriggerZone || (Array.isArray(raw.triggers) && raw.triggers.length > 0)),
+    hidden: Boolean(raw.hidden || raw.isHidden || raw.visibleToPlayers === false),
+    readAloudText: raw.readAloudText || raw.description || raw.clueText || '',
   };
 }
 

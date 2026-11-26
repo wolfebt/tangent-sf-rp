@@ -16,6 +16,7 @@ import { LightSourceManager, resolveAtmosphericPreset } from '../../../engine/vi
 import { MapGraphicsCompiler } from '../../../engine/compilers/MapGraphicsCompiler';
 import { clearPixiContainer } from '../utils/pixiCleanup';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { getMapLayerState } from '../../../utils/mapSchemaAdapter';
 
 export interface UseStageUnderlayAndGridParams {
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
@@ -301,12 +302,19 @@ export const useStageUnderlayAndGrid = ({
     }
 
     // 3. Render Background Image (skip video URLs handled by underlying <video> element)
-    const bgUrl = underlayConfig?.url || currentMap?.background_url;
+    const bgLayerState = getMapLayerState(currentMap, 'background');
+    const underlayLayerState = getMapLayerState(currentMap, 'underlay');
+    const isUnderlayLayerVisible = bgLayerState.visible && underlayLayerState.visible;
+    const fallbackUnderlay = Array.isArray(currentMap?.underlays)
+      ? currentMap.underlays.find((u: any) => u?.url && u.visible !== false) || currentMap.underlays[0]
+      : null;
+    const effectiveUnderlay = underlayConfig || fallbackUnderlay;
+    const bgUrl = effectiveUnderlay?.url || currentMap?.background_url;
     const isVideoUrl =
       typeof bgUrl === 'string' &&
       (/\.(mp4|webm|ogg|mov)(\?|$)/i.test(bgUrl) || bgUrl.startsWith('data:video/') || bgUrl.includes('/ade/video_maps/'));
     let isCancelled = false;
-    if (bgUrl && !isVideoUrl && (underlayConfig?.visible !== false)) {
+    if (bgUrl && !isVideoUrl && isUnderlayLayerVisible && (effectiveUnderlay?.visible !== false)) {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = bgUrl;
@@ -314,10 +322,10 @@ export const useStageUnderlayAndGrid = ({
         if (isCancelled || !underlayContainerRef.current) return;
         try {
           const sprite = Sprite.from(img);
-          sprite.x = underlayConfig?.offsetX || 0;
-          sprite.y = underlayConfig?.offsetY || 0;
-          sprite.scale.set(underlayConfig?.scale || 1.0);
-          sprite.alpha = underlayConfig?.opacity ?? 0.85;
+          sprite.x = effectiveUnderlay?.offsetX || 0;
+          sprite.y = effectiveUnderlay?.offsetY || 0;
+          sprite.scale.set(effectiveUnderlay?.scale || 1.0);
+          sprite.alpha = (effectiveUnderlay?.opacity ?? 0.85) * (underlayLayerState.opacity ?? 1);
           underlayContainerRef.current.addChild(sprite);
         } catch (err) {
           console.warn('Failed to render underlay sprite:', err);
@@ -332,6 +340,8 @@ export const useStageUnderlayAndGrid = ({
     canvasGeneration,
     currentMap?.id,
     currentMap?.background_url,
+    currentMap?.underlays,
+    currentMap?.layers,
     currentMap?.videoBackgroundUrl,
     currentMap?.width,
     currentMap?.height,

@@ -14,6 +14,8 @@ import { DiceASTParser } from '../../../engine/math/DiceASTParser';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { AudioService } from '../../../services/audioService';
 import { useUILayoutStore } from '../store/uiLayoutStore';
+import { useCampaign } from '../../../context/CampaignContext';
+import { computeActiveGalleryModifiers } from '../../../services/modifierService';
 
 export type ChatRollCard = VttEventMap['stage-chat-card'];
 
@@ -55,6 +57,7 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
   useGlobalListener = true
 }) => {
   const isArchitect = userRole === 'architect' || userRole === 'gm';
+  const { universeState } = (useCampaign() as any) || {};
   const cards = useUILayoutStore((s) => s.stageChatCards);
   const pushStageChatCard = useUILayoutStore((s) => s.pushStageChatCard);
   const clearStageChatCards = useUILayoutStore((s) => s.clearStageChatCards);
@@ -167,9 +170,14 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
 
     let card: ChatRollCard;
     if (tangentMatch) {
-      const mod = tangentMatch[1] ? parseInt(tangentMatch[1].replace(/\s+/g, ''), 10) : 0;
+      const baseMod = tangentMatch[1] ? parseInt(tangentMatch[1].replace(/\s+/g, ''), 10) : 0;
+      const gallerySummary = computeActiveGalleryModifiers(universeState?.galleryModifiers || [], {
+        targetTokenId: selectedToken?.id
+      });
+      const mod = baseMod + gallerySummary.totalRollBonus;
       const targetCr = tangentMatch[2] ? parseInt(tangentMatch[2], 10) : 15;
       const check = resolveTangent2d10Check({ modifier: mod, targetCR: targetCr, isOpposed: false });
+      const modBreakdownSuffix = gallerySummary.breakdown.length > 0 ? ` [${gallerySummary.breakdown.join(', ')}]` : '';
       card = {
         id: `roll_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
         timestamp: new Date().toISOString(),
@@ -177,7 +185,7 @@ export const StageChatRollFeed: React.FC<StageChatRollFeedProps> = ({
         visibility,
         kind: 'dice',
         title: `2d10 Check (${raw})`,
-        body: `Rolled [${check.d1}, ${check.d2}] ${mod >= 0 ? `+${mod}` : mod} => ${check.total} vs CR ${targetCr}`,
+        body: `Rolled [${check.d1}, ${check.d2}] ${mod >= 0 ? `+${mod}` : mod} => ${check.total} vs CR ${targetCr}${modBreakdownSuffix}`,
         diceBreakdown: {
           d1: check.d1,
           d2: check.d2,

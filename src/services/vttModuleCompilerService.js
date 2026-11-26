@@ -22,6 +22,7 @@ export class VttModuleCompilerService {
     galleryModifiers = [],
     universeState = null,
     dbData = {},
+    stageManifest = null,
     operatorSafe: topOperatorSafe = false,
     options = {}
   }) {
@@ -88,11 +89,12 @@ export class VttModuleCompilerService {
       packageId,
       compiledAt: timestamp,
       manifest: {
-        title: scenario?.title || effectiveActiveMap?.title || universeState?.projectName || 'Tactical Scenario',
+        title: stageManifest?.title || scenario?.title || effectiveActiveMap?.title || universeState?.projectName || 'Tactical Scenario',
         version: '1.0.0',
         author: universeState?.author || 'ADE Studio Architect',
-        scenarioId: scenario?.id || null,
-        mapId: effectiveActiveMap?.id || null,
+        stageId: stageManifest?.id || null,
+        scenarioId: scenario?.id || stageManifest?.storyId || null,
+        mapId: effectiveActiveMap?.id || stageManifest?.mapId || null,
         techLevel: parseInt(scenario?.fields?.['tech-level'] || effectiveActiveMap?.techLevel || '3', 10),
         magicLevel: parseInt(scenario?.fields?.['magic-level'] || '0', 10),
         stats: {
@@ -117,10 +119,17 @@ export class VttModuleCompilerService {
         objects: finalObjects,
         tokens: finalTokens
       },
+      ...(stageManifest ? {
+        anchors: stageManifest.anchors || [],
+        triggers: stageManifest.triggers || [],
+        variables: stageManifest.variables || {},
+        macros: stageManifest.macros || [],
+        environment: stageManifest.environment || null
+      } : {}),
       automations: {
         scriptedNpcs: scriptedNpcTokens,
         reactiveTraps,
-        storyTriggers: compiledStory.triggers || [],
+        storyTriggers: [...(compiledStory.triggers || []), ...((stageManifest?.triggers) || [])],
         activeModifiers: compiledModifiers.filter(m => m.isActive !== false)
       }
     };

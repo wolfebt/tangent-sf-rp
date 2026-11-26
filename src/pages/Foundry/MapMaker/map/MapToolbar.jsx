@@ -22,12 +22,6 @@ const MapToolbar = ({
   setGridMode,
   terrainRenderMode = 'organic',
   setTerrainRenderMode,
-  showToolsPanel,
-  setShowToolsPanel,
-  showSettingsPanel,
-  setShowSettingsPanel,
-  showLayersPanel,
-  setShowLayersPanel,
   showOmnicortexDrawer,
   setShowOmnicortexDrawer,
   showStoryDrawer,
@@ -89,6 +83,18 @@ const MapToolbar = ({
     window.addEventListener('pointerdown', handleClickOutside, true);
     return () => window.removeEventListener('pointerdown', handleClickOutside, true);
   }, []);
+
+  useEffect(() => {
+    if (!isCastModalOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        setIsCastModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isCastModalOpen]);
 
   const currentMap = universeState.maps.find(m => m.id === activeMapId);
 
@@ -368,7 +374,7 @@ const MapToolbar = ({
             <ChevronDown size={11} className={`text-slate-400 transition-transform ${isGridMenuOpen ? 'rotate-180' : ''}`} />
           </button>
           {isGridMenuOpen && (
-            <div className="absolute left-0 mt-1.5 w-40 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-[120] backdrop-blur-xl text-xs">
+            <div className="absolute left-0 mt-1.5 w-48 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-[120] backdrop-blur-xl text-xs">
               {[
                 { id: 'hex', label: 'Hexagonal' },
                 { id: 'square', label: 'Square Grid' },
@@ -392,6 +398,35 @@ const MapToolbar = ({
                   {gridMode === mode.id && <span className="text-cyan-400 font-bold">✓</span>}
                 </button>
               ))}
+              {setTerrainRenderMode && (
+                <div className="mt-1 pt-1 border-t border-slate-800 px-2 pb-1">
+                  <div className="px-1 py-1 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                    Terrain Paint Mode
+                  </div>
+                  <div className="grid grid-cols-2 gap-1">
+                    {[
+                      { id: 'organic', label: 'Organic' },
+                      { id: 'hex', label: 'Hex Tile' }
+                    ].map((tMode) => (
+                      <button
+                        key={tMode.id}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setTerrainRenderMode(tMode.id);
+                        }}
+                        className={`px-2 py-1 rounded text-[10px] font-bold uppercase transition-colors ${
+                          terrainRenderMode === tMode.id
+                            ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60'
+                            : 'bg-slate-950 text-slate-400 border border-slate-800 hover:text-white'
+                        }`}
+                      >
+                        {tMode.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -548,7 +583,14 @@ const MapToolbar = ({
 
       {/* Cast / Spectator Modal */}
       {isCastModalOpen && createPortal(
-        <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsCastModalOpen(false);
+          }}
+          className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans"
+        >
           <div className="w-full max-w-lg bg-[#0d1117] border border-emerald-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(16,185,129,0.25)] flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2.5">
@@ -564,7 +606,7 @@ const MapToolbar = ({
                   </p>
                 </div>
               </div>
-              <button onClick={() => setIsCastModalOpen(false)} className="text-slate-400 hover:text-white">
+              <button onClick={() => setIsCastModalOpen(false)} className="text-slate-400 hover:text-white" aria-label="Close Spectator Modal">
                 <X size={18} />
               </button>
             </div>
@@ -576,13 +618,13 @@ const MapToolbar = ({
                 </span>
                 <div className="flex items-center gap-2 bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-xs text-emerald-300">
                   <span className="truncate flex-1">
-                    {window.location.origin}/foundry/view/{activeMapId}
+                    {window.location.origin}/spectator/{activeMapId}
                   </span>
                   <button
                     type="button"
                     onClick={() => {
                       if (publishSpectatorMap && activeMapId) { publishSpectatorMap(activeMapId); }
-                      navigator.clipboard.writeText(`${window.location.origin}/foundry/view/${activeMapId}`);
+                      navigator.clipboard?.writeText?.(`${window.location.origin}/spectator/${activeMapId}`);
                       setCopiedLink(true);
                       setTimeout(() => setCopiedLink(false), 2500);
                     }}
@@ -618,7 +660,7 @@ const MapToolbar = ({
                 type="button"
                 onClick={() => {
                   if (publishSpectatorMap && activeMapId) { publishSpectatorMap(activeMapId); }
-                  window.open(`/foundry/view/${activeMapId}`, '_blank', 'width=1280,height=800');
+                  window.open(`/spectator/${activeMapId}`, '_blank', 'width=1280,height=800');
                   setIsCastModalOpen(false);
                 }}
                 className="flex-2 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all cursor-pointer"

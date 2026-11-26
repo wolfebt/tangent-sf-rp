@@ -53,9 +53,12 @@ import {
 import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../../../data/seed_chunks/science_fantasy_chunks';
 import {
   HIFI_CHROMA_TILE_PRESETS,
+  compileRecipeToAssetUnit,
   synthesizeTileDataUrl,
   type TileSynthesisRecipe
 } from '../../../../engine/assets/MicroTileSynthesizer';
+import { useAssetUnitStore } from '../../../../engine/assets/assetUnitStore';
+import { resolveAssetTexture } from '../../../../engine/assets/assetVisualFallbacks';
 import { synthesizeTileRecipeFromPrompt } from '../../../../services/tileAiRecipeService';
 import { showToast } from '../../../../context/ToastContext';
 
@@ -148,10 +151,73 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
       movementCost?: number;
     }>
   >([]);
-  const allTileBrushes = useMemo(
-    () => [...TILE_PALETTE, ...customTileBrushes],
-    [customTileBrushes]
-  );
+  const storeUnits = useAssetUnitStore((s) => s.assets);
+  const storeTerrainBrushes = useMemo(() => {
+    return storeUnits
+      .filter((u) => u.category === 'terrain_brush')
+      .map((u) => ({
+        id: u.unit_id,
+        label: u.name,
+        material: u.vtt_properties?.terrain?.material || 'metal_deck',
+        color: '#334155',
+        textureUrl: resolveAssetTexture(u),
+        isLiquid: Boolean(
+          u.vtt_properties?.terrain?.material?.startsWith('water') ||
+          u.vtt_properties?.terrain?.material === 'acid_corrosive' ||
+          u.vtt_properties?.terrain?.material === 'plasma_fluid'
+        ),
+        liquidType:
+          u.vtt_properties?.terrain?.material === 'acid_corrosive'
+            ? ('acid' as const)
+            : u.vtt_properties?.terrain?.material?.startsWith('water')
+              ? ('water' as const)
+              : undefined,
+        movementCost: u.vtt_properties?.terrain?.movementCost ?? 1
+      }));
+  }, [storeUnits]);
+
+  const allTileBrushes = useMemo(() => {
+    const merged = [...TILE_PALETTE, ...customTileBrushes];
+    const seen = new Set(merged.map((b) => b.id));
+    for (const sb of storeTerrainBrushes) {
+      if (!seen.has(sb.id)) {
+        seen.add(sb.id);
+        merged.push(sb);
+      }
+    }
+    return merged;
+  }, [customTileBrushes, storeTerrainBrushes]);
+
+  const allAssetPresets = useMemo<
+    Array<{
+      type: string;
+      label: string;
+      shape: 'rect' | 'circle' | 'hexagon';
+      color: string;
+      w: number;
+      h: number;
+      keepUpright: boolean;
+      imageUrl?: string;
+      unitId?: string;
+    }>
+  >(() => {
+    const base = ASSET_PRESETS.map((p) => ({ ...p }));
+    const catalogExtras = storeUnits
+      .filter((u) => u.category === 'doodad' || u.category === 'hazard' || u.category === 'vehicle')
+      .map((u) => ({
+        type: u.unit_id,
+        label: `📦 ${u.name}`,
+        shape: 'rect' as const,
+        color: u.category === 'hazard' ? '#ef4444' : u.category === 'vehicle' ? '#f59e0b' : '#22d3ee',
+        w: Math.max(1, Number(u.dimensions?.[0]) || 1),
+        h: Math.max(1, Number(u.dimensions?.[1]) || 1),
+        keepUpright: false,
+        imageUrl: resolveAssetTexture(u),
+        unitId: u.unit_id
+      }));
+    return [...base, ...catalogExtras];
+  }, [storeUnits]);
+
   const [selectedTileBrush, setSelectedTileBrush] = useState<(typeof TILE_PALETTE)[number] & { textureUrl?: string; movementCost?: number }>(TILE_PALETTE[0]);
   const [eraseTileMode, setEraseTileMode] = useState(false);
   const [isChunkTileSynthOpen, setIsChunkTileSynthOpen] = useState(false);
@@ -159,7 +225,17 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
   const [isChunkSynthLoading, setIsChunkSynthLoading] = useState(false);
   const [selectedWallType, setSelectedWallType] = useState<'solid' | 'door' | 'window' | 'one_way'>('solid');
   const [wallEdgeMode, setWallEdgeMode] = useState<'auto' | 'north' | 'south' | 'east' | 'west'>('auto');
-  const [selectedAssetPreset, setSelectedAssetPreset] = useState(ASSET_PRESETS[0]);
+  const [selectedAssetPreset, setSelectedAssetPreset] = useState<{
+    type: string;
+    label: string;
+    shape: 'rect' | 'circle' | 'hexagon';
+    color: string;
+    w: number;
+    h: number;
+    keepUpright: boolean;
+    imageUrl?: string;
+    unitId?: string;
+  }>(ASSET_PRESETS[0]);
   const [selectedSocketType, setSelectedSocketType] = useState<(typeof SOCKET_TYPES)[number]>('bulkhead_door');
   const [selectedSocketSpan, setSelectedSocketSpan] = useState<number>(2);
   const [selectedSlotCategory, setSelectedSlotCategory] = useState<(typeof INTERNAL_SLOT_CATEGORIES)[number]>('turret_hardpoint');
@@ -309,6 +385,11 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
       movementCost: recipe.vtt.movementCost || 1
     };
     setCustomTileBrushes((prev) => [...prev, newBrush]);
+    const compiledUnit = compileRecipeToAssetUnit(recipe, {
+      includeAutoTiles: recipe.outputMode === 'marching_squares_4bit',
+      includeStateTextures: true
+    });
+    useAssetUnitStore.getState().upsertAssetUnit(compiledUnit);
     setSelectedTileBrush(newBrush as any);
     setEraseTileMode(false);
     setIsChunkTileSynthOpen(false);
@@ -452,6 +533,8 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
         category: 'Objects',
         shape: selectedAssetPreset.shape,
         color: selectedAssetPreset.color,
+        imageUrl: selectedAssetPreset.imageUrl,
+        customProps: selectedAssetPreset.unitId ? { unit_id: selectedAssetPreset.unitId } : undefined,
         isInteractive: true,
         isTrap: false,
         coverRating: 'half_cover'
@@ -1200,12 +1283,12 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                 <select
                   value={selectedAssetPreset.type}
                   onChange={(e) => {
-                    const found = ASSET_PRESETS.find((p) => p.type === e.target.value);
+                    const found = allAssetPresets.find((p) => p.type === e.target.value);
                     if (found) setSelectedAssetPreset(found);
                   }}
                   className="px-2 py-1 rounded bg-slate-950 border border-slate-700 text-xs text-cyan-300"
                 >
-                  {ASSET_PRESETS.map((p) => (
+                  {allAssetPresets.map((p) => (
                     <option key={p.type} value={p.type}>
                       {p.label} ({p.w}×{p.h})
                     </option>

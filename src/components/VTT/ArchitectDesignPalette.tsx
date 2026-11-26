@@ -62,6 +62,11 @@ import {
   type LightAnimationType 
 } from '../../engine/vision/LightSourceManager';
 import { useUILayoutStore } from './store/uiLayoutStore';
+import { useAssetUnitStore } from '../../engine/assets/assetUnitStore';
+import { UniversalAssetTree } from './tree/UniversalAssetTree';
+import { AssetSearchFilterBar } from './tree/AssetSearchFilterBar';
+import { resolveAssetTexture } from '../../engine/assets/assetVisualFallbacks';
+import type { AssetCategory, AssetUnit } from '../../schemas/assetUnitSchema';
 
 export type ArchitectDesignTool = 
   | 'select' 
@@ -93,6 +98,8 @@ export interface PaletteItem {
   subType?: string;
   icon: any;
   color: string;
+  imageUrl?: string;
+  assetUnit?: AssetUnit;
   defaultProps?: Record<string, any>;
 }
 
@@ -506,7 +513,12 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
   const activeRulerPace = rulerSelectedPace || storeSelectedPace || 'walk';
   const handlePaceChange = setRulerSelectedPace || storeSetSelectedPace;
 
-  const [stampCategory, setStampCategory] = useState<'walls' | 'objects' | 'hazards' | 'props' | 'spawner'>('walls');
+  const [stampCategory, setStampCategory] = useState<'walls' | 'objects' | 'hazards' | 'props' | 'spawner' | 'catalog'>('walls');
+  const [catalogSearch, setCatalogSearch] = useState('');
+  const [catalogCategory, setCatalogCategory] = useState<AssetCategory | 'all'>('all');
+  const [catalogProvenance, setCatalogProvenance] = useState<'all' | 'preset' | 'custom_upload'>('all');
+  const [selectedCatalogUnitId, setSelectedCatalogUnitId] = useState<string>('');
+  const catalogAssets = useAssetUnitStore((s) => s.assets);
   const [isMinimized, setIsMinimized] = useState(false);
   const [toolCategory, setToolCategory] = useState<'all' | 'construct' | 'dressing' | 'annotate'>('construct');
 
@@ -1361,8 +1373,8 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
             <span className="text-[10px] uppercase font-bold text-slate-400">
               Stamp & Prop Library:
             </span>
-            <div className="flex gap-1">
-              {(['walls', 'objects', 'hazards', 'props', 'spawner'] as const).map(tab => (
+            <div className="flex gap-1 flex-wrap justify-end">
+              {(['walls', 'objects', 'hazards', 'props', 'spawner', 'catalog'] as const).map(tab => (
                 <button
                   key={tab}
                   onClick={() => {
@@ -1375,7 +1387,7 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
                       : 'bg-slate-800 text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  {tab === 'spawner' ? 'Units' : tab}
+                  {tab === 'spawner' ? 'Units' : tab === 'catalog' ? 'Catalog' : tab}
                 </button>
               ))}
             </div>
@@ -1408,43 +1420,107 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
             </div>
           </div>
 
-          <div className="space-y-1.5 max-h-52 overflow-y-auto pr-1">
-            {currentCategoryStamps.map(item => {
-              const Icon = item.icon;
-              const isSelected = selectedStamp?.id === item.id;
-              return (
-                <div
-                  key={item.id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, item)}
-                  onClick={() => handleStampSelect(item)}
-                  className={`p-2 rounded-xl border transition-all cursor-pointer flex items-start gap-2.5 ${
-                    isSelected
-                      ? 'bg-amber-950/60 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                      : 'bg-slate-950/60 border-slate-800 hover:border-cyan-500/60 hover:bg-slate-900'
-                  }`}
+          {stampCategory === 'catalog' ? (
+            <div className="border border-slate-800 rounded-xl bg-slate-950/70 overflow-hidden flex flex-col max-h-72">
+              <AssetSearchFilterBar
+                searchQuery={catalogSearch}
+                onSearchChange={setCatalogSearch}
+                selectedCategory={catalogCategory}
+                onCategoryChange={setCatalogCategory}
+                provenanceFilter={catalogProvenance}
+                onProvenanceChange={setCatalogProvenance}
+              />
+              <div className="flex-1 overflow-y-auto max-h-48">
+                <UniversalAssetTree
+                  assets={catalogAssets}
+                  selectedUnitId={selectedCatalogUnitId}
+                  searchQuery={catalogSearch}
+                  categoryFilter={catalogCategory}
+                  provenanceFilter={catalogProvenance}
+                  onSelectUnit={(unit) => {
+                    setSelectedCatalogUnitId(unit.unit_id);
+                    const tex = resolveAssetTexture(unit);
+                    const mappedType =
+                      unit.category === 'token' || unit.category === 'creature'
+                        ? 'token'
+                        : unit.category === 'hazard'
+                          ? 'hazard'
+                          : unit.category === 'wall_portal'
+                            ? 'wall'
+                            : 'object';
+                    const adaptedItem: PaletteItem = {
+                      id: `catalog_${unit.unit_id}`,
+                      category: 'catalog',
+                      label: unit.name,
+                      desc: `${unit.category} • ${unit.tree_path.join(' / ')}`,
+                      type: mappedType,
+                      subType: unit.category,
+                      icon: Box,
+                      color: unit.category === 'hazard' ? '#ef4444' : '#22d3ee',
+                      imageUrl: tex,
+                      assetUnit: unit,
+                      defaultProps: {
+                        name: unit.name,
+                        unit_id: unit.unit_id,
+                        imageUrl: tex,
+                        assetUnit: unit,
+                        width: ((unit.dimensions?.[0] || 1) * 50),
+                        height: ((unit.dimensions?.[1] || 1) * 50)
+                      }
+                    };
+                    handleStampSelect(adaptedItem);
+                  }}
+                />
+              </div>
+              {onOpenAssetStudio && (
+                <button
+                  type="button"
+                  onClick={onOpenAssetStudio}
+                  className="px-2 py-1.5 bg-cyan-950/60 hover:bg-cyan-900/60 border-t border-slate-800 text-[10px] text-cyan-300 font-bold text-center cursor-pointer"
                 >
-                  <div 
-                    className="p-1.5 rounded-lg shrink-0 mt-0.5" 
-                    style={{ backgroundColor: `${item.color}20`, color: item.color }}
+                  Open Full Asset Studio &amp; Property Forge
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-1.5 max-h-52 overflow-y-auto pr-1">
+              {currentCategoryStamps.map(item => {
+                const Icon = item.icon;
+                const isSelected = selectedStamp?.id === item.id;
+                return (
+                  <div
+                    key={item.id}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, item)}
+                    onClick={() => handleStampSelect(item)}
+                    className={`p-2 rounded-xl border transition-all cursor-pointer flex items-start gap-2.5 ${
+                      isSelected
+                        ? 'bg-amber-950/60 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                        : 'bg-slate-950/60 border-slate-800 hover:border-cyan-500/60 hover:bg-slate-900'
+                    }`}
                   >
-                    <Icon size={16} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-xs font-bold text-slate-200 truncate">{item.label}</h4>
-                      {isSelected && (
-                        <span className="px-1.5 py-0.2 rounded bg-amber-400 text-black text-[9px] font-bold uppercase">
-                          ARMED
-                        </span>
-                      )}
+                    <div 
+                      className="p-1.5 rounded-lg shrink-0 mt-0.5" 
+                      style={{ backgroundColor: `${item.color}20`, color: item.color }}
+                    >
+                      <Icon size={16} />
                     </div>
-                    <p className="text-[10px] text-slate-400 line-clamp-2 mt-0.5">{item.desc}</p>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-xs font-bold text-slate-200 truncate">{item.label}</h4>
+                        {isSelected && (
+                          <span className="px-1.5 py-0.2 rounded bg-amber-400 text-black text-[9px] font-bold uppercase">
+                            ARMED
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[10px] text-slate-400 line-clamp-2 mt-0.5">{item.desc}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* ── EXTERNAL MODAL LAUNCHERS ── */}

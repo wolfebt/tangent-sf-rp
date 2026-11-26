@@ -40,6 +40,7 @@ import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { adeElementToStageToken, adeElementToInteractiveObject } from '../../../utils/storyAssetAdapter';
 import { convertMcmToFolioPersona, buildVttUnitFromPersona } from '../../../utils/personaBridge';
 import { normalizeElementType } from '../../../pages/Foundry/ElementForge/elementSchemas';
+import { flattenScenariosTree } from '../../../pages/Foundry/assetContracts';
 
 export interface CatalogOutlinerProps {
   searchQuery: string;
@@ -58,6 +59,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   const { activeCategory } = useUILayoutStore();
   const { 
     universeState, 
+    allMaps,
     activeMapId, 
     setActiveMapId, 
     addMap,
@@ -80,8 +82,8 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   const [isAdeImportModalOpen, setIsAdeImportModalOpen] = useState(false);
 
   // Data sources
-  const maps = universeState?.maps || [];
-  const scenarios = universeState?.scenarios || [];
+  const maps = (Array.isArray(allMaps) && allMaps.length > 0 ? allMaps : universeState?.maps) || [];
+  const scenarios = flattenScenariosTree(universeState?.scenarios || []);
   const storyCards = universeState?.creativeState?.storyCards || [];
   const personaRoster: any[] = (folio?.personaRoster && folio.personaRoster.length > 0) 
     ? folio.personaRoster 

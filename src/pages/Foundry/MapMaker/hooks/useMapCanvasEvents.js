@@ -3,6 +3,49 @@ import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 import { getTextureUrlFromColor } from '../map/MapTextures';
 import { createWallSegment, WALL_TYPES } from '../../../../schemas/vttWallSchema.js';
+import { getHexCellAtPoint, snapPointToGrid } from '../map/gridGeometry';
+
+const MUTATING_TOOLS = new Set([
+  'terrain',
+  'pencil',
+  'wall',
+  'curved_wall',
+  'object',
+  'hazard',
+  'token',
+  'light',
+  'text',
+  'region',
+  'fog',
+  'chunk',
+  'eraser'
+]);
+
+export function getTargetLayerForTool(tool, paintRoofLayer = false) {
+  switch (tool) {
+    case 'terrain':
+      return paintRoofLayer ? 'layer_roof' : 'layer_terrain';
+    case 'pencil':
+      return 'layer_terrain';
+    case 'wall':
+    case 'curved_wall':
+      return 'layer_walls';
+    case 'object':
+    case 'hazard':
+    case 'light':
+    case 'region':
+    case 'chunk':
+      return 'layer_objects';
+    case 'token':
+      return 'layer_tokens';
+    case 'text':
+      return 'layer_annotations';
+    case 'fog':
+      return 'layer_fog';
+    default:
+      return null;
+  }
+}
 
 export const useMapCanvasEvents = ({
   currentMap,
@@ -39,7 +82,14 @@ export const useMapCanvasEvents = ({
   textSize,
   regions = [],
   selectedRegionType = 'roof_zone',
-  onStampChunk
+  onStampChunk,
+  isStoryReadOnly = false,
+  isLayerLocked = () => false,
+  gridSnap = false,
+  gridSize = 50,
+  gridMode = 'hex',
+  terrainRenderMode = 'organic',
+  onBlockedAction = null
 }) => {
   const latestRef = useRef({});
   latestRef.current = {
@@ -63,6 +113,7 @@ export const useMapCanvasEvents = ({
   const [wallStartPoint, setWallStartPoint] = useState(null);
   const [wallPreviewEnd, setWallPreviewEnd] = useState(null);
   const lastDrawPointRef = useRef(null);
+  const paintedHexKeysRef = useRef(new Set());
   const [rulerWaypoints, setRulerWaypoints] = useState([]);
   const [rulerPointer, setRulerPointer] = useState(null);
   const [chunkPointerPos, setChunkPointerPos] = useState(null);
@@ -158,12 +209,27 @@ export const useMapCanvasEvents = ({
         return;
       }
 
-      const pos = ev.worldPos;
+      if (MUTATING_TOOLS.has(activeTool)) {
+        if (isStoryReadOnly) {
+          onBlockedAction?.('readonly');
+          return;
+        }
+        const targetLayer = getTargetLayerForTool(activeTool, paintRoofLayer);
+        if (targetLayer && isLayerLocked(targetLayer)) {
+          onBlockedAction?.('locked', targetLayer);
+          return;
+        }
+      }
+
+      const rawPos = ev.worldPos;
+      const gSize = Math.max(15, Number(currentMap?.gridSize ?? gridSize) || 50);
+      const activeGridMode = currentMap?.gridMode ?? gridMode;
+      const snappedPos = snapPointToGrid(rawPos, gSize, activeGridMode, gridSnap);
 
       if (activeTool === 'chunk') {
         if (onStampChunk) {
           recordHistory();
-          onStampChunk(pos);
+          onStampChunk(rawPos);
         }
         return;
       }
@@ -171,28 +237,28 @@ export const useMapCanvasEvents = ({
       if (activeTool === 'select' && ev.shiftKey) {
         setIsDrawing(true);
         setChunkCaptureMarquee({
-          startX: pos.x,
-          startY: pos.y,
-          endX: pos.x,
-          endY: pos.y,
+          startX: rawPos.x,
+          startY: rawPos.y,
+          endX: rawPos.x,
+          endY: rawPos.y,
           active: true
         });
         return;
       }
 
-      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall', 'curved_wall', 'hazard', 'light', 'region'].includes(activeTool)) {
+      // Note: wall & curved_wall defer recordHistory() to handleMouseUp when dist > 10
+      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'hazard', 'light', 'region'].includes(activeTool)) {
         recordHistory();
       }
 
       if (activeTool === 'region') {
-        const gSize = Math.max(20, currentMap?.gridSize || 50);
         const newRegion = {
           id: uuidv4(),
           name: `${selectedRegionType === 'hazard' ? 'Hazard' : selectedRegionType === 'teleport_deck' ? 'Teleport' : selectedRegionType === 'audio_zone' ? 'Audio' : 'Roof'} Zone`,
           triggerType: selectedRegionType || 'roof_zone',
           bounds: {
-            x: Math.round(pos.x - gSize * 1.5),
-            y: Math.round(pos.y - gSize * 1.5),
+            x: Math.round(snappedPos.x - gSize * 1.5),
+            y: Math.round(snappedPos.y - gSize * 1.5),
             width: gSize * 3,
             height: gSize * 3
           },
@@ -208,44 +274,79 @@ export const useMapCanvasEvents = ({
         updateMap(activeMapId, { regions: [...(latestRef.current.regions || []), newRegion] });
       } else if (activeTool === 'wall' || activeTool === 'curved_wall') {
         setIsDrawing(true);
-        setWallStartPoint(pos);
-        setWallPreviewEnd(pos);
+        setWallStartPoint(snappedPos);
+        setWallPreviewEnd(snappedPos);
       } else if (activeTool === 'ruler') {
         if (ev.shiftKey || ev.ctrlKey || rulerWaypoints.length === 0) {
-          setRulerWaypoints(prev => [...prev, pos]);
+          setRulerWaypoints(prev => [...prev, rawPos]);
         } else {
           // Reset or add
-          setRulerWaypoints([pos]);
+          setRulerWaypoints([rawPos]);
         }
       } else if (activeTool === 'pencil') {
         setIsDrawing(true);
-        lastDrawPointRef.current = pos;
-        updateMap(activeMapId, { lines: [...lines, { id: uuidv4(), color: pencilColor, strokeWidth: pencilWidth, points: [pos.x, pos.y] }] });
+        lastDrawPointRef.current = rawPos;
+        updateMap(activeMapId, { lines: [...lines, { id: uuidv4(), color: pencilColor, strokeWidth: pencilWidth, points: [rawPos.x, rawPos.y] }] });
       } else if (activeTool === 'terrain') {
         setIsDrawing(true);
-        lastDrawPointRef.current = pos;
-        updateMap(activeMapId, {
-          terrains: [...terrains, {
-            id: uuidv4(),
-            color: selectedTerrain.color || '#15803d',
-            strokeWidth: terrainWidth || selectedTerrain.strokeWidth || 30,
-            points: [pos.x, pos.y],
-            terrainTypeId: selectedTerrain.id,
-            label: selectedTerrain.label,
-            textureUrl: selectedTerrain.textureUrl || getTextureUrlFromColor(selectedTerrain.color || selectedTerrain.id),
-            softEdge: Boolean(softTerrainEdge),
-            isRoofLayer: Boolean(paintRoofLayer)
-          }]
-        });
+        const safeColor = selectedTerrain?.color || '#15803d';
+        const safeLabel = selectedTerrain?.label || selectedTerrain?.name || 'Terrain';
+        const safeId = selectedTerrain?.id || 'custom';
+        const safeTex = selectedTerrain?.textureUrl || selectedTerrain?.imageUrl || getTextureUrlFromColor(selectedTerrain?.color || safeId);
+
+        if (terrainRenderMode === 'hex') {
+          const cell = getHexCellAtPoint(rawPos, gSize);
+          const hexKey = `${cell.col}:${cell.row}:${paintRoofLayer ? 1 : 0}`;
+          paintedHexKeysRef.current = new Set([hexKey]);
+          lastDrawPointRef.current = { x: cell.x, y: cell.y };
+          const filtered = terrains.filter(
+            (t) => !(t.renderType === 'hexTile' && t.col === cell.col && t.row === cell.row && Boolean(t.isRoofLayer) === Boolean(paintRoofLayer))
+          );
+          updateMap(activeMapId, {
+            terrains: [
+              ...filtered,
+              {
+                id: `hex_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+                renderType: 'hexTile',
+                col: cell.col,
+                row: cell.row,
+                x: cell.x,
+                y: cell.y,
+                radius: cell.radius,
+                color: safeColor,
+                label: safeLabel,
+                terrainTypeId: safeId,
+                textureUrl: safeTex || null,
+                isRoofLayer: Boolean(paintRoofLayer),
+                zIndex: paintRoofLayer ? 50 : 1
+              }
+            ]
+          });
+        } else {
+          lastDrawPointRef.current = rawPos;
+          updateMap(activeMapId, {
+            terrains: [...terrains, {
+              id: uuidv4(),
+              color: safeColor,
+              strokeWidth: terrainWidth || selectedTerrain?.strokeWidth || 30,
+              points: [rawPos.x, rawPos.y],
+              terrainTypeId: safeId,
+              label: safeLabel,
+              textureUrl: safeTex,
+              softEdge: Boolean(softTerrainEdge),
+              isRoofLayer: Boolean(paintRoofLayer)
+            }]
+          });
+        }
       } else if (activeTool === 'fog') {
         setIsDrawing(true);
-        lastDrawPointRef.current = pos;
-        updateMap(activeMapId, { fog: [...fog, { id: uuidv4(), points: [pos.x, pos.y] }] });
+        lastDrawPointRef.current = rawPos;
+        updateMap(activeMapId, { fog: [...fog, { id: uuidv4(), points: [rawPos.x, rawPos.y] }] });
       } else if (activeTool === 'hazard') {
         const hazardObj = {
           id: uuidv4(),
           type: selectedObjectType?.id || 'plasma_hazard',
-          label: selectedObjectType?.label || 'Hazard Zone',
+          label: selectedObjectType?.label || selectedObjectType?.name || 'Hazard Zone',
           color: selectedObjectType?.color || '#f97316',
           shape: selectedObjectType?.shape || 'circle',
           radius: selectedObjectType?.radius || 35,
@@ -254,15 +355,15 @@ export const useMapCanvasEvents = ({
           hazard: selectedObjectType?.hazard || selectedObjectType?.label || 'Environmental Hazard',
           category: 'Hazards',
           desc: selectedObjectType?.desc || '',
-          x: pos.x,
-          y: pos.y
+          x: snappedPos.x,
+          y: snappedPos.y
         };
         updateMap(activeMapId, { objects: [...objects, hazardObj] });
       } else if (activeTool === 'light') {
         const newLight = {
           id: uuidv4(),
-          x: pos.x,
-          y: pos.y,
+          x: snappedPos.x,
+          y: snappedPos.y,
           radius: selectedLightRadius || 180,
           color: selectedLightColor || '#f59e0b',
           animation: selectedLightAnimation || 'flicker',
@@ -272,28 +373,28 @@ export const useMapCanvasEvents = ({
       } else if (activeTool === 'object') {
         const newObj = {
           id: uuidv4(),
-          type: selectedObjectType.id,
-          label: selectedObjectType.label,
-          color: selectedObjectType.color || '#3b82f6',
-          shape: selectedObjectType.shape || 'rect',
-          radius: selectedObjectType.radius || 25,
-          width: selectedObjectType.width || (selectedObjectType.radius ? selectedObjectType.radius * 2 : 40),
-          height: selectedObjectType.height || (selectedObjectType.radius ? selectedObjectType.radius * 2 : 40),
-          scaleTarget: selectedObjectType.scaleTarget || null,
-          hazard: selectedObjectType.hazard || null,
-          resource: selectedObjectType.resource || null,
-          category: selectedObjectType.category || null,
-          imageUrl: selectedObjectType.imageUrl || null,
-          x: pos.x,
-          y: pos.y
+          type: selectedObjectType?.id || 'custom_prop',
+          label: selectedObjectType?.label || selectedObjectType?.name || 'Map Object',
+          color: selectedObjectType?.color || '#3b82f6',
+          shape: selectedObjectType?.shape || 'rect',
+          radius: selectedObjectType?.radius || 25,
+          width: selectedObjectType?.width || (selectedObjectType?.radius ? selectedObjectType.radius * 2 : 40),
+          height: selectedObjectType?.height || (selectedObjectType?.radius ? selectedObjectType.radius * 2 : 40),
+          scaleTarget: selectedObjectType?.scaleTarget || null,
+          hazard: selectedObjectType?.hazard || null,
+          resource: selectedObjectType?.resource || null,
+          category: selectedObjectType?.category || null,
+          imageUrl: selectedObjectType?.imageUrl || null,
+          x: snappedPos.x,
+          y: snappedPos.y
         };
         updateMap(activeMapId, { objects: [...objects, newObj] });
       } else if (activeTool === 'token') {
         const newToken = {
           id: tokenType === 'link' ? 'link_' + Date.now() : 'token_' + Date.now(),
           type: tokenType,
-          x: pos.x,
-          y: pos.y,
+          x: snappedPos.x,
+          y: snappedPos.y,
           radius: 35,
           fill: tokenType === 'link' ? '#fcd34d' : '#3b82f6',
           label: tokenLabelInput || 'Token',
@@ -307,8 +408,8 @@ export const useMapCanvasEvents = ({
           text: textLabelInput || 'Text Label',
           fill: textColor,
           fontSize: textSize,
-          x: pos.x,
-          y: pos.y
+          x: snappedPos.x,
+          y: snappedPos.y
         };
         updateMap(activeMapId, { texts: [...texts, newTextNode] });
       }
@@ -329,6 +430,8 @@ export const useMapCanvasEvents = ({
 
     if (currentMap) {
       const point = ev.worldPos;
+      const gSize = Math.max(15, Number(currentMap?.gridSize ?? gridSize) || 50);
+      const activeGridMode = currentMap?.gridMode ?? gridMode;
 
       if (activeTool === 'ruler') {
         setRulerPointer(point);
@@ -344,7 +447,43 @@ export const useMapCanvasEvents = ({
           return;
         }
         if (activeTool === 'wall' || activeTool === 'curved_wall') {
-          setWallPreviewEnd(point);
+          setWallPreviewEnd(snapPointToGrid(point, gSize, activeGridMode, gridSnap));
+        } else if (activeTool === 'terrain' && terrainRenderMode === 'hex') {
+          if (isStoryReadOnly || isLayerLocked(paintRoofLayer ? 'layer_roof' : 'layer_terrain')) return;
+          const cell = getHexCellAtPoint(point, gSize);
+          const hexKey = `${cell.col}:${cell.row}:${paintRoofLayer ? 1 : 0}`;
+          if (paintedHexKeysRef.current.has(hexKey)) return;
+          paintedHexKeysRef.current.add(hexKey);
+          const safeColor = selectedTerrain?.color || '#15803d';
+          const safeLabel = selectedTerrain?.label || selectedTerrain?.name || 'Terrain';
+          const safeId = selectedTerrain?.id || 'custom';
+          const safeTex = selectedTerrain?.textureUrl || selectedTerrain?.imageUrl || getTextureUrlFromColor(selectedTerrain?.color || safeId);
+          updateMap(activeMapId, (prevMap) => {
+            const prevList = Array.isArray(prevMap?.terrains) ? prevMap.terrains : [];
+            const filtered = prevList.filter(
+              (t) => !(t.renderType === 'hexTile' && t.col === cell.col && t.row === cell.row && Boolean(t.isRoofLayer) === Boolean(paintRoofLayer))
+            );
+            return {
+              terrains: [
+                ...filtered,
+                {
+                  id: `hex_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+                  renderType: 'hexTile',
+                  col: cell.col,
+                  row: cell.row,
+                  x: cell.x,
+                  y: cell.y,
+                  radius: cell.radius,
+                  color: safeColor,
+                  label: safeLabel,
+                  terrainTypeId: safeId,
+                  textureUrl: safeTex || null,
+                  isRoofLayer: Boolean(paintRoofLayer),
+                  zIndex: paintRoofLayer ? 50 : 1
+                }
+              ]
+            };
+          });
         } else if (activeTool === 'pencil' || activeTool === 'terrain' || activeTool === 'fog') {
           const prevPt = lastDrawPointRef.current;
           if (prevPt) {
@@ -373,6 +512,7 @@ export const useMapCanvasEvents = ({
 
   const handleMouseUp = () => {
     lastDrawPointRef.current = null;
+    paintedHexKeysRef.current.clear();
     if (isPanning) setIsPanning(false);
     if (isDrawing) {
       if (chunkCaptureMarquee?.active) {
@@ -382,7 +522,8 @@ export const useMapCanvasEvents = ({
         const dx = wallPreviewEnd.x - wallStartPoint.x;
         const dy = wallPreviewEnd.y - wallStartPoint.y;
         const dist = Math.hypot(dx, dy);
-        if (dist > 10) {
+        if (dist > 10 && !isStoryReadOnly && !isLayerLocked('layer_walls')) {
+          recordHistory(activeTool === 'curved_wall' ? 'Draw Curved Wall' : 'Draw Wall');
           let bezierControl;
           if (activeTool === 'curved_wall') {
             const mx = (wallStartPoint.x + wallPreviewEnd.x) / 2;

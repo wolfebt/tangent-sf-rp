@@ -99,6 +99,7 @@ const FoundryAppInner = () => {
               <Route path="stage-vtt" element={<FoundryRouteRedirect view="stage" tab="run" />} />
               <Route path="director" element={<FoundryRouteRedirect view="stage" tab="run" />} />
               <Route path="stage" element={<ADEStage />} />
+              <Route path="scenarios" element={<FoundryRouteRedirect view="scenarios" tab="write" />} />
               <Route path="ade" element={<StoryModule />} />
               <Route path="story" element={<StoryModule />} />
               <Route path="interactive" element={<FoundryRouteRedirect view="scenarios" tab="play" />} />

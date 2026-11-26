@@ -100,7 +100,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   roundNumber = 1,
   onOpenMacroQuickRun
 }) => {
-  const { universeState, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
+  const { universeState, allMaps, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
   const confirm = useConfirm();
   const {
     isZenMode,
@@ -153,7 +153,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const availableMaps = universeState?.maps || [];
+  const availableMaps = (Array.isArray(allMaps) && allMaps.length > 0 ? allMaps : universeState?.maps) || [];
   const activeMap = availableMaps.find((m: any) => m.id === currentMapId) || availableMaps[0] || null;
 
   // Handle Delete Active Map with Confirmation

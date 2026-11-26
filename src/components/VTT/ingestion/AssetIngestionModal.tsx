@@ -4,7 +4,7 @@
  * and configuring all spatial, tactical, trigger, and script properties.
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Upload, 
   X, 
@@ -20,7 +20,8 @@ import {
   Zap,
   Code2,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Eraser
 } from 'lucide-react';
 import { 
   ASSET_CATEGORIES, 
@@ -46,11 +47,17 @@ import {
   type IngestionArchetype 
 } from '../../../engine/assets/AssetIngestionPipeline';
 import { SpriteSheetCutterModal } from './SpriteSheetCutterModal';
+import { ChromaKeyTool } from './ChromaKeyTool';
+import { TangentPackager } from '../../../engine/assets/TangentPackager';
+import { uploadAdeImageAsset } from '../../../services/adeMediaStorageService';
+import { auth } from '../../../firebase';
+import { showToast } from '../../../context/ToastContext';
 
 export interface AssetIngestionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAssetIngested: (asset: AssetUnit, andOpenForge?: boolean) => void;
+  onPackImported?: (assets: AssetUnit[]) => void;
 }
 
 type PipelineSection = 'identity' | 'physics' | 'tactical' | 'triggers' | 'script';
@@ -58,7 +65,8 @@ type PipelineSection = 'identity' | 'physics' | 'tactical' | 'triggers' | 'scrip
 export const AssetIngestionModal: React.FC<AssetIngestionModalProps> = ({
   isOpen,
   onClose,
-  onAssetIngested
+  onAssetIngested,
+  onPackImported
 }) => {
   // Navigation Section
   const [activeSection, setActiveSection] = useState<PipelineSection>('identity');
@@ -73,6 +81,8 @@ export const AssetIngestionModal: React.FC<AssetIngestionModalProps> = ({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSlicerOpen, setIsSlicerOpen] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [showChromaKey, setShowChromaKey] = useState(false);
 
   // Section 2: VTT Physics & Spatial
   const [blocksMovement, setBlocksMovement] = useState(false);
@@ -123,6 +133,33 @@ if (roll.success) {
 return roll;`);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setActiveSection('identity');
+    setName('');
+    setCategory('doodad');
+    setTreePathInput('Custom / Props');
+    setTagsInput('custom, scifi');
+    setDimW(1);
+    setDimH(1);
+    setPreviewUrl(null);
+    setError(null);
+    setShowChromaKey(false);
+    setIsDragOver(false);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || isSlicerOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, isSlicerOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -182,21 +219,62 @@ return roll;`);
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const processSelectedFile = async (file: File) => {
+    const lowerName = file.name.toLowerCase();
+    if (lowerName.endsWith('.json') || lowerName.endsWith('.tangent-pack')) {
+      try {
+        const text = await file.text();
+        const unpacked = TangentPackager.unpackPack(text);
+        if (!unpacked.success || !unpacked.validAssets?.length) {
+          setError(unpacked.error || 'Pack contained no valid AssetUnits.');
+          return;
+        }
+        if (onPackImported) {
+          onPackImported(unpacked.validAssets);
+        } else {
+          unpacked.validAssets.forEach((asset) => onAssetIngested(asset, false));
+        }
+        showToast({
+          type: 'success',
+          title: 'Asset Pack Imported',
+          text: `Loaded ${unpacked.validAssets.length} units from ${unpacked.manifest?.title || file.name}.`
+        });
+        onClose();
+      } catch (err: any) {
+        setError(err?.message || 'Failed to read .tangent-pack archive.');
+      }
+      return;
+    }
 
     if (!name) {
       const baseName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
       setName(baseName.charAt(0).toUpperCase() + baseName.slice(1));
     }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      setPreviewUrl(event.target?.result as string);
-      setError(null);
-    };
-    reader.readAsDataURL(file);
+    try {
+      const res = await uploadAdeImageAsset(file, {
+        userId: auth?.currentUser?.uid,
+        assetCategory: category === 'token' || category === 'creature' ? 'tokens' : 'maps',
+        fileName: file.name
+      });
+      if (res?.url) {
+        setPreviewUrl(res.url);
+        setShowChromaKey(false);
+        setError(null);
+      }
+      if (res?.warning) {
+        showToast({ type: 'warn', title: 'Large Offline Asset', text: res.warning });
+      }
+    } catch (err: any) {
+      setError(err?.message || 'Unable to process image upload.');
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    void processSelectedFile(file);
   };
 
   const handleExecuteIngestion = (andOpenForge: boolean = false) => {
@@ -311,8 +389,18 @@ return roll;`);
 
   return (
     <>
-      <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
-        <div className="bg-slate-900 border border-cyan-800/90 rounded-xl shadow-2xl shadow-cyan-950/80 w-full max-w-3xl flex flex-col h-[86vh] max-h-[90vh] overflow-hidden">
+      <div
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+        className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+      >
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Asset Ingestion and Property Pipeline"
+          className="bg-slate-900 border border-cyan-800/90 rounded-xl shadow-2xl shadow-cyan-950/80 w-full max-w-3xl flex flex-col h-[86vh] max-h-[90vh] overflow-hidden"
+        >
           
           {/* Header */}
           <div className="flex items-center justify-between px-5 py-3.5 bg-slate-950 border-b border-cyan-900/50">
@@ -441,12 +529,35 @@ return roll;`);
                 {/* Drop / Upload Zone */}
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-slate-700 hover:border-cyan-500 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-colors bg-slate-950/60 group"
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!isDragOver) setIsDragOver(true);
+                  }}
+                  onDragLeave={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsDragOver(false);
+                  }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsDragOver(false);
+                    const file = e.dataTransfer?.files?.[0];
+                    if (file) {
+                      void processSelectedFile(file);
+                    }
+                  }}
+                  className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-colors bg-slate-950/60 group ${
+                    isDragOver
+                      ? 'border-cyan-400 bg-cyan-950/30'
+                      : 'border-slate-700 hover:border-cyan-500'
+                  }`}
                 >
                   <input
                     ref={fileInputRef}
                     type="file"
-                    accept="image/png,image/webp,image/jpeg,image/svg+xml"
+                    accept="image/png,image/webp,image/jpeg,image/svg+xml,.tangent-pack,.json"
                     onChange={handleFileChange}
                     className="hidden"
                   />
@@ -458,18 +569,42 @@ return roll;`);
                         alt="Preview"
                         className="max-h-36 object-contain rounded-lg border border-cyan-900/60 bg-black/60 p-2 shadow-inner"
                       />
-                      <span className="text-[11px] text-cyan-400 group-hover:underline">
-                        Click to change image
-                      </span>
+                      <div className="flex items-center space-x-3">
+                        <span className="text-[11px] text-cyan-400 group-hover:underline">
+                          Click or drop to replace image
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowChromaKey((prev) => !prev);
+                          }}
+                          className="flex items-center space-x-1 px-2 py-0.5 rounded bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/60 text-[10px]"
+                        >
+                          <Eraser className="w-3 h-3" />
+                          <span>{showChromaKey ? 'Close Chroma Key' : 'Chroma Key / Remove BG'}</span>
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center space-y-2 text-slate-400">
                       <ImageIcon className="w-10 h-10 text-slate-600 group-hover:text-cyan-400 transition-colors" />
-                      <span className="text-sm font-semibold">Drop PNG / WebP / SVG or click to browse</span>
-                      <span className="text-[10px] text-slate-500">Supports transparent alpha channels and pixel-perfect scaling</span>
+                      <span className="text-sm font-semibold">Drop PNG / WebP / SVG or .tangent-pack, or click to browse</span>
+                      <span className="text-[10px] text-slate-500">Supports transparent alpha channels, sanitization &amp; pack import</span>
                     </div>
                   )}
                 </div>
+
+                {previewUrl && showChromaKey && (
+                  <ChromaKeyTool
+                    imageUrl={previewUrl}
+                    onApply={(cleanedDataUrl) => {
+                      setPreviewUrl(cleanedDataUrl);
+                      setShowChromaKey(false);
+                    }}
+                    onCancel={() => setShowChromaKey(false)}
+                  />
+                )}
 
                 {/* Form Fields */}
                 <div className="grid grid-cols-2 gap-4">

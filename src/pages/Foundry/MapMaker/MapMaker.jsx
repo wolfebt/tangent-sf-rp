@@ -49,6 +49,12 @@ import { MapMakerTabBar } from './components/MapMakerTabBar';
 import { AssetStudioTab } from './components/AssetStudioTab';
 import { PcgAiStudioTab } from './components/PcgAiStudioTab';
 import { VttExportTab } from './components/VttExportTab';
+import { compileAssetUnitStamp } from '../../../engine/assets/assetStampCompiler';
+import { useAssetUnitStore } from '../../../engine/assets/assetUnitStore';
+import { auth } from '../../../firebase';
+import { snapPointToGrid } from './map/gridGeometry';
+import { normalizeMapObject } from '../../../utils/storyAssetAdapter';
+import { SelectedElementInspectorBar } from './map/SelectedElementInspectorBar';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 const ChunkStudioModal = lazyWithRetry(() => import('./components/ChunkStudioModal'));
@@ -75,9 +81,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const [stageSize, setStageSize] = useState({ width: 800, height: 600 });
 
   // Floating Toolboxes Toggle State
-  const [showToolsPanel, setShowToolsPanel] = useState(true);
-  const [showSettingsPanel, setShowSettingsPanel] = useState(true);
-  const [showLayersPanel, setShowLayersPanel] = useState(true);
   const [showOmnicortexDrawer, setShowOmnicortexDrawer] = useState(false);
   const [showStoryDrawer, setShowStoryDrawer] = useState(false);
   const [inspectingStoryElement, setInspectingStoryElement] = useState(null);
@@ -124,6 +127,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const {
     universeState,
+    allMaps: contextAllMaps,
     activeMapId,
     setActiveMapId,
     addMap,
@@ -142,16 +146,21 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     isStoryReadOnly = false
   } = useCampaign();
 
+  const availableMaps = useMemo(
+    () => (Array.isArray(contextAllMaps) && contextAllMaps.length > 0 ? contextAllMaps : (universeState?.maps || [])),
+    [contextAllMaps, universeState?.maps]
+  );
+
   // Bi-directional synchronization with ?mapId= URL parameter
   useEffect(() => {
     const urlMapId = searchParams.get('mapId');
     if (urlMapId && urlMapId !== activeMapId) {
-      const exists = universeState?.maps?.some(m => m.id === urlMapId);
+      const exists = availableMaps.some(m => m.id === urlMapId);
       if (exists) {
         setActiveMapId(urlMapId);
       }
     }
-  }, [searchParams, universeState?.maps]);
+  }, [searchParams, availableMaps]);
 
   useEffect(() => {
     if (activeMapId && searchParams.get('mapId') !== activeMapId) {
@@ -171,7 +180,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const [teamRoster, setTeamRoster] = useState(() => createDefaultTeamRoster());
   const [activePings, setActivePings] = useState([]);
   const [gridSnap, setGridSnap] = useState(true);
-  const [gridSize, setGridSize] = useState(40);
+  const [gridSize, setGridSize] = useState(50);
   const [measurementUnit, setMeasurementUnit] = useState('meters');
 
   // Studio Tabbed Mode & Right Architect Console Rail
@@ -205,54 +214,120 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     }
   };
 
+  useEffect(() => {
+    if (universeState?.customAssets) {
+      useAssetUnitStore.getState().migrateLegacyCustomAssets(universeState.customAssets);
+    }
+  }, [universeState?.customAssets]);
+
   const handleStampAssetOnMap = (unit) => {
-    if (!currentMap) return;
+    if (!currentMap || !unit) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warn', text: 'Story preview is read-only. Fork or open in Architect Mode to stamp assets.' });
+      return;
+    }
     recordHistory();
-    const newObj = {
-      id: `obj-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-      name: unit.name,
-      label: unit.name,
-      unit_id: unit.unit_id,
-      x: Math.round((stageSize.width || 800) / (2 * (currentMap.scale || 1)) / gridSize) * gridSize,
-      y: Math.round((stageSize.height || 600) / (2 * (currentMap.scale || 1)) / gridSize) * gridSize,
-      width: ((Array.isArray(unit.dimensions) ? unit.dimensions[0] : unit.dimensions?.width) || 1) * gridSize,
-      height: ((Array.isArray(unit.dimensions) ? unit.dimensions[1] : unit.dimensions?.height) || 1) * gridSize,
-      imageUrl: unit.visuals?.baseTexture || unit.visuals?.thumbnail,
-      category: unit.category,
-      type: unit.category === 'token' ? 'npc' : 'doodad'
-    };
-    updateMap(activeMapId, { objects: [...(currentMap.objects || []), newObj] });
-    setSelectedId(newObj.id);
-    showToast({ type: 'success', text: `Stamped "${unit.name}" on Tactical Canvas!` });
+    const mapZoomScale =
+      typeof currentMap.scale === 'number' && Number.isFinite(currentMap.scale) && currentMap.scale > 0
+        ? currentMap.scale
+        : 1;
+    const rawX = Math.round((stageSize.width || 800) / (2 * mapZoomScale) / gridSize) * gridSize;
+    const rawY = Math.round((stageSize.height || 600) / (2 * mapZoomScale) / gridSize) * gridSize;
+    const compiled = compileAssetUnitStamp(unit, {
+      x: rawX,
+      y: rawY,
+      gridSize,
+      mapScale: currentMap.type
+    });
+
+    const updates = {};
+    if (compiled.object) {
+      updates.objects = [...(currentMap.objects || []), compiled.object];
+    }
+    if (compiled.token) {
+      updates.tokens = [...(currentMap.tokens || []), compiled.token];
+    }
+    if (compiled.terrain) {
+      updates.terrains = [...(currentMap.terrains || []), compiled.terrain];
+    }
+    if (compiled.walls.length > 0) {
+      updates.walls = [...(currentMap.walls || []), ...compiled.walls];
+    }
+    if (compiled.lights.length > 0) {
+      updates.lights = [...(currentMap.lights || []), ...compiled.lights];
+    }
+
+    updateMap(activeMapId, updates);
+    const primaryItem = compiled.object || compiled.token || compiled.terrain || compiled.walls[0];
+    if (primaryItem?.id) {
+      setSelectedId(primaryItem.id);
+    }
+
+    const extras = [];
+    if (compiled.lights.length > 0) extras.push(`${compiled.lights.length} light`);
+    if (compiled.walls.length > 0) extras.push(`${compiled.walls.length} wall${compiled.walls.length > 1 ? 's' : ''}`);
+    const suffix = extras.length > 0 ? ` (+ ${extras.join(', ')})` : '';
+    showToast({ type: 'success', text: `Stamped "${unit.name}" as ${compiled.target}${suffix}!` });
     setActiveStudioTab('canvas');
   };
 
-  const handleApplyPcgTerrain = (grid, biomeKey) => {
+  const handleEquipTerrainBrush = (unit) => {
+    if (!unit) return;
+    const terrainProps = unit.vtt_properties?.terrain;
+    setSelectedTerrain({
+      id: unit.unit_id || unit.id,
+      name: unit.name,
+      label: unit.name,
+      color: unit.color || '#334155',
+      textureUrl: unit.visuals?.baseTexture || unit.visuals?.thumbnail || '',
+      material: terrainProps?.material || 'metal_deck',
+      movementCost: terrainProps?.movementCost ?? 1,
+      assetUnit: unit
+    });
+    setActiveTool('terrain');
+    setActiveStudioTab('canvas');
+    showToast({ type: 'success', text: `Equipped terrain brush "${unit.name}". Paint directly on canvas!` });
+  };
+
+  const handleApplyPcgTerrain = (grid, biomeKey, replaceExisting = false) => {
     if (!currentMap || !grid) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     recordHistory();
+    const gSize = Math.max(15, currentMap?.gridSize || gridSize || 50);
     const newTerrains = [];
     for (let r = 0; r < grid.length; r++) {
       for (let c = 0; c < grid[r].length; c++) {
         if (grid[r][c]) {
           newTerrains.push({
             id: `pcg-ter-${Date.now()}-${r}-${c}`,
-            x: c * gridSize,
-            y: r * gridSize,
-            width: gridSize,
-            height: gridSize,
+            renderType: 'rect',
+            label: biomeKey || 'Procedural Terrain',
+            x: c * gSize,
+            y: r * gSize,
+            width: gSize,
+            height: gSize,
             biomeType: biomeKey || 'rock_cavern',
             color: '#334155'
           });
         }
       }
     }
-    updateMap(activeMapId, { terrains: [...(currentMap.terrains || []), ...newTerrains] });
+    updateMap(activeMapId, {
+      terrains: replaceExisting ? newTerrains : [...(currentMap.terrains || []), ...newTerrains]
+    });
     showToast({ type: 'success', text: `Generated ${newTerrains.length} procedural terrain tiles!` });
     setActiveStudioTab('canvas');
   };
 
   const handleApplyDecorations = (entities = [], atmosphere = null, lights = [], doors = []) => {
     if (!currentMap) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     recordHistory();
 
     const newObjects = (entities || []).map(e => ({
@@ -378,14 +453,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   // Auto-bootstrap starter maps if universe has no maps
   useEffect(() => {
-    if ((!universeState?.maps || universeState.maps.length === 0) && addMap) {
+    if (availableMaps.length === 0 && addMap) {
       const starters = getStarterMapsCollection();
       starters.forEach(m => addMap(m));
       if (starters[0] && setActiveMapId) {
         setActiveMapId(starters[0].id);
       }
     }
-  }, [universeState?.maps?.length, addMap, setActiveMapId]);
+  }, [availableMaps.length, addMap, setActiveMapId]);
 
   // Listen for scene & map control events from rail
   useEffect(() => {
@@ -502,7 +577,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const handleDeleteActiveMap = async () => {
     if (!currentMap) return;
     const targetTitle = currentMap.title || 'Untitled Map';
-    if (universeState.maps.length <= 1) {
+    if (availableMaps.length <= 1) {
       if (await confirmTypedDeletion(targetTitle, 'tactical sector map and reset to blank')) {
         const newBlankId = uuidv4();
         addMap({
@@ -524,7 +599,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       return;
     }
     if (await confirmTypedDeletion(targetTitle, 'tactical sector map')) {
-      const nextMap = universeState.maps.find(m => m.id !== currentMap.id);
+      const nextMap = availableMaps.find(m => m.id !== currentMap.id);
       deleteMap(currentMap.id);
       if (nextMap) {
         setActiveMapId(nextMap.id);
@@ -532,7 +607,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     }
   };
 
-  const currentMap = universeState.maps.find(m => m.id === activeMapId);
+  const currentMap = availableMaps.find(m => m.id === activeMapId);
   const lines = currentMap?.lines || [];
   const tokens = currentMap?.tokens || [];
   const terrains = currentMap?.terrains || [];
@@ -563,6 +638,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const handleStampChunkAtPos = (pos) => {
     if (!currentMap || !selectedChunk) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     const gSize = Math.max(15, gridSize || 50);
     let targetCol = Math.floor(pos.x / gSize);
     let targetRow = Math.floor(pos.y / gSize);
@@ -644,6 +723,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const handleRetransformChunkInstance = (instanceId, updates) => {
     if (!currentMap) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     recordHistory('Transform Placed Chunk');
     const updatedMap = retransformPlacedChunkInstance(
       currentMap,
@@ -663,6 +746,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const handleExplodeChunkInstance = (instanceId) => {
     if (!currentMap) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     recordHistory('Unpack Chunk to Standalone Tiles');
     const updatedMap = explodeChunkInstance(currentMap, instanceId);
     updateMap(activeMapId, {
@@ -677,6 +764,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const handleDeleteChunkInstance = (instanceId) => {
     if (!currentMap) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     recordHistory('Delete Placed Chunk');
     const updatedMap = deletePlacedChunkInstance(currentMap, instanceId);
     updateMap(activeMapId, {
@@ -721,6 +812,27 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     enabled: activeStudioTab === 'canvas'
   });
 
+  const isLayerVisible = useCallback((layerId) => {
+    const l = mapLayers.find(item => item.id === layerId);
+    return l ? l.visible : true;
+  }, [mapLayers]);
+
+  const isLayerLocked = useCallback((layerId) => {
+    const l = mapLayers.find(item => item.id === layerId);
+    return l ? l.locked : false;
+  }, [mapLayers]);
+
+  const handleBlockedCanvasAction = useCallback((reason, layerId) => {
+    if (reason === 'readonly') {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
+    if (reason === 'locked') {
+      const layerName = mapLayers.find(l => l.id === layerId)?.name || layerId || 'target layer';
+      showToast({ type: 'warning', text: `Layer locked: unlock "${layerName}" to edit.` });
+    }
+  }, [mapLayers]);
+
   const {
     scale, setScale, position, setPosition,
     isDrawing,
@@ -735,7 +847,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     selectedLightColor, selectedLightRadius, selectedLightAnimation,
     tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize,
     regions, selectedRegionType,
-    onStampChunk: handleStampChunkAtPos
+    onStampChunk: handleStampChunkAtPos,
+    isStoryReadOnly,
+    isLayerLocked,
+    gridSnap,
+    gridSize: currentMap?.gridSize || gridSize,
+    gridMode: currentMap?.gridMode || gridMode,
+    terrainRenderMode,
+    onBlockedAction: handleBlockedCanvasAction
   });
 
   // Compute live Ghost Preview & Magnetic Socket Snap for activeTool === 'chunk'
@@ -872,6 +991,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   // Door toggle and breach helpers
   const handleToggleDoor = (wallId) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     const targetWall = walls.find(w => w.id === wallId);
     if (!targetWall) return;
     recordHistory();
@@ -881,6 +1004,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   };
 
   const handleUpdateToken = (tokenId, updates = {}) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     const token = tokens.find(t => t.id === tokenId);
     if (!token) return;
     recordHistory();
@@ -893,6 +1020,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const handleSummonOmnicortexAsset = (item, category, targetPos = null) => {
     if (!currentMap) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
 
     const posX = targetPos?.x !== undefined ? targetPos.x : Math.round((-position.x + stageSize.width / 2) / scale);
     const posY = targetPos?.y !== undefined ? targetPos.y : Math.round((-position.y + stageSize.height / 2) / scale);
@@ -1034,7 +1165,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       AudioService.playTerminalBeep(1100, 0.1);
       showToast({ type: 'success', text: `Placed NPC: ${newNpcToken.label}` });
     } else if (type === 'Hazard' || type === 'Trap' || type === 'hazard') {
-      const newTrap = {
+      const newTrap = normalizeMapObject({
         id: `obj_trap_${element.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
         type: 'hazard',
         isTrap: true,
@@ -1056,7 +1187,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         baseDamage: 14,
         hazard: 'plasma',
         layerId: 'layer_objects'
-      };
+      });
       updateMap(activeMapId, { objects: [...objects, newTrap] });
       AudioService.playTerminalBeep(880, 0.08);
       showToast({ type: 'info', text: `Placed Trap: ${newTrap.label}` });
@@ -1072,7 +1203,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         World: '#0ea5e9'
       };
       const nodeColor = glyphColors[type] || '#22d3ee';
-      const newStoryObject = {
+      const newStoryObject = normalizeMapObject({
         id: `obj_ade_${element.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
         type: 'story_element',
         isStoryElement: true,
@@ -1087,9 +1218,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         width: 50,
         height: 50,
         radius: 25,
+        imageUrl: element.imageUrl || element.avatarUrl || '',
         layerId: 'layer_objects',
         isInteractive: true
-      };
+      });
       updateMap(activeMapId, { objects: [...objects, newStoryObject] });
       AudioService.playTerminalBeep(920, 0.08);
       showToast({ type: 'success', text: `Placed Story Node: ${newStoryObject.label}` });
@@ -1098,35 +1230,52 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const handleStageDrop = (e) => {
     e.preventDefault();
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     const raw = e.dataTransfer.getData('application/json');
-    if (!raw) return;
+    if (!raw || !currentMap) return;
 
     try {
       const data = JSON.parse(raw);
+      const rect = containerRef.current.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      const gSize = Math.max(15, currentMap?.gridSize || gridSize || 50);
+      const activeGridMode = currentMap?.gridMode || gridMode || 'hex';
+      const worldPt = snapPointToGrid(
+        { x: (mouseX - position.x) / scale, y: (mouseY - position.y) / scale },
+        gSize,
+        activeGridMode,
+        gridSnap
+      );
+
       if (data.type === 'story_element') {
-        if (!currentMap) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-        const canvasX = (mouseX - position.x) / scale;
-        const canvasY = (mouseY - position.y) / scale;
-        handleSummonStoryElement(data.element, { x: Math.round(canvasX), y: Math.round(canvasY) });
+        handleSummonStoryElement(data.element, worldPt);
       } else if (data.type === 'folio_hero_token') {
-        if (!currentMap) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-        const canvasX = (mouseX - position.x) / scale;
-        const canvasY = (mouseY - position.y) / scale;
-        handleSummonHeroToken(data, { x: Math.round(canvasX), y: Math.round(canvasY) });
+        handleSummonHeroToken(data, worldPt);
       } else if (data.type === 'omnicortex_asset') {
-        if (!currentMap) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-        const canvasX = (mouseX - position.x) / scale;
-        const canvasY = (mouseY - position.y) / scale;
-        handleSummonOmnicortexAsset(data.item, data.category, { x: Math.round(canvasX), y: Math.round(canvasY) });
+        handleSummonOmnicortexAsset(data.item, data.category, worldPt);
+      } else if (data.assetUnit || data.defaultProps?.assetUnit) {
+        const droppedUnit = data.assetUnit || data.defaultProps.assetUnit;
+        recordHistory('Drop Studio Asset');
+        const compiled = compileAssetUnitStamp(droppedUnit, {
+          x: worldPt.x,
+          y: worldPt.y,
+          gridSize: gSize,
+          mapScale: currentMap.type
+        });
+        const updates = {};
+        if (compiled.object) updates.objects = [...(currentMap.objects || []), compiled.object];
+        if (compiled.token) updates.tokens = [...(currentMap.tokens || []), compiled.token];
+        if (compiled.terrain) updates.terrains = [...(currentMap.terrains || []), compiled.terrain];
+        if (compiled.walls.length > 0) updates.walls = [...(currentMap.walls || []), ...compiled.walls];
+        if (compiled.lights.length > 0) updates.lights = [...(currentMap.lights || []), ...compiled.lights];
+        updateMap(activeMapId, updates);
+        const primary = compiled.object || compiled.token || compiled.terrain || compiled.walls[0];
+        if (primary?.id) setSelectedId(primary.id);
+        showToast({ type: 'success', text: `Stamped "${droppedUnit.name || 'Asset'}" at canvas drop.` });
       }
     } catch (err) {
       console.warn('Failed to parse dropped token/asset:', err);
@@ -1135,6 +1284,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const handleSummonHeroToken = (data, targetPos = null) => {
     if (!currentMap) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
 
     const posX = targetPos ? targetPos.x : Math.round((-position.x + stageSize.width / 2) / scale);
     const posY = targetPos ? targetPos.y : Math.round((-position.y + stageSize.height / 2) / scale);
@@ -1169,6 +1322,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       }
 
       if (e.key === 'Escape') {
+        if (isModalOpen) {
+          setIsModalOpen(false);
+          return;
+        }
         if (isShortcutsModalOpen) {
           setIsShortcutsModalOpen(false);
           return;
@@ -1273,6 +1430,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       } else if (e.key === '?' || (e.shiftKey && e.key === '/')) {
         setIsShortcutsModalOpen(prev => !prev);
       } else if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId) {
+        if (isStoryReadOnly) {
+          showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+          return;
+        }
         recordHistory();
         updateMap(activeMapId, {
           objects: objects.filter(o => o.id !== selectedId),
@@ -1315,7 +1476,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('blur', handleWindowBlur);
     };
-  }, [isMobile, activeStudioTab, activeMapId, gridMode, currentMap?.gridMode, selectedId, objects, terrains, walls, lights, lines, tokens, texts, fog, regions, chunkInstances, activeTool, zoomBy, panBy, recordHistory, updateMap, isShortcutsModalOpen, isVttDrawerOpen, isUvttModalOpen, rulerWaypoints, clearRuler, selectedChunkInstance]);
+  }, [isMobile, activeStudioTab, activeMapId, gridMode, currentMap?.gridMode, selectedId, objects, terrains, walls, lights, lines, tokens, texts, fog, regions, chunkInstances, activeTool, zoomBy, panBy, recordHistory, updateMap, isShortcutsModalOpen, isModalOpen, isVttDrawerOpen, isUvttModalOpen, rulerWaypoints, clearRuler, selectedChunkInstance, isStoryReadOnly]);
 
   const handleCommitPcgSector = ({
     terrains: generatedTerrains = [],
@@ -1327,6 +1488,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   }) => {
     let targetId = activeMapId;
     if (!targetId || universeState.maps.length === 0) {
+      if (isStoryReadOnly) {
+        showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+        return;
+      }
       targetId = uuidv4();
       addMap({
         id: targetId,
@@ -1386,6 +1551,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   };
 
   const toggleLayerLock = (layerId) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     recordHistory();
     const nextLayers = produce(mapLayers, draft => {
       const layer = draft.find(l => l.id === layerId);
@@ -1396,6 +1565,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
   const addCustomLayer = (e) => {
     e.preventDefault();
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     if (!newLayerNameInput.trim()) return;
     recordHistory();
     const newLayer = {
@@ -1409,6 +1582,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   };
 
   const deleteCustomLayer = async (layerId) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     if (mapLayers.length <= 1) {
       showToast({ type: 'warning', text: 'Must have at least one layer!' });
       return;
@@ -1448,6 +1625,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   }, [universeState.maps, activeMapId, setActiveMapId]);
 
   const eraseElement = (id) => {
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
     recordHistory();
     updateMap(activeMapId, {
       lines: lines.filter(l => l.id !== id),
@@ -1534,8 +1715,15 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     showToast({ type: 'success', text: `BATCH ACTION: ${action.toUpperCase()}` });
   }, [activeMapId, currentMap, recordHistory, updateMap]);
 
-  const handleClearMap = () => {
-    recordHistory();
+  const handleClearMap = async () => {
+    if (!currentMap || !activeMapId) return;
+    if (isStoryReadOnly) {
+      showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+      return;
+    }
+    const confirmed = await confirmTypedDeletion(currentMap?.title || 'Active Map', 'map canvas contents');
+    if (!confirmed) return;
+    recordHistory('Clear Map Canvas');
     updateMap(activeMapId, {
       lines: [],
       terrains: [],
@@ -1546,7 +1734,9 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       fog: [],
       regions: [],
       chunkInstances: [],
-      underlays: []
+      underlay: null,
+      underlays: [],
+      videoBackgroundUrl: ''
     });
     setSelectedId(null);
   };
@@ -1624,16 +1814,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     setIsModalOpen(false);
   };
 
-  const isLayerVisible = useCallback((layerId) => {
-    const l = mapLayers.find(item => item.id === layerId);
-    return l ? l.visible : true;
-  }, [mapLayers]);
-
-  const isLayerLocked = useCallback((layerId) => {
-    const l = mapLayers.find(item => item.id === layerId);
-    return l ? l.locked : false;
-  }, [mapLayers]);
-
   if (isMobile) {
     return <MobileTacticalBlocker operation="map" onBack={onBackToStory} />;
   }
@@ -1643,7 +1823,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
       {/* Canvas Keyboard Shortcuts Manager Legend Modal Element */}
       {isShortcutsModalOpen && (
-        <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsShortcutsModalOpen(false);
+          }}
+          className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans"
+        >
           <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-md p-5 text-slate-100 shadow-[0_0_30px_rgba(6,182,212,0.3)] animate-in fade-in zoom-in-95 duration-150">
             <div className="flex justify-between items-center pb-3 border-b border-slate-800 mb-4">
               <h3 className="text-base font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2 font-mono">
@@ -1702,7 +1889,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsModalOpen(false);
+          }}
+          className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans"
+        >
           <div className="bg-slate-900 border border-cyan-500/50 rounded-xl p-6 w-full max-w-md shadow-[0_0_30px_rgba(6,182,212,0.3)] text-white animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
               <h3 className="text-base font-bold uppercase tracking-wider text-cyan-400 font-mono flex items-center gap-2">
@@ -1778,12 +1972,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         setGridMode={setGridMode}
         terrainRenderMode={terrainRenderMode}
         setTerrainRenderMode={setTerrainRenderMode}
-        showToolsPanel={showToolsPanel}
-        setShowToolsPanel={setShowToolsPanel}
-        showSettingsPanel={showSettingsPanel}
-        setShowSettingsPanel={setShowSettingsPanel}
-        showLayersPanel={showLayersPanel}
-        setShowLayersPanel={setShowLayersPanel}
         showOmnicortexDrawer={showOmnicortexDrawer}
         setShowOmnicortexDrawer={setShowOmnicortexDrawer}
         showStoryDrawer={showStoryDrawer}
@@ -1799,7 +1987,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         onResetView={() => { setScale(1); setPosition({x:0, y:0}); }}
         onExportPNG={handleExportPNG}
         onOpenLandmassGenerator={() => setActiveStudioTab('pcg')}
-        onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+        onOpenAssetManager={() => setActiveStudioTab('assets')}
         onOpenUvttImport={() => setIsUvttModalOpen(true)}
         onSaveMapToFile={handleSaveMapToFile}
         onLoadMapFromFile={() => mapFileInputRef.current?.click()}
@@ -1883,196 +2071,55 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         </div>
       )}
 
-      {/* Unified Selected Element Inspector Bar (Objects, Units, Portals) */}
-      {selectedId && (() => {
-        const selectedToken = tokens.find(t => t.id === selectedId);
-        const selectedObject = objects.find(o => o.id === selectedId);
-        const item = selectedToken || selectedObject;
-
-        if (!item) return null;
-
-        const isToken = !!selectedToken;
-        const isPortal = isToken && selectedToken.type === 'link';
-        const isUnit = isToken && !isPortal;
-        const isObject = !isToken;
-
-        const updateItem = (updates) => {
-          recordHistory();
-          if (isToken) {
-            const nextTokens = produce(tokens, draft => {
-              const target = draft.find(t => t.id === selectedId);
-              if (target) Object.assign(target, updates);
-            });
-            updateMap(activeMapId, { tokens: nextTokens });
-          } else if (isObject) {
-            const nextObjects = produce(objects, draft => {
-              const target = draft.find(o => o.id === selectedId);
-              if (target) Object.assign(target, updates);
-            });
-            updateMap(activeMapId, { objects: nextObjects });
-          }
-        };
-
-        return (
-          <div className="relative z-[80] bg-[#161b22]/95 p-2 border-b border-[#0D5C63]/60 flex items-center justify-between text-xs gap-3 flex-wrap text-slate-200 backdrop-blur-md">
-            <div className="flex items-center gap-3 flex-wrap w-full">
-              {/* Type Badge */}
-              <div className="flex items-center gap-1 font-bold">
-                <span className={`px-2 py-0.5 rounded border text-[10px] uppercase font-mono ${
-                  isPortal
-                    ? 'bg-purple-950 text-purple-300 border-purple-700'
-                    : isUnit
-                    ? 'bg-amber-950 text-amber-300 border-amber-700'
-                    : 'bg-cyan-950 text-cyan-300 border-[#0D5C63]'
-                }`}>
-                  {isPortal ? '🌌 Portal' : isUnit ? '⚔️ Unit' : '🏢 Object'}
-                </span>
-              </div>
-
-              {/* 1. Naming Option (Label Input) */}
-              <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                <span className="text-[10px] font-bold text-cyan-400 uppercase">Label:</span>
-                <input
-                  type="text"
-                  value={item.label || ''}
-                  onChange={(e) => updateItem({ label: e.target.value })}
-                  placeholder="Element name..."
-                  className="bg-[#161b22] border border-[#0D5C63]/60 text-white px-2 py-0.5 rounded text-xs outline-none focus:border-[#22d3ee] w-36 font-semibold"
-                />
-              </div>
-
-              {/* 2. Halo Option (Glow/Aura with Color Selector) */}
-              <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                <span className="text-[10px] font-bold text-amber-400 uppercase flex items-center gap-1">
-                  <span>😇</span> Halo:
-                </span>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => updateItem({ haloColor: null })}
-                    className={`px-1.5 py-0.5 text-[9px] font-bold rounded border transition-colors ${
-                      !item.haloColor
-                        ? 'border-[#22d3ee] bg-cyan-950 text-[#22d3ee]'
-                        : 'border-[#0D5C63]/40 bg-[#161b22] text-slate-400 hover:text-white'
-                    }`}
-                    title="Turn Off Halo"
-                  >
-                    Off
-                  </button>
-
-                  {[
-                    { name: 'Cyan', color: '#22d3ee' },
-                    { name: 'Blue', color: '#3b82f6' },
-                    { name: 'Gold', color: '#eab308' },
-                    { name: 'Green', color: '#22c55e' },
-                    { name: 'Red', color: '#ef4444' },
-                    { name: 'Purple', color: '#a855f7' },
-                    { name: 'Pink', color: '#ec4899' },
-                    { name: 'White', color: '#ffffff' }
-                  ].map(swatch => (
-                    <button
-                      key={swatch.color}
-                      onClick={() => updateItem({ haloColor: swatch.color })}
-                      className={`w-4 h-4 rounded-full border transition-all ${
-                        item.haloColor === swatch.color
-                          ? 'border-white scale-125 shadow-[0_0_8px_rgba(255,255,255,0.9)]'
-                          : 'border-transparent opacity-80 hover:opacity-100'
-                      }`}
-                      style={{ backgroundColor: swatch.color }}
-                      title={`${swatch.name} Halo`}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Unit Controls: Faction, Role & Size */}
-              {isUnit && (
-                <>
-                  {/* Unit Designation / Faction */}
-                  <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                    <span className="text-[10px] font-bold text-amber-400 uppercase">Faction:</span>
-                    <select
-                      className="bg-[#161b22] border border-[#0D5C63]/60 text-white px-2 py-0.5 rounded text-xs font-semibold outline-none focus:border-amber-400"
-                      value={item.designation || 'Adversary'}
-                      onChange={(e) => {
-                        const des = e.target.value;
-                        const fill = des === 'Ally' ? '#10b981' : (des === 'Adversary' ? '#ef4444' : (des === 'Player' ? '#0284c7' : '#a855f7'));
-                        updateItem({ designation: des, fill });
-                      }}
-                    >
-                      <option value="Player">Operator</option>
-                      <option value="Ally">Ally</option>
-                      <option value="Adversary">Adversary</option>
-                      <option value="Neutral">Neutral</option>
-                    </select>
-                  </div>
-
-                  {/* Unit Role / Profile */}
-                  <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                    <span className="text-[10px] font-bold text-cyan-400 uppercase">Role:</span>
-                    <input
-                      type="text"
-                      value={item.role || ''}
-                      onChange={(e) => updateItem({ role: e.target.value })}
-                      placeholder="Role (e.g. Tactical)..."
-                      className="bg-[#161b22] border border-[#0D5C63]/60 text-white px-2 py-0.5 rounded text-xs outline-none focus:border-[#22d3ee] w-24 font-semibold"
-                    />
-                  </div>
-
-                  {/* Token Radius / Scale */}
-                  <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase">Size:</span>
-                    <select
-                      className="bg-[#161b22] border border-[#0D5C63]/60 text-white px-2 py-0.5 rounded text-xs font-semibold outline-none focus:border-cyan-400"
-                      value={item.radius || 35}
-                      onChange={(e) => updateItem({ radius: parseInt(e.target.value, 10) })}
-                    >
-                      <option value="25">Small (25px)</option>
-                      <option value="35">Medium (35px)</option>
-                      <option value="50">Large (50px)</option>
-                      <option value="70">Huge (70px)</option>
-                    </select>
-                  </div>
-                </>
-              )}
-
-              {/* Omnicortex Linked Item Sheet Inspection Button */}
-              {(item.linkedOmnicortexItem || item.omnicortexId) && (
-                <button
-                  type="button"
-                  onClick={() => setInspectingOmnicortexItem(item.linkedOmnicortexItem || { id: item.omnicortexId, name: item.label, category: item.omnicortexCategory || 'compendium' })}
-                  className="px-2.5 py-1 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-[0_0_8px_rgba(6,182,212,0.2)]"
-                  title="Open Omnicortex Compendium Item Sheet"
-                >
-                  <span>🧠</span> Omnicortex Sheet
-                </button>
-              )}
-
-              {/* Portal Target Map Dropdown */}
-              {isPortal && (
-                <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                  <span className="text-[10px] font-bold text-purple-400 uppercase">Target Map:</span>
-                  <select
-                    className="bg-[#161b22] border border-[#0D5C63]/60 text-white px-2 py-0.5 rounded text-xs font-semibold outline-none focus:border-purple-400 relative z-10"
-                    value={item.targetMapId || ''}
-                    onChange={(e) => {
-                      const targetMap = universeState.maps.find(m => m.id === e.target.value);
-                      updateItem({
-                        targetMapId: e.target.value,
-                        label: targetMap ? targetMap.title : item.label
-                      });
-                    }}
-                  >
-                    <option value="" disabled>Select Target Map...</option>
-                    {universeState.maps.filter(m => m.id !== activeMapId).map(m => (
-                      <option key={m.id} value={m.id}>{m.title} [{m.type}]</option>
-                    ))}
-                  </select>
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      })()}
+      {/* Unified Selected Element Inspector Bar (Tokens, Objects, Walls/Doors, Lights, Texts, Regions) */}
+      <SelectedElementInspectorBar
+        currentMap={currentMap}
+        selectedId={selectedId}
+        isStoryReadOnly={isStoryReadOnly}
+        availableMaps={universeState.maps || []}
+        activeMapId={activeMapId}
+        onRecordHistory={recordHistory}
+        onDeleteSelected={eraseElement}
+        onClose={() => setSelectedId(null)}
+        onInspectOmnicortexItem={(item) => setInspectingOmnicortexItem(item)}
+        onInspectStoryElement={(element) => setInspectingStoryElement(element)}
+        onUpdateToken={(updatedToken) => {
+          if (isStoryReadOnly || !updatedToken) return;
+          const nextTokens = produce(tokens, (draft) => {
+            const target = draft.find((t) => t.id === updatedToken.id);
+            if (target) Object.assign(target, updatedToken);
+          });
+          updateMap(activeMapId, { tokens: nextTokens });
+        }}
+        onUpdateObject={(updatedObj) => {
+          if (isStoryReadOnly || !updatedObj) return;
+          const nextObjects = produce(objects, (draft) => {
+            const target = draft.find((o) => o.id === updatedObj.id);
+            if (target) Object.assign(target, updatedObj);
+          });
+          updateMap(activeMapId, { objects: nextObjects });
+        }}
+        onUpdateWall={(wallId, patch) => {
+          if (isStoryReadOnly) return;
+          const nextWalls = walls.map((w) => (w.id === wallId ? { ...w, ...patch } : w));
+          updateMap(activeMapId, { walls: nextWalls });
+        }}
+        onUpdateLight={(lightId, patch) => {
+          if (isStoryReadOnly) return;
+          const nextLights = lights.map((lt) => (lt.id === lightId ? { ...lt, ...patch } : lt));
+          updateMap(activeMapId, { lights: nextLights });
+        }}
+        onUpdateText={(updatedText) => {
+          if (isStoryReadOnly || !updatedText) return;
+          const nextTexts = texts.map((txt) => (txt.id === updatedText.id ? updatedText : txt));
+          updateMap(activeMapId, { texts: nextTexts });
+        }}
+        onUpdateRegion={(regionId, patch) => {
+          if (isStoryReadOnly) return;
+          const nextRegions = regions.map((rg) => (rg.id === regionId ? { ...rg, ...patch } : rg));
+          updateMap(activeMapId, { regions: nextRegions });
+        }}
+      />
 
       {/* Primary Workspace Tab Bar: Tabs in place of split windows */}
       <MapMakerTabBar activeTab={activeStudioTab} onSelectTab={setActiveStudioTab} onOpenInStage={handleOpenInStage} />
@@ -2120,6 +2167,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
           updateMap={updateMap}
           universeState={universeState}
           setActiveMapId={setActiveMapId}
+          isStoryReadOnly={isStoryReadOnly}
         />
 
         <MapAssetManagerModal
@@ -2363,6 +2411,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                 selectedWallType={selectedWallType}
                 paintRoofLayer={paintRoofLayer}
                 measurementUnit={measurementUnit}
+                rulerSelectedPace={rulerSelectedPace}
+                isStoryReadOnly={isStoryReadOnly}
                 isLayerVisible={isLayerVisible}
                 isLayerLocked={isLayerLocked}
                 onWheel={handleWheel}
@@ -2380,48 +2430,98 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                 onErase={eraseElement}
                 onToggleDoor={handleToggleDoor}
                 onUpdateWall={(wallId, patch) => {
+                  if (isStoryReadOnly) {
+                    showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+                    return;
+                  }
                   recordHistory('Edit Wall Geometry');
-                  const nextWalls = walls.map((item) => (item.id === wallId ? { ...item, ...patch } : item));
+                  const gSz = currentMap?.gridSize || gridSize || 50;
+                  const gMode = currentMap?.gridMode || gridMode || 'hex';
+                  const snappedPatch = {
+                    ...patch,
+                    ...(patch.p1 ? { p1: snapPointToGrid(patch.p1, gSz, gMode, gridSnap) } : {}),
+                    ...(patch.p2 ? { p2: snapPointToGrid(patch.p2, gSz, gMode, gridSnap) } : {})
+                  };
+                  const nextWalls = walls.map((item) => (item.id === wallId ? { ...item, ...snappedPatch } : item));
                   updateMap(activeMapId, { walls: nextWalls });
                 }}
                 onUpdateObject={(newAttrs) => {
+                  if (isStoryReadOnly) {
+                    showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+                    return;
+                  }
                   recordHistory('Move Object');
+                  const gSz = currentMap?.gridSize || gridSize || 50;
+                  const gMode = currentMap?.gridMode || gridMode || 'hex';
+                  const snappedPt = snapPointToGrid({ x: newAttrs.x, y: newAttrs.y }, gSz, gMode, gridSnap);
+                  const nextObj = { ...newAttrs, x: snappedPt.x, y: snappedPt.y };
                   const nextObjects = produce(objects, (draft) => {
-                    const index = draft.findIndex((o) => o.id === newAttrs.id);
-                    if (index !== -1) draft[index] = newAttrs;
+                    const index = draft.findIndex((o) => o.id === nextObj.id);
+                    if (index !== -1) draft[index] = nextObj;
                   });
                   updateMap(activeMapId, { objects: nextObjects });
                 }}
                 onUpdateToken={(newAttrs) => {
+                  if (isStoryReadOnly) {
+                    showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+                    return;
+                  }
                   recordHistory('Move Token');
+                  const gSz = currentMap?.gridSize || gridSize || 50;
+                  const gMode = currentMap?.gridMode || gridMode || 'hex';
+                  const snappedPt = snapPointToGrid({ x: newAttrs.x, y: newAttrs.y }, gSz, gMode, gridSnap);
+                  const nextTk = { ...newAttrs, x: snappedPt.x, y: snappedPt.y };
                   const nextTokens = produce(tokens, (draft) => {
-                    const index = draft.findIndex((t) => t.id === newAttrs.id);
-                    if (index !== -1) draft[index] = newAttrs;
+                    const index = draft.findIndex((t) => t.id === nextTk.id);
+                    if (index !== -1) draft[index] = nextTk;
                   });
                   updateMap(activeMapId, { tokens: nextTokens });
                 }}
                 onUpdateLight={(lightId, lx, ly) => {
+                  if (isStoryReadOnly) {
+                    showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+                    return;
+                  }
                   recordHistory('Move Light');
+                  const gSz = currentMap?.gridSize || gridSize || 50;
+                  const gMode = currentMap?.gridMode || gridMode || 'hex';
+                  const snappedPt = snapPointToGrid({ x: lx, y: ly }, gSz, gMode, gridSnap);
                   const nextLights = produce(lights, (draft) => {
                     const idx = draft.findIndex((item) => item.id === lightId);
                     if (idx !== -1) {
-                      draft[idx].x = lx;
-                      draft[idx].y = ly;
+                      draft[idx].x = snappedPt.x;
+                      draft[idx].y = snappedPt.y;
                     }
                   });
                   updateMap(activeMapId, { lights: nextLights });
                 }}
                 onUpdateText={(newAttrs) => {
+                  if (isStoryReadOnly) {
+                    showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+                    return;
+                  }
                   recordHistory('Move Text');
+                  const gSz = currentMap?.gridSize || gridSize || 50;
+                  const gMode = currentMap?.gridMode || gridMode || 'hex';
+                  const snappedPt = snapPointToGrid({ x: newAttrs.x, y: newAttrs.y }, gSz, gMode, gridSnap);
+                  const nextTxt = { ...newAttrs, x: snappedPt.x, y: snappedPt.y };
                   const nextTexts = produce(texts, (draft) => {
-                    const index = draft.findIndex((t) => t.id === newAttrs.id);
-                    if (index !== -1) draft[index] = newAttrs;
+                    const index = draft.findIndex((t) => t.id === nextTxt.id);
+                    if (index !== -1) draft[index] = nextTxt;
                   });
                   updateMap(activeMapId, { texts: nextTexts });
                 }}
                 onUpdateRegion={(regionId, bounds) => {
+                  if (isStoryReadOnly) {
+                    showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+                    return;
+                  }
                   recordHistory('Move Region');
-                  const nextRegions = regions.map((r) => (r.id === regionId ? { ...r, bounds } : r));
+                  const gSz = currentMap?.gridSize || gridSize || 50;
+                  const gMode = currentMap?.gridMode || gridMode || 'hex';
+                  const snappedPt = snapPointToGrid({ x: bounds.x, y: bounds.y }, gSz, gMode, gridSnap);
+                  const nextBounds = { ...bounds, x: snappedPt.x, y: snappedPt.y };
+                  const nextRegions = regions.map((r) => (r.id === regionId ? { ...r, bounds: nextBounds } : r));
                   updateMap(activeMapId, { regions: nextRegions });
                 }}
                 onObjectDoubleClick={handleObjectDoubleClick}
@@ -2516,13 +2616,13 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             onBroadcastMessage={(msg) => {
               showToast({ type: 'info', text: msg });
             }}
-            onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+            onOpenAssetManager={() => setActiveStudioTab('assets')}
             onOpenStoryDrawer={() => setShowStoryDrawer(true)}
             onOpenOmnicortexDrawer={() => setShowOmnicortexDrawer(true)}
             onOpenLandmassGenerator={() => setActiveStudioTab('pcg')}
             onOpenPcgStudio={() => setActiveStudioTab('pcg')}
             onOpenAssetStudio={() => setActiveStudioTab('assets')}
-            onOpenAssetIngestion={() => setIsAssetManagerOpen(true)}
+            onOpenAssetIngestion={() => setActiveStudioTab('assets')}
             onOpenUvttImport={() => setIsUvttModalOpen(true)}
             selectedChunk={selectedChunk}
             setSelectedChunk={setSelectedChunk}
@@ -2546,7 +2646,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
       {/* Tab: Asset Studio & Property Forge */}
       {activeStudioTab === 'assets' && (
-        <AssetStudioTab onStampAssetOnMap={handleStampAssetOnMap} onOpenChunkStudio={() => setActiveStudioTab('chunks')} />
+        <AssetStudioTab
+          onStampAssetOnMap={handleStampAssetOnMap}
+          onEquipTerrainBrush={handleEquipTerrainBrush}
+          onOpenChunkStudio={() => setActiveStudioTab('chunks')}
+        />
       )}
 
       {/* Tab: Chunk Forge Studio & Construction Point Workbench */}
@@ -2618,6 +2722,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         isOpen={isUvttModalOpen}
         onClose={() => setIsUvttModalOpen(false)}
         onImportComplete={(importedMap) => {
+          if (isStoryReadOnly) {
+            showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+            return;
+          }
           addMap(importedMap);
           setActiveMapId(importedMap.id);
           showToast({ type: 'success', text: `Universal VTT Imported: ${importedMap.title}` });
@@ -2686,8 +2794,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         onClose={() => setIsUnderlayModalOpen(false)}
         currentUnderlay={currentMap?.underlay}
         currentVideoUrl={currentMap?.videoBackgroundUrl || ''}
+        userId={auth?.currentUser?.uid || null}
         mapId={activeMapId || 'map'}
         onApplyUnderlay={(cfg) => {
+          if (isStoryReadOnly) {
+            showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+            return;
+          }
+          recordHistory('Apply Map Underlay');
           updateMap(activeMapId, {
             underlay: cfg,
             videoBackgroundUrl: cfg.videoBackgroundUrl || ''
@@ -2698,6 +2812,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
           });
         }}
         onClearUnderlay={() => {
+          if (isStoryReadOnly) {
+            showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+            return;
+          }
+          recordHistory('Clear Map Underlay');
           updateMap(activeMapId, { underlay: null, videoBackgroundUrl: '' });
           showToast({ type: 'info', text: 'Map underlay cleared.' });
         }}

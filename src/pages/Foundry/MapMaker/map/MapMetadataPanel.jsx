@@ -8,7 +8,8 @@ const MapMetadataPanel = ({
   currentMap,
   updateMap,
   universeState,
-  setActiveMapId
+  setActiveMapId,
+  isStoryReadOnly = false
 }) => {
   if (!showPanel || !currentMap) return null;
 
@@ -17,11 +18,13 @@ const MapMetadataPanel = ({
   const metadata = currentMap.metadata || {};
 
   const handleFieldChange = (key, value) => {
+    if (isStoryReadOnly) return;
     const nextMetadata = { ...metadata, [key]: value };
     updateMap(currentMap.id, { metadata: nextMetadata });
   };
 
   const handleParentLinkChange = (parentId) => {
+    if (isStoryReadOnly) return;
     updateMap(currentMap.id, { parentMapId: parentId });
   };
 
@@ -57,9 +60,10 @@ const MapMetadataPanel = ({
             Parent Scale Link (Anchor):
           </label>
           <select
+            disabled={isStoryReadOnly}
             value={currentMap.parentMapId || ''}
             onChange={(e) => handleParentLinkChange(e.target.value)}
-            className="w-full bg-[#161b22] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee] relative z-10"
+            className="w-full bg-[#161b22] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee] relative z-10 disabled:opacity-50"
           >
             <option value="">None (Root Node)</option>
             {universeState.maps.filter(m => m.id !== currentMap.id).map(m => (
@@ -90,8 +94,9 @@ const MapMetadataPanel = ({
 
               {field.type === 'boolean' ? (
                 <button
+                  disabled={isStoryReadOnly}
                   onClick={() => handleFieldChange(field.key, !val)}
-                  className={`py-1.5 px-2.5 rounded border text-xs font-bold text-left transition-all ${
+                  className={`py-1.5 px-2.5 rounded border text-xs font-bold text-left transition-all disabled:opacity-50 ${
                     val
                       ? 'bg-cyan-950 border-[#22d3ee] text-[#22d3ee] shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'bg-[#0d1117] border-[#0D5C63]/40 text-slate-400'
@@ -101,9 +106,10 @@ const MapMetadataPanel = ({
                 </button>
               ) : field.type === 'select' ? (
                 <select
+                  disabled={isStoryReadOnly}
                   value={val ?? ''}
                   onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                  className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee] relative z-10"
+                  className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee] relative z-10 disabled:opacity-50"
                 >
                   {field.options.map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
@@ -112,19 +118,21 @@ const MapMetadataPanel = ({
               ) : field.type === 'number' ? (
                 <input
                   type="number"
+                  disabled={isStoryReadOnly}
                   min={field.min}
                   max={field.max}
                   step={field.step || 1}
                   value={val}
                   onChange={(e) => handleFieldChange(field.key, parseFloat(e.target.value) || 0)}
-                  className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee]"
+                  className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee] disabled:opacity-50"
                 />
               ) : (
                 <input
                   type="text"
+                  disabled={isStoryReadOnly}
                   value={val}
                   onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                  className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee]"
+                  className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee] disabled:opacity-50"
                 />
               )}
             </div>

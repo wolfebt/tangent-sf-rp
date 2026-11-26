@@ -30,7 +30,9 @@ export const VttCompilerModal = ({
 
   // Identify active map linked to scenario or default to first map
   const activeMap = useMemo(() => {
-    const allMaps = [...(mapsCatalog || []), ...(universeState?.maps || [])];
+    const projectMaps = universeState?.maps || [];
+    const catalogOnly = (mapsCatalog || []).filter(cm => !projectMaps.some(pm => pm.id === cm.id));
+    const allMaps = [...projectMaps, ...catalogOnly];
     if (activeScenario?.mapId) {
       return allMaps.find(m => m.id === activeScenario.mapId) || allMaps[0] || null;
     }
@@ -105,15 +107,15 @@ export const VttCompilerModal = ({
 
     AudioService.playCriticalChime(true);
 
-    // Deploy compiled tokens and objects directly into engine state and map
+    // Deploy compiled tokens and objects directly into engine state and map once
     const { tokensDeployed, objectsDeployed } = deployCompiledPackage(
       pkg,
       updateMap,
       activeMap.id
     );
 
-    // Also populate store for stage auto-sync if re-mounting
-    useUILayoutStore.getState().setLastCompiledPackage(pkg);
+    // Clear store cache so navigating to /stage does not re-deploy the same package on mount
+    useUILayoutStore.getState().setLastCompiledPackage(null);
 
     setDeployStatus(`✅ Deployed ${tokensDeployed} tokens & ${objectsDeployed} objects to Stage`);
 

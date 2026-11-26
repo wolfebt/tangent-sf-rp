@@ -21,18 +21,26 @@ const MapKeyPanel = ({
   const terrains = currentMap?.terrains || [];
   const objects = currentMap?.objects || [];
   const tokens = currentMap?.tokens || [];
+  const lights = currentMap?.lights || [];
+  const walls = currentMap?.walls || [];
+  const regions = currentMap?.regions || [];
 
-  // Compute terrain key (legend) items - only terrains present on the current map
+  // Compute terrain key (legend) items - include image-backed terrains even without color
   const activeTerrainMap = new Map();
   terrains.forEach(t => {
-    if (t.label && t.color) {
-      activeTerrainMap.set(t.label, { label: t.label, color: t.color });
+    const label = t?.label || t?.name || t?.biomeType;
+    if (label) {
+      activeTerrainMap.set(label, {
+        label,
+        color: t.color || '#334155',
+        swatchImage: t.imageUrl || t.textureUrl || ''
+      });
     }
   });
 
   const legendItems = Array.from(activeTerrainMap.values());
 
-  // Combine placed objects, units, and map portals into unified directory items
+  // Combine placed objects, units, portals, walls/doors, lights, and regions into unified directory items
   const allMapEntities = [
     ...objects.map(o => ({
       id: o.id,
@@ -42,7 +50,7 @@ const MapKeyPanel = ({
       category: 'Objects',
       color: o.color || '#0284c7',
       icon: '🏢',
-      badge: o.scaleTarget
+      badge: o.scaleTarget || 'Object'
     })),
     ...tokens.map(t => {
       const isPortal = t.type === 'link';
@@ -52,12 +60,50 @@ const MapKeyPanel = ({
         y: t.y,
         label: t.label || (isPortal ? 'Map Portal' : 'Unit Token'),
         category: isPortal ? 'Portals' : 'Units',
-        color: isPortal ? '#c026d3' : (t.color || '#eab308'),
+        color: isPortal ? '#c026d3' : (t.fill || t.color || '#eab308'),
         icon: isPortal ? '🌌' : '⚔️',
         badge: isPortal ? 'Portal' : 'Unit',
         details: isPortal 
           ? (t.targetMapId ? 'Linked' : 'Unlinked') 
           : (t.health ? `Health ${t.health.current}/${t.health.max}${t.vitality ? ` • Vit ${t.vitality.current}/${t.vitality.max}` : ''}` : (t.hp ? `Health ${t.hp.current}/${t.hp.max}` : undefined))
+      };
+    }),
+    ...walls.map(w => {
+      const isDoor = ['door', 'secret_door', 'airlock'].includes(String(w?.type || '').toLowerCase());
+      const mx = w?.p1 && w?.p2 ? Math.round((w.p1.x + w.p2.x) / 2) : 0;
+      const my = w?.p1 && w?.p2 ? Math.round((w.p1.y + w.p2.y) / 2) : 0;
+      return {
+        id: w.id,
+        x: mx,
+        y: my,
+        label: w.label || (isDoor ? 'Door Segment' : 'Wall Segment'),
+        category: 'Walls',
+        color: isDoor ? '#f59e0b' : (w.color || '#94a3b8'),
+        icon: isDoor ? '🚪' : '🧱',
+        badge: isDoor ? (w.doorState || 'Door') : (w.type || 'Wall')
+      };
+    }),
+    ...lights.map(lt => ({
+      id: lt.id,
+      x: lt.x,
+      y: lt.y,
+      label: lt.name || lt.label || 'Dynamic Light',
+      category: 'Lights',
+      color: lt.color || '#f59e0b',
+      icon: '💡',
+      badge: `${Math.round(lt.radius || 180)}px`
+    })),
+    ...regions.map(rg => {
+      const b = rg.bounds || { x: 0, y: 0, width: 150, height: 150 };
+      return {
+        id: rg.id,
+        x: Math.round(b.x + (b.width || 0) / 2),
+        y: Math.round(b.y + (b.height || 0) / 2),
+        label: rg.name || rg.triggerType || 'Scene Region',
+        category: 'Regions',
+        color: rg.triggerType === 'hazard' ? '#f97316' : rg.triggerType === 'teleport_deck' ? '#22d3ee' : '#a855f7',
+        icon: '🗺️',
+        badge: rg.triggerType || 'Region'
       };
     })
   ];
@@ -81,6 +127,9 @@ const MapKeyPanel = ({
   const objectCount = allMapEntities.filter(e => e.category === 'Objects').length;
   const unitCount = allMapEntities.filter(e => e.category === 'Units').length;
   const portalCount = allMapEntities.filter(e => e.category === 'Portals').length;
+  const wallCount = allMapEntities.filter(e => e.category === 'Walls').length;
+  const lightCount = allMapEntities.filter(e => e.category === 'Lights').length;
+  const regionCount = allMapEntities.filter(e => e.category === 'Regions').length;
 
   return (
     <DraggablePanel id="key_panel" className="absolute bottom-4 left-4 z-30 w-80 bg-[#161b22]/95 backdrop-blur-md border border-[#0D5C63] rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.8)] p-3 flex flex-col gap-2.5 select-none max-h-[480px]">
@@ -134,10 +183,18 @@ const MapKeyPanel = ({
                 key={idx}
                 className="flex items-center gap-2.5 p-1.5 rounded bg-[#0d1117]/80 border border-[#0D5C63]/40 text-xs text-slate-200"
               >
-                <span
-                  className="w-4 h-4 rounded-full border border-white/50 shrink-0 shadow-sm"
-                  style={{ backgroundColor: item.color }}
-                />
+                {item.swatchImage ? (
+                  <img
+                    src={item.swatchImage}
+                    alt={item.label}
+                    className="w-4 h-4 rounded-full border border-white/50 shrink-0 object-cover shadow-sm"
+                  />
+                ) : (
+                  <span
+                    className="w-4 h-4 rounded-full border border-white/50 shrink-0 shadow-sm"
+                    style={{ backgroundColor: item.color }}
+                  />
+                )}
                 <span className="font-semibold truncate">{item.label}</span>
               </div>
             ))
@@ -146,17 +203,20 @@ const MapKeyPanel = ({
       ) : (
         <div className="flex flex-col gap-2 overflow-y-auto max-h-[380px] pr-1">
           {/* Category Filter Pills */}
-          <div className="flex gap-1 bg-[#0d1117]/80 p-1 rounded border border-[#0D5C63]/40 text-[10px] font-bold">
+          <div className="flex flex-wrap gap-1 bg-[#0d1117]/80 p-1 rounded border border-[#0D5C63]/40 text-[10px] font-bold">
             {[
               { id: 'All', label: `All (${allMapEntities.length})` },
               { id: 'Objects', label: `Objects (${objectCount})` },
               { id: 'Units', label: `Units (${unitCount})` },
-              { id: 'Portals', label: `Portals (${portalCount})` }
+              { id: 'Portals', label: `Portals (${portalCount})` },
+              { id: 'Walls', label: `Walls (${wallCount})` },
+              { id: 'Lights', label: `Lights (${lightCount})` },
+              { id: 'Regions', label: `Regions (${regionCount})` }
             ].map(cat => (
               <button
                 key={cat.id}
                 onClick={() => setDirectoryCategory(cat.id)}
-                className={`flex-1 py-0.5 rounded transition-all text-center ${
+                className={`px-1.5 py-0.5 rounded transition-all text-center ${
                   directoryCategory === cat.id
                     ? 'bg-cyan-950 text-[#22d3ee] border border-[#22d3ee]/60'
                     : 'text-slate-400 hover:text-white'

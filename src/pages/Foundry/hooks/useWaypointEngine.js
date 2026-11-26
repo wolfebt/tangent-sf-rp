@@ -9,6 +9,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { AudioService } from '../../../services/audioService';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { useStageStore } from '../Stage/stageStore';
 
 export const useWaypointEngine = ({
   activeMap,
@@ -51,12 +52,16 @@ export const useWaypointEngine = ({
   const executeWaypointTrigger = useCallback((wp, tok, linkedBeat) => {
     if (!wp || !activeMap) return;
 
-    // 1. Mark Waypoint as isTriggered in activeMap
-    const updatedWaypoints = (activeMap.waypoints || []).map(w => 
-      w.id === wp.id ? { ...w, isTriggered: true } : w
-    );
-    if (updateMap && !isStoryReadOnly) {
-      updateMap(activeMap.id, { waypoints: updatedWaypoints });
+    // 1. Mark Waypoint as isTriggered (manifest-only if stageManaged; keep source map pristine)
+    if (wp.stageManaged) {
+      useStageStore.getState().updateAnchor?.(wp.id, { triggered: true });
+    } else {
+      const updatedWaypoints = (activeMap.waypoints || []).map(w => 
+        w.id === wp.id ? { ...w, isTriggered: true } : w
+      );
+      if (updateMap && !isStoryReadOnly) {
+        updateMap(activeMap.id, { waypoints: updatedWaypoints });
+      }
     }
 
     // 2. Audible feedback
@@ -298,7 +303,12 @@ export const useWaypointEngine = ({
   }, [activeMap, updateMap, activeScenario, setSaveStatusText]);
 
   const handleToggleAutoTrigger = useCallback((waypointId, autoVal) => {
-    if (!activeMap || !updateMap) return;
+    if (!activeMap) return;
+    const targetWp = (activeMap.waypoints || []).find(w => w.id === waypointId);
+    if (targetWp?.stageManaged) {
+      return;
+    }
+    if (!updateMap) return;
     const updated = (activeMap.waypoints || []).map(w => 
       w.id === waypointId ? { ...w, autoTrigger: autoVal } : w
     );

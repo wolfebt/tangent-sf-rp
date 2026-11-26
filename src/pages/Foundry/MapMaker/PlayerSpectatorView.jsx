@@ -18,7 +18,7 @@ export const PlayerSpectatorView = () => {
   const isMobile = useIsMobile();
   const { mapId } = useParams();
   const navigate = useNavigate();
-  const { universeState } = useCampaign();
+  const { universeState, allMaps } = useCampaign();
 
   const [mapData, setMapData] = useState(null);
   const [scale, setScale] = useState(1);
@@ -50,7 +50,8 @@ export const PlayerSpectatorView = () => {
           }
         } catch {}
       }
-      const localMap = universeState?.maps?.find(m => m.id === mapId);
+      const localPool = (Array.isArray(allMaps) && allMaps.length > 0 ? allMaps : universeState?.maps) || [];
+      const localMap = localPool.find(m => m.id === mapId);
       if (localMap) setMapData(sanitizeMapForSpectator(localMap, auth?.currentUser));
     };
 
@@ -71,11 +72,13 @@ export const PlayerSpectatorView = () => {
           }
         );
       } else {
-        const localMap = universeState?.maps?.find(m => m.id === mapId);
+        const localPool = (Array.isArray(allMaps) && allMaps.length > 0 ? allMaps : universeState?.maps) || [];
+        const localMap = localPool.find(m => m.id === mapId);
         if (localMap) setMapData(sanitizeMapForSpectator(localMap, auth?.currentUser));
       }
     } catch (e) {
-      const localMap = universeState?.maps?.find(m => m.id === mapId);
+      const localPool = (Array.isArray(allMaps) && allMaps.length > 0 ? allMaps : universeState?.maps) || [];
+      const localMap = localPool.find(m => m.id === mapId);
       if (localMap) setMapData(sanitizeMapForSpectator(localMap, auth?.currentUser));
     }
 
@@ -88,7 +91,7 @@ export const PlayerSpectatorView = () => {
       unsub();
       window.removeEventListener('resize', handleResize);
     };
-  }, [isMobile, mapId, universeState?.maps]);
+  }, [isMobile, mapId, allMaps, universeState?.maps]);
 
   // Listen to pushed handouts, live multiplayer tokens/doors/fog/pings
   useEffect(() => {

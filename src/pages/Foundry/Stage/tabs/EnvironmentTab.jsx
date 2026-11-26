@@ -21,6 +21,7 @@ import {
   Shield
 } from 'lucide-react';
 import { useStageStore } from '../stageStore';
+import { useAdeStore } from '../../store/adeStore';
 import { useStory } from '../../../../context/CampaignContext';
 import { AudioService } from '../../../../services/audioService';
 import { proAudioMixerService } from '../../../../services/proAudioMixerService';
@@ -105,6 +106,7 @@ export default function EnvironmentTab() {
     else if (!isNaN(Number(parsedVal)) && parsedVal !== '') parsedVal = Number(parsedVal);
 
     setStageVariable(cleanKey, parsedVal);
+    useAdeStore.getState().setStoryFlag?.(cleanKey, parsedVal);
     setVarKey('');
     setVarValue('');
     AudioService.playCriticalChime(true);
@@ -268,7 +270,10 @@ export default function EnvironmentTab() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => removeStageVariable(k)}
+                    onClick={() => {
+                      removeStageVariable(k);
+                      useAdeStore.getState().removeStoryFlag?.(k);
+                    }}
                     className="p-1 text-slate-500 hover:text-red-400 cursor-pointer"
                   >
                     <Trash2 size={12} />
@@ -277,6 +282,41 @@ export default function EnvironmentTab() {
               ))
             )}
           </div>
+
+          {/* Situational & Gallery Modifier Bindings */}
+          {Array.isArray(universeState?.galleryModifiers) && universeState.galleryModifiers.length > 0 && (
+            <div className="pt-2 border-t border-slate-800 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold text-purple-300 uppercase">Stage Gallery Modifiers</span>
+                <span className="text-[10px] text-slate-500">{(env.modifierIds || []).length} bound</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {universeState.galleryModifiers.map((mod) => {
+                  const modIds = Array.isArray(env.modifierIds) ? env.modifierIds : [];
+                  const isBound = modIds.includes(mod.id);
+                  return (
+                    <button
+                      key={mod.id}
+                      type="button"
+                      onClick={() => {
+                        const nextIds = isBound
+                          ? modIds.filter((id) => id !== mod.id)
+                          : [...modIds, mod.id];
+                        updateEnvironment({ modifierIds: nextIds });
+                      }}
+                      className={`px-2 py-0.5 rounded-lg text-[10px] font-bold border transition-colors cursor-pointer ${
+                        isBound
+                          ? 'bg-purple-950/70 border-purple-400 text-purple-200'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      {mod.name || mod.title || mod.id}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

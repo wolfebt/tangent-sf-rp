@@ -16,6 +16,7 @@ import { InteractiveObjectManager } from '../../../engine/assets/InteractiveObje
 import type { SceneInteractiveObject } from '../../../engine/assets/FoundryIngestion.ts';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { expandWallsForGeometry } from '../../../schemas/vttWallSchema.js';
+import { normalizeMapObject } from '../../../utils/storyAssetAdapter';
 import { 
   LightSourceManager, 
   type SceneLightSource, 
@@ -134,15 +135,18 @@ export function useMapIngestion({
 
       // 2. Ingest Interactive Map Objects preserving full trap/lock/mechanical metadata
       if (Array.isArray(currentMap.objects) && currentMap.objects.length > 0) {
-        const sceneObjects: SceneInteractiveObject[] = currentMap.objects.map((obj: any) => ({
-          ...obj,
-          id: obj.id,
-          name: obj.name || obj.label || obj.type || 'Object',
-          type: (obj.type || 'terminal') as any,
-          x: obj.x ?? 100,
-          y: obj.y ?? 100,
-          storyElementId: obj.storyElementId || obj.id
-        }));
+        const sceneObjects: SceneInteractiveObject[] = currentMap.objects
+          .map((obj: any) => normalizeMapObject(obj))
+          .filter(Boolean)
+          .map((obj: any) => ({
+            ...obj,
+            id: obj.id,
+            name: obj.name || obj.label || obj.type || 'Object',
+            type: (obj.type || 'terminal') as any,
+            x: obj.x ?? 100,
+            y: obj.y ?? 100,
+            storyElementId: obj.storyElementId || obj.id
+          }));
         interactiveObjMgrRef.current.loadObjects(sceneObjects);
         setLocalObjects(sceneObjects);
       } else {
@@ -258,9 +262,14 @@ export function useMapIngestion({
         setLocalLights([]);
       }
 
-      // 5. Ingest Blueprint Underlay Configuration
-      if (currentMap.underlay) {
-        setUnderlayConfig(currentMap.underlay);
+      // 5. Ingest Blueprint Underlay Configuration (single underlay or first visible from underlays[])
+      const resolvedUnderlay =
+        currentMap.underlay ||
+        (Array.isArray(currentMap.underlays)
+          ? currentMap.underlays.find((u: any) => u?.url && u.visible !== false) || currentMap.underlays[0]
+          : null);
+      if (resolvedUnderlay) {
+        setUnderlayConfig(resolvedUnderlay);
       } else {
         setUnderlayConfig(null);
       }

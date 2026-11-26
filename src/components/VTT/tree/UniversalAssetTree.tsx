@@ -29,6 +29,7 @@ export interface UniversalAssetTreeProps {
   onSelectUnit?: (unit: AssetUnit) => void;
   searchQuery?: string;
   categoryFilter?: AssetCategory | 'all';
+  provenanceFilter?: 'all' | 'preset' | 'custom_upload';
 }
 
 function getCategoryIcon(category: AssetCategory) {
@@ -56,29 +57,39 @@ export const UniversalAssetTree: React.FC<UniversalAssetTreeProps> = ({
   selectedUnitId,
   onSelectUnit,
   searchQuery = '',
-  categoryFilter = 'all'
+  categoryFilter = 'all',
+  provenanceFilter = 'all'
 }) => {
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(['Environments', 'Props']));
 
-  // Filter assets by search query and category
+  // Filter assets by provenance, category, and search query (supporting #tag syntax)
   const filteredAssets = useMemo(() => {
     return assets.filter(asset => {
+      if (provenanceFilter === 'preset' && asset.provenance?.source !== 'preset') {
+        return false;
+      }
+      if (provenanceFilter === 'custom_upload' && asset.provenance?.source === 'preset') {
+        return false;
+      }
       // Category check
       if (categoryFilter !== 'all' && asset.category !== categoryFilter) {
         return false;
       }
-      // Query check
+      // Query check (strip leading # for tag queries like "#cover_half")
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
+        const cleanTagQ = q.startsWith('#') ? q.slice(1) : q;
         const matchesName = asset.name.toLowerCase().includes(q);
         const matchesId = asset.unit_id.toLowerCase().includes(q);
-        const matchesTag = asset.tags.some(t => t.toLowerCase().includes(q));
+        const matchesTag = cleanTagQ
+          ? asset.tags.some(t => t.toLowerCase().includes(cleanTagQ))
+          : false;
         const matchesPath = asset.tree_path.some(p => p.toLowerCase().includes(q));
         return matchesName || matchesId || matchesTag || matchesPath;
       }
       return true;
     });
-  }, [assets, searchQuery, categoryFilter]);
+  }, [assets, searchQuery, categoryFilter, provenanceFilter]);
 
   // Construct hierarchical tree from filtered assets
   const treeRoot = useMemo(() => buildAssetTree(filteredAssets), [filteredAssets]);

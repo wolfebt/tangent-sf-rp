@@ -346,6 +346,7 @@ export interface RulerPaceStats {
   totalDistanceMeters: number;
   formattedDistance: string;
   paceTier: string;
+  selectedPace?: string;
   pathColor: string;
   pathHex: number;
 }
@@ -357,7 +358,8 @@ export function computeRulerPaceStats(
   waypoints: Point2D[],
   currentPointer: Point2D | null,
   gridSize: number,
-  measurementUnit = 'meters'
+  measurementUnit = 'meters',
+  selectedPace?: string
 ): RulerPaceStats | null {
   if (!waypoints || waypoints.length === 0) return null;
   const points = currentPointer ? [...waypoints, currentPointer] : [...waypoints];
@@ -404,6 +406,8 @@ export function computeRulerPaceStats(
       ? `${feetRounded} ft (${metersRounded}m)`
       : measurementUnit === 'squares'
       ? `${squaresRounded} sq (${metersRounded}m)`
+      : measurementUnit === 'hexes'
+      ? `${squaresRounded} hex (${metersRounded}m)`
       : `${metersRounded}m (${feetRounded} ft)`;
 
   return {
@@ -412,6 +416,7 @@ export function computeRulerPaceStats(
     totalDistanceMeters,
     formattedDistance,
     paceTier,
+    ...(selectedPace ? { selectedPace } : {}),
     pathColor,
     pathHex: parseHexColor(pathColor, 0x22c55e)
   };

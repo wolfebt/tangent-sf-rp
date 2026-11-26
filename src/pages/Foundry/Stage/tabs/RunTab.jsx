@@ -37,7 +37,7 @@ export default function RunTab() {
   const { list: mapsList } = useMapAssets();
   const { list: scenariosList } = useStoryAssets();
   const { list: elementsList } = useElementAssets();
-  const { universeState, activeScenarioId } = useStory();
+  const { universeState, activeScenarioId, saveStageManifest } = useStory();
 
   const [isCompiling, setIsCompiling] = useState(false);
   const [compiledPayload, setCompiledPayload] = useState(null);
@@ -190,9 +190,10 @@ export default function RunTab() {
         {/* Right: Fullscreen Launch to Standalone /stage */}
         <div className="flex items-center gap-2">
           <a
-            href={`/stage?mapId=${encodeURIComponent(stageManifest.mapId || '')}&scenarioId=${encodeURIComponent(stageManifest.storyId || '')}`}
+            href={`/stage?mapId=${encodeURIComponent(stageManifest.mapId || '')}&scenarioId=${encodeURIComponent(stageManifest.storyId || '')}&stageId=${encodeURIComponent(stageManifest.id || '')}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => saveStageManifest?.(stageManifest)}
             className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
             title="Open in standalone /stage window"
           >

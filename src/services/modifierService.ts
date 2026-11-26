@@ -408,4 +408,73 @@ class ModifierManagerService {
 }
 
 export const ModifierService = new ModifierManagerService();
+
+export interface ComputedGalleryModifiersResult {
+  totalRollBonus: number;
+  totalDamageBonus: number;
+  totalDrBonus: number;
+  activeLabels: string[];
+  breakdown: string[];
+}
+
+export function computeActiveGalleryModifiers(
+  galleryModifiers: any[] = [],
+  context: {
+    targetTokenId?: string;
+    scope?: ModifierTargetScope;
+    category?: ModifierCategory;
+  } = {}
+): ComputedGalleryModifiersResult {
+  let totalRollBonus = 0;
+  let totalDamageBonus = 0;
+  let totalDrBonus = 0;
+  const activeLabels: string[] = [];
+  const breakdown: string[] = [];
+
+  (galleryModifiers || []).forEach((mod) => {
+    if (!mod || mod.isActive === false) return;
+    if (
+      mod.remainingRounds !== undefined &&
+      mod.remainingRounds !== null &&
+      Number(mod.remainingRounds) <= 0
+    ) {
+      return;
+    }
+    if (context.category && mod.category && mod.category !== context.category) return;
+    if (context.scope && mod.targetScope && mod.targetScope !== 'all' && mod.targetScope !== context.scope) return;
+    if (context.targetTokenId && mod.targetTokenId && mod.targetTokenId !== context.targetTokenId) return;
+
+    const label = mod.name || mod.title || mod.id || 'Modifier';
+    activeLabels.push(label);
+
+    const eff = mod.effects || {};
+    const rollDelta = Number(eff.attackMod ?? mod.rollBonus ?? mod.bonus ?? mod.modifier ?? 0) || 0;
+    const dmgDelta = Number(eff.damageMod ?? mod.damageBonus ?? 0) || 0;
+    const drDelta = Number(eff.defenseMod ?? mod.drBonus ?? mod.armorBonus ?? 0) || 0;
+
+    if (rollDelta !== 0) {
+      totalRollBonus += rollDelta;
+      breakdown.push(`${label} (${rollDelta > 0 ? `+${rollDelta}` : rollDelta} Roll)`);
+    } else if (dmgDelta === 0 && drDelta === 0) {
+      breakdown.push(label);
+    }
+    if (dmgDelta !== 0) {
+      totalDamageBonus += dmgDelta;
+      breakdown.push(`${label} (${dmgDelta > 0 ? `+${dmgDelta}` : dmgDelta} DMG)`);
+    }
+    if (drDelta !== 0) {
+      totalDrBonus += drDelta;
+      breakdown.push(`${label} (${drDelta > 0 ? `+${drDelta}` : drDelta} DEF)`);
+    }
+  });
+
+  return {
+    totalRollBonus,
+    totalDamageBonus,
+    totalDrBonus,
+    activeLabels,
+    breakdown
+  };
+}
+
 export default ModifierService;

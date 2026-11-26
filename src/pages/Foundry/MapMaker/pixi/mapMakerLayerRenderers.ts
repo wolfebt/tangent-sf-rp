@@ -5,8 +5,9 @@
  * Dynamic Lights, Tokens/Texts/Regions/ChunkGhost/Ruler/Pings, Roof Canopy, and Fog of War).
  */
 
-import { Container, Graphics, Sprite, Text as PixiText, TextStyle } from 'pixi.js';
+import { ColorMatrixFilter, Container, Graphics, Sprite, Text as PixiText, TextStyle } from 'pixi.js';
 import { clearPixiContainer } from '../../../../components/VTT/utils/pixiCleanup.ts';
+import { applyAssetCustomizationToPixiSprite } from '../../../../engine/canvas/AssetCustomizerShader.ts';
 import { AudioService } from '../../../../services/audioService';
 import { WALL_TYPES, DOOR_STATES } from '../../../../schemas/vttWallSchema.js';
 import { getBiomeTextureUrl } from '../map/landmassGenerator.js';
@@ -65,6 +66,23 @@ export interface LayerRenderCallbacks {
   onTextureReady: () => void;
 }
 
+export type LiveDragPreview =
+  | {
+      kind: 'wall-edit';
+      wallId: string;
+      p1: Point2D;
+      p2: Point2D;
+      bezierControl?: Point2D | null;
+    }
+  | {
+      kind: 'object-resize';
+      id: string;
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+
 export interface MapMakerSceneData {
   viewport: ViewportState;
   currentMap: any;
@@ -84,6 +102,8 @@ export interface MapMakerSceneData {
   activePings: any[];
   rulerWaypoints: Point2D[];
   rulerPointer: Point2D | null;
+  rulerSelectedPace?: string;
+  liveDragPreview?: LiveDragPreview | null;
   chunkGhostPreviewData: any;
   chunkCaptureMarquee: any;
   activeTool: string;
@@ -192,6 +212,11 @@ function renderTerrainListIntoContainer(
         sp.y = t.y || 0;
         if (t.width) sp.width = t.width;
         if (t.height) sp.height = t.height;
+        applyAssetCustomizationToPixiSprite(
+          sp,
+          t.customization || t.visuals?.customization || t.assetUnit?.visuals?.customization,
+          ColorMatrixFilter
+        );
         if (isEraser && !isLocked) {
           sp.eventMode = 'static';
           sp.cursor = 'pointer';
@@ -367,6 +392,11 @@ export function renderObjectsLayer(
       sp.anchor.set(0.5);
       sp.width = width;
       sp.height = height;
+      applyAssetCustomizationToPixiSprite(
+        sp,
+        obj.customization || obj.visuals?.customization || obj.assetUnit?.visuals?.customization,
+        ColorMatrixFilter
+      );
       group.addChild(sp);
       if (isSelected) {
         bodyG.rect(-width / 2, -height / 2, width, height);
@@ -762,6 +792,7 @@ export function renderLightsLayer(
   cb: LayerRenderCallbacks
 ): void {
   clearPixiContainer(container);
+  if (!scene.isLayerVisible('layer_objects')) return;
   const isLocked = scene.isLayerLocked('layer_objects');
   const isEraser = scene.activeTool === 'eraser';
   const isSelect = scene.activeTool === 'select';
@@ -921,6 +952,11 @@ export function renderEntitiesLayer(
         sp.anchor.set(0.5);
         sp.width = radius * 2;
         sp.height = radius * 2;
+        applyAssetCustomizationToPixiSprite(
+          sp,
+          token.customization || token.visuals?.customization || token.assetUnit?.visuals?.customization,
+          ColorMatrixFilter
+        );
         group.addChild(sp);
         const frame = new Graphics();
         frame.rect(-radius, -radius, radius * 2, radius * 2).stroke({ width: borderWidth, color: borderHex });
@@ -1048,63 +1084,65 @@ export function renderEntitiesLayer(
   }
 
   // 3. SceneRegions
-  const regLocked = scene.isLayerLocked('layer_objects');
-  for (const rg of scene.regions) {
-    if (!rg) continue;
-    const b = rg.bounds || { x: 0, y: 0, width: 150, height: 150 };
-    const colStr =
-      rg.triggerType === 'hazard'
-        ? '#f97316'
-        : rg.triggerType === 'teleport_deck'
-        ? '#22d3ee'
-        : rg.triggerType === 'audio_zone'
-        ? '#10b981'
-        : '#a855f7';
-    const colHex = parseHexColor(colStr, 0xa855f7);
-    const group = new Container();
-    group.x = b.x;
-    group.y = b.y;
+  if (scene.isLayerVisible('layer_objects')) {
+    const regLocked = scene.isLayerLocked('layer_objects');
+    for (const rg of scene.regions) {
+      if (!rg) continue;
+      const b = rg.bounds || { x: 0, y: 0, width: 150, height: 150 };
+      const colStr =
+        rg.triggerType === 'hazard'
+          ? '#f97316'
+          : rg.triggerType === 'teleport_deck'
+          ? '#22d3ee'
+          : rg.triggerType === 'audio_zone'
+          ? '#10b981'
+          : '#a855f7';
+      const colHex = parseHexColor(colStr, 0xa855f7);
+      const group = new Container();
+      group.x = b.x;
+      group.y = b.y;
 
-    const rectG = new Graphics();
-    rectG.rect(0, 0, b.width, b.height).fill({ color: colHex, alpha: 0.12 });
-    drawDashedRect(rectG, 0, 0, b.width, b.height, rg.id === scene.selectedId ? 2.5 : 1.5, rg.id === scene.selectedId ? 0xffffff : colHex, 1, [8, 4]);
-    group.addChild(rectG);
+      const rectG = new Graphics();
+      rectG.rect(0, 0, b.width, b.height).fill({ color: colHex, alpha: 0.12 });
+      drawDashedRect(rectG, 0, 0, b.width, b.height, rg.id === scene.selectedId ? 2.5 : 1.5, rg.id === scene.selectedId ? 0xffffff : colHex, 1, [8, 4]);
+      group.addChild(rectG);
 
-    const lbl = makeTextNode(String(rg.name || rg.triggerType || 'Region'), 10, colStr, { bold: true });
-    lbl.x = 6;
-    lbl.y = 6;
-    group.addChild(lbl);
+      const lbl = makeTextNode(String(rg.name || rg.triggerType || 'Region'), 10, colStr, { bold: true });
+      lbl.x = 6;
+      lbl.y = 6;
+      group.addChild(lbl);
 
-    if (!regLocked && (isSelect || isEraser)) {
-      group.eventMode = 'static';
-      group.cursor = isEraser ? 'pointer' : 'grab';
-      group.on('pointerdown', (e) => {
-        if (e.button !== 0) return;
-        e.stopPropagation();
-        cb.claimPointer();
-        if (isEraser) {
-          cb.onErase(rg.id);
-          return;
-        }
-        cb.onSelect(rg.id);
-        const { clientX, clientY } = getClientCoords(e);
-        cb.startItemDrag(
-          {
-            kind: 'region',
-            id: rg.id,
-            item: rg,
-            target: group,
-            startX: group.x,
-            startY: group.y,
-            startClientX: clientX,
-            startClientY: clientY
-          },
-          clientX,
-          clientY
-        );
-      });
+      if (!regLocked && (isSelect || isEraser)) {
+        group.eventMode = 'static';
+        group.cursor = isEraser ? 'pointer' : 'grab';
+        group.on('pointerdown', (e) => {
+          if (e.button !== 0) return;
+          e.stopPropagation();
+          cb.claimPointer();
+          if (isEraser) {
+            cb.onErase(rg.id);
+            return;
+          }
+          cb.onSelect(rg.id);
+          const { clientX, clientY } = getClientCoords(e);
+          cb.startItemDrag(
+            {
+              kind: 'region',
+              id: rg.id,
+              item: rg,
+              target: group,
+              startX: group.x,
+              startY: group.y,
+              startClientX: clientX,
+              startClientY: clientY
+            },
+            clientX,
+            clientY
+          );
+        });
+      }
+      container.addChild(group);
     }
-    container.addChild(group);
   }
 }
 
@@ -1202,6 +1240,30 @@ export function renderForegroundOverlayLayer(
     const prevG = new Graphics();
     drawStyledPolyline(prevG, previewPts, 5, previewHex, 0.9, [6, 4]);
     container.addChild(prevG);
+  }
+
+  // 0b. Live Drag Preview for wall endpoints / bezier / object resize
+  if (scene.liveDragPreview?.kind === 'wall-edit') {
+    const { p1, p2, bezierControl } = scene.liveDragPreview;
+    const pts = tessellateWallLinePoints({ p1, p2, ...(bezierControl ? { bezierControl } : {}) });
+    const dg = new Graphics();
+    drawStyledPolyline(dg, pts, 5, 0x22d3ee, 0.92, [6, 4]);
+    dg.circle(p1.x, p1.y, 6 / zoomScale).fill({ color: 0x22d3ee }).stroke({ width: 1.5 / zoomScale, color: 0x020617 });
+    dg.circle(p2.x, p2.y, 6 / zoomScale).fill({ color: 0x22d3ee }).stroke({ width: 1.5 / zoomScale, color: 0x020617 });
+    if (bezierControl) {
+      drawStyledPolyline(dg, [p1.x, p1.y, bezierControl.x, bezierControl.y, p2.x, p2.y], 1.5 / zoomScale, 0xf59e0b, 0.7, [4, 4]);
+      dg.circle(bezierControl.x, bezierControl.y, 6 / zoomScale).fill({ color: 0xf59e0b }).stroke({ width: 1.5 / zoomScale, color: 0x020617 });
+    }
+    container.addChild(dg);
+  } else if (scene.liveDragPreview?.kind === 'object-resize') {
+    const { x, y, width, height } = scene.liveDragPreview;
+    const rg = new Graphics();
+    drawDashedRect(rg, x - width / 2, y - height / 2, width, height, 2 / zoomScale, 0xf59e0b, 0.95, [6, 4]);
+    container.addChild(rg);
+    const szTxt = makeTextNode(`${Math.round(width)}x${Math.round(height)}px`, 10 / zoomScale, '#fcd34d', { bold: true, fontFamily: 'monospace' });
+    szTxt.x = x - width / 2;
+    szTxt.y = y + height / 2 + 6 / zoomScale;
+    container.addChild(szTxt);
   }
 
   // 1. Shift+Drag Chunk Capture Marquee
@@ -1328,7 +1390,8 @@ export function renderForegroundOverlayLayer(
     scene.rulerWaypoints,
     scene.rulerPointer,
     scene.gridSize,
-    scene.measurementUnit || 'meters'
+    scene.measurementUnit || 'meters',
+    scene.rulerSelectedPace
   );
   if (stats) {
     const rg = new Graphics();
@@ -1340,7 +1403,7 @@ export function renderForegroundOverlayLayer(
     const lastPt = stats.points[stats.points.length - 1]!;
     const bx = lastPt.x + 15 / zoomScale;
     const by = lastPt.y - 25 / zoomScale;
-    rg.roundRect(bx, by, 148 / zoomScale, 42 / zoomScale, 6 / zoomScale)
+    rg.roundRect(bx, by, 162 / zoomScale, 42 / zoomScale, 6 / zoomScale)
       .fill({ color: 0x0f172a, alpha: 0.92 })
       .stroke({ width: 1.5 / zoomScale, color: stats.pathHex });
     container.addChild(rg);
@@ -1355,7 +1418,10 @@ export function renderForegroundOverlayLayer(
     distTxt.y = by + 6 / zoomScale;
     container.addChild(distTxt);
 
-    const paceTxt = makeTextNode(`🏃 Pace: ${stats.paceTier}`, 10 / zoomScale, stats.pathColor, { bold: true });
+    const paceLabel = stats.selectedPace
+      ? `🏃 ${String(stats.selectedPace).toUpperCase()} • ${stats.paceTier}`
+      : `🏃 Pace: ${stats.paceTier}`;
+    const paceTxt = makeTextNode(paceLabel, 10 / zoomScale, stats.pathColor, { bold: true });
     paceTxt.x = bx + 6 / zoomScale;
     paceTxt.y = by + 22 / zoomScale;
     container.addChild(paceTxt);

@@ -153,11 +153,11 @@ export default function ScenarioPane({
     if (propSetWorkspaceTab) propSetWorkspaceTab(tab);
   };
 
-  // Unified Map Catalog access
+  // Unified Map Catalog access (project maps authoritative over catalog)
   const allAvailableMaps = useMemo(() => {
-    const catalog = mapsCatalog || [];
-    const projectMaps = (universeState?.maps || []).filter(m => !catalog.some(cm => cm.id === m.id));
-    return [...catalog, ...projectMaps];
+    const projectMaps = universeState?.maps || [];
+    const catalogOnly = (mapsCatalog || []).filter(cm => !projectMaps.some(pm => pm.id === cm.id));
+    return [...projectMaps, ...catalogOnly];
   }, [mapsCatalog, universeState?.maps]);
 
   const seededStoryIdsRef = useRef(new Set());

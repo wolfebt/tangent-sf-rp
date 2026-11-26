@@ -21,6 +21,7 @@ import { showToast } from './ToastContext';
 import { showConfirm } from './ConfirmContext';
 import { sanitizeElementDocId } from '../utils/adeElementPersistence';
 import { useAdeStore } from '../pages/Foundry/store/adeStore';
+import { useStageStore } from '../pages/Foundry/Stage/stageStore';
 import {
   moveNodeInTree,
   reorderNodeSiblings,
@@ -79,6 +80,7 @@ const DEFAULT_UNIVERSE_STATE = {
     }
   ],
   maps: [],
+  stages: [],
   customAssets: { terrains: [], objects: [], chunks: [] },
   creativeState: {
     gems: [],
@@ -1825,6 +1827,15 @@ export const StoryProvider = ({ children }) => {
         maps: [...existing, newMap]
       };
     });
+    if (newMap?.id) {
+      setMapsCatalog(prev => {
+        const list = Array.isArray(prev) ? prev : [];
+        if (list.some(m => m.id === newMap.id)) return list;
+        const updatedList = [...list, newMap];
+        StorageService.setItem('tangent_maps_catalog', updatedList);
+        return updatedList;
+      });
+    }
     setActiveMapId(newMap.id);
   };
 
@@ -1854,6 +1865,29 @@ export const StoryProvider = ({ children }) => {
         })
       };
     });
+    setMapsCatalog(prev => {
+      const list = Array.isArray(prev) ? prev : [];
+      const idx = list.findIndex(m => m.id === id);
+      let updatedList;
+      if (idx === -1) {
+        const seedFromProject = universeStateRef.current?.maps?.find(m => m.id === id);
+        if (!seedFromProject) return list;
+        const resolved = typeof updates === 'function' ? updates(seedFromProject) : updates;
+        updatedList = [...list, { ...seedFromProject, ...(resolved || {}), id, updatedAt: nowIso }];
+      } else {
+        updatedList = list.map(m => {
+          if (m.id !== id) return m;
+          const resolved = typeof updates === 'function' ? updates(m) : updates;
+          return {
+            ...m,
+            ...(resolved || {}),
+            updatedAt: nowIso
+          };
+        });
+      }
+      StorageService.setItem('tangent_maps_catalog', updatedList);
+      return updatedList;
+    });
   };
 
   const deleteMap = (id) => {
@@ -1862,8 +1896,64 @@ export const StoryProvider = ({ children }) => {
       ...prev,
       maps: prev.maps.filter(m => m.id !== id)
     }));
+    setMapsCatalog(prev => {
+      const list = Array.isArray(prev) ? prev : [];
+      const updatedList = list.filter(m => m.id !== id);
+      if (updatedList.length !== list.length) {
+        StorageService.setItem('tangent_maps_catalog', updatedList);
+      }
+      return updatedList;
+    });
     setActiveMapId(prev => (prev === id ? null : prev));
   };
+
+  // Helpers for Story-Scoped Stage Manifests
+  const saveStageManifest = useCallback((manifest) => {
+    if (isStoryReadOnly || !manifest || !manifest.id) return;
+    const nowIso = new Date().toISOString();
+    const nextManifest = {
+      ...manifest,
+      storyId: manifest.storyId || universeStateRef.current?.id || 'default',
+      updatedAt: nowIso
+    };
+    setUniverseState(prev => {
+      const existing = Array.isArray(prev.stages) ? prev.stages : [];
+      const idx = existing.findIndex(s => s && s.id === nextManifest.id);
+      const nextStages =
+        idx >= 0
+          ? existing.map(s => (s && s.id === nextManifest.id ? nextManifest : s))
+          : [...existing, nextManifest];
+      return {
+        ...prev,
+        stages: nextStages,
+        updatedAt: nowIso
+      };
+    });
+  }, [isStoryReadOnly]);
+
+  const deleteStageManifest = useCallback((stageId) => {
+    if (isStoryReadOnly || !stageId) return;
+    const nowIso = new Date().toISOString();
+    setUniverseState(prev => {
+      const existing = Array.isArray(prev.stages) ? prev.stages : [];
+      return {
+        ...prev,
+        stages: existing.filter(s => s && s.id !== stageId),
+        updatedAt: nowIso
+      };
+    });
+  }, [isStoryReadOnly]);
+
+  // Synchronize StageStore story scope whenever the active story/universe changes
+  useEffect(() => {
+    const storyId = universeState?.id;
+    if (!storyId) return;
+    const stagesArr = Array.isArray(universeStateRef.current?.stages) ? universeStateRef.current.stages : [];
+    const store = useStageStore.getState();
+    if (typeof store?.setStoryScope === 'function') {
+      store.setStoryScope(storyId, stagesArr);
+    }
+  }, [universeState?.id]);
 
   const addCustomTerrain = (terrain) => {
     if (isStoryReadOnly) return;
@@ -2885,6 +2975,8 @@ export const StoryProvider = ({ children }) => {
     addMap,
     updateMap,
     deleteMap,
+    saveStageManifest,
+    deleteStageManifest,
     addCustomTerrain,
     updateCustomTerrain,
     deleteCustomTerrain,
@@ -2980,6 +3072,8 @@ export const StoryProvider = ({ children }) => {
     addMap: (...args) => actionsRef.current.addMap(...args),
     updateMap: (...args) => actionsRef.current.updateMap(...args),
     deleteMap: (...args) => actionsRef.current.deleteMap(...args),
+    saveStageManifest: (...args) => actionsRef.current.saveStageManifest(...args),
+    deleteStageManifest: (...args) => actionsRef.current.deleteStageManifest(...args),
     addCustomTerrain: (...args) => actionsRef.current.addCustomTerrain(...args),
     updateCustomTerrain: (...args) => actionsRef.current.updateCustomTerrain(...args),
     deleteCustomTerrain: (...args) => actionsRef.current.deleteCustomTerrain(...args),
@@ -3005,6 +3099,17 @@ export const StoryProvider = ({ children }) => {
   const canRedoScenarioTree = treeHistoryRef.current.canRedo;
   const galleryModifiers = universeState?.galleryModifiers || [];
 
+  const allMaps = useMemo(() => {
+    const byId = new Map();
+    (universeState?.maps || []).forEach(m => {
+      if (m?.id) byId.set(m.id, m);
+    });
+    (mapsCatalog || []).forEach(m => {
+      if (m?.id && !byId.has(m.id)) byId.set(m.id, m);
+    });
+    return Array.from(byId.values());
+  }, [universeState?.maps, mapsCatalog]);
+
   const value = useMemo(() => ({
     ...stableActions,
     universeState,
@@ -3014,6 +3119,7 @@ export const StoryProvider = ({ children }) => {
     allElementsCatalog,
     publicElementsCatalog,
     mapsCatalog,
+    allMaps,
     lastCloudSavedAt,
     isDirty,
     cronicle,
@@ -3038,6 +3144,7 @@ export const StoryProvider = ({ children }) => {
     allElementsCatalog,
     publicElementsCatalog,
     mapsCatalog,
+    allMaps,
     lastCloudSavedAt,
     isDirty,
     cronicle,

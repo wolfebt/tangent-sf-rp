@@ -113,8 +113,23 @@ export const MapMaker3DPreviewModal = ({
     currentMap?.objects,
     currentMap?.lights,
     currentMap?.tokens,
-    currentMap?.background_url
+    currentMap?.regions,
+    currentMap?.underlay,
+    currentMap?.videoBackgroundUrl,
+    tokens
   ]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
 
   // Sync Atmosphere preset
   useEffect(() => {

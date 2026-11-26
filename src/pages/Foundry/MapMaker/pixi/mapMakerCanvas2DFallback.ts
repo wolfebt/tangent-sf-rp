@@ -13,9 +13,11 @@ import {
   computeWallStrokeStyle,
   tessellateWallLinePoints,
   computeRulerPaceStats,
+  buildRegularPolygonPoints,
   hexToRgbaString,
   type Point2D
 } from './mapMakerPixiHelpers.js';
+import type { LiveDragPreview } from './mapMakerLayerRenderers.ts';
 
 export interface FallbackHitResult {
   kind: 'wall-p1' | 'wall-p2' | 'wall-bezier' | 'door' | 'wall' | 'object' | 'token' | 'light' | 'text' | 'region';
@@ -88,6 +90,9 @@ export function renderMapMakerFallback2D(
     computeWallPreviewPoints: (s: Point2D, e: Point2D, isCurved: boolean) => number[];
     selectedWallType: string;
     paintRoofLayer: boolean;
+    measurementUnit?: string;
+    rulerSelectedPace?: string;
+    liveDragPreview?: LiveDragPreview | null;
     isLayerVisible: (id: string) => boolean;
     onImageLoaded?: () => void;
   }
@@ -117,6 +122,9 @@ export function renderMapMakerFallback2D(
     activePings,
     rulerWaypoints,
     rulerPointer,
+    measurementUnit = 'meters',
+    rulerSelectedPace,
+    liveDragPreview,
     chunkGhostPreviewData,
     chunkCaptureMarquee,
     activeTool,
@@ -190,7 +198,10 @@ export function renderMapMakerFallback2D(
       }
       const texUrl = t.textureUrl || getBiomeTextureUrl(t.biomeType || t.terrainTypeId) || getTextureUrlFromColor(t.color || t.terrainTypeId);
       if (texUrl) getLoadedImage(texUrl, () => onImageLoaded?.());
-      if (t.renderType === 'rect') {
+      if (t.renderType === 'hexTile' && t.x !== undefined && t.y !== undefined) {
+        const pts = buildRegularPolygonPoints(t.x, t.y, t.radius || gridSize || 50, 6);
+        drawCanvas2DPolyline(ctx, pts, 'rgba(0, 0, 0, 0.2)', 1, undefined, true, t.color || '#15803d');
+      } else if (t.renderType === 'rect') {
         ctx.fillStyle = t.color || '#15803d';
         ctx.fillRect(t.x || 0, t.y || 0, t.width || 40, t.height || 40);
       } else if (Array.isArray(t.points) && t.points.length >= 4) {
@@ -223,18 +234,28 @@ export function renderMapMakerFallback2D(
       const ox = obj.x || 0;
       const oy = obj.y || 0;
       const isSel = obj.id === selectedId;
+      const objImg = obj.imageUrl ? getLoadedImage(obj.imageUrl, () => onImageLoaded?.()) : null;
       ctx.save();
-      ctx.fillStyle = obj.color || '#3b82f6';
-      ctx.strokeStyle = isSel ? '#ffffff' : '#000000';
-      ctx.lineWidth = isSel ? 3 : 2;
-      if (obj.shape === 'circle' || obj.shape === 'star' || obj.shape === 'cloud') {
-        ctx.beginPath();
-        ctx.arc(ox, oy, r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
+      if (objImg && objImg.complete && objImg.naturalWidth > 0) {
+        ctx.drawImage(objImg, ox - w / 2, oy - h / 2, w, h);
+        if (isSel) {
+          ctx.strokeStyle = '#22d3ee';
+          ctx.lineWidth = 3;
+          ctx.strokeRect(ox - w / 2, oy - h / 2, w, h);
+        }
       } else {
-        ctx.fillRect(ox - w / 2, oy - h / 2, w, h);
-        ctx.strokeRect(ox - w / 2, oy - h / 2, w, h);
+        ctx.fillStyle = obj.color || '#3b82f6';
+        ctx.strokeStyle = isSel ? '#ffffff' : '#000000';
+        ctx.lineWidth = isSel ? 3 : 2;
+        if (obj.shape === 'circle' || obj.shape === 'star' || obj.shape === 'cloud') {
+          ctx.beginPath();
+          ctx.arc(ox, oy, r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          ctx.fillRect(ox - w / 2, oy - h / 2, w, h);
+          ctx.strokeRect(ox - w / 2, oy - h / 2, w, h);
+        }
       }
       ctx.restore();
     }
@@ -267,21 +288,23 @@ export function renderMapMakerFallback2D(
   }
 
   // Lights
-  for (const lt of lights) {
-    const r = lt.radius || 180;
-    ctx.save();
-    ctx.fillStyle = hexToRgbaString(lt.color, lt.id === selectedId ? 0.28 : 0.18, '#f59e0b');
-    ctx.beginPath();
-    ctx.arc(lt.x || 0, lt.y || 0, r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.strokeStyle = lt.color || '#f59e0b';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(lt.x || 0, lt.y || 0, 10, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-    ctx.restore();
+  if (isLayerVisible('layer_objects')) {
+    for (const lt of lights) {
+      const r = lt.radius || 180;
+      ctx.save();
+      ctx.fillStyle = hexToRgbaString(lt.color, lt.id === selectedId ? 0.28 : 0.18, '#f59e0b');
+      ctx.beginPath();
+      ctx.arc(lt.x || 0, lt.y || 0, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = lt.color || '#f59e0b';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(lt.x || 0, lt.y || 0, 10, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
   }
 
   // Tokens
@@ -289,14 +312,31 @@ export function renderMapMakerFallback2D(
     for (const tk of tokens) {
       const r = tk.radius || 35;
       const isSel = tk.id === selectedId;
+      const tkSrc = tk.avatarUrl || tk.imageUrl;
+      const tkImg = tkSrc ? getLoadedImage(tkSrc, () => onImageLoaded?.()) : null;
       ctx.save();
-      ctx.fillStyle = tk.fill || (tk.type === 'hero' ? '#0e7490' : '#3b82f6');
-      ctx.strokeStyle = isSel ? '#ffffff' : '#22d3ee';
-      ctx.lineWidth = isSel ? 3 : 1.5;
-      ctx.beginPath();
-      ctx.arc(tk.x || 0, tk.y || 0, r, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
+      if (tkImg && tkImg.complete && tkImg.naturalWidth > 0) {
+        ctx.beginPath();
+        ctx.arc(tk.x || 0, tk.y || 0, r, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(tkImg, (tk.x || 0) - r, (tk.y || 0) - r, r * 2, r * 2);
+        ctx.restore();
+        ctx.save();
+        ctx.strokeStyle = isSel ? '#ffffff' : '#22d3ee';
+        ctx.lineWidth = isSel ? 3 : 1.5;
+        ctx.beginPath();
+        ctx.arc(tk.x || 0, tk.y || 0, r, 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = tk.fill || (tk.type === 'hero' ? '#0e7490' : '#3b82f6');
+        ctx.strokeStyle = isSel ? '#ffffff' : '#22d3ee';
+        ctx.lineWidth = isSel ? 3 : 1.5;
+        ctx.beginPath();
+        ctx.arc(tk.x || 0, tk.y || 0, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      }
       const conds: string[] = Array.isArray(tk.conditions) ? tk.conditions : [];
       conds.forEach((c, idx) => {
         ctx.fillStyle = CONDITION_COLORS[c] || '#ffffff';
@@ -320,16 +360,18 @@ export function renderMapMakerFallback2D(
   }
 
   // Regions
-  for (const rg of regions) {
-    const b = rg.bounds || { x: 0, y: 0, width: 150, height: 150 };
-    const col = rg.triggerType === 'hazard' ? '#f97316' : rg.triggerType === 'teleport_deck' ? '#22d3ee' : rg.triggerType === 'audio_zone' ? '#10b981' : '#a855f7';
-    ctx.save();
-    ctx.fillStyle = hexToRgbaString(col, 0.12);
-    ctx.strokeStyle = rg.id === selectedId ? '#ffffff' : col;
-    ctx.setLineDash?.([8, 4]);
-    ctx.fillRect(b.x, b.y, b.width, b.height);
-    ctx.strokeRect(b.x, b.y, b.width, b.height);
-    ctx.restore();
+  if (isLayerVisible('layer_objects')) {
+    for (const rg of regions) {
+      const b = rg.bounds || { x: 0, y: 0, width: 150, height: 150 };
+      const col = rg.triggerType === 'hazard' ? '#f97316' : rg.triggerType === 'teleport_deck' ? '#22d3ee' : rg.triggerType === 'audio_zone' ? '#10b981' : '#a855f7';
+      ctx.save();
+      ctx.fillStyle = hexToRgbaString(col, 0.12);
+      ctx.strokeStyle = rg.id === selectedId ? '#ffffff' : col;
+      ctx.setLineDash?.([8, 4]);
+      ctx.fillRect(b.x, b.y, b.width, b.height);
+      ctx.strokeRect(b.x, b.y, b.width, b.height);
+      ctx.restore();
+    }
   }
 
   // Roof Canopy Layer
@@ -368,8 +410,29 @@ export function renderMapMakerFallback2D(
     }
   }
 
+  // Live Drag Preview
+  if (liveDragPreview?.kind === 'wall-edit') {
+    const pts = tessellateWallLinePoints({
+      p1: liveDragPreview.p1,
+      p2: liveDragPreview.p2,
+      ...(liveDragPreview.bezierControl ? { bezierControl: liveDragPreview.bezierControl } : {})
+    });
+    drawCanvas2DPolyline(ctx, pts, '#22d3ee', 5, [6, 4]);
+  } else if (liveDragPreview?.kind === 'object-resize') {
+    ctx.save();
+    ctx.strokeStyle = '#f59e0b';
+    ctx.setLineDash?.([6, 4]);
+    ctx.strokeRect(
+      liveDragPreview.x - liveDragPreview.width / 2,
+      liveDragPreview.y - liveDragPreview.height / 2,
+      liveDragPreview.width,
+      liveDragPreview.height
+    );
+    ctx.restore();
+  }
+
   // Ruler + Chunk Marquee + Pings
-  const rulerStats = computeRulerPaceStats(rulerWaypoints, rulerPointer, gridSize);
+  const rulerStats = computeRulerPaceStats(rulerWaypoints, rulerPointer, gridSize, measurementUnit, rulerSelectedPace);
   if (rulerStats) {
     drawCanvas2DPolyline(ctx, rulerStats.flatPoints, rulerStats.pathColor, 3 / Math.max(0.2, scale), [8, 4]);
   }

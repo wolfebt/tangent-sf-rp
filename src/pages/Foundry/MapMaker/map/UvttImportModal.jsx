@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Upload, FileText, CheckCircle2, AlertTriangle, X, Compass, Shield } from 'lucide-react';
 import { parseUniversalVtt } from '../../../../services/uvttImportService';
 import { AudioService } from '../../../../services/audioService';
@@ -14,12 +14,35 @@ export const UvttImportModal = ({
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setMapName('Imported Sector Battlemap');
+    setFileData(null);
+    setFileName('');
+    setStats(null);
+    setError(null);
+    setIsProcessing(false);
+    setIsDragOver(false);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
+  const processUvttFile = (file) => {
     if (!file) return;
 
     setError(null);
@@ -31,7 +54,7 @@ export const UvttImportModal = ({
       try {
         const text = event.target?.result;
         const parsed = JSON.parse(text);
-        
+
         const losCount = (parsed.line_of_sight || []).reduce((acc, chain) => acc + (chain.length - 1), 0);
         const portalCount = (parsed.portals || []).length;
         const width = (parsed.resolution?.map_size?.x || 0) * (parsed.resolution?.pixels_per_grid || 70);
@@ -56,6 +79,32 @@ export const UvttImportModal = ({
     reader.readAsText(file);
   };
 
+  const handleFileChange = (e) => {
+    processUvttFile(e.target.files?.[0]);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+    const droppedFile = e.dataTransfer?.files?.[0];
+    if (droppedFile) {
+      processUvttFile(droppedFile);
+    }
+  };
+
   const handleExecuteImport = () => {
     if (!fileData) return;
     setIsProcessing(true);
@@ -72,7 +121,14 @@ export const UvttImportModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans">
+    <div
+      role="dialog"
+      aria-modal="true"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+      className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans"
+    >
       <div className="w-full max-w-xl bg-slate-900 border border-cyan-500/40 rounded-2xl shadow-[0_0_30px_rgba(6,182,212,0.25)] max-h-[85vh] sm:max-h-[88vh] overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-150">
         
         {/* Header */}
@@ -117,9 +173,15 @@ export const UvttImportModal = ({
 
           {/* Upload Dropzone */}
           <div
+            data-testid="uvtt-dropzone"
             onClick={() => fileInputRef.current?.click()}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
             className={`p-6 border-2 border-dashed rounded-xl flex flex-col items-center justify-center cursor-pointer transition-all ${
-              fileData
+              isDragOver
+                ? 'border-cyan-400 bg-cyan-950/30'
+                : fileData
                 ? 'border-emerald-500/60 bg-emerald-950/20'
                 : 'border-slate-700 hover:border-cyan-500/60 bg-slate-950/50'
             }`}

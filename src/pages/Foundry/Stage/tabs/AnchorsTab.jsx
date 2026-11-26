@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useStageStore } from '../stageStore';
 import { useElementAssets } from '../../assetContracts';
+import { useStory } from '../../../../context/CampaignContext';
 import { AudioService } from '../../../../services/audioService';
 import { showConfirm } from '../../../../context/ConfirmContext';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,6 +28,22 @@ import { v4 as uuidv4 } from 'uuid';
 export default function AnchorsTab() {
   const { stageManifest, addAnchor, updateAnchor, removeAnchor } = useStageStore();
   const { list: elementsList } = useElementAssets();
+  const { allMaps: contextAllMaps, mapsCatalog, universeState } = useStory();
+  const mapsList =
+    Array.isArray(contextAllMaps) && contextAllMaps.length > 0
+      ? contextAllMaps
+      : [
+          ...(universeState?.maps || []),
+          ...((mapsCatalog || []).filter(cm => !(universeState?.maps || []).some(pm => pm.id === cm.id)))
+        ];
+  const boundMap = mapsList.find(m => m.id === stageManifest.mapId) || mapsList[0] || null;
+  const boundMapWidth = Number(boundMap?.width) > 0 ? Number(boundMap.width) : 2400;
+  const boundMapHeight = Number(boundMap?.height) > 0 ? Number(boundMap.height) : 1600;
+  const boundMapBgUrl =
+    boundMap?.background_url ||
+    boundMap?.underlay?.url ||
+    (Array.isArray(boundMap?.underlays) ? boundMap.underlays[0]?.url : '') ||
+    '';
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAnchor, setEditingAnchor] = useState(null);
@@ -290,6 +307,61 @@ export default function AnchorsTab() {
                       placeholder="Y"
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* Visual Mini-Map Coordinate Picker */}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-[10px] font-bold text-cyan-300 uppercase">
+                  <span>Visual Map Picker ({boundMap?.title || boundMap?.name || 'Sector'})</span>
+                  <span className="text-slate-400">Click to place ({Math.round(Number(posX) || 0)}, {Math.round(Number(posY) || 0)})</span>
+                </div>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Visual Map Coordinate Picker"
+                  onClick={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const relX = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                    const relY = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+                    setPosX(Math.round(relX * boundMapWidth));
+                    setPosY(Math.round(relY * boundMapHeight));
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'ArrowRight') setPosX(prev => Math.round((Number(prev) || 0) + 50));
+                    if (e.key === 'ArrowLeft') setPosX(prev => Math.max(0, Math.round((Number(prev) || 0) - 50)));
+                    if (e.key === 'ArrowDown') setPosY(prev => Math.round((Number(prev) || 0) + 50));
+                    if (e.key === 'ArrowUp') setPosY(prev => Math.max(0, Math.round((Number(prev) || 0) - 50)));
+                  }}
+                  className="relative w-full h-36 rounded-xl border border-cyan-500/40 bg-[#050811] overflow-hidden cursor-crosshair select-none"
+                  style={boundMapBgUrl ? { backgroundImage: `url(${boundMapBgUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+                >
+                  <div
+                    className="absolute inset-0 opacity-25 pointer-events-none"
+                    style={{
+                      backgroundImage: 'linear-gradient(to right, rgba(34,211,238,0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(34,211,238,0.25) 1px, transparent 1px)',
+                      backgroundSize: '20px 20px'
+                    }}
+                  />
+                  {anchors.map((a) => {
+                    const leftPct = Math.max(0, Math.min(100, ((a.pos?.x ?? 400) / boundMapWidth) * 100));
+                    const topPct = Math.max(0, Math.min(100, ((a.pos?.y ?? 300) / boundMapHeight) * 100));
+                    return (
+                      <div
+                        key={a.id}
+                        title={a.name}
+                        className="absolute w-2.5 h-2.5 -ml-1 -mt-1 rounded-full bg-slate-400/80 border border-slate-900 pointer-events-none"
+                        style={{ left: `${leftPct}%`, top: `${topPct}%` }}
+                      />
+                    );
+                  })}
+                  <div
+                    className="absolute w-3.5 h-3.5 -ml-1.5 -mt-1.5 rounded-full bg-cyan-400 border-2 border-white shadow-[0_0_10px_rgba(34,211,238,0.9)] pointer-events-none"
+                    style={{
+                      left: `${Math.max(0, Math.min(100, ((Number(posX) || 0) / boundMapWidth) * 100))}%`,
+                      top: `${Math.max(0, Math.min(100, ((Number(posY) || 0) / boundMapHeight) * 100))}%`
+                    }}
+                  />
                 </div>
               </div>
 

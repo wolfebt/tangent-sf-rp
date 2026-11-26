@@ -57,6 +57,7 @@ import { UniversalVttPackager, type RawWallSegment } from '../../../../engine/co
 import { createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../../schemas/vttWallSchema';
 import type { AssetUnit } from '../../../../schemas/assetUnitSchema';
 import coreSeedUnits from '../../../../data/seed_units/science_fantasy_core.json';
+import { useAssetUnitStore } from '../../../../engine/assets/assetUnitStore';
 import { generateLandmassGrid, convertGridToMapElements, BIOME_PALETTES, createPRNG } from '../map/landmassGenerator';
 import {
   applyStarshipSymmetryAndTheme,
@@ -1367,7 +1368,10 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
         }
       }
 
-      const catalog = coreSeedUnits as unknown as AssetUnit[];
+      const storeAssets = useAssetUnitStore.getState().assets;
+      const catalog = (storeAssets && storeAssets.length > 0)
+        ? (storeAssets as unknown as AssetUnit[])
+        : (coreSeedUnits as unknown as AssetUnit[]);
       const executor = new PCGExecutor(Date.now());
 
       // 3. Compile high-specificity prompt into structured directives and execute

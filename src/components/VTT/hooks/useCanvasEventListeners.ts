@@ -143,6 +143,28 @@ export function useCanvasEventListeners({
     const offLayers = VttEventBus.on('open-layers-panel', () => callbacksRef.current.setIsLayersPanelOpen?.(true));
     const offUnderlay = VttEventBus.on('open-underlay-modal', () => callbacksRef.current.setIsUnderlayModalOpen?.(true));
 
+    // Live Vitals & Status Condition EventBus Synchronizers
+    const offCondApplied = VttEventBus.on('vtt-status-condition-applied', (payload) => {
+      if (!payload?.condition) return;
+      const targetId = payload.targetId || callbacksRef.current.selectedTokenId;
+      if (!targetId) return;
+      useEngineStore.getState().addCondition(targetId, payload.condition);
+    });
+    const offCondRemoved = VttEventBus.on('vtt-status-condition-removed', (payload) => {
+      if (!payload?.condition) return;
+      const targetId = payload.targetId || callbacksRef.current.selectedTokenId;
+      if (!targetId) return;
+      useEngineStore.getState().removeCondition(targetId, payload.condition);
+    });
+    const offVitalsUpdated = VttEventBus.on('vtt-token-vitals-updated', (payload) => {
+      const targetId = payload?.tokenId || callbacksRef.current.selectedTokenId;
+      if (!targetId) return;
+      const store = useEngineStore.getState();
+      if (typeof payload.hp === 'number') store.setHealth(targetId, payload.hp);
+      if (typeof payload.vitality === 'number') store.setVitality(targetId, payload.vitality);
+      if (typeof payload.structure === 'number') store.setStructure(targetId, payload.structure);
+    });
+
     return () => {
       offLandmass();
       offPcg();
@@ -155,6 +177,9 @@ export function useCanvasEventListeners({
       offOmni();
       offLayers();
       offUnderlay();
+      offCondApplied();
+      offCondRemoved();
+      offVitalsUpdated();
     };
   }, []);
 }

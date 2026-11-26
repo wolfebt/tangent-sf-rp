@@ -52,6 +52,11 @@ export type { InteractiveObjectState } from './assets/InteractiveObjectManager.t
 export { AssetIngestionPipeline } from './assets/AssetIngestionPipeline.ts';
 export { SpriteSheetSlicer } from './assets/SpriteSheetSlicer.ts';
 export { TangentPackager } from './assets/TangentPackager.ts';
+export { OPFSCache, putAssetBinary, getAssetBinary, deleteAssetBinary, listAssetBinaryKeys, isOpfsHandle } from './assets/OPFSCacheWorker.ts';
+export { useAssetUnitStore, mergeAssetCatalog, serializePersistedUnits, convertLegacyCustomAssetToUnit } from './assets/assetUnitStore.ts';
+export { compileAssetUnitStamp } from './assets/assetStampCompiler.ts';
+export type { StampPlacementOptions, CompiledAssetStamp } from './assets/assetStampCompiler.ts';
+export { hasActiveCustomization, buildCssFilterFromCustomization, parseTintHexToNumber, resolveAssetStateTexture, applyAssetCustomizationToPixiSprite } from './canvas/AssetCustomizerShader.ts';
 export { NVectorCalculator, DEFAULT_PLANETARY_RADIUS_KM } from './cartography/NVectorCalculator.ts';
 export type { LatLon, NVector } from './cartography/NVectorCalculator.ts';
 export { AstrogationGenerator } from './cartography/AstrogationGenerator.ts';

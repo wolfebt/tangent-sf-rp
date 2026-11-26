@@ -25,6 +25,7 @@ import { useCampaign } from '../../../context/CampaignContext';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { STORAGE_KEYS } from '../../../constants/storageKeys';
 import { ROUTES } from '../../../constants/routes';
+import { flattenScenariosTree } from '../../../pages/Foundry/assetContracts';
 import type { AdeElementRecord, AdeScenarioRecord, CronicleDeltaRecord } from '../../../types/ade';
 
 export interface ADEScenarioStageDrawerProps {
@@ -59,7 +60,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
   const pendingDeltas: CronicleDeltaRecord[] = cronicle?.pendingDeltas || [];
   const pendingCount = pendingDeltas.length;
 
-  const scenarios: AdeScenarioRecord[] = universeState?.scenarios || [];
+  const scenarios: AdeScenarioRecord[] = flattenScenariosTree(universeState?.scenarios || []);
   const activeScenario = scenarios.find((s: AdeScenarioRecord) => s.id === activeScenarioId) || scenarios[0] || null;
   const scenarioId = activeScenario?.id;
 

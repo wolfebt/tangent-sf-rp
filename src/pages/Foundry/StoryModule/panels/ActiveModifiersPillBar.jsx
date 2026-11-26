@@ -76,6 +76,11 @@ export const ActiveModifiersPillBar = ({
       appliedAt: new Date().toLocaleTimeString()
     };
     if (onAddModifier) onAddModifier(newMod);
+    VttEventBus.emit('vtt-status-condition-applied', {
+      condition: newMod.name,
+      value: newMod.value,
+      targetId: folioCharacter?.['character-doc-id'] || folioCharacter?.id || 'active_operative'
+    });
     setCustomName('');
     setCustomValue(1);
     setIsAddMenuOpen(false);

@@ -18,6 +18,10 @@ import { AssetIngestionModal } from '../ingestion/AssetIngestionModal';
 import { SpriteSheetCutterModal } from '../ingestion/SpriteSheetCutterModal';
 import type { AssetUnit } from '../../../schemas/assetUnitSchema';
 
+const LazyChunkStudioModal = React.lazy(() =>
+  import('../../../pages/Foundry/MapMaker/components/ChunkStudioModal')
+);
+
 export interface StageModalsContainerProps {
   isLandmassModalOpen: boolean;
   setIsLandmassModalOpen: (open: boolean) => void;
@@ -82,6 +86,13 @@ export interface StageModalsContainerProps {
 
   isSpriteSheetCutterOpen?: boolean;
   setIsSpriteSheetCutterOpen?: (open: boolean) => void;
+
+  isChunkStudioOpen?: boolean;
+  setIsChunkStudioOpen?: (open: boolean) => void;
+  addCustomChunk?: any;
+  updateCustomChunk?: any;
+  deleteCustomChunk?: any;
+  onSelectChunkToStamp?: (chunk: any, initialTransform?: any) => void;
 }
 
 export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
@@ -147,7 +158,14 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
   onAssetIngested,
 
   isSpriteSheetCutterOpen = false,
-  setIsSpriteSheetCutterOpen
+  setIsSpriteSheetCutterOpen,
+
+  isChunkStudioOpen = false,
+  setIsChunkStudioOpen,
+  addCustomChunk,
+  updateCustomChunk,
+  deleteCustomChunk,
+  onSelectChunkToStamp
 }) => {
   const { currentUser } = (useAuth() as any) || {};
   const [newLayerNameInput, setNewLayerNameInput] = React.useState('');
@@ -374,6 +392,7 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
       {/* 10. Asset Studio & Property Forge Modal */}
       {isAssetStudioOpen && selectedStudioAsset && (
         <AssetStudioModal
+          key={selectedStudioAsset.unit_id}
           isOpen={isAssetStudioOpen}
           asset={selectedStudioAsset}
           onClose={() => setIsAssetStudioOpen?.(false)}
@@ -406,6 +425,57 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
             setIsSpriteSheetCutterOpen?.(false);
           }}
         />
+      )}
+
+      {/* 13. Chunk Forge Studio Modal */}
+      {isChunkStudioOpen && (
+        <div
+          className="fixed inset-0 z-[235] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 font-mono"
+          onClick={() => setIsChunkStudioOpen?.(false)}
+        >
+          <div
+            className="w-full max-w-6xl h-[88vh] bg-[#0b101d] border border-emerald-500/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="px-4 py-2.5 bg-[#070b13] border-b border-slate-800 flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
+                Chunk Forge Studio
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsChunkStudioOpen?.(false)}
+                className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+            <div className="flex-1 min-h-0 overflow-hidden">
+              <React.Suspense fallback={<div className="flex items-center justify-center h-full text-emerald-300 text-xs">Loading Chunk Studio...</div>}>
+                <LazyChunkStudioModal
+                  isEmbeddedTab={true}
+                  customChunks={universeState?.customAssets?.chunks || []}
+                  onSaveChunk={(savedChunk: any) => {
+                    const exists = (universeState?.customAssets?.chunks || []).some(
+                      (c: any) => c.chunkId === savedChunk.chunkId
+                    );
+                    if (exists && updateCustomChunk) {
+                      updateCustomChunk(savedChunk.chunkId, savedChunk);
+                    } else if (addCustomChunk) {
+                      addCustomChunk(savedChunk);
+                    }
+                  }}
+                  onDeleteChunk={(chunkId: string) => {
+                    deleteCustomChunk?.(chunkId);
+                  }}
+                  onSelectChunkToStamp={(chunk: any, initialTransform?: any) => {
+                    onSelectChunkToStamp?.(chunk, initialTransform);
+                    setIsChunkStudioOpen?.(false);
+                  }}
+                />
+              </React.Suspense>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

@@ -5,10 +5,10 @@
  * or hand-drawn dungeon sketches, adjusting opacity, scale, and grid offset for precision tracing.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Sliders, Upload, Eye, X, RefreshCw, Check, Move, Film } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
-import { uploadAdeMediaAsset } from '../../../../services/adeMediaStorageService';
+import { uploadAdeMediaAsset, uploadAdeImageAsset } from '../../../../services/adeMediaStorageService';
 
 const isVideoSourceUrl = (url = '') => {
   const clean = String(url || '').toLowerCase();
@@ -34,6 +34,29 @@ export const MapUnderlayCalibrationModal = ({
   const [isUploadingMedia, setIsUploadingMedia] = useState(false);
   const [uploadError, setUploadError] = useState('');
 
+  useEffect(() => {
+    if (!isOpen) return;
+    setImageUrl(currentUnderlay?.url || currentVideoUrl || '');
+    setOpacity(currentUnderlay?.opacity ?? 0.45);
+    setScale(currentUnderlay?.scale ?? 1.0);
+    setOffsetX(currentUnderlay?.offsetX ?? 0);
+    setOffsetY(currentUnderlay?.offsetY ?? 0);
+    setVisible(currentUnderlay?.visible ?? true);
+    setUploadError('');
+  }, [isOpen, mapId, currentUnderlay, currentVideoUrl]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const isVideo = isVideoSourceUrl(imageUrl);
@@ -46,9 +69,9 @@ export const MapUnderlayCalibrationModal = ({
     const fileType = String(file.type || '').toLowerCase();
     const isVideoFile = fileType === 'video/webm' || fileType === 'video/mp4' || /\.(webm|mp4)$/i.test(file.name || '');
 
-    if (isVideoFile) {
-      setIsUploadingMedia(true);
-      try {
+    setIsUploadingMedia(true);
+    try {
+      if (isVideoFile) {
         const res = await uploadAdeMediaAsset(file, {
           userId,
           category: 'video_maps',
@@ -58,20 +81,23 @@ export const MapUnderlayCalibrationModal = ({
           setImageUrl(res.url);
           AudioService.playCriticalChime(true);
         }
-      } catch (err) {
-        setUploadError(err?.message || 'Failed to upload animated video map.');
-      } finally {
-        setIsUploadingMedia(false);
+      } else {
+        const res = await uploadAdeImageAsset(file, {
+          userId,
+          assetCategory: 'maps',
+          fileName: file.name || `${mapId || 'map'}_underlay`
+        });
+        const uploadedUrl = res?.url || res?.downloadURL || '';
+        if (uploadedUrl) {
+          setImageUrl(uploadedUrl);
+          AudioService.playCriticalChime(true);
+        }
       }
-      return;
+    } catch (err) {
+      setUploadError(err?.message || (isVideoFile ? 'Failed to upload animated video map.' : 'Failed to upload blueprint image.'));
+    } finally {
+      setIsUploadingMedia(false);
     }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      setImageUrl(event.target.result);
-      AudioService.playCriticalChime(true);
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleApply = () => {
@@ -100,7 +126,14 @@ export const MapUnderlayCalibrationModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto font-mono select-none animate-in fade-in duration-150">
+    <div
+      role="dialog"
+      aria-modal="true"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+      className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto font-mono select-none animate-in fade-in duration-150"
+    >
       <div className="bg-slate-900 border border-cyan-500/50 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col min-h-0">
         {/* Header */}
         <div className="px-4 sm:px-5 py-3 bg-slate-950 border-b border-cyan-500/30 flex items-center justify-between shrink-0">

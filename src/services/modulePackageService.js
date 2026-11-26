@@ -234,6 +234,7 @@ export function buildModulePackagePayload(universeState = {}, elementsCatalog = 
     scenarios,
     creativeState,
     maps,
+    stages: Array.isArray(universeState?.stages) ? universeState.stages : [],
     elements: elementsCatalog,
     ...(referencedSnapshots.length > 0 ? { referencedSnapshots } : {}),
     galleryModifiers: modifiers,
@@ -300,6 +301,7 @@ export function buildSanitizedOperatorPackagePayload(universeState = {}, element
     scenarios: sanitizedScenarios,
     creativeState: {},
     maps: sanitizedMaps,
+    stages: Array.isArray(basePayload.stages) ? basePayload.stages : [],
     elements: sanitizedElements,
     ...(sanitizedReferencedSnapshots.length > 0 ? { referencedSnapshots: sanitizedReferencedSnapshots } : {}),
     galleryModifiers: [],
@@ -420,6 +422,7 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
     setActiveMapId,
     setActiveScenarioId,
     setGalleryModifiers,
+    saveStageManifest,
     updateCreativeState,
     updateCronicle,
     existingMaps = [],
@@ -431,6 +434,7 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
   const results = {
     mapsImported: 0,
     scenariosImported: 0,
+    stagesImported: 0,
     elementsImported: 0,
     snapshotsImported: 0,
     creativeStateRestored: false,
@@ -599,6 +603,21 @@ export function hydrateModuleIntoCampaign(parsedData, handlers = {}) {
   ) {
     updateCronicle(parsedData.cronicle);
     results.cronicleRestored = true;
+  }
+
+  // 6b. Ingest Stage Manifests if included
+  if (Array.isArray(parsedData.stages) && typeof saveStageManifest === 'function') {
+    parsedData.stages.forEach((stage) => {
+      if (!stage || typeof stage !== 'object') return;
+      const remappedMapId = stage.mapId && mapIdRemap.has(stage.mapId) ? mapIdRemap.get(stage.mapId) : stage.mapId;
+      const remappedStoryId = stage.storyId && scenarioIdRemap.has(stage.storyId) ? scenarioIdRemap.get(stage.storyId) : stage.storyId;
+      saveStageManifest({
+        ...stage,
+        ...(remappedMapId ? { mapId: remappedMapId } : {}),
+        ...(remappedStoryId ? { storyId: remappedStoryId } : {})
+      });
+      results.stagesImported++;
+    });
   }
 
   AudioService.playCriticalChime(true);

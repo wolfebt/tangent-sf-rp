@@ -33,17 +33,20 @@ export function flattenScenariosTree(nodes = []) {
  */
 export function useMapAssets() {
   const navigate = useNavigate();
-  const { mapsCatalog, universeState } = useStory();
+  const { allMaps: contextAllMaps, mapsCatalog, universeState } = useStory();
 
   const list = useMemo(() => {
-    const combined = [...(mapsCatalog || []), ...(universeState?.maps || [])];
+    if (Array.isArray(contextAllMaps) && contextAllMaps.length > 0) {
+      return contextAllMaps;
+    }
+    const combined = [...(universeState?.maps || []), ...(mapsCatalog || [])];
     const seen = new Set();
     return combined.filter(map => {
       if (!map || !map.id || seen.has(map.id)) return false;
       seen.add(map.id);
       return true;
     });
-  }, [mapsCatalog, universeState?.maps]);
+  }, [contextAllMaps, mapsCatalog, universeState?.maps]);
 
   const getById = useCallback((mapId) => {
     if (!mapId) return null;

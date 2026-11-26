@@ -29,6 +29,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { useStageStore } from './stageStore';
+import { useStory } from '../../../context/CampaignContext';
 import SetupTab from './tabs/SetupTab';
 import AnchorsTab from './tabs/AnchorsTab';
 import FlowTab from './tabs/FlowTab';
@@ -48,12 +49,20 @@ export default function StageWorkspace({
 }) {
   const isMobile = useIsMobile();
 
-  const { 
-    activeStageTab, 
-    setActiveStageTab, 
-    stageManifest, 
-    updateStageManifest 
+  const {
+    activeStageTab,
+    setActiveStageTab,
+    activeStoryScopeId,
+    manifestsByStory,
+    stageManifest,
+    isDirty,
+    markClean,
+    selectStage,
+    createStage,
+    updateStageManifest
   } = useStageStore();
+  const { saveStageManifest, universeState } = useStory();
+  const scopedStages = manifestsByStory?.[activeStoryScopeId || universeState?.id || stageManifest?.storyId || 'default'] || [stageManifest];
 
   useEffect(() => {
     if (isMobile) return;
@@ -70,7 +79,17 @@ export default function StageWorkspace({
     if (boundStoryId && !stageManifest.storyId) {
       updateStageManifest({ storyId: boundStoryId, scenarioIds: [boundStoryId] });
     }
-  }, [isMobile, boundMapId, boundStoryId]);
+  }, [isMobile, boundMapId, boundStoryId, stageManifest.mapId, stageManifest.storyId, updateStageManifest]);
+
+  // Auto-persist dirty StageManifest changes back into story stages collection
+  useEffect(() => {
+    if (!isDirty || !saveStageManifest || !stageManifest?.id) return undefined;
+    const timer = setTimeout(() => {
+      saveStageManifest(stageManifest);
+      markClean?.();
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [isDirty, stageManifest, saveStageManifest, markClean]);
 
   if (isMobile) {
     return <MobileTacticalBlocker operation="stage" onBack={() => onSwitchView?.('scenarios')} />;
@@ -127,9 +146,34 @@ export default function StageWorkspace({
           })}
         </div>
 
-        {/* Right: Stage Title & Weaver Handoff */}
+        {/* Right: Stage Selector, + New, Title & Weaver Handoff */}
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-[11px] text-slate-400 font-bold truncate max-w-xs hidden md:inline">
+          {scopedStages.length > 0 && (
+            <select
+              aria-label="Active Stage Manifest"
+              value={stageManifest?.id || ''}
+              onChange={(e) => selectStage?.(e.target.value)}
+              className="bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-[11px] font-bold text-purple-200 max-w-[160px]"
+            >
+              {scopedStages.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.title || s.id}
+                </option>
+              ))}
+            </select>
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              const created = createStage?.(boundMapId || stageManifest?.mapId || '', boundStoryId || universeState?.id || '');
+              if (created) saveStageManifest?.(created);
+            }}
+            className="px-2 py-1 rounded-lg bg-purple-950/70 hover:bg-purple-900 border border-purple-500/40 text-purple-200 text-[10px] font-bold uppercase cursor-pointer"
+            title="Create new Stage Manifest for this story"
+          >
+            + Stage
+          </button>
+          <span className="text-[11px] text-slate-400 font-bold truncate max-w-xs hidden lg:inline">
             The Stage VTT: <strong className="text-purple-300">{stageManifest.title || 'Untitled'}</strong>
           </span>
 

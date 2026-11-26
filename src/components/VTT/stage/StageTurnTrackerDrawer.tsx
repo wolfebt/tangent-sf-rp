@@ -13,6 +13,8 @@ import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncServi
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { AudioService } from '../../../services/audioService';
 import { decideAutonomousAction } from '../../../services/unitBehaviorService';
+import { useCampaign } from '../../../context/CampaignContext';
+import { ModifierService } from '../../../services/modifierService';
 
 export interface StageTurnTrackerDrawerProps {
   isOpen: boolean;
@@ -36,6 +38,7 @@ export const StageTurnTrackerDrawer: React.FC<StageTurnTrackerDrawerProps> = ({
   const initiativeScores = useUILayoutStore((s) => s.initiativeScores);
   const setTurnState = useUILayoutStore((s) => s.setTurnState);
   const resetTurnState = useUILayoutStore((s) => s.resetTurnState);
+  const { universeState, setGalleryModifiers } = (useCampaign() as any) || {};
 
   const orderedAll = useMemo(() => {
     return [...(tokens || [])].sort((a, b) => {
@@ -137,6 +140,28 @@ export const StageTurnTrackerDrawer: React.FC<StageTurnTrackerDrawerProps> = ({
       roundNumber: nextRound,
       currentTurnIndex: nextIndex
     });
+
+    if (nextRound > roundNumber) {
+      VttEventBus.emit('stage-round-advanced', { roundNumber: nextRound });
+      const activeGalleryMods = Array.isArray(universeState?.galleryModifiers)
+        ? universeState.galleryModifiers
+        : [];
+      if (activeGalleryMods.length > 0 && typeof setGalleryModifiers === 'function') {
+        const { updatedModifiers, expiredModifiers } = ModifierService.tickModifiers(activeGalleryMods);
+        setGalleryModifiers(updatedModifiers);
+        if (expiredModifiers.length > 0) {
+          VttEventBus.emit('stage-chat-card', {
+            id: `mod_exp_${Date.now()}`,
+            timestamp: new Date().toISOString(),
+            sender: 'Round Clock',
+            visibility: 'public',
+            kind: 'effect',
+            title: `Round ${nextRound}: Modifiers Expired`,
+            body: `Expired: ${expiredModifiers.map((m: any) => m.name || m.id).join(', ')}`
+          });
+        }
+      }
+    }
 
     if (nextToken) {
       onSelectToken(nextToken.id);

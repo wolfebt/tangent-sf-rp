@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
-import { Container, Graphics, Text, TextStyle } from 'pixi.js';
+import { Container, Graphics, Text, TextStyle, Assets, Sprite, ColorMatrixFilter } from 'pixi.js';
 import { InteractiveObjectManager } from '../../../engine/assets/InteractiveObjectManager.ts';
 import type { SceneInteractiveObject } from '../../../engine/assets/FoundryIngestion.ts';
 import { LayerCompositor, ZLayer } from '../../../engine/canvas/LayerCompositor.ts';
 import { useEngineStore, type FusedToken } from '../../../engine/state/VolatileSharder.ts';
 import { AudioService } from '../../../services/audioService';
 import { clearPixiContainer } from '../utils/pixiCleanup';
+import { useStageStore } from '../../../pages/Foundry/Stage/stageStore';
+import { applyAssetCustomizationToPixiSprite } from '../../../engine/canvas/AssetCustomizerShader.ts';
+import { getMapLayerState } from '../../../utils/mapSchemaAdapter';
 
 export interface UseStageTokensRendererParams {
   isCanvasReady: boolean;
@@ -38,6 +41,15 @@ export interface UseStageTokensRendererParams {
   handleObjectClick: (obj: SceneInteractiveObject) => void;
   isArchitectRole?: boolean;
 }
+
+const parseColorHex = (raw: any, fallback = 0xf59e0b): number => {
+  if (typeof raw === 'number' && !Number.isNaN(raw)) return raw;
+  if (typeof raw === 'string' && raw.trim()) {
+    const parsed = parseInt(raw.trim().replace(/^#/, '0x'), 16);
+    if (!Number.isNaN(parsed)) return parsed;
+  }
+  return fallback;
+};
 
 /**
  * Renders Stage Interactive Objects, Spatial Waypoint Routes, and Fused Tokens with vitality bars and action pips.
@@ -77,33 +89,107 @@ export const useStageTokensRenderer = ({
     if (!objLayer) return;
 
     clearPixiContainer(objLayer);
+    const objLayerState = getMapLayerState(currentMap, 'objects');
+    if (!objLayerState.visible) return;
+    objLayer.alpha = objLayerState.opacity ?? 1;
 
+    let isCancelled = false;
     const objects = interactiveObjMgrRef.current.getAllObjects();
-    objects.forEach(obj => {
+    objects.forEach((obj: any) => {
+      const isObjHidden = Boolean(obj.hidden || obj.isHidden || obj.visibleToPlayers === false);
+      if (isObjHidden && !isArchitectRole) return;
+
       const container = new Container();
       container.x = obj.x;
       container.y = obj.y;
+      if (typeof obj.rotation === 'number' && obj.rotation !== 0) {
+        container.rotation = (obj.rotation * Math.PI) / 180;
+      }
+      if (isObjHidden) {
+        container.alpha = 0.45;
+      }
       container.eventMode = 'static';
       container.cursor = 'pointer';
 
-      const g = new Graphics();
-      if (obj.type === 'bulkhead') {
-        const state = interactiveObjMgrRef.current.getObject(obj.id);
-        const isOpen = state?.isOpen || false;
-        g.rect(-20, -10, 40, 20);
-        g.fill({ color: isOpen ? 0x10b981 : 0xef4444, alpha: 0.8 });
-        g.stroke({ width: 2, color: 0xffffff });
-      } else if (obj.type === 'terminal') {
-        g.rect(-15, -15, 30, 30);
-        g.fill({ color: 0x3b82f6, alpha: 0.8 });
-        g.stroke({ width: 2, color: 0x60a5fa });
+      const w = Number(obj.width) > 0 ? Number(obj.width) : 34;
+      const h = Number(obj.height) > 0 ? Number(obj.height) : 34;
+      const texUrl = obj.imageUrl || obj.textureUrl || obj.url;
+
+      const drawFallbackGraphic = () => {
+        const g = new Graphics();
+        if (obj.type === 'bulkhead') {
+          const state = interactiveObjMgrRef.current.getObject(obj.id);
+          const isOpen = state?.isOpen || false;
+          g.rect(-20, -10, 40, 20);
+          g.fill({ color: isOpen ? 0x10b981 : 0xef4444, alpha: 0.8 });
+          g.stroke({ width: 2, color: 0xffffff });
+        } else if (obj.type === 'terminal') {
+          g.rect(-15, -15, 30, 30);
+          g.fill({ color: 0x3b82f6, alpha: 0.8 });
+          g.stroke({ width: 2, color: 0x60a5fa });
+        } else {
+          const col = parseColorHex(obj.color, obj.isTrap ? 0xef4444 : 0xf59e0b);
+          if (obj.shape === 'circle') {
+            g.circle(0, 0, Math.max(w, h) / 2);
+          } else if (obj.shape === 'star') {
+            const outerR = Math.max(w, h) / 2;
+            const innerR = outerR * 0.48;
+            const pts: number[] = [];
+            for (let i = 0; i < 10; i++) {
+              const r = i % 2 === 0 ? outerR : innerR;
+              const angle = (i * Math.PI) / 5 - Math.PI / 2;
+              pts.push(Math.cos(angle) * r, Math.sin(angle) * r);
+            }
+            g.poly(pts);
+          } else {
+            g.roundRect(-w / 2, -h / 2, w, h, 5);
+          }
+          g.fill({ color: col, alpha: 0.78 });
+          g.stroke({ width: 2, color: 0xffffff, alpha: 0.85 });
+        }
+        container.addChild(g);
+      };
+
+      if (texUrl) {
+        Assets.load(texUrl)
+          .then((tex) => {
+            if (isCancelled || container.destroyed || !tex) return;
+            const sp = new Sprite(tex);
+            sp.anchor.set(0.5, 0.5);
+            sp.width = w;
+            sp.height = h;
+            if (obj.customization || obj.visuals?.customization || obj.assetUnit?.visuals?.customization) {
+              applyAssetCustomizationToPixiSprite(
+                sp,
+                obj.customization || obj.visuals?.customization || obj.assetUnit?.visuals?.customization,
+                ColorMatrixFilter
+              );
+            }
+            container.addChildAt(sp, 0);
+          })
+          .catch(() => {
+            if (!isCancelled && !container.destroyed) {
+              drawFallbackGraphic();
+            }
+          });
       } else {
-        g.rect(-12, -12, 24, 24);
-        g.fill({ color: 0xf59e0b, alpha: 0.8 });
-        g.stroke({ width: 2, color: 0xfbbf24 });
+        drawFallbackGraphic();
       }
 
-      container.addChild(g);
+      if (obj.label || obj.name) {
+        const badgeText = new Text({
+          text: String(obj.label || obj.name).slice(0, 22),
+          style: new TextStyle({
+            fontFamily: 'monospace',
+            fontSize: 9,
+            fill: 0xe2e8f0,
+            fontWeight: 'bold'
+          })
+        });
+        badgeText.anchor.set(0.5, 1);
+        badgeText.y = -h / 2 - 4;
+        container.addChild(badgeText);
+      }
 
       container.on('pointerdown', (e) => {
         e.stopPropagation();
@@ -112,7 +198,11 @@ export const useStageTokensRenderer = ({
 
       objLayer.addChild(container);
     });
-  }, [isCanvasReady, canvasGeneration, tokens, localObjects]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isCanvasReady, canvasGeneration, tokens, localObjects, currentMap?.layers, isArchitectRole]);
 
   // ── Render Spatial Waypoints & Tactical Route on the Stage ──
   useEffect(() => {
@@ -121,6 +211,8 @@ export const useStageTokensRenderer = ({
     if (!container) return;
     clearPixiContainer(container);
     if (!isArchitectRole) return;
+    const wpLayerState = getMapLayerState(currentMap, 'waypoints');
+    if (!wpLayerState.visible) return;
 
     const waypoints = currentMap?.waypoints || [];
     if (waypoints.length === 0) return;
@@ -251,10 +343,21 @@ export const useStageTokensRenderer = ({
         if (isDragging) {
           isDragging = false;
           wpGroup.cursor = 'grab';
-          if (currentMap && updateMap) {
+          const snappedX = Math.round(wpGroup.x);
+          const snappedY = Math.round(wpGroup.y);
+          if ((wp as any)?.stageManaged) {
+            const existingAnchor = useStageStore.getState().stageManifest?.anchors?.find((a: any) => a.id === wp.id);
+            useStageStore.getState().updateAnchor?.(wp.id, {
+              pos: {
+                ...(existingAnchor?.pos || {}),
+                x: snappedX,
+                y: snappedY
+              }
+            });
+          } else if (currentMap && updateMap) {
             const updatedWaypoints = waypoints.map((w: any, wIdx: number) => {
               if (w.id === wp.id || (wIdx === idx && !w.id)) {
-                return { ...w, x: Math.round(wpGroup.x), y: Math.round(wpGroup.y) };
+                return { ...w, x: snappedX, y: snappedY };
               }
               return w;
             });
@@ -280,7 +383,11 @@ export const useStageTokensRenderer = ({
     if (!tokenLayer) return;
 
     clearPixiContainer(tokenLayer);
+    const tokensLayerState = getMapLayerState(currentMap, 'tokens');
+    if (!tokensLayerState.visible) return;
+    tokenLayer.alpha = tokensLayerState.opacity ?? 1;
 
+    let isCancelled = false;
     const style = new TextStyle({
       fontFamily: 'monospace',
       fontSize: 10,
@@ -336,6 +443,27 @@ export const useStageTokensRenderer = ({
       }
 
       container.addChild(g);
+
+      const avatarSrc = (token as any).avatarUrl || (token as any).image_url || (token as any).portraitUrl;
+      if (avatarSrc) {
+        Assets.load(avatarSrc)
+          .then((tex) => {
+            if (isCancelled || container.destroyed || !tex) return;
+            const sprite = new Sprite(tex);
+            sprite.anchor.set(0.5, 0.5);
+            const innerDiam = Math.max(16, (radius - 2) * 2);
+            sprite.width = innerDiam;
+            sprite.height = innerDiam;
+
+            const maskG = new Graphics();
+            maskG.circle(0, 0, Math.max(8, radius - 2));
+            maskG.fill({ color: 0xffffff });
+            container.addChild(maskG);
+            sprite.mask = maskG;
+            container.addChildAt(sprite, container.getChildIndex(g) + 1);
+          })
+          .catch(() => {});
+      }
 
       // Render Dual Vitality & Health mini-bars (or Structure for synthetics)
       const barsG = new Graphics();
@@ -450,5 +578,9 @@ export const useStageTokensRenderer = ({
 
       tokenLayer.addChild(container);
     });
-  }, [isCanvasReady, canvasGeneration, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt, isArchitectRole]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isCanvasReady, canvasGeneration, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt, isArchitectRole, currentMap?.layers]);
 };

@@ -25,6 +25,8 @@ import { useConfirm } from '../../../context/ConfirmContext';
 import { AudioService } from '../../../services/audioService';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { buildVttUnitFromPersona } from '../../../utils/personaBridge';
+import { normalizeMapObject } from '../../../utils/storyAssetAdapter';
+import { flattenScenariosTree } from '../../../pages/Foundry/assetContracts';
 import { 
   createBlankCanvas, 
   createDerelictStarshipMap, 
@@ -50,15 +52,16 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
 }) => {
   const navigate = useNavigate();
   const confirm = useConfirm();
-  const { universeState, activeMapId, setActiveMapId, updateMap, addMap, mapsCatalog } = useCampaign();
+  const { universeState, allMaps, activeMapId, setActiveMapId, updateMap, addMap, mapsCatalog } = useCampaign();
   const { activeSpeakers = [], participants = [] } = (useVoiceChat() as any) || {};
   const liveTokens = useEngineStore(selectAllFusedTokens);
 
   const availableMaps = React.useMemo(() => {
-    const catalog = ((mapsCatalog || []) as any[]);
-    const projectMaps = (((universeState?.maps || []) as any[])).filter(m => !catalog.some(cm => cm.id === m.id));
-    return [...catalog, ...projectMaps];
-  }, [mapsCatalog, universeState?.maps]);
+    if (Array.isArray(allMaps) && allMaps.length > 0) return allMaps as any[];
+    const projectMaps = (universeState?.maps || []) as any[];
+    const catalogOnly = ((mapsCatalog || []) as any[]).filter(cm => !projectMaps.some(pm => pm.id === cm.id));
+    return [...projectMaps, ...catalogOnly];
+  }, [allMaps, mapsCatalog, universeState?.maps]);
 
   const targetMapId = sceneId || activeMapId || availableMaps[0]?.id || null;
   const currentMap = availableMaps.find((m: any) => m.id === targetMapId) || availableMaps[0] || null;
@@ -108,8 +111,8 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
     });
   }, [activeSpeakers, participants]);
   const activeScenario = useMemo(() => {
-    const scenarios = stageUniverse?.scenarios || [];
-    return scenarios.find((s: any) => s.id === activeScenarioId) || scenarios[0] || null;
+    const flatScenarios = flattenScenariosTree(stageUniverse?.scenarios || []);
+    return flatScenarios.find((s: any) => s.id === activeScenarioId) || flatScenarios[0] || null;
   }, [stageUniverse?.scenarios, activeScenarioId]);
   const viewportRef = useRef<HTMLDivElement>(null);
 
@@ -338,7 +341,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
         else if (rawType === 'Technology') objType = 'terminal';
         else if (rawType === 'bulkhead' || rawType === 'Door') objType = 'bulkhead';
 
-        const newMapObj = {
+        const newMapObj = normalizeMapObject({
           id: `obj-${elem.id || Date.now()}-${Math.floor(Math.random() * 1000)}`,
           type: objType,
           name: elem.title || elem.name || `Story ${rawType}`,
@@ -347,9 +350,10 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           x: dropX,
           y: dropY,
           isOpen: false,
+          imageUrl: elem.imageUrl || elem.fields?.imageUrl || elem.fields?.textureUrl || '',
           omnicortexGearId: elem.fields?.gearId || elem.id,
           readAloudText: elem.content || elem.fields?.summary || ''
-        };
+        });
 
         const activeMap = availableMaps.find((m: any) => m.id === (targetMapId || activeMapId)) || availableMaps[0];
         if (activeMap && updateMap) {
@@ -414,7 +418,11 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
                   type="button"
                   onClick={() => {
                     const targetId = currentMap?.id || activeMapId;
-                    navigate(targetId ? `/foundry/map-maker?mapId=${targetId}` : '/foundry/map-maker');
+                    navigate(
+                      targetId
+                        ? `/foundry?view=map&mapId=${encodeURIComponent(targetId)}&returnTo=stage`
+                        : '/foundry?view=map&returnTo=stage'
+                    );
                   }}
                   className="px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-950/70 hover:bg-purple-900/80 text-purple-200 border border-purple-500/40 transition-colors flex items-center gap-1.5 cursor-pointer"
                   title="Launch Full Map Maker Studio in dedicated workspace"
@@ -513,6 +521,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           onDragOver={handleDragOver}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
+          onDropCapture={() => setIsDraggingOver(false)}
           onDrop={handleDrop}
           className={`relative w-full h-full overflow-hidden transition-all ${
             isDraggingOver ? 'ring-2 ring-inset ring-cyan-400 bg-cyan-950/10' : ''

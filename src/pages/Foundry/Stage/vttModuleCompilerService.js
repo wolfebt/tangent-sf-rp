@@ -6,7 +6,9 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { adeElementToStageToken } from '../../../utils/storyAssetAdapter.js';
+import { adeElementToStageToken, adeElementToInteractiveObject } from '../../../utils/storyAssetAdapter.js';
+import { normalizeElementType } from '../ElementForge/elementSchemas.js';
+import { createSceneRegion } from '../../../engine/cartography/SceneRegionManager.ts';
 import { VttModuleCompilerService, VttModuleCompiler } from '../../../services/vttModuleCompilerService.js';
 
 export { VttModuleCompilerService, VttModuleCompiler };
@@ -73,22 +75,39 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
     fog: []
   };
 
-  // 2. Synthesize runtime tokens from manifest anchors and encounters
+  // 2. Synthesize runtime tokens & interactive objects from manifest anchors and encounters
   const synthesizedTokens = [...(baseMap.tokens || [])];
-  const elementsMap = new Map(elementsCatalog.map(e => [e.id, e]));
+  const synthesizedObjects = [...(baseMap.objects || [])];
+  const synthesizedWaypoints = [...(baseMap.waypoints || [])];
+  const synthesizedRegions = [...(baseMap.regions || [])];
+  const synthesizedSpawns = [...(baseMap.spawns || [])];
+  const elementsMap = new Map((elementsCatalog || []).map(e => [e.id, e]));
 
-  // Inject anchor-linked elements as tokens onto the map
+  // Inject anchor-linked elements by canonical type (Persona -> Token, everything else -> Interactive Object)
   for (const anchor of manifest.anchors || []) {
     const x = anchor.pos?.x ?? 400;
     const y = anchor.pos?.y ?? 300;
+    const anchorTriggers = (manifest.triggers || []).filter(t => t.anchorId === anchor.id);
 
     for (const elemId of anchor.elementIds || []) {
       const elem = elementsMap.get(elemId);
-      if (elem) {
+      if (!elem) continue;
+
+      if (normalizeElementType(elem.type) === 'Persona') {
         const token = adeElementToStageToken(elem, { x, y });
-        token.anchorId = anchor.id;
-        token.stageManaged = true;
-        synthesizedTokens.push(token);
+        if (token) {
+          token.anchorId = anchor.id;
+          token.stageManaged = true;
+          synthesizedTokens.push(token);
+        }
+      } else {
+        const obj = adeElementToInteractiveObject(elem, { x, y });
+        if (obj) {
+          obj.anchorId = anchor.id;
+          obj.stageManaged = true;
+          if (anchorTriggers.length > 0) obj.triggers = anchorTriggers;
+          synthesizedObjects.push(obj);
+        }
       }
     }
   }
@@ -104,47 +123,107 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
       const elem = elementsMap.get(elemId);
       if (elem) {
         const token = adeElementToStageToken(elem, { x: x + (Math.random() * 60 - 30), y: y + (Math.random() * 60 - 30) });
-        token.encounterId = encounter.id;
-        token.stageManaged = true;
-        synthesizedTokens.push(token);
+        if (token) {
+          token.encounterId = encounter.id;
+          token.stageManaged = true;
+          synthesizedTokens.push(token);
+        }
       }
     }
   }
 
-  // 3. Compile Waypoints and Trigger zones (injected as interactive objects without dirtying the source map)
-  const synthesizedObjects = [...(baseMap.objects || [])];
-  const synthesizedWaypoints = [...(baseMap.waypoints || [])];
+  // 3. Compile all 4 anchor kinds (waypoint, region, object, spawn) without mutating pristine source map
   for (const anchor of manifest.anchors || []) {
-    if (anchor.kind === 'waypoint' || anchor.kind === 'region') {
-      const triggers = (manifest.triggers || []).filter(t => t.anchorId === anchor.id);
+    const triggers = (manifest.triggers || []).filter(t => t.anchorId === anchor.id);
+    const firstAction = triggers[0]?.actions?.[0] || {};
+    const ax = anchor.pos?.x ?? 400;
+    const ay = anchor.pos?.y ?? 300;
+    const aw = anchor.pos?.w ?? 120;
+    const ah = anchor.pos?.h ?? 120;
+
+    if (anchor.kind === 'region') {
+      const regionTriggerType = anchor.triggerType || 'story_flag';
+      synthesizedRegions.push({
+        ...createSceneRegion({
+          id: anchor.id,
+          name: anchor.name || 'Stage Trigger Region',
+          bounds: { x: ax, y: ay, width: aw, height: ah },
+          triggerType: regionTriggerType,
+          payload: {
+            triggers,
+            note: anchor.note || '',
+            stageManaged: true
+          },
+          autoTrigger: triggers.some(t => t.on === 'enter' || t.on === 'exit')
+        }),
+        stageManaged: true,
+        anchorId: anchor.id
+      });
       synthesizedObjects.push({
         id: `anchor-obj-${anchor.id}`,
         anchorId: anchor.id,
-        shape: anchor.kind === 'region' ? 'rect' : 'circle',
-        x: anchor.pos?.x ?? 400,
-        y: anchor.pos?.y ?? 300,
+        shape: 'rect',
+        x: ax,
+        y: ay,
         width: anchor.pos?.w ?? 80,
         height: anchor.pos?.h ?? 80,
         radius: (anchor.pos?.w ?? 80) / 2,
         color: '#a855f7',
-        label: anchor.name || 'Waypoint Anchor',
+        label: anchor.name || 'Region Trigger',
         isTriggerZone: true,
         triggerCount: triggers.length,
-        triggers: triggers,
-        note: anchor.note || ''
+        triggers,
+        note: anchor.note || '',
+        stageManaged: true
       });
-      const firstAction = triggers[0]?.actions?.[0] || {};
+    } else if (anchor.kind === 'object') {
+      if (!Array.isArray(anchor.elementIds) || anchor.elementIds.length === 0) {
+        synthesizedObjects.push({
+          id: `anchor-obj-${anchor.id}`,
+          anchorId: anchor.id,
+          type: anchor.objectType || 'sensor_beacon',
+          name: anchor.name || 'Stage Interactive Object',
+          label: anchor.name || 'Stage Interactive Object',
+          shape: 'rect',
+          x: ax,
+          y: ay,
+          width: aw,
+          height: ah,
+          color: '#22d3ee',
+          isOpen: false,
+          isTriggerZone: triggers.length > 0,
+          triggerCount: triggers.length,
+          triggers,
+          note: anchor.note || '',
+          readAloudText: anchor.note || '',
+          stageManaged: true
+        });
+      }
+    } else if (anchor.kind === 'spawn') {
+      synthesizedSpawns.push({
+        id: anchor.id,
+        name: anchor.name || 'Operator Spawn',
+        x: ax,
+        y: ay,
+        elementIds: anchor.elementIds || [],
+        note: anchor.note || '',
+        stageManaged: true
+      });
+    } else {
+      // Default: 'waypoint'
       synthesizedWaypoints.push({
         id: anchor.id,
         name: anchor.name || 'Waypoint Anchor',
-        x: anchor.pos?.x ?? 400,
-        y: anchor.pos?.y ?? 300,
-        radius: (anchor.pos?.w ?? 80) / 2,
+        x: ax,
+        y: ay,
+        radius: Math.max(30, (anchor.pos?.w ?? 80) / 2),
         type: 'objective',
         autoTrigger: triggers.some(t => t.on === 'enter'),
         triggerAction: firstAction.type || 'REVEAL_BEAT',
         targetScenarioId: firstAction.targetScenarioId || null,
-        readAloudText: firstAction.readAloudText || anchor.note || ''
+        readAloudText: firstAction.readAloudText || anchor.note || '',
+        triggers,
+        stageManaged: true
       });
     }
   }
@@ -165,7 +244,9 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
       ...baseMap,
       tokens: synthesizedTokens,
       objects: synthesizedObjects,
-      waypoints: synthesizedWaypoints
+      waypoints: synthesizedWaypoints,
+      regions: synthesizedRegions,
+      spawns: synthesizedSpawns
     },
     environment: {
       ...manifest.environment,
@@ -173,7 +254,9 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
       weather: manifest.environment?.weather || 'clear',
       activeModifiers: manifest.environment?.modifierIds || []
     },
+    anchors: manifest.anchors || [],
     triggers: manifest.triggers || [],
+    spawns: synthesizedSpawns,
     variables: manifest.variables || {},
     macros: manifest.macros || [],
     scenario: storyAsset ? {
@@ -186,4 +269,8 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
   };
 
   return compiledState;
+}
+
+export function compileStageOverlay(options) {
+  return compileStage(options);
 }

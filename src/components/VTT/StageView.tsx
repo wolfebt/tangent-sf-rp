@@ -53,6 +53,7 @@ import { AudioService } from '../../services/audioService';
 import SpatialAudio from '../../services/spatialAudioService';
 import { SENSOR_MODES } from '../../services/sensorVisionService.js';
 import { filterExpiredPings } from '../../services/mapPingService';
+import { useAssetUnitStore } from '../../engine/assets/assetUnitStore';
 import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
 import { createDefaultAssetUnit } from '../../schemas/assetUnitSchema';
 import { useMapHistory } from '../../pages/Foundry/MapMaker/hooks/useMapHistory';
@@ -72,6 +73,18 @@ import { useStagePointerTools } from './stage/useStagePointerTools';
 import { StageTopHudBar } from './stage/StageTopHudBar';
 import { StageTokenLayer } from './stage/StageTokenLayer';
 import { useMultiplayerCursors } from './hooks/useMultiplayerCursors';
+import { SelectedElementInspectorBar } from '../../pages/Foundry/MapMaker/map/SelectedElementInspectorBar';
+import { PlacedChunkInspectorBar } from '../../pages/Foundry/MapMaker/map/PlacedChunkInspectorBar';
+
+const SelectedElementInspector = SelectedElementInspectorBar as unknown as React.ComponentType<any>;
+const PlacedChunkInspector = PlacedChunkInspectorBar as unknown as React.ComponentType<any>;
+import {
+  retransformPlacedChunkInstance,
+  explodeChunkInstance,
+  deletePlacedChunkInstance,
+  transformChunkBlueprint
+} from '../../services/mapChunkCompilerService';
+import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../data/seed_chunks/science_fantasy_chunks';
 
 export interface StageViewProps {
   campaignId?: string;
@@ -123,6 +136,7 @@ export const StageView: React.FC<StageViewProps> = ({
     activeMapId, 
     setActiveMapId, 
     mapsCatalog,
+    allMaps,
     addMap, 
     updateMap, 
     addCustomTerrain,
@@ -130,8 +144,13 @@ export const StageView: React.FC<StageViewProps> = ({
     deleteCustomTerrain,
     addCustomObject,
     updateCustomObject,
-    deleteCustomObject
-  } = useCampaign();
+    deleteCustomObject,
+    addCustomChunk,
+    updateCustomChunk,
+    deleteCustomChunk,
+    setGalleryModifiers,
+    isStoryReadOnly = false
+  } = useCampaign() as any;
   const [currentMapId, setCurrentMapId] = useState<string>(sceneId || mapIdParam || activeMapId || '');
   const [canvasGeneration, setCanvasGeneration] = useState<number>(0);
   const isCanvasReady = canvasGeneration > 0;
@@ -148,10 +167,11 @@ export const StageView: React.FC<StageViewProps> = ({
   }, [sceneId, activeMapId, currentMapId, setActiveMapId]);
 
   const availableMaps = useMemo(() => {
-    const catalog = (mapsCatalog || []) as any[];
-    const projectMaps = ((universeState?.maps || []) as any[]).filter(m => !catalog.some(cm => cm.id === m.id));
-    return [...catalog, ...projectMaps];
-  }, [mapsCatalog, universeState?.maps]);
+    if (Array.isArray(allMaps) && allMaps.length > 0) return allMaps as any[];
+    const projectMaps = (universeState?.maps || []) as any[];
+    const catalogOnly = ((mapsCatalog || []) as any[]).filter(cm => !projectMaps.some(pm => pm.id === cm.id));
+    return [...projectMaps, ...catalogOnly];
+  }, [allMaps, mapsCatalog, universeState?.maps]);
 
   const effectiveMapId = sceneId || activeMapId || mapIdParam || currentMapId;
   const baseMap = availableMaps.find((m: any) => m.id === effectiveMapId) || availableMaps[0] || null;
@@ -166,7 +186,8 @@ export const StageView: React.FC<StageViewProps> = ({
         ...(envAtmo && !compiledStage.map.atmosphericWeather ? { atmosphericWeather: envAtmo } : {}),
         tokens: compiledStage.map.tokens || baseMap?.tokens || [],
         objects: compiledStage.map.objects || baseMap?.objects || [],
-        waypoints: compiledStage.map.waypoints || baseMap?.waypoints || []
+        waypoints: compiledStage.map.waypoints || baseMap?.waypoints || [],
+        regions: compiledStage.map.regions || baseMap?.regions || []
       };
     }
     return baseMap;
@@ -338,6 +359,13 @@ export const StageView: React.FC<StageViewProps> = ({
   const [isUvttModalOpen, setIsUvttModalOpen] = useState<boolean>(false);
   const [isAssetManagerOpen, setIsAssetManagerOpen] = useState<boolean>(false);
   const [isUnderlayModalOpen, setIsUnderlayModalOpen] = useState<boolean>(false);
+  const [isChunkStudioOpen, setIsChunkStudioOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    return VttEventBus.on('open-chunk-studio' as any, () => {
+      setIsChunkStudioOpen(true);
+    });
+  }, []);
   const [underlayConfig, setUnderlayConfig] = useState<{
     url: string;
     opacity: number;
@@ -435,17 +463,13 @@ export const StageView: React.FC<StageViewProps> = ({
       else addCustomObject?.(objAsset);
     }
 
-    try {
-      const rawUnits = localStorage.getItem('tangent_custom_asset_units');
-      const parsedUnits = rawUnits ? JSON.parse(rawUnits) : [];
-      const unitList = Array.isArray(parsedUnits) ? parsedUnits : [];
-      const unitIdx = unitList.findIndex((u: any) => u.unit_id === persistedUnit.unit_id);
-      const nextUnits = unitIdx >= 0
-        ? unitList.map((u: any, i: number) => (i === unitIdx ? persistedUnit : u))
-        : [...unitList, persistedUnit];
-      localStorage.setItem('tangent_custom_asset_units', JSON.stringify(nextUnits));
-    } catch {
-      // Ignore storage quota errors
+    const persistOutcome = useAssetUnitStore.getState().upsertAssetUnit(persistedUnit);
+    if (persistOutcome.quotaExceeded) {
+      showToast({
+        type: 'error',
+        title: 'Storage Quota Exceeded',
+        text: 'Unable to save asset unit to browser local storage.'
+      });
     }
 
     try {
@@ -467,9 +491,6 @@ export const StageView: React.FC<StageViewProps> = ({
       // Ignore storage quota errors
     }
 
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('tangent-vtt-assets-updated'));
-    }
     return persistedUnit;
   };
 
@@ -595,7 +616,9 @@ export const StageView: React.FC<StageViewProps> = ({
     bvhBuilderRef,
     isSimulationPaused,
     selectedTokenId,
-    setSelectedTokenId
+    setSelectedTokenId,
+    galleryModifiers: universeState?.galleryModifiers || [],
+    setGalleryModifiers
   });
 
   // Measured AoE Template Controller
@@ -748,7 +771,8 @@ export const StageView: React.FC<StageViewProps> = ({
     pencilColor,
     pencilWidth,
     terrainBrushWidth,
-    activePings
+    activePings,
+    isArchitectRole: effectiveIsArchitectRole
   });
 
   // ── Extracted PixiJS Underlay, Transform Gizmo, Pan/Zoom Sync, Grid & Ruler Hook ──
@@ -1013,7 +1037,9 @@ export const StageView: React.FC<StageViewProps> = ({
     selectedRegionType,
     recordHistory,
     setCombatLog,
-    deployArchitectItem
+    deployArchitectItem,
+    addMap,
+    setActiveMapId: (id: string) => setActiveMapId?.(id)
   });
 
 
@@ -1073,11 +1099,131 @@ export const StageView: React.FC<StageViewProps> = ({
     setActiveDesignTool
   });
 
+  const primarySelectedId = selectedAssetIds.length === 1 ? selectedAssetIds[0] : null;
+  const allAvailableChunks = useMemo(
+    () => [...(SCIENCE_FANTASY_SEED_CHUNKS || []), ...(universeState?.customAssets?.chunks || [])],
+    [universeState?.customAssets?.chunks]
+  );
+  const selectedChunkInstance = useMemo(() => {
+    if (!primarySelectedId || !Array.isArray(currentMap?.chunkInstances) || currentMap.chunkInstances.length === 0) {
+      return null;
+    }
+    const matchingItem =
+      (localObjects || []).find((o: any) => o?.id === primarySelectedId && o?.chunkInstanceId) ||
+      (localWalls || []).find((w: any) => w?.id === primarySelectedId && (w as any)?.chunkInstanceId) ||
+      (localLights || []).find((l: any) => l?.id === primarySelectedId && (l as any)?.chunkInstanceId) ||
+      (currentMap?.terrains || []).find((t: any) => t?.id === primarySelectedId && t?.chunkInstanceId);
+    const instId = matchingItem?.chunkInstanceId;
+    return instId ? currentMap.chunkInstances.find((ci: any) => ci?.instanceId === instId) || null : null;
+  }, [primarySelectedId, currentMap?.chunkInstances, currentMap?.terrains, localObjects, localWalls, localLights]);
+
   return (
     <div 
       className="relative w-full h-full bg-[#050811] overflow-hidden select-none flex flex-col touch-manipulation"
       onContextMenu={(e) => e.preventDefault()}
     >
+      {/* ── In-Situ Architect Chunk & Selected Element Inspector Bars ── */}
+      {effectiveIsArchitectRole && isDesignModeActive && selectedChunkInstance && (
+        <PlacedChunkInspector
+          chunkInstance={selectedChunkInstance}
+          onRetransformInstance={(instanceId: string, updates: any) => {
+            if (!currentMap || !updateMap || isStoryReadOnly) return;
+            recordHistory('Transform Placed Chunk');
+            const updatedMap = retransformPlacedChunkInstance(currentMap, instanceId, updates, allAvailableChunks as any);
+            updateMap(currentMap.id, {
+              terrains: updatedMap.terrains,
+              walls: updatedMap.walls,
+              objects: updatedMap.objects,
+              lights: updatedMap.lights,
+              chunkInstances: updatedMap.chunkInstances
+            });
+          }}
+          onExplodeInstance={(instanceId: string) => {
+            if (!currentMap || !updateMap || isStoryReadOnly) return;
+            recordHistory('Explode Placed Chunk');
+            const updatedMap = explodeChunkInstance(currentMap, instanceId);
+            updateMap(currentMap.id, {
+              terrains: updatedMap.terrains,
+              walls: updatedMap.walls,
+              objects: updatedMap.objects,
+              lights: updatedMap.lights,
+              chunkInstances: updatedMap.chunkInstances
+            });
+          }}
+          onSaveInstanceAsBlueprint={(inst: any) => {
+            const baseBp = inst.blueprintSnapshot || allAvailableChunks.find((b: any) => b.chunkId === inst.chunkId);
+            if (!baseBp || !addCustomChunk) return;
+            const baked = transformChunkBlueprint(baseBp as any, inst.rotationDeg, inst.flipX, inst.flipY);
+            addCustomChunk({
+              ...baked,
+              chunkId: `chunk_${Date.now()}`,
+              name: `${inst.name || baked.name || 'Chunk'} (Custom)`,
+              isCustom: true
+            });
+            showToast({ type: 'success', text: `Saved "${inst.name || 'Chunk'}" to custom chunk library.` });
+          }}
+          onDeleteInstance={(instanceId: string) => {
+            if (!currentMap || !updateMap || isStoryReadOnly) return;
+            recordHistory('Delete Placed Chunk');
+            const updatedMap = deletePlacedChunkInstance(currentMap, instanceId);
+            updateMap(currentMap.id, {
+              terrains: updatedMap.terrains,
+              walls: updatedMap.walls,
+              objects: updatedMap.objects,
+              lights: updatedMap.lights,
+              chunkInstances: updatedMap.chunkInstances
+            });
+            setSelectedAssetIds([]);
+          }}
+        />
+      )}
+
+      {effectiveIsArchitectRole && isDesignModeActive && primarySelectedId && (
+        <SelectedElementInspector
+          currentMap={currentMap}
+          selectedId={primarySelectedId}
+          isStoryReadOnly={isStoryReadOnly}
+          availableMaps={availableMaps}
+          activeMapId={currentMap?.id || activeMapId}
+          onRecordHistory={recordHistory}
+          onDeleteSelected={() => handleBatchDelete()}
+          onClose={() => setSelectedAssetIds([])}
+          onUpdateToken={(updatedToken: any) => {
+            if (isStoryReadOnly || !updatedToken || !currentMap || !updateMap) return;
+            const nextTokens = (currentMap.tokens || []).map((t: any) => (t.id === updatedToken.id ? updatedToken : t));
+            updateMap(currentMap.id, { tokens: nextTokens });
+          }}
+          onUpdateObject={(updatedObj: any) => {
+            if (isStoryReadOnly || !updatedObj || !currentMap || !updateMap) return;
+            const nextObjects = (currentMap.objects || []).map((o: any) => (o.id === updatedObj.id ? updatedObj : o));
+            setLocalObjects(nextObjects);
+            interactiveObjMgrRef.current.loadObjects(nextObjects);
+            updateMap(currentMap.id, { objects: nextObjects });
+          }}
+          onUpdateWall={(wallId: string, patch: any) => {
+            if (isStoryReadOnly || !currentMap || !updateMap) return;
+            const nextWalls = (currentMap.walls || []).map((w: any) => (w.id === wallId ? { ...w, ...patch } : w));
+            setLocalWalls(nextWalls);
+            updateMap(currentMap.id, { walls: nextWalls });
+          }}
+          onUpdateLight={(lightId: string, patch: any) => {
+            if (isStoryReadOnly || !currentMap || !updateMap) return;
+            const nextLights = (currentMap.lights || []).map((l: any) => (l.id === lightId ? { ...l, ...patch } : l));
+            setLocalLights(nextLights);
+            updateMap(currentMap.id, { lights: nextLights });
+          }}
+          onUpdateText={(updatedText: any) => {
+            if (isStoryReadOnly || !updatedText || !currentMap || !updateMap) return;
+            const nextTexts = (currentMap.texts || []).map((t: any) => (t.id === updatedText.id ? updatedText : t));
+            updateMap(currentMap.id, { texts: nextTexts });
+          }}
+          onUpdateRegion={(regionId: string, patch: any) => {
+            if (isStoryReadOnly || !currentMap || !updateMap) return;
+            const nextRegions = (currentMap.regions || []).map((r: any) => (r.id === regionId ? { ...r, ...patch } : r));
+            updateMap(currentMap.id, { regions: nextRegions });
+          }}
+        />
+      )}
 
       {/* ── MAIN VIEWPORT AREA ── */}
       <div className="relative flex-1 w-full h-full overflow-hidden">
@@ -1285,6 +1431,24 @@ export const StageView: React.FC<StageViewProps> = ({
         onAssetIngested={handleAssetIngested}
         isSpriteSheetCutterOpen={isSpriteSheetCutterOpen}
         setIsSpriteSheetCutterOpen={setIsSpriteSheetCutterOpen}
+        isChunkStudioOpen={isChunkStudioOpen}
+        setIsChunkStudioOpen={setIsChunkStudioOpen}
+        addCustomChunk={addCustomChunk}
+        updateCustomChunk={updateCustomChunk}
+        deleteCustomChunk={deleteCustomChunk}
+        onSelectChunkToStamp={(chunk: any, initialTransform?: any) => {
+          armedChunkRef.current = {
+            chunk,
+            rotationDeg: initialTransform?.rotationDeg || 0,
+            flipX: Boolean(initialTransform?.flipX),
+            flipY: Boolean(initialTransform?.flipY),
+            customChunks: universeState?.customAssets?.chunks || [],
+            magneticSnapEnabled: true
+          };
+          setIsDesignModeActive(true);
+          setActiveDesignTool('chunk');
+          showToast({ type: 'info', text: `Armed Chunk "${chunk.name || 'Prefab'}". Click Stage canvas to stamp.` });
+        }}
       />
     </div>
   );

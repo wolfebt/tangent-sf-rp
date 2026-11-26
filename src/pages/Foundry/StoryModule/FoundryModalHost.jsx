@@ -61,6 +61,7 @@ export default function FoundryModalHost({
   setActiveMapId,
   setActiveScenarioId,
   setGalleryModifiers,
+  saveStageManifest,
   updateCreativeState,
   updateCronicle,
   acceptPendingDelta,
@@ -349,7 +350,8 @@ export default function FoundryModalHost({
                 },
                 setActiveMapId,
                 setActiveScenarioId,
-                setGalleryModifiers
+                setGalleryModifiers,
+                saveStageManifest
               });
             }
           }}

@@ -10,11 +10,13 @@
  */
 
 import { useEffect } from 'react';
-import { Graphics, Container, Text as PixiText, TextStyle, Assets, Sprite } from 'pixi.js';
+import { Graphics, Container, Text as PixiText, TextStyle, Assets, Sprite, ColorMatrixFilter } from 'pixi.js';
 import { clearPixiContainer } from '../utils/pixiCleanup';
 import { type LayerCompositor, ZLayer } from '../../../engine/canvas/LayerCompositor.ts';
 import type { WallSegment } from '../../../engine/vision/BVHBuilder.ts';
 import { MarchingSquaresAutoTiler } from '../../../engine/canvas/MarchingSquaresAutoTiler.ts';
+import { applyAssetCustomizationToPixiSprite } from '../../../engine/canvas/AssetCustomizerShader.ts';
+import { getMapLayerState } from '../../../utils/mapSchemaAdapter';
 
 export interface UseStageRenderersOptions {
   layerCompositorRef: React.MutableRefObject<LayerCompositor | null>;
@@ -40,6 +42,7 @@ export interface UseStageRenderersOptions {
   pencilWidth: number;
   terrainBrushWidth: number;
   activePings: any[];
+  isArchitectRole?: boolean;
 }
 
 export function useStageRenderers({
@@ -65,7 +68,8 @@ export function useStageRenderers({
   pencilColor,
   pencilWidth,
   terrainBrushWidth,
-  activePings
+  activePings,
+  isArchitectRole = true
 }: UseStageRenderersOptions): void {
   // ── Render Walls & Bulkheads onto the Stage ──
   useEffect(() => {
@@ -83,6 +87,10 @@ export function useStageRenderers({
     }
 
     clearPixiContainer(wallsContainer);
+
+    const wallLayerState = getMapLayerState(currentMap, 'walls');
+    if (!wallLayerState.visible) return;
+    wallsContainer.alpha = wallLayerState.opacity ?? 1;
 
     const g = new Graphics();
     const enableWallShadows = currentMap?.enableWallShadows !== false;
@@ -143,7 +151,77 @@ export function useStageRenderers({
     });
 
     wallsContainer.addChild(g);
-  }, [layerCompositorRef, isCanvasReady, canvasGeneration, localWalls, currentMap?.enableWallShadows]);
+  }, [layerCompositorRef, isCanvasReady, canvasGeneration, localWalls, currentMap?.enableWallShadows, currentMap?.layers]);
+
+  // ── Render Scene Regions & Spatial Trigger Zones onto UnderlayDebris ──
+  useEffect(() => {
+    const compositor = layerCompositorRef.current;
+    if (!compositor) return;
+    const underlayLayer = compositor.getLayer(ZLayer.UnderlayDebris);
+    if (!underlayLayer) return;
+
+    let regionsContainer = underlayLayer.children.find((c: any) => c.label === 'RegionsLayer') as Container | undefined;
+    if (!regionsContainer) {
+      regionsContainer = new Container();
+      regionsContainer.label = 'RegionsLayer';
+      underlayLayer.addChild(regionsContainer);
+    }
+
+    clearPixiContainer(regionsContainer);
+    const regionsLayerState = getMapLayerState(currentMap, 'regions');
+    if (!regionsLayerState.visible) return;
+
+    const regions = Array.isArray(currentMap?.regions) ? currentMap.regions : [];
+    if (regions.length === 0) return;
+
+    const regionColorMap: Record<string, number> = {
+      roof_zone: 0x6366f1,
+      roof: 0x6366f1,
+      hazard: 0xef4444,
+      teleport_deck: 0x06b6d4,
+      teleport: 0x06b6d4,
+      switch_map: 0x3b82f6,
+      story_flag: 0xa855f7,
+      audio_cue: 0xec4899,
+      audio_zone: 0xec4899
+    };
+
+    regions.forEach((region: any) => {
+      if (!region || region.enabled === false) return;
+      if (!isArchitectRole && !region.isPlayerVisible) return;
+      const b = region.bounds || {};
+      const rx = Number(b.x ?? region.x ?? 0);
+      const ry = Number(b.y ?? region.y ?? 0);
+      const rw = Number(b.width ?? region.width ?? 150);
+      const rh = Number(b.height ?? region.height ?? 150);
+      const col = regionColorMap[region.triggerType] ?? 0xa855f7;
+
+      const node = new Container();
+      node.x = rx;
+      node.y = ry;
+
+      const rg = new Graphics();
+      rg.rect(0, 0, rw, rh);
+      rg.fill({ color: col, alpha: 0.16 * (regionsLayerState.opacity ?? 1) });
+      rg.stroke({ width: 2, color: col, alpha: 0.78 });
+      node.addChild(rg);
+
+      const labelText = new PixiText({
+        text: `${region.name || 'Region'} [${region.triggerType || 'zone'}]`,
+        style: new TextStyle({
+          fontFamily: 'monospace',
+          fontSize: 10,
+          fill: col,
+          fontWeight: 'bold'
+        })
+      });
+      labelText.x = 6;
+      labelText.y = 4;
+      node.addChild(labelText);
+
+      regionsContainer!.addChild(node);
+    });
+  }, [layerCompositorRef, isCanvasReady, canvasGeneration, currentMap?.regions, currentMap?.layers, isArchitectRole]);
 
   // ── Render Terrains (Hex Tiles & Organic Polygons) onto BackgroundMap Layer ──
   useEffect(() => {
@@ -166,13 +244,17 @@ export function useStageRenderers({
     }
 
     const terrains = currentMap?.terrains || [];
-    if (terrains.length === 0) return;
+    const terrainLayerState = getMapLayerState(currentMap, 'terrain');
+    const roofLayerState = getMapLayerState(currentMap, 'roof');
+    if (terrains.length === 0 || (!terrainLayerState.visible && !roofLayerState.visible)) return;
 
     const g = new Graphics();
     const gRoof = new Graphics();
     let hasRoofItems = false;
 
     terrains.forEach((t: any) => {
+      if (t.isRoofLayer && !roofLayerState.visible) return;
+      if (!t.isRoofLayer && !terrainLayerState.visible) return;
       const targetGraphics = t.isRoofLayer && roofTerrainContainer ? gRoof : g;
       const targetSpriteContainer = t.isRoofLayer && roofTerrainContainer ? roofTerrainContainer : container;
       if (t.isRoofLayer && roofTerrainContainer) {
@@ -202,6 +284,11 @@ export function useStageRenderers({
             if (t.width) sp.width = t.width;
             if (t.height) sp.height = t.height;
             if (t.opacity !== undefined) sp.alpha = Number(t.opacity);
+            applyAssetCustomizationToPixiSprite(
+              sp,
+              t.customization || t.visuals?.customization || t.assetUnit?.visuals?.customization,
+              ColorMatrixFilter
+            );
             targetSpriteContainer.addChild(sp);
           })
           .catch(() => {});
@@ -282,6 +369,11 @@ export function useStageRenderers({
               sprite.width = w;
               sprite.height = h;
               sprite.alpha = t.opacity ?? 0.92;
+              applyAssetCustomizationToPixiSprite(
+                sprite,
+                t.customization || t.visuals?.customization || t.assetUnit?.visuals?.customization,
+                ColorMatrixFilter
+              );
               targetSpriteContainer.addChild(sprite);
             }
           }).catch(() => {});
@@ -298,7 +390,7 @@ export function useStageRenderers({
     return () => {
       isCancelled = true;
     };
-  }, [terrainsContainerRef, layerCompositorRef, isCanvasReady, canvasGeneration, currentMap?.terrains]);
+  }, [terrainsContainerRef, layerCompositorRef, isCanvasReady, canvasGeneration, currentMap?.terrains, currentMap?.layers]);
 
   // ── Render Freehand Tactical Pencil Lines onto UnderlayDebris Layer ──
   useEffect(() => {
@@ -306,6 +398,7 @@ export function useStageRenderers({
     if (!container) return;
     clearPixiContainer(container);
 
+    if (!getMapLayerState(currentMap, 'annotations').visible) return;
     const lines = currentMap?.lines || [];
     if (lines.length === 0) return;
 
@@ -324,7 +417,7 @@ export function useStageRenderers({
     });
 
     container.addChild(g);
-  }, [linesContainerRef, isCanvasReady, canvasGeneration, currentMap?.lines]);
+  }, [linesContainerRef, isCanvasReady, canvasGeneration, currentMap?.lines, currentMap?.layers]);
 
   // ── Render Text Labels onto ForegroundUI Layer ──
   useEffect(() => {
@@ -332,6 +425,7 @@ export function useStageRenderers({
     if (!container) return;
     clearPixiContainer(container);
 
+    if (!getMapLayerState(currentMap, 'annotations').visible) return;
     const texts = currentMap?.texts || [];
     if (texts.length === 0) return;
 
@@ -363,7 +457,7 @@ export function useStageRenderers({
       textNode.addChild(pixiText);
       container.addChild(textNode);
     });
-  }, [textsContainerRef, isCanvasReady, canvasGeneration, currentMap?.texts]);
+  }, [textsContainerRef, isCanvasReady, canvasGeneration, currentMap?.texts, currentMap?.layers]);
 
   // ── Render Dynamic Drawing Preview (Live Wall Drag Line or Live Brush Stroke) ──
   useEffect(() => {

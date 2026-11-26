@@ -66,6 +66,9 @@ const LazyTacticalPlayModal = React.lazy(() =>
 import { MobileTacticalBlocker } from '../StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useWaypointEngine } from '../../pages/Foundry/hooks/useWaypointEngine';
+import { compileStage } from '../../pages/Foundry/Stage/vttModuleCompilerService';
+import { useStageStore } from '../../pages/Foundry/Stage/stageStore';
+import { useStageTriggerEngine } from './stage/useStageTriggerEngine';
 
 export interface TripartiteStageViewProps extends StageViewProps {
   defaultRole?: UserVttRole;
@@ -73,6 +76,7 @@ export interface TripartiteStageViewProps extends StageViewProps {
   mapId?: string;
   scenarioId?: string;
   compiledStage?: any;
+  disableInternalWaypointEngine?: boolean;
 }
 
 export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
@@ -86,6 +90,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   const [searchParams] = useSearchParams();
   const scenarioIdParam = props.scenarioId || searchParams.get('scenarioId') || undefined;
   const mapIdParam = props.mapId || searchParams.get('mapId') || undefined;
+  const stageIdParam = (props as any).stageId || searchParams.get('stageId') || undefined;
   const normalizedPath = (location.pathname || '').replace(/\/+$/, '');
   const isFoundryRoute = normalizedPath.startsWith('/foundry');
 
@@ -186,6 +191,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   const { currentUser, isAdmin, isGM } = (useAuth() as any) || {};
   const {
     universeState,
+    allMaps,
     activeMapId,
     setActiveMapId,
     updateMap,
@@ -194,6 +200,8 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     setActiveScenarioId,
     getActiveGemsText,
     elementsCatalog,
+    cronicle,
+    applyCronicleDelta,
     syncConflict,
     resolveConflictOverwrite,
     resolveConflictPull,
@@ -341,8 +349,8 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   }, [pushStageChatCard]);
 
   const { personaRoster = [], roster = [] } = (useFolio() as any) || {};
-  const availableMaps = universeState?.maps || [];
-  const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0];
+  const availableMaps = (Array.isArray(allMaps) && allMaps.length > 0 ? allMaps : universeState?.maps) || [];
+  const currentMap = availableMaps.find((m: any) => m.id === (mapIdParam || activeMapId)) || availableMaps[0];
   const currentMapRef = useRef<any>(currentMap);
   currentMapRef.current = currentMap;
   const updateMapRef = useRef<any>(updateMap);
@@ -437,12 +445,71 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
       AudioService.playCriticalChime(true);
     });
 
+    const offBulkhead = VttEventBus.on('stage-bulkhead-toggled', (payload) => {
+      const targetWallId = payload?.wallId || payload?.bulkheadId || payload?.objectId;
+      const map = currentMapRef.current;
+      if (!targetWallId || !map?.id || !updateMapRef.current || !Array.isArray(map.walls)) return;
+      let changed = false;
+      const updatedWalls = map.walls.map((w: any) => {
+        if (w?.id === targetWallId || w?.label === targetWallId) {
+          changed = true;
+          const nextOpen = typeof payload?.isOpen === 'boolean' ? payload.isOpen : !w.isOpen;
+          return {
+            ...w,
+            isOpen: nextOpen,
+            doorState: payload?.doorState || (nextOpen ? 'open' : 'closed')
+          };
+        }
+        return w;
+      });
+      if (changed) {
+        updateMapRef.current(map.id, { walls: updatedWalls });
+      }
+    });
+
+    const offMandate = VttEventBus.on('mechanical-mandate-executed', (payload) => {
+      const m = payload?.mandate;
+      if (!m) return;
+      pushStageChatCard(
+        {
+          id: `mandate_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          timestamp: new Date().toISOString(),
+          sender: m.initiatorName || 'AIME Arbitrator',
+          visibility: 'public',
+          kind: 'dice',
+          title: `Mandate: ${m.actionName || m.systemIntent || 'Check'}`,
+          body: m.narrativeBounds?.prescribedOutcome || `${m.systemIntent || 'RESOLVED'}`,
+          ...(m.diceSummary ? { diceBreakdown: m.diceSummary } : {})
+        },
+        !isRollFeedOpenRef.current
+      );
+    });
+
+    const offAoeResolved = VttEventBus.on('stage-aoe-resolved', (payload) => {
+      if (!payload) return;
+      pushStageChatCard(
+        {
+          id: `aoe_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          timestamp: new Date().toISOString(),
+          sender: 'Stage AoE Engine',
+          visibility: 'public',
+          kind: 'aoe',
+          title: `AoE Resolved: ${payload.label || payload.presetId || 'Blast'}`,
+          body: `Affected ${payload.affectedCount ?? 0} target(s).`
+        },
+        !isRollFeedOpenRef.current
+      );
+    });
+
     return () => {
       offAime();
       offTacticalPlay();
       offSpawnEntity();
+      offBulkhead();
+      offMandate();
+      offAoeResolved();
     };
-  }, [setSelectedTokenId]);
+  }, [setSelectedTokenId, pushStageChatCard]);
 
   useEffect(() => {
     if (scenarioIdParam && setActiveLeftTab) {
@@ -546,30 +613,101 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     activeScenario?.title
   ]);
 
+  const effectiveCompiledStage = useMemo(() => {
+    if (props.compiledStage) return props.compiledStage;
+    if (!stageIdParam) return null;
+    const stageState = useStageStore.getState();
+    const storyStages = Array.isArray(universeState?.stages) ? universeState.stages : [];
+    const scopedBucket = stageState?.manifestsByStory?.[universeState?.id || 'default'] || [];
+    const matchedManifest =
+      storyStages.find((s: any) => s?.id === stageIdParam) ||
+      scopedBucket.find((s: any) => s?.id === stageIdParam) ||
+      (stageState?.stageManifest?.id === stageIdParam ? stageState.stageManifest : null);
+    if (!matchedManifest) return null;
+    const boundMap = availableMaps.find((m: any) => m.id === matchedManifest.mapId) || currentMap || null;
+    const boundScenario = flatScenarios.find((s: any) => s.id === matchedManifest.storyId) || activeScenario || null;
+    try {
+      return compileStage({
+        manifest: matchedManifest,
+        mapAsset: boundMap,
+        storyAsset: boundScenario,
+        elementsCatalog: elementsCatalog || [],
+        universeState
+      });
+    } catch {
+      return null;
+    }
+  }, [props.compiledStage, stageIdParam, universeState, availableMaps, currentMap, flatScenarios, activeScenario, elementsCatalog]);
+
+  // Seed adeStore storyFlags from compiledStage.variables
+  useEffect(() => {
+    const vars = effectiveCompiledStage?.variables;
+    if (!vars || typeof vars !== 'object') return;
+    const adeState = useAdeStore.getState();
+    for (const [key, val] of Object.entries(vars)) {
+      if (key && val !== undefined) {
+        adeState.setStoryFlag?.(key, val as any);
+      }
+    }
+  }, [effectiveCompiledStage?.stageId, effectiveCompiledStage?.variables]);
+
   const effectiveMapForWaypoints = useMemo(() => {
-    if (props.compiledStage?.map && (!currentMap || props.compiledStage.map.id === currentMap.id)) {
+    if (effectiveCompiledStage?.map && (!currentMap || effectiveCompiledStage.map.id === currentMap.id)) {
       return {
         ...currentMap,
-        ...props.compiledStage.map,
-        waypoints: props.compiledStage.map.waypoints || currentMap?.waypoints || []
+        ...effectiveCompiledStage.map,
+        waypoints: effectiveCompiledStage.map.waypoints || currentMap?.waypoints || []
       };
     }
     return currentMap;
-  }, [currentMap, props.compiledStage]);
+  }, [currentMap, effectiveCompiledStage]);
+
+  const openFloatingAimeWithStagePrompt = React.useCallback((promptText: string) => {
+    if (promptText && typeof promptText === 'string' && promptText.trim()) {
+      useAdeStore.getState().setPendingAimePrefillPrompt?.(promptText);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('aime-prefill-prompt', { detail: { prompt: promptText } }));
+      }
+    }
+    setIsStageAimeOpen(true);
+  }, []);
+
+  const {
+    pendingTriggerPrompt,
+    confirmPendingTrigger,
+    dismissPendingTrigger
+  } = useStageTriggerEngine({
+    compiledStage: effectiveCompiledStage,
+    liveTokens: tokens as any,
+    currentMap,
+    updateMap,
+    setActiveMapId,
+    applyCronicleDelta,
+    openFloatingAimeWithPrompt: openFloatingAimeWithStagePrompt,
+    enabled: Boolean(effectiveCompiledStage)
+  });
 
   const {
     waypointPromptData,
     setWaypointPromptData,
     handleConfirmWaypointBeat
   }: any = useWaypointEngine({
-    activeMap: effectiveMapForWaypoints,
+    activeMap: props.disableInternalWaypointEngine ? null : effectiveMapForWaypoints,
     updateMap,
     activeScenario,
     flatScenarios,
     setActiveScenarioId,
-    storyContext: null,
+    storyContext: {
+      universeState,
+      activeScenario,
+      linkedMap: currentMap,
+      cronicle
+    },
+    applyCronicleDelta,
+    openFloatingAimeWithPrompt: openFloatingAimeWithStagePrompt,
     studioMode: 'live_session',
-    liveTokens: tokens as any
+    liveTokens: tokens as any,
+    enableProximityInDev: !props.disableInternalWaypointEngine
   } as any);
 
   const targetToken = useMemo(() => {
@@ -1092,6 +1230,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         centerStage={
           <StageViewportWrapper
             {...props}
+            compiledStage={effectiveCompiledStage}
             isArchitectRole={isArchitectRole}
             onOpenMapMaker={() => {
               if (isRoleLockedOperative) return;
@@ -1106,7 +1245,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
       />
 
       {/* Spatial Waypoint Trigger Confirmation HUD */}
-      {waypointPromptData && (
+      {!props.disableInternalWaypointEngine && waypointPromptData && (
         <div className="absolute top-14 left-1/2 -translate-x-1/2 z-40 bg-[#0b101d]/95 backdrop-blur-md border-2 border-amber-500/80 rounded-2xl px-4 py-3 flex items-center gap-4 shadow-[0_0_30px_rgba(245,158,11,0.3)] font-mono text-xs max-w-xl animate-in fade-in slide-in-from-top-2">
           <div className="flex-1 min-w-0">
             <div className="text-[10px] font-black uppercase tracking-wider text-amber-400">
@@ -1127,6 +1266,36 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             <button
               type="button"
               onClick={() => setWaypointPromptData(null)}
+              className="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-[10px] uppercase cursor-pointer transition-colors"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Compiled Stage Trigger Confirmation HUD */}
+      {pendingTriggerPrompt && (
+        <div className="absolute top-28 left-1/2 -translate-x-1/2 z-40 bg-[#0b101d]/95 backdrop-blur-md border-2 border-purple-500/80 rounded-2xl px-4 py-3 flex items-center gap-4 shadow-[0_0_30px_rgba(168,85,247,0.3)] font-mono text-xs max-w-xl animate-in fade-in slide-in-from-top-2">
+          <div className="flex-1 min-w-0">
+            <div className="text-[10px] font-black uppercase tracking-wider text-purple-300">
+              Stage Trigger Ready: {pendingTriggerPrompt.trigger?.name || pendingTriggerPrompt.anchor?.name || 'Event'}
+            </div>
+            <p className="text-[11px] text-slate-300 truncate mt-0.5">
+              Anchor: {pendingTriggerPrompt.anchor?.name || pendingTriggerPrompt.trigger?.anchorId}
+            </p>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={confirmPendingTrigger}
+              className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] uppercase tracking-wider cursor-pointer transition-colors"
+            >
+              Execute
+            </button>
+            <button
+              type="button"
+              onClick={dismissPendingTrigger}
               className="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-[10px] uppercase cursor-pointer transition-colors"
             >
               Dismiss
@@ -1281,17 +1450,38 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             </button>
           </div>
           <div className="max-h-56 overflow-y-auto space-y-1.5">
-            {(Array.isArray(universeState?.scripts) ? universeState.scripts : []).length === 0 ? (
-              <div className="text-[10.5px] text-slate-400 py-2">
-                No saved macros yet. Author StageAPI scripts in Presets &amp; Scripts.
-              </div>
-            ) : (
-              universeState.scripts.map((scr: any) => (
+            {(() => {
+              const baseScripts = Array.isArray(universeState?.scripts) ? universeState.scripts : [];
+              const stageMacros = (Array.isArray(effectiveCompiledStage?.macros) ? effectiveCompiledStage.macros : []).map((m: any) => {
+                const matchedScript = baseScripts.find((s: any) => s.id === m.scriptId || s.title === m.scriptId);
+                return {
+                  id: m.id || `stage-macro-${m.scriptId}`,
+                  title: m.title || m.name || matchedScript?.title || m.scriptId || 'Stage Macro',
+                  code: m.code || matchedScript?.code || '',
+                  actions: m.actions,
+                  isStageBinding: true
+                };
+              });
+              const mergedMacros = [
+                ...baseScripts,
+                ...stageMacros.filter((sm: any) => !baseScripts.some((bs: any) => bs.id === sm.id))
+              ];
+              if (mergedMacros.length === 0) {
+                return (
+                  <div className="text-[10.5px] text-slate-400 py-2">
+                    No saved macros yet. Author StageAPI scripts in Presets &amp; Scripts.
+                  </div>
+                );
+              }
+              return mergedMacros.map((scr: any) => (
                 <div
                   key={scr.id || scr.title}
                   className="flex items-center justify-between gap-2 p-2 rounded-xl bg-slate-900/90 border border-slate-800"
                 >
-                  <span className="truncate text-[11px] font-bold text-slate-200">{scr.title || scr.name || 'Macro'}</span>
+                  <span className="truncate text-[11px] font-bold text-slate-200">
+                    {scr.title || scr.name || 'Macro'}
+                    {scr.isStageBinding && <span className="ml-1.5 text-[9px] text-purple-300 uppercase">[Stage]</span>}
+                  </span>
                   <button
                     type="button"
                     onClick={async () => {
@@ -1304,22 +1494,40 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                             workingFlags[k] = val;
                           }
                         }
-                        const { actions } = await macroSandboxRef.current.executeWithActions(scr.code || '', {
-                          storyFlags: workingFlags,
-                          timestamp: Date.now()
-                        });
+                        let executedActions: any[] = [];
+                        if (scr.code && String(scr.code).trim()) {
+                          const { actions } = await macroSandboxRef.current.executeWithActions(scr.code, {
+                            storyFlags: workingFlags,
+                            timestamp: Date.now()
+                          });
+                          executedActions = Array.isArray(actions) ? actions : [];
+                        } else if (Array.isArray(scr.actions)) {
+                          executedActions = scr.actions;
+                        }
                         for (const [fk, fv] of Object.entries(workingFlags)) {
                           const prevRec = adeState.storyFlags?.[fk];
                           const prevVal = prevRec && typeof prevRec === 'object' && 'value' in prevRec ? (prevRec as any).value : prevRec;
                           if (prevVal !== fv) adeState.setStoryFlag(fk, fv);
                         }
-                        if (Array.isArray(actions) && actions.length > 0) {
-                          dispatchStageMacroActions(actions, {
+                        if (executedActions.length > 0) {
+                          dispatchStageMacroActions(executedActions, {
                             role: 'architect',
-                            onSetStoryFlag: (k, v) => adeState.setStoryFlag(k, v)
+                            onSetStoryFlag: (k, v) => adeState.setStoryFlag(k, v),
+                            onToggleDoor: (wallId: string) => {
+                              const map = currentMapRef.current;
+                              if (!map?.id || !updateMapRef.current) return;
+                              const targetWall = (map.walls || []).find((w: any) => w?.id === wallId || w?.label === wallId);
+                              const nextOpen = targetWall ? !targetWall.isOpen : true;
+                              VttEventBus.emit('stage-bulkhead-toggled', {
+                                wallId,
+                                bulkheadId: wallId,
+                                isOpen: nextOpen,
+                                doorState: nextOpen ? 'open' : 'closed'
+                              });
+                            }
                           });
                         }
-                        setMacroRunStatus(`Executed "${scr.title || 'Macro'}" (${actions?.length || 0} actions).`);
+                        setMacroRunStatus(`Executed "${scr.title || 'Macro'}" (${executedActions.length} actions).`);
                         AudioService.playCriticalChime(true);
                       } catch (err: any) {
                         setMacroRunStatus(`Error: ${err?.message || 'Execution failed'}`);
@@ -1330,8 +1538,8 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                     Run
                   </button>
                 </div>
-              ))
-            )}
+              ));
+            })()}
           </div>
           {macroRunStatus && (
             <div className="text-[10px] text-emerald-300 border-t border-slate-800 pt-1.5">{macroRunStatus}</div>

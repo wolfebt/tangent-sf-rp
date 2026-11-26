@@ -20,6 +20,7 @@ import { AudioService } from '../../../services/audioService';
 import { SENSOR_MODES, checkTargetVisibility } from '../../../services/sensorVisionService.js';
 import type { SensorModeId } from '../store/uiLayoutStore';
 import type { FusedToken } from '../../../engine/state/VolatileSharder.ts';
+import { getMapLayerState } from '../../../utils/mapSchemaAdapter';
 
 export interface UseStageLightingProps {
   currentMap: any;
@@ -91,6 +92,10 @@ export function useStageLighting({
     if (!container) return;
     clearPixiContainer(container);
 
+    const lightingLayerState = getMapLayerState(currentMap, 'lighting');
+    if (!lightingLayerState.visible) return;
+    container.alpha = lightingLayerState.opacity ?? 1;
+
     localLights.forEach(light => {
       const lightNode = new Container();
       lightNode.x = light.x;
@@ -118,7 +123,7 @@ export function useStageLighting({
       lightNode.addChild(g);
       container.addChild(lightNode);
     });
-  }, [isCanvasReady, canvasGeneration, localLights, lightingContainerRef]);
+  }, [isCanvasReady, canvasGeneration, localLights, lightingContainerRef, currentMap?.layers]);
 
   // Render Atmospheric Weather Tint Overlay
   useEffect(() => {

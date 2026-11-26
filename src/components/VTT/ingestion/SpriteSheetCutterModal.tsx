@@ -3,11 +3,15 @@
  * @description Interactive visual grid slicer for extracting sprite frames into AssetUnits.
  */
 
-import React, { useState, useRef, useMemo } from 'react';
-import { Scissors, X, Check, Image as ImageIcon, Grid } from 'lucide-react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
+import { Scissors, X, Check, Image as ImageIcon, Grid, Eraser } from 'lucide-react';
 import { ASSET_CATEGORIES, type AssetCategory, type AssetUnit } from '../../../schemas/assetUnitSchema';
 import { SpriteSheetSlicer } from '../../../engine/assets/SpriteSheetSlicer';
 import { AssetIngestionPipeline } from '../../../engine/assets/AssetIngestionPipeline';
+import { ChromaKeyTool } from './ChromaKeyTool';
+import { uploadAdeImageAsset } from '../../../services/adeMediaStorageService';
+import { auth } from '../../../firebase';
+import { showToast } from '../../../context/ToastContext';
 
 export interface SpriteSheetCutterModalProps {
   isOpen: boolean;
@@ -29,9 +33,22 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
   const [baseName, setBaseName] = useState<string>('Tile');
   const [category, setCategory] = useState<AssetCategory>('terrain_brush');
   const [treePathInput, setTreePathInput] = useState<string>('Custom Slices / Modular Tiles');
+  const [showChromaKey, setShowChromaKey] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageElementRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
 
   const frames = useMemo(() => {
     if (!imageDims.width || !imageDims.height) return [];
@@ -45,19 +62,29 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    e.target.value = '';
     if (!file) return;
 
     const base = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
     setBaseName(base.charAt(0).toUpperCase() + base.slice(1));
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const src = event.target?.result as string;
+    try {
+      // Sanitize image upload (max 2048px to preserve sprite sheet resolution without Firebase offload unless online)
+      const res = await uploadAdeImageAsset(file, {
+        userId: auth?.currentUser?.uid,
+        assetCategory: 'maps',
+        fileName: file.name,
+        maxDimension: 2048
+      });
+      const src = res?.url;
+      if (!src) return;
       setImageSrc(src);
+      setShowChromaKey(false);
 
       const img = new Image();
+      img.crossOrigin = 'anonymous';
       img.onload = () => {
         setImageDims({ width: img.naturalWidth, height: img.naturalHeight });
         // Automatically suggest standard cell size if cleanly divisible
@@ -70,8 +97,9 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
         }
       };
       img.src = src;
-    };
-    reader.readAsDataURL(file);
+    } catch (err: any) {
+      showToast({ type: 'error', title: 'Sheet Load Failed', text: err?.message || 'Unable to process sprite sheet image.' });
+    }
   };
 
   const handleBatchImport = async () => {
@@ -102,8 +130,18 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[260] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-cyan-800 rounded-lg shadow-2xl w-full max-w-4xl flex flex-col h-[86vh] max-h-[90vh] overflow-hidden">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-[260] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Interactive Sprite Sheet & Tile Slicer"
+        className="bg-slate-900 border border-cyan-800 rounded-lg shadow-2xl w-full max-w-4xl flex flex-col h-[86vh] max-h-[90vh] overflow-hidden"
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-cyan-900/40">
           <div className="flex items-center space-x-2">
@@ -143,6 +181,19 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
                   <div>Source: {imageDims.width} x {imageDims.height} px</div>
                   <div>Frames Detected: <span className="text-cyan-400 font-bold">{frames.length}</span></div>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowChromaKey((prev) => !prev)}
+                  className={`w-full py-1.5 px-2.5 rounded border text-[11px] flex items-center justify-center space-x-1.5 transition-colors ${
+                    showChromaKey
+                      ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
+                      : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-cyan-500'
+                  }`}
+                >
+                  <Eraser className="w-3.5 h-3.5" />
+                  <span>{showChromaKey ? 'Hide Chroma Keyer' : 'Strip Background (Chroma Key)'}</span>
+                </button>
 
                 <div>
                   <label className="block text-[11px] text-slate-400 mb-1">Cell Width (px)</label>
@@ -229,7 +280,21 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
 
           {/* Slicing Viewport */}
           <div className="flex-1 bg-slate-950/90 p-4 flex items-center justify-center overflow-auto relative select-none">
-            {imageSrc ? (
+            {imageSrc && showChromaKey ? (
+              <div className="w-full max-w-2xl">
+                <ChromaKeyTool
+                  imageUrl={imageSrc}
+                  onApply={(cleanedUrl) => {
+                    setImageSrc(cleanedUrl);
+                    setShowChromaKey(false);
+                    const img = new Image();
+                    img.onload = () => setImageDims({ width: img.naturalWidth, height: img.naturalHeight });
+                    img.src = cleanedUrl;
+                  }}
+                  onCancel={() => setShowChromaKey(false)}
+                />
+              </div>
+            ) : imageSrc ? (
               <div className="relative inline-block border border-slate-700 shadow-md">
                 <img
                   ref={imageElementRef}

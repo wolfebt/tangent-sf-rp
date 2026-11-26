@@ -46,14 +46,7 @@ export function useMapBezierAndExport({
     setTimeout(() => {
       try {
         let dataURL = '';
-        if (stageRef.current && typeof stageRef.current.toDataURL === 'function') {
-          try {
-            dataURL = stageRef.current.toDataURL({ pixelRatio: 2 }) || '';
-          } catch {
-            dataURL = '';
-          }
-        }
-        if (!dataURL) {
+        try {
           const gridSz = currentMap.gridSize || 50;
           const widthCells = currentMap.gridWidth || Math.max(1, Math.round((currentMap.width || 1500) / gridSz));
           const heightCells = currentMap.gridHeight || Math.max(1, Math.round((currentMap.height || 1000) / gridSz));
@@ -62,6 +55,7 @@ export function useMapBezierAndExport({
             heightCells,
             pixelsPerGrid: gridSz,
             sourceGridSize: gridSz,
+            enableWallShadows: currentMap.enableWallShadows !== false,
             terrains: currentMap.terrains || [],
             underlays: (Array.isArray(currentMap?.underlays) && currentMap.underlays.length > 0)
               ? currentMap.underlays
@@ -71,7 +65,17 @@ export function useMapBezierAndExport({
             texts: currentMap.texts || [],
             walls: currentMap.walls || [],
             lights: currentMap.lights || []
-          }, 'image/png', 1);
+          }, 'image/png', 1) || '';
+        } catch {
+          dataURL = '';
+        }
+
+        if (!dataURL && stageRef.current && typeof stageRef.current.toDataURL === 'function') {
+          try {
+            dataURL = stageRef.current.toDataURL({ pixelRatio: 2 }) || '';
+          } catch {
+            dataURL = '';
+          }
         }
         const link = document.createElement('a');
         link.download = formatExportFilename(currentMap.title || 'map', 'map', 'png');

@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { lazyWithRetry } from '../../../../utils/lazyWithRetry';
 import Split from 'react-split';
 import { 
@@ -23,6 +23,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { VttEventBus } from '../../../../utils/vttEventBus';
 import { AudioService } from '../../../../services/audioService';
 import { stripGmSecretHtmlBlocks } from '../../../../utils/gmSecretSanitizer';
+import { STORAGE_KEYS } from '../../../../constants/storageKeys';
 
 export default function ScenarioCanvasSwitch({
   activeNode,
@@ -64,8 +65,37 @@ export default function ScenarioCanvasSwitch({
     }))
   );
 
-  const [completedBeats, setCompletedBeats] = useState(() => new Set());
+  const activeScenarioId = activeNode?.id;
+  const [completedBeats, setCompletedBeats] = useState(() => {
+    const remoteBeats = activeNode?.completedBeats || activeNode?.fields?.completedBeats;
+    if (Array.isArray(remoteBeats)) return new Set(remoteBeats);
+    if (!activeScenarioId) return new Set();
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.VTT_BEATS(activeScenarioId));
+      return new Set(raw ? JSON.parse(raw) : []);
+    } catch {
+      return new Set();
+    }
+  });
   const [broadcastedText, setBroadcastedText] = useState(false);
+
+  useEffect(() => {
+    if (!activeScenarioId) {
+      setCompletedBeats(new Set());
+      return;
+    }
+    const remoteBeats = activeNode?.completedBeats || activeNode?.fields?.completedBeats;
+    if (Array.isArray(remoteBeats)) {
+      setCompletedBeats(new Set(remoteBeats));
+      return;
+    }
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.VTT_BEATS(activeScenarioId));
+      setCompletedBeats(new Set(raw ? JSON.parse(raw) : []));
+    } catch {
+      setCompletedBeats(new Set());
+    }
+  }, [activeScenarioId, activeNode?.completedBeats, activeNode?.fields?.completedBeats]);
 
   const isOperatorPerspective = perspectiveMode === 'operator';
   const safeDeleteElement = isOperatorPerspective ? undefined : handleDeleteElement;
@@ -154,13 +184,31 @@ export default function ScenarioCanvasSwitch({
       if (isNowCompleted) next.add(idx);
       else next.delete(idx);
 
+      const completedArr = Array.from(next);
+      if (activeNode?.id) {
+        try {
+          localStorage.setItem(STORAGE_KEYS.VTT_BEATS(activeNode.id), JSON.stringify(completedArr));
+        } catch {
+          // ignore localStorage quota errors
+        }
+        if (perspectiveMode !== 'operator' && typeof updateStory === 'function') {
+          updateStory(activeNode.id, {
+            completedBeats: completedArr,
+            fields: {
+              ...(activeNode.fields || {}),
+              completedBeats: completedArr
+            }
+          });
+        }
+      }
+
       VttEventBus.emit('story-foundry-milestone-reached', {
         scenarioId: activeNode?.id,
         scenarioTitle: activeNode?.title,
         beatIndex: idx,
         beatText: beatsList[idx] || '',
         isCompleted: isNowCompleted,
-        completedBeats: Array.from(next),
+        completedBeats: completedArr,
         timestamp: new Date().toLocaleTimeString()
       });
       return next;

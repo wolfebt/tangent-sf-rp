@@ -5,6 +5,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
   const [redoStack, setRedoStack] = useState([]);
   const [lastActionDescription, setLastActionDescription] = useState('Initial Sector State');
   const prevMapIdRef = useRef(activeMapId);
+  const lastCoalesceRef = useRef({ key: null, ts: 0 });
 
   useEffect(() => {
     if (prevMapIdRef.current !== activeMapId) {
@@ -12,82 +13,79 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
       setUndoStack([]);
       setRedoStack([]);
       setLastActionDescription('Initial Sector State');
+      lastCoalesceRef.current = { key: null, ts: 0 };
     }
   }, [activeMapId]);
 
-  const recordHistory = useCallback((actionDescription = 'Edit Sector') => {
+  const buildSnapshot = useCallback((description) => ({
+    lines: lines || [],
+    tokens: tokens || [],
+    terrains: terrains || [],
+    objects: objects || [],
+    texts: texts || [],
+    walls: walls || [],
+    lights: lights || [],
+    regions: regions || [],
+    fog: fog || [],
+    chunkInstances: currentMap?.chunkInstances || [],
+    layers: mapLayers,
+    underlay: currentMap?.underlay ? JSON.parse(JSON.stringify(currentMap.underlay)) : (currentMap?.underlay ?? null),
+    videoBackgroundUrl: currentMap?.videoBackgroundUrl || '',
+    fogEnabled: Boolean(currentMap?.fogEnabled),
+    environment: currentMap?.environment ? JSON.parse(JSON.stringify(currentMap.environment)) : (currentMap?.environment ?? null),
+    gridMode: currentMap?.gridMode || 'hex',
+    description,
+    timestamp: Date.now()
+  }), [currentMap, lines, tokens, terrains, objects, texts, walls, lights, regions, fog, mapLayers]);
+
+  const recordHistory = useCallback((actionDescription = 'Edit Sector', options = {}) => {
     if (!currentMap) return;
-    const snapshot = {
-      lines: lines || [],
-      tokens: tokens || [],
-      terrains: terrains || [],
-      objects: objects || [],
-      texts: texts || [],
-      walls: walls || [],
-      lights: lights || [],
-      regions: regions || [],
-      fog: fog || [],
-      chunkInstances: currentMap?.chunkInstances || [],
-      layers: mapLayers,
-      description: actionDescription,
-      timestamp: Date.now()
-    };
+    const now = Date.now();
+    const coalesceKey = options?.coalesceKey || null;
+    const coalesceMs = Number.isFinite(options?.coalesceMs) ? options.coalesceMs : 800;
+
+    if (
+      coalesceKey &&
+      lastCoalesceRef.current.key === coalesceKey &&
+      (now - lastCoalesceRef.current.ts) < coalesceMs
+    ) {
+      lastCoalesceRef.current.ts = now;
+      setRedoStack([]);
+      return;
+    }
+
+    lastCoalesceRef.current = { key: coalesceKey, ts: now };
+    const snapshot = buildSnapshot(actionDescription);
     setUndoStack(prev => [...prev.slice(-50), snapshot]);
     setRedoStack([]);
     setLastActionDescription(actionDescription);
-  }, [currentMap, lines, tokens, terrains, objects, texts, walls, lights, regions, fog, mapLayers]);
+  }, [currentMap, buildSnapshot]);
 
   const handleUndo = useCallback(() => {
     if (undoStack.length === 0 || !currentMap) return;
+    lastCoalesceRef.current = { key: null, ts: 0 };
     const previousState = undoStack[undoStack.length - 1];
-    const currentSnapshot = { 
-      lines: lines || [], 
-      tokens: tokens || [], 
-      terrains: terrains || [], 
-      objects: objects || [], 
-      texts: texts || [], 
-      walls: walls || [], 
-      lights: lights || [], 
-      regions: regions || [], 
-      fog: fog || [], 
-      chunkInstances: currentMap?.chunkInstances || [],
-      layers: mapLayers,
-      description: lastActionDescription,
-      timestamp: Date.now()
-    };
-    
+    const currentSnapshot = buildSnapshot(lastActionDescription);
+
     setRedoStack(prev => [...prev, currentSnapshot]);
     setUndoStack(prev => prev.slice(0, prev.length - 1));
     setLastActionDescription(previousState.description || 'Undo');
     const { description: _desc, timestamp: _ts, ...mapPatch } = previousState;
     updateMap(activeMapId, mapPatch);
-  }, [undoStack, currentMap, lines, tokens, terrains, objects, texts, walls, lights, regions, fog, mapLayers, updateMap, activeMapId, lastActionDescription]);
+  }, [undoStack, currentMap, buildSnapshot, updateMap, activeMapId, lastActionDescription]);
 
   const handleRedo = useCallback(() => {
     if (redoStack.length === 0 || !currentMap) return;
+    lastCoalesceRef.current = { key: null, ts: 0 };
     const nextState = redoStack[redoStack.length - 1];
-    const currentSnapshot = { 
-      lines: lines || [], 
-      tokens: tokens || [], 
-      terrains: terrains || [], 
-      objects: objects || [], 
-      texts: texts || [], 
-      walls: walls || [], 
-      lights: lights || [], 
-      regions: regions || [], 
-      fog: fog || [], 
-      chunkInstances: currentMap?.chunkInstances || [],
-      layers: mapLayers,
-      description: lastActionDescription,
-      timestamp: Date.now()
-    };
-    
+    const currentSnapshot = buildSnapshot(lastActionDescription);
+
     setUndoStack(prev => [...prev, currentSnapshot]);
     setRedoStack(prev => prev.slice(0, prev.length - 1));
     setLastActionDescription(nextState.description || 'Redo');
     const { description: _desc, timestamp: _ts, ...mapPatch } = nextState;
     updateMap(activeMapId, mapPatch);
-  }, [redoStack, currentMap, lines, tokens, terrains, objects, texts, walls, lights, regions, fog, mapLayers, updateMap, activeMapId, lastActionDescription]);
+  }, [redoStack, currentMap, buildSnapshot, updateMap, activeMapId, lastActionDescription]);
 
   useEffect(() => {
     if (!enabled) return;

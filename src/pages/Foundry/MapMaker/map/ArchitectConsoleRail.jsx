@@ -40,6 +40,8 @@ import {
 } from 'lucide-react';
 import AudioService from '../../../../services/audioService';
 import { VttEventBus } from '../../../../utils/vttEventBus';
+import { useAssetUnitStore } from '../../../../engine/assets/assetUnitStore';
+import { resolveAssetStateTexture } from '../../../../engine/canvas/AssetCustomizerShader';
 import {
   ArchitectLayersPanel,
   ArchitectEnvironmentPanel
@@ -190,8 +192,62 @@ export const ArchitectConsoleRail = ({
     }
   }, [currentMapScale]);
 
-  const activeTerrains = getTerrainsForScale(selectedCatalogScale, customAssets?.terrains || []);
-  const activeCategories = getCategoriesForScale(selectedCatalogScale, customAssets?.objects || []);
+  const studioAssets = useAssetUnitStore((s) => s.assets);
+
+  const studioTerrains = React.useMemo(() => {
+    return (studioAssets || [])
+      .filter((u) => u.category === 'terrain_brush')
+      .map((u) => {
+        const tex = resolveAssetStateTexture(u);
+        return {
+          id: u.unit_id || u.id,
+          label: u.name,
+          name: u.name,
+          color: u.color || '#334155',
+          textureUrl: tex,
+          imageUrl: tex,
+          desc: u.lore?.description || 'Asset Studio terrain brush',
+          assetUnit: u
+        };
+      });
+  }, [studioAssets]);
+
+  const studioObjects = React.useMemo(() => {
+    return (studioAssets || [])
+      .filter((u) => ['doodad', 'hazard', 'vehicle'].includes(u.category))
+      .map((u) => {
+        const tex = resolveAssetStateTexture(u);
+        const dims = Array.isArray(u.dimensions) ? u.dimensions : [1, 1];
+        return {
+          id: u.unit_id || u.id,
+          label: u.name,
+          name: u.name,
+          category: u.category === 'hazard' ? 'Hazards' : u.category === 'vehicle' ? 'Vehicles' : 'Studio Assets',
+          color: u.color || '#38bdf8',
+          imageUrl: tex,
+          width: Math.max(1, Number(dims[0]) || 1) * 50,
+          height: Math.max(1, Number(dims[1]) || 1) * 50,
+          hazard: u.category === 'hazard' ? (u.vtt_properties?.hazard?.type || u.name) : null,
+          desc: u.lore?.description || 'Asset Studio unit',
+          assetUnit: u
+        };
+      });
+  }, [studioAssets]);
+
+  const mergedCustomTerrains = React.useMemo(() => {
+    const legacy = customAssets?.terrains || [];
+    const seen = new Set(legacy.map((t) => t.id));
+    return [...legacy, ...studioTerrains.filter((t) => !seen.has(t.id))];
+  }, [customAssets?.terrains, studioTerrains]);
+
+  const mergedCustomObjects = React.useMemo(() => {
+    const legacy = customAssets?.objects || [];
+    const seen = new Set(legacy.map((o) => o.id));
+    return [...legacy, ...studioObjects.filter((o) => !seen.has(o.id))];
+  }, [customAssets?.objects, studioObjects]);
+
+  const activeTerrains = getTerrainsForScale(selectedCatalogScale, mergedCustomTerrains);
+  const activeCategories = getCategoriesForScale(selectedCatalogScale, mergedCustomObjects);
 
   useEffect(() => {
     if (activeCategories.length > 0 && (!selectedCategory || !activeCategories.includes(selectedCategory))) {
@@ -199,7 +255,7 @@ export const ArchitectConsoleRail = ({
     }
   }, [selectedCatalogScale, activeCategories]);
 
-  const activeObjects = getObjectsForScale(selectedCatalogScale, selectedCategory, customAssets?.objects || []);
+  const activeObjects = getObjectsForScale(selectedCatalogScale, selectedCategory, mergedCustomObjects);
 
   const filteredTerrains = activeTerrains.filter(t =>
     !searchQuery || t.label.toLowerCase().includes(searchQuery.toLowerCase()) || (t.desc && t.desc.toLowerCase().includes(searchQuery.toLowerCase()))

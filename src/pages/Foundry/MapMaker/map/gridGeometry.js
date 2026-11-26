@@ -191,3 +191,60 @@ export function drawHexGridOnCanvas(
   }
   ctx.stroke();
 }
+
+/**
+ * Returns the nearest pointy-top hex cell center matching drawHexGridOnCanvas math.
+ */
+export function getHexCellAtPoint(point, gridSize = 50) {
+  const hexRadius = Math.max(15, Number(gridSize) || 50);
+  const hexWidth = Math.sqrt(3) * hexRadius;
+  const rowHeight = hexRadius * 1.5;
+  const px = Number(point?.x) || 0;
+  const py = Number(point?.y) || 0;
+
+  const approxRow = Math.round(py / rowHeight);
+  let best = null;
+  let bestDistSq = Infinity;
+
+  for (let dr = -1; dr <= 1; dr++) {
+    const r = approxRow + dr;
+    const isOddRow = (((r % 2) + 2) % 2) === 1;
+    const rowOffsetX = isOddRow ? hexWidth / 2 : 0;
+    const cy = r * rowHeight;
+    const approxCol = Math.round((px - rowOffsetX) / hexWidth);
+
+    for (let dc = -1; dc <= 1; dc++) {
+      const c = approxCol + dc;
+      const cx = c * hexWidth + rowOffsetX;
+      const dx = px - cx;
+      const dy = py - cy;
+      const distSq = dx * dx + dy * dy;
+      if (distSq < bestDistSq) {
+        bestDistSq = distSq;
+        best = { col: c, row: r, x: cx, y: cy, radius: hexRadius };
+      }
+    }
+  }
+
+  return best || { col: 0, row: 0, x: 0, y: 0, radius: hexRadius };
+}
+
+/**
+ * Snaps a world coordinate to the active grid (hex center or square vertex/intersection).
+ */
+export function snapPointToGrid(point, gridSize = 50, gridMode = 'square', enabled = true) {
+  const px = Number(point?.x) || 0;
+  const py = Number(point?.y) || 0;
+  if (!point || !enabled || gridMode === 'none' || gridMode === 'off') {
+    return { x: Math.round(px), y: Math.round(py) };
+  }
+  if (gridMode === 'hex') {
+    const cell = getHexCellAtPoint({ x: px, y: py }, gridSize);
+    return { x: Math.round(cell.x), y: Math.round(cell.y) };
+  }
+  const step = Math.max(10, Number(gridSize) || 50);
+  return {
+    x: Math.round(px / step) * step,
+    y: Math.round(py / step) * step
+  };
+}

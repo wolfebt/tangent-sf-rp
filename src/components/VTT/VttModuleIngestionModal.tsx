@@ -19,6 +19,8 @@ import { useCampaign } from '../../context/CampaignContext';
 import { AudioService } from '../../services/audioService';
 import { deployCompiledPackage } from '../../utils/deployVttPackage';
 import type { CompiledVttPackage } from '../../types/vttPackage';
+import { compileStage } from '../../pages/Foundry/Stage/vttModuleCompilerService';
+import { useStageStore } from '../../pages/Foundry/Stage/stageStore';
 
 export interface VttModuleIngestionModalProps {
   isOpen: boolean;
@@ -32,10 +34,11 @@ export const VttModuleIngestionModal: React.FC<VttModuleIngestionModalProps> = (
   onModuleIngested
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { universeState, activeMapId, setActiveMapId, updateMap, addMap, setGalleryModifiers } = useCampaign();
-  const availableMaps = universeState?.maps || [];
+  const { universeState, allMaps, activeMapId, setActiveMapId, updateMap, addMap, setGalleryModifiers, elementsCatalog = [], saveStageManifest } = useCampaign() as any;
+  const availableMaps = (Array.isArray(allMaps) && allMaps.length > 0 ? allMaps : universeState?.maps) || [];
 
   const [parsedPackage, setParsedPackage] = useState<CompiledVttPackage | null>(null);
+  const [parsedStageManifest, setParsedStageManifest] = useState<any | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [ingestStatus, setIngestStatus] = useState<string | null>(null);
   const [selectedTargetMapId, setSelectedTargetMapId] = useState<string>('');
@@ -54,14 +57,46 @@ export const VttModuleIngestionModal: React.FC<VttModuleIngestionModalProps> = (
     reader.onload = (event) => {
       try {
         const json = JSON.parse(event.target?.result as string);
+        const isStageManifest = Array.isArray(json.anchors) && Boolean(json.mapId) && !json.gallery;
+        if (isStageManifest) {
+          const boundMap = availableMaps.find((m: any) => m.id === json.mapId) || availableMaps[0] || null;
+          const compiled: any = compileStage({
+            manifest: json,
+            mapAsset: boundMap,
+            storyAsset: null,
+            elementsCatalog,
+            universeState
+          } as any);
+          const pkgAdapter: any = {
+            packageId: `stage_${json.id || Date.now()}`,
+            compiledAt: new Date().toISOString(),
+            manifest: compiled.manifest,
+            map: compiled.map,
+            gallery: {
+              maps: boundMap ? [boundMap] : [],
+              elements: [],
+              modifiers: []
+            },
+            automations: {
+              storyTriggers: compiled.triggers || []
+            },
+            stageManifest: json
+          };
+          setParsedStageManifest(json);
+          setParsedPackage(pkgAdapter as CompiledVttPackage);
+          setSelectedTargetMapId(json.mapId || boundMap?.id || activeMapId || '');
+          return;
+        }
         if (!json.manifest || (!json.map && !json.gallery)) {
           throw new Error('File does not appear to be a valid Tangent VTT Module bundle (missing manifest/gallery/map).');
         }
+        setParsedStageManifest(null);
         setParsedPackage(json as CompiledVttPackage);
         setSelectedTargetMapId(json.map?.id || (json.gallery?.maps && json.gallery.maps[0]?.id) || activeMapId || '');
       } catch (err: any) {
         setErrorMsg(err.message || 'Failed to parse JSON file.');
         setParsedPackage(null);
+        setParsedStageManifest(null);
       }
     };
     reader.onerror = () => {
@@ -105,6 +140,11 @@ export const VttModuleIngestionModal: React.FC<VttModuleIngestionModalProps> = (
         availableMaps
       }
     );
+
+    if (parsedStageManifest) {
+      saveStageManifest?.(parsedStageManifest);
+      useStageStore.getState().setStageManifest?.(parsedStageManifest);
+    }
 
     setIngestStatus(`✅ Successfully ingested: ${result.tokensDeployed} tokens, ${result.objectsDeployed} objects, ${result.modifiersDeployed} modifiers!`);
 

@@ -17,10 +17,21 @@ import { MASTER_TERRAINS } from '../../../pages/Foundry/MapMaker/map/MapConstant
 import { createSceneRegion, type SceneRegionTriggerType } from '../../../engine/cartography/SceneRegionManager';
 import { AudioService } from '../../../services/audioService';
 import { evaluateTrapTriggers } from '../../../services/reactiveVttService';
-import { compileChunkToMapElements } from '../../../services/mapChunkCompilerService';
+import {
+  compileChunkToMapElements,
+  transformChunkBlueprint,
+  computeWorldPerimeterSockets,
+  findBestSocketSnap,
+  weldChunkWallsAndDoors
+} from '../../../services/mapChunkCompilerService';
+import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../../data/seed_chunks/science_fantasy_chunks';
+import { getMapLayerState } from '../../../utils/mapSchemaAdapter';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { createRoomWalls, expandWallsForGeometry, findNearestWallVertex, snapPointToAngle } from '../../../schemas/vttWallSchema.js';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { buildVttUnitFromPersona } from '../../../utils/personaBridge';
+import { adeElementToInteractiveObject, normalizeMapObject } from '../../../utils/storyAssetAdapter';
+import { createBlankCanvas } from './defaultMaps';
 
 export interface UseStagePointerToolsParams {
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
@@ -65,7 +76,9 @@ export interface UseStagePointerToolsParams {
   localLights: SceneLightSource[];
   setLocalLights: React.Dispatch<React.SetStateAction<SceneLightSource[]>>;
   currentMap: any;
+  addMap?: any;
   updateMap: any;
+  setActiveMapId?: (id: string) => void;
   gridSnap: boolean;
   isMarqueeActive: boolean;
   setIsMarqueeActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -218,7 +231,9 @@ export const useStagePointerTools = ({
   selectedRegionType,
   recordHistory,
   setCombatLog,
-  deployArchitectItem
+  deployArchitectItem,
+  addMap,
+  setActiveMapId
 }: UseStagePointerToolsParams) => {
   // Convert Screen Mouse Coordinates to World Coordinates
   const screenToWorld = useCallback((clientX: number, clientY: number) => {
@@ -231,12 +246,26 @@ export const useStagePointerTools = ({
   }, [pan, zoom]);
 
   // Tactical Eraser Implementation
+  const isToolLayerLocked = (layerId: string) => {
+    const state = getMapLayerState(currentMap, layerId);
+    if (state.locked) {
+      AudioService.playTerminalBeep(420, 0.04);
+      setCombatLog(prev => [
+        `[LAYER LOCKED] Unlock "${layerId}" layer to edit or erase elements.`,
+        ...prev.slice(0, 8)
+      ]);
+      return true;
+    }
+    return false;
+  };
+
   const handleEraseAt = (pos: { x: number; y: number }) => {
     recordHistory();
 
     // 1. Check interactive objects
     const objHit = localObjects.find(o => Math.hypot(o.x - pos.x, o.y - pos.y) <= 35);
     if (objHit) {
+      if (isToolLayerLocked('objects')) return;
       const updatedObjects = localObjects.filter(o => o.id !== objHit.id);
       setLocalObjects(updatedObjects);
       interactiveObjMgrRef.current.loadObjects(updatedObjects);
@@ -260,6 +289,7 @@ export const useStagePointerTools = ({
     });
 
     if (wallHit) {
+      if (isToolLayerLocked('walls')) return;
       const updatedWalls = localWalls.filter(w => w.id !== wallHit.id);
       setLocalWalls(updatedWalls);
       bvhBuilderRef.current.build(expandWallsForGeometry(updatedWalls) as any);
@@ -274,6 +304,7 @@ export const useStagePointerTools = ({
     // 3. Check texts
     const textHit = (currentMap?.texts || []).find((t: any) => Math.hypot(t.x - pos.x, t.y - pos.y) <= 35);
     if (textHit) {
+      if (isToolLayerLocked('annotations')) return;
       const updatedTexts = (currentMap?.texts || []).filter((t: any) => t.id !== textHit.id);
       if (currentMap && updateMap) {
         updateMap(currentMap.id, { texts: updatedTexts });
@@ -292,6 +323,7 @@ export const useStagePointerTools = ({
       return false;
     });
     if (lineHit) {
+      if (isToolLayerLocked('annotations')) return;
       const updatedLines = (currentMap?.lines || []).filter((l: any) => l.id !== lineHit.id);
       if (currentMap && updateMap) {
         updateMap(currentMap.id, { lines: updatedLines });
@@ -311,12 +343,33 @@ export const useStagePointerTools = ({
       return false;
     });
     if (terrainHit) {
+      if (isToolLayerLocked(terrainHit.isRoofLayer ? 'roof' : 'terrain')) return;
       const updatedTerrains = (currentMap?.terrains || []).filter((t: any) => t.id !== terrainHit.id);
       if (currentMap && updateMap) {
         updateMap(currentMap.id, { terrains: updatedTerrains });
       }
       AudioService.playTerminalBeep(850, 0.05);
       setCombatLog(prev => [`[ERASER] Erased terrain polygon`, ...prev.slice(0, 8)]);
+      return;
+    }
+
+    // 6. Check scene regions
+    const regionHit = (currentMap?.regions || []).find((r: any) => {
+      const b = r?.bounds || {};
+      const rx = Number(b.x ?? r?.x ?? 0);
+      const ry = Number(b.y ?? r?.y ?? 0);
+      const rw = Number(b.width ?? r?.width ?? 150);
+      const rh = Number(b.height ?? r?.height ?? 150);
+      return pos.x >= rx - 15 && pos.x <= rx + rw + 15 && pos.y >= ry - 15 && pos.y <= ry + rh + 15;
+    });
+    if (regionHit) {
+      if (isToolLayerLocked('regions')) return;
+      const updatedRegions = (currentMap?.regions || []).filter((r: any) => r.id !== regionHit.id);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { regions: updatedRegions });
+      }
+      AudioService.playTerminalBeep(850, 0.05);
+      setCombatLog(prev => [`[ERASER] Removed scene region "${regionHit.name || regionHit.id}"`, ...prev.slice(0, 8)]);
     }
   };
 
@@ -400,8 +453,16 @@ export const useStagePointerTools = ({
             return d1 <= 20 || d2 <= 20;
           });
           const hitLight = localLights.find(l => Math.hypot(l.x - worldPos.x, l.y - worldPos.y) <= 25);
+          const hitRegion = (currentMap?.regions || []).find((r: any) => {
+            const b = r?.bounds || {};
+            const rx = Number(b.x ?? r?.x ?? 0);
+            const ry = Number(b.y ?? r?.y ?? 0);
+            const rw = Number(b.width ?? r?.width ?? 150);
+            const rh = Number(b.height ?? r?.height ?? 150);
+            return worldPos.x >= rx && worldPos.x <= rx + rw && worldPos.y >= ry && worldPos.y <= ry + rh;
+          });
 
-          const hitId = hitObj?.id || hitToken?.id || hitWall?.id || hitLight?.id;
+          const hitId = hitObj?.id || hitToken?.id || hitWall?.id || hitLight?.id || hitRegion?.id;
 
           if (hitId) {
             if (e.shiftKey) {
@@ -421,6 +482,7 @@ export const useStagePointerTools = ({
           }
           return;
         } else if (activeDesignTool === 'wall' || activeDesignTool === 'curved_wall') {
+          if (isToolLayerLocked('walls')) return;
           recordHistory(activeDesignTool === 'curved_wall' ? 'Draw Curved Wall' : 'Draw Wall');
           setIsDrawingToolActive(true);
 
@@ -433,6 +495,7 @@ export const useStagePointerTools = ({
           AudioService.playTerminalBeep(1100, 0.02);
           return;
         } else if (activeDesignTool === 'terrain') {
+          if (isToolLayerLocked('terrain')) return;
           recordHistory('Paint Terrain');
           setIsDrawingToolActive(true);
           setCurrentStrokePoints([worldPos.x, worldPos.y]);
@@ -497,6 +560,7 @@ export const useStagePointerTools = ({
           ]);
           return;
         } else if (activeDesignTool === 'light') {
+          if (isToolLayerLocked('lighting')) return;
           recordHistory('Place Light Source');
           const newLight: SceneLightSource = {
             id: `light-${Date.now()}`,
@@ -523,11 +587,13 @@ export const useStagePointerTools = ({
           ]);
           return;
         } else if (activeDesignTool === 'pencil') {
+          if (isToolLayerLocked('annotations')) return;
           recordHistory('Draw Sketch Line');
           setIsDrawingToolActive(true);
           setCurrentStrokePoints([worldPos.x, worldPos.y]);
           return;
         } else if (activeDesignTool === 'text') {
+          if (isToolLayerLocked('annotations')) return;
           recordHistory('Place Text Label');
           const newText = {
             id: uuidv4(),
@@ -574,6 +640,7 @@ export const useStagePointerTools = ({
           }
           return;
         } else if (activeDesignTool === 'region') {
+          if (isToolLayerLocked('regions')) return;
           const rawType = String(selectedRegionType || 'roof_zone');
           const normalizedType: SceneRegionTriggerType =
             rawType === 'audio_zone'
@@ -611,6 +678,7 @@ export const useStagePointerTools = ({
           ]);
           return;
         } else if (activeDesignTool === 'token') {
+          if (isToolLayerLocked('tokens')) return;
           recordHistory('Deploy Token');
           const newTokId = `token-${Date.now()}`;
           const tokenName = storeTokenLabel?.trim() || textLabelInput || 'Tactical Unit';
@@ -641,43 +709,91 @@ export const useStagePointerTools = ({
           ]);
           return;
         } else if (activeDesignTool === 'chunk') {
+          if (isToolLayerLocked('walls') || isToolLayerLocked('terrain')) return;
           if (armedChunkRef.current?.chunk && currentMap && updateMap) {
             recordHistory('Stamp Prefab Chunk');
             const gSize = Number(currentMap.gridSize || 50);
+            let targetCol = Math.round(snapped.x / gSize);
+            let targetRow = Math.round(snapped.y / gSize);
+            const rotDeg = (armedChunkRef.current.rotationDeg || 0) as 0 | 90 | 180 | 270;
+            const flipX = Boolean(armedChunkRef.current.flipX);
+            const flipY = Boolean(armedChunkRef.current.flipY);
+            const existingInstances = Array.isArray(currentMap.chunkInstances) ? currentMap.chunkInstances : [];
+            const allBlueprints = [
+              ...(SCIENCE_FANTASY_SEED_CHUNKS || []),
+              ...(Array.isArray(armedChunkRef.current.customChunks) ? armedChunkRef.current.customChunks : [])
+            ];
+
+            let snapMatch = null;
+            if (armedChunkRef.current.magneticSnapEnabled !== false && existingInstances.length > 0) {
+              snapMatch = findBestSocketSnap(
+                armedChunkRef.current.chunk,
+                targetCol,
+                targetRow,
+                gSize,
+                rotDeg,
+                flipX,
+                flipY,
+                existingInstances,
+                allBlueprints as any
+              );
+              if (snapMatch) {
+                targetCol = snapMatch.snappedCol;
+                targetRow = snapMatch.snappedRow;
+              }
+            }
+
             const compiled = compileChunkToMapElements(armedChunkRef.current.chunk, {
-              targetCol: Math.round(snapped.x / gSize),
-              targetRow: Math.round(snapped.y / gSize),
+              targetCol,
+              targetRow,
               gridSize: gSize,
-              rotationDeg: armedChunkRef.current.rotationDeg || 0,
-              flipX: Boolean(armedChunkRef.current.flipX),
-              flipY: Boolean(armedChunkRef.current.flipY),
+              rotationDeg: rotDeg,
+              flipX,
+              flipY,
               settings: armedChunkRef.current.settings,
               slotOverrides: armedChunkRef.current.slotOverrides
             });
+
+            const existingSockets: any[] = [];
+            for (const inst of existingInstances) {
+              const bp = inst.blueprintSnapshot || allBlueprints.find((b: any) => b.chunkId === inst.chunkId);
+              if (!bp) continue;
+              const transExisting = transformChunkBlueprint(bp as any, inst.rotationDeg, inst.flipX, inst.flipY);
+              existingSockets.push(
+                ...computeWorldPerimeterSockets(transExisting, inst.col * gSize, inst.row * gSize, gSize, inst.instanceId)
+              );
+            }
+            const weldedWalls = weldChunkWallsAndDoors(
+              localWalls,
+              compiled.walls || [],
+              compiled.worldSockets || [],
+              existingSockets
+            );
+
             const nextTerrains = [...(currentMap.terrains || []), ...(compiled.terrains || [])];
-            const nextWalls = [...localWalls, ...(compiled.walls || [])];
             const nextObjects = [...localObjects, ...(compiled.objects || [])];
             const nextLights = [...localLights, ...(compiled.lights || [])];
-            setLocalWalls(nextWalls as any);
+            setLocalWalls(weldedWalls as any);
             setLocalObjects(nextObjects as any);
             setLocalLights(nextLights as any);
-            bvhBuilderRef.current.build(expandWallsForGeometry(nextWalls) as any);
+            bvhBuilderRef.current.build(expandWallsForGeometry(weldedWalls) as any);
             interactiveObjMgrRef.current.loadObjects(nextObjects as any);
             updateMap(currentMap.id, {
               terrains: nextTerrains,
-              walls: nextWalls,
+              walls: weldedWalls,
               objects: nextObjects,
               lights: nextLights,
-              chunkInstances: [...(currentMap.chunkInstances || []), compiled.instanceRecord]
+              chunkInstances: [...existingInstances, compiled.instanceRecord]
             });
             AudioService.playCriticalChime(true);
             setCombatLog(prev => [
-              `[CHUNK] Deployed "${armedChunkRef.current.chunk.name || 'Prefab Chunk'}" onto Stage.`,
+              `[CHUNK] Deployed "${armedChunkRef.current.chunk.name || 'Prefab Chunk'}" onto Stage${snapMatch ? ' (Socket Welded!)' : ''}.`,
               ...prev.slice(0, 8)
             ]);
           }
           return;
         } else if (activeDesignTool === 'object' || activeDesignTool === 'hazard') {
+          if (isToolLayerLocked('objects')) return;
           let itemToDeploy = selectedStamp;
           if (!itemToDeploy && storeObjectType) {
             const propObj = (typeof storeObjectType === 'object' ? storeObjectType : {}) as any;
@@ -1053,20 +1169,132 @@ export const useStagePointerTools = ({
 
   const handleCanvasDrop = (e: React.DragEvent<HTMLCanvasElement>) => {
     e.preventDefault();
-    if (!isDesignModeActive) return;
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      // Let OS file drops bubble up to StageViewportWrapper for image map/token ingestion dialog
+      return;
+    }
+
+    const rawData = e.dataTransfer.getData('application/json');
+    if (!rawData) return;
+
+    // Prevent StageViewportWrapper from handling the same JSON drop a second time in screen coordinates
+    e.stopPropagation();
+    if (!effectiveIsArchitectRole) return;
 
     try {
-      const rawData = e.dataTransfer.getData('application/json');
-      if (!rawData) return;
-      const item: PaletteItem = JSON.parse(rawData);
+      const data: any = JSON.parse(rawData);
       const worldPos = screenToWorld(e.clientX, e.clientY);
+      const gSize = currentMap?.gridSize || 70;
+      const snapped = gridSnap
+        ? (coordEngineRef.current?.snapPixelToGrid?.(worldPos) || {
+            x: Math.round(worldPos.x / gSize) * gSize,
+            y: Math.round(worldPos.y / gSize) * gSize
+          })
+        : { x: Math.round(worldPos.x), y: Math.round(worldPos.y) };
 
-      const targetX = gridSnap ? Math.round(worldPos.x / 70) * 70 : Math.round(worldPos.x);
-      const targetY = gridSnap ? Math.round(worldPos.y / 70) * 70 : Math.round(worldPos.y);
+      const targetX = snapped.x;
+      const targetY = snapped.y;
 
-      deployArchitectItem(item, targetX, targetY);
+      // 1. Architect Design Palette Item (requires Design Mode active)
+      const isPaletteItem =
+        Boolean(data?.defaultProps) &&
+        Boolean(data?.type) &&
+        Boolean(data?.label) &&
+        !data?.element &&
+        !data?.rawPersona;
+
+      if (isPaletteItem) {
+        if (!isDesignModeActive) return;
+        deployArchitectItem(data as PaletteItem, targetX, targetY);
+        return;
+      }
+
+      // 2. Persona / Hero Token Drop from Folio or ADE Catalog
+      const isPersona =
+        data.type === 'character' ||
+        data.type === 'hero' ||
+        data.type === 'folio_hero_token' ||
+        Boolean(data.isPersona) ||
+        data.elementType === 'Persona' ||
+        data.element?.type === 'Persona';
+
+      if (isPersona) {
+        const charData = data.rawPersona || data.element || data;
+        const vttUnit = (buildVttUnitFromPersona(charData, {
+          uniqueInstance: true,
+          position: { x: targetX, y: targetY }
+        }) || {}) as Record<string, any>;
+        const newId = vttUnit.id || `${charData.id || 'token'}-${Date.now()}`;
+        const isSyn = Boolean(vttUnit.is_synthetic);
+        const staticToken = {
+          ...vttUnit,
+          id: newId,
+          character_doc_id: vttUnit.character_doc_id || charData.id || charData.heroId || charData['character-doc-id'],
+          name: charData.name || charData.title || vttUnit.name || 'Operator',
+          base_hp: vttUnit.base_hp || charData.health || charData.hp || 30,
+          base_vitality: vttUnit.base_vitality || charData.vitality || 30,
+          base_health: vttUnit.base_health || charData.health || charData.hp || 30,
+          base_structure: vttUnit.base_structure || charData.structure || (isSyn ? 60 : 0),
+          is_synthetic: isSyn,
+          tech_level: vttUnit.tech_level || 3,
+          armor_dr: charData.dr ?? vttUnit.armor_dr ?? 6,
+          stamina_dr: charData.stamina_dr ?? vttUnit.stamina_dr ?? 2,
+          size_modifier: vttUnit.size_modifier || 0,
+          speed_ft: vttUnit.speed_ft || 30,
+          species: charData.species || vttUnit.species || 'Human',
+          archetype: charData.archetype || vttUnit.archetype || 'Operator',
+          is_persona: vttUnit.is_persona
+        };
+
+        useEngineStore.getState().loadStaticEntity(staticToken as any);
+        useEngineStore.getState().updatePosition(newId, targetX, targetY);
+        useEngineStore.getState().clearSelection();
+        useEngineStore.getState().setSelection(newId, true);
+
+        if (currentMap && updateMap) {
+          updateMap(currentMap.id, {
+            tokens: [...(currentMap.tokens || []), { ...staticToken, x: targetX, y: targetY }]
+          });
+        } else if (addMap) {
+          const newMap = createBlankCanvas({ title: 'Tactical Sector' });
+          newMap.tokens = [{ ...staticToken, x: targetX, y: targetY }];
+          addMap(newMap);
+          setActiveMapId?.(newMap.id);
+        }
+        AudioService.playCriticalChime(true);
+        return;
+      }
+
+      // 3. Story Element / Interactive Object Drop
+      const elem = data.element || data;
+      const adaptedObj = normalizeMapObject(
+        adeElementToInteractiveObject(elem, { x: targetX, y: targetY }) || {
+          id: `obj-${elem.id || Date.now()}-${Math.floor(Math.random() * 1000)}`,
+          type: 'sensor_beacon',
+          name: elem.title || elem.name || 'Interactive Element',
+          storyElementId: elem.id,
+          storyElementType: elem.type || elem.elementType || 'Custom',
+          x: targetX,
+          y: targetY,
+          isOpen: false,
+          omnicortexGearId: elem.fields?.gearId || elem.id,
+          readAloudText: elem.content || elem.fields?.summary || ''
+        }
+      );
+
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, {
+          objects: [...(currentMap.objects || []), adaptedObj]
+        });
+      } else if (addMap) {
+        const newMap = createBlankCanvas({ title: 'Tactical Sector' });
+        newMap.objects = [adaptedObj];
+        addMap(newMap);
+        setActiveMapId?.(newMap.id);
+      }
+      AudioService.playCriticalChime(true);
     } catch (err) {
-      console.warn('Failed to parse dropped architect item:', err);
+      console.warn('Failed to parse dropped canvas item:', err);
     }
   };
 
