@@ -81,4 +81,22 @@ assert(map.terrains.length === 1, `Expected 1 terrain, got ${map.terrains.length
 assert(map.terrains[0].renderType === 'canvasImage', 'Expected canvasImage renderType');
 assert(map.terrains[0].imageUrl.includes('data:image/png;base64,'), 'Expected base64 data url');
 
+// Regression test: distinguish closed door, open door (closed: false, freemove: true), and window (closed: true, freemove: true)
+const portalMixUvtt = {
+  format: 0.2,
+  resolution: { map_origin: { x: 0, y: 0 }, map_size: { x: 20, y: 15 }, pixels_per_grid: 100 },
+  line_of_sight: [],
+  portals: [
+    { bounds: [{ x: 2, y: 1 }, { x: 3, y: 1 }], closed: true, freemove: false },
+    { bounds: [{ x: 4, y: 1 }, { x: 5, y: 1 }], closed: false, freemove: true },
+    { bounds: [{ x: 6, y: 1 }, { x: 7, y: 1 }], closed: true, freemove: true }
+  ],
+  lights: []
+};
+const portalMixMap = parseUniversalVtt(portalMixUvtt, 'Portal Mix Station');
+assert(portalMixMap.walls.length === 3, `Expected 3 portal walls, got ${portalMixMap.walls.length}`);
+assert(portalMixMap.walls[0].type === WALL_TYPES.DOOR && portalMixMap.walls[0].isOpen === false && portalMixMap.walls[0].doorState === 'closed', 'Expected closed door at index 0');
+assert(portalMixMap.walls[1].type === WALL_TYPES.DOOR && portalMixMap.walls[1].isOpen === true && portalMixMap.walls[1].doorState === 'open', 'Expected open door (not window) at index 1');
+assert(portalMixMap.walls[2].type === WALL_TYPES.WINDOW, 'Expected window at index 2');
+
 console.log('✅ All Universal VTT importer tests passed!');

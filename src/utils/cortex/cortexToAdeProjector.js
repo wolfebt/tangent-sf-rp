@@ -34,6 +34,18 @@ import {
 
 const projectedCortexWeakCache = new WeakMap();
 const projectedFolioWeakCache = new WeakMap();
+const normalizedModuleWeakCache = new WeakMap();
+const EMPTY_SYNTH_SENTINEL = Object.freeze([]);
+const CANONICAL_EMPTY_ARRAY = Object.freeze([]);
+const CANONICAL_EMPTY_OBJECT = Object.freeze({});
+const UNIFIED_LRU_LIMIT = 4;
+const unifiedCatalogLru = [];
+
+function resolveSynthCacheKey(synthesisCatalog) {
+  return Array.isArray(synthesisCatalog) && synthesisCatalog.length > 0
+    ? synthesisCatalog
+    : EMPTY_SYNTH_SENTINEL;
+}
 
 /**
  * Projects a single OmniCortex / Codex record into a canonical ADE ElementRecord,
@@ -42,12 +54,11 @@ const projectedFolioWeakCache = new WeakMap();
 export function projectOmnicortexRecordToAdeElement(record, collectionKey, options = {}) {
   if (!record || typeof record !== 'object' || !collectionKey) return null;
 
-  const hasCustomSynth = Array.isArray(options.synthesisCatalog) && options.synthesisCatalog.length > 0;
-  if (!hasCustomSynth) {
-    const byCol = projectedCortexWeakCache.get(record);
-    if (byCol && byCol.has(collectionKey)) {
-      return byCol.get(collectionKey);
-    }
+  const synthKey = resolveSynthCacheKey(options.synthesisCatalog);
+  let bySynth = projectedCortexWeakCache.get(record);
+  let byCol = bySynth?.get(synthKey);
+  if (byCol && byCol.has(collectionKey)) {
+    return byCol.get(collectionKey);
   }
 
   const rawId = String(record.id || record.name || '').trim();
@@ -379,14 +390,17 @@ export function projectOmnicortexRecordToAdeElement(record, collectionKey, optio
   };
   projected.searchHaystack = buildSearchHaystack(projected);
 
-  if (!hasCustomSynth) {
-    let byCol = projectedCortexWeakCache.get(record);
-    if (!byCol) {
-      byCol = new Map();
-      projectedCortexWeakCache.set(record, byCol);
-    }
-    byCol.set(collectionKey, projected);
+  let nextBySynth = projectedCortexWeakCache.get(record);
+  if (!nextBySynth) {
+    nextBySynth = new WeakMap();
+    projectedCortexWeakCache.set(record, nextBySynth);
   }
+  let nextByCol = nextBySynth.get(synthKey);
+  if (!nextByCol) {
+    nextByCol = new Map();
+    nextBySynth.set(synthKey, nextByCol);
+  }
+  nextByCol.set(collectionKey, projected);
 
   return projected;
 }
@@ -397,9 +411,10 @@ export function projectOmnicortexRecordToAdeElement(record, collectionKey, optio
  */
 export function projectFolioPersonaToAdeElement(folioChar, options = {}) {
   if (!folioChar || typeof folioChar !== 'object') return null;
-  const hasCustomSynth = Array.isArray(options.synthesisCatalog) && options.synthesisCatalog.length > 0;
-  if (!hasCustomSynth && projectedFolioWeakCache.has(folioChar)) {
-    return projectedFolioWeakCache.get(folioChar);
+  const synthKey = resolveSynthCacheKey(options.synthesisCatalog);
+  const existingBySynth = projectedFolioWeakCache.get(folioChar);
+  if (existingBySynth && existingBySynth.has(synthKey)) {
+    return existingBySynth.get(synthKey);
   }
 
   const docId = String(folioChar['character-doc-id'] || folioChar.id || '').trim();
@@ -453,9 +468,12 @@ export function projectFolioPersonaToAdeElement(folioChar, options = {}) {
   };
   projected.searchHaystack = buildSearchHaystack(projected);
 
-  if (!hasCustomSynth) {
-    projectedFolioWeakCache.set(folioChar, projected);
+  let nextBySynth = projectedFolioWeakCache.get(folioChar);
+  if (!nextBySynth) {
+    nextBySynth = new WeakMap();
+    projectedFolioWeakCache.set(folioChar, nextBySynth);
   }
+  nextBySynth.set(synthKey, projected);
 
   return projected;
 }
@@ -466,6 +484,11 @@ export function projectFolioPersonaToAdeElement(folioChar, options = {}) {
  */
 export function normalizeStoryModuleElement(el, options = {}) {
   if (!el || typeof el !== 'object') return null;
+  const synthKey = resolveSynthCacheKey(options.synthesisCatalog);
+  const existingBySynth = normalizedModuleWeakCache.get(el);
+  if (existingBySynth && existingBySynth.has(synthKey)) {
+    return existingBySynth.get(synthKey);
+  }
   const rawType = el.type || 'Custom';
   const canonicalType = normalizeElementType(rawType);
   const next = {
@@ -536,16 +559,15 @@ export function normalizeStoryModuleElement(el, options = {}) {
   next.previewText = next.fields?.oneLinePitch || next.fields?.summary || buildPlainTextPreview(next.content);
   next.searchHaystack = buildSearchHaystack(next);
 
+  let nextBySynth = normalizedModuleWeakCache.get(el);
+  if (!nextBySynth) {
+    nextBySynth = new WeakMap();
+    normalizedModuleWeakCache.set(el, nextBySynth);
+  }
+  nextBySynth.set(synthKey, next);
+
   return next;
 }
-
-let lastUnifiedCache = {
-  elementsCatalog: null,
-  dbData: null,
-  folioRoster: null,
-  publicPersonas: null,
-  result: null
-};
 
 /**
  * Builds the deduplicated, unified ADE asset catalog combining:
@@ -559,18 +581,35 @@ export function buildUnifiedAdeCatalog({
   folioRoster = [],
   publicPersonas = []
 } = {}) {
-  if (
-    lastUnifiedCache.result &&
-    lastUnifiedCache.elementsCatalog === elementsCatalog &&
-    lastUnifiedCache.dbData === dbData &&
-    lastUnifiedCache.folioRoster === folioRoster &&
-    lastUnifiedCache.publicPersonas === publicPersonas
-  ) {
-    return lastUnifiedCache.result;
+  const normElements = !Array.isArray(elementsCatalog) || elementsCatalog.length === 0
+    ? CANONICAL_EMPTY_ARRAY
+    : elementsCatalog;
+  const normDbData = dbData && typeof dbData === 'object' ? dbData : CANONICAL_EMPTY_OBJECT;
+  const normFolio = !Array.isArray(folioRoster) || folioRoster.length === 0
+    ? CANONICAL_EMPTY_ARRAY
+    : folioRoster;
+  const normPublic = !Array.isArray(publicPersonas) || publicPersonas.length === 0
+    ? CANONICAL_EMPTY_ARRAY
+    : publicPersonas;
+
+  for (let i = 0; i < unifiedCatalogLru.length; i++) {
+    const entry = unifiedCatalogLru[i];
+    if (
+      entry.elementsCatalog === normElements &&
+      entry.dbData === normDbData &&
+      entry.folioRoster === normFolio &&
+      entry.publicPersonas === normPublic
+    ) {
+      if (i > 0) {
+        unifiedCatalogLru.splice(i, 1);
+        unifiedCatalogLru.unshift(entry);
+      }
+      return entry.result;
+    }
   }
 
-  const synthesisCatalog = Array.isArray(dbData?.synthesis) ? dbData.synthesis : [];
-  const normalizedModuleElements = (Array.isArray(elementsCatalog) ? elementsCatalog : [])
+  const synthesisCatalog = Array.isArray(normDbData?.synthesis) ? normDbData.synthesis : CANONICAL_EMPTY_ARRAY;
+  const normalizedModuleElements = normElements
     .map(el => normalizeStoryModuleElement(el, { synthesisCatalog }))
     .filter(Boolean);
 
@@ -599,8 +638,8 @@ export function buildUnifiedAdeCatalog({
   // 1. Project Persona Folio characters (deduplicated across roster + publicPersonas)
   const seenFolioIds = new Set();
   const combinedFolio = [
-    ...(Array.isArray(folioRoster) ? folioRoster : []),
-    ...(Array.isArray(publicPersonas) ? publicPersonas : [])
+    ...normFolio,
+    ...normPublic
   ];
 
   for (const folioChar of combinedFolio) {
@@ -650,7 +689,7 @@ export function buildUnifiedAdeCatalog({
 
   const cortexCollections = Object.keys(COLLECTION_TO_ADE_TYPE);
   for (const colKey of cortexCollections) {
-    const records = Array.isArray(dbData?.[colKey]) ? dbData[colKey] : [];
+    const records = Array.isArray(normDbData?.[colKey]) ? normDbData[colKey] : [];
     for (const rec of records) {
       const projected = projectOmnicortexRecordToAdeElement(rec, colKey, { synthesisCatalog });
       if (!projected) continue;
@@ -710,13 +749,16 @@ export function buildUnifiedAdeCatalog({
     }
   }
 
-  lastUnifiedCache = {
-    elementsCatalog,
-    dbData,
-    folioRoster,
-    publicPersonas,
+  unifiedCatalogLru.unshift({
+    elementsCatalog: normElements,
+    dbData: normDbData,
+    folioRoster: normFolio,
+    publicPersonas: normPublic,
     result: unified
-  };
+  });
+  if (unifiedCatalogLru.length > UNIFIED_LRU_LIMIT) {
+    unifiedCatalogLru.length = UNIFIED_LRU_LIMIT;
+  }
 
   return unified;
 }

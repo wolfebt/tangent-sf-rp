@@ -24,16 +24,27 @@ function sanitizeCronicleForOperator(c) {
   const sanitizedTimeline = Array.isArray(c.timeline)
     ? c.timeline.filter((evt) => evt && !evt.isHidden && !evt.isGmOnly)
     : [];
+  const sanitizedEntries = Array.isArray(c.entries)
+    ? c.entries.filter((evt) => evt && !evt.isHidden && !evt.isGmOnly)
+    : c.entries;
+  const sanitizedPendingDeltas = Array.isArray(c.pendingDeltas)
+    ? c.pendingDeltas.filter((d) => d && !d.isHidden && !d.isGmOnly)
+    : c.pendingDeltas;
   return {
     ...c,
     ephemeralNotes: '',
-    gmNotes: '',
+    gmNotes: undefined,
+    secrets: undefined,
+    gmSecrets: undefined,
+    architectNotes: undefined,
     workingMemory: c.workingMemory
       ? { ...c.workingMemory, ephemeralNotes: '', gmNotes: '' }
       : c.workingMemory,
     locations: sanitizedLocations,
     personas: sanitizedPersonas,
-    timeline: sanitizedTimeline
+    timeline: sanitizedTimeline,
+    ...(Array.isArray(c.entries) ? { entries: sanitizedEntries } : {}),
+    ...(Array.isArray(c.pendingDeltas) ? { pendingDeltas: sanitizedPendingDeltas } : {})
   };
 }
 

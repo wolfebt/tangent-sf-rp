@@ -6,7 +6,7 @@
  * OSR Control Panel scripts, threat matrices, interactive beats ledger, and manuscript prose.
  */
 
-import { stripGmSecretHtmlBlocks } from '../../../utils/gmSecretSanitizer';
+import { stripGmSecretHtmlBlocks } from '../../../utils/gmSecretSanitizer.js';
 
 /**
  * Strips HTML tags for clean markdown representation

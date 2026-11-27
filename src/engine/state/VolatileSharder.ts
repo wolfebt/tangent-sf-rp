@@ -107,6 +107,13 @@ export interface DamageApplicationPayload {
   damageType?: string;
 }
 
+export interface PositionUpdateItem {
+  id: string;
+  x: number;
+  y: number;
+  z?: number;
+}
+
 // --- STORE DEFINITION ---
 export interface EngineState {
   // Sharded state containers
@@ -118,6 +125,7 @@ export interface EngineState {
   loadStaticEntity: (entity: StaticEntity) => void;
   loadStaticEntitiesBatch: (entities: StaticEntity[]) => void;
   updatePosition: (id: string, x: number, y: number, z?: number) => void;
+  updatePositionsBatch: (updates: PositionUpdateItem[]) => void;
   applyDamage: (id: string, payload: number | DamageApplicationPayload, isLethal?: boolean) => void;
   healHP: (id: string, amount: number) => void;
   healHealth: (id: string, amount: number) => void;
@@ -153,6 +161,45 @@ export interface EngineState {
   mountPassenger: (vehicleId: string, nodeId: string, tokenId: string, cellSizePx?: number) => boolean;
   dismountPassenger: (vehicleId: string, tokenId: string) => boolean;
   translateVehicle: (vehicleId: string, deltaCols: number, deltaRows: number, cellSizePx?: number) => ChildedPassengerPosition[];
+}
+
+function applyPositionUpdateToDraft(
+  draft: EngineState,
+  id: string,
+  x: number,
+  y: number,
+  z?: number
+): void {
+  const eph = draft.ephemeralData[id];
+  if (eph) {
+    eph.x = x;
+    eph.y = y;
+    if (typeof z === 'number' && !Number.isNaN(z)) {
+      eph.z = z;
+      eph.elevation_ft = z;
+    }
+  }
+
+  // If updated entity is a registered vehicle, translate childed passengers synchronously
+  const veh = draft.vehicles[id];
+  if (veh) {
+    const cellSizePx = 50;
+    const targetCol = Math.round((x - (veh.gridFootprint[0] * cellSizePx) / 2) / cellSizePx);
+    const targetRow = Math.round((y - (veh.gridFootprint[1] * cellSizePx) / 2) / cellSizePx);
+    const deltaCols = targetCol - veh.col;
+    const deltaRows = targetRow - veh.row;
+    if (deltaCols !== 0 || deltaRows !== 0) {
+      const socketMgr = new MechaSocketManager();
+      const positions = socketMgr.translateVehicle(veh, deltaCols, deltaRows, cellSizePx);
+      for (const p of positions) {
+        const pEph = draft.ephemeralData[p.tokenId];
+        if (pEph) {
+          pEph.x = p.x;
+          pEph.y = p.y;
+        }
+      }
+    }
+  }
 }
 
 export const useEngineStore = create<EngineState>()(
@@ -264,34 +311,14 @@ export const useEngineStore = create<EngineState>()(
       }),
 
       updatePosition: (id, x, y, z) => set((draft) => {
-        const eph = draft.ephemeralData[id];
-        if (eph) {
-          eph.x = x;
-          eph.y = y;
-          if (typeof z === 'number' && !Number.isNaN(z)) {
-            eph.z = z;
-            eph.elevation_ft = z;
-          }
-        }
+        applyPositionUpdateToDraft(draft, id, x, y, z);
+      }),
 
-        // If updated entity is a registered vehicle, translate childed passengers synchronously
-        const veh = draft.vehicles[id];
-        if (veh) {
-          const cellSizePx = 50;
-          const targetCol = Math.round((x - (veh.gridFootprint[0] * cellSizePx) / 2) / cellSizePx);
-          const targetRow = Math.round((y - (veh.gridFootprint[1] * cellSizePx) / 2) / cellSizePx);
-          const deltaCols = targetCol - veh.col;
-          const deltaRows = targetRow - veh.row;
-          if (deltaCols !== 0 || deltaRows !== 0) {
-            const socketMgr = new MechaSocketManager();
-            const positions = socketMgr.translateVehicle(veh, deltaCols, deltaRows, cellSizePx);
-            for (const p of positions) {
-              const pEph = draft.ephemeralData[p.tokenId];
-              if (pEph) {
-                pEph.x = p.x;
-                pEph.y = p.y;
-              }
-            }
+      updatePositionsBatch: (updates) => set((draft) => {
+        if (!Array.isArray(updates) || updates.length === 0) return;
+        for (const item of updates) {
+          if (item && item.id) {
+            applyPositionUpdateToDraft(draft, item.id, item.x, item.y, item.z);
           }
         }
       }),

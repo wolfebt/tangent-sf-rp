@@ -104,6 +104,31 @@ export class BVHBuilder {
   }
 
   /**
+   * Updates multiple dynamic door states in one pass and rebuilds the BVH tree once.
+   */
+  public setDoorStatesBatch(updates: Array<{ doorId: string; isOpen: boolean }>) {
+    if (!Array.isArray(updates) || updates.length === 0) return;
+    const stateMap = new Map<string, boolean>();
+    for (const u of updates) {
+      if (u && u.doorId) {
+        stateMap.set(u.doorId, Boolean(u.isOpen));
+      }
+    }
+    if (stateMap.size === 0) return;
+
+    let changed = false;
+    for (const wall of this.rawWalls) {
+      if (wall.isDynamic && stateMap.has(wall.id)) {
+        wall.isOpen = stateMap.get(wall.id)!;
+        changed = true;
+      }
+    }
+    if (changed) {
+      this.build(this.rawWalls);
+    }
+  }
+
+  /**
    * Adds a new wall segment dynamically and rebuilds the spatial tree.
    */
   public addWall(wall: WallSegment) {

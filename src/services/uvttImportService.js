@@ -72,7 +72,7 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
       const p2 = toPixelPoint(portal.bounds[1]);
 
       const isClosed = portal.closed !== false;
-      const isWindow = portal.freemove === true;
+      const isWindow = portal.freemove === true && isClosed;
 
       const wallType = isWindow ? WALL_TYPES.WINDOW : WALL_TYPES.DOOR;
       walls.push(createWallSegment(p1, p2, wallType, {

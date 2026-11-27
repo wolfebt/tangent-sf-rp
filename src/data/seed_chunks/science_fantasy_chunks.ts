@@ -11,8 +11,8 @@ import {
   type ChunkTileCell,
   type ChunkWallSegment,
   createDefaultMapChunk
-} from '../../schemas/mapChunkSchema';
-import { renderChunkThumbnailDataUrl } from '../../services/mapChunkCompilerService';
+} from '../../schemas/mapChunkSchema.ts';
+import { renderChunkThumbnailDataUrl } from '../../services/mapChunkCompilerService.ts';
 
 /**
  * Helper to generate a filled WxH grid of floor tiles

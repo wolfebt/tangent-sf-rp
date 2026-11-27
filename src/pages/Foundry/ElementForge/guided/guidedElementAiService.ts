@@ -723,6 +723,16 @@ export function recommendResonantAssets({
   ].filter(Boolean);
 
   const fullTextLower = rawTexts.join(' ').toLowerCase();
+  const draftFactionRaw =
+    draft.fields?.['char-faction'] || draft.fields?.linkedFaction || draft.fields?.faction || '';
+  const draftFaction = String(draftFactionRaw).trim().toLowerCase();
+  const draftKeywordSet = new Set(
+    parseChipKeywords(
+      [draft.fields?.keywords, draft.fields?.tags].filter(Boolean).join(', ')
+    )
+      .map((k) => k.toLowerCase())
+      .filter((k) => k.length >= 4)
+  );
 
   // 1. Check explicit [Bracket] references first
   const bracketIds = new Set<string>();
@@ -739,7 +749,7 @@ export function recommendResonantAssets({
     // Ignore bracket resolution errors in pure scan
   }
 
-  const suggestions: ResonantAssetSuggestion[] = [];
+  const scoredSuggestions: Array<{ priority: number; suggestion: ResonantAssetSuggestion }> = [];
 
   for (const elem of catalog) {
     if (!elem || !elem.id) continue;
@@ -748,40 +758,70 @@ export function recommendResonantAssets({
 
     const elemTitle = String(elem.title || elem.name || '').trim();
     if (elemTitle.length < 3) continue;
+    const elemTitleLower = elemTitle.toLowerCase();
 
     const isBracketed = bracketIds.has(elem.id);
-    const escapedTitle = elemTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const titleStart = /^\w/.test(elemTitle) ? '\\b' : '(?:^|[^A-Za-z0-9_])';
-    const titleEnd = /\w$/.test(elemTitle) ? '\\b' : '(?=$|[^A-Za-z0-9_])';
-    const isTitleMentioned = new RegExp(`${titleStart}${escapedTitle}${titleEnd}`, 'i').test(fullTextLower);
+    let isTitleMentioned = false;
+    if (!isBracketed && fullTextLower.includes(elemTitleLower)) {
+      const escapedTitle = elemTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const titleStart = /^\w/.test(elemTitle) ? '\\b' : '(?:^|[^A-Za-z0-9_])';
+      const titleEnd = /\w$/.test(elemTitle) ? '\\b' : '(?=$|[^A-Za-z0-9_])';
+      isTitleMentioned = new RegExp(`${titleStart}${escapedTitle}${titleEnd}`, 'i').test(fullTextLower);
+    }
 
-    // Also check shared faction/world/tags overlap
-    const draftFaction = String(draft.fields?.['char-faction'] || draft.fields?.linkedFaction || '').toLowerCase();
-    const elemFaction = String(elem.fields?.['char-faction'] || elem.title || '').toLowerCase();
+    // Also check shared faction affiliation
+    const elemFaction = String(
+      elem.fields?.['char-faction'] || elem.fields?.linkedFaction || elem.fields?.faction || elem.title || ''
+    ).toLowerCase();
     const sharesFaction =
       draftFaction.length > 3 &&
-      (elemFaction.includes(draftFaction) || (elem.type === 'Faction' && elemTitle.toLowerCase().includes(draftFaction)));
+      (elemFaction.includes(draftFaction) || (elem.type === 'Faction' && elemTitleLower.includes(draftFaction)));
 
-    if (isBracketed || isTitleMentioned || sharesFaction) {
+    // Check shared thematic keywords/tags when not already matched by stronger signals
+    const sharedKeywords: string[] = [];
+    if (!isBracketed && !isTitleMentioned && !sharesFaction && draftKeywordSet.size > 0) {
+      const elemTagsRaw = [
+        ...parseChipKeywords([elem.fields?.keywords, elem.fields?.tags].filter(Boolean).join(', ')),
+        ...(Array.isArray(elem.tags) ? elem.tags.map((t: any) => String(t || '').trim()) : [])
+      ];
+      const seenElemTokens = new Set<string>();
+      for (const token of elemTagsRaw) {
+        const lower = token.toLowerCase();
+        if (lower.length >= 4 && draftKeywordSet.has(lower) && !seenElemTokens.has(lower)) {
+          seenElemTokens.add(lower);
+          sharedKeywords.push(lower);
+        }
+      }
+    }
+    const sharesTags = sharedKeywords.length >= 2;
+
+    if (isBracketed || isTitleMentioned || sharesFaction || sharesTags) {
+      const priority = isBracketed ? 4 : isTitleMentioned ? 3 : sharesFaction ? 2 : 1;
       const suggestedImportance = isBracketed || isTitleMentioned ? 'high' : 'typical';
       const matchReason = isBracketed
         ? 'Explicit [Bracket] reference in traits/prose'
         : isTitleMentioned
         ? `Mentioned directly in ${draft.title || 'element'} traits`
-        : `Shared faction affiliation (${draft.fields?.['char-faction'] || draft.fields?.linkedFaction})`;
+        : sharesFaction
+        ? `Shared faction affiliation (${draftFactionRaw})`
+        : `Shared thematic tags (${sharedKeywords.slice(0, 3).join(', ')})`;
 
-      suggestions.push({
-        assetId: elem.id,
-        assetTitle: elemTitle,
-        assetType: elem.type || 'Element',
-        suggestedImportance,
-        suggestedAnnotation: `${matchReason}`,
-        matchReason
+      scoredSuggestions.push({
+        priority,
+        suggestion: {
+          assetId: elem.id,
+          assetTitle: elemTitle,
+          assetType: elem.type || 'Element',
+          suggestedImportance,
+          suggestedAnnotation: `${matchReason}`,
+          matchReason
+        }
       });
     }
   }
 
-  return suggestions.slice(0, 6);
+  scoredSuggestions.sort((a, b) => b.priority - a.priority);
+  return scoredSuggestions.slice(0, 6).map((entry) => entry.suggestion);
 }
 
 /**
