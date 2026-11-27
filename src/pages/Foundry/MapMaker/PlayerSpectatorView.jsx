@@ -16,6 +16,7 @@ import { VttEventBus } from '../../../utils/vttEventBus';
 
 export const PlayerSpectatorView = () => {
   const isMobile = useIsMobile();
+  const blockMobileView = isMobile && (typeof window === 'undefined' ? true : window.innerWidth < 768);
   const { mapId } = useParams();
   const navigate = useNavigate();
   const { universeState, allMaps } = useCampaign();
@@ -36,7 +37,7 @@ export const PlayerSpectatorView = () => {
 
   // 1. Listen to Live sanitized Spectator Map document updates, with owner/local fallbacks
   useEffect(() => {
-    if (isMobile || !mapId) return;
+    if (blockMobileView || !mapId) return;
 
     let unsub = () => {};
 
@@ -91,7 +92,7 @@ export const PlayerSpectatorView = () => {
       unsub();
       window.removeEventListener('resize', handleResize);
     };
-  }, [isMobile, mapId, allMaps, universeState?.maps]);
+  }, [blockMobileView, mapId, allMaps, universeState?.maps]);
 
   // Listen to pushed handouts, live multiplayer tokens/doors/fog/pings
   useEffect(() => {
@@ -329,12 +330,12 @@ export const PlayerSpectatorView = () => {
   const lines = mapData?.lines || [];
   const gridMode = mapData?.gridMode || 'hex';
 
-  if (isMobile) {
+  if (blockMobileView) {
     return (
       <MobileTacticalBlocker
         operation="vtt"
         customTitle="Tactical Spectator Canvas"
-        customDescription="The Live VTT Spectator and Tactical Map Projector view is optimized for wide-format desktop displays and TV projections. It is currently unavailable on mobile screens."
+        customDescription="The Live VTT Spectator and Tactical Map Projector view is optimized for wide-format desktop displays and TV projections. It is currently unavailable on narrow mobile screens."
         onBack={() => navigate('/folio')}
       />
     );
@@ -451,7 +452,7 @@ export const PlayerSpectatorView = () => {
         </div>
       )}
 
-      {/* Optional Synchronized Animated Video Backdrop */}
+      {/* Optional Synchronized Animated Video Backdrop (Synced to Camera Pan & Zoom) */}
       {mapData.videoBackgroundUrl && (
         <video
           src={mapData.videoBackgroundUrl}
@@ -459,7 +460,14 @@ export const PlayerSpectatorView = () => {
           loop
           muted={isMuted}
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none"
+          aria-hidden="true"
+          className="absolute top-0 left-0 object-cover opacity-80 pointer-events-none"
+          style={{
+            width: `${spectatorWidth}px`,
+            height: `${spectatorHeight}px`,
+            transformOrigin: '0 0',
+            transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
+          }}
         />
       )}
 

@@ -667,6 +667,10 @@ const NON_STAGE3_TABS = new Set([
   'Mechanics: JSON',
   'Mechanics',
   'Tactical & Beats',
+  'Tactical & VTT',
+  'Tactical & Clocks',
+  'Epistemic & Analysis',
+  'Cloud DBM Links',
   'Lorebook & Triggers',
   'Dynamic Lorebook',
   'Guidance & Directives',
@@ -710,7 +714,7 @@ export function mergeNonDestructiveTraits(currentFields = {}, proposedFields = {
   const appliedKeys = [];
   const diffs = [];
 
-  const labelMap = new Map(schemaFields.map((f) => [f.key, f.label || f.key]));
+  const schemaMap = new Map(schemaFields.map((f) => [f.key, f]));
 
   for (const [key, rawProposed] of Object.entries(proposedFields || {})) {
     if (rawProposed === undefined || rawProposed === null) continue;
@@ -719,7 +723,9 @@ export function mergeNonDestructiveTraits(currentFields = {}, proposedFields = {
       : String(rawProposed).trim();
     if (!proposedStr) continue;
 
-    const existingVal = currentFields[key];
+    const fieldDef = schemaMap.get(key) || { key };
+    const resolvedExisting = resolveSchemaFieldValue(currentFields, fieldDef);
+    const existingVal = resolvedExisting !== '' ? resolvedExisting : currentFields[key];
     const existingStr = existingVal !== undefined && existingVal !== null
       ? String(existingVal).trim()
       : '';
@@ -730,7 +736,7 @@ export function mergeNonDestructiveTraits(currentFields = {}, proposedFields = {
     } else if (existingStr !== proposedStr) {
       diffs.push({
         key,
-        label: labelMap.get(key) || key,
+        label: fieldDef.label || key,
         currentValue: existingStr,
         proposedValue: proposedStr
       });
@@ -934,25 +940,25 @@ export function computeGuidedElementReadiness(draft = {}) {
   else if (webStatus === 'partial') score += 5;
 
   // Resonance & Railguard Scanning
-  const textCorpus = [
+  const rawCorpus = [
     title,
     cleanContent,
     ...Object.entries(fields)
       .filter(([k]) => k !== 'keywords' && k !== 'negative_keywords')
       .map(([, v]) => (typeof v === 'string' ? v : ''))
-  ]
-    .join(' ')
-    .toLowerCase();
+  ].join(' ');
 
   const positiveKw = parseChipKeywords(fields.keywords);
   const negativeKw = parseChipKeywords(fields.negative_keywords);
+  const matchesTermBoundary = (term) => {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const startB = /^\w/.test(term) ? '\\b' : '(?:^|[^A-Za-z0-9_])';
+    const endB = /\w$/.test(term) ? '\\b' : '(?=$|[^A-Za-z0-9_])';
+    return new RegExp(`${startB}${escaped}${endB}`, 'i').test(rawCorpus);
+  };
 
-  const resonantKeywords = positiveKw.filter(
-    (kw) => kw.length > 2 && textCorpus.includes(kw.toLowerCase())
-  );
-  const railguardConflicts = negativeKw.filter(
-    (nk) => nk.length > 2 && textCorpus.includes(nk.toLowerCase())
-  );
+  const resonantKeywords = positiveKw.filter((kw) => kw.length > 2 && matchesTermBoundary(kw));
+  const railguardConflicts = negativeKw.filter((nk) => nk.length > 2 && matchesTermBoundary(nk));
 
   const completedPillars = [];
   const suggestions = [];

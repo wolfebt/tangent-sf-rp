@@ -29,6 +29,7 @@ import { hydrateModuleIntoCampaign } from '../../../services/modulePackageServic
 import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
 import { useAdeStore } from '../store/adeStore';
 import CronicleDeltaBadge from '../../../components/StoryFoundry/Cronicle/CronicleDeltaBadge';
+import { sanitizeScenarioForOperator, stripGmSecretHtmlBlocks } from '../../../utils/gmSecretSanitizer';
 
 export default function FoundryModalHost({
   modals = {},
@@ -75,6 +76,7 @@ export default function FoundryModalHost({
   const { isAdmin: authIsAdmin = false } = useAuth() || {};
   const isAdmin = Boolean(propIsAdmin ?? authIsAdmin);
   const perspectiveMode = useAdeStore((s) => s.perspectiveMode);
+  const isOperatorMode = perspectiveMode === 'operator';
   const isCatalogOpen = Boolean(modals.catalog);
   const isPrintModalOpen = Boolean(modals.print);
   const isArtistHubOpen = Boolean(modals.artistHub);
@@ -139,33 +141,70 @@ export default function FoundryModalHost({
 
   return (
     <>
-      {isFloatingAimeOpen && (
-        <AIMEChatBox
-          onClose={() => setModal('floatingAime', false)}
-          activeNode={activeNode}
-          onInsertText={handleInsertFloatingAimeText}
-          contextData={{
-            universeState,
-            projectName: universeState?.projectName || 'Tangent Universe',
-            activeNode: activeNode
-              ? {
-                  id: activeNode.id,
-                  title: activeNode.title,
-                  type: activeNode.type,
-                  content: activeNode.content,
-                  fields: activeNode.fields
-                }
-              : null,
-            guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : '',
-            outline: universeState?.creativeState?.storyOutline || '',
-            sceneBeats: universeState?.creativeState?.sceneBeats || '',
-            draft: universeState?.creativeState?.storyDraft || '',
-            customCatalog: elementsCatalog || [],
-            scratchbook: generateScratchbookMarkdown(universeState, elementsCatalog),
-            cronicle: universeState?.cronicle || cronicle || null
-          }}
-        />
-      )}
+      {isFloatingAimeOpen && (() => {
+        const safeActiveNode = isOperatorMode && activeNode
+          ? sanitizeScenarioForOperator(activeNode)
+          : activeNode;
+        const safeCatalog = isOperatorMode
+          ? (elementsCatalog || []).filter((el) => el && !el.isHidden && !el.isGmOnly && el.fields?.playerVisible !== false)
+          : (elementsCatalog || []);
+        const rawCronicle = universeState?.cronicle || cronicle || null;
+        const safeCronicle = isOperatorMode && rawCronicle
+          ? {
+              ...rawCronicle,
+              gmNotes: undefined,
+              secrets: undefined,
+              gmSecrets: undefined,
+              architectNotes: undefined,
+              entries: Array.isArray(rawCronicle.entries)
+                ? rawCronicle.entries.filter((e) => e && !e.isHidden && !e.isGmOnly)
+                : rawCronicle.entries,
+              pendingDeltas: Array.isArray(rawCronicle.pendingDeltas)
+                ? rawCronicle.pendingDeltas.filter((d) => d && !d.isHidden && !d.isGmOnly)
+                : rawCronicle.pendingDeltas
+            }
+          : rawCronicle;
+        const safeUniverseForScratchbook = isOperatorMode && universeState
+          ? {
+              ...universeState,
+              scenarios: (universeState.scenarios || [])
+                .filter((s) => s && !s.isHidden && !s.isGmOnly)
+                .map(sanitizeScenarioForOperator)
+            }
+          : universeState;
+        const rawScratchbook = generateScratchbookMarkdown(safeUniverseForScratchbook, safeCatalog);
+        const safeScratchbook = isOperatorMode ? stripGmSecretHtmlBlocks(rawScratchbook) : rawScratchbook;
+
+        return (
+          <AIMEChatBox
+            onClose={() => setModal('floatingAime', false)}
+            activeNode={safeActiveNode}
+            onInsertText={handleInsertFloatingAimeText}
+            contextData={{
+              universeState: safeUniverseForScratchbook,
+              projectName: universeState?.projectName || 'Tangent Universe',
+              activeNode: safeActiveNode
+                ? {
+                    id: safeActiveNode.id,
+                    title: safeActiveNode.title,
+                    type: safeActiveNode.type,
+                    content: safeActiveNode.content,
+                    fields: safeActiveNode.fields
+                  }
+                : null,
+              guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : '',
+              outline: universeState?.creativeState?.storyOutline || '',
+              sceneBeats: universeState?.creativeState?.sceneBeats || '',
+              draft: universeState?.creativeState?.storyDraft || '',
+              customCatalog: safeCatalog,
+              scratchbook: safeScratchbook,
+              cronicle: safeCronicle,
+              operatorSafe: isOperatorMode,
+              excludeGmSecrets: isOperatorMode
+            }}
+          />
+        );
+      })()}
 
       {isEditElementModalOpen && (
         <EditElementModal

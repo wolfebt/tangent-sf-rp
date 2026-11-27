@@ -18,9 +18,19 @@ import {
   MapPin,
   ExternalLink
 } from 'lucide-react';
-import { ATMOSPHERIC_PRESETS } from '../PresetsAndScriptsDashboard';
+import { ATMOSPHERIC_PRESETS } from '../constants/atmosphericPresets.js';
 import { AudioService } from '../../../../services/audioService';
+import { proAudioMixerService } from '../../../../services/proAudioMixerService';
 import { VttEventBus } from '../../../../utils/vttEventBus';
+
+const AUDIO_PROFILE_MAP = {
+  vacuum_drone: { bus: 'ambient', cueId: 'nebula_drift' },
+  amber_klaxon: { bus: 'sfx', cueId: 'klaxon_alert' },
+  heavy_hissing_rain: { bus: 'ambient', cueId: 'acid_rain' },
+  city_hum_rain: { bus: 'ambient', cueId: 'bridge_hum' },
+  volcanic_rumble: { bus: 'music', cueId: 'combat_pulse' },
+  ion_static_crackle: { bus: 'sfx', cueId: 'plasma_discharge' }
+};
 
 export const AtmosphericsWorkbench = ({
   allMaps = [],
@@ -36,16 +46,40 @@ export const AtmosphericsWorkbench = ({
 
   const targetMap = allMaps.find(m => m.id === selectedMapId) || allMaps[0] || null;
 
+  const playPresetAudio = (preset) => {
+    const mapped = AUDIO_PROFILE_MAP[preset?.audioProfile] || { bus: 'ambient', cueId: 'bridge_hum' };
+    try {
+      void proAudioMixerService.playCue(mapped.bus, mapped.cueId, false);
+    } catch {
+      AudioService.startAmbientDrone?.();
+    }
+  };
+
+  const stopPresetAudio = () => {
+    try {
+      proAudioMixerService.stopBus('ambient', false);
+      proAudioMixerService.stopBus('music', false);
+      proAudioMixerService.stopBus('sfx', false);
+    } catch {
+      // Ignore mixer errors in headless environments
+    }
+    AudioService.stopAmbientDrone?.();
+  };
+
   const handleSelectPreset = (preset) => {
     AudioService.playTerminalBeep(1200, 0.03);
     setActivePreset(preset);
     setCustomTint(preset.tint);
     setCustomFog(preset.fogDensity);
+    if (isAudioPlaying) {
+      stopPresetAudio();
+      playPresetAudio(preset);
+    }
   };
 
   useEffect(() => {
     return () => {
-      AudioService.stopAmbientDrone();
+      stopPresetAudio();
     };
   }, []);
 
@@ -53,9 +87,9 @@ export const AtmosphericsWorkbench = ({
     const nextPlaying = !isAudioPlaying;
     AudioService.playTerminalBeep(isAudioPlaying ? 500 : 1100, 0.05);
     if (nextPlaying) {
-      AudioService.startAmbientDrone();
+      playPresetAudio(activePreset);
     } else {
-      AudioService.stopAmbientDrone();
+      stopPresetAudio();
     }
     setIsAudioPlaying(nextPlaying);
   };

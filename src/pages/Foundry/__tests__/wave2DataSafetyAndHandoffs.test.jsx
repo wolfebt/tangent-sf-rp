@@ -265,7 +265,13 @@ vi.mock('../../../services/ade/adeEngineBridge.ts', () => ({
     diceSummary: { formula: '2d10+4=16' },
     narrativeBounds: { prescribedOutcome: 'Yields telemetry' }
   })),
-  formatMandateForPrompt: vi.fn(() => '')
+  formatMandateForPrompt: vi.fn(() => ''),
+  validateUniverseRules: vi.fn(() => ({
+    score: 100,
+    summary: 'Ready',
+    issues: [],
+    metrics: {}
+  }))
 }));
 
 vi.mock('../../../services/lorebookScanner.ts', () => ({
@@ -553,7 +559,9 @@ describe('Wave 2 — Data Safety, Sync & Cross-Tool Handoffs', () => {
       elementsCatalog: [],
       updateSavedElement,
       saveEntry,
-      showToast: hoisted.showToastMock
+      showToast: hoisted.showToastMock,
+      fromEditModal: true,
+      isAdmin: true
     });
     expect(saveEntry).toHaveBeenCalledTimes(1);
     expect(unpinnedCortex.id).toMatch(/^cortex_.*_/);
@@ -574,7 +582,9 @@ describe('Wave 2 — Data Safety, Sync & Cross-Tool Handoffs', () => {
       elementsCatalog: [{ id: 'el_mod_gear_1', title: 'Mag-Rail Carbine' }],
       updateSavedElement,
       saveEntry,
-      showToast: hoisted.showToastMock
+      showToast: hoisted.showToastMock,
+      fromEditModal: true,
+      isAdmin: true
     });
     expect(pinnedCortex.id).toBe('el_mod_gear_1');
     expect(updateSavedElement).toHaveBeenCalledWith('el_mod_gear_1', expect.objectContaining({ id: 'el_mod_gear_1' }));

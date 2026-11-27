@@ -173,15 +173,13 @@ export const AssetSelectionCatalogRail = ({
 
         {/* Menu Footer Quick Actions */}
         <div className="pt-2 border-t border-slate-800/80 space-y-1">
-          {activeCategory === 'macros' && (
-            <button
-              type="button"
-              onClick={onCreateNewMacro}
-              className="w-full py-1.5 px-2 rounded-lg bg-fuchsia-950/80 hover:bg-fuchsia-900 border border-fuchsia-500/50 text-[10px] font-mono font-bold text-fuchsia-300 transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
-            >
-              <span>+ New Macro</span>
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={onCreateNewMacro}
+            className="w-full py-1.5 px-2 rounded-lg bg-fuchsia-950/80 hover:bg-fuchsia-900 border border-fuchsia-500/50 text-[10px] font-mono font-bold text-fuchsia-300 transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+          >
+            <span>+ New Macro</span>
+          </button>
 
           {onNavigateToForge && (
             <button

@@ -50,8 +50,10 @@ export default function BrainstormTab({ activeNode, updateStory, onInsertProse }
   const [topicPrompt, setTopicPrompt] = useState('');
   const [selectedFocus, setSelectedFocus] = useState('plot_twist');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [aiError, setAiError] = useState(null);
   const [generatedIdeas, setGeneratedIdeas] = useState([]);
   const [copiedId, setCopiedId] = useState(null);
+  const [insertedId, setInsertedId] = useState(null);
   const [addedElementId, setAddedElementId] = useState(null);
 
   // Story Focus Archetype options
@@ -196,6 +198,7 @@ export default function BrainstormTab({ activeNode, updateStory, onInsertProse }
   const handleGenerate = async () => {
     if (isStoryReadOnly) return;
     setIsGenerating(true);
+    setAiError(null);
     AudioService.playTerminalBeep(980, 0.03);
 
     const gemsContext = typeof getActiveGemsText === 'function' ? getActiveGemsText() : '';
@@ -238,41 +241,33 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
           const lines = sec.trim().split('\n');
           const titleLine = lines.find(l => l.toUpperCase().startsWith('TITLE:')) || lines[0] || `Idea #${idx + 1}`;
           const cleanTitle = titleLine.replace(/^TITLE:\s*/i, '').replace(/^[1-3]\.\s*/, '').trim();
+          const typeLine = lines.find(l => l.toUpperCase().startsWith('TYPE:'));
+          const parsedType = typeLine ? typeLine.replace(/^TYPE:\s*/i, '').trim() : '';
           return {
             id: uuidv4(),
             title: cleanTitle || `Concept ${idx + 1}`,
             body: sec.trim(),
-            scope
+            scope,
+            elementType: parsedType
           };
         });
         setGeneratedIdeas(parsed);
-      } else {
+      } else if (text && text.trim()) {
         setGeneratedIdeas([
           {
             id: uuidv4(),
             title: `${selectedFocus.replace('_', ' ').toUpperCase()} Concept`,
-            body: text || 'A compelling narrative surge unfolds as hidden loyalties fracture under pressure.',
+            body: text.trim(),
             scope
           }
         ]);
+      } else {
+        setAiError('AIME returned an empty response. Adjust your seed direction and retry.');
       }
       AudioService.playCriticalChime(false);
     } catch (err) {
-      console.warn('AI Brainstorm failed or offline, falling back to local heuristic synthesis:', err);
-      setGeneratedIdeas([
-        {
-          id: uuidv4(),
-          title: `Synthetic ${selectedFocus.replace('_', ' ').toUpperCase()} Hook`,
-          body: `TITLE: Classified Signal Infiltration\nSUMMARY: An encrypted telemetry burst from a forgotten orbital relay contradicts the primary scenario directive, forcing operators to decide between mission protocol and survival.\nPROSE: "The console flickered amber—not an error, but an overwrite code signed by someone who died ten cycles ago."`,
-          scope
-        },
-        {
-          id: uuidv4(),
-          title: `Secondary Complication`,
-          body: `TITLE: Environmental Quake Protocol\nSUMMARY: Subterranean conduit stabilizers fail during the breach, flooding the corridor with superheated coolant and limiting sensor visibility to 3 hexes.`,
-          scope
-        }
-      ]);
+      console.warn('AI Brainstorm failed:', err);
+      setAiError('AIME generation is currently unavailable. Check your connection or API settings and try again.');
     } finally {
       setIsGenerating(false);
     }
@@ -293,8 +288,8 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
     updateStory(activeNode.id, { content: newContent });
     if (triggerStorySave) triggerStorySave();
     AudioService.playCriticalChime(true);
-    setCopiedId(idea.id);
-    setTimeout(() => setCopiedId(null), 1800);
+    setInsertedId(idea.id);
+    setTimeout(() => setInsertedId(null), 1800);
   };
 
   const handleSaveAsElement = (idea) => {
@@ -312,7 +307,7 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
       beats: 'Scene'
     };
     const resolvedElementType = normalizeElementType(
-      focusTypeMap[selectedFocus] || (scope === 'elements' ? selectedFocus : 'Custom')
+      idea.elementType || focusTypeMap[selectedFocus] || (scope === 'elements' ? selectedFocus : 'Custom')
     );
     const newElement = {
       id: uuidv4(),
@@ -609,6 +604,19 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
             )}
           </div>
 
+          {aiError && (
+            <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-500/50 text-rose-200 text-xs flex items-center justify-between gap-2">
+              <span>{aiError}</span>
+              <button
+                type="button"
+                onClick={() => setAiError(null)}
+                className="text-rose-300 hover:text-white text-[10px] font-bold uppercase cursor-pointer shrink-0"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
           {generatedIdeas.length === 0 && !isGenerating && (
             <div className="p-8 text-center border border-dashed border-slate-800/80 rounded-2xl bg-slate-900/20 space-y-2">
               <Lightbulb size={28} className="mx-auto text-slate-700" />
@@ -650,7 +658,7 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
                     className="px-2.5 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 disabled:opacity-40 disabled:cursor-not-allowed border border-cyan-500/40 text-cyan-300 text-[10px] font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer transition-colors"
                     title={isStoryReadOnly ? 'Read-only story' : 'Append into active Story scenario'}
                   >
-                    {copiedId === idea.id ? <Check size={11} className="text-emerald-400" /> : <Plus size={11} />}
+                    {insertedId === idea.id ? <Check size={11} className="text-emerald-400" /> : <Plus size={11} />}
                     <span>Insert into Story</span>
                   </button>
 

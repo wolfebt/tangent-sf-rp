@@ -19,7 +19,7 @@ import {
   type LightAnimationType,
   type SceneLightSource
 } from '../../../engine/vision/LightSourceManager';
-import { type PaletteItem } from '../ArchitectDesignPalette';
+import { type PaletteItem } from '../designToolTypes';
 import { AudioService } from '../../../services/audioService';
 import { createTacticalPing } from '../../../services/mapPingService';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';

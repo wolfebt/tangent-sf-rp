@@ -365,22 +365,22 @@ export default function EditElementModalHeader({
                         setContent(nextContent);
                       }
                       const lintedFieldKeys = ['summary', 'oneLinePitch', 'description', 'mechanic', 'readAloud', 'cast_time', 'sceneBeats'];
+                      const base = fields || {};
+                      const patch = {};
                       let fieldsChanged = false;
-                      setFields((prev) => {
-                        const base = prev || {};
-                        const patch = {};
-                        for (const fk of lintedFieldKeys) {
-                          const rawVal = base[fk];
-                          if (typeof rawVal === 'string' && rawVal) {
-                            const fixedVal = applyAutoFix(rawVal, diag);
-                            if (fixedVal !== rawVal) {
-                              patch[fk] = fixedVal;
-                              fieldsChanged = true;
-                            }
+                      for (const fk of lintedFieldKeys) {
+                        const rawVal = base[fk];
+                        if (typeof rawVal === 'string' && rawVal) {
+                          const fixedVal = applyAutoFix(rawVal, diag);
+                          if (fixedVal !== rawVal) {
+                            patch[fk] = fixedVal;
+                            fieldsChanged = true;
                           }
                         }
-                        return fieldsChanged ? { ...base, ...patch } : base;
-                      });
+                      }
+                      if (fieldsChanged) {
+                        setFields({ ...base, ...patch });
+                      }
                       if (fields?.dbmRef && dbmSyncStatus === 'synced' && (contentChanged || fieldsChanged)) {
                         setDbmSyncStatus('local_override');
                       }

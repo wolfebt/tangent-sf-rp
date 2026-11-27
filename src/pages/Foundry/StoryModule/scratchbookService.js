@@ -6,6 +6,8 @@
  * OSR Control Panel scripts, threat matrices, interactive beats ledger, and manuscript prose.
  */
 
+import { stripGmSecretHtmlBlocks } from '../../../utils/gmSecretSanitizer';
+
 /**
  * Strips HTML tags for clean markdown representation
  */
@@ -48,19 +50,34 @@ const NARRATIVE_CONTAINER_TYPES = new Set([
   'Resolution'
 ]);
 
-const stripGmSecretBlocks = (html) => {
-  if (!html) return '';
-  return String(html).replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '');
+const stripGmSecretBlocks = (html) => stripGmSecretHtmlBlocks(html);
+
+const registerUsedElement = (elementsMap, match, sceneTitle) => {
+  if (!match) return;
+  const label = sceneTitle || 'Untitled Scenario';
+  if (!elementsMap.has(match.id)) {
+    elementsMap.set(match.id, {
+      ...match,
+      usedIn: [label]
+    });
+  } else {
+    const entry = elementsMap.get(match.id);
+    if (!entry.usedIn.includes(label)) {
+      entry.usedIn.push(label);
+    }
+  }
 };
 
 /**
- * Finds all elements used or referenced in the project
+ * Finds all elements used or referenced in the project (linked arrays + [[Wiki]] prose mentions)
  */
 export const findElementsUsed = (universeState, elementsCatalog = [], { operatorSafe = false } = {}) => {
   const elementsMap = new Map();
   const scenarios = universeState?.scenarios || [];
+  const isAllowed = (match) =>
+    Boolean(match && (!operatorSafe || (!match.isHidden && !match.isGmOnly && match.fields?.playerVisible !== false)));
 
-  // Register elements linked in scenarios (supports both linkedElements and assetHub)
+  // Register elements linked in scenarios (supports linkedElements, assetHub, and [[Wiki]] mentions)
   traverseNodes(scenarios, (node) => {
     if (operatorSafe && (node?.isHidden || node?.isGmOnly)) return;
     const rawLinked = [
@@ -73,18 +90,28 @@ export const findElementsUsed = (universeState, elementsCatalog = [], { operator
 
     for (const id of linkedIds) {
       const match = elementsCatalog.find(e => e.id === id);
-      if (match) {
-        if (operatorSafe && (match.isHidden || match.isGmOnly || match.fields?.playerVisible === false)) continue;
-        if (!elementsMap.has(id)) {
-          elementsMap.set(id, {
-            ...match,
-            usedIn: [node.title || 'Untitled Scenario']
-          });
-        } else {
-          const entry = elementsMap.get(id);
-          if (!entry.usedIn.includes(node.title)) {
-            entry.usedIn.push(node.title || 'Untitled Scenario');
-          }
+      if (isAllowed(match)) {
+        registerUsedElement(elementsMap, match, node.title);
+      }
+    }
+
+    // Scan narrative content & read-aloud for [[Element Title]] Wiki mentions
+    const rawProse = [
+      operatorSafe ? stripGmSecretBlocks(node.content) : (node.content || ''),
+      node.fields?.readAloud || ''
+    ].join('\n');
+    const plainProse = stripHtml(rawProse);
+    if (plainProse) {
+      const wikiRe = /\[\[([^\]]+)\]\]/g;
+      let m;
+      while ((m = wikiRe.exec(plainProse)) !== null) {
+        const mention = m[1].trim().toLowerCase();
+        if (!mention) continue;
+        const match = elementsCatalog.find(
+          e => (e.title || e.name || '').trim().toLowerCase() === mention || e.id === m[1].trim()
+        );
+        if (isAllowed(match)) {
+          registerUsedElement(elementsMap, match, node.title);
         }
       }
     }
@@ -128,10 +155,12 @@ export const generateStoryScratchbook = ({
 
   const elementsUsed = findElementsUsed(universeState, elementsCatalog, { operatorSafe });
 
-  // Compute total word count
+  // Compute total word count (skipping hidden nodes & GM-secret blocks in operatorSafe mode)
   let totalWords = 0;
   traverseNodes(scenarios, (node) => {
-    const plain = stripHtml(node.content);
+    if (operatorSafe && (node?.isHidden || node?.isGmOnly)) return;
+    const raw = operatorSafe ? stripGmSecretBlocks(node.content) : node.content;
+    const plain = stripHtml(raw);
     if (plain) {
       totalWords += plain.split(/\s+/).filter(Boolean).length;
     }
@@ -155,7 +184,8 @@ export const generateStoryScratchbook = ({
 
   if (creativeState?.storyOutline) {
     md += `### High-Level Story Outline\n\n`;
-    md += stripHtml(creativeState.storyOutline) + '\n\n';
+    const outlineRaw = operatorSafe ? stripGmSecretBlocks(creativeState.storyOutline) : creativeState.storyOutline;
+    md += stripHtml(outlineRaw) + '\n\n';
   }
 
   md += `---\n\n`;
@@ -284,12 +314,21 @@ export const generateStoryScratchbook = ({
 /**
  * Convenient wrapper accepting positional arguments
  */
-export const generateScratchbookMarkdown = (universeState, elementsCatalog = [], customNotes = '', beatsLedger = []) => {
+export const generateScratchbookMarkdown = (
+  universeState,
+  elementsCatalog = [],
+  customNotes = '',
+  beatsLedger = [],
+  mapsCatalog = [],
+  options = {}
+) => {
   return generateStoryScratchbook({
     universeState,
     elementsCatalog,
+    mapsCatalog,
     customNotes,
-    beatsLedger
+    beatsLedger,
+    operatorSafe: Boolean(options?.operatorSafe)
   });
 };
 

@@ -105,6 +105,7 @@ export default function Stage1SparkAndCanon({
   const [dbmSearch, setDbmSearch] = useState('');
   const dumpRequestIdRef = useRef(0);
   const dumpAbortRef = useRef(null);
+  const pendingDbmSeedRef = useRef(null);
 
   useEffect(() => {
     return () => {
@@ -274,10 +275,11 @@ export default function Stage1SparkAndCanon({
     const projected = projectOmnicortexRecordToAdeElement(item, item.dbmCategory);
     const projectedType = projected?.type;
     if (projectedType && projectedType !== type) {
+      pendingDbmSeedRef.current = { item, targetType: projectedType };
       onRequestTypeChange?.(projectedType, { silent: false });
       showToast({
         type: 'info',
-        text: `Canonical record "${item.displayTitle}" belongs to ${projectedType}. Confirm type change or pick a ${type} entry.`
+        text: `Canonical record "${item.displayTitle}" belongs to ${projectedType}. Confirm type change to apply.`
       });
       return;
     }
@@ -344,6 +346,14 @@ export default function Stage1SparkAndCanon({
     onMergeFields?.({ dbmRef: '', dbmId: '', dbmCategory: '' });
     onSetDbmSyncStatus?.('standalone');
   };
+
+  useEffect(() => {
+    const pending = pendingDbmSeedRef.current;
+    if (pending && type === pending.targetType) {
+      pendingDbmSeedRef.current = null;
+      handleSeedFromDbmItem(pending.item);
+    }
+  }, [type]);
 
   return (
     <div className="space-y-5">

@@ -15,6 +15,7 @@ import { UniversalVttPackager } from '../../../../engine/compilers/UniversalVttP
 import { FoundryVttJsonExporterService } from '../../../../engine/compilers/FoundryVttJsonExporter';
 import { exportMapWithWorker } from '../../../../services/mapWorkerExportService';
 import { expandWallsForGeometry } from '../../../../schemas/vttWallSchema.js';
+import { showToast } from '../../../../context/ToastContext';
 
 export interface VttExportTabProps {
   currentMap: any;
@@ -116,51 +117,79 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
     : 0;
 
   const handleDownloadUvtt = async () => {
-    const rawThumb = currentMap?.thumbnail || '';
-    const thumbBase64Idx = rawThumb.indexOf('base64,');
-    let base64Image = '';
-    if (rawThumb) {
-      base64Image = thumbBase64Idx !== -1 ? rawThumb.slice(thumbBase64Idx + 'base64,'.length) : rawThumb;
-    } else {
-      const workerRes = await exportMapWithWorker({
+    setIsWorkerExporting(true);
+    try {
+      let base64Image = '';
+      try {
+        const workerRes = await exportMapWithWorker({
+          widthCells: mapWidthCells,
+          heightCells: mapHeightCells,
+          pixelsPerGrid,
+          sourceGridSize,
+          enableWallShadows: currentMap?.enableWallShadows !== false,
+          terrains: currentMap?.terrains || [],
+          underlays: (Array.isArray(currentMap?.underlays) && currentMap.underlays.length > 0)
+            ? currentMap.underlays
+            : (currentMap?.underlay ? [currentMap.underlay] : []),
+          objects: currentMap?.objects || [],
+          tokens: currentMap?.tokens || [],
+          texts: currentMap?.texts || [],
+          walls: currentMap?.walls || [],
+          lights: currentMap?.lights || [],
+          format: 'image/webp',
+          quality: 0.85
+        });
+        const marker = 'base64,';
+        const idx = workerRes?.dataUrl?.indexOf(marker) ?? -1;
+        if (idx !== -1) {
+          base64Image = workerRes.dataUrl.slice(idx + marker.length);
+        } else if (workerRes?.dataUrl) {
+          base64Image = workerRes.dataUrl;
+        }
+      } catch (workerErr) {
+        const rawThumb = currentMap?.thumbnail || '';
+        const thumbBase64Idx = rawThumb.indexOf('base64,');
+        if (rawThumb) {
+          base64Image = thumbBase64Idx !== -1 ? rawThumb.slice(thumbBase64Idx + 'base64,'.length) : rawThumb;
+        } else {
+          throw workerErr;
+        }
+      }
+
+      if (!base64Image && currentMap?.thumbnail) {
+        const rawThumb = currentMap.thumbnail;
+        const thumbBase64Idx = rawThumb.indexOf('base64,');
+        base64Image = thumbBase64Idx !== -1 ? rawThumb.slice(thumbBase64Idx + 'base64,'.length) : rawThumb;
+      }
+
+      const result = UniversalVttPackager.package({
         widthCells: mapWidthCells,
         heightCells: mapHeightCells,
         pixelsPerGrid,
-        sourceGridSize,
-        terrains: currentMap?.terrains || [],
-        underlays: (Array.isArray(currentMap?.underlays) && currentMap.underlays.length > 0)
-          ? currentMap.underlays
-          : (currentMap?.underlay ? [currentMap.underlay] : []),
-        walls: currentMap?.walls || [],
-        lights: currentMap?.lights || [],
-        format: 'image/webp',
-        quality: 0.85
+        base64Image,
+        walls: rawWalls,
+        portals,
+        lights
       });
-      const marker = 'base64,';
-      const idx = workerRes.dataUrl.indexOf(marker);
-      base64Image = idx !== -1 ? workerRes.dataUrl.slice(idx + marker.length) : workerRes.dataUrl;
+
+      const blob = new Blob([result.jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${(currentMap?.title || 'tactical-map').toLowerCase().replace(/[^a-z0-9-_]+/g, '-')}.dd2vtt`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      setDownloadSuccess('Universal VTT (.dd2vtt) file downloaded successfully!');
+      setTimeout(() => setDownloadSuccess(null), 3000);
+    } catch (err: any) {
+      showToast({
+        type: 'error',
+        text: `Universal VTT export failed: ${err?.message || 'Unable to render map canvas'}`
+      });
+    } finally {
+      setIsWorkerExporting(false);
     }
-
-    const result = UniversalVttPackager.package({
-      widthCells: mapWidthCells,
-      heightCells: mapHeightCells,
-      pixelsPerGrid,
-      base64Image,
-      walls: rawWalls,
-      portals,
-      lights
-    });
-
-    const blob = new Blob([result.jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${(currentMap?.title || 'tactical-map').toLowerCase().replace(/[^a-z0-9-_]+/g, '-')}.dd2vtt`;
-    a.click();
-    URL.revokeObjectURL(url);
-
-    setDownloadSuccess('Universal VTT (.dd2vtt) file downloaded successfully!');
-    setTimeout(() => setDownloadSuccess(null), 3000);
   };
 
   const handleDownloadFoundryJson = () => {
@@ -217,6 +246,11 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
           : '4K PNG Snapshot exported cleanly (fallback compiler).'
       );
       setTimeout(() => setDownloadSuccess(null), 3500);
+    } catch (err: any) {
+      showToast({
+        type: 'error',
+        text: `4K snapshot export failed: ${err?.message || 'Unable to render high-res snapshot'}`
+      });
     } finally {
       setIsWorkerExporting(false);
     }

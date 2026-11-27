@@ -20,7 +20,7 @@ export const CATALOG_CATEGORIES = [
   { id: 'maps', label: 'Maps & Sectors', icon: '🗺️', countKey: 'maps' },
   { id: 'encounters', label: 'Encounters', icon: '⚔️', countKey: 'encounters' },
   { id: 'items', label: 'Items & Tech', icon: '📦', countKey: 'items' },
-  { id: 'macros', label: 'QuickJS Macros', icon: '📜', countKey: 'macros' }
+  { id: 'macros', label: 'Stage JS Macros', icon: '📜', countKey: 'macros' }
 ];
 
 /**
@@ -153,6 +153,12 @@ export function aggregateModuleAssets({
   // Also include Hazard elements from elementsCatalog
   elementsCatalog.forEach(elem => {
     if (elem.type === 'Hazard' || elem.fields?.isTrap) {
+      const hasHazardConfig = Boolean(
+        elem.fields?.trapType ||
+        elem.fields?.saveCr ||
+        elem.fields?.macroScript ||
+        elem.fields?.isTrap
+      );
       assets.push({
         id: elem.id,
         rawId: elem.id,
@@ -162,9 +168,11 @@ export function aggregateModuleAssets({
         role: elem.fields?.trapType || 'hazard',
         tier: null,
         description: elem.content || elem.fields?.description || 'Environmental hazard emitter.',
-        isScripted: true,
+        isScripted: hasHazardConfig,
         scriptType: elem.fields?.trapType || 'proximity_plasma_mine',
-        scriptSummary: `${elem.fields?.trapType || 'Hazard'} (DC ${elem.fields?.saveCr || 14})`,
+        scriptSummary: hasHazardConfig
+          ? `${elem.fields?.trapType || 'Hazard'} (DC ${elem.fields?.saveCr || 14})`
+          : 'Unconfigured Hazard',
         scriptData: elem.fields,
         source: 'elementsCatalog',
         raw: elem,
@@ -269,10 +277,10 @@ export function aggregateModuleAssets({
       catalogCategory: 'macros',
       role: macro.category || 'Game Logic',
       tier: null,
-      description: macro.description || 'Isolated WebAssembly QuickJS executable routine.',
+      description: macro.description || 'Isolated Worker JS executable routine.',
       isScripted: true,
-      scriptType: 'quickjs_sandbox',
-      scriptSummary: 'Executable QuickJS',
+      scriptType: 'worker_js_sandbox',
+      scriptSummary: 'Isolated JS Macro',
       scriptData: macro,
       source: 'scripts',
       raw: macro

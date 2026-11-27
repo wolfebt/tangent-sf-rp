@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { produce } from 'immer';
 import { getTextureUrlFromColor } from '../map/MapTextures';
 import { createWallSegment, WALL_TYPES } from '../../../../schemas/vttWallSchema.js';
 import { getHexCellAtPoint, snapPointToGrid } from '../map/gridGeometry';
@@ -57,6 +56,7 @@ export const useMapCanvasEvents = ({
   terrains,
   walls = [],
   fog,
+  fogBrushMode = 'paint',
   objects,
   tokens,
   texts,
@@ -114,6 +114,9 @@ export const useMapCanvasEvents = ({
   const [wallPreviewEnd, setWallPreviewEnd] = useState(null);
   const lastDrawPointRef = useRef(null);
   const paintedHexKeysRef = useRef(new Set());
+  const activeStrokeRef = useRef(null);
+  const commitBufferedStrokeRef = useRef(null);
+  const [activeStrokePreview, setActiveStrokePreview] = useState(null);
   const [rulerWaypoints, setRulerWaypoints] = useState([]);
   const [rulerPointer, setRulerPointer] = useState(null);
   const [chunkPointerPos, setChunkPointerPos] = useState(null);
@@ -148,9 +151,54 @@ export const useMapCanvasEvents = ({
     return { clientX, clientY, button, buttons, deltaY, shiftKey, ctrlKey, preventDefault, stage, pointerPos, worldPos };
   };
 
+  commitBufferedStrokeRef.current = () => {
+    const stroke = activeStrokeRef.current;
+    if (!stroke) return;
+    activeStrokeRef.current = null;
+    setActiveStrokePreview(null);
+
+    if (stroke.kind === 'fog-reveal') {
+      const revealPts = stroke.points || [];
+      if (revealPts.length < 2) return;
+      const hitRadiusSq = 45 * 45;
+      updateMap(activeMapId, (prevMap) => {
+        const currentFog = Array.isArray(prevMap?.fog) ? prevMap.fog : (latestRef.current.fog || []);
+        const remaining = currentFog.filter((f) => {
+          const fPts = Array.isArray(f?.points) ? f.points : [];
+          for (let i = 0; i < fPts.length - 1; i += 2) {
+            const fx = fPts[i];
+            const fy = fPts[i + 1];
+            for (let j = 0; j < revealPts.length - 1; j += 2) {
+              const dx = fx - revealPts[j];
+              const dy = fy - revealPts[j + 1];
+              if (dx * dx + dy * dy <= hitRadiusSq) {
+                return false;
+              }
+            }
+          }
+          return true;
+        });
+        return { fog: remaining };
+      });
+      return;
+    }
+
+    const fieldKey = stroke.fieldKey;
+    const { kind: _k, fieldKey: _fk, ...entity } = stroke;
+    updateMap(activeMapId, (prevMap) => ({
+      [fieldKey]: [
+        ...(Array.isArray(prevMap?.[fieldKey]) ? prevMap[fieldKey] : (latestRef.current[fieldKey] || [])),
+        entity
+      ]
+    }));
+  };
+
   // Global safety listener to release panning/drawing if mouse leaves canvas or context menu opens
   useEffect(() => {
     const handleGlobalRelease = () => {
+      commitBufferedStrokeRef.current?.();
+      lastDrawPointRef.current = null;
+      paintedHexKeysRef.current.clear();
       setIsPanning(false);
       setIsDrawing(false);
     };
@@ -286,7 +334,16 @@ export const useMapCanvasEvents = ({
       } else if (activeTool === 'pencil') {
         setIsDrawing(true);
         lastDrawPointRef.current = rawPos;
-        updateMap(activeMapId, { lines: [...lines, { id: uuidv4(), color: pencilColor, strokeWidth: pencilWidth, points: [rawPos.x, rawPos.y] }] });
+        const draftStroke = {
+          kind: 'line',
+          fieldKey: 'lines',
+          id: uuidv4(),
+          color: pencilColor,
+          strokeWidth: pencilWidth,
+          points: [rawPos.x, rawPos.y]
+        };
+        activeStrokeRef.current = draftStroke;
+        setActiveStrokePreview(draftStroke);
       } else if (activeTool === 'terrain') {
         setIsDrawing(true);
         const safeColor = selectedTerrain?.color || '#15803d';
@@ -324,24 +381,45 @@ export const useMapCanvasEvents = ({
           });
         } else {
           lastDrawPointRef.current = rawPos;
-          updateMap(activeMapId, {
-            terrains: [...terrains, {
-              id: uuidv4(),
-              color: safeColor,
-              strokeWidth: terrainWidth || selectedTerrain?.strokeWidth || 30,
-              points: [rawPos.x, rawPos.y],
-              terrainTypeId: safeId,
-              label: safeLabel,
-              textureUrl: safeTex,
-              softEdge: Boolean(softTerrainEdge),
-              isRoofLayer: Boolean(paintRoofLayer)
-            }]
-          });
+          const draftTerrainStroke = {
+            kind: 'terrain',
+            fieldKey: 'terrains',
+            id: uuidv4(),
+            color: safeColor,
+            strokeWidth: terrainWidth || selectedTerrain?.strokeWidth || 30,
+            points: [rawPos.x, rawPos.y],
+            terrainTypeId: safeId,
+            label: safeLabel,
+            textureUrl: safeTex,
+            softEdge: Boolean(softTerrainEdge),
+            isRoofLayer: Boolean(paintRoofLayer)
+          };
+          activeStrokeRef.current = draftTerrainStroke;
+          setActiveStrokePreview(draftTerrainStroke);
         }
       } else if (activeTool === 'fog') {
         setIsDrawing(true);
         lastDrawPointRef.current = rawPos;
-        updateMap(activeMapId, { fog: [...fog, { id: uuidv4(), points: [rawPos.x, rawPos.y] }] });
+        const draftFogStroke =
+          fogBrushMode === 'reveal'
+            ? {
+                kind: 'fog-reveal',
+                fieldKey: 'fog',
+                id: 'fog_reveal_preview',
+                color: '#22d3ee',
+                strokeWidth: 50,
+                points: [rawPos.x, rawPos.y]
+              }
+            : {
+                kind: 'fog',
+                fieldKey: 'fog',
+                id: uuidv4(),
+                color: '#000000',
+                strokeWidth: 50,
+                points: [rawPos.x, rawPos.y]
+              };
+        activeStrokeRef.current = draftFogStroke;
+        setActiveStrokePreview(draftFogStroke);
       } else if (activeTool === 'hazard') {
         const hazardObj = {
           id: uuidv4(),
@@ -484,7 +562,7 @@ export const useMapCanvasEvents = ({
               ]
             };
           });
-        } else if (activeTool === 'pencil' || activeTool === 'terrain' || activeTool === 'fog') {
+        } else if ((activeTool === 'pencil' || activeTool === 'terrain' || activeTool === 'fog') && activeStrokeRef.current) {
           const prevPt = lastDrawPointRef.current;
           if (prevPt) {
             const dx = point.x - prevPt.x;
@@ -492,18 +570,10 @@ export const useMapCanvasEvents = ({
             if ((dx * dx + dy * dy) < 4) return;
           }
           lastDrawPointRef.current = point;
-
-          const fieldKey = activeTool === 'pencil' ? 'lines' : (activeTool === 'terrain' ? 'terrains' : 'fog');
-          updateMap(activeMapId, (prevMap) => {
-            const prevList = Array.isArray(prevMap?.[fieldKey]) ? prevMap[fieldKey] : [];
-            if (prevList.length === 0) return prevMap;
-            const nextList = produce(prevList, draft => {
-              const lastStroke = draft[draft.length - 1];
-              if (lastStroke && Array.isArray(lastStroke.points)) {
-                lastStroke.points.push(point.x, point.y);
-              }
-            });
-            return { [fieldKey]: nextList };
+          activeStrokeRef.current.points.push(point.x, point.y);
+          setActiveStrokePreview({
+            ...activeStrokeRef.current,
+            points: [...activeStrokeRef.current.points]
           });
         }
       }
@@ -511,6 +581,7 @@ export const useMapCanvasEvents = ({
   };
 
   const handleMouseUp = () => {
+    commitBufferedStrokeRef.current?.();
     lastDrawPointRef.current = null;
     paintedHexKeysRef.current.clear();
     if (isPanning) setIsPanning(false);
@@ -566,6 +637,7 @@ export const useMapCanvasEvents = ({
     scale, setScale,
     position, setPosition,
     isDrawing,
+    activeStrokePreview,
     handleWheel,
     handleMouseDown,
     handleMouseMove,

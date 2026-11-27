@@ -167,7 +167,7 @@ export async function persistAdeElement({
       ? Boolean(allowOmnicortexMutation)
       : hasGateFlags
       ? Boolean(fromEditModal && isAdmin)
-      : true;
+      : false;
 
   if (targetCortexCollection) {
     if (!canMutateOmnicortex) {

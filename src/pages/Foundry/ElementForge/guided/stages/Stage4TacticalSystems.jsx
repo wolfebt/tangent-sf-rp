@@ -187,6 +187,7 @@ export default function Stage4TacticalSystems({
                     key={phys}
                     type="button"
                     onClick={() => {
+                      const structVal = Math.max(60, Number(fields.structurePoints || fields.structure || 60));
                       const nextPatch =
                         phys === 'Synthetic'
                           ? {
@@ -194,9 +195,9 @@ export default function Stage4TacticalSystems({
                               isSynthetic: true,
                               is_synthetic: true,
                               vitality: '0',
-                              health: '0',
-                              structure: String(Math.max(60, Number(fields.structure || 60))),
-                              structurePoints: String(Math.max(60, Number(fields.structurePoints || fields.structure || 60)))
+                              health: String(structVal),
+                              structure: String(structVal),
+                              structurePoints: String(structVal)
                             }
                           : {
                               physiology: 'Organic',

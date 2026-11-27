@@ -135,7 +135,9 @@ export function ArchitectLayersPanel({
 
 export function ArchitectEnvironmentPanel({
   onApplyEnv,
-  onBatchAction
+  onBatchAction,
+  activeSensorMode = 'standard_optical',
+  setActiveSensorMode
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -148,6 +150,26 @@ export function ArchitectEnvironmentPanel({
           ARCHITECT DECK
         </span>
       </div>
+
+      {/* Tactical Sensor Spectrum Mode */}
+      {setActiveSensorMode && (
+        <div className="flex flex-col gap-1 bg-slate-950/80 border border-slate-800 rounded-lg p-2">
+          <label className="text-[9px] uppercase font-bold text-cyan-300 tracking-wider">
+            Tactical Sensor Spectrum:
+          </label>
+          <select
+            aria-label="Sensor Spectrum Mode"
+            value={activeSensorMode}
+            onChange={(e) => setActiveSensorMode(e.target.value)}
+            className="w-full bg-slate-900 border border-slate-700 text-cyan-200 text-xs rounded p-1.5 font-mono outline-none focus:border-cyan-400"
+          >
+            <option value="standard_optical">Standard Optical</option>
+            <option value="thermal_ir">Thermal Infrared (IR)</option>
+            <option value="cyber_em">Cyber EM / Net-Ping</option>
+            <option value="metaphysical_aura">Metaphysical Aura</option>
+          </select>
+        </div>
+      )}
 
       {/* Environmental Presets */}
       <div className="flex flex-col gap-1.5">

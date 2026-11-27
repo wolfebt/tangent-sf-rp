@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AudioService } from '../../../services/audioService';
-import type { ArchitectDesignTool } from '../ArchitectDesignPalette';
+import type { ArchitectDesignTool } from '../designToolTypes';
 
 export interface UseStageHotkeysProps {
   selectedAssetIds: string[];

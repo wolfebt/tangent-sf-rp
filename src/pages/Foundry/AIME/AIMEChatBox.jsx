@@ -6,6 +6,36 @@ import { streamChatContent, parseRollCommand, formatCronicleContextForAIME } fro
 import { useStory } from '../../../context/CampaignContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { useAdeStore } from '../store/adeStore';
+import { stripGmSecretHtmlBlocks, sanitizeScenarioForOperator } from '../../../utils/gmSecretSanitizer';
+
+function sanitizeCronicleForOperator(c) {
+  if (!c || typeof c !== 'object') return c;
+  const sanitizedLocations = Array.isArray(c.locations)
+    ? c.locations.map((loc) => ({ ...loc, gmNotes: '', secrets: '', tactical_gm_notes: '' }))
+    : Object.fromEntries(
+        Object.entries(c.locations || {}).map(([k, loc]) => [
+          k,
+          loc && typeof loc === 'object' ? { ...loc, gmNotes: '', secrets: '', tactical_gm_notes: '' } : loc
+        ])
+      );
+  const sanitizedPersonas = Object.fromEntries(
+    Object.entries(c.personas || {}).filter(([, p]) => p && !p.isHidden && !p.isGmOnly)
+  );
+  const sanitizedTimeline = Array.isArray(c.timeline)
+    ? c.timeline.filter((evt) => evt && !evt.isHidden && !evt.isGmOnly)
+    : [];
+  return {
+    ...c,
+    ephemeralNotes: '',
+    gmNotes: '',
+    workingMemory: c.workingMemory
+      ? { ...c.workingMemory, ephemeralNotes: '', gmNotes: '' }
+      : c.workingMemory,
+    locations: sanitizedLocations,
+    personas: sanitizedPersonas,
+    timeline: sanitizedTimeline
+  };
+}
 
 const QUICK_ACTIONS = [
   { label: '💡 Brainstorm Hook', prompt: 'Brainstorm 3 compelling narrative hooks or dramatic conflicts for this story context.' },
@@ -75,22 +105,11 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
   const effectiveContext = React.useMemo(() => {
     if (contextData) {
       if (typeof contextData === 'string') {
-        let text = isOperatorSafe
-          ? String(contextData).replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '')
-          : contextData;
+        let text = isOperatorSafe ? stripGmSecretHtmlBlocks(contextData) : contextData;
         if (activeCronicle) {
           try {
-            const safeCronicle = isOperatorSafe
-              ? {
-                  ...activeCronicle,
-                  ephemeralNotes: '',
-                  gmNotes: '',
-                  locations: Array.isArray(activeCronicle.locations)
-                    ? activeCronicle.locations.map((loc) => ({ ...loc, gmNotes: '', secrets: '' }))
-                    : []
-                }
-              : activeCronicle;
-            const cronicleText = formatCronicleContextForAIME(safeCronicle, 2500);
+            const safeCronicle = isOperatorSafe ? sanitizeCronicleForOperator(activeCronicle) : activeCronicle;
+            const cronicleText = formatCronicleContextForAIME(safeCronicle, { maxTokens: 2500, operatorSafe: isOperatorSafe });
             if (cronicleText) {
               text = `${text}\n\n${cronicleText}`;
             }
@@ -100,39 +119,72 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
         }
         return text;
       }
+
+      const rawObjCronicle = contextData.cronicle || activeCronicle;
+      const safeObjCronicle = isOperatorSafe ? sanitizeCronicleForOperator(rawObjCronicle) : rawObjCronicle;
+      const isVisibleElement = (el) => el && (!isOperatorSafe || (!el.isHidden && !el.isGmOnly && el.fields?.playerVisible !== false));
+
       return {
         ...contextData,
-        cronicle: contextData.cronicle || activeCronicle,
-        customCatalog: filteredCatalog,
+        ...(contextData.activeNode
+          ? { activeNode: isOperatorSafe ? sanitizeScenarioForOperator(contextData.activeNode) : contextData.activeNode }
+          : {}),
+        ...(typeof contextData.content === 'string'
+          ? { content: isOperatorSafe ? stripGmSecretHtmlBlocks(contextData.content) : contextData.content }
+          : {}),
+        ...(typeof contextData.outline === 'string'
+          ? { outline: isOperatorSafe ? stripGmSecretHtmlBlocks(contextData.outline) : contextData.outline }
+          : {}),
+        ...(typeof contextData.sceneBeats === 'string'
+          ? { sceneBeats: isOperatorSafe ? stripGmSecretHtmlBlocks(contextData.sceneBeats) : contextData.sceneBeats }
+          : {}),
+        ...(typeof contextData.draft === 'string'
+          ? { draft: isOperatorSafe ? stripGmSecretHtmlBlocks(contextData.draft) : contextData.draft }
+          : {}),
+        ...(Array.isArray(contextData.linkedContextElements)
+          ? { linkedContextElements: contextData.linkedContextElements.filter(isVisibleElement) }
+          : {}),
+        ...(Array.isArray(contextData.assetHub)
+          ? { assetHub: contextData.assetHub.filter(isVisibleElement) }
+          : {}),
+        cronicle: safeObjCronicle,
+        customCatalog: Array.isArray(contextData.customCatalog)
+          ? contextData.customCatalog.filter(isVisibleElement)
+          : filteredCatalog,
         operatorSafe: isOperatorSafe,
         excludeGmSecrets: isOperatorSafe,
         perspectiveMode
       };
     }
-    const sanitizedNodeContent = activeNode?.content
-      ? (isOperatorSafe
-          ? String(activeNode.content).replace(/<[^>]+class=["'][^"']*ade-gm-secret[^"']*["'][^>]*>[\s\S]*?<\/[a-z0-9]+>/gi, '')
-          : activeNode.content)
-      : '';
+    const safeNode = activeNode ? (isOperatorSafe ? sanitizeScenarioForOperator(activeNode) : activeNode) : null;
     return {
       projectName,
-      activeNode: activeNode ? {
-        id: activeNode.id,
-        title: activeNode.title,
-        type: activeNode.type,
-        content: sanitizedNodeContent,
-        fields: activeNode.fields,
-        linkedElements: activeNode.linkedElements || [],
-        assetHub: activeNode.assetHub || []
+      activeNode: safeNode ? {
+        id: safeNode.id,
+        title: safeNode.title,
+        type: safeNode.type,
+        content: safeNode.content || '',
+        fields: safeNode.fields,
+        linkedElements: safeNode.linkedElements || [],
+        assetHub: safeNode.assetHub || []
       } : null,
       guidanceGems: guidanceGemsText || 'Standard',
-      outline: universeState?.creativeState?.storyOutline || '',
-      sceneBeats: universeState?.creativeState?.sceneBeats || '',
-      draft: universeState?.creativeState?.storyDraft || '',
+      outline: isOperatorSafe
+        ? stripGmSecretHtmlBlocks(universeState?.creativeState?.storyOutline || '')
+        : (universeState?.creativeState?.storyOutline || ''),
+      sceneBeats: isOperatorSafe
+        ? stripGmSecretHtmlBlocks(universeState?.creativeState?.sceneBeats || '')
+        : (universeState?.creativeState?.sceneBeats || ''),
+      draft: isOperatorSafe
+        ? stripGmSecretHtmlBlocks(universeState?.creativeState?.storyDraft || '')
+        : (universeState?.creativeState?.storyDraft || ''),
       customCatalog: filteredCatalog,
-      cronicle: activeCronicle
+      cronicle: isOperatorSafe ? sanitizeCronicleForOperator(activeCronicle) : activeCronicle,
+      operatorSafe: isOperatorSafe,
+      excludeGmSecrets: isOperatorSafe,
+      perspectiveMode
     };
-  }, [contextData, projectName, activeNode, guidanceGemsText, universeState, filteredCatalog, activeCronicle, isOperatorSafe]);
+  }, [contextData, projectName, activeNode, guidanceGemsText, universeState, filteredCatalog, activeCronicle, isOperatorSafe, perspectiveMode]);
 
   const projectScopeId = contextData?.universeState?.id || universeState?.id || 'default';
   const storageKey = `tangent_aime_chat_history_v1_${projectScopeId}`;

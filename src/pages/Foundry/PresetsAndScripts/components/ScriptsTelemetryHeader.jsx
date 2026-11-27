@@ -119,7 +119,7 @@ export const ScriptsTelemetryHeader = ({
             }`}
           >
             <Code size={13} />
-            <span>QuickJS Sandbox</span>
+            <span>JS Macro Sandbox</span>
           </button>
 
           <button

@@ -9,11 +9,16 @@ import {
 } from 'lucide-react';
 import { ChunkToolDrawerContent } from '../ChunkToolDrawerContent';
 import { VttEventBus } from '../../../../../utils/vttEventBus';
-import { PENCIL_COLORS, PENCIL_WIDTHS, TEXT_COLORS } from '../MapConstants';
+import { MAP_TYPES, PENCIL_COLORS, PENCIL_WIDTHS, TEXT_COLORS } from '../MapConstants';
 
 export function ArchitectToolOptionsPanels({
   activeTool = 'select',
   currentMapScale = 'Planetary',
+  selectedCatalogScale,
+  setSelectedCatalogScale,
+  activeCategories = [],
+  selectedCategory = 'All',
+  setSelectedCategory,
   customAssets = { terrains: [], objects: [] },
   selectedWallType = 'solid',
   setSelectedWallType,
@@ -58,6 +63,8 @@ export function ArchitectToolOptionsPanels({
   setMeasurementUnit,
   fogEnabled = false,
   setFogEnabled,
+  fogBrushMode = 'paint',
+  setFogBrushMode,
   onOpenAssetManager,
   onOpenHeroDrawer,
   onOpenOmnicortexDrawer,
@@ -298,6 +305,18 @@ export function ArchitectToolOptionsPanels({
           <span className="text-[10px] uppercase text-[#22d3ee] font-bold tracking-wider">
             Biome & Texture Palette:
           </span>
+          {setSelectedCatalogScale && (
+            <select
+              aria-label="Terrain Catalog Scale"
+              value={selectedCatalogScale || currentMapScale}
+              onChange={e => setSelectedCatalogScale(e.target.value)}
+              className="bg-[#0d1117] border border-slate-800 rounded p-1.5 text-xs text-cyan-200 font-mono outline-none focus:border-cyan-400"
+            >
+              {Object.values(MAP_TYPES).map(mt => (
+                <option key={mt} value={mt}>{mt} Scale</option>
+              ))}
+            </select>
+          )}
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-400 text-[10px]">Brush Width:</span>
             <span className="font-mono text-cyan-300 font-bold">{terrainWidth}px</span>
@@ -337,6 +356,34 @@ export function ArchitectToolOptionsPanels({
           <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-wider">
             Props & Structures:
           </span>
+          {(setSelectedCatalogScale || (setSelectedCategory && activeCategories.length > 0)) && (
+            <div className="grid grid-cols-2 gap-1.5">
+              {setSelectedCatalogScale && (
+                <select
+                  aria-label="Object Catalog Scale"
+                  value={selectedCatalogScale || currentMapScale}
+                  onChange={e => setSelectedCatalogScale(e.target.value)}
+                  className="bg-[#0d1117] border border-slate-800 rounded p-1.5 text-[11px] text-cyan-200 font-mono outline-none focus:border-cyan-400"
+                >
+                  {Object.values(MAP_TYPES).map(mt => (
+                    <option key={mt} value={mt}>{mt}</option>
+                  ))}
+                </select>
+              )}
+              {setSelectedCategory && activeCategories.length > 0 && (
+                <select
+                  aria-label="Object Catalog Category"
+                  value={selectedCategory}
+                  onChange={e => setSelectedCategory(e.target.value)}
+                  className="bg-[#0d1117] border border-slate-800 rounded p-1.5 text-[11px] text-slate-200 font-mono outline-none focus:border-cyan-400"
+                >
+                  {activeCategories.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              )}
+            </div>
+          )}
           <input
             type="text"
             value={searchQuery}
@@ -569,7 +616,37 @@ export function ArchitectToolOptionsPanels({
           >
             {fogEnabled ? 'Global Fog ACTIVE' : 'Enable Global Fog'}
           </button>
-          <span className="text-[11px] text-slate-400 italic">Click & drag on canvas to paint darkness / revealed areas.</span>
+          {setFogBrushMode && (
+            <div className="grid grid-cols-2 gap-1.5 pt-1">
+              <button
+                type="button"
+                onClick={() => setFogBrushMode('paint')}
+                className={`py-1 px-2 rounded border text-[10px] font-bold uppercase cursor-pointer transition-colors ${
+                  fogBrushMode === 'paint'
+                    ? 'bg-cyan-950 border-cyan-400 text-cyan-200'
+                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-white'
+                }`}
+              >
+                Paint Fog
+              </button>
+              <button
+                type="button"
+                onClick={() => setFogBrushMode('reveal')}
+                className={`py-1 px-2 rounded border text-[10px] font-bold uppercase cursor-pointer transition-colors ${
+                  fogBrushMode === 'reveal'
+                    ? 'bg-emerald-950 border-emerald-400 text-emerald-200'
+                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-white'
+                }`}
+              >
+                Reveal / Erase
+              </button>
+            </div>
+          )}
+          <span className="text-[11px] text-slate-400 italic">
+            {fogBrushMode === 'reveal'
+              ? 'Click & drag over manual fog strokes to reveal / erase shrouded areas.'
+              : 'Click & drag on canvas to paint shrouded fog strokes.'}
+          </span>
         </div>
       );
 
@@ -655,8 +732,8 @@ export function ArchitectToolOptionsPanels({
             <span className="text-[10px] uppercase text-slate-400 font-bold tracking-wider">Canvas Shortcuts:</span>
             <div className="grid grid-cols-2 gap-1.5 text-[10px]">
               <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-lg">
-                <span className="text-cyan-400 font-bold block">Marquee Box</span>
-                <span className="text-slate-400 font-sans">Drag on empty space</span>
+                <span className="text-cyan-400 font-bold block">Chunk Capture</span>
+                <span className="text-slate-400 font-sans">Shift + Drag on canvas</span>
               </div>
               <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-lg">
                 <span className="text-amber-400 font-bold block">Duplicate</span>

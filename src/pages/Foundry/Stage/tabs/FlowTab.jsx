@@ -1,35 +1,92 @@
 /**
  * @file FlowTab.jsx
  * @description Scenario Flow & Trigger Graph Tab for the STAGE compiler.
- * Consolidates the old Visual Story Graph and trigger wiring into the Stage compiler.
- * Connects map anchors to interactive narrative triggers, beat advances, and AIME responses.
+ * Supports multi-action trigger pipelines, condition expressions, confirmation gates,
+ * one-shot timers, and all canonical StageTriggerAction types.
  */
 
 import React, { useState } from 'react';
-import { 
-  GitBranch, 
-  Plus, 
-  Trash2, 
-  Edit3, 
-  Zap, 
-  Sparkles, 
-  Check, 
+import {
+  GitBranch,
+  Plus,
+  Trash2,
+  Edit3,
+  Check,
   X,
-  Play,
   ArrowRight,
-  Filter,
   ShieldCheck,
   AlertTriangle
 } from 'lucide-react';
 import { useStageStore } from '../stageStore';
-import { useStoryAssets } from '../../assetContracts';
+import { useStoryAssets, useElementAssets } from '../../assetContracts';
 import { AudioService } from '../../../../services/audioService';
 import { showConfirm } from '../../../../context/ConfirmContext';
 import { v4 as uuidv4 } from 'uuid';
 
+const ACTION_TYPES = [
+  { id: 'TRIGGER_AIME', label: 'Trigger AIME Sensory Read-Aloud' },
+  { id: 'ADVANCE_SCENARIO', label: 'Advance to Scenario' },
+  { id: 'REVEAL_BEAT', label: 'Reveal Scene Beat' },
+  { id: 'SET_FLAG', label: 'Set Story State Flag' },
+  { id: 'APPLY_MODIFIER', label: 'Apply Situational Modifier' },
+  { id: 'TOGGLE_DOOR', label: 'Toggle Door / Bulkhead' },
+  { id: 'SPAWN_ELEMENT', label: 'Spawn Element on Stage' },
+  { id: 'DESPAWN_ELEMENT', label: 'Despawn Element from Stage' },
+  { id: 'RUN_MACRO', label: 'Run QuickJS Stage Macro' },
+  { id: 'PLAY_AUDIO', label: 'Play Audio Cue' }
+];
+
+const createDefaultAction = (type = 'TRIGGER_AIME') => {
+  switch (type) {
+    case 'SET_FLAG':
+      return { type: 'SET_FLAG', key: 'ALERT_ACTIVE', value: true };
+    case 'ADVANCE_SCENARIO':
+      return { type: 'ADVANCE_SCENARIO', targetScenarioId: '' };
+    case 'REVEAL_BEAT':
+      return { type: 'REVEAL_BEAT', beatIndex: 0, prompt: '' };
+    case 'APPLY_MODIFIER':
+      return { type: 'APPLY_MODIFIER', modifierId: 'CUSTOM_MODIFIER' };
+    case 'TOGGLE_DOOR':
+      return { type: 'TOGGLE_DOOR', wallId: '', isOpen: true };
+    case 'SPAWN_ELEMENT':
+      return { type: 'SPAWN_ELEMENT', elementId: '' };
+    case 'DESPAWN_ELEMENT':
+      return { type: 'DESPAWN_ELEMENT', elementId: '' };
+    case 'RUN_MACRO':
+      return { type: 'RUN_MACRO', scriptId: '' };
+    case 'PLAY_AUDIO':
+      return { type: 'PLAY_AUDIO', track: 'klaxon_alert', bus: 'sfx', volume: 0.8, loop: false };
+    case 'TRIGGER_AIME':
+    default:
+      return {
+        type: 'TRIGGER_AIME',
+        prompt: 'The air turns frigid as security wards activate.',
+        readAloudText: 'The air turns frigid as security wards activate.'
+      };
+  }
+};
+
+function summarizeAction(action) {
+  if (!action) return '';
+  if (action.type === 'SET_FLAG') return `${action.key} = ${String(action.value)}`;
+  if (action.type === 'PLAY_AUDIO') return `${action.bus || 'sfx'}:${action.track || action.cueId || ''}`;
+  if (action.type === 'RUN_MACRO') return action.scriptId || action.macroId || '';
+  if (action.type === 'SPAWN_ELEMENT' || action.type === 'DESPAWN_ELEMENT') return action.elementId || '';
+  if (action.type === 'TOGGLE_DOOR') return action.wallId || action.objectId || '';
+  return (
+    action.readAloudText ||
+    action.prompt ||
+    action.targetScenarioId ||
+    action.scenarioId ||
+    action.modifierId ||
+    ''
+  );
+}
+
 export default function FlowTab() {
   const { stageManifest, addTrigger, updateTrigger, removeTrigger } = useStageStore();
   const { list: scenariosList } = useStoryAssets();
+  const { list: elementsList } = useElementAssets();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTrigger, setEditingTrigger] = useState(null);
@@ -39,12 +96,14 @@ export default function FlowTab() {
   const [anchorId, setAnchorId] = useState('');
   const [eventOn, setEventOn] = useState('enter');
   const [conditionWhen, setConditionWhen] = useState('');
-  const [actionType, setActionType] = useState('TRIGGER_AIME');
-  const [actionPayloadText, setActionPayloadText] = useState('');
+  const [actionsList, setActionsList] = useState([createDefaultAction('TRIGGER_AIME')]);
   const [gmConfirm, setGmConfirm] = useState(false);
+  const [onceOnly, setOnceOnly] = useState(false);
+  const [intervalMs, setIntervalMs] = useState(5000);
 
   const triggers = stageManifest.triggers || [];
   const anchors = stageManifest.anchors || [];
+  const macrosList = stageManifest.macros || [];
 
   const handleOpenCreate = () => {
     setEditingTrigger(null);
@@ -52,9 +111,10 @@ export default function FlowTab() {
     setAnchorId(anchors[0]?.id || '');
     setEventOn('enter');
     setConditionWhen('');
-    setActionType('TRIGGER_AIME');
-    setActionPayloadText('The air turns frigid as security wards activate.');
+    setActionsList([createDefaultAction('TRIGGER_AIME')]);
     setGmConfirm(false);
+    setOnceOnly(false);
+    setIntervalMs(5000);
     setIsModalOpen(true);
   };
 
@@ -63,37 +123,56 @@ export default function FlowTab() {
     setName(trigger.name || '');
     setAnchorId(trigger.anchorId || anchors[0]?.id || '');
     setEventOn(trigger.on || 'enter');
-    setConditionWhen(trigger.when || '');
-    const firstAction = trigger.actions?.[0];
-    setActionType(firstAction?.type || 'TRIGGER_AIME');
-    setActionPayloadText(
-      firstAction?.readAloudText ||
-      firstAction?.prompt ||
-      firstAction?.targetScenarioId ||
-      firstAction?.key ||
-      firstAction?.modifierId ||
-      ''
+    setConditionWhen(trigger.when || trigger.conditionExpr || '');
+    setActionsList(
+      Array.isArray(trigger.actions) && trigger.actions.length > 0
+        ? trigger.actions.map((a) => ({ ...a }))
+        : [createDefaultAction('TRIGGER_AIME')]
     );
-    setGmConfirm(!!trigger.gmConfirm);
+    setGmConfirm(Boolean(trigger.gmConfirm ?? trigger.requiresConfirm));
+    setOnceOnly(Boolean(trigger.once));
+    setIntervalMs(Number(trigger.intervalMs ?? trigger.delayMs ?? 5000));
     setIsModalOpen(true);
+  };
+
+  const handleUpdateActionAt = (index, patch) => {
+    setActionsList((prev) =>
+      prev.map((act, idx) => (idx === index ? { ...act, ...patch } : act))
+    );
+  };
+
+  const handleChangeActionTypeAt = (index, nextType) => {
+    const base = createDefaultAction(nextType);
+    if (nextType === 'ADVANCE_SCENARIO' && scenariosList?.length > 0 && !base.targetScenarioId) {
+      base.targetScenarioId = scenariosList[0].id;
+    }
+    if ((nextType === 'SPAWN_ELEMENT' || nextType === 'DESPAWN_ELEMENT') && elementsList?.length > 0 && !base.elementId) {
+      base.elementId = elementsList[0].id;
+    }
+    if (nextType === 'RUN_MACRO' && macrosList?.length > 0 && !base.scriptId) {
+      base.scriptId = macrosList[0].scriptId || macrosList[0].id;
+    }
+    setActionsList((prev) => prev.map((act, idx) => (idx === index ? base : act)));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim() || !anchorId) return;
 
-    let actionObj = { type: actionType };
-    if (actionType === 'TRIGGER_AIME') {
-      actionObj = { type: 'TRIGGER_AIME', prompt: actionPayloadText, readAloudText: actionPayloadText };
-    } else if (actionType === 'ADVANCE_SCENARIO') {
-      actionObj = { type: 'ADVANCE_SCENARIO', targetScenarioId: actionPayloadText };
-    } else if (actionType === 'SET_FLAG') {
-      actionObj = { type: 'SET_FLAG', key: actionPayloadText || 'ALERT_ACTIVE', value: true };
-    } else if (actionType === 'REVEAL_BEAT') {
-      actionObj = { type: 'REVEAL_BEAT', prompt: actionPayloadText };
-    } else if (actionType === 'APPLY_MODIFIER') {
-      actionObj = { type: 'APPLY_MODIFIER', modifierId: actionPayloadText.trim() || 'CUSTOM_MODIFIER' };
-    }
+    const normalizedActions = actionsList.map((act) => {
+      if (act.type === 'TRIGGER_AIME') {
+        const msg = act.prompt || act.readAloudText || '';
+        return { type: 'TRIGGER_AIME', prompt: msg, readAloudText: msg };
+      }
+      if (act.type === 'SET_FLAG') {
+        return {
+          type: 'SET_FLAG',
+          key: String(act.key || 'ALERT_ACTIVE').trim(),
+          value: act.value !== undefined ? act.value : true
+        };
+      }
+      return act;
+    });
 
     const payload = {
       id: editingTrigger ? editingTrigger.id : `trigger-${uuidv4().slice(0, 8)}`,
@@ -101,8 +180,10 @@ export default function FlowTab() {
       anchorId,
       on: eventOn,
       when: conditionWhen.trim() || undefined,
-      actions: [actionObj],
-      gmConfirm
+      actions: normalizedActions,
+      gmConfirm,
+      once: onceOnly,
+      ...(eventOn === 'timer' ? { intervalMs: Math.max(250, Number(intervalMs) || 5000) } : {})
     };
 
     if (editingTrigger) {
@@ -131,7 +212,7 @@ export default function FlowTab() {
               </span>
             </h2>
             <p className="text-[10px] text-slate-400">
-              Interactive conditions linking player movement & actions to story progression
+              Interactive conditions linking player movement & actions to multi-step story progression
             </p>
           </div>
         </div>
@@ -177,8 +258,8 @@ export default function FlowTab() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {triggers.map((trigger) => {
-              const anchor = anchors.find(a => a.id === trigger.anchorId);
-              const action = trigger.actions?.[0];
+              const anchor = anchors.find((a) => a.id === trigger.anchorId);
+              const triggerActions = Array.isArray(trigger.actions) ? trigger.actions : [];
 
               return (
                 <div
@@ -186,11 +267,16 @@ export default function FlowTab() {
                   className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between space-y-3 shadow-lg"
                 >
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-purple-300">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-purple-300 truncate">
                         {trigger.name}
                       </span>
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {trigger.once && (
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/40 font-bold">
+                            ONCE
+                          </span>
+                        )}
                         {trigger.gmConfirm && (
                           <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-500/40 font-bold flex items-center gap-0.5">
                             <ShieldCheck size={10} />
@@ -212,15 +298,21 @@ export default function FlowTab() {
                           Condition: <span className="text-amber-300">{trigger.when}</span>
                         </div>
                       )}
-                      <div className="text-slate-400 flex items-center gap-1.5 pt-1">
-                        <ArrowRight size={11} className="text-purple-400" />
-                        <span>Action: <strong className="text-white">{action?.type || 'CUSTOM'}</strong></span>
-                      </div>
-                      {(action?.readAloudText || action?.prompt || action?.targetScenarioId || action?.key || action?.modifierId) && (
-                        <p className="text-[11px] text-slate-300 italic font-sans pl-4">
-                          "{action.readAloudText || action.prompt || action.targetScenarioId || action.key || action.modifierId}"
-                        </p>
-                      )}
+                      {triggerActions.map((act, idx) => (
+                        <div key={idx} className="pt-1 space-y-0.5">
+                          <div className="text-slate-400 flex items-center gap-1.5">
+                            <ArrowRight size={11} className="text-purple-400" />
+                            <span>
+                              Action #{idx + 1}: <strong className="text-white">{act?.type || 'CUSTOM'}</strong>
+                            </span>
+                          </div>
+                          {summarizeAction(act) && (
+                            <p className="text-[11px] text-slate-300 italic font-sans pl-4 truncate">
+                              {summarizeAction(act)}
+                            </p>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
 
@@ -267,8 +359,8 @@ export default function FlowTab() {
       {/* Modal: Create / Edit Trigger */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#0a0f1d] border border-slate-700 rounded-2xl shadow-2xl overflow-hidden font-mono text-slate-100">
-            <div className="p-3 px-4 bg-[#070b13] border-b border-slate-800 flex items-center justify-between">
+          <div className="w-full max-w-lg bg-[#0a0f1d] border border-slate-700 rounded-2xl shadow-2xl overflow-hidden font-mono text-slate-100 max-h-[90vh] flex flex-col">
+            <div className="p-3 px-4 bg-[#070b13] border-b border-slate-800 flex items-center justify-between shrink-0">
               <span className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
                 <GitBranch size={14} />
                 <span>{editingTrigger ? 'Edit Trigger' : 'New Trigger'}</span>
@@ -282,7 +374,7 @@ export default function FlowTab() {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-4 space-y-3.5">
+            <form onSubmit={handleSubmit} className="p-4 space-y-3.5 overflow-y-auto">
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Trigger Name</label>
                 <input
@@ -304,7 +396,7 @@ export default function FlowTab() {
                     className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-100"
                     required
                   >
-                    {anchors.map(a => (
+                    {anchors.map((a) => (
                       <option key={a.id} value={a.id}>{a.name} ({a.kind})</option>
                     ))}
                   </select>
@@ -323,9 +415,24 @@ export default function FlowTab() {
                     <option value="beat">Scene Beat Advance</option>
                     <option value="flag">Variable / Flag Set</option>
                     <option value="timer">Timer Elapsed</option>
+                    <option value="round_start">Round Start</option>
                   </select>
                 </div>
               </div>
+
+              {eventOn === 'timer' && (
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase">Timer Interval (ms)</label>
+                  <input
+                    type="number"
+                    min={250}
+                    step={250}
+                    value={intervalMs}
+                    onChange={(e) => setIntervalMs(Number(e.target.value) || 5000)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-100"
+                  />
+                </div>
+              )}
 
               {/* Condition Expression */}
               <div className="space-y-1">
@@ -342,41 +449,205 @@ export default function FlowTab() {
                 />
               </div>
 
-              {/* Action Selection */}
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase">Action Execution</label>
-                <select
-                  value={actionType}
-                  onChange={(e) => setActionType(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-100 mb-2"
-                >
-                  <option value="TRIGGER_AIME">Trigger AIME Sensory Read-Aloud</option>
-                  <option value="ADVANCE_SCENARIO">Advance to Scenario</option>
-                  <option value="REVEAL_BEAT">Reveal Scene Beat</option>
-                  <option value="SET_FLAG">Set Story State Flag</option>
-                  <option value="APPLY_MODIFIER">Apply Situational Modifier</option>
-                </select>
+              {/* Multi-Action Execution List */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase">
+                    Actions ({actionsList.length})
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setActionsList((prev) => [...prev, createDefaultAction('SET_FLAG')])}
+                    className="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/40 text-purple-200 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
+                  >
+                    <Plus size={10} />
+                    <span>Add Action</span>
+                  </button>
+                </div>
 
-                <textarea
-                  value={actionPayloadText}
-                  onChange={(e) => setActionPayloadText(e.target.value)}
-                  placeholder="Action text payload, prompt, or target ID..."
-                  className="w-full h-16 bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-100 font-sans"
-                />
+                <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                  {actionsList.map((act, idx) => (
+                    <div key={idx} className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <select
+                          aria-label={`Action ${idx + 1} Type`}
+                          value={act.type}
+                          onChange={(e) => handleChangeActionTypeAt(idx, e.target.value)}
+                          className="flex-1 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                        >
+                          {ACTION_TYPES.map((t) => (
+                            <option key={t.id} value={t.id}>{t.label}</option>
+                          ))}
+                        </select>
+                        {actionsList.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => setActionsList((prev) => prev.filter((_, i) => i !== idx))}
+                            className="p-1 rounded hover:bg-red-950/50 text-slate-400 hover:text-red-300 cursor-pointer"
+                            title="Remove Action"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        )}
+                      </div>
+
+                      {act.type === 'SET_FLAG' ? (
+                        <div className="grid grid-cols-3 gap-1.5">
+                          <input
+                            type="text"
+                            aria-label="Flag Key"
+                            value={act.key || ''}
+                            onChange={(e) => handleUpdateActionAt(idx, { key: e.target.value })}
+                            placeholder="FLAG_KEY"
+                            className="col-span-1 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                          />
+                          <select
+                            aria-label="Flag Value Type"
+                            value={
+                              typeof act.value === 'boolean'
+                                ? (act.value ? 'true' : 'false')
+                                : typeof act.value === 'number'
+                                  ? 'number'
+                                  : 'string'
+                            }
+                            onChange={(e) => {
+                              const mode = e.target.value;
+                              if (mode === 'true') handleUpdateActionAt(idx, { value: true });
+                              else if (mode === 'false') handleUpdateActionAt(idx, { value: false });
+                              else if (mode === 'number') handleUpdateActionAt(idx, { value: Number(act.value) || 0 });
+                              else handleUpdateActionAt(idx, { value: String(act.value ?? '') });
+                            }}
+                            className="col-span-1 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                          >
+                            <option value="true">Boolean: true</option>
+                            <option value="false">Boolean: false</option>
+                            <option value="number">Number</option>
+                            <option value="string">String</option>
+                          </select>
+                          {(typeof act.value === 'number' || typeof act.value === 'string') && (
+                            <input
+                              type={typeof act.value === 'number' ? 'number' : 'text'}
+                              aria-label="Flag Custom Value"
+                              value={act.value}
+                              onChange={(e) =>
+                                handleUpdateActionAt(idx, {
+                                  value: typeof act.value === 'number' ? Number(e.target.value) : e.target.value
+                                })
+                              }
+                              className="col-span-1 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                            />
+                          )}
+                        </div>
+                      ) : act.type === 'ADVANCE_SCENARIO' ? (
+                        <select
+                          aria-label="Target Scenario"
+                          value={act.targetScenarioId || ''}
+                          onChange={(e) => handleUpdateActionAt(idx, { targetScenarioId: e.target.value })}
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                        >
+                          <option value="">Select Scenario...</option>
+                          {(scenariosList || []).map((sc) => (
+                            <option key={sc.id} value={sc.id}>{sc.title || sc.id}</option>
+                          ))}
+                        </select>
+                      ) : act.type === 'SPAWN_ELEMENT' || act.type === 'DESPAWN_ELEMENT' ? (
+                        <select
+                          aria-label="Target Element"
+                          value={act.elementId || ''}
+                          onChange={(e) => handleUpdateActionAt(idx, { elementId: e.target.value })}
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                        >
+                          <option value="">Select Element...</option>
+                          {(elementsList || []).map((el) => (
+                            <option key={el.id} value={el.id}>[{el.type}] {el.title || el.id}</option>
+                          ))}
+                        </select>
+                      ) : act.type === 'RUN_MACRO' ? (
+                        <input
+                          type="text"
+                          value={act.scriptId || ''}
+                          onChange={(e) => handleUpdateActionAt(idx, { scriptId: e.target.value })}
+                          placeholder="Macro ID or script title..."
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                        />
+                      ) : act.type === 'PLAY_AUDIO' ? (
+                        <div className="grid grid-cols-2 gap-1.5">
+                          <select
+                            value={act.bus || 'sfx'}
+                            onChange={(e) => handleUpdateActionAt(idx, { bus: e.target.value })}
+                            className="bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                          >
+                            <option value="sfx">SFX Bus</option>
+                            <option value="ambient">Ambient Bus</option>
+                            <option value="music">Music Bus</option>
+                          </select>
+                          <input
+                            type="text"
+                            value={act.track || ''}
+                            onChange={(e) => handleUpdateActionAt(idx, { track: e.target.value })}
+                            placeholder="Audio cue ID (e.g. klaxon_alert)"
+                            className="bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                          />
+                        </div>
+                      ) : act.type === 'TOGGLE_DOOR' ? (
+                        <input
+                          type="text"
+                          value={act.wallId || ''}
+                          onChange={(e) => handleUpdateActionAt(idx, { wallId: e.target.value })}
+                          placeholder="Wall or bulkhead ID..."
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                        />
+                      ) : act.type === 'APPLY_MODIFIER' ? (
+                        <input
+                          type="text"
+                          value={act.modifierId || ''}
+                          onChange={(e) => handleUpdateActionAt(idx, { modifierId: e.target.value })}
+                          placeholder="Action text payload, prompt, or target ID..."
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100"
+                        />
+                      ) : (
+                        <textarea
+                          value={act.prompt ?? act.readAloudText ?? ''}
+                          onChange={(e) =>
+                            handleUpdateActionAt(idx, {
+                              prompt: e.target.value,
+                              ...(act.type === 'TRIGGER_AIME' ? { readAloudText: e.target.value } : {})
+                            })
+                          }
+                          placeholder="Action text payload or sensory prompt..."
+                          className="w-full h-14 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 font-sans"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* GM Confirm */}
-              <label className="flex items-center gap-2 pt-1 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={gmConfirm}
-                  onChange={(e) => setGmConfirm(e.target.checked)}
-                  className="rounded bg-slate-950 border-slate-700 text-purple-600"
-                />
-                <span className="text-xs text-slate-300">
-                  Require Architect manual approval before execution
-                </span>
-              </label>
+              {/* GM Confirm & One-Shot */}
+              <div className="flex flex-col gap-1.5 pt-1">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={gmConfirm}
+                    onChange={(e) => setGmConfirm(e.target.checked)}
+                    className="rounded bg-slate-950 border-slate-700 text-purple-600"
+                  />
+                  <span className="text-xs text-slate-300">
+                    Require Architect manual approval before execution
+                  </span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={onceOnly}
+                    onChange={(e) => setOnceOnly(e.target.checked)}
+                    className="rounded bg-slate-950 border-slate-700 text-cyan-500"
+                  />
+                  <span className="text-xs text-slate-300">
+                    Fire Once Only (lock trigger after first activation)
+                  </span>
+                </label>
+              </div>
 
               <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
                 <button

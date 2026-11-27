@@ -20,6 +20,7 @@ export default function EpistemicPlayPanel({
   activeOperative,
   activeNode = null,
   elementsCatalog = [],
+  isStoryReadOnly = false,
   onInsertToProse
 }) {
   const [activeTab, setActiveTab] = useState('terminal'); // 'terminal' | 'interrogation'
@@ -34,7 +35,11 @@ export default function EpistemicPlayPanel({
     }
     if (Array.isArray(activeNode?.assetHub)) {
       activeNode.assetHub.forEach((a) => {
-        if (a?.id) ids.add(a.id);
+        if (typeof a === 'string') {
+          ids.add(a);
+        } else if (a?.assetId || a?.id) {
+          ids.add(a.assetId || a.id);
+        }
       });
     }
     return ids;
@@ -125,6 +130,28 @@ export default function EpistemicPlayPanel({
     }
   ]);
   const [activeSkill, setActiveSkill] = useState('Etiquette'); // 'Etiquette' | 'Intimidation' | 'Perception'
+
+  useEffect(() => {
+    const nextTL = Number(activeNode?.fields?.techLevel || 3);
+    setTerminalTL(nextTL);
+    setTerminalInput('');
+    setIsRootUnlocked(false);
+    setDecryptedFiles({});
+    setTerminalLogs([
+      { type: 'sys', text: `OMNICORTEX SECURE NODE • ${activeNode?.title ? activeNode.title.toUpperCase() : 'SECTOR RELAY'}` },
+      { type: 'sys', text: `Sub-System Hardware: TL-${nextTL} Encryption Matrix` },
+      { type: 'prompt', text: 'Type "help", "status", "ls", "cat <file>", or "slice [subsystem]" to probe node.' }
+    ]);
+    setInterrogationQuery('');
+    setInterrogationHistory([
+      {
+        speaker: 'suspect',
+        text: activeNode?.title
+          ? `Target locked in scene "${activeNode.title}". Ask your question or select a social check above.`
+          : 'I already told your enforcers everything I know. I was just delivering an encrypted drive to the docking bay.'
+      }
+    ]);
+  }, [activeNode?.id]);
 
   useEffect(() => {
     if (linkedPersonas[0]) {
@@ -531,8 +558,12 @@ Respond strictly in 2-3 concise sentences in-character as ${suspectName}. ${
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={handleExportToStory}
-              className="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+              disabled={isStoryReadOnly}
+              onClick={() => {
+                if (isStoryReadOnly) return;
+                handleExportToStory();
+              }}
+              className="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl font-bold flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Copy size={12} />
               <span>Insert Log into Manuscript</span>

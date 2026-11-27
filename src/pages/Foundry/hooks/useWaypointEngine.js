@@ -54,7 +54,7 @@ export const useWaypointEngine = ({
 
     // 1. Mark Waypoint as isTriggered (manifest-only if stageManaged; keep source map pristine)
     if (wp.stageManaged) {
-      useStageStore.getState().updateAnchor?.(wp.id, { triggered: true });
+      useStageStore.getState().updateAnchor?.(wp.id, { triggered: true, isTriggered: true });
     } else {
       const updatedWaypoints = (activeMap.waypoints || []).map(w => 
         w.id === wp.id ? { ...w, isTriggered: true } : w
@@ -149,6 +149,15 @@ export const useWaypointEngine = ({
     promptedWaypointsRef.current.clear();
     const updated = (activeMap.waypoints || []).map(w => ({ ...w, isTriggered: false }));
     updateMap(activeMap.id, { waypoints: updated });
+
+    const stageState = useStageStore.getState();
+    const stageAnchors = stageState?.stageManifest?.anchors || [];
+    for (const anchor of stageAnchors) {
+      if (anchor?.triggered || anchor?.isTriggered) {
+        stageState.updateAnchor?.(anchor.id, { triggered: false, isTriggered: false });
+      }
+    }
+
     AudioService.playTerminalBeep(900, 0.04);
   }, [activeMap, updateMap, isStoryReadOnly]);
 
@@ -165,7 +174,7 @@ export const useWaypointEngine = ({
       const ty = tok.y || 0;
 
       waypoints.forEach((wp, wIdx) => {
-        if (wp.isTriggered) return;
+        if (wp.isTriggered || wp.skipProximity) return;
         const radius = wp.radius || 60;
         const dist = Math.hypot(tx - wp.x, ty - wp.y);
         const promptKey = `${tok.id}_${wp.id || wIdx}`;
@@ -298,7 +307,10 @@ export const useWaypointEngine = ({
       readAloudText: `Beat #${idx + 1}: ${beat}`
     }));
 
-    updateMap(activeMap.id, { waypoints: newWaypoints });
+    const existingNonBeat = (activeMap.waypoints || []).filter(
+      w => !String(w?.id || '').startsWith('wp_beat_')
+    );
+    updateMap(activeMap.id, { waypoints: [...existingNonBeat, ...newWaypoints] });
     AudioService.playCriticalChime(true);
   }, [activeMap, updateMap, activeScenario, setSaveStatusText]);
 

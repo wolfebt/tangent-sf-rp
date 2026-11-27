@@ -49,6 +49,7 @@ export const TreeNode = ({
   onExport, 
   onExportMD, 
   onExportPDF, 
+  isReadOnly = false,
   depth = 0,
   filterQuery = ''
 }) => {
@@ -76,6 +77,10 @@ export const TreeNode = ({
   if (!matchesSelf && !hasMatchingDescendants) return null;
 
   const handleDragStart = (e) => {
+    if (isReadOnly) {
+      e.preventDefault();
+      return;
+    }
     e.stopPropagation();
     e.dataTransfer.setData('text/plain', node.id);
     e.dataTransfer.setData('tangent-scenario-id', node.id);
@@ -89,6 +94,7 @@ export const TreeNode = ({
   };
 
   const handleDragOver = (e) => {
+    if (isReadOnly) return;
     e.preventDefault();
     e.stopPropagation();
     e.dataTransfer.dropEffect = 'move';
@@ -114,8 +120,9 @@ export const TreeNode = ({
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const pos = dropPosition;
     setDropPosition(null);
+    if (isReadOnly) return;
+    const pos = dropPosition;
     const draggedId = e.dataTransfer.getData('tangent-scenario-id') || e.dataTransfer.getData('text/plain');
     if (draggedId && draggedId !== node.id) {
       if (onReorderRelative && (pos === 'above' || pos === 'below')) {
@@ -129,7 +136,7 @@ export const TreeNode = ({
   return (
     <div className="flex flex-col min-w-max group select-none relative font-mono">
       <div 
-        draggable
+        draggable={!isReadOnly}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -173,34 +180,36 @@ export const TreeNode = ({
         </div>
 
         {/* Tree Node Actions */}
-        <div className="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity ml-2 shrink-0">
-          {onAddChild && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onAddChild(node.id);
-              }}
-              title="Add Sub-Element"
-              className="p-1 text-[10px] bg-cyan-950/80 hover:bg-cyan-800 border border-cyan-500/50 text-cyan-300 rounded leading-none transition-colors"
-            >
-              +
-            </button>
-          )}
-          {onDelete && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(node.id, node.title);
-              }}
-              title="Delete this element"
-              className="p-1 text-[10px] bg-red-950/80 hover:bg-red-800 border border-red-500/60 text-red-300 rounded leading-none transition-colors"
-            >
-              🗑️
-            </button>
-          )}
-        </div>
+        {!isReadOnly && (
+          <div className="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity ml-2 shrink-0">
+            {onAddChild && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onAddChild(node.id);
+                }}
+                title="Add Sub-Element"
+                className="p-1 text-[10px] bg-cyan-950/80 hover:bg-cyan-800 border border-cyan-500/50 text-cyan-300 rounded leading-none transition-colors"
+              >
+                +
+              </button>
+            )}
+            {onDelete && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(node.id, node.title);
+                }}
+                title="Delete this element"
+                className="p-1 text-[10px] bg-red-950/80 hover:bg-red-800 border border-red-500/60 text-red-300 rounded leading-none transition-colors"
+              >
+                🗑️
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {isExpanded && hasChildren && (
@@ -218,6 +227,7 @@ export const TreeNode = ({
               onExport={onExport} 
               onExportMD={onExportMD} 
               onExportPDF={onExportPDF} 
+              isReadOnly={isReadOnly}
               depth={depth + 1} 
               filterQuery={filterQuery}
             />
@@ -230,34 +240,25 @@ export const TreeNode = ({
 
 // ── ADD ELEMENT MODAL ──
 export const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId, onImport }) => {
-  const { elementsCatalog } = useStory();
   const [type, setType] = useState('Story Arc');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [selectedSavedId, setSelectedSavedId] = useState('');
   const [customFields, setCustomFields] = useState([{ id: uuidv4(), label: '', value: '' }]);
   const fileInputRef = useRef(null);
 
-  if (!isOpen) return null;
-
-  const handleSelectSaved = (val) => {
-    setSelectedSavedId(val);
-    if (!val) {
-      setTitle('');
-      setContent('');
-      return;
-    }
-
-    const savedElem = elementsCatalog?.find(item => item.id === val);
-    if (savedElem) {
-      setType(savedElem.type || 'Custom');
-      setTitle(savedElem.title || '');
-      setContent(savedElem.content || '');
-      if (Array.isArray(savedElem.customFields) && savedElem.customFields.length > 0) {
-        setCustomFields(savedElem.customFields);
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
       }
-    }
-  };
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -265,36 +266,33 @@ export const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId, onImp
       .filter(f => f.label.trim() !== '')
       .map(f => ({ id: f.id || uuidv4(), label: f.label.trim(), value: f.value }));
 
-    let baseFields = {};
-    let imageUrl = '';
-    if (selectedSavedId) {
-      const savedElem = elementsCatalog?.find(item => item.id === selectedSavedId);
-      if (savedElem) {
-        baseFields = { ...(savedElem.fields || {}) };
-        imageUrl = savedElem.imageUrl || '';
-      }
-    }
-
     onAdd({ 
       type: normalizeElementType(type), 
       title, 
       content,
-      imageUrl,
-      fields: baseFields,
+      imageUrl: '',
+      fields: {},
       parentId: defaultParentId || null,
       customFields: validCustomFields
     });
     setTitle('');
     setContent('');
-    setSelectedSavedId('');
     setCustomFields([{ id: uuidv4(), label: '', value: '' }]);
     setType('Story Arc');
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto font-mono">
-      <div className="bg-slate-900 border border-cyan-500/40 rounded-2xl p-5 w-full max-w-lg flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose?.();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto font-mono"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-slate-900 border border-cyan-500/40 rounded-2xl p-5 w-full max-w-lg flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+      >
         <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-800">
           <h3 className="text-sm font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-2">
             <Plus size={15} className="text-cyan-400" />
@@ -474,6 +472,10 @@ export const ScenarioOutlinerRail = ({
 
   // File import processor for .aime, .json, .md files
   const processImportFiles = async (files) => {
+    if (isStoryReadOnly) {
+      showToast?.({ type: 'warning', text: 'Story is read-only; imports are disabled.' });
+      return;
+    }
     if (!files || files.length === 0) return;
     let elementCount = 0;
     let scenarioCount = 0;
@@ -526,6 +528,7 @@ export const ScenarioOutlinerRail = ({
   };
 
   const handleRailDragOver = (e) => {
+    if (isStoryReadOnly) return;
     if (e.dataTransfer.types.includes('Files')) {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'copy';
@@ -543,6 +546,7 @@ export const ScenarioOutlinerRail = ({
     if (e.dataTransfer.files?.length > 0) {
       e.preventDefault();
       setIsDraggingFilesOverRail(false);
+      if (isStoryReadOnly) return;
       processImportFiles(e.dataTransfer.files);
     }
   };
@@ -786,9 +790,10 @@ export const ScenarioOutlinerRail = ({
         {outlinerTab === 'scenarios' ? (
           <button 
             type="button"
-            onClick={() => handleOpenAddModal(activeScenarioId)}
-            className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0 shadow-xs"
-            title="Add Root or Sub-Scenario Node"
+            disabled={isStoryReadOnly}
+            onClick={() => !isStoryReadOnly && handleOpenAddModal(activeScenarioId)}
+            className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 disabled:opacity-40 disabled:cursor-not-allowed border border-cyan-500/50 text-cyan-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0 shadow-xs"
+            title={isStoryReadOnly ? 'Read-only story' : 'Add Root or Sub-Scenario Node'}
           >
             <Plus size={11} />
             <span>Add</span>
@@ -796,7 +801,9 @@ export const ScenarioOutlinerRail = ({
         ) : (
           <button 
             type="button"
+            disabled={isStoryReadOnly}
             onClick={() => {
+              if (isStoryReadOnly) return;
               setEditingModalElement({
                 id: uuidv4(),
                 type: outlinerElementTypeFilter !== 'All' ? outlinerElementTypeFilter : 'Persona',
@@ -806,8 +813,8 @@ export const ScenarioOutlinerRail = ({
               });
               setIsEditElementModalOpen(true);
             }}
-            className="px-2 py-1 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0 shadow-xs"
-            title="Create New World Element"
+            className="px-2 py-1 bg-emerald-950 hover:bg-emerald-900 disabled:opacity-40 disabled:cursor-not-allowed border border-emerald-500/50 text-emerald-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0 shadow-xs"
+            title={isStoryReadOnly ? 'Read-only story' : 'Create New World Element'}
           >
             <Plus size={11} />
             <span>New</span>
@@ -838,16 +845,18 @@ export const ScenarioOutlinerRail = ({
             <>
               <button 
                 type="button"
-                onClick={() => undoScenarioTree?.()}
-                className="p-1.5 text-slate-400 hover:text-cyan-300 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer shrink-0"
+                disabled={isStoryReadOnly}
+                onClick={() => !isStoryReadOnly && undoScenarioTree?.()}
+                className="p-1.5 text-slate-400 hover:text-cyan-300 disabled:opacity-40 disabled:cursor-not-allowed bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer shrink-0"
                 title="Undo Scenario Hierarchy (Ctrl+Z)"
               >
                 <Undo2 size={12} />
               </button>
               <button 
                 type="button"
-                onClick={() => redoScenarioTree?.()}
-                className="p-1.5 text-slate-400 hover:text-cyan-300 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer shrink-0"
+                disabled={isStoryReadOnly}
+                onClick={() => !isStoryReadOnly && redoScenarioTree?.()}
+                className="p-1.5 text-slate-400 hover:text-cyan-300 disabled:opacity-40 disabled:cursor-not-allowed bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer shrink-0"
                 title="Redo Scenario Hierarchy (Ctrl+Y)"
               >
                 <Redo2 size={12} />
@@ -858,9 +867,10 @@ export const ScenarioOutlinerRail = ({
           {/* Global Import Action */}
           <button
             type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="p-1.5 text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/40 rounded-lg transition-colors flex items-center justify-center cursor-pointer shrink-0"
-            title="Import Elements or Scenarios (.aime, .json, .md files)"
+            disabled={isStoryReadOnly}
+            onClick={() => !isStoryReadOnly && fileInputRef.current?.click()}
+            className="p-1.5 text-slate-300 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/40 rounded-lg transition-colors flex items-center justify-center cursor-pointer shrink-0"
+            title={isStoryReadOnly ? 'Read-only story' : 'Import Elements or Scenarios (.aime, .json, .md files)'}
           >
             <Upload size={12} className="text-cyan-400" />
           </button>
@@ -937,22 +947,25 @@ export const ScenarioOutlinerRail = ({
                   onMove={moveStory}
                   onReorderRelative={reorderRelativeScenario}
                   onAddChild={handleOpenAddModal}
+                  isReadOnly={isStoryReadOnly}
                   filterQuery={searchFilter}
                 />
               ))}
 
               {/* Drop to Root Area */}
-              <div 
-                onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  const draggedId = e.dataTransfer.getData('tangent-scenario-id') || e.dataTransfer.getData('text/plain');
-                  if (draggedId) moveStory(draggedId, null);
-                }}
-                className="mt-6 p-2.5 border border-dashed border-slate-800/80 hover:border-cyan-500/60 rounded-xl text-center text-[10px] text-slate-500 uppercase tracking-wider hover:text-cyan-400 transition-colors font-mono"
-              >
-                📥 Drop here to move to Root
-              </div>
+              {!isStoryReadOnly && (
+                <div 
+                  onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const draggedId = e.dataTransfer.getData('tangent-scenario-id') || e.dataTransfer.getData('text/plain');
+                    if (draggedId) moveStory(draggedId, null);
+                  }}
+                  className="mt-6 p-2.5 border border-dashed border-slate-800/80 hover:border-cyan-500/60 rounded-xl text-center text-[10px] text-slate-500 uppercase tracking-wider hover:text-cyan-400 transition-colors font-mono"
+                >
+                  📥 Drop here to move to Root
+                </div>
+              )}
             </>
           )}
         </div>
@@ -991,8 +1004,10 @@ export const ScenarioOutlinerRail = ({
                     </div>
                     <button
                       type="button"
+                      disabled={isStoryReadOnly}
                       onClick={(e) => {
                         e.stopPropagation();
+                        if (isStoryReadOnly) return;
                         setEditingModalElement({
                           id: uuidv4(),
                           type: cat.types[0],
@@ -1002,7 +1017,7 @@ export const ScenarioOutlinerRail = ({
                         });
                         setIsEditElementModalOpen(true);
                       }}
-                      className="p-1 text-slate-400 hover:text-emerald-300 hover:bg-slate-800 rounded text-[10px] transition-colors"
+                      className="p-1 text-slate-400 hover:text-emerald-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-800 rounded text-[10px] transition-colors"
                       title={`Add new ${cat.label.split('&')[0].trim()}`}
                     >
                       <Plus size={11} />

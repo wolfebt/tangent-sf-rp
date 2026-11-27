@@ -73,7 +73,13 @@ export const AssetStudioModal: React.FC<AssetStudioModalProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // QuickJS Sandbox Execution State for In-Situ Macro Script Testing
-  const [sandboxOutput, setSandboxOutput] = useState<{ result?: any; error?: string; timeMs?: number; flags?: any } | null>(null);
+  const [sandboxOutput, setSandboxOutput] = useState<{
+    result?: any;
+    actions?: any[];
+    error?: string;
+    timeMs?: number;
+    flags?: any;
+  } | null>(null);
   const [isRunningScript, setIsRunningScript] = useState(false);
 
   useEffect(() => {
@@ -105,14 +111,15 @@ export const AssetStudioModal: React.FC<AssetStudioModalProps> = ({
       const code = form.vtt_properties.script?.sourceCode || '';
       const testFlags: Record<string, any> = { alarm_level: 0, power_grid: true, door_sealed: false };
       const start = performance.now();
-      const res = await sandbox.execute(code, {
+      const exec = await sandbox.executeWithActions(code, {
         storyFlags: testFlags,
         operative: { id: 'op_test_lead', name: 'Agent Jax', hp: 45, maxHp: 50 },
         targetAsset: { id: form.unit_id, name: form.name }
       });
-      const elapsed = performance.now() - start;
+      const elapsed = exec.executionTimeMs ?? performance.now() - start;
       setSandboxOutput({
-        result: res !== undefined ? res : '(Script executed cleanly with return code 0)',
+        result: exec.result !== undefined ? exec.result : '(Script executed cleanly with return code 0)',
+        actions: Array.isArray(exec.actions) ? exec.actions : [],
         timeMs: Number(elapsed.toFixed(2)),
         flags: testFlags
       });
@@ -2140,6 +2147,17 @@ export const AssetStudioModal: React.FC<AssetStudioModalProps> = ({
                                 <span className="text-slate-500 text-[10px]">Mutated StoryFlags:</span>
                                 <pre className="text-cyan-300 bg-slate-950 p-2 rounded overflow-x-auto text-[11px] mt-1 border border-slate-900">
                                   {JSON.stringify(sandboxOutput.flags, null, 2)}
+                                </pre>
+                              </div>
+                            )}
+
+                            {Array.isArray(sandboxOutput.actions) && sandboxOutput.actions.length > 0 && (
+                              <div>
+                                <span className="text-slate-500 text-[10px]">
+                                  Queued StageAPI Actions ({sandboxOutput.actions.length}):
+                                </span>
+                                <pre className="text-purple-300 bg-slate-950 p-2 rounded overflow-x-auto text-[11px] mt-1 border border-slate-900">
+                                  {JSON.stringify(sandboxOutput.actions, null, 2)}
                                 </pre>
                               </div>
                             )}

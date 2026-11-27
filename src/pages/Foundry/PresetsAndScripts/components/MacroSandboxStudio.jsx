@@ -82,6 +82,7 @@ export const MacroSandboxStudio = ({
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   const sandboxRef = useRef(new QuickJSSandbox());
+  const gutterRef = useRef(null);
   const { currentUser, isAdmin, isGM } = useAuth() || {};
   const { universeState, activeMapId, updateMap } = useStory() || {};
 
@@ -239,11 +240,11 @@ export const MacroSandboxStudio = ({
                 placeholder="Macro Name..."
               />
               <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-slate-900 border border-slate-800 text-fuchsia-300">
-                Isolated JS Sandbox
+                Isolated Worker JS Sandbox
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              Null-origin isolated sandbox with 500ms watchdog protection.
+              Null-origin iframe &amp; Worker isolated sandbox with 500ms watchdog protection.
             </p>
           </div>
         </div>
@@ -334,8 +335,11 @@ export const MacroSandboxStudio = ({
           </div>
 
           <div className="flex-1 relative flex overflow-hidden">
-            {/* Line numbers gutter */}
-            <div className="w-10 py-3 pr-2 select-none bg-[#060a10] border-r border-slate-800/60 font-mono text-[11px] text-slate-400 text-right leading-relaxed">
+            {/* Line numbers gutter synced with editor scroll */}
+            <div
+              ref={gutterRef}
+              className="w-10 py-3 pr-2 select-none bg-[#060a10] border-r border-slate-800/60 font-mono text-[11px] text-slate-400 text-right leading-relaxed overflow-hidden"
+            >
               {Array.from({ length: linesCount }, (_, i) => (
                 <div key={i}>{i + 1}</div>
               ))}
@@ -345,8 +349,13 @@ export const MacroSandboxStudio = ({
             <textarea
               value={activeCode}
               onChange={(e) => setActiveCode(e.target.value)}
+              onScroll={(e) => {
+                if (gutterRef.current) {
+                  gutterRef.current.scrollTop = e.currentTarget.scrollTop;
+                }
+              }}
               spellCheck={false}
-              className="flex-1 bg-transparent p-3 font-mono text-xs text-fuchsia-100 placeholder:text-slate-600 outline-none resize-none leading-relaxed overflow-y-auto selection:bg-fuchsia-900/60"
+              className="flex-1 bg-transparent p-3 font-mono text-xs text-fuchsia-100 placeholder:text-slate-600 outline-none resize-none leading-relaxed overflow-y-auto overflow-x-auto whitespace-pre selection:bg-fuchsia-900/60"
             />
           </div>
         </div>

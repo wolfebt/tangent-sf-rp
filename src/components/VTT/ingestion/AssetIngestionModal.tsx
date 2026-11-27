@@ -147,6 +147,44 @@ return roll;`);
     setError(null);
     setShowChromaKey(false);
     setIsDragOver(false);
+    setBlocksMovement(false);
+    setBlocksVision(false);
+    setZIndexLayer('interactive_objects');
+    setAutoTile('none');
+    setEmitsLight(false);
+    setLightColor('#38bdf8');
+    setLightIntensity(1.0);
+    setLightRadiusBright(10);
+    setLightRadiusDim(20);
+    setLightAnimation('solid');
+    setSurfaceMaterial('metal_deck');
+    setMovementCost(1.0);
+    setCoverRating('half_cover');
+    setIsDestructible(false);
+    setStructureHp(25);
+    setHazardType('plasma_leak');
+    setHazardDamage('2d10 plasma');
+    setTriggerEnabled(false);
+    setTriggerType('step_on');
+    setTriggerRadiusFt(5);
+    setSaveType('Reflex (AGI)');
+    setSaveDc(14);
+    setTriggerDamage('2d10');
+    setTriggerDamageType('plasma');
+    setAppliedCondition('none');
+    setDisarmDc(13);
+    setDetectionDc(14);
+    setOneShotTrigger(true);
+    setGmSecretNotes('');
+    setScriptEnabled(false);
+    setScriptHook('on_interact');
+    setScriptAutorun(false);
+    setSourceCode(`// QuickJS Macro Script
+const roll = Dice.check2d10(2, 14);
+if (roll.success) {
+  StoryFlags.set("power_active", true);
+}
+return roll;`);
   }, [isOpen]);
 
   useEffect(() => {
@@ -1073,6 +1111,44 @@ return roll;`);
                             ))}
                           </select>
                         </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-3 items-end">
+                        <div>
+                          <label className="block text-[11px] text-slate-400 mb-1">Disarm DC</label>
+                          <input
+                            type="number"
+                            min="5"
+                            max="30"
+                            aria-label="Disarm DC"
+                            value={disarmDc}
+                            onChange={(e) => setDisarmDc(parseInt(e.target.value, 10) || 13)}
+                            className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] text-slate-400 mb-1">Detection DC</label>
+                          <input
+                            type="number"
+                            min="5"
+                            max="30"
+                            aria-label="Detection DC"
+                            value={detectionDc}
+                            onChange={(e) => setDetectionDc(parseInt(e.target.value, 10) || 14)}
+                            className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200"
+                          />
+                        </div>
+
+                        <label className="flex items-center space-x-2 pb-1 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={oneShotTrigger}
+                            onChange={(e) => setOneShotTrigger(e.target.checked)}
+                            className="rounded border-slate-700 bg-slate-900 text-amber-500"
+                          />
+                          <span className="text-slate-200 text-[11px]">One-Shot Trigger</span>
+                        </label>
                       </div>
 
                       <div>

@@ -201,6 +201,7 @@ export const ModularCharacterAssembler = ({
   const fieldsRef = useRef(fields);
   fieldsRef.current = fields;
   const pendingPresetArraysRef = useRef(null);
+  const skipNextAutoSyncRef = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -277,7 +278,7 @@ export const ModularCharacterAssembler = ({
   const calculatedVitality = isSyntheticSpecies ? 0 : (combatBlock.vitality ?? 0);
   const calculatedToughness = customAttrs.sta !== undefined && customAttrs.sta !== ''
     ? Number(customAttrs.sta)
-    : (combatBlock.attributes?.sta ?? combatBlock.attributeBonus ?? 0);
+    : ((combatBlock.attributes?.sta ?? combatBlock.attributeBonus ?? 0) + (activeChassis?.sta ?? 0));
   const hasCustomArmorDR = Boolean(
     selectedArmorObj &&
       (selectedArmorObj.dr !== undefined ||
@@ -291,29 +292,41 @@ export const ModularCharacterAssembler = ({
   const calculatedAttackBonus = combatBlock.attackBonus ?? 0;
 
   // Build Complete MCM Payload aligned with Persona Folio
-  const buildFullMcmConfig = () => {
-    const weapObj = weaponsList.find((w) => (w.name || w.title) === selectedWeapon);
-    const gearObj = gearList.find((g) => (g.name || g.title) === selectedGear);
-    const featObj = featuresList.find((f) => (f.name || f.title) === selectedFeature);
-    const traitObj = traitsList.find((t) => (t.name || t.title) === selectedTrait);
-    const disObj = disadvantagesList.find((d) => (d.name || d.title) === selectedDisadvantage);
-    const augObj = augmentationsList.find((a) => (a.name || a.title) === selectedAugmentation);
-    const invObj = metaphysicsList.find((m) => (m.name || m.title) === selectedInvocation);
+  const buildFullMcmConfig = (overrides = null) => {
+    const clearedSlot = overrides?.clearedSlot || null;
+    const effWeapon = clearedSlot === 'weapon' ? '' : selectedWeapon;
+    const effArmor = clearedSlot === 'selectedArmor' ? '' : selectedArmor;
+    const effGear = clearedSlot === 'selectedGear' ? '' : selectedGear;
+    const effFeature = clearedSlot === 'selectedFeature' ? '' : selectedFeature;
+    const effTrait = clearedSlot === 'selectedTrait' ? '' : selectedTrait;
+    const effDisadvantage = clearedSlot === 'selectedDisadvantage' ? '' : selectedDisadvantage;
+    const effAugmentation = clearedSlot === 'selectedAugmentation' ? '' : selectedAugmentation;
+    const effInvocation = clearedSlot === 'selectedInvocation' ? '' : selectedInvocation;
+
+    const weapObj = weaponsList.find((w) => (w.name || w.title) === effWeapon);
+    const gearObj = gearList.find((g) => (g.name || g.title) === effGear);
+    const featObj = featuresList.find((f) => (f.name || f.title) === effFeature);
+    const traitObj = traitsList.find((t) => (t.name || t.title) === effTrait);
+    const disObj = disadvantagesList.find((d) => (d.name || d.title) === effDisadvantage);
+    const augObj = augmentationsList.find((a) => (a.name || a.title) === effAugmentation);
+    const invObj = metaphysicsList.find((m) => (m.name || m.title) === effInvocation);
 
     const latestFields = fieldsRef.current || {};
-    const presetArrays = pendingPresetArraysRef.current;
-    pendingPresetArraysRef.current = null;
+    const presetArrays = overrides?.arrays || pendingPresetArraysRef.current;
+    if (!overrides?.arrays) {
+      pendingPresetArraysRef.current = null;
+    }
 
     const mergedWeapons = mergeSlotIntoArray(
       presetArrays ? presetArrays.weapons : latestFields.weapons,
-      selectedWeapon,
+      effWeapon,
       weapObj,
       (name) => ({ id: 'wpn_1', name, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' })
     );
     const mergedArmor = mergeSlotIntoArray(
       presetArrays ? presetArrays.armor : latestFields.armor,
-      selectedArmor,
-      selectedArmorObj,
+      effArmor,
+      effArmor ? selectedArmorObj : null,
       (name) => ({ id: 'arm_1', name, dr: effectiveArmorDR, equipped: true })
     );
 
@@ -342,54 +355,58 @@ export const ModularCharacterAssembler = ({
       attackBonus: calculatedAttackBonus,
       actionsPerRound: combatBlock.actionsPerRound ?? 1,
       attributes: {
-        str: customAttrs.str !== undefined && customAttrs.str !== '' ? Number(customAttrs.str) : (combatBlock.attributes?.str ?? combatBlock.attributeBonus ?? 0),
-        agi: customAttrs.agi !== undefined && customAttrs.agi !== '' ? Number(customAttrs.agi) : (combatBlock.attributes?.agi ?? combatBlock.secondaryAttrBonus ?? 0),
-        sta: customAttrs.sta !== undefined && customAttrs.sta !== '' ? Number(customAttrs.sta) : calculatedToughness,
-        int: customAttrs.int !== undefined && customAttrs.int !== '' ? Number(customAttrs.int) : (combatBlock.attributes?.int ?? combatBlock.secondaryAttrBonus ?? 0),
-        wis: customAttrs.wis !== undefined && customAttrs.wis !== '' ? Number(customAttrs.wis) : (combatBlock.attributes?.wis ?? combatBlock.secondaryAttrBonus ?? 0),
-        cha: customAttrs.cha !== undefined && customAttrs.cha !== '' ? Number(customAttrs.cha) : (combatBlock.attributes?.cha ?? 0)
+        str: customAttrs.str !== undefined && customAttrs.str !== '' ? Number(customAttrs.str) : ((combatBlock.attributes?.str ?? combatBlock.attributeBonus ?? 0) + (activeChassis?.str ?? 0)),
+        agi: customAttrs.agi !== undefined && customAttrs.agi !== '' ? Number(customAttrs.agi) : ((combatBlock.attributes?.agi ?? combatBlock.secondaryAttrBonus ?? 0) + (activeChassis?.agi ?? 0)),
+        sta: calculatedToughness,
+        int: customAttrs.int !== undefined && customAttrs.int !== '' ? Number(customAttrs.int) : ((combatBlock.attributes?.int ?? combatBlock.secondaryAttrBonus ?? 0) + (activeChassis?.int ?? 0)),
+        wis: customAttrs.wis !== undefined && customAttrs.wis !== '' ? Number(customAttrs.wis) : ((combatBlock.attributes?.wis ?? combatBlock.secondaryAttrBonus ?? 0) + (activeChassis?.wis ?? 0)),
+        cha: customAttrs.cha !== undefined && customAttrs.cha !== '' ? Number(customAttrs.cha) : ((combatBlock.attributes?.cha ?? 0) + (activeChassis?.cha ?? 0))
       },
       skills: skillRanks,
       ...(existingAttacks.length > 0 ? { attacks: existingAttacks } : {}),
       weapons: mergedWeapons.length > 0
         ? mergedWeapons
-        : [{ id: 'wpn_default', name: `${activeRoleObj.name} Armament`, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' }],
+        : (overrides?.emptyArrayKey === 'weapons'
+            ? []
+            : [{ id: 'wpn_default', name: `${activeRoleObj.name} Armament`, damage: calculatedBaseDamageDice, range: 'Medium', type: 'Tactical' }]),
       armor: mergedArmor.length > 0
         ? mergedArmor
-        : (effectiveArmorDR > 0 ? [{ id: 'arm_default', name: 'Tactical Plating', dr: effectiveArmorDR, equipped: true }] : []),
+        : (overrides?.emptyArrayKey === 'armor'
+            ? []
+            : (effectiveArmorDR > 0 ? [{ id: 'arm_default', name: 'Tactical Plating', dr: effectiveArmorDR, equipped: true }] : [])),
       gear: mergeSlotIntoArray(
         presetArrays ? presetArrays.gear : latestFields.gear,
-        selectedGear,
+        effGear,
         gearObj,
         (name) => ({ id: 'gear_1', name })
       ),
       features: mergeSlotIntoArray(
         presetArrays ? presetArrays.features : latestFields.features,
-        selectedFeature,
+        effFeature,
         featObj,
         (name) => ({ id: 'feat_1', name })
       ),
       traits: mergeSlotIntoArray(
         presetArrays ? presetArrays.traits : latestFields.traits,
-        selectedTrait,
+        effTrait,
         traitObj,
         (name) => ({ id: 'trait_1', name })
       ),
       disadvantages: mergeSlotIntoArray(
         presetArrays ? presetArrays.disadvantages : latestFields.disadvantages,
-        selectedDisadvantage,
+        effDisadvantage,
         disObj,
         (name) => ({ id: 'dis_1', name })
       ),
       augmentations: mergeSlotIntoArray(
         presetArrays ? presetArrays.augmentations : latestFields.augmentations,
-        selectedAugmentation,
+        effAugmentation,
         augObj,
         (name) => ({ id: 'aug_1', name })
       ),
       invocations: mergeSlotIntoArray(
         presetArrays ? presetArrays.invocations : latestFields.invocations,
-        selectedInvocation,
+        effInvocation,
         invObj,
         (name) => ({ id: 'inv_1', name })
       ),
@@ -430,11 +447,12 @@ export const ModularCharacterAssembler = ({
   };
 
   // Build batched parent field patch (shared by automatic live sync and manual Re-sync)
-  const buildMcmBatchPatch = () => {
+  const buildMcmBatchPatch = (overrides = null) => {
     const latestFields = fieldsRef.current || {};
-    const fullConfig = buildFullMcmConfig();
+    const fullConfig = buildFullMcmConfig(overrides);
     const folioPersona = convertMcmToFolioPersona(fullConfig);
     const vttUnit = buildVttUnitFromPersona(folioPersona, { uniqueInstance: false });
+    const clearedSlot = overrides?.clearedSlot || null;
 
     const batchPatch = {
       personaSubcategory: 'mcm',
@@ -467,14 +485,14 @@ export const ModularCharacterAssembler = ({
       ...(selectedOccupation ? { 'char-occu': selectedOccupation } : {}),
       ...(selectedOrigin ? { 'char-origin': selectedOrigin } : {}),
       ...(selectedFaction ? { 'char-faction': selectedFaction } : {}),
-      ...(selectedWeapon ? { weapon: selectedWeapon } : {}),
-      ...(selectedArmor ? { selectedArmor } : {}),
-      ...(selectedGear ? { selectedGear } : {}),
-      ...(selectedFeature ? { selectedFeature } : {}),
-      ...(selectedTrait ? { selectedTrait } : {}),
-      ...(selectedDisadvantage ? { selectedDisadvantage } : {}),
-      ...(selectedAugmentation ? { selectedAugmentation } : {}),
-      ...(selectedInvocation ? { selectedInvocation } : {}),
+      ...(clearedSlot === 'weapon' ? { weapon: '' } : (selectedWeapon ? { weapon: selectedWeapon } : {})),
+      ...(clearedSlot === 'selectedArmor' ? { selectedArmor: '' } : (selectedArmor ? { selectedArmor } : {})),
+      ...(clearedSlot === 'selectedGear' ? { selectedGear: '' } : (selectedGear ? { selectedGear } : {})),
+      ...(clearedSlot === 'selectedFeature' ? { selectedFeature: '' } : (selectedFeature ? { selectedFeature } : {})),
+      ...(clearedSlot === 'selectedTrait' ? { selectedTrait: '' } : (selectedTrait ? { selectedTrait } : {})),
+      ...(clearedSlot === 'selectedDisadvantage' ? { selectedDisadvantage: '' } : (selectedDisadvantage ? { selectedDisadvantage } : {})),
+      ...(clearedSlot === 'selectedAugmentation' ? { selectedAugmentation: '' } : (selectedAugmentation ? { selectedAugmentation } : {})),
+      ...(clearedSlot === 'selectedInvocation' ? { selectedInvocation: '' } : (selectedInvocation ? { selectedInvocation } : {})),
       features: folioPersona.features,
       traits: folioPersona.traits,
       disadvantages: folioPersona.disadvantages,
@@ -516,10 +534,81 @@ export const ModularCharacterAssembler = ({
     }
   };
 
+  const handleRemoveArrayItem = (arrayKey, indexToRemove, currentSelected, setSelectedFn, selectedFieldKey) => {
+    const latestFields = fieldsRef.current || {};
+    const allArrays = {
+      weapons: parseExistingArray(latestFields.weapons),
+      armor: parseExistingArray(latestFields.armor),
+      gear: parseExistingArray(latestFields.gear),
+      features: parseExistingArray(latestFields.features),
+      traits: parseExistingArray(latestFields.traits),
+      disadvantages: parseExistingArray(latestFields.disadvantages),
+      augmentations: parseExistingArray(latestFields.augmentations),
+      invocations: parseExistingArray(latestFields.invocations)
+    };
+    const currentList = allArrays[arrayKey] || [];
+    const removedItem = currentList[indexToRemove];
+    const removedName = String(removedItem?.name || removedItem?.title || removedItem || '').trim().toLowerCase();
+    const nextList = currentList.filter((_, idx) => idx !== indexToRemove);
+    const shouldClearSelected =
+      Boolean(currentSelected) &&
+      (String(currentSelected).trim().toLowerCase() === removedName || nextList.length === 0);
+
+    const overrides = {
+      arrays: { ...allArrays, [arrayKey]: nextList },
+      clearedSlot: shouldClearSelected ? selectedFieldKey : null,
+      emptyArrayKey: nextList.length === 0 ? arrayKey : null
+    };
+
+    const { batchPatch } = buildMcmBatchPatch(overrides);
+    if (nextList.length === 0 && (arrayKey === 'weapons' || arrayKey === 'armor')) {
+      batchPatch[arrayKey] = [];
+    }
+
+    if (shouldClearSelected && typeof setSelectedFn === 'function') {
+      skipNextAutoSyncRef.current = true;
+      setSelectedFn('');
+    }
+    flushPatchToParent(batchPatch);
+  };
+
+  const renderArrayChips = (arrayKey, currentSelected, setSelectedFn, selectedFieldKey, toneClass = 'bg-slate-900 border-slate-700 text-slate-200') => {
+    const items = parseExistingArray(fields?.[arrayKey]);
+    if (items.length === 0) return null;
+    return (
+      <div className="flex flex-wrap gap-1 pt-1">
+        {items.map((item, idx) => {
+          const itemName = String(item?.name || item?.title || item || `Item ${idx + 1}`).trim();
+          return (
+            <span
+              key={`${arrayKey}-${item?.id || itemName}-${idx}`}
+              className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-mono ${toneClass}`}
+            >
+              <span className="truncate max-w-[140px]">{itemName}</span>
+              <button
+                type="button"
+                aria-label={`Remove ${itemName}`}
+                title={`Remove ${itemName}`}
+                onClick={() => handleRemoveArrayItem(arrayKey, idx, currentSelected, setSelectedFn, selectedFieldKey)}
+                className="text-slate-400 hover:text-rose-300 font-bold leading-none cursor-pointer px-0.5"
+              >
+                ×
+              </button>
+            </span>
+          );
+        })}
+      </div>
+    );
+  };
+
   // Auto-sync MCM edits directly to parent Element state so switching modes/tabs or saving never loses edits
   useEffect(() => {
     if (!didAutoSyncMountRef.current) {
       didAutoSyncMountRef.current = true;
+      return;
+    }
+    if (skipNextAutoSyncRef.current) {
+      skipNextAutoSyncRef.current = false;
       return;
     }
     const { batchPatch } = buildMcmBatchPatch();
@@ -588,6 +677,9 @@ export const ModularCharacterAssembler = ({
     setIsSynthesizing(true);
     AudioService.playTerminalBeep(980, 0.08);
 
+    const candidateWeapons = weaponsList.map((w) => w.name || w.title).filter(Boolean).slice(0, 20);
+    const candidateArmors = armorsList.map((a) => a.name || a.title).filter(Boolean).slice(0, 20);
+
     const prompt = `You are AIME assisting with a Modular Character build in the Tangent SFF RPG ADE.
 Character Concept: "${elementTitle || 'Combatant Operative'}"
 Designation: "${designation}"
@@ -596,7 +688,8 @@ Current Tier: ${tier}
 Select the most thematic configuration from:
 1. Chassis: combatant, specialist, socialite, or balanced
 2. Tactical Role: Tank, Brute, MeleeDPS, RangedDPS, Sniper, MobilitySpecialist, Flank, CombativeMetaUser, Buffer, Leader, Debuffer, or Technician
-3. Suggest a live Omnicortex weapon and armor matching Tech Level 3.
+3. Choose a weapon from live Omnicortex options: ${candidateWeapons.length > 0 ? candidateWeapons.join(', ') : '(suggest Tech Level 3 sci-fi weapon)'}
+4. Choose armor from live Omnicortex options: ${candidateArmors.length > 0 ? candidateArmors.join(', ') : '(suggest Tech Level 3 sci-fi armor)'}
 
 Respond in JSON format:
 {
@@ -608,7 +701,10 @@ Respond in JSON format:
 }`;
 
     try {
-      const responseText = await generateContent({ prompt });
+      const responseText = await generateContent({ prompt, enforceJson: true });
+      if (typeof responseText !== 'string' || !responseText.trim()) {
+        throw new Error('Empty AIME response');
+      }
       const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
       const parsed = JSON.parse(cleanJson);
 
@@ -942,6 +1038,35 @@ Respond in JSON format:
             </div>
           </div>
 
+          {/* Attribute Chassis Archetype Selector */}
+          <div className="p-3 bg-slate-900/90 border border-slate-800 rounded-xl space-y-2">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <span className="text-[10px] font-mono font-bold uppercase text-cyan-400">
+                Attribute Chassis Preset
+              </span>
+              <span className="text-[10px] font-mono text-slate-400">
+                Active: <strong className="text-cyan-200">{activeChassis.name}</strong> ({activeChassis.label})
+              </span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {Object.entries(CHASSIS_PRESETS).map(([key, preset]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setChassisKey(key)}
+                  className={`px-2.5 py-1.5 rounded-lg text-left border transition-all cursor-pointer ${
+                    chassisKey === key
+                      ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200'
+                      : 'bg-slate-950/80 border-slate-700 text-slate-300 hover:border-slate-500'
+                  }`}
+                >
+                  <div className="text-[11px] font-mono font-bold">{preset.name}</div>
+                  <div className="text-[9px] font-mono text-slate-400">{preset.label}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* 5-Pillar Identity Row (Aligned with Persona Folio) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
             <div className="space-y-1">
@@ -1084,6 +1209,7 @@ Respond in JSON format:
                 <option key={f.id || idx} value={f.name || f.title}>{f.name || f.title}</option>
               ))}
             </select>
+            {renderArrayChips('features', selectedFeature, setSelectedFeature, 'selectedFeature', 'bg-cyan-950/70 border-cyan-500/40 text-cyan-200')}
           </div>
 
           <div className="space-y-1">
@@ -1098,6 +1224,7 @@ Respond in JSON format:
                 <option key={t.id || idx} value={t.name || t.title}>{t.name || t.title}</option>
               ))}
             </select>
+            {renderArrayChips('traits', selectedTrait, setSelectedTrait, 'selectedTrait', 'bg-emerald-950/70 border-emerald-500/40 text-emerald-200')}
           </div>
 
           <div className="space-y-1">
@@ -1112,6 +1239,7 @@ Respond in JSON format:
                 <option key={d.id || idx} value={d.name || d.title}>{d.name || d.title}</option>
               ))}
             </select>
+            {renderArrayChips('disadvantages', selectedDisadvantage, setSelectedDisadvantage, 'selectedDisadvantage', 'bg-rose-950/70 border-rose-500/40 text-rose-200')}
           </div>
 
           <div className="space-y-1">
@@ -1126,6 +1254,7 @@ Respond in JSON format:
                 <option key={a.id || idx} value={a.name || a.title}>{a.name || a.title}</option>
               ))}
             </select>
+            {renderArrayChips('augmentations', selectedAugmentation, setSelectedAugmentation, 'selectedAugmentation', 'bg-amber-950/70 border-amber-500/40 text-amber-200')}
           </div>
 
           <div className="space-y-1">
@@ -1140,6 +1269,7 @@ Respond in JSON format:
                 <option key={m.id || idx} value={m.name || m.title}>{m.name || m.title}</option>
               ))}
             </select>
+            {renderArrayChips('invocations', selectedInvocation, setSelectedInvocation, 'selectedInvocation', 'bg-purple-950/70 border-purple-500/40 text-purple-200')}
           </div>
         </div>
       )}
@@ -1159,6 +1289,7 @@ Respond in JSON format:
                 <option key={w.id || idx} value={w.name || w.title}>{w.name || w.title}</option>
               ))}
             </select>
+            {renderArrayChips('weapons', selectedWeapon, setSelectedWeapon, 'weapon', 'bg-cyan-950/70 border-cyan-500/40 text-cyan-200')}
           </div>
 
           <div className="space-y-1">
@@ -1173,6 +1304,7 @@ Respond in JSON format:
                 <option key={a.id || idx} value={a.name || a.title}>{a.name || a.title}</option>
               ))}
             </select>
+            {renderArrayChips('armor', selectedArmor, setSelectedArmor, 'selectedArmor', 'bg-emerald-950/70 border-emerald-500/40 text-emerald-200')}
           </div>
 
           <div className="space-y-1">
@@ -1187,6 +1319,7 @@ Respond in JSON format:
                 <option key={g.id || idx} value={g.name || g.title}>{g.name || g.title}</option>
               ))}
             </select>
+            {renderArrayChips('gear', selectedGear, setSelectedGear, 'selectedGear', 'bg-amber-950/70 border-amber-500/40 text-amber-200')}
           </div>
         </div>
       )}

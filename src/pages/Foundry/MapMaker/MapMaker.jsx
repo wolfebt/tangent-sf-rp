@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback, Suspense } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { lazyWithRetry } from '../../../utils/lazyWithRetry';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import MapMakerPixiCanvas from './pixi/MapMakerPixiCanvas';
@@ -14,23 +14,20 @@ import { createDefaultTeamRoster, canUserControlToken, isUserArchitect, VTT_ROLE
 import { MAP_TYPES, DEFAULT_LAYERS, MASTER_TERRAINS, MASTER_OBJECTS, PENCIL_COLORS, PENCIL_WIDTHS, TEXT_COLORS } from './map/MapConstants';
 import UvttImportModal from './map/UvttImportModal';
 import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
-import { toggleDoorState, damageWallSegment, createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../schemas/vttWallSchema';
+import { toggleDoorState, createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../schemas/vttWallSchema';
 import { useMapBezierAndExport } from './hooks/useMapBezierAndExport';
 import MapUnderlayCalibrationModal from './map/MapUnderlayCalibrationModal';
 import SpatialAudio from '../../../services/spatialAudioService';
 import MapToolbar from './map/MapToolbar';
 import ArchitectConsoleRail from './map/ArchitectConsoleRail';
-import MapLayersPanel from './map/MapLayersPanel';
 import MapMetadataPanel from './map/MapMetadataPanel';
 import MapKeyPanel from './map/MapKeyPanel';
-import MapAssetManagerModal from './map/MapAssetManagerModal';
 import OmnicortexAssetDrawer from './map/OmnicortexAssetDrawer';
 import StoryElementsDrawer from './map/StoryElementsDrawer';
 import StoryElementModal from './map/StoryElementModal';
 import { normalizeElementType } from '../ElementForge/elementSchemas';
 import { DBMItemModal } from '../../../components/DBM/DBMItemModal';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
-import { useFolio } from '../../../context/FolioContext';
 import { AudioService } from '../../../services/audioService';
 const MapMaker3DPreviewModal = lazyWithRetry(() => import('./components/MapMaker3DPreviewModal'));
 
@@ -43,7 +40,6 @@ import {
   createResearchOutpostMap 
 } from '../../../components/VTT/stage/defaultMaps';
 
-import { getBiomeTextureUrl } from './map/landmassGenerator';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { MapMakerTabBar } from './components/MapMakerTabBar';
 import { AssetStudioTab } from './components/AssetStudioTab';
@@ -116,6 +112,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const [textColor, setTextColor] = useState(TEXT_COLORS[0]);
   const [textSize, setTextSize] = useState(24);
   const [fogEnabled, setFogEnabled] = useState(false);
+  const [fogBrushMode, setFogBrushMode] = useState('paint'); // 'paint' | 'reveal'
   // Dynamic Light Tool State
   const [selectedLightColor, setSelectedLightColor] = useState('#f59e0b');
   const [selectedLightRadius, setSelectedLightRadius] = useState(180);
@@ -516,9 +513,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
   };
 
-  // Map Creation Modal, Asset Manager Modal & Shortcuts Modal State
+  // Map Creation Modal & Shortcuts Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAssetManagerOpen, setIsAssetManagerOpen] = useState(false);
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [newMapType, setNewMapType] = useState('Planetary');
@@ -836,12 +832,13 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const {
     scale, setScale, position, setPosition,
     isDrawing,
+    activeStrokePreview,
     handleWheel, handleMouseDown, handleMouseMove, handleMouseUp,
     wallStartPoint, wallPreviewEnd, rulerWaypoints, setRulerWaypoints, rulerPointer, setRulerPointer, clearRuler,
     zoomBy, panBy, chunkPointerPos, chunkCaptureMarquee, setChunkCaptureMarquee
   } = useMapCanvasEvents({
     currentMap, activeMapId, updateMap, recordHistory,
-    activeTool, lines, terrains, walls, fog, objects, tokens, texts, lights,
+    activeTool, lines, terrains, walls, fog, fogBrushMode, objects, tokens, texts, lights,
     pencilColor, pencilWidth, selectedTerrain, terrainWidth, softTerrainEdge, paintRoofLayer, selectedObjectType,
     selectedWallType, doorLockDc,
     selectedLightColor, selectedLightRadius, selectedLightAnimation,
@@ -1053,7 +1050,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
       updateMap(activeMapId, { tokens: [...tokens, newUnitToken] });
       AudioService.playTerminalBeep(1100, 0.03);
-      showToast(`Added ${newUnitToken.label} to map`, 'success');
+      showToast({ type: 'success', text: `Added ${newUnitToken.label} to map` });
     } else {
       // Weapon / Armor / Gear / Loot or Hazard Placeable Object
       const newObject = {
@@ -1077,7 +1074,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
       updateMap(activeMapId, { objects: [...objects, newObject] });
       AudioService.playTerminalBeep(950, 0.05);
-      showToast(`Added ${newObject.label} to map`, 'success');
+      showToast({ type: 'success', text: `Added ${newObject.label} to map` });
     }
   };
 
@@ -1352,8 +1349,76 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         }
       }
 
+      if ((e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === 'd' && selectedId) {
+        e.preventDefault();
+        if (isStoryReadOnly) {
+          showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+          return;
+        }
+        const collections = [
+          { key: 'objects', items: objects },
+          { key: 'tokens', items: tokens },
+          { key: 'lights', items: lights },
+          { key: 'texts', items: texts },
+          { key: 'regions', items: regions }
+        ];
+        for (const col of collections) {
+          const found = col.items.find((item) => item.id === selectedId);
+          if (found) {
+            const newId = col.key === 'tokens' ? `token_${Date.now()}_${Math.floor(Math.random() * 1000)}` : uuidv4();
+            const copy = col.key === 'regions' && found.bounds
+              ? { ...found, id: newId, bounds: { ...found.bounds, x: (found.bounds.x || 0) + 25, y: (found.bounds.y || 0) + 25 } }
+              : { ...found, id: newId, x: (found.x || 0) + 25, y: (found.y || 0) + 25 };
+            recordHistory('Duplicate Asset');
+            updateMap(activeMapId, { [col.key]: [...col.items, copy] });
+            setSelectedId(newId);
+            break;
+          }
+        }
+        return;
+      }
+
       // Do not trigger single-key canvas shortcuts when Ctrl, Alt, or Meta modifiers are held
       if (e.ctrlKey || e.altKey || e.metaKey) {
+        return;
+      }
+
+      if (selectedId && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+        if (isStoryReadOnly) {
+          showToast({ type: 'warning', text: 'Story is read-only. Map edits are disabled.' });
+          return;
+        }
+        const step = e.shiftKey ? 50 : 10;
+        const dx = e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0;
+        const dy = e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0;
+
+        if (objects.some(o => o.id === selectedId)) {
+          recordHistory('Nudge Object', { coalesceKey: `nudge_${selectedId}` });
+          updateMap(activeMapId, { objects: objects.map(o => o.id === selectedId ? { ...o, x: (o.x || 0) + dx, y: (o.y || 0) + dy } : o) });
+        } else if (tokens.some(t => t.id === selectedId)) {
+          recordHistory('Nudge Token', { coalesceKey: `nudge_${selectedId}` });
+          updateMap(activeMapId, { tokens: tokens.map(t => t.id === selectedId ? { ...t, x: (t.x || 0) + dx, y: (t.y || 0) + dy } : t) });
+        } else if (lights.some(l => l.id === selectedId)) {
+          recordHistory('Nudge Light', { coalesceKey: `nudge_${selectedId}` });
+          updateMap(activeMapId, { lights: lights.map(l => l.id === selectedId ? { ...l, x: (l.x || 0) + dx, y: (l.y || 0) + dy } : l) });
+        } else if (texts.some(tx => tx.id === selectedId)) {
+          recordHistory('Nudge Label', { coalesceKey: `nudge_${selectedId}` });
+          updateMap(activeMapId, { texts: texts.map(tx => tx.id === selectedId ? { ...tx, x: (tx.x || 0) + dx, y: (tx.y || 0) + dy } : tx) });
+        } else if (regions.some(r => r.id === selectedId)) {
+          recordHistory('Nudge Region', { coalesceKey: `nudge_${selectedId}` });
+          updateMap(activeMapId, { regions: regions.map(r => r.id === selectedId && r.bounds ? { ...r, bounds: { ...r.bounds, x: (r.bounds.x || 0) + dx, y: (r.bounds.y || 0) + dy } } : r) });
+        } else if (walls.some(w => w.id === selectedId)) {
+          recordHistory('Nudge Wall', { coalesceKey: `nudge_${selectedId}` });
+          updateMap(activeMapId, {
+            walls: walls.map(w => w.id === selectedId ? {
+              ...w,
+              ...(w.p1 ? { p1: { x: w.p1.x + dx, y: w.p1.y + dy } } : {}),
+              ...(w.p2 ? { p2: { x: w.p2.x + dx, y: w.p2.y + dy } } : {}),
+              ...(w.bezierControl ? { bezierControl: { x: w.bezierControl.x + dx, y: w.bezierControl.y + dy } } : {})
+            } : w)
+          });
+        }
         return;
       }
 
@@ -2154,6 +2219,20 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
               const nextObjs = objects.map(o => o.id === objId ? { ...o, ...updates } : o);
               updateMap(activeMapId, { objects: nextObjs });
             }}
+            onBroadcastHandout={(el) => {
+              if (!el) return;
+              const rawText = el.atmosphere || el.sensoryDialogue || el.summary || el.description || el.content || '';
+              const handout = {
+                id: el.id || `handout_${Date.now()}`,
+                title: el.name || el.title || 'Tactical Handout',
+                text: String(rawText).replace(/<[^>]*>?/gm, '').trim(),
+                imageUrl: el.imageUrl || el.portrait || el.fields?.imageUrl || '',
+                timestamp: Date.now()
+              };
+              VttEventBus.emit('broadcast-handout', handout);
+              VttEventBus.emit('stage-remote-handout', handout);
+              showToast({ type: 'success', text: `Broadcasted "${handout.title}" to Spectator View` });
+            }}
             onTriggerFloatingText={(x, y, msg) => showToast({ type: 'info', text: String(msg) })}
             scale={scale}
             position={position}
@@ -2165,22 +2244,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
           setShowPanel={setShowMetadataPanel}
           currentMap={currentMap}
           updateMap={updateMap}
+          recordHistory={recordHistory}
           universeState={universeState}
           setActiveMapId={setActiveMapId}
           isStoryReadOnly={isStoryReadOnly}
-        />
-
-        <MapAssetManagerModal
-          isOpen={isAssetManagerOpen}
-          onClose={() => setIsAssetManagerOpen(false)}
-          customAssets={universeState.customAssets || { terrains: [], objects: [] }}
-          onAddCustomTerrain={addCustomTerrain}
-          onUpdateCustomTerrain={updateCustomTerrain}
-          onDeleteCustomTerrain={deleteCustomTerrain}
-          onAddCustomObject={addCustomObject}
-          onUpdateCustomObject={updateCustomObject}
-          onDeleteCustomObject={deleteCustomObject}
-          currentScale={currentMap?.type || 'Planetary'}
         />
 
         {/* Canvas Area */}
@@ -2401,6 +2468,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                 activePings={activePings}
                 rulerWaypoints={rulerWaypoints}
                 rulerPointer={rulerPointer}
+                activeStrokePreview={activeStrokePreview}
                 chunkGhostPreviewData={chunkGhostPreviewData}
                 chunkCaptureMarquee={chunkCaptureMarquee}
                 activeTool={activeTool}
@@ -2596,6 +2664,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             setTextSize={setTextSize}
             fogEnabled={fogEnabled}
             setFogEnabled={handleSetFogEnabled}
+            fogBrushMode={fogBrushMode}
+            setFogBrushMode={setFogBrushMode}
             currentMapScale={currentMap?.type || 'Planetary'}
             customAssets={universeState.customAssets || { terrains: [], objects: [] }}
             selectedLightColor={selectedLightColor}

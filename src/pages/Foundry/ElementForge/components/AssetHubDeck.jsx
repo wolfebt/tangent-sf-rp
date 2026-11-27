@@ -94,6 +94,7 @@ export default function AssetHubDeck({
       if (linkedIds.has(el.id)) return false;
       if (
         scopeFilter === 'module' &&
+        !el.isPinnedToModule &&
         (el.isCortexAsset || el.isFolioPersona || el.sourceOrigin === 'omnicortex' || el.sourceOrigin === 'folio')
       ) {
         return false;
@@ -104,7 +105,16 @@ export default function AssetHubDeck({
         const matchesTitle = (el.title || el.name || '').toLowerCase().includes(q);
         const matchesType = (el.type || '').toLowerCase().includes(q);
         const matchesContent = (el.content || '').toLowerCase().includes(q);
-        return matchesTitle || matchesType || matchesContent;
+        const matchesMeta = [
+          el.fields?.archetype,
+          el.fields?.keywords,
+          el.searchHaystack
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase()
+          .includes(q);
+        return matchesTitle || matchesType || matchesContent || matchesMeta;
       }
       return true;
     });

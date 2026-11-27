@@ -144,15 +144,15 @@ describe('ModuleMissionControl — ADE Cockpit & Lifecycle', () => {
   it('computes Readiness Score (0% empty vs 100% populated) and Module Health Score thresholds', () => {
     const { rerender } = render(<ModuleMissionControl onSwitchView={vi.fn()} onOpenCompiler={vi.fn()} />);
 
-    // Empty module: readiness 0%, health = 100 - 35 (no scenarios) - 25 (no maps) - 20 (no elements) - 10 (no gems) = 10%
+    // Empty module: readiness 0%, health via adeEngineBridge.validateUniverseRules = 100 - 35 (no scenarios) = 65%
     expect(screen.getByTitle('Module Readiness: 0% Pre-Flight')).toBeInTheDocument();
-    expect(screen.getByText('10%')).toBeInTheDocument();
+    expect(screen.getByText('65%')).toBeInTheDocument();
 
     // Populate scenarios(+25) + mapped scenario(+25) + scripted element(+25 + 10) + walled map(+15) + gem
     stateHolder.universeState = {
       id: 'story_alpha',
       projectName: 'Sector Alpha',
-      scenarios: [{ id: 'sc_1', title: 'Docking Bay', mapId: 'map_1', beats: ['Beat 1'] }],
+      scenarios: [{ id: 'sc_1', title: 'Docking Bay', mapId: 'map_1', beats: ['Beat 1'], content: 'Airlock seals engage with a resonant thud.' }],
       maps: [{ id: 'map_1', title: 'Hangar', walls: [{ p1: [0, 0], p2: [10, 0] }] }],
       creativeState: { gems: ['noir'] }
     };

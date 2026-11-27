@@ -7,6 +7,7 @@ const MapMetadataPanel = ({
   setShowPanel,
   currentMap,
   updateMap,
+  recordHistory,
   universeState,
   setActiveMapId,
   isStoryReadOnly = false
@@ -19,12 +20,14 @@ const MapMetadataPanel = ({
 
   const handleFieldChange = (key, value) => {
     if (isStoryReadOnly) return;
+    recordHistory?.('Update Map Metadata', { coalesceKey: `meta_${currentMap.id}_${key}` });
     const nextMetadata = { ...metadata, [key]: value };
     updateMap(currentMap.id, { metadata: nextMetadata });
   };
 
   const handleParentLinkChange = (parentId) => {
     if (isStoryReadOnly) return;
+    recordHistory?.('Update Parent Map Link');
     updateMap(currentMap.id, { parentMapId: parentId });
   };
 

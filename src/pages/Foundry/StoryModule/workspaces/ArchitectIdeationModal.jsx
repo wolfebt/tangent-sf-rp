@@ -14,6 +14,7 @@ import React, { useState, useEffect } from 'react';
 import { generateContent } from '../../../../services/aimeService.js';
 import { ATMOSPHERIC_PRESETS } from '../../PresetsAndScripts/constants/atmosphericPresets.js';
 import { AudioService } from '../../../../services/audioService.js';
+import { useDirtyModalClose } from '../../../../hooks/useDirtyModalClose';
 import { 
   Sparkles, 
   Target, 
@@ -78,10 +79,34 @@ export default function ArchitectIdeationModal({
   const [flavorOptions, setFlavorOptions] = useState([]);
   const [selectedFlavor, setSelectedFlavor] = useState('');
   const [assembledDraft, setAssembledDraft] = useState('');
+  const [flavorError, setFlavorError] = useState('');
+
+  const { handleRequestClose, handleBackdropClick } = useDirtyModalClose({
+    isOpen,
+    isDirty: Boolean(
+      architectIntent.trim() ||
+      primaryObjective.trim() ||
+      opposingForce.trim() ||
+      selectedFlavor.trim() ||
+      assembledDraft.trim()
+    ),
+    onClose,
+    title: 'Discard Node Draft?',
+    message: 'You have an active node ideation draft. Discard it and close?'
+  });
 
   useEffect(() => {
-    if (initialNodeType) {
-      setNodeType(initialNodeType);
+    if (isOpen) {
+      setStep(1);
+      setNodeType(initialNodeType || 'Climax');
+      setArchitectIntent('');
+      setPrimaryObjective('');
+      setOpposingForce('');
+      setTargetDC(13);
+      setFlavorOptions([]);
+      setSelectedFlavor('');
+      setAssembledDraft('');
+      setFlavorError('');
     }
   }, [initialNodeType, isOpen]);
 
@@ -90,6 +115,7 @@ export default function ArchitectIdeationModal({
   const handleGenerateFlavor = async () => {
     if (!architectIntent.trim()) return;
     setIsGeneratingFlavor(true);
+    setFlavorError('');
     AudioService.playTerminalBeep(1100, 0.03);
 
     const prompt = `You are AIME acting strictly as a responsive sensory flavor layer for the ARCHITECT.
@@ -114,15 +140,18 @@ Option 3: [Sensory depiction]`;
 
     try {
       const result = await generateContent({ prompt, context: activeNode });
-      if (result) {
+      if (typeof result === 'string' && result.trim()) {
         const lines = result.split(/\n(?=Option [123]:)/i).map(l => l.replace(/^Option [123]:\s*/i, '').trim()).filter(Boolean);
         const options = lines.length >= 2 ? lines.slice(0, 3) : [result.trim()];
         setFlavorOptions(options);
         setSelectedFlavor(options[0] || '');
         setStep(3);
+      } else {
+        setFlavorError('AIME did not return sensory variations. You can retry or skip straight to manual node assembly.');
       }
     } catch (err) {
       console.warn('Flavor generation error:', err);
+      setFlavorError('AIME flavor synthesis failed. Retry or skip directly to node assembly.');
     } finally {
       setIsGeneratingFlavor(false);
     }
@@ -160,7 +189,7 @@ ${opposingForce.trim() ? `**Opposing Force:** ${opposingForce.trim()}\n` : ''}**
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-mono select-none" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-mono select-none" onClick={handleBackdropClick}>
       <div className="bg-[#0b101b] border-2 border-cyan-400/80 rounded-2xl max-w-2xl w-full my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] p-5 space-y-4 shadow-[0_0_40px_rgba(6,182,212,0.3)] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-800">
@@ -179,7 +208,7 @@ ${opposingForce.trim() ? `**Opposing Force:** ${opposingForce.trim()}\n` : ''}**
           </div>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleRequestClose}
             className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
           >
             <X size={15} />
@@ -378,6 +407,11 @@ ${opposingForce.trim() ? `**Opposing Force:** ${opposingForce.trim()}\n` : ''}**
         )}
 
         {/* Footer Actions */}
+        {step === 2 && flavorError && (
+          <div className="px-3 py-2 rounded-xl bg-amber-950/60 border border-amber-500/40 text-amber-200 text-[11px] font-sans">
+            {flavorError}
+          </div>
+        )}
         <div className="flex items-center justify-between pt-3 border-t border-slate-800">
           {step > 1 ? (
             <button
@@ -404,15 +438,25 @@ ${opposingForce.trim() ? `**Opposing Force:** ${opposingForce.trim()}\n` : ''}**
             )}
 
             {step === 2 && (
-              <button
-                type="button"
-                onClick={handleGenerateFlavor}
-                disabled={isGeneratingFlavor}
-                className="px-4 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-md"
-              >
-                {isGeneratingFlavor ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
-                <span>Call AIME Flavor Layer</span>
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={handleProceedToReview}
+                  className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>Skip AI Flavor → Review</span>
+                  <ArrowRight size={13} />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleGenerateFlavor}
+                  disabled={isGeneratingFlavor}
+                  className="px-4 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-md"
+                >
+                  {isGeneratingFlavor ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
+                  <span>Call AIME Flavor Layer</span>
+                </button>
+              </>
             )}
 
             {step === 3 && (

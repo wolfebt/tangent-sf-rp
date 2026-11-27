@@ -177,7 +177,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
     setUniverseState,
     elementsCatalog,
     mapsCatalog,
-    setActiveScenarioId
+    setActiveScenarioId,
+    setActiveMapId,
+    isStoryReadOnly = false
   } = useStory();
 
   // ── PRIMARY MODE: ASSET NETWORK vs SCENARIO FLOWCHART ──
@@ -365,26 +367,29 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
   // ── PERSISTENCE HELPERS ──
   const saveLinksToUniverse = useCallback(
     (updatedLinks) => {
+      if (isStoryReadOnly) return;
       setUniverseState((prev) => ({
         ...prev,
         assetLinks: updatedLinks
       }));
     },
-    [setUniverseState]
+    [setUniverseState, isStoryReadOnly]
   );
 
   const savePositionsToUniverse = useCallback(
     (updatedPositions) => {
+      if (isStoryReadOnly) return;
       setUniverseState((prev) => ({
         ...prev,
         assetGraphPositions: updatedPositions
       }));
     },
-    [setUniverseState]
+    [setUniverseState, isStoryReadOnly]
   );
 
   // ── AUTO-ORGANIZE LAYOUT ──
   const handleAutoOrganize = () => {
+    if (isStoryReadOnly) return;
     setLocalDragPositions({});
     savePositionsToUniverse({});
     const freshLayout = computeIntelligentAssetLayout({
@@ -399,6 +404,7 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
 
   // ── OPEN CREATE LINK MODAL ──
   const openConnectModal = (prefillSourceId = '', prefillTargetId = '') => {
+    if (isStoryReadOnly) return;
     const defaultSrc =
       prefillSourceId ||
       selectedNodeId ||
@@ -419,6 +425,7 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
 
   const handleCreateLink = (e) => {
     if (e) e.preventDefault();
+    if (isStoryReadOnly) return;
     if (!newLinkSource || !newLinkTarget || newLinkSource === newLinkTarget) return;
 
     const newLink = {
@@ -441,6 +448,7 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
 
   // Pin a smart lore suggestion directly as a confirmed link
   const handleConfirmSuggestion = (suggestion) => {
+    if (isStoryReadOnly) return;
     const newLink = {
       id: uuidv4(),
       source: suggestion.source,
@@ -455,7 +463,7 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
   };
 
   const handleConfirmAllSuggestions = () => {
-    if (suggestedLinks.length === 0) return;
+    if (isStoryReadOnly || suggestedLinks.length === 0) return;
     const additions = suggestedLinks.map((s) => ({
       id: uuidv4(),
       source: s.source,
@@ -471,7 +479,7 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
 
   // Save edits to a selected link (or promote an auto-detected link into universeState.assetLinks!)
   const handleSaveEdgeDetails = () => {
-    if (!selectedEdge) return;
+    if (isStoryReadOnly || !selectedEdge) return;
     const trimmedNote = editingEdgeNote.trim() || undefined;
 
     if (selectedEdge.isManual) {
@@ -497,7 +505,7 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
   };
 
   const handleReverseEdgeDirection = () => {
-    if (!selectedEdge || !selectedEdge.isManual) return;
+    if (isStoryReadOnly || !selectedEdge || !selectedEdge.isManual) return;
     const next = rawLinks.map((l) =>
       l.id === selectedEdge.id ? { ...l, source: l.target, target: l.source } : l
     );
@@ -506,6 +514,7 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
   };
 
   const handleDeleteLink = (linkId) => {
+    if (isStoryReadOnly) return;
     const next = rawLinks.filter((l) => l.id !== linkId);
     saveLinksToUniverse(next);
     if (selectedEdgeId === linkId) setSelectedEdgeId(null);
@@ -531,10 +540,37 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
     });
   };
 
-  const handleWheel = (e) => {
+  const wheelHandlerRef = useRef(null);
+  wheelHandlerRef.current = (e) => {
     e.preventDefault();
     handleZoomByFactor(e.deltaY < 0 ? 1.09 : 0.91, e.clientX, e.clientY);
   };
+
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (!el || graphMode !== 'assets') return undefined;
+    const onWheel = (e) => wheelHandlerRef.current?.(e);
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, [graphMode]);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key !== 'Escape') return;
+      if (isCreateLinkOpen) {
+        setIsCreateLinkOpen(false);
+      } else if (isSuggestionsOpen) {
+        setIsSuggestionsOpen(false);
+      } else if (isCatalogTrayOpen) {
+        setIsCatalogTrayOpen(false);
+      } else if (selectedEdgeId || selectedNodeId) {
+        setSelectedEdgeId(null);
+        setSelectedNodeId(null);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isCreateLinkOpen, isSuggestionsOpen, isCatalogTrayOpen, selectedEdgeId, selectedNodeId]);
 
   const handleCanvasMouseDown = (e) => {
     if (e.target.closest('.asset-graph-card') || e.target.closest('.asset-edge-pill')) {
@@ -639,6 +675,7 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
 
   const handleStartWireFromNode = (e, node) => {
     e.stopPropagation();
+    if (isStoryReadOnly) return;
     const pos = computedPositions[node.id] || { x: 0, y: 0 };
     setConnectingSourceId(node.id);
     setConnectingCursor({ x: pos.x + CARD_WIDTH / 2 + 24, y: pos.y });
@@ -868,8 +905,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
             <div className="flex items-center flex-wrap gap-1.5 ml-auto">
               <button
                 type="button"
+                disabled={isStoryReadOnly}
                 onClick={() => openConnectModal()}
-                className="h-7 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer shadow-xs transition-colors shrink-0 whitespace-nowrap"
+                className="h-7 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-[11px] font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer shadow-xs transition-colors shrink-0 whitespace-nowrap"
               >
                 <Plus size={12} />
                 <span>Connect Assets</span>
@@ -910,8 +948,8 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
               <button
                 type="button"
                 onClick={handleAutoOrganize}
-                disabled={visibleNodes.length === 0}
-                className="h-7 px-2 rounded-lg bg-slate-950/90 hover:bg-slate-800 disabled:opacity-40 border border-slate-700/80 text-slate-300 hover:text-white text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap"
+                disabled={visibleNodes.length === 0 || isStoryReadOnly}
+                className="h-7 px-2 rounded-lg bg-slate-950/90 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-700/80 text-slate-300 hover:text-white text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors shrink-0 whitespace-nowrap"
                 title="Auto-organize connected clusters into a non-overlapping layout"
               >
                 <LayoutGrid size={12} className="text-emerald-400" />
@@ -1062,8 +1100,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                   <div className="flex items-center gap-1.5">
                     <button
                       type="button"
+                      disabled={isStoryReadOnly}
                       onClick={handleConfirmAllSuggestions}
-                      className="px-2 py-1 rounded-lg bg-amber-600 hover:bg-amber-500 text-slate-950 text-[10px] font-bold uppercase cursor-pointer"
+                      className="px-2 py-1 rounded-lg bg-amber-600 hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 text-[10px] font-bold uppercase cursor-pointer"
                     >
                       Pin All
                     </button>
@@ -1104,8 +1143,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
 
                         <button
                           type="button"
+                          disabled={isStoryReadOnly}
                           onClick={() => handleConfirmSuggestion(s)}
-                          className="px-2.5 py-1 rounded-lg bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer shrink-0"
+                          className="px-2.5 py-1 rounded-lg bg-emerald-950 hover:bg-emerald-900 disabled:opacity-40 disabled:cursor-not-allowed border border-emerald-500/50 text-emerald-300 text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer shrink-0"
                         >
                           <Plus size={11} />
                           <span>Pin</span>
@@ -1124,7 +1164,6 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
               onMouseMove={handleCanvasMouseMove}
               onMouseUp={handleCanvasMouseUp}
               onMouseLeave={handleCanvasMouseUp}
-              onWheel={handleWheel}
               className="flex-1 h-full w-full overflow-hidden relative cursor-grab active:cursor-grabbing bg-[#050811]"
               style={{
                 backgroundImage: 'radial-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px)',
@@ -1169,8 +1208,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                         </div>
                         <button
                           type="button"
+                          disabled={isStoryReadOnly}
                           onClick={() => openConnectModal(activeNode.id)}
-                          className="px-3 py-1.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-200 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer shrink-0"
+                          className="px-3 py-1.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 disabled:opacity-40 disabled:cursor-not-allowed border border-cyan-500/50 text-cyan-200 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer shrink-0"
                         >
                           <Plus size={12} />
                           <span>Link to Scenario</span>
@@ -1181,8 +1221,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                     <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
                       <button
                         type="button"
+                        disabled={isStoryReadOnly}
                         onClick={() => openConnectModal()}
-                        className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-md transition-colors"
+                        className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-md transition-colors"
                       >
                         <Plus size={14} />
                         <span>Connect Two Assets</span>
@@ -1532,8 +1573,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                           {selectedEdge.isManual && (
                             <button
                               type="button"
+                              disabled={isStoryReadOnly}
                               onClick={handleReverseEdgeDirection}
-                              className="p-1 rounded bg-slate-950 hover:bg-slate-800 border border-slate-700 text-slate-300 cursor-pointer shrink-0"
+                              className="p-1 rounded bg-slate-950 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-700 text-slate-300 cursor-pointer shrink-0"
                               title="Reverse relationship direction"
                             >
                               <ArrowUpDown size={11} />
@@ -1562,8 +1604,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                         </label>
                         <select
                           value={editingEdgeType}
+                          disabled={isStoryReadOnly}
                           onChange={(e) => setEditingEdgeType(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-700/80 focus:border-amber-400 rounded-xl p-2 text-xs text-slate-100 outline-none cursor-pointer"
+                          className="w-full bg-slate-950 border border-slate-700/80 focus:border-amber-400 rounded-xl p-2 text-xs text-slate-100 outline-none cursor-pointer disabled:opacity-50"
                         >
                           {MANUAL_RELATIONSHIP_OPTIONS.map((opt) => (
                             <option key={opt.id} value={opt.id}>
@@ -1581,14 +1624,16 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                         </label>
                         <textarea
                           value={editingEdgeNote}
+                          readOnly={isStoryReadOnly}
                           onChange={(e) => setEditingEdgeNote(e.target.value)}
                           placeholder="e.g., Owes a blood debt; secret informant inside Sector 7 command..."
                           className="w-full h-24 bg-slate-950 border border-slate-700/80 rounded-xl p-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500 font-sans"
                         />
                         <button
                           type="button"
+                          disabled={isStoryReadOnly}
                           onClick={handleSaveEdgeDetails}
-                          className="w-full py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-1.5 cursor-pointer transition-colors shadow-md"
+                          className="w-full py-2 rounded-xl bg-amber-600 hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-1.5 cursor-pointer transition-colors shadow-md"
                         >
                           <Check size={13} />
                           <span>
@@ -1602,8 +1647,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                       <div className="pt-4 border-t border-slate-800">
                         <button
                           type="button"
+                          disabled={isStoryReadOnly}
                           onClick={() => handleDeleteLink(selectedEdge.id)}
-                          className="w-full py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 border border-red-500/40 text-red-400 font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                          className="w-full py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 disabled:opacity-40 disabled:cursor-not-allowed border border-red-500/40 text-red-400 font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
                         >
                           <Trash2 size={12} />
                           <span>Sever Connection</span>
@@ -1665,8 +1711,9 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                           <div className="grid grid-cols-2 gap-2 pt-1">
                             <button
                               type="button"
+                              disabled={isStoryReadOnly}
                               onClick={() => openConnectModal(selectedNode.id)}
-                              className="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold uppercase flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                              className="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-[11px] font-bold uppercase flex items-center justify-center gap-1 cursor-pointer transition-colors"
                             >
                               <Plus size={12} />
                               <span>Connect</span>
@@ -1707,19 +1754,33 @@ export default function WeaverGraphTab({ activeNode, onSelectTab, onSwitchView }
                                 <BookOpen size={12} />
                                 <span>Open Scenario in Write</span>
                               </button>
-                            ) : (
-                              !selectedNode.isMap && (
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    useAdeStore.getState().setEditingElement(selectedNode.raw)
+                            ) : selectedNode.isMap ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (typeof setActiveMapId === 'function') {
+                                    setActiveMapId(selectedNode.id);
                                   }
-                                  className="col-span-2 px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-purple-300 text-[11px] font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
-                                >
-                                  <Edit3 size={12} />
-                                  <span>Edit in Element Forge</span>
-                                </button>
-                              )
+                                  if (typeof onSwitchView === 'function') {
+                                    onSwitchView('maps');
+                                  }
+                                }}
+                                className="col-span-2 px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-cyan-300 text-[11px] font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                              >
+                                <Layers size={12} />
+                                <span>Open in Map Maker</span>
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  useAdeStore.getState().setEditingElement(selectedNode.raw)
+                                }
+                                className="col-span-2 px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-purple-300 text-[11px] font-bold uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                              >
+                                <Edit3 size={12} />
+                                <span>Edit in Element Forge</span>
+                              </button>
                             )}
                           </div>
 

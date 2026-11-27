@@ -14,6 +14,20 @@ import { VttModuleCompilerService, VttModuleCompiler } from '../../../services/v
 export { VttModuleCompilerService, VttModuleCompiler };
 
 /**
+ * Computes a deterministic integer offset in [-range, +range] from a seed string.
+ */
+function deterministicOffset(seedStr, range = 30) {
+  let hash = 2166136261;
+  const str = String(seedStr || 'seed');
+  for (let i = 0; i < str.length; i++) {
+    hash ^= str.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  const norm = ((hash >>> 0) % 10001) / 10000;
+  return Math.round((norm * 2 - 1) * range);
+}
+
+/**
  * Validates a StageManifest for integrity before compilation.
  */
 export function validateStageManifest(manifest, mapAsset, storyAsset) {
@@ -119,10 +133,14 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
     const x = anchor?.pos?.x ?? 500;
     const y = anchor?.pos?.y ?? 350;
 
-    for (const elemId of encounter.tokenElementIds || []) {
+    const elementIds = encounter.tokenElementIds || [];
+    for (let elemIdx = 0; elemIdx < elementIds.length; elemIdx++) {
+      const elemId = elementIds[elemIdx];
       const elem = elementsMap.get(elemId);
       if (elem) {
-        const token = adeElementToStageToken(elem, { x: x + (Math.random() * 60 - 30), y: y + (Math.random() * 60 - 30) });
+        const dx = deterministicOffset(`${encounter.id}:${elemId}:${elemIdx}:x`, 30);
+        const dy = deterministicOffset(`${encounter.id}:${elemId}:${elemIdx}:y`, 30);
+        const token = adeElementToStageToken(elem, { x: x + dx, y: y + dy });
         if (token) {
           token.encounterId = encounter.id;
           token.stageManaged = true;
@@ -154,7 +172,7 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
             note: anchor.note || '',
             stageManaged: true
           },
-          autoTrigger: triggers.some(t => t.on === 'enter' || t.on === 'exit')
+          autoTrigger: triggers.some(t => t.on === 'enter' || t.on === 'leave' || t.on === 'exit')
         }),
         stageManaged: true,
         anchorId: anchor.id
@@ -165,11 +183,12 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
         shape: 'rect',
         x: ax,
         y: ay,
-        width: anchor.pos?.w ?? 80,
-        height: anchor.pos?.h ?? 80,
-        radius: (anchor.pos?.w ?? 80) / 2,
+        width: aw,
+        height: ah,
+        radius: aw / 2,
         color: '#a855f7',
         label: anchor.name || 'Region Trigger',
+        isRegionOverlay: true,
         isTriggerZone: true,
         triggerCount: triggers.length,
         triggers,

@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Upload, FileText, CheckCircle2, AlertTriangle, X, Compass, Shield } from 'lucide-react';
 import { parseUniversalVtt } from '../../../../services/uvttImportService';
 import { AudioService } from '../../../../services/audioService';
+import { uploadAdeImageAsset } from '../../../../services/adeMediaStorageService';
+import { auth } from '../../../../firebase';
 
 export const UvttImportModal = ({
   isOpen = false,
@@ -55,8 +57,10 @@ export const UvttImportModal = ({
         const text = event.target?.result;
         const parsed = JSON.parse(text);
 
-        const losCount = (parsed.line_of_sight || []).reduce((acc, chain) => acc + (chain.length - 1), 0);
+        const losCount = (parsed.line_of_sight || []).reduce((acc, chain) => acc + Math.max(0, (chain?.length || 0) - 1), 0)
+          + (parsed.objects_line_of_sight || []).reduce((acc, chain) => acc + Math.max(0, (chain?.length || 0) - 1), 0);
         const portalCount = (parsed.portals || []).length;
+        const lightsCount = (parsed.lights || []).length;
         const width = (parsed.resolution?.map_size?.x || 0) * (parsed.resolution?.pixels_per_grid || 70);
         const height = (parsed.resolution?.map_size?.y || 0) * (parsed.resolution?.pixels_per_grid || 70);
 
@@ -64,6 +68,7 @@ export const UvttImportModal = ({
         setStats({
           walls: losCount,
           portals: portalCount,
+          lights: lightsCount,
           width,
           height,
           gridSize: parsed.resolution?.pixels_per_grid || 70,
@@ -105,11 +110,33 @@ export const UvttImportModal = ({
     }
   };
 
-  const handleExecuteImport = () => {
+  const handleExecuteImport = async () => {
     if (!fileData) return;
     setIsProcessing(true);
     try {
-      const importedMap = parseUniversalVtt(fileData, mapName);
+      let importedMap = parseUniversalVtt(fileData, mapName);
+      if (Array.isArray(importedMap?.terrains) && importedMap.terrains.length > 0) {
+        const nextTerrains = await Promise.all(
+          importedMap.terrains.map(async (t) => {
+            if (typeof t?.imageUrl === 'string' && t.imageUrl.startsWith('data:image/')) {
+              try {
+                const uploaded = await uploadAdeImageAsset(t.imageUrl, {
+                  userId: auth?.currentUser?.uid,
+                  assetCategory: 'maps',
+                  fileName: mapName || 'uvtt-map'
+                });
+                if (uploaded?.url) {
+                  return { ...t, imageUrl: uploaded.url };
+                }
+              } catch {
+                // Non-blocking fallback retains parsed image URL
+              }
+            }
+            return t;
+          })
+        );
+        importedMap = { ...importedMap, terrains: nextTerrains };
+      }
       AudioService.playCriticalSuccess();
       onImportComplete?.(importedMap);
       onClose?.();
@@ -217,7 +244,7 @@ export const UvttImportModal = ({
                 <CheckCircle2 size={14} className="text-emerald-400" />
                 <span>Extracted Map Components:</span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center font-mono">
                 <div className="p-2 bg-slate-900 rounded border border-slate-800">
                   <div className="text-xs font-bold text-white">{stats.walls}</div>
                   <div className="text-[9px] text-slate-400 uppercase">Wall Segments</div>
@@ -225,6 +252,10 @@ export const UvttImportModal = ({
                 <div className="p-2 bg-slate-900 rounded border border-slate-800">
                   <div className="text-xs font-bold text-white">{stats.portals}</div>
                   <div className="text-[9px] text-slate-400 uppercase">Doors / Portals</div>
+                </div>
+                <div className="p-2 bg-slate-900 rounded border border-slate-800">
+                  <div className="text-xs font-bold text-amber-300">{stats.lights ?? 0}</div>
+                  <div className="text-[9px] text-slate-400 uppercase">Light Sources</div>
                 </div>
                 <div className="p-2 bg-slate-900 rounded border border-slate-800">
                   <div className="text-xs font-bold text-white">{stats.width} × {stats.height}</div>

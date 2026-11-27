@@ -41,6 +41,21 @@ export const MapMaker3DPreviewModal = ({
   const [atmosphere, setAtmosphere] = useState('clear');
   const [activeDeckId, setActiveDeckId] = useState('deck_0');
   const [isSliceActive, setIsSliceActive] = useState(true);
+  const [webglError, setWebglError] = useState(null);
+
+  const availableDecks = React.useMemo(() => {
+    if (Array.isArray(currentMap?.decks) && currentMap.decks.length > 0) {
+      return currentMap.decks.map((d, idx) => ({
+        id: d.id || `deck_${idx}`,
+        label: d.label || d.name || `Deck ${idx + 1}`
+      }));
+    }
+    return [
+      { id: 'deck_0', label: 'Deck 1 (0ft)' },
+      { id: 'deck_1', label: 'Deck 2 (15ft)' },
+      { id: 'deck_roof', label: 'Roof (30ft)' }
+    ];
+  }, [currentMap?.decks]);
 
   // Initialize 3D Scene
   useEffect(() => {
@@ -49,6 +64,7 @@ export const MapMaker3DPreviewModal = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    setWebglError(null);
     let isDestroyed = false;
 
     const renderer = new Stage3DRendererContext();
@@ -59,8 +75,18 @@ export const MapMaker3DPreviewModal = ({
     cameraRigRef.current = cameraRig;
     compositorRef.current = compositor;
 
-    const success = renderer.initialize(canvas, { shadows: true, antialias: true });
+    let success = false;
+    try {
+      success = renderer.initialize(canvas, { shadows: true, antialias: true });
+    } catch (err) {
+      setWebglError(err?.message || '3D WebGL context initialization failed.');
+      renderer.destroy();
+      return;
+    }
     if (!success || isDestroyed) {
+      if (!isDestroyed && !success) {
+        setWebglError('3D WebGL context is unavailable on this browser or graphics driver.');
+      }
       renderer.destroy();
       return;
     }
@@ -252,15 +278,42 @@ export const MapMaker3DPreviewModal = ({
         <div className="absolute top-2 right-2 flex items-center space-x-1.5 bg-[#0d1117]/80 backdrop-blur px-2 py-1 rounded-md border border-cyan-500/30 text-[11px]">
           <Layers className="w-3 h-3 text-cyan-400" />
           <select
+            aria-label="Active Deck Layer"
             value={activeDeckId}
             onChange={(e) => setActiveDeckId(e.target.value)}
             className="bg-transparent text-cyan-300 text-[11px] focus:outline-none"
           >
-            <option value="deck_0" className="bg-slate-900">Deck 1 (0ft)</option>
-            <option value="deck_1" className="bg-slate-900">Deck 2 (15ft)</option>
-            <option value="deck_roof" className="bg-slate-900">Roof (30ft)</option>
+            {availableDecks.map((deck) => (
+              <option key={deck.id} value={deck.id} className="bg-slate-900">
+                {deck.label}
+              </option>
+            ))}
           </select>
+          <button
+            type="button"
+            onClick={() => setIsSliceActive((prev) => !prev)}
+            className={`px-1.5 py-0.5 rounded border text-[10px] font-bold cursor-pointer transition ${
+              isSliceActive
+                ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300'
+                : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-white'
+            }`}
+            title="Toggle Vertical Deck Slicing"
+          >
+            {isSliceActive ? 'Slice ON' : 'Slice OFF'}
+          </button>
         </div>
+
+        {webglError && (
+          <div
+            role="alert"
+            className="absolute inset-0 flex items-center justify-center bg-slate-950/90 p-6 text-center z-20"
+          >
+            <div className="max-w-sm bg-red-950/80 border border-red-500/60 rounded-xl p-4 space-y-1.5">
+              <div className="text-xs font-bold uppercase text-red-300">WebGL Preview Unavailable</div>
+              <p className="text-[11px] text-red-200/90">{webglError}</p>
+            </div>
+          </div>
+        )}
 
         {/* Helpful Tips Overlay */}
         <div className="absolute bottom-2 left-2 text-[10px] text-slate-400 bg-slate-950/70 backdrop-blur px-2 py-0.5 rounded pointer-events-none">

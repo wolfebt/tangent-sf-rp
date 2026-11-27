@@ -38,7 +38,8 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
   const navigate = useNavigate();
   const { 
     elementsCatalog = [], 
-    updateSavedElement, 
+    updateSavedElement,
+    deleteSavedElement,
     mapsCatalog = [], 
     universeState = {},
     updateMap,
@@ -124,6 +125,8 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
     } else if (asset.catalogCategory === 'maps') {
       setActiveTab('atmospherics');
       setSelectedMapId(asset.rawId);
+    } else if (asset.catalogCategory === 'encounters' || asset.catalogCategory === 'items') {
+      setActiveTab('macros');
     } else if (asset.catalogCategory === 'macros') {
       setActiveTab('macros');
     }
@@ -162,7 +165,7 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
     if (typeof updateUniverseMetadata === 'function') {
       updateUniverseMetadata({ scripts: updated });
     }
-    setSelectedAssetId(`macro-${macro.id}`);
+    setSelectedAssetId(macro.id);
   }, [customMacros, updateUniverseMetadata, isStoryReadOnly]);
 
   const handleDeleteMacroFromModule = useCallback((macroId) => {
@@ -338,6 +341,10 @@ export default function PresetsAndScriptsDashboard({ onBackToStory }) {
                 if (target) {
                   updateSavedElement(elemId, { ...target, fields: { ...(target.fields || {}), ...updatedFields } });
                 }
+              }}
+              onDeleteHazardElement={(elemId) => {
+                if (isStoryReadOnly || typeof deleteSavedElement !== 'function') return;
+                deleteSavedElement(elemId);
               }}
             />
           )}

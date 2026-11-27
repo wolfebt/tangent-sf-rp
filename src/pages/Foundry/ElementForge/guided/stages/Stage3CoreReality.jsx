@@ -328,7 +328,7 @@ export default function Stage3CoreReality({
                       className="bg-cyan-950/70 border border-cyan-500/40 text-cyan-200 rounded-lg px-2 py-0.5 text-[10px] font-mono outline-none cursor-pointer max-w-[180px]"
                     >
                       <option value="">☁️ Canon {f.dbSource}...</option>
-                      {dbOptions.slice(0, 50).map((opt) => {
+                      {dbOptions.map((opt) => {
                         const optLabel = opt.name || opt.title || opt.id;
                         return (
                           <option key={opt.id || optLabel} value={optLabel} className="bg-slate-950 text-slate-100">
@@ -553,7 +553,14 @@ export default function Stage3CoreReality({
                           <textarea
                             rows={nf.span2 ? 2 : 1}
                             value={resolvedVal}
-                            onChange={(e) => onChangeField?.(nf.id, e.target.value)}
+                            onChange={(e) => {
+                              const nextVal = e.target.value;
+                              if (nf.aliasKeys?.length && typeof onMergeFields === 'function') {
+                                onMergeFields({ [nf.id]: nextVal, [nf.aliasKeys[0]]: nextVal });
+                              } else {
+                                onChangeField?.(nf.id, nextVal);
+                              }
+                            }}
                             placeholder={nf.placeholder || `Enter ${nf.label}...`}
                             className="w-full bg-slate-950/90 border border-slate-800 focus:border-purple-400 text-slate-100 p-2 rounded-xl text-xs outline-none transition-colors"
                           />

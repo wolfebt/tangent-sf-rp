@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Printer, 
@@ -8,7 +8,8 @@ import {
   Sparkles,
   Columns,
   Palette,
-  Search
+  Search,
+  MoreHorizontal
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 import { useAdeStore } from '../../store/adeStore';
@@ -41,15 +42,44 @@ export default function ToolbarQuickActions({
   activeCockpitDeck,
   onSelectCockpitDeck,
   isDirty = false,
-  cloudSyncStatus = 'offline'
+  cloudSyncStatus = 'offline',
+  confirmIfDirty,
+  triggerStorySave
 }) {
   const navigate = useNavigate();
   const isFloatingAimeOpen = useAdeStore((s) => Boolean(s.modals?.floatingAime));
+  const [isMobileOverflowOpen, setIsMobileOverflowOpen] = useState(false);
+  const mobileOverflowRef = useRef(null);
+
+  useEffect(() => {
+    if (!isMobileOverflowOpen) return undefined;
+    const handleOutside = (e) => {
+      if (mobileOverflowRef.current && !mobileOverflowRef.current.contains(e.target)) {
+        setIsMobileOverflowOpen(false);
+      }
+    };
+    window.addEventListener('pointerdown', handleOutside, true);
+    return () => window.removeEventListener('pointerdown', handleOutside, true);
+  }, [isMobileOverflowOpen]);
 
   const handleToggleStudioMode = () => {
     const nextMode = studioMode === 'live_session' ? 'development' : 'live_session';
     AudioService.playTerminalBeep(nextMode === 'live_session' ? 1400 : 1000, 0.04);
     if (setStudioMode) setStudioMode(nextMode);
+  };
+
+  const handleDeployToStage = async () => {
+    AudioService.playTerminalBeep(1400, 0.05);
+    if (isDirty) {
+      if (typeof triggerStorySave === 'function') {
+        await triggerStorySave();
+      } else if (typeof confirmIfDirty === 'function') {
+        const proceed = await confirmIfDirty();
+        if (!proceed) return;
+      }
+    }
+    const mapId = targetMapId || universeState?.maps?.[0]?.id || '';
+    navigate(`/stage?mapId=${mapId}&scenarioId=${activeNode?.id || ''}`);
   };
 
   return (
@@ -260,11 +290,7 @@ export default function ToolbarQuickActions({
       {/* Deploy to STAGE VTT */}
       <button
         type="button"
-        onClick={() => {
-          AudioService.playTerminalBeep(1400, 0.05);
-          const mapId = targetMapId || universeState?.maps?.[0]?.id || '';
-          navigate(`/stage?mapId=${mapId}&scenarioId=${activeNode?.id || ''}`);
-        }}
+        onClick={handleDeployToStage}
         className="hidden md:flex px-2.5 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-400 text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
         title="Deploy active scenario and elements into The Stage VTT"
       >
@@ -272,6 +298,76 @@ export default function ToolbarQuickActions({
         <span className="hidden xl:inline">DEPLOY TO STAGE</span>
         <span className="xl:hidden">STAGE</span>
       </button>
+
+      {/* Mobile Overflow Menu for Hidden Toolbar Controls */}
+      <div className="relative md:hidden" ref={mobileOverflowRef}>
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1100, 0.02);
+            setIsMobileOverflowOpen((prev) => !prev);
+          }}
+          className="px-2 py-1 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer"
+          title="More Stage & Studio Actions"
+          aria-label="More Stage & Studio Actions"
+          aria-expanded={isMobileOverflowOpen}
+        >
+          <MoreHorizontal size={14} />
+        </button>
+
+        {isMobileOverflowOpen && (
+          <div className="absolute right-0 top-full mt-1.5 w-52 bg-[#0b101b] border border-cyan-500/40 rounded-xl shadow-[0_16px_40px_rgba(0,0,0,0.95)] py-1 z-50 text-xs font-mono divide-y divide-slate-800">
+            <div className="py-1">
+              <button
+                type="button"
+                onClick={() => {
+                  handleToggleStudioMode();
+                  setIsMobileOverflowOpen(false);
+                }}
+                className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-200 flex items-center justify-between gap-2 cursor-pointer"
+              >
+                <span>{studioMode === 'live_session' ? '🔴 LIVE SESSION' : '🛠️ DEV MODE'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(perspectiveMode === 'architect' ? 1400 : 900, 0.03);
+                  togglePerspectiveMode?.();
+                  setIsMobileOverflowOpen(false);
+                }}
+                className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-200 flex items-center justify-between gap-2 cursor-pointer"
+              >
+                <span>{perspectiveMode === 'operator' ? '🎮 OPERATOR' : '📐 ARCHITECT'}</span>
+              </button>
+            </div>
+            <div className="py-1">
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.05);
+                  onToggleCompiler?.(true);
+                  setIsMobileOverflowOpen(false);
+                }}
+                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 flex items-center gap-2 cursor-pointer"
+              >
+                <span>⚙️</span>
+                <span>Prep VTT Module</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileOverflowOpen(false);
+                  handleDeployToStage();
+                }}
+                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-200 font-bold flex items-center gap-2 cursor-pointer"
+              >
+                <span>⚔️</span>
+                <span>Deploy to Stage</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Fast-Access Modals Cluster */}
       <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-xl p-0.5 gap-0.5 shadow-sm">

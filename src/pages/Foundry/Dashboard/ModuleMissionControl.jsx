@@ -68,6 +68,7 @@ import {
   hydrateModuleIntoCampaign 
 } from '../../../services/modulePackageService';
 import { batchIngestElementFiles, parseElementMarkdown } from '../../../services/elementIngestionService.js';
+import { useModuleHealth } from '../StoryModule/toolbar/useModuleHealth';
 
 export default function ModuleMissionControl({ 
   onSelectPillar,
@@ -115,7 +116,8 @@ export default function ModuleMissionControl({
     setGalleryModifiers,
     updateCreativeState,
     updateCronicle,
-    confirmIfDirty
+    confirmIfDirty,
+    isStoryReadOnly = false
   } = useCampaign();
 
   // ADE Store
@@ -205,55 +207,8 @@ export default function ModuleMissionControl({
   const targetScenarioId = activeNode?.id || scenarios[0]?.id || '';
   const targetMapId = activeNode?.mapId || activeMapId || maps[0]?.id || '';
 
-  // Module Health Preflight Computation (from Studio Bar)
-  const moduleHealth = useMemo(() => {
-    let healthScore = 100;
-    const issues = [];
-    const warnings = [];
-
-    const scenariosList = universeState?.scenarios || [];
-    const mapsList = universeState?.maps || [];
-    const gemsList = universeState?.creativeState?.gems || [];
-    const elementsList = elementsCatalog || [];
-
-    if (scenariosList.length === 0) {
-      healthScore -= 35;
-      issues.push('No scenario nodes found');
-    } else {
-      const emptyNodes = scenariosList.filter(s => !s.name && !s.title);
-      if (emptyNodes.length > 0) {
-        healthScore -= 10;
-        warnings.push(`${emptyNodes.length} unnamed scenario node(s)`);
-      }
-    }
-
-    if (mapsList.length === 0) {
-      healthScore -= 25;
-      warnings.push('No tactical maps bound to module');
-    }
-
-    if (elementsList.length === 0) {
-      healthScore -= 20;
-      warnings.push('World Elements Catalog is empty');
-    }
-
-    if (gemsList.length === 0) {
-      healthScore -= 10;
-      warnings.push('No Guidance Gems configured');
-    }
-
-    const clampedScore = Math.max(0, Math.min(100, healthScore));
-    return {
-      score: clampedScore,
-      issues,
-      warnings,
-      color: clampedScore >= 80 
-        ? 'text-emerald-400 border-emerald-500/40 bg-emerald-950/40' 
-        : clampedScore >= 50 
-        ? 'text-amber-400 border-amber-500/40 bg-amber-950/40' 
-        : 'text-red-400 border-red-500/40 bg-red-950/40'
-    };
-  }, [universeState, elementsCatalog]);
+  // Module Health Preflight Computation (unified with ADETopToolbar via adeEngineBridge)
+  const moduleHealth = useModuleHealth(universeState, elementsCatalog);
 
   useEffect(() => {
     if (moduleHealth && typeof setPreflightTelemetry === 'function') {
@@ -274,6 +229,11 @@ export default function ModuleMissionControl({
   // Title rename submission
   const handleTitleSubmit = () => {
     setIsEditingTitle(false);
+    if (isStoryReadOnly) {
+      setTitleInput(universeState?.projectName || 'Untitled Story');
+      toast?.showWarning?.('Read-only story: unlock or clone project to rename.');
+      return;
+    }
     if (titleInput.trim() && titleInput.trim() !== universeState?.projectName) {
       updateProjectName(titleInput.trim());
       AudioService.playTerminalBeep(1200, 0.03);
@@ -293,6 +253,10 @@ export default function ModuleMissionControl({
   // Delete active story module
   const handleDeleteActiveStory = async () => {
     setIsFileMenuOpen(false);
+    if (isStoryReadOnly) {
+      toast?.showWarning?.('Read-only story: unlock or clone project to delete.');
+      return;
+    }
     AudioService.playTerminalBeep(800, 0.04);
     const currentTitle = universeState?.projectName || 'Untitled Story';
     if (await confirmTypedDeletion(currentTitle, 'story module project')) {
@@ -332,6 +296,10 @@ export default function ModuleMissionControl({
   // Clear universe
   const handleClearStoryElements = async () => {
     setIsFileMenuOpen(false);
+    if (isStoryReadOnly) {
+      toast?.showWarning?.('Read-only story: unlock or clone project to clear elements.');
+      return;
+    }
     AudioService.playTerminalBeep(800, 0.04);
     const currentTitle = universeState?.projectName || 'Untitled Story';
     if (await confirmTypedDeletion(currentTitle, 'story element content')) {
@@ -388,6 +356,11 @@ export default function ModuleMissionControl({
   // Module & Elements Import Process
   const handleProcessImportFiles = async (fileList) => {
     if (!fileList || fileList.length === 0) return;
+    if (isStoryReadOnly) {
+      toast?.showWarning?.('Read-only story: unlock or clone project before importing assets or module packages.');
+      if (ingestionFileInputRef.current) ingestionFileInputRef.current.value = '';
+      return;
+    }
     setIsImporting(true);
     AudioService.playTerminalBeep(1100, 0.04);
 
@@ -628,9 +601,16 @@ export default function ModuleMissionControl({
             ) : (
               <button
                 type="button"
-                onClick={() => setIsEditingTitle(true)}
-                className="text-xs font-mono text-slate-100 hover:text-cyan-300 font-bold max-w-[180px] sm:max-w-[240px] truncate text-left cursor-pointer flex items-center gap-1"
-                title="Click to rename active module"
+                disabled={isStoryReadOnly}
+                onClick={() => {
+                  if (isStoryReadOnly) {
+                    toast?.showWarning?.('Read-only story: unlock or clone project to rename.');
+                    return;
+                  }
+                  setIsEditingTitle(true);
+                }}
+                className="text-xs font-mono text-slate-100 hover:text-cyan-300 font-bold max-w-[180px] sm:max-w-[240px] truncate text-left cursor-pointer flex items-center gap-1 disabled:opacity-60 disabled:cursor-not-allowed"
+                title={isStoryReadOnly ? 'Read-only story: unlock or clone project to rename' : 'Click to rename active module'}
               >
                 <span>{universeState?.projectName || 'Untitled Story'}</span>
                 <Edit3 size={11} className="text-slate-500 hover:text-cyan-400 opacity-60" />
@@ -849,15 +829,19 @@ export default function ModuleMissionControl({
                 {/* Danger Zone */}
                 <div className="py-1">
                   <button
+                    type="button"
+                    disabled={isStoryReadOnly}
                     onClick={handleDeleteActiveStory}
-                    className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/80 text-rose-400 hover:text-rose-200 flex items-center gap-2 transition-colors cursor-pointer"
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/80 text-rose-400 hover:text-rose-200 flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <Trash2 size={13} className="text-rose-400" />
                     <span>Delete Story Module...</span>
                   </button>
                   <button
+                    type="button"
+                    disabled={isStoryReadOnly}
                     onClick={handleClearStoryElements}
-                    className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/80 text-rose-400 hover:text-rose-200 flex items-center gap-2 transition-colors cursor-pointer"
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/80 text-rose-400 hover:text-rose-200 flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <ShieldAlert size={13} className="text-rose-400" />
                     <span>Clear All Elements...</span>
@@ -946,7 +930,10 @@ export default function ModuleMissionControl({
               title="Stage VTT Launchers, Compiler, Perspective Mode & Tactical Utilities"
             >
               {/* Inline Health Indicator */}
-              <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-slate-950/90 border border-slate-800">
+              <span
+                className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-slate-950/90 border border-slate-800"
+                title={`Preflight Rule Health: ${effectiveHealth.score}% (${(effectiveHealth.issues || []).length} issues, ${(effectiveHealth.warnings || []).length} warnings)`}
+              >
                 <span
                   className={`w-2 h-2 rounded-full animate-pulse ${
                     effectiveHealth.score >= 80

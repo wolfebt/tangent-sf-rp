@@ -38,7 +38,16 @@ export const FireteamVitalsBar = ({
     if (!op || !op.vitals) return;
 
     const currentVal = op.vitals[stat] ?? 0;
-    const maxKey = stat === 'health' ? 'maxHealth' : stat === 'shields' ? 'maxShields' : 'maxStrain';
+    const maxKey =
+      stat === 'health'
+        ? 'maxHealth'
+        : stat === 'shields'
+          ? 'maxShields'
+          : stat === 'vitality'
+            ? 'maxVitality'
+            : stat === 'structure'
+              ? 'maxStructure'
+              : 'maxStrain';
     const maxVal = op.vitals[maxKey] ?? 100;
     const nextVal = Math.max(0, Math.min(maxVal, currentVal + delta));
 
@@ -160,6 +169,90 @@ export const FireteamVitalsBar = ({
               </div>
             </div>
 
+            {/* Vitality / Structure Pool */}
+            {(() => {
+              const poolKey = activeOperative.isSynthetic ? 'structure' : 'vitality';
+              const maxPoolKey = activeOperative.isSynthetic ? 'maxStructure' : 'maxVitality';
+              const poolVal = activeOperative.vitals[poolKey] ?? activeOperative.vitals.health ?? 0;
+              const poolMax = activeOperative.vitals[maxPoolKey] ?? activeOperative.vitals.maxHealth ?? 30;
+              return (
+                <div className="flex items-center gap-1.5">
+                  <Sparkles size={13} className="text-amber-400 shrink-0" />
+                  <div className="flex flex-col">
+                    <div className="flex items-center justify-between gap-2 text-[10px]">
+                      <span className="text-amber-400 font-bold">
+                        {activeOperative.isSynthetic ? 'STRUCTURE' : 'VITALITY'}
+                      </span>
+                      <span className="text-slate-300 font-bold">
+                        {poolVal} / {poolMax}
+                      </span>
+                    </div>
+                    <div className="w-20 md:w-24 h-1.5 bg-slate-900 rounded-full overflow-hidden border border-amber-900/60 mt-0.5">
+                      <div
+                        className="h-full bg-amber-400 transition-all duration-300 rounded-full"
+                        style={{ width: `${Math.min(100, Math.max(0, (poolVal / (poolMax || 1)) * 100))}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-0.5 ml-1">
+                    <button
+                      type="button"
+                      onClick={() => handleAdjustStat(activeOperative.id, poolKey, 5)}
+                      className="px-1 text-[8px] bg-slate-900 hover:bg-slate-800 text-amber-300 rounded border border-slate-700 cursor-pointer"
+                      title={`Restore +5 ${activeOperative.isSynthetic ? 'Structure' : 'Vitality'}`}
+                    >
+                      +5
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleAdjustStat(activeOperative.id, poolKey, -5)}
+                      className="px-1 text-[8px] bg-slate-900 hover:bg-slate-800 text-rose-300 rounded border border-slate-700 cursor-pointer"
+                      title={`Deduct -5 ${activeOperative.isSynthetic ? 'Structure' : 'Vitality'}`}
+                    >
+                      -5
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Mental Strain */}
+            <div className="flex items-center gap-1.5">
+              <Zap size={13} className="text-purple-400 shrink-0" />
+              <div className="flex flex-col">
+                <div className="flex items-center justify-between gap-2 text-[10px]">
+                  <span className="text-purple-400 font-bold">STRAIN</span>
+                  <span className="text-slate-300 font-bold">
+                    {activeOperative.vitals.strain ?? 0} / {activeOperative.vitals.maxStrain ?? 12}
+                  </span>
+                </div>
+                <div className="w-16 md:w-20 h-1.5 bg-slate-900 rounded-full overflow-hidden border border-purple-900/60 mt-0.5">
+                  <div
+                    className="h-full bg-purple-400 transition-all duration-300 rounded-full"
+                    style={{ width: `${Math.min(100, Math.max(0, ((activeOperative.vitals.strain ?? 0) / (activeOperative.vitals.maxStrain || 12)) * 100))}%` }}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-0.5 ml-1">
+                <button
+                  type="button"
+                  onClick={() => handleAdjustStat(activeOperative.id, 'strain', 1)}
+                  className="px-1 text-[8px] bg-slate-900 hover:bg-slate-800 text-purple-300 rounded border border-slate-700 cursor-pointer"
+                  title="Add +1 Mental Strain"
+                >
+                  +1
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAdjustStat(activeOperative.id, 'strain', -1)}
+                  className="px-1 text-[8px] bg-slate-900 hover:bg-slate-800 text-emerald-300 rounded border border-slate-700 cursor-pointer"
+                  title="Recover -1 Mental Strain"
+                >
+                  -1
+                </button>
+              </div>
+            </div>
+
             {/* Plot Points & Karma */}
             <div className="flex items-center gap-2 border-l border-slate-800 pl-3">
               <div className="flex flex-col items-center" title="Plot Points: Spend to reroll or inject narrative advantage">
@@ -188,12 +281,19 @@ export const FireteamVitalsBar = ({
           {operatives.map((op) => {
             const isSelected = op.id === activeOperativeId;
             return (
-              <button
+              <div
                 key={op.id}
-                type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1150, 0.02);
                   if (onSelectActiveOperative) onSelectActiveOperative(op.id);
+                }}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelectActiveOperative?.(op.id);
+                  }
                 }}
                 className={`p-1.5 px-2.5 rounded-xl border text-left transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
                   isSelected
@@ -211,7 +311,33 @@ export const FireteamVitalsBar = ({
                     <span className="text-rose-300">HP {op.vitals.health}</span>
                   </div>
                 </div>
-              </button>
+                {isSelected && (
+                  <div className="flex items-center gap-1 ml-1 border-l border-cyan-800/70 pl-1.5">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAdjustStat(op.id, 'health', -5);
+                      }}
+                      className="px-1 text-[8px] bg-slate-900 hover:bg-slate-800 text-rose-300 rounded border border-slate-700 cursor-pointer"
+                      title="Damage -5 HP"
+                    >
+                      -5
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAdjustStat(op.id, 'health', 5);
+                      }}
+                      className="px-1 text-[8px] bg-slate-900 hover:bg-slate-800 text-emerald-300 rounded border border-slate-700 cursor-pointer"
+                      title="Heal +5 HP"
+                    >
+                      +5
+                    </button>
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>

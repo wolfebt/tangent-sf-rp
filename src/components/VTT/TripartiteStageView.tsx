@@ -69,6 +69,8 @@ import { useWaypointEngine } from '../../pages/Foundry/hooks/useWaypointEngine';
 import { compileStage } from '../../pages/Foundry/Stage/vttModuleCompilerService';
 import { useStageStore } from '../../pages/Foundry/Stage/stageStore';
 import { useStageTriggerEngine } from './stage/useStageTriggerEngine';
+import { useAttachedMacroRunner } from './stage/useAttachedMacroRunner';
+import { normalizeElementType } from '../../pages/Foundry/ElementForge/elementSchemas';
 
 export interface TripartiteStageViewProps extends StageViewProps {
   defaultRole?: UserVttRole;
@@ -198,6 +200,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     addMap,
     activeScenarioId: contextActiveScenarioId,
     setActiveScenarioId,
+    updateScenario,
     getActiveGemsText,
     elementsCatalog,
     cronicle,
@@ -526,7 +529,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   const handleDeployElementFromDrawer = (element: any, customPos?: { x: number; y: number }) => {
     if (!element) return;
     const pos = customPos || { x: 350 + (Math.random() - 0.5) * 60, y: 350 + (Math.random() - 0.5) * 60 };
-    if (element.type === 'Persona') {
+    if (normalizeElementType(element.type) === 'Persona') {
       const token = adeElementToStageToken(element, pos);
       if (token) {
         useEngineStore.getState().loadStaticEntity(token as any);
@@ -652,11 +655,23 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   }, [effectiveCompiledStage?.stageId, effectiveCompiledStage?.variables]);
 
   const effectiveMapForWaypoints = useMemo(() => {
+    const ownedSpatialAnchors = new Set<string>(
+      (Array.isArray(effectiveCompiledStage?.triggers) ? effectiveCompiledStage.triggers : [])
+        .filter((t: any) => t && (t.on === 'enter' || t.on === 'leave' || t.on === 'exit') && t.anchorId)
+        .map((t: any) => t.anchorId)
+    );
+    const annotateWaypoints = (wps: any[]) =>
+      wps.map((w: any) =>
+        w?.stageManaged && ownedSpatialAnchors.has(w.id)
+          ? { ...w, skipProximity: true }
+          : w
+      );
+
     if (effectiveCompiledStage?.map && (!currentMap || effectiveCompiledStage.map.id === currentMap.id)) {
       return {
         ...currentMap,
         ...effectiveCompiledStage.map,
-        waypoints: effectiveCompiledStage.map.waypoints || currentMap?.waypoints || []
+        waypoints: annotateWaypoints(effectiveCompiledStage.map.waypoints || currentMap?.waypoints || [])
       };
     }
     return currentMap;
@@ -684,7 +699,20 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     setActiveMapId,
     applyCronicleDelta,
     openFloatingAimeWithPrompt: openFloatingAimeWithStagePrompt,
+    elementsCatalog: elementsCatalog || [],
+    universeState,
+    activeScenario,
+    updateScenario,
+    setActiveScenarioId,
     enabled: Boolean(effectiveCompiledStage)
+  });
+
+  useAttachedMacroRunner({
+    activeScenario,
+    currentMap,
+    updateMap,
+    isArchitect: isArchitectRole,
+    enabled: true
   });
 
   const {
@@ -1453,11 +1481,13 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             {(() => {
               const baseScripts = Array.isArray(universeState?.scripts) ? universeState.scripts : [];
               const stageMacros = (Array.isArray(effectiveCompiledStage?.macros) ? effectiveCompiledStage.macros : []).map((m: any) => {
-                const matchedScript = baseScripts.find((s: any) => s.id === m.scriptId || s.title === m.scriptId);
+                const matchedScript = baseScripts.find(
+                  (s: any) => s.id === m.scriptId || s.name === m.scriptId || s.title === m.scriptId
+                );
                 return {
                   id: m.id || `stage-macro-${m.scriptId}`,
-                  title: m.title || m.name || matchedScript?.title || m.scriptId || 'Stage Macro',
-                  code: m.code || matchedScript?.code || '',
+                  title: m.title || m.name || matchedScript?.title || matchedScript?.name || m.scriptId || 'Stage Macro',
+                  code: m.code || matchedScript?.code || matchedScript?.sourceCode || '',
                   actions: m.actions,
                   isStageBinding: true
                 };

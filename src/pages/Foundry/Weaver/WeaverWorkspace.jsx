@@ -6,11 +6,10 @@
  *
  * Tabs:
  *   1. Write: Rich text manuscript canvas with paired AIME assistant, telemetry, and element drag-and-drop.
- *   2. Brainstorm: Dual-scope ideation for both the active story scenario AND world elements.
- *   3. Gems: Embedded Guidance Gems directive suite (genre, mood, tone, custom directives).
- *   4. Elements: World elements palette with quick drag-and-drop tokens to story prose.
- *   5. Graph: Asset interconnection graph showing relationships between elements with optional link notes.
- *   6. Play: Granular interactive story studio driven by Folio personas, decision matrix, and dice checks.
+ *   2. Brainstorm: Dual-scope ideation + embedded Guidance Gems directive suite for Scenario & Elements.
+ *   3. Elements: World elements palette with quick drag-and-drop or click-to-insert tokens to story prose.
+ *   4. Graph: Asset interconnection graph showing relationships between elements with optional link notes.
+ *   5. Play: Granular interactive story studio driven by Folio personas, decision matrix, and dice checks.
  */
 
 import React, { useMemo, Suspense } from 'react';
@@ -43,7 +42,7 @@ export default function WeaverWorkspace({
   handleDeleteElement,
   locationPath
 }) {
-  const { getActiveGemsText } = useStory();
+  const { getActiveGemsText, isStoryReadOnly = false } = useStory();
 
   // Normalize legacy tab names
   const currentTab = useMemo(() => {
@@ -104,6 +103,16 @@ export default function WeaverWorkspace({
         {currentTab === 'elements' && (
           <ElementsTab
             activeNode={activeNode}
+            onInsertElementMention={
+              updateStory && activeNode?.id
+                ? (elem) => {
+                    if (isStoryReadOnly || !elem?.title) return;
+                    const base = String(activeNode.content || '').trim();
+                    const addition = `<p>[[${elem.title}]]</p>`;
+                    updateStory(activeNode.id, { content: base ? `${base}${addition}` : addition });
+                  }
+                : undefined
+            }
           />
         )}
 

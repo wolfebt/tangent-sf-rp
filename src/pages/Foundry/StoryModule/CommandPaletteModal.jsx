@@ -1,7 +1,7 @@
 /**
  * @file CommandPaletteModal.jsx
  * @description Global Ctrl+K / Cmd+K ADE Command Palette for fuzzy navigation across Scenarios,
- *   Story Elements, Battlemaps, Story Flags, Compendium/Omnicortex, and Studio Actions.
+ *   Story Elements, Battlemaps, Story Flags, and Studio Actions.
  */
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
@@ -172,6 +172,8 @@ export default function CommandPaletteModal({
     universeState?.maps,
     elementsCatalog,
     storyFlags,
+    isStoryReadOnly,
+    isOperatorMode,
     onSelectScenario,
     onEditElement,
     onOpenNewElement,

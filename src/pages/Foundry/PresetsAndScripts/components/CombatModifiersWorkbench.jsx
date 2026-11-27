@@ -1,21 +1,19 @@
 /**
  * @file CombatModifiersWorkbench.jsx
- * @description Pillar 3: Situational Combat Modifiers Workbench.
- * Manages tactical combat modifiers, environmental condition overlays, and stat penalties/bonuses
- * active on the VTT stage, with support for asset source linking and 1-click preset deployment.
+ * @description Situational Combat Modifiers Workbench.
+ * Manages tactical combat modifiers, environmental condition overlays, custom modifiers,
+ * inline editing, and 1-click preset deployment with unique instance IDs.
  */
 
 import React, { useState, useMemo } from 'react';
-import { 
-  Sliders, 
-  Trash2, 
-  Plus, 
-  CheckCircle2, 
-  Shield, 
-  Swords, 
-  Flame, 
-  Sparkles,
-  Link as LinkIcon
+import {
+  Sliders,
+  Trash2,
+  Plus,
+  Edit3,
+  Check,
+  X,
+  Sparkles
 } from 'lucide-react';
 import { MODIFIER_PRESETS } from '../../../../services/modifierService';
 import { AudioService } from '../../../../services/audioService';
@@ -30,24 +28,79 @@ export const CombatModifiersWorkbench = ({
   isStoryReadOnly = false
 }) => {
   const [filterCategory, setFilterCategory] = useState('all');
+  const [editingModId, setEditingModId] = useState(null);
+  const [editName, setEditName] = useState('');
+  const [editDesc, setEditDesc] = useState('');
+  const [editRule, setEditRule] = useState('');
+
+  const [isCustomOpen, setIsCustomOpen] = useState(false);
+  const [customName, setCustomName] = useState('');
+  const [customCategory, setCustomCategory] = useState('tactical');
+  const [customRule, setCustomRule] = useState('');
+  const [customDesc, setCustomDesc] = useState('');
+
+  const filteredPresets = useMemo(() => {
+    if (filterCategory === 'all') return MODIFIER_PRESETS;
+    return MODIFIER_PRESETS.filter((p) => p.category === filterCategory);
+  }, [filterCategory]);
 
   const filteredModifiers = useMemo(() => {
     if (filterCategory === 'all') return galleryModifiers;
-    return galleryModifiers.filter(m => m.category === filterCategory);
+    return galleryModifiers.filter((m) => m.category === filterCategory);
   }, [galleryModifiers, filterCategory]);
 
   const handleApplyPreset = (preset) => {
     if (isStoryReadOnly) return;
     AudioService.playTerminalBeep(1200, 0.03);
-    const id = preset?.id || `mod_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+    const id = `${preset?.id || 'mod'}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
     onAddModifier?.({
       ...preset,
       id,
+      presetId: preset?.id || id,
       isActive: true,
       appliedAt: new Date().toISOString(),
       sourceAssetId: selectedAsset?.id || null,
       sourceAssetName: selectedAsset?.title || null
     });
+  };
+
+  const handleCreateCustomModifier = (e) => {
+    e.preventDefault();
+    if (isStoryReadOnly || !customName.trim()) return;
+    AudioService.playTerminalBeep(1250, 0.04);
+    onAddModifier?.({
+      id: `custom_mod_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      name: customName.trim(),
+      category: customCategory,
+      description: customDesc.trim() || customRule.trim() || 'Custom tactical modifier.',
+      isActive: true,
+      effects: { customRuleText: customRule.trim() || 'Custom rule' },
+      appliedAt: new Date().toISOString(),
+      sourceAssetId: selectedAsset?.id || null,
+      sourceAssetName: selectedAsset?.title || null
+    });
+    setCustomName('');
+    setCustomDesc('');
+    setCustomRule('');
+    setIsCustomOpen(false);
+  };
+
+  const handleStartEdit = (mod) => {
+    setEditingModId(mod.id);
+    setEditName(mod.name || '');
+    setEditDesc(mod.description || '');
+    setEditRule(mod.effects?.customRuleText || '');
+  };
+
+  const handleSaveEdit = (mod) => {
+    if (isStoryReadOnly) return;
+    onUpdateModifier?.(mod.id, {
+      ...mod,
+      name: editName.trim() || mod.name,
+      description: editDesc.trim(),
+      effects: { ...(mod.effects || {}), customRuleText: editRule.trim() }
+    });
+    setEditingModId(null);
   };
 
   return (
@@ -73,9 +126,9 @@ export const CombatModifiersWorkbench = ({
           </div>
         </div>
 
-        {/* Category Filters */}
+        {/* Category Filters & Custom Button */}
         <div className="flex items-center flex-wrap gap-1.5">
-          {['all', 'metaphysic', 'tech', 'environmental', 'tactical'].map(cat => (
+          {['all', 'metaphysic', 'tech', 'environmental', 'tactical'].map((cat) => (
             <button
               key={cat}
               type="button"
@@ -92,19 +145,89 @@ export const CombatModifiersWorkbench = ({
               {cat}
             </button>
           ))}
+          <button
+            type="button"
+            disabled={isStoryReadOnly}
+            onClick={() => setIsCustomOpen((v) => !v)}
+            className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-500 disabled:opacity-40 text-slate-950 text-xs font-mono font-bold uppercase flex items-center gap-1 cursor-pointer"
+          >
+            <Plus size={12} />
+            <span>Custom Modifier</span>
+          </button>
         </div>
       </div>
+
+      {/* Custom Modifier Creator */}
+      {isCustomOpen && (
+        <form
+          onSubmit={handleCreateCustomModifier}
+          className="p-4 rounded-2xl bg-[#0c121e] border border-amber-500/40 space-y-3 font-mono text-xs"
+        >
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-amber-300 uppercase">New Custom Situational Modifier</span>
+            <button type="button" onClick={() => setIsCustomOpen(false)} className="text-slate-400 hover:text-white">
+              <X size={13} />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+            <input
+              type="text"
+              aria-label="Custom Modifier Name"
+              value={customName}
+              onChange={(e) => setCustomName(e.target.value)}
+              placeholder="Modifier Name..."
+              required
+              className="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100"
+            />
+            <select
+              aria-label="Custom Modifier Category"
+              value={customCategory}
+              onChange={(e) => setCustomCategory(e.target.value)}
+              className="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100"
+            >
+              <option value="tactical">tactical</option>
+              <option value="environmental">environmental</option>
+              <option value="tech">tech</option>
+              <option value="metaphysic">metaphysic</option>
+            </select>
+            <input
+              type="text"
+              aria-label="Custom Modifier Rule"
+              value={customRule}
+              onChange={(e) => setCustomRule(e.target.value)}
+              placeholder="Effect rule (e.g. -2 Sight checks)"
+              className="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              aria-label="Custom Modifier Description"
+              value={customDesc}
+              onChange={(e) => setCustomDesc(e.target.value)}
+              placeholder="Description..."
+              className="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-slate-100"
+            />
+            <button
+              type="submit"
+              className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold uppercase cursor-pointer"
+            >
+              Deploy Custom
+            </button>
+          </div>
+        </form>
+      )}
 
       {/* ── CANONICAL PRESETS TILES (Click to Deploy) ── */}
       <div className="p-4 rounded-2xl bg-[#0c121e] border border-slate-800 shadow-md space-y-3">
         <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
-          Canonical Presets Catalog (Click to Deploy)
+          Canonical Presets Catalog ({filteredPresets.length}) (Click to Deploy)
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {MODIFIER_PRESETS.map((preset, idx) => (
+          {filteredPresets.map((preset, idx) => (
             <div
-              key={idx}
+              key={preset.id || idx}
               onClick={() => handleApplyPreset(preset)}
               className="p-3 rounded-xl bg-slate-900/60 hover:bg-slate-800/80 border border-slate-800 hover:border-amber-500/40 transition-all cursor-pointer group flex flex-col justify-between"
             >
@@ -144,42 +267,103 @@ export const CombatModifiersWorkbench = ({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {filteredModifiers.map(mod => (
-              <div
-                key={mod.id}
-                className="p-4 rounded-xl bg-slate-900/80 border border-amber-500/30 shadow-md flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-xs text-amber-200">{mod.name}</span>
-                    <button
-                      type="button"
-                      onClick={() => onToggleModifier?.(mod.id)}
-                      className={`text-[9px] font-mono px-2 py-0.5 rounded-full border cursor-pointer ${
-                        mod.isActive 
-                          ? 'bg-emerald-950/60 text-emerald-300 border-emerald-500/40' 
-                          : 'bg-slate-900 text-slate-500 border-slate-700'
-                      }`}
-                    >
-                      {mod.isActive ? 'Active' : 'Disabled'}
-                    </button>
-                  </div>
-                  <p className="text-[11px] text-slate-400 leading-relaxed mb-3">{mod.description}</p>
-                </div>
+            {filteredModifiers.map((mod) => {
+              const isEditing = editingModId === mod.id;
+              return (
+                <div
+                  key={mod.id}
+                  className="p-4 rounded-xl bg-slate-900/80 border border-amber-500/30 shadow-md flex flex-col justify-between"
+                >
+                  {isEditing ? (
+                    <div className="space-y-2 font-mono text-xs">
+                      <input
+                        type="text"
+                        aria-label="Edit Modifier Name"
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-100"
+                      />
+                      <input
+                        type="text"
+                        aria-label="Edit Modifier Rule"
+                        value={editRule}
+                        onChange={(e) => setEditRule(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-cyan-300"
+                      />
+                      <textarea
+                        rows={2}
+                        aria-label="Edit Modifier Description"
+                        value={editDesc}
+                        onChange={(e) => setEditDesc(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-slate-300"
+                      />
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setEditingModId(null)}
+                          className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSaveEdit(mod)}
+                          className="px-2 py-0.5 rounded bg-emerald-600 text-slate-950 font-bold flex items-center gap-1 cursor-pointer"
+                        >
+                          <Check size={11} />
+                          <span>Save</span>
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-bold text-xs text-amber-200">{mod.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => onToggleModifier?.(mod.id)}
+                            className={`text-[9px] font-mono px-2 py-0.5 rounded-full border cursor-pointer ${
+                              mod.isActive
+                                ? 'bg-emerald-950/60 text-emerald-300 border-emerald-500/40'
+                                : 'bg-slate-900 text-slate-500 border-slate-700'
+                            }`}
+                          >
+                            {mod.isActive ? 'Active' : 'Disabled'}
+                          </button>
+                        </div>
+                        <p className="text-[11px] text-slate-400 leading-relaxed mb-3">{mod.description}</p>
+                      </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-slate-800 text-[10px] font-mono">
-                  <span className="text-cyan-400">{mod.effects?.customRuleText || ''}</span>
-                  <button
-                    type="button"
-                    onClick={() => onDeleteModifier?.(mod.id)}
-                    className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
-                    title="Remove modifier"
-                  >
-                    <Trash2 size={13} />
-                  </button>
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-800 text-[10px] font-mono">
+                        <span className="text-cyan-400">{mod.effects?.customRuleText || ''}</span>
+                        <div className="flex items-center gap-1">
+                          {typeof onUpdateModifier === 'function' && (
+                            <button
+                              type="button"
+                              onClick={() => handleStartEdit(mod)}
+                              className="p-1 rounded text-slate-400 hover:text-amber-300 hover:bg-slate-800 transition-colors cursor-pointer"
+                              title="Edit modifier"
+                              aria-label={`Edit ${mod.name}`}
+                            >
+                              <Edit3 size={12} />
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => onDeleteModifier?.(mod.id)}
+                            className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
+                            title="Remove modifier"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

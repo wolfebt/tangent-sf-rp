@@ -26,16 +26,27 @@ export interface StageAnchor {
   note?: string;
 }
 
-export type StageTriggerEvent = 'enter' | 'leave' | 'interact' | 'beat' | 'flag' | 'timer';
+export type StageTriggerEvent =
+  | 'enter'
+  | 'leave'
+  | 'exit'
+  | 'interact'
+  | 'beat'
+  | 'flag'
+  | 'timer'
+  | 'round_start';
 
 export type StageTriggerAction =
-  | { type: 'REVEAL_BEAT'; scenarioId?: string; beatIndex?: number; prompt?: string }
-  | { type: 'ADVANCE_SCENARIO'; targetScenarioId: string }
+  | { type: 'REVEAL_BEAT'; scenarioId?: string; beatIndex?: number; prompt?: string; text?: string; beatText?: string }
+  | { type: 'ADVANCE_SCENARIO'; targetScenarioId?: string; scenarioId?: string }
   | { type: 'TRIGGER_AIME'; prompt?: string; readAloudText?: string }
+  | { type: 'AIME_PROMPT'; prompt?: string; readAloudText?: string; message?: string }
   | { type: 'SET_FLAG'; key: string; value: any; scope?: 'global' | 'scenario' | 'operative' }
-  | { type: 'SPAWN_ELEMENT' | 'DESPAWN_ELEMENT'; elementId: string; anchorId?: string; x?: number; y?: number }
-  | { type: 'APPLY_MODIFIER'; modifierId: string }
-  | { type: 'RUN_MACRO'; scriptId: string };
+  | { type: 'SPAWN_ELEMENT' | 'DESPAWN_ELEMENT'; elementId: string; anchorId?: string; x?: number; y?: number; pos?: { x: number; y: number } }
+  | { type: 'APPLY_MODIFIER'; modifierId: string; active?: boolean }
+  | { type: 'TOGGLE_DOOR' | 'TOGGLE_OBJECT'; objectId?: string; wallId?: string; isOpen?: boolean }
+  | { type: 'PLAY_AUDIO'; track?: string; cueId?: string; bus?: 'ambient' | 'music' | 'sfx' | 'voice'; volume?: number; loop?: boolean }
+  | { type: 'RUN_MACRO'; scriptId?: string; macroId?: string };
 
 export interface StageTrigger {
   id: string;
@@ -43,13 +54,27 @@ export interface StageTrigger {
   anchorId: string;
   on: StageTriggerEvent;
   when?: string; // Condition expression evaluated via evaluateConditionExpression()
+  conditionExpr?: string;
   actions: StageTriggerAction[];
   gmConfirm?: boolean; // Requires GM approval chip before execution
+  requiresConfirm?: boolean;
+  once?: boolean;
+  delayMs?: number;
+  intervalMs?: number;
+  beatIndex?: number;
+  flagKey?: string;
   isTriggered?: boolean;
 }
 
+export interface StageLightingConfig {
+  mode: string;
+  ambientIntensity?: number;
+  tint?: string;
+  fogDensity?: number;
+}
+
 export interface StageEnvironment {
-  lighting?: any;
+  lighting?: StageLightingConfig;
   weather?: string;
   atmosphericPresetId?: string;
   modifierIds: string[];

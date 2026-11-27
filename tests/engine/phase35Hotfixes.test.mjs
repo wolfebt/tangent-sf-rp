@@ -98,6 +98,8 @@ test('Phase 3.5.4: persistAdeElement aborts module pin sync and returns null whe
       fields: { techLevel: 'TL-3' }
     },
     elementsCatalog: [{ id: 'elem_weapon_fail', title: 'Broken Blaster' }],
+    fromEditModal: true,
+    isAdmin: true,
     saveEntry: async () => false,
     updateSavedElement: async () => {
       updatedSavedCalled += 1;

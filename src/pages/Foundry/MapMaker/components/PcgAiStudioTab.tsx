@@ -278,6 +278,8 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
   const [activeBrush, setActiveBrush] = useState<'none' | 'carve' | 'wall' | 'liquid' | 'door' | 'light' | 'crater' | 'freeze' | 'eraser'>('none');
   const [brushSize, setBrushSize] = useState<number>(1);
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+  const brushUndoSavedRef = useRef<boolean>(false);
+  const passCounterRef = useRef<number>(0);
 
   // History stack for in-studio edits (Undo)
   const [undoStack, setUndoStack] = useState<TacticalCell[][][]>([]);
@@ -369,9 +371,10 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
   ]);
   const [newNodeName, setNewNodeName] = useState('');
 
-  // 7. Gemini Spatial Decorator State
+  // 7. Rule-Based Spatial Decorator State
   const [aiPrompt, setAiPrompt] = useState<string>('Derelict corporate research lab with heavy tactical cover, plasma hazards, and barricaded blast doors.');
   const [isAiRunning, setIsAiRunning] = useState<boolean>(false);
+  const [decoratorCompleted, setDecoratorCompleted] = useState<boolean>(false);
   const [aiLogs, setAiLogs] = useState<string[]>([]);
 
   // Master Active Tactical Grid (for non-planetary map types)
@@ -1100,7 +1103,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
   // USER EDITING & DIRECT TACTILE BRUSH PAINTING
   // --------------------------------------------------------------------------
 
-  const handleCanvasPaint = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleCanvasPaint = (e: React.MouseEvent<HTMLCanvasElement>, recordUndoSnapshot = false) => {
     if (activeBrush === 'none' || activeMapType === 'planetary') return;
     if (!canvasRef.current || tacticalGrid.length === 0) return;
 
@@ -1119,8 +1122,11 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
     if (centerCol < 0 || centerCol >= cols || centerRow < 0 || centerRow >= rows) return;
 
-    // Record undo
-    setUndoStack(prev => [...prev.slice(-10), tacticalGrid.map(row => row.map(cell => ({ ...cell })))]);
+    // Record undo snapshot once per continuous stroke (on pointerdown)
+    if (recordUndoSnapshot && !brushUndoSavedRef.current) {
+      brushUndoSavedRef.current = true;
+      setUndoStack(prev => [...prev.slice(-10), tacticalGrid.map(row => row.map(cell => ({ ...cell })))]);
+    }
 
     // Apply Brush
     setTacticalGrid(prev => {
@@ -1208,6 +1214,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       const next = prev.map(row => row.map(cell => ({ ...cell })));
       for (let r = 1; r < rows - 1; r++) {
         for (let c = 1; c < cols - 1; c++) {
+          if (prev[r][c].isFrozen) continue;
           let wallNeighbors = 0;
           for (let dy = -1; dy <= 1; dy++) {
             for (let dx = -1; dx <= 1; dx++) {
@@ -1234,9 +1241,11 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
     setUndoStack(prev => [...prev.slice(-10), tacticalGrid.map(row => row.map(cell => ({ ...cell })))]);
 
-    // Blast breach at random perimeter boundary
-    const breachCol = Math.floor(cols * (0.2 + Math.random() * 0.6));
-    const breachRow = Math.random() > 0.5 ? 2 : rows - 3;
+    // Blast breach at deterministic PRNG perimeter boundary
+    passCounterRef.current += 1;
+    const breachRng = createPRNG(`${seed}_breach_${passCounterRef.current}`);
+    const breachCol = Math.floor(cols * (0.2 + breachRng() * 0.6));
+    const breachRow = breachRng() > 0.5 ? 2 : rows - 3;
     const radius = 3;
 
     setTacticalGrid(prev => {
@@ -1316,12 +1325,15 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
     setUndoStack(prev => [...prev.slice(-10), tacticalGrid.map(row => row.map(cell => ({ ...cell })))]);
 
+    passCounterRef.current += 1;
+    const scatterRng = createPRNG(`${seed}_scatter_${passCounterRef.current}`);
+
     setTacticalGrid(prev => {
       const next = prev.map(row => row.map(cell => ({ ...cell })));
       for (let r = 2; r < rows - 2; r++) {
         for (let c = 2; c < cols - 2; c++) {
-          if (next[r][c].isFloor && !next[r][c].isDoor && !next[r][c].isLight && !next[r][c].isLiquid) {
-            if (Math.random() < 0.04) {
+          if (next[r][c].isFloor && !next[r][c].isFrozen && !next[r][c].isDoor && !next[r][c].isLight && !next[r][c].isLiquid) {
+            if (scatterRng() < 0.04) {
               next[r][c].isProp = true;
               next[r][c].propName = 'Tactical Barricade';
               next[r][c].propCategory = 'cover';
@@ -1334,13 +1346,14 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
   };
 
   // --------------------------------------------------------------------------
-  // RUN GEMINI SPATIAL DECORATOR SCRIPT
+  // RUN RULE-BASED SPATIAL DECORATOR SCRIPT
   // --------------------------------------------------------------------------
 
   const handleRunSpatialDecorator = () => {
     setIsAiRunning(true);
+    setDecoratorCompleted(false);
     setAiLogs([
-      'Analyzing natural language directives for lighting, blast doors, cover & scorch marks...',
+      'Analyzing directive keywords for lighting, blast doors, cover & scorch marks...',
       'Compiling tactical spatial layout into Semantic Zone Mask...'
     ]);
 
@@ -1385,13 +1398,14 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       // 4. Update the live tactical grid so user sees changes in preview immediately
       setTacticalGrid(prev => PCGExecutor.applyToTacticalGrid(prev, report));
 
-      // 5. Update AI logs and notify
+      // 5. Update logs and notify (remain on PCG tab so user can inspect preview before clicking "View on Canvas")
       setAiLogs(prev => [
         ...prev,
         ...report.logs,
         `✓ Spatial Decorator Complete: Placed ${report.totalPlaced} entities (${report.doors.length} doors, ${report.lights.length} lights, ${report.bulkheadScorches.length} scorches).`
       ]);
       setIsAiRunning(false);
+      setDecoratorCompleted(true);
 
       // 6. Propagate decorations to MapMaker canvas/stage if callback provided
       if (onApplyDecorations) {
@@ -1597,25 +1611,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
               ? { x: x + cellSizePx / 2, y: y + cellSizePx }
               : { x: x + cellSizePx, y: y + cellSizePx / 2 };
 
-            // Interactive Door Portal Object
-            generatedObjects.push({
-              id: `pcg-door-${Date.now()}-${r}-${c}`,
-              name: doorName,
-              label: isBarricaded ? 'Barricaded Door' : (cell.doorType === 'airlock' ? 'Airlock' : 'Door'),
-              x: x + cellSizePx / 2,
-              y: y + cellSizePx / 2,
-              width: cellSizePx,
-              height: cellSizePx,
-              category: 'door',
-              type: 'portal',
-              orientation: isVerticalDoor ? 'vertical' : 'horizontal',
-              color: isBarricaded ? '#ef4444' : (cell.doorType === 'airlock' ? '#38bdf8' : '#f59e0b'),
-              isOpen: false,
-              isLocked: isBarricaded || false,
-              isBarricaded
-            });
-
-            // Interactive VTT Wall Segment
+            // Interactive VTT Door Segment (single canonical wall entity — avoids object+wall duplication)
             generatedWalls.push(createWallSegment(
               doorStart,
               doorEnd,
@@ -1741,13 +1737,6 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
             x: Math.round(seg.p2[0] * 100) / 100,
             y: Math.round(seg.p2[1] * 100) / 100
           };
-          generatedLines.push({
-            id: `pcg-line-${Date.now()}-${idx}`,
-            points: [p1.x, p1.y, p2.x, p2.y],
-            stroke: wallStroke,
-            strokeWidth: 3,
-            closed: false
-          });
           generatedWalls.push(
             createWallSegment(p1, p2, WALL_TYPES.SOLID, {
               id: `pcg-wall-${Date.now()}-${idx}`,
@@ -1869,9 +1858,9 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
               <option value="starship">Starship &amp; Deckplan (BSP / Hull Armor)</option>
               <option value="caverns">Subterranean Cavern &amp; Hive (Cellular Automata)</option>
               <option value="mining">Mining Complex &amp; Shafts (Drunkard's Walk)</option>
-              <option value="outpost">Modular Outpost &amp; Station (WFC Assemblies)</option>
+              <option value="outpost">Modular Outpost Grid Generator</option>
               <option value="nodegraph">Story Flowchart Outpost (Node-Graph Layout)</option>
-              <option value="decorator">Gemini Spatial Decorator (Prompt Dressing)</option>
+              <option value="decorator">Rule-Based Spatial Decorator (Keyword Dressing)</option>
             </select>
             <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-3 pointer-events-none" />
           </div>
@@ -2723,14 +2712,14 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
               </div>
             )}
 
-            {/* 7. GEMINI SPATIAL DECORATOR CONTROLS */}
+            {/* 7. RULE-BASED SPATIAL DECORATOR CONTROLS */}
             {activeMapType === 'decorator' && (
               <div className="space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-cyan-400 uppercase">
-                    Gemini Structured Spatial Decorator Prompt
+                    Rule-Based Spatial Decorator Prompt
                   </span>
-                  <span className="text-[10px] text-slate-500">Natural Language PCG</span>
+                  <span className="text-[10px] text-slate-500">Keyword &amp; Semantic Mask PCG</span>
                 </div>
 
                 {/* Quick Presets */}
@@ -2781,6 +2770,17 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                       </div>
                     ))}
                   </div>
+                )}
+
+                {decoratorCompleted && onDeployToCanvas && (
+                  <button
+                    type="button"
+                    onClick={onDeployToCanvas}
+                    className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold flex items-center justify-center gap-2 transition-all"
+                  >
+                    <Eye className="w-4 h-4" />
+                    <span>View on Canvas</span>
+                  </button>
                 )}
               </div>
             )}
@@ -3013,13 +3013,20 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
               ref={canvasRef}
               onMouseDown={(e) => {
                 setIsMouseDown(true);
-                handleCanvasPaint(e);
+                brushUndoSavedRef.current = false;
+                handleCanvasPaint(e, true);
               }}
               onMouseMove={(e) => {
-                if (isMouseDown) handleCanvasPaint(e);
+                if (isMouseDown) handleCanvasPaint(e, false);
               }}
-              onMouseUp={() => setIsMouseDown(false)}
-              onMouseLeave={() => setIsMouseDown(false)}
+              onMouseUp={() => {
+                setIsMouseDown(false);
+                brushUndoSavedRef.current = false;
+              }}
+              onMouseLeave={() => {
+                setIsMouseDown(false);
+                brushUndoSavedRef.current = false;
+              }}
               className={`max-w-full max-h-full object-contain rounded shadow-2xl ${activeBrush !== 'none' && activeMapType !== 'planetary' ? 'cursor-crosshair' : 'cursor-default'}`}
             />
 

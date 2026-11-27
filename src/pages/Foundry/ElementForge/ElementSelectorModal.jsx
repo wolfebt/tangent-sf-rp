@@ -47,21 +47,39 @@ export const ElementSelectorModal = ({
     });
   }, [elementsCatalog, dbData, personaRoster, publicCatalog]);
 
-  // Map legacy dbSource keys to standard Element Types
+  // Map legacy & OmniCortex dbSource keys to standard Element Types
   const typeMap = {
-    'species': 'Species',
-    'species_type': 'Species',
-    'factions': 'Faction',
-    'origins': 'Custom',
-    'occupations': 'Custom',
-    'weaponry': 'Property',
-    'armoring': 'Property',
-    'gear': 'Property',
-    'personas': 'Persona',
-    'npcs': 'Persona',
-    'modular_characters': 'Persona',
-    'rules_codex': 'Custom',
-    'compendium': 'Custom'
+    species: 'Species',
+    species_type: 'Species',
+    factions: 'Faction',
+    origins: 'Custom',
+    occupations: 'Custom',
+    archetypes: 'Custom',
+    traits: 'Custom',
+    features: 'Custom',
+    disadvantages: 'Custom',
+    weaponry: 'Property',
+    armoring: 'Property',
+    augmentations: 'Property',
+    gear: 'Property',
+    mecha: 'Property',
+    architecture: 'Property',
+    technology: 'Property',
+    other_property: 'Property',
+    invocations: 'Metaphysics',
+    disciplines: 'Metaphysics',
+    special_abilities: 'Metaphysics',
+    world: 'World',
+    planetary_design: 'World',
+    setting: 'Setting',
+    scene: 'Scene',
+    philosophy: 'Philosophy',
+    universe: 'Universe',
+    personas: 'Persona',
+    npcs: 'Persona',
+    modular_characters: 'Persona',
+    rules_codex: 'Custom',
+    compendium: 'Custom'
   };
 
   const targetType = typeMap[sourceType] || (sourceType ? String(sourceType).charAt(0).toUpperCase() + String(sourceType).slice(1) : 'Custom');
@@ -70,12 +88,15 @@ export const ElementSelectorModal = ({
   const [sortOption, setSortOption] = useState('az'); // 'az' | 'za' | 'type'
   const [draftNewElement, setDraftNewElement] = useState(null);
   const [selectedIds, setSelectedIds] = useState(() => new Set());
+  const [visibleLimit, setVisibleLimit] = useState(48);
 
   useEffect(() => {
     if (isOpen) {
       setSelectedIds(new Set());
+      setVisibleLimit(48);
+      setActiveTypeFilter(targetType && targetType !== 'Custom' ? targetType : null);
     }
-  }, [isOpen, sourceType]);
+  }, [isOpen, sourceType, targetType]);
 
   const effectiveCatalog = useMemo(() => {
     const base = Array.isArray(unifiedCatalog) ? unifiedCatalog : [];
@@ -181,6 +202,11 @@ export const ElementSelectorModal = ({
       return titleA.localeCompare(titleB);
     });
   }, [effectiveCatalog, searchTerm, activeTypeFilter, sortOption]);
+
+  const visibleItems = useMemo(
+    () => filteredItems.slice(0, visibleLimit),
+    [filteredItems, visibleLimit]
+  );
 
   const handleSelectItem = (item) => {
     if (isMulti) {
@@ -411,7 +437,7 @@ export const ElementSelectorModal = ({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/60">
-                    {filteredItems.map(item => {
+                    {visibleItems.map(item => {
                       const isSelected = isMulti && selectedIds.has(item.id);
                       return (
                       <tr
@@ -467,7 +493,7 @@ export const ElementSelectorModal = ({
             ) : (
               /* SHARP HIGH-TECH CARDS */
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {filteredItems.map(item => {
+                {visibleItems.map(item => {
                   const isSelected = isMulti && selectedIds.has(item.id);
                   return (
                   <div
@@ -524,6 +550,17 @@ export const ElementSelectorModal = ({
                   </div>
                 );
                 })}
+              </div>
+            )}
+            {filteredItems.length > visibleLimit && (
+              <div className="flex justify-center pt-4">
+                <button
+                  type="button"
+                  onClick={() => setVisibleLimit((prev) => prev + 48)}
+                  className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold uppercase cursor-pointer"
+                >
+                  Load More ({filteredItems.length - visibleLimit} remaining)
+                </button>
               </div>
             )}
           </div>

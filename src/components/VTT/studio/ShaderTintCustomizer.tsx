@@ -113,8 +113,28 @@ export const ShaderTintCustomizer: React.FC<ShaderTintCustomizerProps> = ({
         />
       </div>
 
-      {/* Sliders */}
+      {/* Custom Tint Color + Sliders */}
       <div className="space-y-2 pt-1">
+        <div className="flex items-center justify-between gap-2 pb-1">
+          <label className="text-[11px] text-slate-400">Tint Color Overlay</label>
+          <div className="flex items-center gap-1.5">
+            <input
+              type="color"
+              aria-label="Tint Color Picker"
+              value={current.tintColor}
+              onChange={(e) => onChange({ ...current, tintColor: e.target.value })}
+              className="w-7 h-7 rounded border border-slate-700 bg-transparent cursor-pointer"
+            />
+            <input
+              type="text"
+              aria-label="Tint Color Hex"
+              value={current.tintColor}
+              onChange={(e) => onChange({ ...current, tintColor: e.target.value })}
+              className="w-20 bg-slate-900 border border-slate-700 rounded px-1.5 py-1 text-[11px] text-slate-200"
+            />
+          </div>
+        </div>
+
         <div>
           <div className="flex justify-between text-[11px] text-slate-400 mb-0.5">
             <span>Hue Rotation</span>

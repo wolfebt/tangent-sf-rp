@@ -1250,13 +1250,14 @@ const EditElementModal = ({
                   const trimmed = String(nextUrl || '').trim();
                   if (!trimmed) {
                     setImageUrl('');
-                    return;
+                    return true;
                   }
                   if (!isSafeImageUrl(trimmed)) {
                     showToast({ type: 'warning', text: 'Please enter a valid http(s):// URL or raster data:image/ URI.' });
-                    return;
+                    return false;
                   }
                   setImageUrl(trimmed);
+                  return true;
                 }}
                 onOpenArtistHub={() => setIsArtistHubOpen(true)}
                 activeScenario={activeScenario}

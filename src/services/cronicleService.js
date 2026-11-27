@@ -383,11 +383,14 @@ function truncateToCharBudget(text, maxChars) {
 export function formatCronicleContextForAIME(cronicle, options = {}) {
   if (!cronicle) return '';
 
+  const opts = typeof options === 'number' ? { maxTokens: options } : (options || {});
+  const operatorSafe = Boolean(opts.operatorSafe);
+
   const { workingMemory, personas = {}, locations = {}, timeline = [], calendar } = cronicle;
   if (!workingMemory) return '';
 
-  const maxTokens = Number.isFinite(Number(options?.maxTokens)) && Number(options.maxTokens) > 0
-    ? Number(options.maxTokens)
+  const maxTokens = Number.isFinite(Number(opts.maxTokens)) && Number(opts.maxTokens) > 0
+    ? Number(opts.maxTokens)
     : 1200;
   const totalCharBudget = Math.max(400, Math.round(maxTokens * 4));
   const tier1Budget = Math.floor(totalCharBudget * 0.5);
@@ -397,7 +400,9 @@ export function formatCronicleContextForAIME(cronicle, options = {}) {
   const activeLocId = workingMemory.activeLocationId;
   const activePersonaIds = workingMemory.activePersonaIds || [];
   const activeLocation = activeLocId ? locations[activeLocId] : null;
-  const activePersonas = activePersonaIds.map(id => personas[id]).filter(Boolean);
+  const activePersonas = activePersonaIds
+    .map(id => personas[id])
+    .filter(p => p && (!operatorSafe || (!p.isHidden && !p.isGmOnly)));
 
   const sections = [];
 
@@ -447,7 +452,7 @@ export function formatCronicleContextForAIME(cronicle, options = {}) {
     tier1Lines.push(`UNRESOLVED IMMEDIATE CONFLICTS: ${workingMemory.unresolvedConflicts}`);
   }
 
-  if (workingMemory.ephemeralNotes && String(workingMemory.ephemeralNotes).trim()) {
+  if (!operatorSafe && workingMemory.ephemeralNotes && String(workingMemory.ephemeralNotes).trim()) {
     tier1Lines.push(`WORKING MEMORY NOTES: ${String(workingMemory.ephemeralNotes).trim()}`);
   }
 
@@ -479,8 +484,11 @@ export function formatCronicleContextForAIME(cronicle, options = {}) {
   }
 
   // Recent Story Weaver timeline events (last 3)
-  if (timeline && timeline.length > 0) {
-    const recentEvents = timeline.slice(-3);
+  const visibleTimeline = operatorSafe
+    ? (timeline || []).filter(evt => evt && !evt.isHidden && !evt.isGmOnly)
+    : (timeline || []);
+  if (visibleTimeline.length > 0) {
+    const recentEvents = visibleTimeline.slice(-3);
     tier2Lines.push('RECENT ESTABLISHED CHRONOLOGICAL ANTECEDENTS:');
     recentEvents.forEach(evt => {
       tier2Lines.push(`  - [${evt.sceneTitle}]: ${evt.summary}`);

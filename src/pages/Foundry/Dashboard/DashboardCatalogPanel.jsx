@@ -13,8 +13,6 @@ import {
   User, 
   Activity, 
   Folder, 
-  FolderPlus, 
-  Sliders, 
   Search, 
   ExternalLink, 
   Plus, 
@@ -24,13 +22,15 @@ import {
   Database,
   ArrowUp,
   ArrowDown,
-  Layers,
   Trash2
 } from 'lucide-react';
 import { useStory } from '../../../context/CampaignContext';
+import { useDBM } from '../../../context/DBMContext';
 import { useFolio } from '../../../context/FolioContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
+import { getTypePillStyle } from '../ElementForge/elementSchemas';
 import { 
   getFolders, 
   getItemFolderAssignments, 
@@ -57,17 +57,23 @@ export const DashboardCatalogPanel = () => {
     deleteMap
   } = useStory();
   
+  const { dbData = {} } = useDBM() || {};
   const folio = useFolio() || {};
   const personaRoster = folio.personaRoster || folio.roster || [];
   const switchRosterCharacter = folio.switchRosterCharacter;
 
-  // Active Tab: 'stories' | 'maps' | 'vtt' | 'personas' | 'activity'
+  // Active Tab: 'stories' | 'elements' | 'maps' | 'vtt' | 'personas' | 'activity'
   const [activeTab, setActiveTab] = useState('stories');
 
   // Search and Sort states
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('recent'); // 'custom' | 'recent' | 'name_asc' | 'name_desc'
   const [activeFolderId, setActiveFolderId] = useState('all'); // 'unfiled' | folderId | 'all'
+  const [elementsLimit, setElementsLimit] = useState(80);
+
+  useEffect(() => {
+    setElementsLimit(80);
+  }, [activeTab, searchQuery, sortBy]);
 
   // Folder system state
   const [folders, setFolders] = useState(() => getFolders());
@@ -111,6 +117,35 @@ export const DashboardCatalogPanel = () => {
     return sortContentItems(list, sortBy, activeFolderId, 'id');
   }, [storyCatalog, universeState, assignments, activeFolderId, searchQuery, sortBy]);
 
+  // ── 1B. ELEMENTS ITEMS (Lazy-built only when Elements tab is active) ──
+  const processedElements = useMemo(() => {
+    if (activeTab !== 'elements') return [];
+    let list = buildUnifiedAdeCatalog({
+      elementsCatalog: elementsCatalog || [],
+      dbData: dbData || {},
+      folioRoster: personaRoster
+    });
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter((el) =>
+        (el.title || el.name || '').toLowerCase().includes(q) ||
+        (el.type || '').toLowerCase().includes(q) ||
+        (el.fields?.summary || '').toLowerCase().includes(q)
+      );
+    }
+
+    list = [...list].sort((a, b) => {
+      const aName = a.title || a.name || '';
+      const bName = b.title || b.name || '';
+      if (sortBy === 'name_asc') return aName.localeCompare(bName);
+      if (sortBy === 'name_desc') return bName.localeCompare(aName);
+      return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+    });
+
+    return list;
+  }, [activeTab, elementsCatalog, dbData, personaRoster, searchQuery, sortBy]);
+
   // ── 2. MAP ITEMS ──
   const processedMaps = useMemo(() => {
     const combined = [
@@ -135,16 +170,32 @@ export const DashboardCatalogPanel = () => {
 
   // ── 3. VTT SESSIONS ──
   const processedVttSessions = useMemo(() => {
-    // VTT encounters mapped from available tactical maps & stage encounters
-    return processedMaps.map(m => ({
+    const manifestRows = Array.isArray(universeState?.stageManifests)
+      ? universeState.stageManifests.filter(Boolean).map((m) => ({
+          id: `stage_${m.id}`,
+          stageId: m.id,
+          mapId: m.mapId || '',
+          title: m.title || 'Stage Manifest',
+          isStageManifest: true,
+          anchorCount: Array.isArray(m.anchors) ? m.anchors.length : 0,
+          triggerCount: Array.isArray(m.triggers) ? m.triggers.length : 0,
+          updatedAt: m.updatedAt
+        }))
+      : [];
+
+    const mapRows = processedMaps.map(m => ({
       id: m.id,
+      mapId: m.id,
       title: m.name || m.title || 'Sector Recon Encounter',
       dimensions: `${m.width || 2000}x${m.height || 1500}`,
+      gridType: m.gridType || m.gridMode || 'Hex',
       gridSize: m.gridSize || 40,
       updatedAt: m.updatedAt,
       isTacticalReady: true
     }));
-  }, [processedMaps]);
+
+    return [...manifestRows, ...mapRows];
+  }, [universeState?.stageManifests, processedMaps]);
 
   // ── 4. PERSONA ITEMS ──
   const processedPersonas = useMemo(() => {
@@ -220,12 +271,12 @@ export const DashboardCatalogPanel = () => {
 
   const handleOpenMap = (mapId) => {
     AudioService.playTerminalBeep(1200, 0.03);
-    navigate(`/foundry/map-maker?mapId=${mapId}`);
+    navigate(`/foundry/map-maker?mapId=${encodeURIComponent(mapId || '')}`);
   };
 
   const handleLaunchVtt = (mapId) => {
     AudioService.playTerminalBeep(1400, 0.04);
-    navigate(`/stage?mapId=${mapId}`);
+    navigate(`/stage?mapId=${encodeURIComponent(mapId || '')}`);
   };
 
   const handleOpenPersona = (charDocId) => {
@@ -255,12 +306,8 @@ export const DashboardCatalogPanel = () => {
 
   const handleDeleteStory = async (e, story) => {
     e.stopPropagation();
-    const ok = await confirm({
-      title: 'Delete Story Project',
-      message: `Are you sure you want to permanently delete "${story.projectName || 'Untitled Story'}"? All contained scenarios and data will be removed.`,
-      danger: true,
-      confirmLabel: 'Delete Story'
-    });
+    const targetTitle = story.projectName || story.title || 'Untitled Story';
+    const ok = await confirmTypedDeletion(targetTitle, 'story module project');
     if (ok) {
       AudioService.playTerminalBeep(500, 0.08);
       if (deleteStoryProject) {
@@ -323,7 +370,7 @@ export const DashboardCatalogPanel = () => {
         </div>
 
         {/* Catalog Navigation Tabs */}
-        <div className="grid grid-cols-5 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-[11px] font-mono font-bold select-none">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-[11px] font-mono font-bold select-none">
           <button
             onClick={() => { AudioService.playTerminalBeep(900, 0.02); setActiveTab('stories'); }}
             className={`py-1.5 rounded-lg transition-all flex flex-col sm:flex-row items-center justify-center gap-1 cursor-pointer ${
@@ -335,6 +382,19 @@ export const DashboardCatalogPanel = () => {
           >
             <BookOpen size={13} />
             <span className="truncate">Stories</span>
+          </button>
+
+          <button
+            onClick={() => { AudioService.playTerminalBeep(900, 0.02); setActiveTab('elements'); }}
+            className={`py-1.5 rounded-lg transition-all flex flex-col sm:flex-row items-center justify-center gap-1 cursor-pointer ${
+              activeTab === 'elements'
+                ? 'bg-teal-950 text-teal-300 border border-teal-500/50 shadow-[0_0_10px_rgba(20,184,166,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+            title="World Elements Catalog"
+          >
+            <Database size={13} />
+            <span className="truncate">Elements</span>
           </button>
 
           <button
@@ -490,7 +550,6 @@ export const DashboardCatalogPanel = () => {
             ) : (
               processedStories.map((story, index) => {
                 const isActive = universeState?.id === story.id;
-                const assignedFolder = folders.find(f => f.id === assignments[story.id]);
 
                 return (
                   <div
@@ -593,6 +652,78 @@ export const DashboardCatalogPanel = () => {
                   </div>
                 );
               })
+            )}
+          </div>
+        )}
+
+        {/* ── TAB 1B: ELEMENTS CATALOG ── */}
+        {activeTab === 'elements' && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between pb-1 text-[11px] font-mono text-slate-400">
+              <span>{processedElements.length} World Elements</span>
+              <button
+                type="button"
+                onClick={() => navigate('/foundry?view=elements&create=1')}
+                className="text-teal-400 hover:text-teal-300 flex items-center gap-1 font-bold cursor-pointer"
+              >
+                <Plus size={12} /> + Forge Element
+              </button>
+            </div>
+
+            {processedElements.length === 0 ? (
+              <div className="p-8 text-center text-slate-500 text-xs border border-dashed border-slate-800 rounded-xl">
+                No world elements found.
+              </div>
+            ) : (
+              <>
+                {processedElements.slice(0, elementsLimit).map((el) => {
+                  const originLabel = el.isFolioPersona ? 'Folio' : el.isCortexAsset ? 'Cortex' : 'Module';
+                  return (
+                    <div
+                      key={el.id}
+                      onClick={() => navigate(`/foundry?view=elements&elementId=${encodeURIComponent(el.id)}`)}
+                      className="group bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-teal-500/50 rounded-xl p-3 transition-all flex items-center justify-between gap-2 cursor-pointer"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                          <span className={`px-1.5 py-0.2 rounded border text-[9px] font-mono font-bold uppercase ${getTypePillStyle(el.type)}`}>
+                            {el.type || 'Custom'}
+                          </span>
+                          <span className="px-1.5 py-0.2 rounded bg-slate-950 border border-slate-800 text-[9px] font-mono text-slate-400 uppercase">
+                            {originLabel}
+                          </span>
+                          <h4 className="text-xs font-bold text-slate-200 group-hover:text-teal-300 transition-colors truncate">
+                            {el.title || el.name || 'Untitled Element'}
+                          </h4>
+                        </div>
+                        {el.fields?.summary && (
+                          <p className="text-[11px] text-slate-400 line-clamp-1">{el.fields.summary}</p>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/foundry?view=elements&elementId=${encodeURIComponent(el.id)}`);
+                        }}
+                        className="px-2 py-1 bg-teal-950/70 hover:bg-teal-900 text-teal-300 border border-teal-500/40 rounded-lg text-[10px] font-mono font-bold uppercase flex items-center gap-1 transition-colors cursor-pointer shrink-0"
+                      >
+                        <span>Open</span>
+                        <ExternalLink size={10} />
+                      </button>
+                    </div>
+                  );
+                })}
+                {processedElements.length > elementsLimit && (
+                  <button
+                    type="button"
+                    onClick={() => setElementsLimit((prev) => prev + 80)}
+                    className="w-full py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-mono text-teal-300 font-bold uppercase cursor-pointer"
+                  >
+                    Show More ({processedElements.length - elementsLimit} remaining)
+                  </button>
+                )}
+              </>
             )}
           </div>
         )}
@@ -719,26 +850,36 @@ export const DashboardCatalogPanel = () => {
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                      <span className={`w-2 h-2 rounded-full ${session.isStageManifest ? 'bg-purple-400' : 'bg-emerald-400'}`} />
                       <h4 className="text-xs font-bold text-slate-200 truncate">
                         {session.title}
                       </h4>
                     </div>
                     <div className="text-[10px] text-slate-500 font-mono">
-                      Grid: 5ft • {session.dimensions}
+                      {session.isStageManifest
+                        ? `Stage Manifest • ${session.anchorCount} anchors • ${session.triggerCount} triggers`
+                        : `Grid: ${session.gridType} (${session.gridSize}px) • ${session.dimensions}`}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0">
                     <button
-                      onClick={() => navigate(`/foundry/stage?mapId=${session.id}&options=true`)}
+                      onClick={() =>
+                        session.isStageManifest
+                          ? navigate(`/foundry?view=stage&tab=setup&stageId=${encodeURIComponent(session.stageId)}`)
+                          : navigate(`/foundry/stage?mapId=${encodeURIComponent(session.mapId || session.id)}&options=true`)
+                      }
                       className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-mono uppercase rounded-lg transition-colors cursor-pointer"
-                      title="Setup tokens and tactical stage settings"
+                      title={session.isStageManifest ? 'Open Stage Manifest setup' : 'Setup tokens and tactical stage settings'}
                     >
                       Config
                     </button>
                     <button
-                      onClick={() => handleLaunchVtt(session.id)}
+                      onClick={() =>
+                        session.isStageManifest
+                          ? navigate(`/foundry?view=stage&tab=run&stageId=${encodeURIComponent(session.stageId)}`)
+                          : handleLaunchVtt(session.mapId || session.id)
+                      }
                       className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 transition-all shadow-[0_0_10px_rgba(245,158,11,0.3)] cursor-pointer"
                     >
                       <Play size={10} fill="currentColor" /> Play
@@ -882,7 +1023,9 @@ export const DashboardCatalogPanel = () => {
               icon={<BookOpen size={14} />}
               color="var(--accent-primary)"
               items={activityData.storyItems}
-              onItemClick={(item) => navigate('/foundry/story')}
+              onItemClick={(item) =>
+                navigate(item?.id ? `/foundry?view=scenarios&scenarioId=${encodeURIComponent(item.id)}` : '/foundry/story')
+              }
             />
 
             {/* Elements Recent Activity */}
@@ -891,7 +1034,9 @@ export const DashboardCatalogPanel = () => {
               icon={<Database size={14} />}
               color="var(--accent-green-dark)"
               items={activityData.elemItems}
-              onItemClick={(item) => navigate('/foundry/elements')}
+              onItemClick={(item) =>
+                navigate(item?.id ? `/foundry?view=elements&elementId=${encodeURIComponent(item.id)}` : '/foundry/elements')
+              }
             />
 
             {/* Maps Recent Activity */}

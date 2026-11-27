@@ -26,6 +26,7 @@ import {
   drawPixiHexGrid,
   computeRulerPaceStats,
   requestPixiTexture,
+  isRectVisible,
   type Point2D,
   type ViewportState
 } from './mapMakerPixiHelpers.ts';
@@ -104,6 +105,7 @@ export interface MapMakerSceneData {
   rulerPointer: Point2D | null;
   rulerSelectedPace?: string;
   liveDragPreview?: LiveDragPreview | null;
+  activeStrokePreview?: any;
   chunkGhostPreviewData: any;
   chunkCaptureMarquee: any;
   activeTool: string;
@@ -194,15 +196,58 @@ export function renderBackgroundAndGridLayer(
   }
 }
 
+function shouldCullViewport(viewport?: ViewportState): viewport is ViewportState {
+  return Boolean(viewport && viewport.width > 0 && viewport.height > 0);
+}
+
+function getPointsRect(points: number[], pad: number) {
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+  for (let i = 0; i < points.length - 1; i += 2) {
+    const x = points[i]!;
+    const y = points[i + 1]!;
+    if (x < minX) minX = x;
+    if (y < minY) minY = y;
+    if (x > maxX) maxX = x;
+    if (y > maxY) maxY = y;
+  }
+  return {
+    x: minX - pad,
+    y: minY - pad,
+    width: Math.max(1, maxX - minX) + pad * 2,
+    height: Math.max(1, maxY - minY) + pad * 2
+  };
+}
+
 function renderTerrainListIntoContainer(
   container: Container,
   terrains: any[],
   isEraser: boolean,
   isLocked: boolean,
-  cb: LayerRenderCallbacks
+  cb: LayerRenderCallbacks,
+  viewport?: ViewportState
 ): void {
+  const canCull = shouldCullViewport(viewport);
+  const CULL_PAD = 220;
   for (const t of terrains) {
     if (!t) continue;
+    if (canCull) {
+      if (t.renderType === 'hexTile' && t.x !== undefined && t.y !== undefined) {
+        const r = (t.radius || 40) + CULL_PAD;
+        if (!isRectVisible({ x: t.x - r, y: t.y - r, width: r * 2, height: r * 2 }, viewport)) continue;
+      } else if (t.renderType === 'rect' || t.renderType === 'canvasImage') {
+        const rx = (t.x || 0) - CULL_PAD;
+        const ry = (t.y || 0) - CULL_PAD;
+        const rw = (t.width || 40) + CULL_PAD * 2;
+        const rh = (t.height || 40) + CULL_PAD * 2;
+        if (!isRectVisible({ x: rx, y: ry, width: rw, height: rh }, viewport)) continue;
+      } else if (Array.isArray(t.points) && t.points.length >= 4) {
+        const rect = getPointsRect(t.points, (t.strokeWidth || 30) + CULL_PAD);
+        if (!isRectVisible(rect, viewport)) continue;
+      }
+    }
 
     if (t.renderType === 'canvasImage' && t.imageUrl) {
       const tex = requestPixiTexture(t.imageUrl, cb.onTextureReady);
@@ -312,7 +357,8 @@ export function renderTerrainAndLinesLayer(
     scene.terrains.filter((t) => !t?.isRoofLayer),
     isEraser,
     isLocked,
-    cb
+    cb,
+    scene.viewport
   );
 
   for (const l of scene.lines) {
@@ -354,12 +400,20 @@ export function renderObjectsLayer(
   const zoomScale = scene.viewport.scale;
   const isLODOut = zoomScale < 0.65;
 
+  const canCull = shouldCullViewport(scene.viewport);
+
   for (const obj of scene.objects) {
     if (!obj) continue;
     const isSelected = obj.id === scene.selectedId;
     const radius = obj.radius || 25;
     const width = obj.width || radius * 2;
     const height = obj.height || radius * 2;
+    if (canCull && !isSelected) {
+      const pad = Math.max(radius, width, height) + 220;
+      if (!isRectVisible({ x: (obj.x || 0) - pad, y: (obj.y || 0) - pad, width: pad * 2, height: pad * 2 }, scene.viewport)) {
+        continue;
+      }
+    }
     const fillHex = parseHexColor(obj.color, 0x3b82f6);
     const hasScaleTarget = Boolean(obj.scaleTarget);
     const hasHazard = Boolean(obj.hazard);
@@ -913,6 +967,7 @@ export function renderEntitiesLayer(
   // 2. Tokens
   if (scene.isLayerVisible('layer_tokens')) {
     const tokensLocked = scene.isLayerLocked('layer_tokens');
+    const canCullTokens = shouldCullViewport(scene.viewport);
 
     for (const token of scene.tokens) {
       if (!token) continue;
@@ -920,6 +975,12 @@ export function renderEntitiesLayer(
       const isLink = token.type === 'link';
       const isHero = token.type === 'hero' || Boolean(token.linkedHeroId);
       const radius = token.radius || 35;
+      if (canCullTokens && !isSel) {
+        const pad = radius + 220;
+        if (!isRectVisible({ x: (token.x || 0) - pad, y: (token.y || 0) - pad, width: pad * 2, height: pad * 2 }, scene.viewport)) {
+          continue;
+        }
+      }
       const health = token.health || token.hp || null;
       const vitality = token.vitality || null;
       const initiative = token.initiative !== undefined && token.initiative !== null ? token.initiative : null;
@@ -1160,7 +1221,8 @@ export function renderRoofLayer(
     scene.terrains.filter((t) => Boolean(t?.isRoofLayer)),
     scene.activeTool === 'eraser',
     scene.isLayerLocked('layer_roof'),
-    cb
+    cb,
+    scene.viewport
   );
 }
 
@@ -1264,6 +1326,29 @@ export function renderForegroundOverlayLayer(
     szTxt.x = x - width / 2;
     szTxt.y = y + height / 2 + 6 / zoomScale;
     container.addChild(szTxt);
+  }
+
+  // 0c. Buffered Freehand Stroke Preview (pencil, organic terrain, fog paint/reveal)
+  if (scene.activeStrokePreview && Array.isArray(scene.activeStrokePreview.points) && scene.activeStrokePreview.points.length >= 2) {
+    const st = scene.activeStrokePreview;
+    const strokeG = new Graphics();
+    const isFogReveal = st.kind === 'fog-reveal';
+    const strokeHex = parseHexColor(st.color, isFogReveal ? 0x22d3ee : 0xef4444);
+    const strokeWidth = Number(st.strokeWidth || 8);
+    const pts = st.points;
+    if (pts.length === 2) {
+      strokeG.circle(pts[0]!, pts[1]!, Math.max(3, strokeWidth / 2)).fill({ color: strokeHex, alpha: isFogReveal ? 0.5 : 0.85 });
+    } else {
+      drawStyledPolyline(
+        strokeG,
+        pts,
+        strokeWidth,
+        strokeHex,
+        isFogReveal ? 0.6 : st.kind === 'terrain' ? 0.78 : 0.9,
+        isFogReveal ? [10, 6] : undefined
+      );
+    }
+    container.addChild(strokeG);
   }
 
   // 1. Shift+Drag Chunk Capture Marquee

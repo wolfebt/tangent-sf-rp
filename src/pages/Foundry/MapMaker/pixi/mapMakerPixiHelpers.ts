@@ -422,10 +422,50 @@ export function computeRulerPaceStats(
   };
 }
 
+export const MAX_PIXI_TEXTURE_CACHE = 128;
 const pixiTextureCache = new Map<string, Texture>();
 
+function touchLruTexture(key: string, tex: Texture): void {
+  if (pixiTextureCache.has(key)) {
+    pixiTextureCache.delete(key);
+  }
+  pixiTextureCache.set(key, tex);
+
+  while (pixiTextureCache.size > MAX_PIXI_TEXTURE_CACHE) {
+    const oldest = pixiTextureCache.entries().next();
+    if (oldest.done) break;
+    const [oldestKey, oldestTex] = oldest.value;
+    pixiTextureCache.delete(oldestKey);
+    // Defer GPU texture destroy past active frame draw calls to prevent mid-frame sprite corruption
+    setTimeout(() => {
+      if (!pixiTextureCache.has(oldestKey) && oldestTex && !oldestTex.destroyed) {
+        try {
+          oldestTex.destroy(true);
+        } catch {
+          // Ignore disposal race during teardown
+        }
+      }
+    }, 0);
+  }
+}
+
+export function getPixiTextureCacheSize(): number {
+  return pixiTextureCache.size;
+}
+
+export function clearPixiTextureCache(): void {
+  for (const [, tex] of pixiTextureCache.entries()) {
+    try {
+      if (tex && !tex.destroyed) tex.destroy(true);
+    } catch {
+      // Ignore disposal errors
+    }
+  }
+  pixiTextureCache.clear();
+}
+
 /**
- * Resolves a cached Pixi Texture from an image URL using MapTextures' bounded LRU loader.
+ * Resolves a cached Pixi Texture from an image URL using a bounded 128-entry LRU cache.
  * Triggers `onLoaded` asynchronously if the image is still decoding.
  */
 export function requestPixiTexture(
@@ -436,6 +476,7 @@ export function requestPixiTexture(
 
   const existing = pixiTextureCache.get(src);
   if (existing && !existing.destroyed) {
+    touchLruTexture(src, existing);
     return existing;
   }
 
@@ -443,7 +484,7 @@ export function requestPixiTexture(
     try {
       const tex = Texture.from(loadedImg);
       if (tex && !tex.destroyed) {
-        pixiTextureCache.set(src, tex);
+        touchLruTexture(src, tex);
       }
       onLoaded?.();
     } catch {
@@ -455,7 +496,7 @@ export function requestPixiTexture(
     try {
       const tex = Texture.from(img);
       if (tex && !tex.destroyed) {
-        pixiTextureCache.set(src, tex);
+        touchLruTexture(src, tex);
         return tex;
       }
     } catch {
@@ -469,7 +510,10 @@ export function requestPixiTexture(
 /**
  * Checks whether a screen-space box intersects a bounding rectangle (helper for culling if needed).
  */
-export function isRectVisible(rect: Rectangle, viewport: ViewportState): boolean {
+export function isRectVisible(
+  rect: Pick<Rectangle, 'x' | 'y' | 'width' | 'height'>,
+  viewport: ViewportState
+): boolean {
   const s = Math.max(0.05, viewport.scale);
   const left = -viewport.x / s;
   const top = -viewport.y / s;

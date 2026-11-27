@@ -88,20 +88,7 @@ export default function WeaverSlashCommandMenu({
 }) {
   const [selectedStatblockId, setSelectedStatblockId] = useState('');
   const [filterText, setFilterText] = useState('');
-
-  useEffect(() => {
-    if (!isOpen) return undefined;
-    const onKey = (e) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        onClose?.();
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const personas = (elementsCatalog || []).filter(
     (e) => e && (e.type === 'Persona' || e.type === 'Hazard' || e.type === 'Encounter')
@@ -110,6 +97,38 @@ export default function WeaverSlashCommandMenu({
   const visibleTemplates = q
     ? WEAVER_BLOCK_TEMPLATES.filter((t) => `${t.label} ${t.description}`.toLowerCase().includes(q))
     : WEAVER_BLOCK_TEMPLATES;
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [filterText, isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      } else if (e.key === 'ArrowDown' && visibleTemplates.length > 0) {
+        e.preventDefault();
+        setActiveIndex((prev) => (prev + 1) % visibleTemplates.length);
+      } else if (e.key === 'ArrowUp' && visibleTemplates.length > 0) {
+        e.preventDefault();
+        setActiveIndex((prev) => (prev - 1 + visibleTemplates.length) % visibleTemplates.length);
+      } else if (e.key === 'Enter' && visibleTemplates.length > 0 && document.activeElement?.tagName !== 'SELECT') {
+        e.preventDefault();
+        const tpl = visibleTemplates[Math.min(activeIndex, visibleTemplates.length - 1)];
+        if (tpl) {
+          const chosenElem = personas.find((p) => p.id === selectedStatblockId) || null;
+          onInsertBlockHtml?.(tpl.buildHtml(chosenElem), tpl.id);
+          onClose?.();
+        }
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose, visibleTemplates, activeIndex, personas, selectedStatblockId, onInsertBlockHtml]);
+
+  if (!isOpen) return null;
 
   return (
     <div
@@ -163,18 +182,24 @@ export default function WeaverSlashCommandMenu({
       </div>
 
       <div className="p-1.5 space-y-1 max-h-72 overflow-y-auto">
-        {visibleTemplates.map((tpl) => {
+        {visibleTemplates.map((tpl, idx) => {
           const Icon = tpl.icon;
+          const isHighlighted = idx === activeIndex;
           return (
             <button
               key={tpl.id}
               type="button"
+              onMouseEnter={() => setActiveIndex(idx)}
               onClick={() => {
                 const chosenElem = personas.find((p) => p.id === selectedStatblockId) || null;
                 onInsertBlockHtml?.(tpl.buildHtml(chosenElem), tpl.id);
                 onClose?.();
               }}
-              className="w-full p-2 rounded-xl bg-slate-950/60 hover:bg-cyan-950/50 border border-transparent hover:border-cyan-500/40 text-left flex items-start gap-2.5 cursor-pointer transition-colors"
+              className={`w-full p-2 rounded-xl border text-left flex items-start gap-2.5 cursor-pointer transition-colors ${
+                isHighlighted
+                  ? 'bg-cyan-950/60 border-cyan-500/50'
+                  : 'bg-slate-950/60 hover:bg-cyan-950/50 border-transparent hover:border-cyan-500/40'
+              }`}
             >
               <Icon size={14} className={`${tpl.color} mt-0.5 shrink-0`} />
               <div className="min-w-0">

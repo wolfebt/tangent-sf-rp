@@ -456,6 +456,8 @@ test('Security & Persistence Fixes: spectatorSanitizer & adeElementPersistence',
       fields: { techLevel: 4, costCr: 20 }
     },
     elementsCatalog: [{ id: 'mod_gear_9', type: 'Equipment', title: 'Plasma Lance' }],
+    fromEditModal: true,
+    isAdmin: true,
     saveEntry: async (payload) => ({ ok: true, id: payload.id }),
     updateSavedElement: async (id, val) => cortexUpdates.push({ id, val }),
     showToast: (t) => toasts.push(t)

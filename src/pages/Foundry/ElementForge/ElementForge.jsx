@@ -172,6 +172,11 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   const [isDbmImportOpen, setIsDbmImportOpen] = useState(false);
   const [selectedDbmIds, setSelectedDbmIds] = useState(new Set());
   const [dbmSearchTerm, setDbmSearchTerm] = useState('');
+  const getDbmItemKey = (item) => `${item?.dbmCategory || 'dbm'}::${item?.id || ''}`;
+
+  useEffect(() => {
+    setSelectedDbmIds(new Set());
+  }, [activeType]);
 
   // Discover matching DBM canonical records for the active element type (for bulk Story Module pinning)
   const matchingDbmItems = useMemo(() => {
@@ -197,7 +202,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
       return;
     }
     if (selectedDbmIds.size === 0) return;
-    const itemsToImport = matchingDbmItems.filter(item => selectedDbmIds.has(item.id));
+    const itemsToImport = matchingDbmItems.filter(item => selectedDbmIds.has(getDbmItemKey(item)));
     let count = 0;
     for (const item of itemsToImport) {
       const projected = projectOmnicortexRecordToAdeElement(item, item.dbmCategory) || {};
@@ -220,7 +225,6 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
           dbmCategory: item.dbmCategory,
           ...(resolvedType === 'Property' ? { propertySubcategory: projected.propertySubcategory || item.dbmCategory } : {}),
           ...(resolvedType === 'Metaphysics' ? { metaphysicsSubcategory: projected.metaphysicsSubcategory || item.dbmCategory } : {}),
-          ...item,
           ...(projected.fields || {})
         }
       };
@@ -395,6 +399,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   // Progressive windowed rendering for large catalogs (e.g., Property 800+, Metaphysics 200+)
   const [visibleLimit, setVisibleLimit] = useState(PAGE_BATCH_SIZE);
   const loadMoreRef = useRef(null);
+  const dragDepthRef = useRef(0);
 
   useEffect(() => {
     setVisibleLimit(PAGE_BATCH_SIZE);
@@ -649,11 +654,23 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   return (
     <div 
       className="flex h-full w-full overflow-hidden bg-[#0a0a0e] text-slate-100 font-sans relative select-none"
-      onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setIsDraggingOver(true); }}
-      onDragLeave={(e) => { e.preventDefault(); e.stopPropagation(); setIsDraggingOver(false); }}
+      onDragEnter={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragDepthRef.current += 1;
+        setIsDraggingOver(true);
+      }}
+      onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+      onDragLeave={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragDepthRef.current = Math.max(0, dragDepthRef.current - 1);
+        if (dragDepthRef.current === 0) setIsDraggingOver(false);
+      }}
       onDrop={async (e) => {
         e.preventDefault();
         e.stopPropagation();
+        dragDepthRef.current = 0;
         setIsDraggingOver(false);
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
           await processImportFiles(Array.from(e.dataTransfer.files));

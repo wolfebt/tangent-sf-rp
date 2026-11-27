@@ -400,9 +400,11 @@ export default function Stage5WebAndFinalize({
               type="button"
               onClick={() => {
                 if (urlDraft.trim()) {
-                  onSetImageUrl?.(urlDraft.trim());
-                  setUrlDraft('');
-                  setShowUrlBar(false);
+                  const accepted = onSetImageUrl?.(urlDraft.trim());
+                  if (accepted !== false) {
+                    setUrlDraft('');
+                    setShowUrlBar(false);
+                  }
                 }
               }}
               className="px-3 py-2 rounded-xl bg-cyan-950 border border-cyan-500/60 text-cyan-200 text-xs font-mono font-bold uppercase cursor-pointer"

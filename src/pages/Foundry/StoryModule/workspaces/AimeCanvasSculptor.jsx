@@ -83,6 +83,7 @@ export default function AimeCanvasSculptor({
   activePov = '',
   isStoryReadOnly: propIsReadOnly,
   onApplySculpt,
+  onExtractElement = null,
   onShowToast
 }) {
   const { isStoryReadOnly: ctxReadOnly = false } = useStory() || {};
@@ -200,7 +201,7 @@ export default function AimeCanvasSculptor({
 
   // Execute an AI Sculpt Action
   const executeSculpt = async (actionType, param = '') => {
-    if (!selection?.text || isWorking) return;
+    if (isStoryReadOnly || !selection?.text || isWorking) return;
     setIsWorking(true);
     setToneMenuOpen(false);
     setPovMenuOpen(false);
@@ -331,14 +332,16 @@ export default function AimeCanvasSculptor({
   const paletteStyle = useMemo(() => {
     if (!selection?.bounds) return { display: 'none' };
     const b = selection.bounds;
+    const editorEl = quillRef?.current?.getEditor?.()?.root?.parentElement;
+    const maxLeft = Math.max(10, (editorEl?.clientWidth || 760) - 260);
     // Position palette above the selection if space permits, else below
     const top = b.top > 65 ? b.top - 52 : b.bottom + 8;
-    const left = Math.max(10, Math.min(b.left, 500));
+    const left = Math.max(10, Math.min(b.left, maxLeft));
     return {
       top: `${top}px`,
       left: `${left}px`
     };
-  }, [selection?.bounds]);
+  }, [selection?.bounds, quillRef]);
 
   // Diff tokens for Proposal Review Modal
   const wordDiff = useMemo(() => {
@@ -361,6 +364,18 @@ export default function AimeCanvasSculptor({
             <Sparkles size={11} className="text-cyan-400 animate-pulse" />
             <span>AIME SCULPT</span>
           </div>
+
+          {typeof onExtractElement === 'function' && (
+            <button
+              type="button"
+              disabled={isStoryReadOnly || isWorking}
+              onClick={() => onExtractElement(selection.text)}
+              className="px-2 py-1 rounded-lg bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-200 font-bold text-[10px] uppercase tracking-wider shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              title="Extract selected prose into a canon Story Element"
+            >
+              Extract
+            </button>
+          )}
 
           {/* Action 1: Tone Shift Dropdown */}
           <div className="relative">

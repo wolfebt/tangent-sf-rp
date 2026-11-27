@@ -27,6 +27,7 @@ import { AudioService } from '../../../services/audioService';
 import { generateContent } from '../../../services/aimeService';
 import { useStory } from '../../../context/CampaignContext';
 import { useToast } from '../../../context/ToastContext';
+import { useDirtyModalClose } from '../../../hooks/useDirtyModalClose';
 import { normalizeElementType } from '../ElementForge/elementSchemas';
 
 export default function StoryElementExtractorModal({
@@ -77,6 +78,19 @@ export default function StoryElementExtractorModal({
   const [hazardDamage, setHazardDamage] = useState('2d10+4');
   const [appliedCondition, setAppliedCondition] = useState('Burning');
 
+  // 5. Faction
+  const [factionAlignment, setFactionAlignment] = useState('Neutral Syndicate');
+  const [factionReach, setFactionReach] = useState('Sector-Wide');
+  const [factionDoctrine, setFactionDoctrine] = useState('');
+
+  const { handleRequestClose, handleBackdropClick } = useDirtyModalClose({
+    isOpen,
+    isDirty: Boolean((title && title.trim()) || (content && content.trim())),
+    onClose,
+    title: 'Discard Extracted Element?',
+    message: 'You have unsaved element details. Discard your draft and close?'
+  });
+
   // Initialize from initialText if provided
   useEffect(() => {
     if (initialText) {
@@ -113,7 +127,7 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
 
     try {
       const res = await generateContent({ prompt, context: activeNode });
-      if (res) {
+      if (typeof res === 'string' && res.trim()) {
         const cleaned = res.replace(/```json/g, '').replace(/```/g, '').trim();
         const parsed = JSON.parse(cleaned);
 
@@ -151,9 +165,12 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
         }
 
         AudioService.playCriticalChime(true);
+      } else {
+        toast?.({ type: 'warning', text: 'AIME did not return extractable mechanics for this selection.' });
       }
     } catch (e) {
       console.warn('AI Suggest mechanics error:', e);
+      toast?.({ type: 'warning', text: 'Could not parse AIME mechanics suggestion. Fill fields manually or retry.' });
     } finally {
       setIsAiWorking(false);
     }
@@ -224,6 +241,14 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
         information: clueIntel || content,
         description: content
       };
+    } else if (type === 'Faction') {
+      icon = '🏴';
+      fields = {
+        alignment: factionAlignment,
+        reach: factionReach,
+        doctrine: factionDoctrine,
+        description: content
+      };
     } else {
       fields = { description: content };
     }
@@ -276,8 +301,14 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
   };
 
   return (
-    <div className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-mono">
-      <div className="bg-[#0b1019] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.35)] w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] overflow-hidden flex flex-col text-slate-100 animate-in fade-in zoom-in-95 duration-150">
+    <div
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-mono"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-[#0b1019] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.35)] w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] overflow-hidden flex flex-col text-slate-100 animate-in fade-in zoom-in-95 duration-150"
+      >
         
         {/* Header */}
         <div className="px-5 py-3.5 bg-gradient-to-r from-cyan-950/90 via-slate-900 to-purple-950/80 border-b border-cyan-500/40 flex items-center justify-between">
@@ -298,7 +329,8 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
             </div>
           </div>
           <button
-            onClick={onClose}
+            type="button"
+            onClick={handleRequestClose}
             className="w-7 h-7 flex items-center justify-center rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700 transition-colors cursor-pointer"
           >
             <X size={14} />
@@ -545,6 +577,42 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
               </div>
             )}
 
+            {/* FACTION MECHANICS */}
+            {type === 'Faction' && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <div>
+                  <span className="text-[9px] text-slate-400 block mb-1">Alignment / Posture</span>
+                  <input
+                    type="text"
+                    value={factionAlignment}
+                    onChange={e => setFactionAlignment(e.target.value)}
+                    placeholder="e.g. Corporate Syndicate"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-amber-300"
+                  />
+                </div>
+                <div>
+                  <span className="text-[9px] text-slate-400 block mb-1">Influence & Reach</span>
+                  <input
+                    type="text"
+                    value={factionReach}
+                    onChange={e => setFactionReach(e.target.value)}
+                    placeholder="e.g. Sector-Wide"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-cyan-300"
+                  />
+                </div>
+                <div>
+                  <span className="text-[9px] text-slate-400 block mb-1">Core Doctrine</span>
+                  <input
+                    type="text"
+                    value={factionDoctrine}
+                    onChange={e => setFactionDoctrine(e.target.value)}
+                    placeholder="Primary directive or leverage..."
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-emerald-300"
+                  />
+                </div>
+              </div>
+            )}
+
             {/* HAZARD MECHANICS */}
             {type === 'Hazard' && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -626,7 +694,7 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
         <div className="px-5 py-3 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleRequestClose}
             className="px-3.5 py-1.5 rounded-xl border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
           >
             Cancel

@@ -109,13 +109,13 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
       const arr: number[] = raw ? JSON.parse(raw) : [];
       setCompletedBeats(new Set(arr));
       // Promote existing local progress to cloud if remote beats were undefined
-      if (arr.length > 0 && typeof updateScenario === 'function') {
+      if (!isStoryReadOnly && arr.length > 0 && typeof updateScenario === 'function') {
         updateScenario(scenarioId, { completedBeats: arr });
       }
     } catch {
       setCompletedBeats(new Set());
     }
-  }, [scenarioId, activeScenario?.completedBeats, activeScenario?.fields?.completedBeats, updateScenario]);
+  }, [scenarioId, activeScenario?.completedBeats, activeScenario?.fields?.completedBeats, updateScenario, isStoryReadOnly]);
 
   const toggleBeat = (idx: number) => {
     AudioService.playTerminalBeep(1200, 0.03);
@@ -443,11 +443,13 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
 
         <button
           type="button"
+          disabled={isStoryReadOnly}
           onClick={() => {
+            if (isStoryReadOnly) return;
             setCompletedBeats(new Set());
             if (scenarioId) {
               localStorage.removeItem(STORAGE_KEYS.VTT_BEATS(scenarioId));
-              if (typeof updateScenario === 'function') {
+              if (!isStoryReadOnly && typeof updateScenario === 'function') {
                 updateScenario(scenarioId, {
                   completedBeats: [],
                   fields: {
@@ -459,8 +461,12 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
             }
             AudioService.playTerminalBeep(900, 0.03);
           }}
-          className="px-2.5 py-1.5 rounded-xl text-[10px] text-slate-500 hover:text-red-400 hover:bg-red-950/30 border border-slate-800 hover:border-red-900/50 font-mono transition-colors cursor-pointer"
-          title="Reset completed scene beats for this scenario"
+          className={`px-2.5 py-1.5 rounded-xl text-[10px] border font-mono transition-colors ${
+            isStoryReadOnly
+              ? 'text-slate-600 bg-slate-950/50 border-slate-800/50 cursor-not-allowed'
+              : 'text-slate-500 hover:text-red-400 hover:bg-red-950/30 border-slate-800 hover:border-red-900/50 cursor-pointer'
+          }`}
+          title={isStoryReadOnly ? 'Read-only story archive' : 'Reset completed scene beats for this scenario'}
         >
           Reset Beats
         </button>

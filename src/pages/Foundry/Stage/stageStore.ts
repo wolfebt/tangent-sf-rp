@@ -31,6 +31,7 @@ export interface StageStoreState {
   setStoryScope: (storyId: string, cloudStages?: StageManifest[]) => void;
   selectStage: (stageId: string) => void;
   createStage: (mapId?: string, storyId?: string, title?: string) => StageManifest;
+  duplicateStage: (stageId: string) => StageManifest | null;
   deleteStage: (stageId: string) => void;
 
   // Tab & Selection Actions
@@ -196,6 +197,32 @@ export const useStageStore = create<StageStoreState>()(
             isDirty: true,
           }));
           return created;
+        },
+
+        duplicateStage: (stageId) => {
+          const state = get();
+          const scopeKey = state.activeStoryScopeId || state.stageManifest?.storyId || 'default';
+          const list = state.manifestsByStory[scopeKey] || [];
+          const source =
+            list.find((s) => s && s.id === stageId) ||
+            (state.stageManifest?.id === stageId ? state.stageManifest : null);
+          if (!source) return null;
+          const now = Date.now();
+          const cloned: StageManifest = {
+            ...JSON.parse(JSON.stringify(source)),
+            id: `stage-${now}-${Math.random().toString(36).slice(2, 6)}`,
+            title: `${source.title || 'Stage'} (Copy)`,
+            createdAt: now,
+            updatedAt: now
+          };
+          set((curr) => ({
+            activeStoryScopeId: scopeKey,
+            stageManifest: cloned,
+            activeStageId: cloned.id,
+            manifestsByStory: upsertManifestInBuckets(curr.manifestsByStory, scopeKey, cloned),
+            isDirty: true
+          }));
+          return cloned;
         },
 
         deleteStage: (stageId) =>

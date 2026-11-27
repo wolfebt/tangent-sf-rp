@@ -29,8 +29,12 @@ export const TrapsAndHazardsWorkbench = ({
   selectedMapId = null,
   onSelectMapId,
   onUpdateMapObjects,
-  onUpdateHazardElement
+  onUpdateHazardElement,
+  onDeleteHazardElement
 }) => {
+  const [deployKind, setDeployKind] = useState('proximity_plasma_mine');
+  const [deployX, setDeployX] = useState(350);
+  const [deployY, setDeployY] = useState(350);
   const isSelectedCatalogHazard =
     selectedAsset?.source === 'elementsCatalog' && selectedAsset?.catalogCategory === 'props_traps';
 
@@ -108,42 +112,90 @@ export const TrapsAndHazardsWorkbench = ({
     handlePatchObject(objId, { [key]: value });
   };
 
-  // Add new Reactive Trap to active map
-  const handleAddTrap = (trapTypeKey = 'proximity_plasma_mine') => {
+  // Add new Reactive Trap, Terminal, or Bulkhead to active map
+  const handleAddTrap = (trapTypeKey = deployKind) => {
     if (!activeMap || !onUpdateMapObjects) return;
     AudioService.playTerminalBeep(1200, 0.05);
 
-    const baseConfig = TRAP_TYPES[trapTypeKey] || TRAP_TYPES.proximity_plasma_mine;
-    const newTrapObj = {
-      id: `trap-${Date.now()}`,
-      name: baseConfig.name,
-      label: baseConfig.name,
-      type: 'hazard',
-      category: 'hazard',
-      isTrap: true,
-      trapType: trapTypeKey,
-      trapState: 'armed',
-      x: 350,
-      y: 350,
-      width: 40,
-      height: 40,
-      triggerRadius: baseConfig.triggerRadiusPx,
-      saveCr: baseConfig.saveCr,
-      saveType: baseConfig.saveType,
-      damageDice: baseConfig.damageDice,
-      baseDamage: baseConfig.baseDamage,
-      appliedCondition: baseConfig.appliedCondition,
-      disarmDc: baseConfig.disarmDc,
-      description: baseConfig.description
-    };
+    const kindKey = typeof trapTypeKey === 'string' ? trapTypeKey : deployKind;
+    const xPos = Number.isFinite(Number(deployX)) ? Number(deployX) : 350;
+    const yPos = Number.isFinite(Number(deployY)) ? Number(deployY) : 350;
 
-    const nextObjects = [...mapObjects, newTrapObj];
+    let newObj;
+    if (kindKey === 'security_terminal') {
+      newObj = {
+        id: `term-${Date.now()}`,
+        name: 'Security Terminal',
+        label: 'Security Terminal',
+        type: 'security_terminal',
+        objectType: 'security_terminal',
+        category: 'terminal',
+        x: xPos,
+        y: yPos,
+        width: 40,
+        height: 40,
+        hackDc: 13,
+        clueText: '',
+        isOpen: false,
+        description: 'Encrypted sector terminal capable of releasing intel or overriding locks.'
+      };
+    } else if (kindKey === 'blast_door') {
+      newObj = {
+        id: `door-${Date.now()}`,
+        name: 'Blast Bulkhead',
+        label: 'Blast Bulkhead',
+        type: 'blast_door',
+        objectType: 'blast_door',
+        category: 'door',
+        x: xPos,
+        y: yPos,
+        width: 50,
+        height: 50,
+        strengthDc: 15,
+        doorState: 'closed',
+        isOpen: false,
+        description: 'Reinforced motorized bulkhead door.'
+      };
+    } else {
+      const baseConfig = TRAP_TYPES[kindKey] || TRAP_TYPES.proximity_plasma_mine;
+      newObj = {
+        id: `trap-${Date.now()}`,
+        name: baseConfig.name,
+        label: baseConfig.name,
+        type: 'hazard',
+        category: 'hazard',
+        isTrap: true,
+        trapType: kindKey,
+        trapState: 'armed',
+        x: xPos,
+        y: yPos,
+        width: 40,
+        height: 40,
+        triggerRadius: baseConfig.triggerRadiusPx,
+        saveCr: baseConfig.saveCr,
+        saveType: baseConfig.saveType,
+        damageDice: baseConfig.damageDice,
+        baseDamage: baseConfig.baseDamage,
+        appliedCondition: baseConfig.appliedCondition,
+        disarmDc: baseConfig.disarmDc,
+        description: baseConfig.description
+      };
+    }
+
+    const nextObjects = [...mapObjects, newObj];
     onUpdateMapObjects(activeMap.id, nextObjects);
-    setSelectedObjectId(newTrapObj.id);
+    setSelectedObjectId(newObj.id);
   };
 
-  // Remove object
+  // Remove object (or delete catalog hazard element)
   const handleRemoveObject = (objId) => {
+    if (isSelectedCatalogHazard && activeObject?.isCatalogElement) {
+      if (typeof onDeleteHazardElement === 'function') {
+        AudioService.playTerminalBeep(550, 0.05);
+        onDeleteHazardElement(objId);
+      }
+      return;
+    }
     if (!activeMap || !onUpdateMapObjects) return;
     AudioService.playTerminalBeep(550, 0.05);
     const nextObjects = mapObjects.filter(o => o.id !== objId);
@@ -185,16 +237,16 @@ export const TrapsAndHazardsWorkbench = ({
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              Proximity sensors, laser tripwires, hackable bulkheads and environmental vents for Sector: {activeMap.title || activeMap.name}.
+              Proximity sensors, laser tripwires, hackable bulkheads and environmental vents for Sector: {activeMap?.title || activeMap?.name || 'Catalog Hazard'}.
             </p>
           </div>
         </div>
 
-        {/* Map Switcher & Add Trap Dropdown */}
+        {/* Map Switcher & Add Trap Controls */}
         <div className="flex items-center gap-2 flex-wrap">
           {allMaps.length > 1 && (
             <select
-              value={activeMap.id}
+              value={activeMap?.id || ''}
               onChange={(e) => onSelectMapId?.(e.target.value)}
               className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400"
             >
@@ -204,10 +256,46 @@ export const TrapsAndHazardsWorkbench = ({
             </select>
           )}
 
+          <select
+            aria-label="Deploy Node Kind"
+            value={deployKind}
+            onChange={(e) => setDeployKind(e.target.value)}
+            className="px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-slate-200 focus:outline-none focus:border-rose-400"
+          >
+            {Object.entries(TRAP_TYPES).map(([k, t]) => (
+              <option key={k} value={k}>{t.name}</option>
+            ))}
+            <option value="security_terminal">Security Terminal (ICE)</option>
+            <option value="blast_door">Blast Bulkhead / Door</option>
+          </select>
+
+          <label className="flex items-center gap-1 text-[10px] font-mono text-slate-400">
+            <span>X</span>
+            <input
+              type="number"
+              aria-label="Deploy X Coordinate"
+              value={deployX}
+              onChange={(e) => setDeployX(parseInt(e.target.value, 10) || 0)}
+              className="w-16 px-2 py-1 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-100"
+            />
+          </label>
+          <label className="flex items-center gap-1 text-[10px] font-mono text-slate-400">
+            <span>Y</span>
+            <input
+              type="number"
+              aria-label="Deploy Y Coordinate"
+              value={deployY}
+              onChange={(e) => setDeployY(parseInt(e.target.value, 10) || 0)}
+              className="w-16 px-2 py-1 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-100"
+            />
+          </label>
+
           <button
             type="button"
-            onClick={() => handleAddTrap('proximity_plasma_mine')}
-            className="px-3 py-1.5 rounded-xl bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-200 text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+            disabled={!activeMap}
+            onClick={() => handleAddTrap(deployKind)}
+            title={activeMap ? 'Deploy node onto active map' : 'Select or create a tactical map first'}
+            className="px-3 py-1.5 rounded-xl bg-rose-950/80 hover:bg-rose-900 disabled:opacity-40 disabled:cursor-not-allowed border border-rose-500/50 text-rose-200 text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
           >
             <Plus size={13} />
             <span>Deploy Trap</span>
@@ -285,9 +373,31 @@ export const TrapsAndHazardsWorkbench = ({
                       {activeObject.trapType || activeObject.objectType || 'Hazard'}
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    Position: X={activeObject.x || 0}, Y={activeObject.y || 0}
-                  </p>
+                  <div className="flex items-center gap-2 text-xs text-slate-400 mt-1 font-mono">
+                    <span>Position:</span>
+                    <label className="flex items-center gap-1">
+                      <span>X=</span>
+                      <input
+                        type="number"
+                        aria-label="Node X Coordinate"
+                        value={activeObject.x ?? 0}
+                        disabled={Boolean(activeObject.isCatalogElement)}
+                        onChange={(e) => handleUpdateObject(activeObject.id, 'x', parseInt(e.target.value, 10) || 0)}
+                        className="w-16 bg-slate-950 border border-slate-700 rounded px-1.5 py-0.5 text-xs text-slate-100 disabled:opacity-50"
+                      />
+                    </label>
+                    <label className="flex items-center gap-1">
+                      <span>Y=</span>
+                      <input
+                        type="number"
+                        aria-label="Node Y Coordinate"
+                        value={activeObject.y ?? 0}
+                        disabled={Boolean(activeObject.isCatalogElement)}
+                        onChange={(e) => handleUpdateObject(activeObject.id, 'y', parseInt(e.target.value, 10) || 0)}
+                        className="w-16 bg-slate-950 border border-slate-700 rounded px-1.5 py-0.5 text-xs text-slate-100 disabled:opacity-50"
+                      />
+                    </label>
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -309,9 +419,14 @@ export const TrapsAndHazardsWorkbench = ({
 
                   <button
                     type="button"
+                    disabled={Boolean(activeObject.isCatalogElement && typeof onDeleteHazardElement !== 'function')}
                     onClick={() => handleRemoveObject(activeObject.id)}
-                    className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
-                    title="Remove from map"
+                    className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 disabled:opacity-35 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                    title={
+                      activeObject.isCatalogElement && typeof onDeleteHazardElement !== 'function'
+                        ? 'Delete catalog hazards in Element Forge'
+                        : 'Remove from map'
+                    }
                   >
                     <Trash2 size={14} />
                   </button>

@@ -129,7 +129,7 @@ export function useStageFogAndRegions({
 
   const schedulePersistFog = useCallback(
     (targetMapId: string) => {
-      if (!targetMapId) return;
+      if (!effectiveIsArchitect || !targetMapId) return;
       if (persistTimerRef.current) clearTimeout(persistTimerRef.current);
       persistTimerRef.current = setTimeout(() => {
         const snap = fogManagerRef.current.serialize(targetMapId);
@@ -142,7 +142,7 @@ export function useStageFogAndRegions({
         );
       }, 600);
     },
-    [onUpdateMap, isFogEnabled]
+    [effectiveIsArchitect, onUpdateMap, isFogEnabled]
   );
 
   useEffect(() => {
@@ -360,7 +360,7 @@ export function useStageFogAndRegions({
 
   const revealFogRect = useCallback(
     (x: number, y: number, width: number, height: number) => {
-      if (!mapId) return;
+      if (!effectiveIsArchitect || !mapId) return;
       const x0 = Math.min(x, x + width);
       const y0 = Math.min(y, y + height);
       const w = Math.max(10, Math.abs(width));
@@ -374,12 +374,12 @@ export function useStageFogAndRegions({
       setFogRevision((r) => r + 1);
       schedulePersistFog(mapId);
     },
-    [mapId, schedulePersistFog]
+    [effectiveIsArchitect, mapId, schedulePersistFog]
   );
 
   const hideFogRect = useCallback(
     (x: number, y: number, width: number, height: number) => {
-      if (!mapId) return;
+      if (!effectiveIsArchitect || !mapId) return;
       const x0 = Math.min(x, x + width);
       const y0 = Math.min(y, y + height);
       const w = Math.max(10, Math.abs(width));
@@ -393,11 +393,11 @@ export function useStageFogAndRegions({
       setFogRevision((r) => r + 1);
       schedulePersistFog(mapId);
     },
-    [mapId, schedulePersistFog]
+    [effectiveIsArchitect, mapId, schedulePersistFog]
   );
 
   const revealAllFog = useCallback(() => {
-    if (!mapId) return;
+    if (!effectiveIsArchitect || !mapId) return;
     fogManagerRef.current.revealArea(mapId, [
       { x: 0, y: 0 },
       { x: mapWidth, y: 0 },
@@ -406,14 +406,14 @@ export function useStageFogAndRegions({
     ]);
     setFogRevision((r) => r + 1);
     schedulePersistFog(mapId);
-  }, [mapId, mapWidth, mapHeight, schedulePersistFog]);
+  }, [effectiveIsArchitect, mapId, mapWidth, mapHeight, schedulePersistFog]);
 
   const resetFog = useCallback(() => {
-    if (!mapId) return;
+    if (!effectiveIsArchitect || !mapId) return;
     fogManagerRef.current.resetExplored(mapId);
     setFogRevision((r) => r + 1);
     schedulePersistFog(mapId);
-  }, [mapId, schedulePersistFog]);
+  }, [effectiveIsArchitect, mapId, schedulePersistFog]);
 
   return {
     fogManager: fogManagerRef.current,

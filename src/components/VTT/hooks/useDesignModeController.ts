@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { Box } from 'lucide-react';
 import { useUILayoutStore } from '../store/uiLayoutStore';
-import type { ArchitectDesignTool, PaletteItem } from '../ArchitectDesignPalette';
+import type { ArchitectDesignTool, PaletteItem } from '../designToolTypes';
 import type { LightAnimationType } from '../../../engine/vision/LightSourceManager';
 
 export interface UseDesignModeControllerReturn {

@@ -35,10 +35,14 @@ export function resolveTargetCortexCollection(element) {
     if (element.isFolioPersona || element.sourceOrigin === 'folio' || element.personaSubcategory === 'folio') {
       return null;
     }
+    const personaTrack = fields.personaSubcategory || element.personaSubcategory;
+    if (personaTrack === 'story' && element.dbmCategory !== 'modular_characters' && !element.dbmId) {
+      return null;
+    }
     if (
       element.dbmCategory === 'modular_characters' ||
       element.sourceOrigin === 'mcm' ||
-      element.personaSubcategory === 'mcm' ||
+      personaTrack === 'mcm' ||
       fields.mcmTier !== undefined ||
       fields.mcmRole !== undefined
     ) {
@@ -100,7 +104,7 @@ export function consolidateAdeElementToCortexPayload(element, options = {}) {
 
   const resolvedScanPriority = parseNumericLevel(
     fields.loreScanPriority ?? fields.injectionPriority ?? rawBase.loreScanPriority ?? rawBase.injectionPriority,
-    5
+    50
   );
   const resolvedRequireCond =
     fields.loreRequireCondition ?? fields.conditionExpression ?? rawBase.loreRequireCondition ?? rawBase.conditionExpression ?? '';

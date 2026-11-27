@@ -3,6 +3,7 @@ import { OBJECT_TYPES, applyDamageToObject, interactWithObject } from '../../../
 import { AudioService } from '../../../../services/audioService';
 import { useFolio } from '../../../../context/FolioContext';
 import { showConfirm } from '../../../../context/ConfirmContext';
+import { VttEventBus } from '../../../../utils/vttEventBus';
 
 const InteractiveObjectModal = ({
   objectNode,
@@ -41,11 +42,22 @@ const InteractiveObjectModal = ({
     setActionLog(prev => [msg, ...prev.slice(0, 8)]);
   };
 
+  const emitObjectInteracted = (interactionType) => {
+    VttEventBus.emit('vtt-object-interacted', {
+      objectId: objectNode.id,
+      id: objectNode.id,
+      storyElementId: objectNode.storyElementId || objectNode.elementId,
+      label: objectNode.label || objType.name,
+      interactionType
+    });
+  };
+
   const handleLootItem = (item) => {
     if (!item || typeof folio?.addItemToInventory !== 'function') return;
     folio.addItemToInventory(item);
     AudioService.playCriticalChime(true);
     addLog(`📦 [LOOTED] ${item.name || 'Artifact'} transferred into ${activeOperativeName}'s Folio inventory!`);
+    emitObjectInteracted('loot');
 
     const currentPayload = Array.isArray(objectNode.lootPayload) ? objectNode.lootPayload : [];
     const remaining = currentPayload.filter((i) => (i.id ? i.id !== item.id : i.name !== item.name));
@@ -67,6 +79,7 @@ const InteractiveObjectModal = ({
     const intel = objectNode.clueText || objectNode.description || 'Encrypted sector intel retrieved.';
     AudioService.playTerminalBeep(1200, 0.05);
     addLog(`📜 [INTEL TRANSMITTED] Story clue logged to ADE Manuscript.`);
+    emitObjectInteracted('intel');
     window.dispatchEvent(new CustomEvent('story-foundry-node-triggered', {
       detail: {
         operativeName: activeOperativeName,
@@ -86,6 +99,7 @@ const InteractiveObjectModal = ({
 
     onUpdateObject?.(objectNode.id, updatedObject);
     addLog(logMessage);
+    emitObjectInteracted('damage');
 
     // Apply blast damage to nearby tokens if exploded
     affectedTokens.forEach(aff => {
@@ -117,6 +131,7 @@ const InteractiveObjectModal = ({
       doorState: newState
     });
     addLog(`Door status updated to: ${newState.toUpperCase()}`);
+    emitObjectInteracted(`door_${newState}`);
   };
 
   const handleHackCheck = () => {
@@ -132,6 +147,7 @@ const InteractiveObjectModal = ({
         doorState: 'open'
       });
       addLog(`✅ Slicing Success: Rolled ${roll} vs CR ${targetCr}! Mainframe breached.`);
+      emitObjectInteracted('hack_success');
     } else {
       AudioService.playCombatHit(false);
       addLog(`❌ Slicing Failed: Rolled ${roll} vs CR ${targetCr}. Firewall locked.`);
@@ -151,6 +167,7 @@ const InteractiveObjectModal = ({
         doorState: 'breached'
       });
       addLog(`💥 Breach Success: Rolled ${roll} vs CR ${targetCr}! Bulkhead forced open.`);
+      emitObjectInteracted('breach_success');
     } else {
       AudioService.playCombatHit(false);
       addLog(`🛡️ Breach Resisted: Rolled ${roll} vs CR ${targetCr}. Structure intact.`);

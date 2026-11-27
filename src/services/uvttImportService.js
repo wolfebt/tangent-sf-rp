@@ -25,6 +25,13 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
 
   const totalWidth = gridWidth * pixelsPerGrid;
   const totalHeight = gridHeight * pixelsPerGrid;
+  const originX = Number.isFinite(Number(data.resolution?.map_origin?.x)) ? Number(data.resolution.map_origin.x) : 0;
+  const originY = Number.isFinite(Number(data.resolution?.map_origin?.y)) ? Number(data.resolution.map_origin.y) : 0;
+
+  const toPixelPoint = (rawPt) => ({
+    x: Math.round(((Number(rawPt?.x !== undefined ? rawPt.x : rawPt?.[0]) || 0) - originX) * pixelsPerGrid),
+    y: Math.round(((Number(rawPt?.y !== undefined ? rawPt.y : rawPt?.[1]) || 0) - originY) * pixelsPerGrid)
+  });
 
   // Format base64 raster image if present (strictly reject active SVG/HTML data URIs)
   let imageUrl = null;
@@ -39,47 +46,30 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
     }
   }
 
-  // Convert line_of_sight arrays into Tangent Wall Segments
+  // Convert line_of_sight and objects_line_of_sight arrays into Tangent Wall Segments
   const walls = [];
-  if (Array.isArray(data.line_of_sight)) {
-    data.line_of_sight.forEach((losArray, chainIdx) => {
+  const ingestWallChains = (chains, labelPrefix) => {
+    if (!Array.isArray(chains)) return;
+    chains.forEach((losArray, chainIdx) => {
       if (!Array.isArray(losArray) || losArray.length < 2) return;
       for (let i = 0; i < losArray.length - 1; i++) {
-        const p1Raw = losArray[i];
-        const p2Raw = losArray[i + 1];
-
-        // UVTT coords are expressed in grid unit floats (e.g. 12.5), multiply by pixelsPerGrid
-        const p1 = {
-          x: Math.round((p1Raw.x !== undefined ? p1Raw.x : p1Raw[0]) * pixelsPerGrid),
-          y: Math.round((p1Raw.y !== undefined ? p1Raw.y : p1Raw[1]) * pixelsPerGrid)
-        };
-        const p2 = {
-          x: Math.round((p2Raw.x !== undefined ? p2Raw.x : p2Raw[0]) * pixelsPerGrid),
-          y: Math.round((p2Raw.y !== undefined ? p2Raw.y : p2Raw[1]) * pixelsPerGrid)
-        };
-
+        const p1 = toPixelPoint(losArray[i]);
+        const p2 = toPixelPoint(losArray[i + 1]);
         walls.push(createWallSegment(p1, p2, WALL_TYPES.SOLID, {
-          label: `Wall Chain ${chainIdx + 1}-${i + 1}`
+          label: `${labelPrefix} ${chainIdx + 1}-${i + 1}`
         }));
       }
     });
-  }
+  };
+  ingestWallChains(data.line_of_sight, 'Wall Chain');
+  ingestWallChains(data.objects_line_of_sight, 'Object Wall Chain');
 
   // Convert portals into Doors & Windows
   if (Array.isArray(data.portals)) {
     data.portals.forEach((portal, pIdx) => {
       if (!portal.bounds || portal.bounds.length < 2) return;
-      const p1Raw = portal.bounds[0];
-      const p2Raw = portal.bounds[1];
-
-      const p1 = {
-        x: Math.round((p1Raw.x !== undefined ? p1Raw.x : p1Raw[0]) * pixelsPerGrid),
-        y: Math.round((p1Raw.y !== undefined ? p1Raw.y : p1Raw[1]) * pixelsPerGrid)
-      };
-      const p2 = {
-        x: Math.round((p2Raw.x !== undefined ? p2Raw.x : p2Raw[0]) * pixelsPerGrid),
-        y: Math.round((p2Raw.y !== undefined ? p2Raw.y : p2Raw[1]) * pixelsPerGrid)
-      };
+      const p1 = toPixelPoint(portal.bounds[0]);
+      const p2 = toPixelPoint(portal.bounds[1]);
 
       const isClosed = portal.closed !== false;
       const isWindow = portal.freemove === true;
@@ -92,6 +82,45 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
       }));
     });
   }
+
+  // Convert UVTT lights into dynamic light nodes
+  const lights = [];
+  if (Array.isArray(data.lights)) {
+    data.lights.forEach((lt, lIdx) => {
+      if (!lt) return;
+      const pt = toPixelPoint(lt.position || lt);
+      const rawRange = Number(lt.range ?? lt.radius ?? 3);
+      const radiusPx = Math.max(40, Math.round((Number.isFinite(rawRange) ? rawRange : 3) * pixelsPerGrid));
+      let colorHex = '#f59e0b';
+      if (typeof lt.color === 'string' && lt.color.trim()) {
+        const raw = lt.color.trim();
+        const prefixed = raw.startsWith('#') ? raw : `#${raw}`;
+        if (/^#[0-9a-f]{8}$/i.test(prefixed)) {
+          colorHex = `#${prefixed.slice(3)}`;
+        } else if (/^#[0-9a-f]{6}$/i.test(prefixed)) {
+          colorHex = prefixed;
+        }
+      }
+      const rawIntensity = Number(lt.intensity);
+      const intensity = Number.isFinite(rawIntensity) ? Math.min(1.5, Math.max(0.1, rawIntensity)) : 0.85;
+      lights.push({
+        id: `uvtt_light_${Date.now()}_${lIdx + 1}`,
+        x: pt.x,
+        y: pt.y,
+        radius: radiusPx,
+        color: colorHex,
+        intensity,
+        brightness: Math.min(1, intensity),
+        animation: 'steady',
+        ...(lt.shadows !== undefined ? { shadows: Boolean(lt.shadows) } : {})
+      });
+    });
+  }
+
+  const ambientLight =
+    typeof data.environment?.ambient_light === 'string' && data.environment.ambient_light.trim()
+      ? data.environment.ambient_light.trim()
+      : null;
 
   // Build Terrain Image Node
   const terrains = [];
@@ -108,11 +137,11 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
     });
   }
 
-  // Return full Tangent Map Document
+  // Return full Tangent Map Document (using canonical 'Interior' MAP_TYPES scale)
   return {
     id: `map_uvtt_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
     title: mapName,
-    type: 'Encounter',
+    type: 'Interior',
     gridSize: pixelsPerGrid,
     gridMode: 'square',
     width: totalWidth,
@@ -121,6 +150,8 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
     fogEnabled: true,
     terrains: terrains,
     walls: walls,
+    lights: lights,
+    ...(ambientLight ? { ambientLight, environment: { ambientLight } } : {}),
     objects: [],
     tokens: [],
     texts: [],
@@ -129,7 +160,8 @@ export function parseUniversalVtt(rawData, mapName = 'Imported Universal VTT Sec
     metadata: {
       source: 'Universal VTT Import',
       importedAt: new Date().toISOString(),
-      gridDimensions: { x: gridWidth, y: gridHeight }
+      gridDimensions: { x: gridWidth, y: gridHeight },
+      origin: { x: originX, y: originY }
     }
   };
 }

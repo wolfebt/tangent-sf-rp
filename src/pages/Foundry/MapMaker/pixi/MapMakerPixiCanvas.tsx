@@ -67,6 +67,7 @@ export interface MapMakerPixiCanvasProps {
   activePings: any[];
   rulerWaypoints: Point2D[];
   rulerPointer: Point2D | null;
+  activeStrokePreview?: any;
   chunkGhostPreviewData: any;
   chunkCaptureMarquee: any;
   activeTool: string;
@@ -125,6 +126,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     activePings,
     rulerWaypoints,
     rulerPointer,
+    activeStrokePreview,
     chunkGhostPreviewData,
     chunkCaptureMarquee,
     activeTool,
@@ -168,6 +170,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
 
   const claimedPointerRef = useRef(false);
   const lastClickRef = useRef<{ id: string; time: number }>({ id: '', time: 0 });
+  const erasedInDragRef = useRef<Set<string>>(new Set());
   const activeItemDragRef = useRef<ActiveDragPayload | null>(null);
   const activePanDragRef = useRef<{ startClientX: number; startClientY: number; origX: number; origY: number } | null>(null);
 
@@ -497,6 +500,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     rulerPointer,
     rulerSelectedPace,
     liveDragPreview,
+    activeStrokePreview,
     chunkGhostPreviewData,
     chunkCaptureMarquee,
     activeTool,
@@ -549,6 +553,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     activePings,
     rulerWaypoints,
     rulerPointer,
+    activeStrokePreview,
     chunkGhostPreviewData,
     chunkCaptureMarquee,
     activeTool,
@@ -663,6 +668,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
     rulerPointer,
     rulerSelectedPace,
     liveDragPreview,
+    activeStrokePreview,
     measurementUnit,
     activePings,
     chunkGhostPreviewData,
@@ -826,6 +832,24 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
       }}
       onPointerMove={(e) => {
         if (activePanDragRef.current || activeItemDragRef.current) return;
+        if (activeTool === 'eraser' && (e.buttons & 1) !== 0 && !isStoryReadOnly) {
+          const { worldPos } = computeRelativePositions(e.clientX, e.clientY);
+          const hit = hitTestMapMakerFallback(worldPos, {
+            walls,
+            tokens,
+            objects,
+            lights,
+            texts,
+            regions,
+            selectedId,
+            isLayerLocked: effectiveIsLayerLocked,
+            isLayerVisible
+          });
+          if (hit && !erasedInDragRef.current.has(hit.id)) {
+            erasedInDragRef.current.add(hit.id);
+            onErase(hit.id);
+          }
+        }
         onPointerMove(
           buildPointerPayload(
             e.clientX,
@@ -839,6 +863,7 @@ export const MapMakerPixiCanvas = React.forwardRef<MapMakerStageHandle, MapMaker
         );
       }}
       onPointerUp={() => {
+        erasedInDragRef.current.clear();
         onPointerUp();
       }}
     >

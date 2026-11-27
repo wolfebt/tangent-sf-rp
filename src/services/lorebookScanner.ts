@@ -114,8 +114,9 @@ export function compileTriggerRegex(
     if (trimmed.startsWith('/') && trimmed.lastIndexOf('/') > 0) {
       const lastSlash = trimmed.lastIndexOf('/');
       const body = trimmed.slice(1, lastSlash);
-      const flags = trimmed.slice(lastSlash + 1) || 'i';
-      return new RegExp(body, flags);
+      const rawFlags = trimmed.slice(lastSlash + 1) || 'i';
+      const safeFlags = rawFlags.replace(/[gy]/g, '') || '';
+      return new RegExp(body, safeFlags);
     }
     return new RegExp(trimmed, 'i');
   } catch (err) {
@@ -147,7 +148,9 @@ export function testKeywordList(keywords: string[] = [], textToScan: string = ''
   for (const trig of keywords) {
     if (!trig) continue;
     const escaped = trig.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`\\b${escaped}\\b`, flags);
+    const startBound = /^\w/.test(trig) ? '\\b' : '(?:^|[^A-Za-z0-9_])';
+    const endBound = /\w$/.test(trig) ? '\\b' : '(?=$|[^A-Za-z0-9_])';
+    const regex = new RegExp(`${startBound}${escaped}${endBound}`, flags);
     if (regex.test(textToScan)) {
       matches.push(trig);
     }
@@ -352,8 +355,8 @@ function matchCandidateAgainstText(
   }
 
   // 2. Test keyword lists
-  const primaryMatches = testKeywordList(primaryTriggers, textToScan);
-  const secondaryMatches = testKeywordList(secondaryTriggers, textToScan);
+  const primaryMatches = testKeywordList(primaryTriggers, textToScan, caseSensitive);
+  const secondaryMatches = testKeywordList(secondaryTriggers, textToScan, caseSensitive);
 
   // 3. Evaluate selective boolean logic
   const evalResult = evaluateSelectiveBooleanLogic({
@@ -373,14 +376,17 @@ function matchCandidateAgainstText(
   // 4. Exact Title / Alias / Designation Match (default primary match under OR logic)
   if (triggerLogic === 'OR') {
     if (elem.title && elem.title.length >= 3) {
-      const titleRegex = new RegExp(`\\b${elem.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+      const titleRegex = new RegExp(
+        `\\b${elem.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`,
+        caseSensitive ? '' : 'i'
+      );
       if (titleRegex.test(textToScan)) {
         return `Title: "${elem.title}"`;
       }
     }
     const aliasList = normalizeTriggers(elem.aliases || elem.fields?.aliases || elem.fields?.alias);
     if (aliasList.length > 0) {
-      const aliasMatches = testKeywordList(aliasList, textToScan);
+      const aliasMatches = testKeywordList(aliasList, textToScan, caseSensitive);
       if (aliasMatches.length > 0) {
         return `Alias: "${aliasMatches[0]}"`;
       }
@@ -470,7 +476,9 @@ export function scanDynamicLorebook({
     const regexPattern = lorebook.triggerRegex || fields.triggerRegex || '';
     const compiledRegex = compileTriggerRegex(regexPattern, userHandle, resolvedCharName);
     const speakerFilter = lorebook.speakerFilter || fields.speakerFilter || 'any';
-    const priority = Number(lorebook.priority ?? fields.loreScanPriority) || 50;
+    const rawPri = lorebook.priority ?? fields.loreScanPriority;
+    const parsedPri = rawPri !== undefined && rawPri !== '' ? Number(rawPri) : NaN;
+    const priority = Number.isFinite(parsedPri) ? parsedPri : 50;
     const budgetTokens = Number(lorebook.budgetTokens ?? fields.loreBudgetTokens) || 250;
 
     eligibleElements.push({
@@ -542,6 +550,7 @@ export function scanDynamicLorebook({
     const candidatesForPass3: typeof eligibleElements = [];
 
     for (const candidate of remainingCandidates) {
+      if (candidate.speakerFilter === 'user_only') continue;
       const matchedTrigger = matchCandidateAgainstText(candidate, pass1Text);
 
       if (matchedTrigger) {
@@ -572,6 +581,7 @@ export function scanDynamicLorebook({
 
       if (pass2Text.trim()) {
         for (const candidate of candidatesForPass3) {
+          if (candidate.speakerFilter === 'user_only') continue;
           const matchedTrigger = matchCandidateAgainstText(candidate, pass2Text);
 
           if (matchedTrigger) {
@@ -646,6 +656,6 @@ export function scanDynamicLorebook({
     passesExecuted,
     candidateCount,
     suppressedCount,
-    unmatchedCount: candidateCount - injectedEntries.length - suppressedCount
+    unmatchedCount: Math.max(0, candidateCount - matchedSet.size - suppressedCount)
   };
 }

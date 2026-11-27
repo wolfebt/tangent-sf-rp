@@ -1,6 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Swords, Map as MapIcon, Plus, Hammer, X, Rocket, Shield, Compass } from 'lucide-react';
+import { Swords, Plus, Rocket, Shield, Compass } from 'lucide-react';
 import TripartiteStageView from '../../../../components/VTT/TripartiteStageView';
 import { WaypointPromptChip } from '../../../../components/VTT/stage/WaypointPromptChip';
 import { 
@@ -26,19 +25,17 @@ export default function TacticalStageViewport({
   handleToggleAutoTrigger,
   setWaypointPromptData,
   onSwitchToWeaver,
-  perspectiveMode = 'architect'
+  perspectiveMode = 'architect',
+  isStoryReadOnly = false
 }) {
-  const navigate = useNavigate();
-
   // Determine effective map to display: linked to node, or active in universe, or first available map
   const effectiveMap = linkedMap || 
     (activeNode?.mapId ? allAvailableMaps.find(m => m.id === activeNode.mapId) : null) ||
     (universeState?.activeMapId ? allAvailableMaps.find(m => m.id === universeState.activeMapId) : null) ||
     (allAvailableMaps.length > 0 ? allAvailableMaps[0] : null);
 
-  const isMapExplicitlyLinked = Boolean(activeNode?.mapId && effectiveMap && activeNode.mapId === effectiveMap.id);
-
   const handleDeployPresetMap = (mapCreator, defaultTitle) => {
+    if (isStoryReadOnly) return;
     const newMap = typeof mapCreator === 'function' ? mapCreator() : createBlankCanvas({ title: defaultTitle });
     if (addMap) addMap(newMap);
     if (activeNode && updateStory) {
@@ -84,32 +81,36 @@ export default function TacticalStageViewport({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-md w-full">
               <button
                 type="button"
-                onClick={handleCreateNewMapForElement}
-                className="py-2.5 px-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-purple-600/20 flex items-center justify-center gap-2 cursor-pointer"
+                disabled={isStoryReadOnly}
+                onClick={() => !isStoryReadOnly && handleCreateNewMapForElement?.()}
+                className="py-2.5 px-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-purple-600/20 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Plus size={14} />
                 <span>Blank Tactical Hex Grid</span>
               </button>
               <button
                 type="button"
+                disabled={isStoryReadOnly}
                 onClick={() => handleDeployPresetMap(createDerelictStarshipMap, 'Derelict Starship Corridor')}
-                className="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 border border-purple-500/40 text-purple-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed border border-purple-500/40 text-purple-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Rocket size={14} />
                 <span>Derelict Starship</span>
               </button>
               <button
                 type="button"
+                disabled={isStoryReadOnly}
                 onClick={() => handleDeployPresetMap(createResearchOutpostMap, 'Research Outpost Lab')}
-                className="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 border border-emerald-500/40 text-emerald-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed border border-emerald-500/40 text-emerald-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Shield size={14} />
                 <span>Bio-Lab Cleanroom</span>
               </button>
               <button
                 type="button"
+                disabled={isStoryReadOnly}
                 onClick={() => handleDeployPresetMap(createPlanetaryLandingZoneMap, 'Planetary Landing Zone')}
-                className="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 border border-amber-500/40 text-amber-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed border border-amber-500/40 text-amber-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Compass size={14} />
                 <span>Planetary Landing Zone</span>

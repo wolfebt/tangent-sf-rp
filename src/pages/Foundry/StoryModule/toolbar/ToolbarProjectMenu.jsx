@@ -14,8 +14,7 @@ import {
   Compass, 
   Globe, 
   Cloud, 
-  PanelLeftClose, 
-  PanelLeft,
+  Settings,
   Package,
   Upload
 } from 'lucide-react';
@@ -23,6 +22,7 @@ import { AudioService } from '../../../../services/audioService';
 import { confirmTypedDeletion } from '../../../../utils/confirmationUtils';
 import { useStory } from '../../../../context/CampaignContext';
 import { useAuth } from '../../../../context/AuthContext';
+import { showToast } from '../../../../context/ToastContext';
 import { useAdeStore } from '../../store/adeStore';
 import NewStoryModal from './NewStoryModal';
 
@@ -43,6 +43,7 @@ export default function ToolbarProjectMenu({
   handleClearUniverse: propHandleClearUniverse,
   currentUser: propCurrentUser,
   userHandle: propUserHandle,
+  isStoryReadOnly: propIsStoryReadOnly,
   onExportMarkdown,
   onTogglePrintModal,
   onToggleCatalog,
@@ -71,6 +72,7 @@ export default function ToolbarProjectMenu({
   const handleClearUniverse = propHandleClearUniverse || storyCtx.handleClearUniverse;
   const currentUser = propCurrentUser || authCtx.currentUser;
   const userHandle = propUserHandle || authCtx.userHandle;
+  const isStoryReadOnly = Boolean(propIsStoryReadOnly ?? storyCtx.isStoryReadOnly);
 
   const [isNewStoryModalOpen, setIsNewStoryModalOpen] = useState(false);
   const handleOpenNew = onOpenNewStoryModal || (() => setIsNewStoryModalOpen(true));
@@ -93,7 +95,6 @@ export default function ToolbarProjectMenu({
   });
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState({ top: 76, left: 16 });
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState(universeState?.projectName || 'Untitled Story');
   const fileMenuRef = useRef(null);
   const dropdownPortalRef = useRef(null);
@@ -145,7 +146,11 @@ export default function ToolbarProjectMenu({
   };
 
   const handleTitleSubmit = () => {
-    setIsEditingTitle(false);
+    if (isStoryReadOnly) {
+      setTitleInput(universeState?.projectName || 'Untitled Story');
+      showToast?.({ type: 'warning', text: 'Read-only story: unlock or clone project to rename.' });
+      return;
+    }
     if (titleInput.trim() && titleInput.trim() !== universeState?.projectName) {
       updateProjectName(titleInput.trim());
     }
@@ -153,6 +158,10 @@ export default function ToolbarProjectMenu({
 
   const handleDeleteActiveStory = async () => {
     setIsFileMenuOpen(false);
+    if (isStoryReadOnly) {
+      showToast?.({ type: 'warning', text: 'Read-only story: unlock or clone project to delete.' });
+      return;
+    }
     AudioService.playTerminalBeep(800, 0.04);
     const currentTitle = universeState?.projectName || 'Untitled Story';
     if (await confirmTypedDeletion(currentTitle, 'story module project')) {
@@ -176,6 +185,10 @@ export default function ToolbarProjectMenu({
 
   const handleClearStoryElements = async () => {
     setIsFileMenuOpen(false);
+    if (isStoryReadOnly) {
+      showToast?.({ type: 'warning', text: 'Read-only story: unlock or clone project to clear elements.' });
+      return;
+    }
     AudioService.playTerminalBeep(800, 0.04);
     const currentTitle = universeState?.projectName || 'Untitled Story';
     if (await confirmTypedDeletion(currentTitle, 'story element content')) {
@@ -269,13 +282,14 @@ export default function ToolbarProjectMenu({
               <input
                 type="text"
                 value={titleInput}
+                disabled={isStoryReadOnly}
                 onChange={(e) => setTitleInput(e.target.value)}
                 onBlur={handleTitleSubmit}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleTitleSubmit();
                 }}
-                className="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-xs font-mono text-amber-300 font-bold px-2 py-1 rounded-lg outline-none transition-colors"
-                title="Edit module name (press Enter to save)"
+                className="w-full bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-xs font-mono text-amber-300 font-bold px-2 py-1 rounded-lg outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                title={isStoryReadOnly ? 'Read-only story: unlock or clone project to rename' : 'Edit module name (press Enter to save)'}
                 placeholder="Story Module Name..."
               />
             </div>
@@ -447,18 +461,36 @@ export default function ToolbarProjectMenu({
                 <Compass size={13} className="text-cyan-400" />
                 <span>ADE User Guide & Manual</span>
               </button>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  setIsFileMenuOpen(false);
+                  handleToggleSettingsAction(true);
+                }}
+                className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <Settings size={13} className="text-slate-400" />
+                <span>Studio Settings</span>
+              </button>
             </div>
 
             {/* Cloud Synchronization */}
             {currentUser && (
               <div className="py-1">
                 <button
+                  type="button"
+                  disabled={isStoryReadOnly}
                   onClick={() => {
+                    if (isStoryReadOnly) {
+                      showToast?.({ type: 'warning', text: 'Read-only story: unlock or clone project before pushing to Cloud DB.' });
+                      return;
+                    }
                     AudioService.playTerminalBeep(1200, 0.03);
                     setIsFileMenuOpen(false);
                     pushUniverseToCloud({ showSuccessAlert: true, force: true });
                   }}
-                  className="w-full text-left px-3.5 py-1.5 hover:bg-sky-950/60 text-sky-300 hover:text-sky-200 flex items-center gap-2 transition-colors cursor-pointer"
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-sky-950/60 text-sky-300 hover:text-sky-200 flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <Cloud size={13} className="text-sky-400" />
                   <span>Push to Cloud DB</span>
@@ -480,15 +512,19 @@ export default function ToolbarProjectMenu({
             {/* Danger Zone */}
             <div className="py-1">
               <button
+                type="button"
+                disabled={isStoryReadOnly}
                 onClick={handleClearStoryElements}
-                className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer"
+                className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <Trash2 size={13} />
                 <span>Clear Story Elements</span>
               </button>
               <button
+                type="button"
+                disabled={isStoryReadOnly}
                 onClick={handleDeleteActiveStory}
-                className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer"
+                className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <Trash2 size={13} />
                 <span>Delete Story Project</span>

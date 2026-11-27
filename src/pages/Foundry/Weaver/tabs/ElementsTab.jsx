@@ -119,7 +119,7 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
               <span>Elements Palette</span>
             </h2>
             <p className="text-[10px] text-slate-400">
-              Drag elements into the story canvas to create live narrative links
+              Drag elements or click Insert Mention to link directly into the active story canvas
             </p>
           </div>
         </div>
@@ -234,9 +234,27 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
 
                   {/* Actions footer */}
                   <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-[10px]">
-                    <span className="text-slate-500 font-mono text-[9px]">
-                      DRAG TO WRITE
-                    </span>
+                    {typeof onInsertElementMention === 'function' ? (
+                      <button
+                        type="button"
+                        disabled={isStoryReadOnly || !activeNode}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isStoryReadOnly || !activeNode) return;
+                          AudioService.playTerminalBeep(1080, 0.03);
+                          onInsertElementMention(elem);
+                        }}
+                        className="px-2 py-0.5 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 disabled:opacity-40 disabled:cursor-not-allowed border border-cyan-500/40 text-cyan-300 font-bold text-[9.5px] uppercase tracking-wide flex items-center gap-1 cursor-pointer transition-colors"
+                        title={isStoryReadOnly ? 'Read-only story' : activeNode ? `Insert [[${elem.title}]] into active scenario` : 'Select a scenario first'}
+                      >
+                        <Plus size={10} />
+                        <span>Insert Mention</span>
+                      </button>
+                    ) : (
+                      <span className="text-slate-500 font-mono text-[9px]">
+                        DRAG TO WRITE
+                      </span>
+                    )}
 
                     <div className="flex items-center gap-1">
                       <button

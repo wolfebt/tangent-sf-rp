@@ -159,8 +159,9 @@ export default function ScenarioCanvasSwitch({
     ? rawBeats.split('\n').map(b => b.trim()).filter(b => b.length > 0)
     : [];
 
-  const rawReadAloud = activeNode?.content
-    ? stripGmSecretHtmlBlocks(activeNode.content).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+  const readAloudSource = activeNode?.fields?.readAloud || activeNode?.content || '';
+  const rawReadAloud = readAloudSource
+    ? stripGmSecretHtmlBlocks(readAloudSource).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
     : '';
   const readAloudSnippet = rawReadAloud.slice(0, 280);
 

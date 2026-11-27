@@ -42,7 +42,7 @@ export default function ADETopToolbar({
   onExportMarkdown,
   onExportPDF
 }) {
-  const { universeState, elementsCatalog, cronicle, activeMapId, isDirty, cloudSyncStatus } = useStory();
+  const { universeState, elementsCatalog, cronicle, activeMapId, isDirty, cloudSyncStatus, confirmIfDirty, triggerStorySave } = useStory();
   const {
     studioMode,
     setStudioMode,
@@ -175,6 +175,8 @@ export default function ADETopToolbar({
         onSelectCockpitDeck={onSelectCockpitDeck}
         isDirty={isDirty}
         cloudSyncStatus={cloudSyncStatus}
+        confirmIfDirty={confirmIfDirty}
+        triggerStorySave={triggerStorySave}
       />
     </header>
   );

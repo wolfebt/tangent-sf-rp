@@ -57,7 +57,9 @@ export const NpcScriptBuilder = ({
     return null;
   })();
 
-  const [isEnabled, setIsEnabled] = useState(Boolean(initialScript || fields.vttScriptActive === 'true'));
+  const [isEnabled, setIsEnabled] = useState(
+    fields.vttScriptActive === 'false' ? false : Boolean(initialScript || fields.vttScriptActive === 'true')
+  );
   const [routineType, setRoutineType] = useState(initialScript?.type || 'patrol');
   const [behaviorProfile, setBehaviorProfile] = useState(() =>
     normalizeBehaviorProfile(initialScript?.behaviorProfile || fields.mcmRole || 'tactical')
@@ -68,6 +70,12 @@ export const NpcScriptBuilder = ({
   const [detectionDc, setDetectionDc] = useState(initialScript?.detectionDc || 14);
   const [alertBark, setAlertBark] = useState(initialScript?.alertBark || `Intruder detected in sector! ${elementTitle || 'Unit'} engaging!`);
   const [moraleThreshold, setMoraleThreshold] = useState(initialScript?.moraleThreshold ?? 0.25);
+  const [ambushRadiusPx, setAmbushRadiusPx] = useState(initialScript?.ambushRadiusPx || 180);
+  const [ambushStealthCr, setAmbushStealthCr] = useState(initialScript?.ambushStealthCr || 15);
+  const [barkCooldownRounds, setBarkCooldownRounds] = useState(initialScript?.barkCooldownRounds || 2);
+  const [dialogueBarks, setDialogueBarks] = useState(
+    initialScript?.dialogueBarks || 'Hold position! Identify yourself on encrypted band.'
+  );
   const [isPingPong, setIsPingPong] = useState(initialScript?.isPingPong || false);
   const [waypoints, setWaypoints] = useState(
     Array.isArray(initialScript?.waypoints) && initialScript.waypoints.length > 0
@@ -123,6 +131,8 @@ export const NpcScriptBuilder = ({
       alertBark,
       isPingPong,
       waypoints: routineType === 'patrol' ? waypoints : [],
+      ...(routineType === 'ambush' ? { ambushRadiusPx, ambushStealthCr } : {}),
+      ...(routineType === 'dialogue_bark' ? { barkCooldownRounds, dialogueBarks } : {}),
       relationsStance,
       vipTarget: vipTarget.trim() || null,
       rivalTarget: rivalTarget.trim() || null
@@ -147,6 +157,10 @@ export const NpcScriptBuilder = ({
     alertBark,
     isPingPong,
     waypoints,
+    ambushRadiusPx,
+    ambushStealthCr,
+    barkCooldownRounds,
+    dialogueBarks,
     relationsStance,
     vipTarget,
     rivalTarget
@@ -205,15 +219,28 @@ Respond in JSON format:
 }`;
 
     try {
-      const responseText = await generateContent({ prompt });
+      const responseText = await generateContent({ prompt, enforceJson: true });
+      if (typeof responseText !== 'string' || !responseText.trim()) {
+        throw new Error('Empty AIME response');
+      }
       const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
       const parsed = JSON.parse(cleanJson);
 
-      if (parsed.alertBark) setAlertBark(parsed.alertBark);
-      if (parsed.detectionDc) setDetectionDc(parsed.detectionDc);
-      if (parsed.visionRangePx) setVisionRangePx(parsed.visionRangePx);
-      if (parsed.visionFovDeg) setVisionFovDeg(parsed.visionFovDeg);
-      if (parsed.moraleThreshold) setMoraleThreshold(parsed.moraleThreshold);
+      if (typeof parsed.alertBark === 'string' && parsed.alertBark.trim()) {
+        setAlertBark(parsed.alertBark.trim());
+      }
+      if (Number.isFinite(Number(parsed.detectionDc))) {
+        setDetectionDc(Math.max(5, Math.min(35, Math.round(Number(parsed.detectionDc)))));
+      }
+      if (Number.isFinite(Number(parsed.visionRangePx))) {
+        setVisionRangePx(Math.max(100, Math.min(600, Math.round(Number(parsed.visionRangePx)))));
+      }
+      if (Number.isFinite(Number(parsed.visionFovDeg))) {
+        setVisionFovDeg(Math.max(30, Math.min(180, Math.round(Number(parsed.visionFovDeg)))));
+      }
+      if (Number.isFinite(Number(parsed.moraleThreshold))) {
+        setMoraleThreshold(Math.max(0, Math.min(0.5, Number(parsed.moraleThreshold))));
+      }
 
       AudioService.playTerminalBeep(1200, 0.12);
     } catch (err) {
@@ -477,6 +504,71 @@ Respond in JSON format:
                     value={facingAngleDeg}
                     onChange={(e) => setFacingAngleDeg(parseInt(e.target.value, 10))}
                     className="w-full accent-amber-400 cursor-pointer"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Stealth Ambush Stalker Controls */}
+            {routineType === 'ambush' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-mono font-bold uppercase text-purple-300 flex items-center justify-between">
+                    <span>Ambush Trigger Radius (px)</span>
+                    <span className="text-cyan-300">{ambushRadiusPx}px</span>
+                  </label>
+                  <input
+                    type="range"
+                    min="60"
+                    max="450"
+                    step="15"
+                    value={ambushRadiusPx}
+                    onChange={(e) => setAmbushRadiusPx(parseInt(e.target.value, 10))}
+                    className="w-full accent-purple-400 cursor-pointer"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-mono font-bold uppercase text-amber-300">
+                    Cloaked Stealth CR (Detection Gate)
+                  </label>
+                  <input
+                    type="number"
+                    min="5"
+                    max="35"
+                    value={ambushStealthCr}
+                    onChange={(e) => setAmbushStealthCr(Math.max(5, Math.min(35, parseInt(e.target.value, 10) || 15)))}
+                    className="w-full bg-slate-950 border border-slate-700 text-amber-200 p-1.5 rounded-lg text-xs font-mono font-bold outline-none focus:border-amber-400"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Interactive Comms Bark Controls */}
+            {routineType === 'dialogue_bark' && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-mono font-bold uppercase text-cyan-300">
+                    Bark Cooldown (Rounds)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="20"
+                    value={barkCooldownRounds}
+                    onChange={(e) => setBarkCooldownRounds(Math.max(1, Math.min(20, parseInt(e.target.value, 10) || 2)))}
+                    className="w-full bg-slate-950 border border-slate-700 text-cyan-200 p-1.5 rounded-lg text-xs font-mono font-bold outline-none focus:border-cyan-400"
+                  />
+                </div>
+                <div className="sm:col-span-2 space-y-1">
+                  <label className="text-[10px] font-mono font-bold uppercase text-slate-300">
+                    Comms Dialogue Script / Bark Lines
+                  </label>
+                  <input
+                    type="text"
+                    value={dialogueBarks}
+                    onChange={(e) => setDialogueBarks(e.target.value)}
+                    placeholder="Hold position! Identify yourself on encrypted band."
+                    className="w-full bg-slate-950 border border-slate-700 text-slate-100 p-1.5 rounded-lg text-xs font-mono outline-none focus:border-cyan-400"
                   />
                 </div>
               </div>

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useToast } from '../../../context/ToastContext';
@@ -15,11 +14,11 @@ import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/Cronicl
 import CronicleDeltaBadge from '../../../components/StoryFoundry/Cronicle/CronicleDeltaBadge';
 import { extractNarrativeDeltas } from '../../../services/cronicleService';
 import { v4 as uuidv4 } from 'uuid';
-import { GUIDANCE_GEMS, getMergedGems } from '../StoryModule/guidanceGemsConfig';
+import { GUIDANCE_GEMS } from '../StoryModule/guidanceGemsConfig';
+import { formatAimeProseToHtml } from './aimeTextUtils';
 export { GUIDANCE_GEMS };
 
 export default function AIME() {
-  const navigate = useNavigate();
   const confirm = useConfirm();
   const { toast } = useToast();
   const { currentUser, userHandle } = useAuth();
@@ -60,6 +59,17 @@ export default function AIME() {
   };
 
   const flatElements = universeState?.scenarios ? getAllElements(universeState.scenarios) : [];
+
+  const contextSelectableElements = React.useMemo(() => {
+    const merged = new Map();
+    for (const el of flatElements) {
+      if (el?.id) merged.set(el.id, el);
+    }
+    for (const el of Array.isArray(elementsCatalog) ? elementsCatalog : []) {
+      if (el?.id && !merged.has(el.id)) merged.set(el.id, el);
+    }
+    return Array.from(merged.values());
+  }, [flatElements, elementsCatalog]);
 
   const resolveLinkedContextElements = () => {
     const linkedIds = Array.isArray(creativeState.linkedElements) ? creativeState.linkedElements : [];
@@ -128,9 +138,6 @@ export default function AIME() {
   // Story Weaver State
   const [stage, setStage] = useState(1);
   const [brainstormPrompt, setBrainstormPrompt] = useState('');
-  const [selectedGemCategory, setSelectedGemCategory] = useState(Object.keys(GUIDANCE_GEMS)[0]);
-  const [newGemInput, setNewGemInput] = useState('');
-  const [activeViewMode, setActiveViewMode] = useState('both');
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingBeat, setIsSuggestingBeat] = useState(false);
@@ -154,14 +161,20 @@ export default function AIME() {
   }, [contextMenuPos]);
 
   const handleContextMenu = (e) => {
+    const vw = typeof window !== 'undefined' ? (window.innerWidth || 1200) : 1200;
+    const vh = typeof window !== 'undefined' ? (window.innerHeight || 800) : 800;
+    const clampedPos = {
+      x: Math.max(12, Math.min(e.clientX, vw - 310)),
+      y: Math.max(12, Math.min(e.clientY, vh - 180))
+    };
     const windowSel = window.getSelection()?.toString().trim();
     if (windowSel && windowSel.length > 0) {
       setSelectedText(windowSel);
       e.preventDefault();
-      setContextMenuPos({ x: e.clientX, y: e.clientY });
+      setContextMenuPos(clampedPos);
     } else if (selectedText) {
       e.preventDefault();
-      setContextMenuPos({ x: e.clientX, y: e.clientY });
+      setContextMenuPos(clampedPos);
     }
   };
 
@@ -183,11 +196,6 @@ export default function AIME() {
     toast({ type, text: msg });
   };
 
-  const handleCopyMarkdown = (content) => {
-    navigator.clipboard.writeText(content);
-    showToast('Copied to clipboard!');
-  };
-
   const downloadFile = (content, filename, contentType = 'application/json') => {
     const blob = new Blob([content], { type: contentType });
     const url = URL.createObjectURL(blob);
@@ -197,8 +205,6 @@ export default function AIME() {
     a.click();
     URL.revokeObjectURL(url);
   };
-
-  const handleDownloadBlob = downloadFile;
 
   const triggerImport = (canvasKey) => {
     activeCanvasKeyRef.current = canvasKey;
@@ -468,8 +474,16 @@ Format output strictly as JSON array of objects:
 
     try {
       const result = await generateContent({ prompt, context: getWeaverContext('Brainstorm') });
-      const cleanJson = result.replace(/```json/g, '').replace(/```/g, '').trim();
-      const cards = JSON.parse(cleanJson);
+      const cleanJson = String(result || '').replace(/```json/gi, '').replace(/```/g, '').trim();
+      const arrStart = cleanJson.indexOf('[');
+      const arrEnd = cleanJson.lastIndexOf(']');
+      if (arrStart === -1 || arrEnd <= arrStart) {
+        throw new Error('Response did not contain a valid JSON concept array.');
+      }
+      const cards = JSON.parse(cleanJson.slice(arrStart, arrEnd + 1));
+      if (!Array.isArray(cards)) {
+        throw new Error('Parsed concepts payload was not an array.');
+      }
       updateStoryCards(cards);
       setStage(2);
     } catch (err) {
@@ -491,7 +505,7 @@ Formatting: Provide a markdown list of 5 key narrative acts/chapters with dramat
 
     try {
       const outlineText = await generateContent({ prompt, context: getWeaverContext('Outline', { card }) });
-      updateOutline(outlineText);
+      updateOutline(formatAimeProseToHtml(outlineText));
       setStage(2);
     } catch (err) {
       toast({ type: 'error', text: `Outline generation failed: ${err.message}` });
@@ -512,7 +526,8 @@ Format: Return a bullet point to append to the outline.`;
 
     try {
       const beat = await generateContent({ prompt, context: getWeaverContext('SuggestBeat') });
-      const updated = (creativeState.storyOutline || '') + `\n- ${beat.trim()}`;
+      const beatHtml = formatAimeProseToHtml(`- ${String(beat || '').trim()}`);
+      const updated = `${creativeState.storyOutline || ''}${beatHtml}`;
       updateOutline(updated);
     } catch (err) {
       toast({ type: 'error', text: `Suggest beat failed: ${err.message}` });
@@ -534,7 +549,7 @@ Formatting: Provide a markdown list of detailed scene beats, focusing on charact
 
     try {
       const beatsText = await generateContent({ prompt, context: getWeaverContext('SceneBeats') });
-      updateSceneBeats(beatsText);
+      updateSceneBeats(formatAimeProseToHtml(beatsText));
     } catch (err) {
       toast({ type: 'error', text: `Scene beats generation failed: ${err.message}` });
     } finally {
@@ -545,7 +560,7 @@ Formatting: Provide a markdown list of detailed scene beats, focusing on charact
   const handleGenerateDraft = async () => {
     setStage(4);
     setIsGenerating(true);
-    updateDraft('# Story Draft\n\n');
+    updateDraft(formatAimeProseToHtml('# Story Draft\n\n'));
 
     const prompt = `Write a prose narrative draft based on the following scene beats and universe lore:
 Scene Beats:
@@ -559,16 +574,16 @@ Guidance Gems: ${getActiveGemsText() || 'None'}
 Style Instructions: Immersive, vivid sensory details, sharp character dialogue, and dramatic pacing. Use Markdown format.`;
 
     try {
-      let draftText = '# Story Draft\n\n';
+      let draftMarkdown = '# Story Draft\n\n';
       await streamContent({
         prompt: prompt,
         context: getWeaverContext('Draft'),
         onChunk: (chunk) => {
-          draftText += chunk;
-          updateDraft(draftText);
+          draftMarkdown += chunk;
+          updateDraft(formatAimeProseToHtml(draftMarkdown));
         }
       });
-      handleTriggerDeltaExtraction(draftText);
+      handleTriggerDeltaExtraction(formatAimeProseToHtml(draftMarkdown));
     } catch (err) {
       toast({ type: 'error', text: `Draft generation failed: ${err.message}` });
     } finally {
@@ -578,9 +593,10 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
 
   const handleGenerateNextScene = async () => {
     setIsGenerating(true);
+    const baseDraftHtml = creativeState.storyDraft || '';
     const prompt = `Write the NEXT scene in prose for the following draft, guided by the scene beats.
 Current Draft:
-${creativeState.storyDraft}
+${baseDraftHtml}
 
 Scene Beats Context:
 ${creativeState.sceneBeats}
@@ -590,16 +606,16 @@ Guidance Gems: ${getActiveGemsText() || 'None'}
 Style Instructions: Immersive, vivid sensory details, sharp character dialogue, and dramatic pacing. Use Markdown format. Respond ONLY with the new scene's text to append to the draft.`;
 
     try {
-      let draftText = creativeState.storyDraft + '\n\n';
+      let sceneMarkdown = '';
       await streamContent({
         prompt: prompt,
         context: getWeaverContext('NextScene'),
         onChunk: (chunk) => {
-          draftText += chunk;
-          updateDraft(draftText);
+          sceneMarkdown += chunk;
+          updateDraft(`${baseDraftHtml}${formatAimeProseToHtml(sceneMarkdown)}`);
         }
       });
-      handleTriggerDeltaExtraction(draftText);
+      handleTriggerDeltaExtraction(`${baseDraftHtml}${formatAimeProseToHtml(sceneMarkdown)}`);
     } catch (err) {
       toast({ type: 'error', text: `Generation failed: ${err.message}` });
     } finally {
@@ -609,25 +625,26 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
 
   const handleContinueWriting = async () => {
     setIsGenerating(true);
+    const baseDraftHtml = creativeState.storyDraft || '';
     const prompt = `Continue writing the prose for the following draft from where it left off.
 Current Draft:
-${creativeState.storyDraft}
+${baseDraftHtml}
 
 Guidance Gems: ${getActiveGemsText() || 'None'}
 
 Style Instructions: Match the tone, immersive, vivid sensory details, sharp character dialogue. Use Markdown format. Respond ONLY with the continuation text to append.`;
 
     try {
-      let draftText = creativeState.storyDraft + ' ';
+      let contMarkdown = '';
       await streamContent({
         prompt: prompt,
         context: getWeaverContext('Continue'),
         onChunk: (chunk) => {
-          draftText += chunk;
-          updateDraft(draftText);
+          contMarkdown += chunk;
+          updateDraft(`${baseDraftHtml}${formatAimeProseToHtml(contMarkdown)}`);
         }
       });
-      handleTriggerDeltaExtraction(draftText);
+      handleTriggerDeltaExtraction(`${baseDraftHtml}${formatAimeProseToHtml(contMarkdown)}`);
     } catch (err) {
       toast({ type: 'error', text: `Generation failed: ${err.message}` });
     } finally {
@@ -663,10 +680,15 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
       else if (stage === 3 && beatsQuillRef.current) activeQuill = beatsQuillRef.current.getEditor();
       else if (stage === 4 && quillRef.current) activeQuill = quillRef.current.getEditor();
 
+      const formattedHtml = formatAimeProseToHtml(cleanResult);
       if (activeQuill && selectionRange) {
         activeQuill.deleteText(selectionRange.index, selectionRange.length);
-        activeQuill.insertText(selectionRange.index, cleanResult);
-        
+        if (typeof activeQuill.clipboard?.dangerouslyPasteHTML === 'function') {
+          activeQuill.clipboard.dangerouslyPasteHTML(selectionRange.index, formattedHtml);
+        } else {
+          activeQuill.insertText(selectionRange.index, cleanResult);
+        }
+
         if (stage === 2) updateOutline(activeQuill.root.innerHTML);
         else if (stage === 3) updateSceneBeats(activeQuill.root.innerHTML);
         else if (stage === 4) updateDraft(activeQuill.root.innerHTML);
@@ -676,11 +698,11 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
             setBrainstormPrompt(prev => prev.replace(selectedText, cleanResult));
           }
         } else if (stage === 2) {
-          updateOutline((creativeState.storyOutline || '').replace(selectedText, cleanResult));
+          updateOutline((creativeState.storyOutline || '').replace(selectedText, formattedHtml));
         } else if (stage === 3) {
-          updateSceneBeats((creativeState.sceneBeats || '').replace(selectedText, cleanResult));
+          updateSceneBeats((creativeState.sceneBeats || '').replace(selectedText, formattedHtml));
         } else if (stage === 4) {
-          updateDraft((creativeState.storyDraft || '').replace(selectedText, cleanResult));
+          updateDraft((creativeState.storyDraft || '').replace(selectedText, formattedHtml));
         }
       }
       
@@ -879,7 +901,7 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
           <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider mt-4 mb-2">Linked Context Elements</h3>
           <p className="text-xs text-slate-400 mb-2">Select project elements to feed into AIME's context window.</p>
           <div className="flex flex-col gap-1.5 max-h-64 overflow-y-auto bg-slate-900 p-2 rounded border border-slate-700">
-            {flatElements.map(el => (
+            {contextSelectableElements.map(el => (
               <label key={el.id} className="flex items-center gap-2 text-xs text-slate-300 hover:text-white cursor-pointer bg-slate-800/50 p-1.5 rounded border border-slate-700/50">
                 <input 
                   type="checkbox" 
@@ -900,7 +922,7 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
                 </span>
               </label>
             ))}
-            {flatElements.length === 0 && (
+            {contextSelectableElements.length === 0 && (
               <span className="text-xs text-slate-500 italic">No elements in your project yet.</span>
             )}
           </div>

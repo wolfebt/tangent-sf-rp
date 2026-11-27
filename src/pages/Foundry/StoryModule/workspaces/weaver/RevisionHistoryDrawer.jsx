@@ -15,11 +15,24 @@ export default function RevisionHistoryDrawer({
   onClose,
   revisions = [],
   currentContent = '',
+  isStoryReadOnly = false,
   onCreateSnapshot,
   onRestoreSnapshot
 }) {
   const [labelInput, setLabelInput] = useState('');
   const [selectedRevId, setSelectedRevId] = useState(revisions[0]?.id || null);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   useEffect(() => {
     if (revisions.length > 0 && !revisions.some((r) => r.id === selectedRevId)) {
@@ -53,6 +66,7 @@ export default function RevisionHistoryDrawer({
 
   const handleSaveCheckpoint = (e) => {
     e.preventDefault();
+    if (isStoryReadOnly) return;
     onCreateSnapshot?.(labelInput.trim() || undefined);
     setLabelInput('');
   };
@@ -88,14 +102,16 @@ export default function RevisionHistoryDrawer({
       <form onSubmit={handleSaveCheckpoint} className="p-3 border-b border-slate-800 flex gap-2 bg-slate-900/60">
         <input
           type="text"
+          disabled={isStoryReadOnly}
           value={labelInput}
           onChange={(e) => setLabelInput(e.target.value)}
-          placeholder="Checkpoint label (e.g. Pre-Climax Rewrite)"
-          className="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white"
+          placeholder={isStoryReadOnly ? 'Read-only story' : 'Checkpoint label (e.g. Pre-Climax Rewrite)'}
+          className="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white disabled:opacity-50"
         />
         <button
           type="submit"
-          className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-black font-bold text-xs flex items-center gap-1 cursor-pointer shrink-0"
+          disabled={isStoryReadOnly}
+          className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 disabled:cursor-not-allowed text-black font-bold text-xs flex items-center gap-1 cursor-pointer shrink-0"
         >
           <Plus size={12} /> Snapshot
         </button>
@@ -129,11 +145,13 @@ export default function RevisionHistoryDrawer({
                     </div>
                     <button
                       type="button"
+                      disabled={isStoryReadOnly}
                       onClick={(e) => {
                         e.stopPropagation();
+                        if (isStoryReadOnly) return;
                         onRestoreSnapshot?.(rev);
                       }}
-                      className="px-2 py-1 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-200 text-[10px] font-bold flex items-center gap-1 shrink-0 cursor-pointer"
+                      className="px-2 py-1 rounded-lg bg-amber-950/80 hover:bg-amber-900 disabled:opacity-40 disabled:cursor-not-allowed border border-amber-500/40 text-amber-200 text-[10px] font-bold flex items-center gap-1 shrink-0 cursor-pointer"
                     >
                       <RotateCcw size={10} /> Restore
                     </button>

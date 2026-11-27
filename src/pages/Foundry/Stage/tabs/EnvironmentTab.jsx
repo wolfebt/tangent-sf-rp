@@ -26,6 +26,7 @@ import { useStory } from '../../../../context/CampaignContext';
 import { AudioService } from '../../../../services/audioService';
 import { proAudioMixerService } from '../../../../services/proAudioMixerService';
 import { StageAudioMixerDrawer } from '../../../../components/VTT/stage/StageAudioMixerDrawer';
+import { ATMOSPHERIC_PRESETS, normalizeAtmosphericPresetKey } from '../../../../engine/vision/LightSourceManager';
 
 export default function EnvironmentTab() {
   const { stageManifest, updateEnvironment, setStageVariable, removeStageVariable } = useStageStore();
@@ -68,12 +69,37 @@ export default function EnvironmentTab() {
   ];
 
   const handleSetLighting = (mode) => {
-    updateEnvironment({ lighting: { mode, ambientIntensity: mode === 'dim' ? 0.4 : mode === 'pitch_black' ? 0.05 : 1.0 } });
+    const canonicalKey = normalizeAtmosphericPresetKey(mode);
+    const preset = ATMOSPHERIC_PRESETS[canonicalKey] || ATMOSPHERIC_PRESETS.clear;
+    const prevLighting = env.lighting || {};
+    updateEnvironment({
+      atmosphericPresetId: preset.id,
+      lighting: {
+        ...prevLighting,
+        mode,
+        ambientIntensity:
+          mode === 'dim' ? 0.4 : mode === 'pitch_black' ? 0.05 : preset.ambientIntensity ?? 1.0,
+        tint: preset.ambientColor,
+        fogDensity: preset.fogDensity
+      }
+    });
     AudioService.playTerminalBeep(950, 0.02);
   };
 
   const handleSetWeather = (weather) => {
-    updateEnvironment({ weather });
+    const canonicalKey = normalizeAtmosphericPresetKey(weather);
+    const preset = ATMOSPHERIC_PRESETS[canonicalKey] || ATMOSPHERIC_PRESETS.clear;
+    const prevLighting = env.lighting || {};
+    updateEnvironment({
+      weather,
+      atmosphericPresetId: preset.id,
+      lighting: {
+        ...prevLighting,
+        mode: prevLighting.mode || 'normal',
+        tint: preset.ambientColor,
+        fogDensity: preset.fogDensity
+      }
+    });
     AudioService.playTerminalBeep(950, 0.02);
   };
 

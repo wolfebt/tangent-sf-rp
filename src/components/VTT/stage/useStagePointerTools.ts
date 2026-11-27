@@ -12,7 +12,7 @@ import {
   type LightAnimationType,
   type SceneLightSource
 } from '../../../engine/vision/LightSourceManager';
-import { BIOME_OPTIONS, type PaletteItem } from '../ArchitectDesignPalette';
+import { BIOME_OPTIONS, type PaletteItem } from '../designToolTypes';
 import { MASTER_TERRAINS } from '../../../pages/Foundry/MapMaker/map/MapConstants.js';
 import { createSceneRegion, type SceneRegionTriggerType } from '../../../engine/cartography/SceneRegionManager';
 import { AudioService } from '../../../services/audioService';

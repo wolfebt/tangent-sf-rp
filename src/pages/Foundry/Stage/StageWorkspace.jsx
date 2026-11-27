@@ -16,7 +16,7 @@
  *   7. Run: Live compiler execution and embedded WebGPU TripartiteStageView runtime.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { 
   Compass, 
   MapPin, 
@@ -26,10 +26,17 @@ import {
   Code, 
   Play,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Copy,
+  Trash2,
+  AlertTriangle,
+  CheckCircle2
 } from 'lucide-react';
 import { useStageStore } from './stageStore';
 import { useStory } from '../../../context/CampaignContext';
+import { useMapAssets, useStoryAssets } from '../assetContracts';
+import { validateStageManifest } from './vttModuleCompilerService';
+import { showConfirm } from '../../../context/ConfirmContext';
 import SetupTab from './tabs/SetupTab';
 import AnchorsTab from './tabs/AnchorsTab';
 import FlowTab from './tabs/FlowTab';
@@ -59,10 +66,20 @@ export default function StageWorkspace({
     markClean,
     selectStage,
     createStage,
+    duplicateStage,
+    deleteStage,
     updateStageManifest
   } = useStageStore();
   const { saveStageManifest, universeState } = useStory();
+  const { list: mapsList } = useMapAssets();
+  const { list: scenariosList } = useStoryAssets();
   const scopedStages = manifestsByStory?.[activeStoryScopeId || universeState?.id || stageManifest?.storyId || 'default'] || [stageManifest];
+
+  const validation = useMemo(() => {
+    const boundMap = (mapsList || []).find((m) => m.id === stageManifest?.mapId) || null;
+    const boundScenario = (scenariosList || []).find((s) => s.id === stageManifest?.storyId) || null;
+    return validateStageManifest(stageManifest, boundMap, boundScenario);
+  }, [stageManifest, mapsList, scenariosList]);
 
   useEffect(() => {
     if (isMobile) return;
@@ -172,6 +189,64 @@ export default function StageWorkspace({
             title="Create new Stage Manifest for this story"
           >
             + Stage
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!stageManifest?.id) return;
+              const cloned = duplicateStage?.(stageManifest.id);
+              if (cloned) saveStageManifest?.(cloned);
+            }}
+            className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-cyan-300 cursor-pointer"
+            title="Duplicate active Stage Manifest"
+            aria-label="Duplicate Stage"
+          >
+            <Copy size={12} />
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              if (!stageManifest?.id) return;
+              const ok = await showConfirm({
+                title: 'Delete Stage Manifest',
+                message: `Delete Stage "${stageManifest.title || stageManifest.id}"?`,
+                confirmText: 'Delete Stage',
+                danger: true
+              });
+              if (ok) {
+                deleteStage?.(stageManifest.id);
+              }
+            }}
+            className="p-1.5 rounded-lg bg-slate-900 hover:bg-red-950/60 border border-slate-700 hover:border-red-500/40 text-slate-400 hover:text-red-300 cursor-pointer"
+            title="Delete active Stage Manifest"
+            aria-label="Delete Stage"
+          >
+            <Trash2 size={12} />
+          </button>
+          <button
+            type="button"
+            onClick={() => handleTabChange('run')}
+            className={`px-2 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 border cursor-pointer transition-colors ${
+              validation.errors.length > 0
+                ? 'bg-red-950/70 border-red-500/50 text-red-300'
+                : validation.warnings.length > 0
+                  ? 'bg-amber-950/70 border-amber-500/50 text-amber-300'
+                  : 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+            }`}
+            title="View compiler diagnostics in Live VTT Director"
+          >
+            {validation.errors.length > 0 || validation.warnings.length > 0 ? (
+              <AlertTriangle size={11} />
+            ) : (
+              <CheckCircle2 size={11} />
+            )}
+            <span>
+              {validation.errors.length > 0
+                ? `${validation.errors.length}E`
+                : validation.warnings.length > 0
+                  ? `${validation.warnings.length}W`
+                  : 'Valid'}
+            </span>
           </button>
           <span className="text-[11px] text-slate-400 font-bold truncate max-w-xs hidden lg:inline">
             The Stage VTT: <strong className="text-purple-300">{stageManifest.title || 'Untitled'}</strong>

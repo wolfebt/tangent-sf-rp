@@ -33,6 +33,7 @@ const callAimeGenerate = generateContent as unknown as (params: {
   context?: Record<string, any> | string;
   enforceJson?: boolean;
   responseSchema?: Record<string, any> | null;
+  signal?: AbortSignal;
 }) => Promise<string>;
 import { extractAndResolveBracketContext } from '../../../../services/hyperlinkResolver.js';
 import { ATMOSPHERIC_PRESETS } from '../../PresetsAndScripts/constants/atmosphericPresets.js';
@@ -187,7 +188,8 @@ Return a JSON object populating each trait concisely (1–3 crisp, sensory-rich 
         dbData
       },
       enforceJson: true,
-      responseSchema
+      responseSchema,
+      signal
     });
 
     if (signal?.aborted) {
@@ -299,7 +301,7 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
     customCatalog: catalog
   };
 
-  const text = await callAimeGenerate({ prompt, context });
+  const text = await callAimeGenerate({ prompt, context, signal });
   if (signal?.aborted) {
     throw new DOMException('Blueprint synthesis aborted', 'AbortError');
   }
@@ -748,7 +750,10 @@ export function recommendResonantAssets({
     if (elemTitle.length < 3) continue;
 
     const isBracketed = bracketIds.has(elem.id);
-    const isTitleMentioned = fullTextLower.includes(elemTitle.toLowerCase());
+    const escapedTitle = elemTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const titleStart = /^\w/.test(elemTitle) ? '\\b' : '(?:^|[^A-Za-z0-9_])';
+    const titleEnd = /\w$/.test(elemTitle) ? '\\b' : '(?=$|[^A-Za-z0-9_])';
+    const isTitleMentioned = new RegExp(`${titleStart}${escapedTitle}${titleEnd}`, 'i').test(fullTextLower);
 
     // Also check shared faction/world/tags overlap
     const draftFaction = String(draft.fields?.['char-faction'] || draft.fields?.linkedFaction || '').toLowerCase();

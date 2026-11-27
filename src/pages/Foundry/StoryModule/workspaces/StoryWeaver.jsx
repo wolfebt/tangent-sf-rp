@@ -327,39 +327,6 @@ export default function StoryWeaver({
     });
   }, [content, outline, sceneBeats, elementsCatalog]);
 
-  // Insert [[Wiki Link]] into active manuscript cursor
-  const handleInsertWikiLink = (elementTitle) => {
-    const linkText = `[[${elementTitle}]] `;
-    const quill = quillRef.current?.getEditor();
-    if (quill) {
-      const range = quill.getSelection(true);
-      const index = range ? range.index : Math.max(0, quill.getLength() - 1);
-      quill.insertText(index, linkText, 'user');
-      quill.setSelection(index + linkText.length);
-      if (quill.root?.innerHTML !== undefined) {
-        handleContentChange(quill.root.innerHTML, null, 'user');
-      }
-    } else {
-      handleContentChange((content || '') + ` ${linkText}`, null, 'user');
-    }
-    showToast(`✓ Inserted [[${elementTitle}]] into Canvas`);
-    AudioService.playTerminalBeep(1200, 0.02);
-  };
-
-  // Create new element right from within the book
-  const handleCreateNewElement = (type = 'Persona') => {
-    const newElem = {
-      id: uuidv4(),
-      title: 'New Element',
-      type: type,
-      fields: {
-        description: '',
-        oneLinePitch: ''
-      }
-    };
-    setEditingWikiElement(newElem);
-  };
-
   const handleSaveWikiElement = async (saved, options = {}) => {
     const res = await persistAdeElement({
       element: saved,
@@ -899,7 +866,7 @@ export default function StoryWeaver({
 
   // ── AI PAIR-AUTHORING ACTIONS ──
   const handleAiPairAuthor = async (actionType) => {
-    if (isAiWorking || !activeNode) return;
+    if (isStoryReadOnly || isAiWorking || !activeNode) return;
     setIsAiWorking(true);
     AudioService.playTerminalBeep(1000, 0.05);
 
@@ -967,6 +934,10 @@ ${plainText.slice(-600)}`;
 
   // State delta extraction into Cronicle
   const handleExtractDeltas = async () => {
+    if (isStoryReadOnly) {
+      showToast('Story is read-only');
+      return;
+    }
     const plainText = content.replace(/<[^>]+>/g, '');
     if (!plainText || plainText.length < 30) {
       showToast('Need at least a paragraph of prose to deduce deltas');
@@ -998,6 +969,7 @@ ${plainText.slice(-600)}`;
 
   // ── OUTLINE & BEATS GENERATION ──
   const handleGenerateOutline = async () => {
+    if (isStoryReadOnly || isGeneratingOutline) return;
     setIsGeneratingOutline(true);
     AudioService.playTerminalBeep(1100, 0.04);
     const prompt = `Synthesize a structured 3-act story outline with key narrative turning points for this RPG scenario:
@@ -1027,6 +999,7 @@ Act 3: Climax, Tactical Resolution & Aftermath`;
   };
 
   const handleGenerateBeats = async () => {
+    if (isStoryReadOnly || isGeneratingBeats) return;
     setIsGeneratingBeats(true);
     AudioService.playTerminalBeep(1100, 0.04);
     const prompt = `Generate a sequence of 4-6 sequential tactical scene beats for this scenario:
@@ -1147,27 +1120,6 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
     } finally {
       setIsGeneratingTacticalProse(false);
     }
-  };
-
-  // Insert a map event into the narrative manuscript
-  const handleLogEventToProse = (evt) => {
-    let summary = `Event: ${evt.type}`;
-    if (evt.type === 'stage-bulkhead-toggled') {
-      summary = `Bulkhead door ${evt.detail?.isOpen ? 'breached/opened' : 'sealed shut'}${evt.detail?.operativeId ? ` by operator ${evt.detail.operativeId}` : ''}`;
-    } else if (evt.type === 'story-foundry-node-triggered') {
-      summary = `Data terminal accessed: ${evt.detail?.action || 'Encrypted node decrypted'}`;
-    } else if (evt.type === 'stage-hazard-toggled') {
-      summary = `Environmental hazard emitter ${evt.detail?.isActive ? 'activated' : 'vented/deactivated'}`;
-    } else if (evt.type === 'omnicortex-loot-dispensed') {
-      summary = `Supply container unlocked, gear acquired (${evt.detail?.omnicortexGearId || 'salvage'})`;
-    } else if (evt.type === 'story-foundry-milestone-reached') {
-      const beatNum = (evt.detail?.beatIndex ?? 0) + 1;
-      const beatName = evt.detail?.beatText ? `"${evt.detail.beatText}"` : `Beat #${beatNum}`;
-      summary = `Tactical Milestone Beat #${beatNum} (${beatName}) ${evt.detail?.isCompleted ? 'Accomplished' : 'Reset'}`;
-    }
-    const formattedNote = `<p><em>[Tactical Event @ ${evt.time}]: ${summary}.</em></p>`;
-    handleContentChange((content ? content + '<br/>' : '') + formattedNote);
-    showToast('✓ Logged event into Manuscript');
   };
 
   // Synthesize rich immediate aftermath prose using AIME and inject directly into manuscript
@@ -1357,7 +1309,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </div>
                   <button
                     type="button"
-                    disabled={isAiWorking}
+                    disabled={isAiWorking || isStoryReadOnly}
                     onClick={() => {
                       setIsDocDropdownOpen(false);
                       handleAiPairAuthor('continue');
@@ -1369,7 +1321,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </button>
                   <button
                     type="button"
-                    disabled={isAiWorking}
+                    disabled={isAiWorking || isStoryReadOnly}
                     onClick={() => {
                       setIsDocDropdownOpen(false);
                       handleAiPairAuthor('expand');
@@ -1381,7 +1333,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </button>
                   <button
                     type="button"
-                    disabled={isAiWorking}
+                    disabled={isAiWorking || isStoryReadOnly}
                     onClick={() => {
                       setIsDocDropdownOpen(false);
                       handleAiPairAuthor('polish');
@@ -1393,7 +1345,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </button>
                   <button
                     type="button"
-                    disabled={isAiWorking}
+                    disabled={isAiWorking || isStoryReadOnly}
                     onClick={() => {
                       setIsDocDropdownOpen(false);
                       handleAiPairAuthor('reactive_flavor');
@@ -1405,7 +1357,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </button>
                   <button
                     type="button"
-                    disabled={isAiWorking}
+                    disabled={isAiWorking || isStoryReadOnly}
                     onClick={() => {
                       setIsDocDropdownOpen(false);
                       handleExtractDeltas();
@@ -1418,7 +1370,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   {linkedMap && (
                     <button
                       type="button"
-                      disabled={isGeneratingTacticalProse}
+                      disabled={isGeneratingTacticalProse || isStoryReadOnly}
                       onClick={() => {
                         setIsDocDropdownOpen(false);
                         handleGenerateTacticalProse();
@@ -1460,14 +1412,34 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                     <Download size={12} className="text-amber-400" />
                     <span>Export Markdown (.md)</span>
                   </button>
+                  <button
+                    type="button"
+                    disabled={isStoryReadOnly}
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      if (isStoryReadOnly) return;
+                      const quill = quillRef.current?.getEditor();
+                      const range = quill?.getSelection();
+                      const selected = range && range.length > 0 ? quill.getText(range.index, range.length) : '';
+                      const plainFallback = content.replace(/<[^>]+>/g, '').trim().slice(0, 600);
+                      setExtractInitialText((selected || plainFallback || '').trim());
+                      setIsExtractorModalOpen(true);
+                    }}
+                    className="w-full text-left px-3 py-1.5 hover:bg-purple-950/60 rounded-lg text-purple-300 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <Sparkles size={12} className="text-purple-400" />
+                    <span>Extract Element from Prose</span>
+                  </button>
                   {handleOpenAddModal && (
                     <button
                       type="button"
+                      disabled={isStoryReadOnly}
                       onClick={() => {
                         setIsDocDropdownOpen(false);
+                        if (isStoryReadOnly) return;
                         handleOpenAddModal(activeNode?.id);
                       }}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 rounded-lg text-cyan-300 flex items-center gap-2 cursor-pointer"
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 rounded-lg text-cyan-300 flex items-center gap-2 cursor-pointer disabled:opacity-50"
                     >
                       <Plus size={12} />
                       <span>+ Sub-Scenario</span>
@@ -1503,7 +1475,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                 ? 'bg-cyan-950/80 border-cyan-500/60 text-cyan-300 hover:bg-cyan-900/80 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
                 : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600'
             }`}
-            title={isTreeExpanded ? "Collapse Outliner Tree (Ctrl+[)" : "Expand Outliner Tree (Ctrl+[)"}
+            title={isTreeExpanded ? "Collapse Outliner Tree ([)" : "Expand Outliner Tree ([)"}
           >
             {isTreeExpanded ? <PanelLeftClose size={13} className="text-cyan-400" /> : <PanelLeft size={13} className="text-slate-400" />}
             <span className="text-[10px] hidden sm:inline">OUTLINER</span>
@@ -1741,11 +1713,13 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                 {diag.autoFixReplacement && (
                   <button
                     type="button"
+                    disabled={isStoryReadOnly}
                     onClick={() => {
+                      if (isStoryReadOnly) return;
                       const fixed = applyAutoFix(content, diag);
                       handleContentChange(fixed, null, 'user');
                     }}
-                    className="px-2 py-1 rounded bg-amber-600 hover:bg-amber-500 text-black font-bold text-[10px] shrink-0 cursor-pointer"
+                    className="px-2 py-1 rounded bg-amber-600 hover:bg-amber-500 text-black font-bold text-[10px] shrink-0 cursor-pointer disabled:opacity-50"
                   >
                     Auto-Fix
                   </button>
@@ -1981,6 +1955,11 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
               activePov={activePov}
               isStoryReadOnly={isStoryReadOnly}
               onApplySculpt={handleContentChange}
+              onExtractElement={(selectedText) => {
+                if (isStoryReadOnly) return;
+                setExtractInitialText((selectedText || '').trim());
+                setIsExtractorModalOpen(true);
+              }}
               onShowToast={showToast}
             />
           </div>
@@ -2014,8 +1993,12 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                 <div className="flex flex-wrap items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => handleOpenIdeationModal('Climax')}
-                    className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    disabled={isStoryReadOnly}
+                    onClick={() => {
+                      if (isStoryReadOnly) return;
+                      handleOpenIdeationModal('Climax');
+                    }}
+                    className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer disabled:opacity-50"
                     title="Human-guided Climax node ideation"
                   >
                     <span>⚡</span>
@@ -2023,8 +2006,12 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleOpenIdeationModal('Resolution')}
-                    className="px-3 py-1.5 bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-500 hover:to-cyan-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    disabled={isStoryReadOnly}
+                    onClick={() => {
+                      if (isStoryReadOnly) return;
+                      handleOpenIdeationModal('Resolution');
+                    }}
+                    className="px-3 py-1.5 bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-500 hover:to-cyan-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer disabled:opacity-50"
                     title="Human-guided Resolution node ideation"
                   >
                     <span>🎯</span>
@@ -2032,8 +2019,12 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleOpenIdeationModal('Tactical Crisis')}
-                    className="px-3 py-1.5 bg-purple-900/80 hover:bg-purple-800 border border-purple-500/50 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    disabled={isStoryReadOnly}
+                    onClick={() => {
+                      if (isStoryReadOnly) return;
+                      handleOpenIdeationModal('Tactical Crisis');
+                    }}
+                    className="px-3 py-1.5 bg-purple-900/80 hover:bg-purple-800 border border-purple-500/50 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer disabled:opacity-50"
                     title="Human-guided Crisis / Beat ideation"
                   >
                     <span>🛡️</span>
@@ -2055,7 +2046,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                 <button
                   type="button"
                   onClick={handleGenerateOutline}
-                  disabled={isGeneratingOutline}
+                  disabled={isGeneratingOutline || isStoryReadOnly}
                   className="px-3 py-1 bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-purple-200 text-xs font-bold rounded-lg uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {isGeneratingOutline ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
@@ -2065,7 +2056,9 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
 
               <textarea
                 value={outline}
+                readOnly={isStoryReadOnly}
                 onChange={e => {
+                  if (isStoryReadOnly) return;
                   setOutline(e.target.value);
                   if (activeNode?.id) {
                     updateStory(activeNode.id, {
@@ -2091,7 +2084,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                 <button
                   type="button"
                   onClick={handleGenerateBeats}
-                  disabled={isGeneratingBeats}
+                  disabled={isGeneratingBeats || isStoryReadOnly}
                   className="px-3 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-200 text-xs font-bold rounded-lg uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {isGeneratingBeats ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
@@ -2101,7 +2094,9 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
 
               <textarea
                 value={sceneBeats}
+                readOnly={isStoryReadOnly}
                 onChange={e => {
+                  if (isStoryReadOnly) return;
                   setSceneBeats(e.target.value);
                   if (activeNode?.id) {
                     updateStory(activeNode.id, {
@@ -2182,6 +2177,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
           activeOperative={characterData}
           activeNode={activeNode}
           elementsCatalog={elementsCatalog || []}
+          isStoryReadOnly={isStoryReadOnly}
           onInsertToProse={handleInsertEpistemicToProse}
         />
       )}
@@ -2191,6 +2187,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
         onClose={() => setIsRevisionDrawerOpen(false)}
         revisions={activeNode?.revisions || []}
         currentContent={content}
+        isStoryReadOnly={isStoryReadOnly}
         onCreateSnapshot={handleCreateRevisionSnapshot}
         onRestoreSnapshot={handleRestoreRevisionSnapshot}
       />

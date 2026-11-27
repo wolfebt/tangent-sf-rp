@@ -302,27 +302,19 @@ export const getTypePillStyle = (type) => {
     case 'Story Arc':
     case 'Adventure':
       return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
-    case 'Persona':
-      return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
-    case 'Scene':
-    case 'Setting':
     case 'Encounter':
       return 'bg-rose-500/20 text-rose-300 border-rose-500/40';
     case 'Faction':
-    case 'Philosophy':
       return 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40';
     case 'Metaphysics':
       return 'bg-violet-500/20 text-violet-300 border-violet-500/40';
-    case 'Property':
     case 'Item':
     case 'Clue':
     case 'Handout':
       return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
     case 'Map':
-    case 'World':
     case 'Universe':
       return 'bg-sky-500/20 text-sky-300 border-sky-500/40';
-    case 'Species':
     case 'Technology':
       return 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/40';
     default:
@@ -335,6 +327,22 @@ export const LOREBOOK_TRIGGER_SCHEMA_FIELDS = [
   { tab: 'Lorebook & Triggers', key: 'primaryTriggers', label: 'Primary Trigger Keys', type: 'text', placeholder: 'Comma-separated trigger words (e.g. Aethelgard, Citadel, Spire)...' },
   { tab: 'Lorebook & Triggers', key: 'triggerRegex', label: 'Trigger Regex Pattern', type: 'text', placeholder: 'Regex pattern with character codes (e.g. /\\b(AET-[0-9]{2,4}|aethelgard)\\b/i)...' },
   { tab: 'Lorebook & Triggers', key: 'secondaryTriggers', label: 'Secondary Associative Triggers', type: 'text', placeholder: 'Associative words detected in recursive passes (e.g. security gate, ion grid)...' },
+  {
+    tab: 'Lorebook & Triggers',
+    key: 'triggerLogic',
+    label: 'Selective Trigger Logic',
+    type: 'select',
+    options: ['OR', 'AND_ANY', 'AND_ALL', 'NOT_ANY', 'NOT_ALL'],
+    placeholder: 'OR'
+  },
+  {
+    tab: 'Lorebook & Triggers',
+    key: 'speakerFilter',
+    label: 'Speaker Context Filter',
+    type: 'select',
+    options: ['any', 'user_only', 'npc_only'],
+    placeholder: 'any'
+  },
   { tab: 'Lorebook & Triggers', key: 'loreScanPriority', label: 'Lore Injection Priority (1-100)', type: 'text', placeholder: '50' },
   { tab: 'Lorebook & Triggers', key: 'loreBudgetTokens', label: 'Max Element Token Budget', type: 'text', placeholder: '250' },
   { tab: 'Lorebook & Triggers', key: 'loreSuppressCondition', label: 'Story Flag Suppression (e.g. alarm_triggered == true)', type: 'text', placeholder: 'alarm_triggered == true' },
@@ -385,7 +393,7 @@ const PERSONA_MAKER_SCHEMA = [
   { tab: 'Core Traits', key: 'goalsMotivations', aliasKeys: ['char-motive', 'goals', 'primaryConflict'], label: 'Goals & Motivations', type: 'textarea', placeholder: 'Internal desires (Need) vs external objectives (Want)...' },
   { tab: 'Core Traits', key: 'strengthsFlaws', aliasKeys: ['positiveTraits', 'negativeTraits'], label: 'Strengths & Flaws', type: 'textarea', placeholder: 'Virtues, talents, psychological vulnerabilities, and moral failings...' },
   { tab: 'Core Traits', key: 'roleInStory', aliasKeys: ['role'], label: 'Role in Story', type: 'text', placeholder: 'Protagonist, Quest Giver, Antagonist, Fixer, Tethered Ally...' },
-  { tab: 'Core Traits', key: 'relationships', aliasKeys: ['keyRelationships', 'relationships'], label: 'Relationships', type: 'textarea', placeholder: 'Web of connections with allies, rivals, family, and factions...' },
+  { tab: 'Core Traits', key: 'relationships', aliasKeys: ['keyRelationships'], label: 'Relationships', type: 'textarea', placeholder: 'Web of connections with allies, rivals, family, and factions...' },
 
   // Tangent RPG System Extensions (Preserved)
   { tab: 'Modular Assembly (MCM)', key: 'mcmTier', label: 'Threat Tier (0-20)', type: 'text', placeholder: '1' },

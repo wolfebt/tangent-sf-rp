@@ -4,6 +4,8 @@ import { useStory } from '../../context/CampaignContext';
 import { useDBM } from '../../context/DBMContext';
 import { AudioService } from '../../services/audioService';
 import { VttModuleCompiler } from '../../services/vttModuleCompilerService';
+import { compileStage } from '../../pages/Foundry/Stage/vttModuleCompilerService';
+import { useStageStore } from '../../pages/Foundry/Stage/stageStore';
 import { deployCompiledPackage } from '../../utils/deployVttPackage';
 import { useUILayoutStore } from '../VTT/store/uiLayoutStore';
 import { AimeGuidanceButton } from './AimeGuidanceButton';
@@ -39,22 +41,92 @@ export const VttCompilerModal = ({
     return allMaps[0] || null;
   }, [activeScenario, mapsCatalog, universeState?.maps]);
 
-  // Execute compilation
+  // Detect matching StageManifest for manifest-only unified Stage compilation
+  const matchedStageManifest = useMemo(() => {
+    const storyStages = Array.isArray(universeState?.stages) ? universeState.stages : [];
+    const storeState = useStageStore.getState?.() || {};
+    const storyId = universeState?.id || 'default';
+    const bucket = Array.isArray(storeState.manifestsByStory?.[storyId]) ? storeState.manifestsByStory[storyId] : [];
+    const candidates = [
+      ...storyStages,
+      ...bucket,
+      ...(storeState.stageManifest?.mapId ? [storeState.stageManifest] : [])
+    ].filter((s) => s && s.id && s.mapId);
+
+    return (
+      candidates.find(
+        (s) =>
+          (activeScenario?.id &&
+            (s.storyId === activeScenario.id ||
+              (Array.isArray(s.scenarioIds) && s.scenarioIds.includes(activeScenario.id)))) ||
+          (activeMap?.id && s.mapId === activeMap.id)
+      ) || null
+    );
+  }, [universeState?.stages, universeState?.id, activeScenario?.id, activeMap?.id]);
+
+  // Execute compilation (preferring manifest-only Stage compiler when a StageManifest exists)
   const runCompilation = () => {
     setIsCompiling(true);
     AudioService.playTerminalBeep(1050, 0.06);
 
     try {
-      const result = VttModuleCompiler.compileScenarioForVtt({
-        scenario: activeScenario,
-        activeMap,
-        mapsCatalog,
-        elementsCatalog,
-        galleryModifiers,
-        universeState,
-        dbData
-      });
-      setCompiledResult(result);
+      if (matchedStageManifest) {
+        const compiledStage = compileStage({
+          manifest: matchedStageManifest,
+          mapAsset: activeMap,
+          storyAsset: activeScenario,
+          elementsCatalog: elementsCatalog || [],
+          universeState
+        });
+        const tokens = compiledStage?.map?.tokens || [];
+        const objects = compiledStage?.map?.objects || [];
+        const walls = compiledStage?.map?.walls || activeMap?.walls || [];
+        const scriptedNpcs = tokens.filter((t) => Boolean(t?.script || t?.behaviorProfile));
+        const reactiveTraps = objects.filter((o) => Boolean(o?.isTrap || o?.isTriggerZone));
+        const activeModIds = compiledStage?.environment?.activeModifiers || [];
+        const resolvedModifiers = (galleryModifiers || []).map((m) => ({
+          ...m,
+          isActive: activeModIds.includes(m.id) ? true : m.isActive
+        }));
+
+        setCompiledResult({
+          isStageManifestMode: true,
+          stageManifest: matchedStageManifest,
+          compiledStage,
+          package: {
+            manifest: {
+              id: matchedStageManifest.id,
+              title: compiledStage.title || matchedStageManifest.title || activeScenario?.title || 'Stage Manifest',
+              stats: {
+                totalTokens: tokens.length,
+                scriptedNpcs: scriptedNpcs.length,
+                reactiveTraps: reactiveTraps.length,
+                wallVectors: walls.length,
+                totalModifiers: resolvedModifiers.length
+              }
+            },
+            automations: { scriptedNpcs },
+            gallery: { modifiers: resolvedModifiers },
+            compiledStage
+          },
+          diagnostics: {
+            isValid: compiledStage?.validation?.valid ?? true,
+            errors: compiledStage?.validation?.errors || [],
+            warnings: compiledStage?.validation?.warnings || []
+          }
+        });
+      } else {
+        const result = VttModuleCompiler.compileScenarioForVtt({
+          scenario: activeScenario,
+          activeMap,
+          mapsCatalog,
+          elementsCatalog,
+          galleryModifiers,
+          universeState,
+          dbData
+        });
+        setCompiledResult(result);
+      }
     } catch (err) {
       console.error('VTT Compilation Error:', err);
       setCompiledResult({
@@ -74,7 +146,7 @@ export const VttCompilerModal = ({
     if (isOpen) {
       runCompilation();
     }
-  }, [isOpen, activeScenario, activeMap]);
+  }, [isOpen, activeScenario, activeMap, matchedStageManifest]);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -106,6 +178,18 @@ export const VttCompilerModal = ({
     if (!diagnostics?.isValid) return;
 
     AudioService.playCriticalChime(true);
+
+    if (compiledResult?.isStageManifestMode && compiledResult?.stageManifest?.id) {
+      const stId = compiledResult.stageManifest.id;
+      useStageStore.getState()?.selectStage?.(stId);
+      useUILayoutStore.getState().setLastCompiledPackage(null);
+      setDeployStatus(`✅ Manifest "${compiledResult.stageManifest.title || stId}" ready on Tactical Stage`);
+      setTimeout(() => {
+        onClose();
+        navigate(`/stage?stageId=${encodeURIComponent(stId)}&mapId=${encodeURIComponent(activeMap.id)}&scenarioId=${encodeURIComponent(activeScenario?.id || '')}`);
+      }, 600);
+      return;
+    }
 
     // Deploy compiled tokens and objects directly into engine state and map once
     const { tokensDeployed, objectsDeployed } = deployCompiledPackage(
@@ -362,6 +446,20 @@ export const VttCompilerModal = ({
             </button>
 
             <div className="flex items-center gap-2">
+              {compiledResult?.isStageManifestMode && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const stId = compiledResult.stageManifest?.id;
+                    if (stId) useStageStore.getState()?.selectStage?.(stId);
+                    onClose?.();
+                    navigate(`/foundry?view=stage&tab=run`);
+                  }}
+                  className="px-3 py-1.5 bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-200 font-mono text-xs font-bold uppercase rounded-xl transition-all cursor-pointer"
+                >
+                  Open in Stage Director
+                </button>
+              )}
               <button
                 type="button"
                 onClick={handleExportJson}

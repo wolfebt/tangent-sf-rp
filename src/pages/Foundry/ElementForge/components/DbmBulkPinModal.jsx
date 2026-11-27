@@ -24,13 +24,14 @@ export function DbmBulkPinModal({
   const filteredItems = matchingDbmItems.filter(
     (item) => !q || String(item.title || item.name || '').toLowerCase().includes(q)
   );
+  const getDbmItemKey = (item) => `${item?.dbmCategory || 'dbm'}::${item?.id || ''}`;
 
   const handleToggleSelectAll = () => {
-    const visibleIds = filteredItems.map((i) => i.id);
-    if (selectedIds.size === visibleIds.length && visibleIds.length > 0) {
+    const visibleKeys = filteredItems.map(getDbmItemKey);
+    if (selectedIds.size > 0) {
       onChangeSelectedIds?.(new Set());
     } else {
-      onChangeSelectedIds?.(new Set(visibleIds));
+      onChangeSelectedIds?.(new Set(visibleKeys));
     }
   };
 
@@ -96,19 +97,20 @@ export function DbmBulkPinModal({
         {/* Items List */}
         <div className="flex-1 overflow-y-auto space-y-2 pr-1 scrollbar-thin max-h-[50vh]">
           {filteredItems.map((item) => {
-            const isSelected = selectedIds.has(item.id);
+            const itemKey = getDbmItemKey(item);
+            const isSelected = selectedIds.has(itemKey);
             const alreadyPinned = (elementsCatalog || []).some(
               (el) => el.fields?.dbmRef === item.id || el.id === `elem_dbm_${item.id}` || el.id === `elem_dbm_${item.dbmCategory}_${item.id}`
             );
 
             return (
               <div
-                key={`${item.dbmCategory || 'dbm'}_${item.id}`}
+                key={itemKey}
                 onClick={() => {
                   onChangeSelectedIds?.((prev) => {
                     const next = new Set(prev);
-                    if (next.has(item.id)) next.delete(item.id);
-                    else next.add(item.id);
+                    if (next.has(itemKey)) next.delete(itemKey);
+                    else next.add(itemKey);
                     return next;
                   });
                 }}

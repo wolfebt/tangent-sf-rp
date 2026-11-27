@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useDirtyModalClose } from '../../../../hooks/useDirtyModalClose';
 
 export default function NewStoryModal({ isOpen, onClose, onCreateStory }) {
   const [newStoryTitle, setNewStoryTitle] = useState('New Story Module');
+
+  useEffect(() => {
+    if (isOpen) {
+      setNewStoryTitle('New Story Module');
+    }
+  }, [isOpen]);
 
   const isDirty = Boolean(newStoryTitle.trim() && newStoryTitle.trim() !== 'New Story Module');
 

@@ -87,14 +87,28 @@ export const htmlToMarkdown = (htmlStr) => {
 };
 
 // Export Element as JSON
-export const exportElementJSON = (targetNode, universeState) => {
+export const exportElementJSON = (targetNode, universeState, options = {}) => {
   if (!targetNode) return;
-  const linkedMapObj = targetNode.mapId ? universeState?.maps?.find(m => m.id === targetNode.mapId) : null;
+  const operatorSafe = Boolean(options?.operatorSafe);
+  const sanitizedElement = operatorSafe ? sanitizeScenarioForOperator(targetNode) : targetNode;
+  const linkedMapRaw = targetNode.mapId ? universeState?.maps?.find(m => m.id === targetNode.mapId) : null;
+  const linkedMapObj = linkedMapRaw && operatorSafe
+    ? {
+        ...linkedMapRaw,
+        gmNotes: undefined,
+        tokens: Array.isArray(linkedMapRaw.tokens)
+          ? linkedMapRaw.tokens.filter(t => !t?.is_hidden && !t?.isHidden && !t?.isGmOnly)
+          : [],
+        objects: Array.isArray(linkedMapRaw.objects)
+          ? linkedMapRaw.objects.filter(o => !o?.isHidden && !o?.isGmOnly)
+          : []
+      }
+    : linkedMapRaw;
 
   const exportPayload = {
     type: "TangentStoryElement",
     version: "2.0",
-    element: targetNode,
+    element: sanitizedElement,
     linkedMap: linkedMapObj || null
   };
 
@@ -103,7 +117,7 @@ export const exportElementJSON = (targetNode, universeState) => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = formatExportFilename(targetNode.title, targetNode.type, 'json');
+  a.download = formatExportFilename(sanitizedElement.title, sanitizedElement.type, 'json');
   a.click();
   URL.revokeObjectURL(url);
 };

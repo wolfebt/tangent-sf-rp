@@ -36,7 +36,8 @@ import {
   Cpu,
   Blocks,
   PenTool,
-  MapPin
+  MapPin,
+  BookOpen
 } from 'lucide-react';
 import AudioService from '../../../../services/audioService';
 import { VttEventBus } from '../../../../utils/vttEventBus';
@@ -81,6 +82,8 @@ export const ArchitectConsoleRail = ({
   setTextSize,
   fogEnabled,
   setFogEnabled,
+  fogBrushMode = 'paint',
+  setFogBrushMode,
   currentMapScale = 'Planetary',
   customAssets = { terrains: [], objects: [] },
   selectedWallType = 'solid',
@@ -121,6 +124,7 @@ export const ArchitectConsoleRail = ({
   // Studio Drawer Launchers
   onOpenAssetManager,
   onOpenHeroDrawer,
+  onOpenStoryDrawer,
   onOpenOmnicortexDrawer,
   onOpenLandmassGenerator,
   onOpenPcgStudio,
@@ -310,6 +314,8 @@ export const ArchitectConsoleRail = ({
         <ArchitectEnvironmentPanel
           onApplyEnv={handleApplyEnv}
           onBatchAction={handleBatch}
+          activeSensorMode={activeSensorMode}
+          setActiveSensorMode={setActiveSensorMode}
         />
       );
     }
@@ -318,6 +324,11 @@ export const ArchitectConsoleRail = ({
       <ArchitectToolOptionsPanels
         activeTool={activeTool}
         currentMapScale={currentMapScale}
+        selectedCatalogScale={selectedCatalogScale}
+        setSelectedCatalogScale={setSelectedCatalogScale}
+        activeCategories={activeCategories}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
         customAssets={customAssets}
         selectedWallType={selectedWallType}
         setSelectedWallType={setSelectedWallType}
@@ -362,6 +373,8 @@ export const ArchitectConsoleRail = ({
         setMeasurementUnit={setMeasurementUnit}
         fogEnabled={fogEnabled}
         setFogEnabled={setFogEnabled}
+        fogBrushMode={fogBrushMode}
+        setFogBrushMode={setFogBrushMode}
         onOpenAssetManager={onOpenAssetManager}
         onOpenHeroDrawer={onOpenHeroDrawer}
         onOpenOmnicortexDrawer={onOpenOmnicortexDrawer}
@@ -586,6 +599,17 @@ export const ArchitectConsoleRail = ({
               title="Folio Heroes Roster"
             >
               <Users size={17} />
+            </button>
+          )}
+
+          {onOpenStoryDrawer && (
+            <button
+              type="button"
+              onClick={onOpenStoryDrawer}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-emerald-300 hover:bg-emerald-950/40 hover:text-emerald-200 border border-transparent hover:border-emerald-500/40 transition-all cursor-pointer"
+              title="Story Elements Drawer"
+            >
+              <BookOpen size={17} />
             </button>
           )}
 

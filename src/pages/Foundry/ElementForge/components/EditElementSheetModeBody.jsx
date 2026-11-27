@@ -239,6 +239,12 @@ export default function EditElementSheetModeBody({
             type="url"
             value={urlInputValue}
             onChange={(e) => setUrlInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleUrlSubmit(e);
+              }
+            }}
             placeholder="https://example.com/image.jpg"
             className="flex-1 bg-slate-900 border border-slate-700 text-xs text-white p-2 rounded outline-none focus:border-cyan-400 font-mono"
           />

@@ -1533,6 +1533,8 @@ Respond in 2-3 concise in-character sentences.`;
               setActiveMapId={setActiveMapId}
               addMap={addMap}
               handleCreateNewMapForElement={handleCreateNewMapForElement}
+              perspectiveMode={isOperatorSafe ? 'operator' : perspectiveMode}
+              isStoryReadOnly={isStoryReadOnly}
             />
           </div>
         )}
@@ -2245,6 +2247,8 @@ Respond in 2-3 concise in-character sentences.`;
                 setActiveMapId={setActiveMapId}
                 addMap={addMap}
                 handleCreateNewMapForElement={handleCreateNewMapForElement}
+                perspectiveMode={isOperatorSafe ? 'operator' : perspectiveMode}
+                isStoryReadOnly={isStoryReadOnly}
               />
             </div>
           </Split>
@@ -2387,6 +2391,11 @@ Respond in 2-3 concise in-character sentences.`;
         isOpen={!!selectedLoreEntry}
         onClose={() => setSelectedLoreEntry(null)}
         entry={selectedLoreEntry}
+        onNavigateToElement={(elId) => {
+          setSelectedLoreEntry(null);
+          const match = (elementsCatalog || []).find((e) => e.id === elId);
+          handleOpenElementEditor(match || { id: elId });
+        }}
         onEditElement={handleOpenElementEditor}
       />
 

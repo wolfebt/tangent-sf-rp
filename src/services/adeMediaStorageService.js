@@ -405,8 +405,25 @@ export async function offloadElementBinaryFields(
     const nextFields = { ...nextElem.fields };
     if (nextFields.imageUrl) nextFields.imageUrl = await maybeOffload(nextFields.imageUrl, 'elements', `${nextElem.id || 'elem'}_fimg`);
     if (nextFields.portraitUrl) nextFields.portraitUrl = await maybeOffload(nextFields.portraitUrl, 'elements', `${nextElem.id || 'elem'}_fportrait`);
+    if (nextFields.portrait) nextFields.portrait = await maybeOffload(nextFields.portrait, 'elements', `${nextElem.id || 'elem'}_fportrait2`);
+    if (nextFields.avatarUrl) nextFields.avatarUrl = await maybeOffload(nextFields.avatarUrl, 'elements', `${nextElem.id || 'elem'}_favatar`);
     if (nextFields.tokenUrl) nextFields.tokenUrl = await maybeOffload(nextFields.tokenUrl, 'tokens', `${nextElem.id || 'elem'}_ftoken`);
+    if (nextFields.token) nextFields.token = await maybeOffload(nextFields.token, 'tokens', `${nextElem.id || 'elem'}_ftoken2`);
     nextElem.fields = nextFields;
+  }
+  if (typeof nextElem.content === 'string' && nextElem.content.includes('data:image/')) {
+    const matches = Array.from(nextElem.content.matchAll(/src=["'](data:image\/[^"']+)["']/gi));
+    if (matches.length > 0) {
+      let updatedHtml = nextElem.content;
+      for (let idx = 0; idx < matches.length; idx++) {
+        const rawUri = matches[idx][1];
+        const uploadedUrl = await maybeOffload(rawUri, 'elements', `${nextElem.id || 'elem'}_inline_${idx}`);
+        if (uploadedUrl && uploadedUrl !== rawUri) {
+          updatedHtml = updatedHtml.split(rawUri).join(uploadedUrl);
+        }
+      }
+      nextElem.content = updatedHtml;
+    }
   }
   return nextElem;
 }

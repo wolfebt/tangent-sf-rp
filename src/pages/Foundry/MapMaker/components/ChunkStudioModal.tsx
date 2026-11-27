@@ -6,7 +6,7 @@
  * and Live Dihedral (D4) 90° CW North-Side Rotation & Horizontal/Vertical Flip verification.
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import {
   Blocks,
   RotateCw,
@@ -28,7 +28,8 @@ import {
   X,
   ArrowRight,
   Sparkles,
-  RefreshCw
+  RefreshCw,
+  Undo2
 } from 'lucide-react';
 import {
   type MapChunkBlueprint,
@@ -251,6 +252,46 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
   const [previewFlipX, setPreviewFlipX] = useState<boolean>(false);
   const [previewFlipY, setPreviewFlipY] = useState<boolean>(false);
 
+  // Tile Undo & Drag-Painting State
+  const [chunkUndoStack, setChunkUndoStack] = useState<MapChunkBlueprint[]>([]);
+  const isCellDraggingRef = useRef<boolean>(false);
+
+  const pushChunkUndo = useCallback((snapshotSource?: MapChunkBlueprint) => {
+    const src = snapshotSource || workingChunk;
+    const copy = structuredClone ? structuredClone(src) : JSON.parse(JSON.stringify(src));
+    setChunkUndoStack((prev) => [...prev.slice(-29), copy]);
+  }, [workingChunk]);
+
+  const handleChunkUndo = useCallback(() => {
+    setChunkUndoStack((prev) => {
+      if (prev.length === 0) return prev;
+      const previous = prev[prev.length - 1]!;
+      setWorkingChunk(previous);
+      return prev.slice(0, -1);
+    });
+  }, []);
+
+  useEffect(() => {
+    const endCellDrag = () => {
+      isCellDraggingRef.current = false;
+    };
+    const handleChunkKeyDown = (e: KeyboardEvent) => {
+      if (!isOpen && !isEmbeddedTab) return;
+      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase() || '';
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || (e.target as HTMLElement)?.isContentEditable) return;
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z') {
+        e.preventDefault();
+        handleChunkUndo();
+      }
+    };
+    window.addEventListener('mouseup', endCellDrag);
+    window.addEventListener('keydown', handleChunkKeyDown);
+    return () => {
+      window.removeEventListener('mouseup', endCellDrag);
+      window.removeEventListener('keydown', handleChunkKeyDown);
+    };
+  }, [isOpen, isEmbeddedTab, handleChunkUndo]);
+
   const filteredCatalog = useMemo(() => {
     return allCatalogChunks.filter((c) => {
       if (categoryFilter !== 'All' && c.category !== categoryFilter) return false;
@@ -283,6 +324,7 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
   const handleSelectCatalogChunk = (chunk: MapChunkBlueprint) => {
     const clone = structuredClone ? structuredClone(chunk) : JSON.parse(JSON.stringify(chunk));
     setWorkingChunk(clone);
+    setChunkUndoStack([]);
     setSelectedPointId(clone.constructionPoints[0]?.id || null);
     setSelectedAssetId(null);
     setPreviewRotationDeg(0);
@@ -327,6 +369,7 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
       isCustom: true
     });
     setWorkingChunk(fresh);
+    setChunkUndoStack([]);
     setSelectedPointId(null);
     setSelectedAssetId(null);
     setPreviewRotationDeg(0);
@@ -1333,6 +1376,18 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                   ))}
                 </select>
               )}
+
+              {chunkUndoStack.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleChunkUndo}
+                  className="flex items-center space-x-1 px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs cursor-pointer"
+                  title="Undo Chunk Edit (Ctrl+Z)"
+                >
+                  <Undo2 className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Undo ({chunkUndoStack.length})</span>
+                </button>
+              )}
             </div>
           </div>
 
@@ -1529,7 +1584,23 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                     return (
                       <g
                         key={`cell_${c}_${r}`}
-                        onClick={(e) => handleCellClick(c, r, e)}
+                        onMouseDown={(e) => {
+                          if (activeTool === 'tile') {
+                            isCellDraggingRef.current = true;
+                            pushChunkUndo();
+                            handleCellClick(c, r, e);
+                          }
+                        }}
+                        onMouseEnter={(e) => {
+                          if (activeTool === 'tile' && isCellDraggingRef.current) {
+                            handleCellClick(c, r, e);
+                          }
+                        }}
+                        onClick={(e) => {
+                          if (activeTool !== 'tile') {
+                            handleCellClick(c, r, e);
+                          }
+                        }}
                         className="cursor-pointer group"
                       >
                         <rect

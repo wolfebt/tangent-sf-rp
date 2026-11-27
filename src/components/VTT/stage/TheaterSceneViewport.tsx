@@ -12,6 +12,7 @@ import { VttEventBus } from '../../../utils/vttEventBus';
 import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 import { useAdeStore } from '../../../pages/Foundry/store/adeStore';
 import { AudioService } from '../../../services/audioService';
+import { normalizeElementType } from '../../../pages/Foundry/ElementForge/elementSchemas';
 
 export interface TheaterSceneViewportProps {
   currentMap?: any;
@@ -36,6 +37,9 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
   const [spotlightId, setSpotlightId] = useState<string | null>(null);
   const [lastCheckResult, setLastCheckResult] = useState<string | null>(null);
   const [showReadAloud, setShowReadAloud] = useState<boolean>(true);
+  const [isNarrationExpanded, setIsNarrationExpanded] = useState<boolean>(false);
+  const [quickRollMod, setQuickRollMod] = useState<number>(4);
+  const [quickRollCr, setQuickRollCr] = useState<number>(15);
 
   // Sync Theater Spotlight & Teleprompter visibility via Yjs session_meta
   useEffect(() => {
@@ -94,17 +98,16 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
       activeScenario?.summary ||
       activeScenario?.content ||
       'Systems humming softly along the bulkheads as emergency amber strobes sweep across the observation deck.';
-    return String(raw).replace(/<[^>]+>/g, '').slice(0, 650);
+    return String(raw).replace(/<[^>]+>/g, '');
   }, [activeScenario]);
 
   const spotlightCast = useMemo(() => {
     const visibleTokens = isArchitect
       ? tokens
       : tokens.filter((t: any) => !t?.is_hidden && !t?.isHidden && !t?.isGmOnly && t?.isPlayerVisible !== false);
-    if (visibleTokens.length > 0) return visibleTokens.slice(0, 6);
+    if (visibleTokens.length > 0) return visibleTokens;
     return (elementsCatalog || [])
-      .filter((e: any) => e?.type === 'Persona' && (isArchitect || (!e?.isHidden && !e?.isGmOnly && e?.fields?.playerVisible !== false)))
-      .slice(0, 6)
+      .filter((e: any) => normalizeElementType(e?.type) === 'Persona' && (isArchitect || (!e?.isHidden && !e?.isGmOnly && e?.fields?.playerVisible !== false)))
       .map((e: any) => ({
         id: e.id,
         name: e.title || e.name || 'Operative',
@@ -115,8 +118,10 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
   }, [tokens, elementsCatalog, isArchitect]);
 
   const handleQuick2d10 = () => {
-    const res = resolveTangent2d10Check({ modifier: 4, targetCR: 15, isOpposed: false });
-    const msg = `2d10 (${res.d1}+${res.d2}) + 4 = ${res.total} vs CR 15 — ${res.isCrit ? 'CRIT!' : res.isFumble ? 'GLITCH' : res.isSuccess ? 'SUCCESS' : 'MISS'}`;
+    const mod = Number.isFinite(quickRollMod) ? quickRollMod : 0;
+    const cr = Number.isFinite(quickRollCr) ? quickRollCr : 15;
+    const res = resolveTangent2d10Check({ modifier: mod, targetCR: cr, isOpposed: false });
+    const msg = `2d10 (${res.d1}+${res.d2}) ${mod >= 0 ? `+ ${mod}` : `- ${Math.abs(mod)}`} = ${res.total} vs CR ${cr} — ${res.isCrit ? 'CRIT!' : res.isFumble ? 'GLITCH' : res.isSuccess ? 'SUCCESS' : 'MISS'}`;
     setLastCheckResult(msg);
     const card = {
       id: `theater_roll_${Date.now()}`,
@@ -129,9 +134,9 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
       diceBreakdown: {
         d1: res.d1,
         d2: res.d2,
-        modifier: 4,
+        modifier: mod,
         total: res.total,
-        dcOrCr: 15,
+        dcOrCr: cr,
         outcome: res.isCrit ? 'CRIT' : res.isFumble ? 'GLITCH' : res.isSuccess ? 'SUCCESS' : 'MISS',
         crit: res.isCrit,
         fumble: res.isFumble
@@ -199,14 +204,36 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
             <span>{showReadAloud ? 'Hide Teleprompter' : 'Show Teleprompter'}</span>
           </button>
 
-          <button
-            type="button"
-            onClick={handleQuick2d10}
-            className="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer"
-          >
-            <Dices size={12} />
-            <span>Quick 2d10</span>
-          </button>
+          <div className="flex items-center gap-1.5 bg-slate-950/85 border border-emerald-500/40 rounded-xl px-2 py-1">
+            <label className="text-[10px] text-slate-400 flex items-center gap-1">
+              <span>Mod</span>
+              <input
+                type="number"
+                aria-label="Quick 2d10 Modifier"
+                value={quickRollMod}
+                onChange={(e) => setQuickRollMod(parseInt(e.target.value, 10) || 0)}
+                className="w-10 bg-slate-900 border border-slate-700 rounded px-1 py-0.5 text-[11px] text-emerald-300 text-center"
+              />
+            </label>
+            <label className="text-[10px] text-slate-400 flex items-center gap-1">
+              <span>CR</span>
+              <input
+                type="number"
+                aria-label="Quick 2d10 Target CR"
+                value={quickRollCr}
+                onChange={(e) => setQuickRollCr(parseInt(e.target.value, 10) || 15)}
+                className="w-10 bg-slate-900 border border-slate-700 rounded px-1 py-0.5 text-[11px] text-amber-300 text-center"
+              />
+            </label>
+            <button
+              type="button"
+              onClick={handleQuick2d10}
+              className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer"
+            >
+              <Dices size={12} />
+              <span>Quick 2d10</span>
+            </button>
+          </div>
 
           {onSwitchMode && (
             <button
@@ -225,12 +252,25 @@ export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
       <div className="relative z-10 px-6 flex flex-col items-center justify-center gap-4 max-w-3xl mx-auto">
         {showReadAloud && (
           <div className="w-full p-5 rounded-2xl bg-slate-950/80 backdrop-blur-xl border border-amber-500/35 shadow-[0_0_40px_rgba(0,0,0,0.65)]">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-amber-400 mb-2">
-              Scene Narration · Read-Aloud Box
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-[10px] font-mono uppercase tracking-widest text-amber-400">
+                Scene Narration · Read-Aloud Box
+              </div>
+              {readAloudText.length > 300 && (
+                <button
+                  type="button"
+                  onClick={() => setIsNarrationExpanded((v) => !v)}
+                  className="text-[10px] font-mono text-amber-300 hover:text-amber-200 underline cursor-pointer"
+                >
+                  {isNarrationExpanded ? 'Collapse' : 'Expand'}
+                </button>
+              )}
             </div>
-            <p className="text-base md:text-lg font-serif italic text-slate-100 leading-relaxed">
-              &ldquo;{readAloudText}&rdquo;
-            </p>
+            <div className={isNarrationExpanded ? 'max-h-72 overflow-y-auto pr-1' : 'max-h-48 overflow-y-auto pr-1'}>
+              <p className="text-base md:text-lg font-serif italic text-slate-100 leading-relaxed">
+                &ldquo;{readAloudText}&rdquo;
+              </p>
+            </div>
           </div>
         )}
 

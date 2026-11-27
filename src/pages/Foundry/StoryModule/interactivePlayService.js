@@ -214,9 +214,14 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
       'attr-will': calculateSubAttrBase(attrs['attr-wisdom']),
       'attr-etiquette': calculateSubAttrBase(attrs['attr-charisma'])
     },
+    isSynthetic: /android|synth|mech|bot|drone/i.test(`${entry.category || ''} ${entry.type || ''} ${entry.name || ''}`),
     vitals: {
       health: 30,
       maxHealth: 30,
+      vitality: 30,
+      maxVitality: 30,
+      structure: 30,
+      maxStructure: 30,
       shields: 15,
       maxShields: 15,
       strain: 0,
@@ -356,6 +361,31 @@ export const loadDatabaseModifiers = ({
         value: effectVal,
         type: effectVal >= 0 ? 'bonus' : 'penalty',
         description: gm.description || gm.effects?.customRuleText || `Gallery modifier: ${gm.name}`
+      });
+    }
+  }
+
+  // 3. Active Folio Character Conditions / Tracked Modifiers
+  const charConditions = [
+    ...(Array.isArray(activeCharacter?.active_conditions) ? activeCharacter.active_conditions : []),
+    ...(Array.isArray(activeCharacter?.['char-conditions']) ? activeCharacter['char-conditions'] : []),
+    ...(Array.isArray(activeCharacter?.tracked_modifications) ? activeCharacter.tracked_modifications : [])
+  ];
+  for (const cond of charConditions) {
+    if (!cond) continue;
+    const label = typeof cond === 'string' ? cond : (cond.label || cond.name || '');
+    if (!label) continue;
+    const id = (typeof cond === 'object' && cond.id) ? cond.id : `folio_cond_${label.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`;
+    if (!seenIds.has(id)) {
+      seenIds.add(id);
+      const val = typeof cond === 'object' && Number.isFinite(Number(cond.value)) ? Number(cond.value) : 0;
+      result.push({
+        id,
+        name: label,
+        target: (typeof cond === 'object' && cond.field) || 'all',
+        value: val,
+        type: val < 0 ? 'penalty' : 'bonus',
+        description: (typeof cond === 'object' && cond.reason) || `Active character status: ${label}`
       });
     }
   }

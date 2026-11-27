@@ -93,14 +93,45 @@ export const ADENavRail = ({
   const activeElementType = normalizeElementType(propActiveElementType || storeActiveElementType || ELEMENT_TYPES[0]);
   const liveFolioList = Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : EMPTY_ARRAY);
 
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [internalMobileOpen, setInternalMobileOpen] = useState(false);
+  const isMobileOpen = propIsMobileOpen !== undefined ? propIsMobileOpen : internalMobileOpen;
+
+  const closeMobileRail = () => {
+    setInternalMobileOpen(false);
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  useEffect(() => {
+    const handleToggleMobileRail = () => setInternalMobileOpen(prev => !prev);
+    window.addEventListener('toggle-ade-mobile-rail', handleToggleMobileRail);
+    return () => window.removeEventListener('toggle-ade-mobile-rail', handleToggleMobileRail);
+  }, []);
+  const [isPinned, setIsPinned] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      return localStorage.getItem('tangent_ade_nav_pinned') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [isWeaverBranchesOpen, setIsWeaverBranchesOpen] = useState(true);
+  const [isElementsBranchesOpen, setIsElementsBranchesOpen] = useState(true);
+
+  const isExpanded = isPinned || isHovered || isMobileOpen;
+  const shouldComputeUnifiedCatalog = isExpanded || activeView === 'elements';
+
   const unifiedCatalog = useMemo(
     () =>
-      buildUnifiedAdeCatalog({
-        elementsCatalog: elementsCatalog || EMPTY_ARRAY,
-        dbData: dbData || EMPTY_OBJ,
-        folioRoster: liveFolioList
-      }),
-    [elementsCatalog, dbData, liveFolioList]
+      shouldComputeUnifiedCatalog
+        ? buildUnifiedAdeCatalog({
+            elementsCatalog: elementsCatalog || EMPTY_ARRAY,
+            dbData: dbData || EMPTY_OBJ,
+            folioRoster: liveFolioList
+          })
+        : EMPTY_ARRAY,
+    [shouldComputeUnifiedCatalog, elementsCatalog, dbData, liveFolioList]
   );
 
   const { categoryCountsMap, propertySubCounts, metaphysicsSubCounts, personaSubCounts, unifiedTotalCount } = useMemo(() => {
@@ -133,32 +164,6 @@ export const ADENavRail = ({
   }, [unifiedCatalog]);
 
   const getCategoryAssetCount = (elType) => categoryCountsMap[elType] || 0;
-
-  const [hoveredItem, setHoveredItem] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const [internalMobileOpen, setInternalMobileOpen] = useState(false);
-  const isMobileOpen = propIsMobileOpen !== undefined ? propIsMobileOpen : internalMobileOpen;
-
-  const closeMobileRail = () => {
-    setInternalMobileOpen(false);
-    if (onCloseMobile) onCloseMobile();
-  };
-
-  useEffect(() => {
-    const handleToggleMobileRail = () => setInternalMobileOpen(prev => !prev);
-    window.addEventListener('toggle-ade-mobile-rail', handleToggleMobileRail);
-    return () => window.removeEventListener('toggle-ade-mobile-rail', handleToggleMobileRail);
-  }, []);
-  const [isPinned, setIsPinned] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    try {
-      return localStorage.getItem('tangent_ade_nav_pinned') === 'true';
-    } catch {
-      return false;
-    }
-  });
-  const [isWeaverBranchesOpen, setIsWeaverBranchesOpen] = useState(true);
-  const [isElementsBranchesOpen, setIsElementsBranchesOpen] = useState(true);
 
   const normalizedWeaverTab = (() => {
     const t = activeScenarioWorkspaceTab || 'write';
@@ -220,8 +225,6 @@ export const ADENavRail = ({
       localStorage.setItem('tangent_ade_nav_pinned', String(next));
     } catch {}
   };
-
-  const isExpanded = isPinned || isHovered || isMobileOpen;
 
   const totalGalleryCount = elementsCount + mapsCount + modifiersCount;
 

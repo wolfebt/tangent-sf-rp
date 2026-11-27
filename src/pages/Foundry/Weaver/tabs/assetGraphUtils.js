@@ -510,9 +510,9 @@ export function discoverSmartLoreSuggestions({ catalogAssets = [], confirmedConn
       suggestedPairs.add(pKey);
 
       let inferredType = 'allied';
-      if (target.category === 'Location') inferredType = 'located_in';
+      if (source.category === 'Faction' && target.category === 'Location') inferredType = 'custodian_of';
+      else if (target.category === 'Location') inferredType = 'located_in';
       else if (target.category === 'Faction') inferredType = 'member_of';
-      else if (source.category === 'Faction' && target.category === 'Location') inferredType = 'custodian_of';
 
       suggestions.push({
         id: `suggest_${source.id}_${target.id}`,

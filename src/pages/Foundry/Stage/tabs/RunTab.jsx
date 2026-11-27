@@ -1,28 +1,28 @@
 /**
  * @file RunTab.jsx
  * @description In-Situ VTT Event Runner & Compiler Execution Tab for STAGE.
- * Allows the architect to compile the manifest, adjust story environmentals and variables live,
- * dispatch sensory read-alouds, and interact with the embedded WebGPU stage canvas.
+ * Allows the architect to compile the manifest, inspect diagnostics, adjust story environmentals
+ * and variables live, dispatch sensory read-alouds, and interact with TripartiteStageView.
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { 
-  Play, 
-  Sparkles, 
-  Send, 
-  Sun, 
-  Moon, 
-  CloudRain, 
-  Volume2, 
-  ExternalLink, 
-  CheckCircle2, 
+import {
+  Sparkles,
+  Send,
+  Sun,
+  Moon,
+  CheckCircle2,
   AlertCircle,
   RefreshCw,
-  Radio,
-  Sliders,
-  Maximize2
+  Maximize2,
+  ChevronDown,
+  ChevronUp,
+  Plus,
+  Trash2,
+  Flag
 } from 'lucide-react';
 import { useStageStore } from '../stageStore';
+import { useAdeStore } from '../../store/adeStore';
 import { useMapAssets, useStoryAssets, useElementAssets } from '../../assetContracts';
 import { compileStage } from '../vttModuleCompilerService';
 import { useStory } from '../../../../context/CampaignContext';
@@ -33,19 +33,22 @@ import { VttEventBus } from '../../../../utils/vttEventBus';
 const TripartiteStageView = lazy(() => import('../../../../components/VTT/TripartiteStageView'));
 
 export default function RunTab() {
-  const { stageManifest, updateEnvironment, setStageVariable } = useStageStore();
+  const { stageManifest, updateEnvironment, setStageVariable, removeStageVariable } = useStageStore();
   const { list: mapsList } = useMapAssets();
   const { list: scenariosList } = useStoryAssets();
   const { list: elementsList } = useElementAssets();
-  const { universeState, activeScenarioId, saveStageManifest } = useStory();
+  const { universeState, saveStageManifest } = useStory();
 
   const [isCompiling, setIsCompiling] = useState(false);
   const [compiledPayload, setCompiledPayload] = useState(null);
   const [compilerStatus, setCompilerStatus] = useState(null);
+  const [isDiagnosticsOpen, setIsDiagnosticsOpen] = useState(false);
   const [broadcasted, setBroadcasted] = useState(false);
+  const [newVarKey, setNewVarKey] = useState('');
+  const [newVarVal, setNewVarVal] = useState('true');
 
-  const boundMap = mapsList.find(m => m.id === stageManifest.mapId) || mapsList[0] || null;
-  const boundScenario = scenariosList.find(s => s.id === stageManifest.storyId) || scenariosList[0] || null;
+  const boundMap = mapsList.find((m) => m.id === stageManifest.mapId) || mapsList[0] || null;
+  const boundScenario = scenariosList.find((s) => s.id === stageManifest.storyId) || scenariosList[0] || null;
 
   // Auto-compile manifest into runtime bundle on mount or manifest updates
   useEffect(() => {
@@ -60,10 +63,15 @@ export default function RunTab() {
       setCompiledPayload(compiled);
       setCompilerStatus({
         success: compiled.validation?.valid ?? true,
+        errors: compiled.validation?.errors || [],
         warnings: compiled.validation?.warnings || []
       });
-    } catch {
-      // Ignored on auto-compile
+    } catch (err) {
+      setCompilerStatus({
+        success: false,
+        errors: [err?.message || 'Compilation error'],
+        warnings: []
+      });
     }
   }, [stageManifest, boundMap, boundScenario, elementsList, universeState]);
 
@@ -82,6 +90,7 @@ export default function RunTab() {
       setCompiledPayload(compiled);
       setCompilerStatus({
         success: compiled.validation?.valid ?? true,
+        errors: compiled.validation?.errors || [],
         warnings: compiled.validation?.warnings || []
       });
       AudioService.playCriticalChime(true);
@@ -89,7 +98,8 @@ export default function RunTab() {
       console.error('Stage Compilation failed:', err);
       setCompilerStatus({
         success: false,
-        warnings: [err.message]
+        errors: [err?.message || 'Compilation failed'],
+        warnings: []
       });
     } finally {
       setIsCompiling(false);
@@ -104,7 +114,7 @@ export default function RunTab() {
 
     VttEventBus.emit('chat-message', {
       sender: 'ARCHITECT DIRECTIVE',
-      text: text,
+      text,
       type: 'narration',
       timestamp: new Date().toLocaleTimeString()
     });
@@ -113,17 +123,41 @@ export default function RunTab() {
   };
 
   const handleLiveLighting = (mode) => {
-    updateEnvironment({ lighting: { mode } });
+    updateEnvironment({
+      lighting: {
+        ...(stageManifest.environment?.lighting || {}),
+        mode
+      }
+    });
     AudioService.playTerminalBeep(980, 0.02);
     VttEventBus.emit('change-lighting-mode', { mode });
   };
+
+  const handleSetVariable = (e) => {
+    e.preventDefault();
+    const key = newVarKey.trim().toUpperCase().replace(/\s+/g, '_');
+    if (!key) return;
+    let parsed = newVarVal.trim();
+    if (parsed.toLowerCase() === 'true') parsed = true;
+    else if (parsed.toLowerCase() === 'false') parsed = false;
+    else if (parsed !== '' && !isNaN(Number(parsed))) parsed = Number(parsed);
+    setStageVariable(key, parsed);
+    useAdeStore.getState().setStoryFlag?.(key, parsed);
+    setNewVarKey('');
+    setNewVarVal('true');
+  };
+
+  const errorsCount = compilerStatus?.errors?.length || 0;
+  const warningsCount = compilerStatus?.warnings?.length || 0;
+  const hasDiagnostics = errorsCount > 0 || warningsCount > 0;
+  const stageVariables = stageManifest.variables || {};
 
   return (
     <div className="flex-1 h-full w-full bg-[#050811] flex flex-col overflow-hidden font-mono text-slate-100 relative">
       {/* ── ARCHITECT LIVE CONTROLS STRIP ── */}
       <div className="p-2 px-4 bg-[#0a0f1d] border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0 z-20 shadow-md">
-        {/* Left: Compile & Broadcast */}
-        <div className="flex items-center gap-2">
+        {/* Left: Compile, Diagnostics & Broadcast */}
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={handleCompile}
@@ -147,14 +181,32 @@ export default function RunTab() {
           )}
 
           {compilerStatus && (
-            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 ${
-              compilerStatus.success
-                ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/40'
-                : 'bg-red-950 text-red-300 border border-red-500/40'
-            }`}>
-              {compilerStatus.success ? <CheckCircle2 size={11} /> : <AlertCircle size={11} />}
-              <span>{compilerStatus.success ? 'Bundle Ready' : 'Compile Warning'}</span>
-            </span>
+            <button
+              type="button"
+              onClick={() => hasDiagnostics && setIsDiagnosticsOpen((o) => !o)}
+              className={`text-[10px] px-2.5 py-1 rounded-full font-bold flex items-center gap-1 border cursor-pointer ${
+                !compilerStatus.success || errorsCount > 0
+                  ? 'bg-red-950 text-red-300 border-red-500/40'
+                  : warningsCount > 0
+                    ? 'bg-amber-950 text-amber-300 border-amber-500/40'
+                    : 'bg-emerald-950 text-emerald-300 border-emerald-500/40'
+              }`}
+              title="Toggle compiler diagnostics"
+            >
+              {compilerStatus.success && warningsCount === 0 ? (
+                <CheckCircle2 size={11} />
+              ) : (
+                <AlertCircle size={11} />
+              )}
+              <span>
+                {errorsCount > 0
+                  ? `${errorsCount} Error${errorsCount > 1 ? 's' : ''}`
+                  : warningsCount > 0
+                    ? `${warningsCount} Warning${warningsCount > 1 ? 's' : ''}`
+                    : 'Bundle Ready'}
+              </span>
+              {hasDiagnostics && (isDiagnosticsOpen ? <ChevronUp size={11} /> : <ChevronDown size={11} />)}
+            </button>
           )}
         </div>
 
@@ -203,14 +255,94 @@ export default function RunTab() {
         </div>
       </div>
 
+      {/* Collapsible Compiler Diagnostics Banner */}
+      {isDiagnosticsOpen && hasDiagnostics && (
+        <div className="px-4 py-2 bg-[#0d1324] border-b border-slate-800 text-[11px] space-y-1 shrink-0 z-10">
+          {compilerStatus.errors?.map((err, idx) => (
+            <div key={`err-${idx}`} className="text-red-300 flex items-center gap-1.5">
+              <AlertCircle size={12} className="shrink-0" />
+              <span>ERROR: {err}</span>
+            </div>
+          ))}
+          {compilerStatus.warnings?.map((warn, idx) => (
+            <div key={`warn-${idx}`} className="text-amber-300 flex items-center gap-1.5">
+              <AlertCircle size={12} className="shrink-0" />
+              <span>WARNING: {warn}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Live Stage Variables Strip */}
+      <div className="px-4 py-1.5 bg-[#080d1a] border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-2 shrink-0 text-[10px]">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-cyan-400 font-bold uppercase flex items-center gap-1">
+            <Flag size={11} />
+            <span>Live Stage Vars:</span>
+          </span>
+          {Object.keys(stageVariables).length === 0 ? (
+            <span className="text-slate-500 italic">None set</span>
+          ) : (
+            Object.entries(stageVariables).map(([k, v]) => (
+              <span
+                key={k}
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-200"
+              >
+                <span className="text-cyan-300 font-bold">{k}:</span>
+                <span>{String(v)}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    removeStageVariable(k);
+                    useAdeStore.getState().removeStoryFlag?.(k);
+                  }}
+                  className="text-slate-500 hover:text-red-400 cursor-pointer"
+                  aria-label={`Remove variable ${k}`}
+                >
+                  <Trash2 size={9} />
+                </button>
+              </span>
+            ))
+          )}
+        </div>
+
+        <form onSubmit={handleSetVariable} className="flex items-center gap-1.5">
+          <input
+            type="text"
+            aria-label="Live Variable Key"
+            value={newVarKey}
+            onChange={(e) => setNewVarKey(e.target.value)}
+            placeholder="FLAG_KEY"
+            className="w-28 bg-slate-950 border border-slate-700 rounded px-2 py-0.5 text-[10px] text-slate-100 uppercase"
+          />
+          <input
+            type="text"
+            aria-label="Live Variable Value"
+            value={newVarVal}
+            onChange={(e) => setNewVarVal(e.target.value)}
+            placeholder="Value"
+            className="w-20 bg-slate-950 border border-slate-700 rounded px-2 py-0.5 text-[10px] text-slate-100"
+          />
+          <button
+            type="submit"
+            className="px-2 py-0.5 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold uppercase flex items-center gap-1 cursor-pointer"
+          >
+            <Plus size={10} />
+            <span>Set Var</span>
+          </button>
+        </form>
+      </div>
+
       {/* ── EMBEDDED VTT BATTLEMAP RUNTIME (TripartiteStageView) ── */}
       <div className="flex-1 w-full h-full overflow-hidden relative">
-        <Suspense fallback={
-          <div className="flex items-center justify-center h-full w-full bg-[#050811] text-purple-400 font-mono text-xs gap-2">
-            <RefreshCw size={14} className="animate-spin" />
-            <span>Initializing Stage WebGPU Canvas...</span>
-          </div>
-        }>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center h-full w-full bg-[#050811] text-purple-400 font-mono text-xs gap-2">
+              <RefreshCw size={14} className="animate-spin" />
+              <span>Initializing Stage WebGPU Canvas...</span>
+            </div>
+          }
+        >
           <TripartiteStageView
             defaultRole="architect"
             mapId={stageManifest.mapId || boundMap?.id}

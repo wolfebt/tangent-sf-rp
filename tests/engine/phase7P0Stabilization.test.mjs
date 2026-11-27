@@ -231,6 +231,8 @@ test('Phase 7.5: adeElementPersistence non-admin local_override & cortexAdeAsset
       fields: { techLevel: 'TL-3' }
     },
     elementsCatalog: [{ id: 'elem_custom_species', title: 'Kaelari' }],
+    fromEditModal: true,
+    isAdmin: true,
     saveEntry: async () => ({ ok: true, id: 'elem_custom_species', cloudSynced: false, permissionDenied: true, localOnly: true }),
     updateSavedElement: async (id, rec) => savedCalls.push({ id, rec }),
     showToast: (t) => toasts.push(t)

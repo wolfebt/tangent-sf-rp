@@ -6,14 +6,22 @@
 import React from 'react';
 import { Edit3, ExternalLink, Shield, Sparkles } from 'lucide-react';
 import { getTypePillStyle } from '../../../ElementForge/elementSchemas';
+import { useAdeStore } from '../../../store/adeStore';
+import { stripGmSecretHtmlBlocks } from '../../../../../utils/gmSecretSanitizer';
 
 export default function WikiHoverDossierCard({ element, onEdit }) {
+  const perspectiveMode = useAdeStore((state) => state.perspectiveMode || 'architect');
   if (!element) return null;
 
-  const summary =
+  const isOperator = perspectiveMode === 'operator';
+  const rawSummary =
     element.fields?.summary ||
     element.fields?.description ||
-    (element.content ? String(element.content).replace(/<[^>]+>/g, '').slice(0, 160) : 'No dossier summary yet.');
+    element.content ||
+    '';
+  const safeHtml = isOperator ? stripGmSecretHtmlBlocks(String(rawSummary)) : String(rawSummary);
+  const plainSummary = safeHtml.replace(/<[^>]+>/g, '').trim();
+  const summary = plainSummary ? plainSummary.slice(0, 160) : 'No dossier summary yet.';
 
   const imageUrl = element.fields?.imageUrl || element.imageUrl || '';
   const tl = element.fields?.['tech-level'] ?? element.fields?.tech_level;

@@ -194,8 +194,8 @@ export default function CronicleDeckModal({
   // Computed Context Injection Preview for Living Memory
   const contextPreview = useMemo(() => {
     if (!isOpen) return '';
-    return formatCronicleContextForAIME(cronicle);
-  }, [isOpen, cronicle]);
+    return formatCronicleContextForAIME(cronicle, { operatorSafe: isOperatorMode });
+  }, [isOpen, cronicle, isOperatorMode]);
 
   // ── SCRATCHBOOK ACTIONS ──
   const handleSaveScratchNotes = () => {
@@ -508,6 +508,10 @@ export default function CronicleDeckModal({
 
   // ── LIVING MEMORY: WORKING COPY PROTOCOL ──
   const handleCloneSelectedElement = () => {
+    if (isStoryReadOnly) {
+      toast?.({ type: 'warning', text: 'Read-only story: cloning working copies into Cronicle is disabled.' });
+      return;
+    }
     if (!selectedElementToClone) return;
     const target = unifiedCatalog.find(e => e.id === selectedElementToClone);
     if (target) {
@@ -518,6 +522,10 @@ export default function CronicleDeckModal({
   };
 
   const handleDeleteWorkingCopy = (copyId) => {
+    if (isStoryReadOnly) {
+      toast?.({ type: 'warning', text: 'Read-only story: deleting working copies is disabled.' });
+      return;
+    }
     AudioService.playCombatHit(false);
     const nextCopies = { ...workingCopies };
     delete nextCopies[copyId];
@@ -545,6 +553,10 @@ export default function CronicleDeckModal({
   };
 
   const handleImportJSON = (e) => {
+    if (isStoryReadOnly) {
+      toast?.({ type: 'warning', text: 'Read-only story: importing Cronicle state is disabled.' });
+      return;
+    }
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
@@ -676,10 +688,12 @@ export default function CronicleDeckModal({
               <span className="hidden md:inline">JSON</span>
             </button>
 
-            <label className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm">
+            <label className={`px-2.5 py-1.5 bg-slate-900 border border-slate-700 rounded-lg transition-colors flex items-center gap-1.5 shadow-sm ${
+              isStoryReadOnly ? 'opacity-40 cursor-not-allowed text-slate-500' : 'hover:bg-slate-800 text-slate-300 hover:text-white cursor-pointer'
+            }`}>
               <Upload size={12} className="text-cyan-400" />
               <span className="hidden md:inline">Import</span>
-              <input type="file" accept=".json" onChange={handleImportJSON} className="hidden" />
+              <input type="file" accept=".json" disabled={isStoryReadOnly} onChange={handleImportJSON} className="hidden" />
             </label>
 
             <button

@@ -9,7 +9,6 @@
  */
 
 import { runMonteCarloEncounterSim } from '../encounterSimService.js';
-import { SessionJournal } from '../sessionRecapService.js';
 import { evaluateScenarioProgress, OBJECTIVE_TEMPLATES } from '../scenarioEngineService.js';
 import { VttEventBus } from '../../utils/vttEventBus.ts';
 import {
@@ -81,7 +80,19 @@ export function validateUniverseRules(
   const issues: string[] = [];
   const warnings: string[] = [];
 
-  const scenarios = universeState?.scenarios || [];
+  const rawScenarios = universeState?.scenarios || [];
+  const scenarios: any[] = [];
+  const flattenScenarios = (nodes: any[]) => {
+    if (!Array.isArray(nodes)) return;
+    nodes.forEach((n) => {
+      if (!n || typeof n !== 'object') return;
+      scenarios.push(n);
+      if (Array.isArray(n.children) && n.children.length > 0) {
+        flattenScenarios(n.children);
+      }
+    });
+  };
+  flattenScenarios(rawScenarios);
   const maps = universeState?.maps || [];
 
   if (scenarios.length === 0) {
@@ -93,7 +104,7 @@ export function validateUniverseRules(
   scenarios.forEach((sc: any) => {
     if (!sc.title || sc.title.trim() === '') {
       score -= 5;
-      warnings.push(`Scenario [${sc.id.slice(0, 6)}] has no title.`);
+      warnings.push(`Scenario [${String(sc.id || '').slice(0, 6)}] has no title.`);
     }
     if (!sc.content || sc.content.trim().length < 10) {
       score -= 5;
@@ -108,7 +119,7 @@ export function validateUniverseRules(
 
   combatElements.forEach((e) => {
     const fields = e.fields || {};
-    if (e.type === 'Encounter' && !fields.threatMatrix && !fields.threatLevel) {
+    if (e.type === 'Encounter' && !fields.hazardCr && !fields.threatMatrix && !fields.threatLevel) {
       warnings.push(`Encounter element "${e.title}" lacks a defined threat matrix.`);
     }
   });
@@ -162,19 +173,26 @@ export function synthesizeRecapFromCronicle(
   cronicleHistory: any[] = [],
   projectName: string = 'Active Operation'
 ): string {
-  SessionJournal.clearEvents();
-  SessionJournal.setCampaignName(projectName);
+  const safeName = String(projectName || 'Active Operation').trim();
+  const entries = Array.isArray(cronicleHistory) ? cronicleHistory : [];
+  const lines = [
+    `# Mission Debrief & Episodic Recap: ${safeName}`,
+    '',
+    entries.length === 0
+      ? '_No tactical events recorded yet._'
+      : `Recorded Entries: ${entries.length}`,
+    ''
+  ];
 
-  cronicleHistory.forEach((entry: any) => {
-    SessionJournal.logEvent({
-      type: entry.action === 'state_override' ? 'crit' : 'strike',
-      actor: entry.author || 'Operator',
-      target: entry.target || 'Sector Context',
-      details: entry.explanation || entry.title || 'Tactical update recorded.'
-    });
+  entries.forEach((entry: any, idx: number) => {
+    const tag = entry?.action === 'state_override' ? 'OVERRIDE' : 'EVENT';
+    const actor = entry?.author || 'Operator';
+    const target = entry?.target || 'Sector Context';
+    const details = entry?.explanation || entry?.title || 'Tactical update recorded.';
+    lines.push(`${idx + 1}. **[${tag}]** ${actor} → ${target}: ${details}`);
   });
 
-  return SessionJournal.generateMarkdownRecap();
+  return lines.join('\n');
 }
 
 /**
@@ -255,7 +273,7 @@ export function adjudicateActionCheck({
   storyFlags = {},
   diceOverride = null,
   rollOverride = null,
-  isOpposed = false
+  isOpposed
 }: ActionCheckParams): AdeStructuralMandate {
   const effectiveActionText = actionText || actionDescription || 'Tactical Action';
   const initiatorName = actorName || operative?.name || operative?.title || 'Operator';
@@ -678,6 +696,9 @@ export function validateAndCommitActionRequest({
     operative,
     targetEntity,
     targetDC,
+    skillName: (request as any).skillName,
+    skillRank: (request as any).skillRank,
+    isOpposed: (request as any).isOpposed,
     activeModifiers,
     storyFlags,
     diceOverride
